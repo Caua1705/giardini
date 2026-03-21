@@ -294,7 +294,7 @@
   </div>
 
   <!-- ══ NAVBAR ══════════════════════════════════════════════════════ -->
-  <nav id="navbar" aria-label="Navegação principal">
+  <nav id="navbar" class="is-scrolled" aria-label="Navegação principal">
     <a href="#" class="nav-logo">Giardini Café</a>
     <div class="nav-links">
       <a href="#" class="nav-link">Menu</a>
@@ -385,11 +385,7 @@
     <canvas id="seq-canvas" aria-hidden="true"></canvas>
   </div>
 
-  <!-- NEXT SECTION -->
-  <section id="next-section" aria-label="Continue explorando">
-    <span class="next-label">Descubra o sabor</span>
-    <p class="next-title">Giardini Café</p>
-  </section>
+  <!-- próxima seção da página real entra aqui -->
 
 
   <script>
@@ -409,7 +405,7 @@
     const CONFIG = {
       TOTAL_FRAMES: 150,
       FRAMES_DIR:   'frames',   // relativo ao HTML → assets/templates/assets/frames/
-      scrollVH:     200,        // % do viewport de scroll virtual
+      scrollVH:     380,        // % do viewport — aumentado para o vídeo fluir até o fim do scroll
       scrub:        1.0,        // 1.0 = seguindo o scroll com pequeno amortecimento suave
     };
 
