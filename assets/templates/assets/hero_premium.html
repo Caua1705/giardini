@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta name="description" content="Giardini Café — Origem, ritual e a perfeição de um espresso."/>
+  <title>Giardini Café — The Art of Espresso</title>
+
+  <!-- FONTS (design_system2) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- TAILWIND (tokens do design_system2) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'g-bg':      '#FDFBF7',
+            'g-dark':    '#1A1A1A',
+            'g-primary': '#2B4A3B',
+            'g-accent':  '#EAE4D9',
+          },
+          fontFamily: {
+            sans:  ['Inter', 'sans-serif'],
+            serif: ['Instrument Serif', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- GSAP + ScrollTrigger + Lenis -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+  <style>
+    /* ══ TOKENS (design_system2) ════════════════════════════════════ */
+    :root {
+      --c-bg:      #FDFBF7;
+      --c-dark:    #1A1A1A;
+      --c-primary: #2B4A3B;
+      --c-accent:  #EAE4D9;
+      --expo:      cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ══ BASE ════════════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: auto; }
+    body {
+      background: var(--c-bg);
+      color: var(--c-dark);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      opacity: 0;
+    }
+
+    /* ══ DESIGN SYSTEM CLASSES ═══════════════════════════════════════ */
+    .font-display { font-family: 'Instrument Serif', serif; }
+
+    .noise-overlay {
+      position: fixed; inset: 0; pointer-events: none; z-index: 9000;
+      opacity: 0.22;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+
+    .btn-primary {
+      background-color: var(--c-primary); color: var(--c-bg);
+      position: relative; overflow: hidden;
+      transition: all 0.4s var(--expo);
+    }
+    .btn-primary::after {
+      content: ''; position: absolute; top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.13) 0%, transparent 60%);
+      opacity: 0; transform: scale(0.5); transition: all 0.5s ease; pointer-events: none;
+    }
+    .btn-primary:hover::after { opacity: 1; transform: scale(1); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 32px -8px rgba(43,74,59,0.45); }
+
+    .word-wrap  { display: inline-block; overflow: hidden; vertical-align: bottom; }
+    .word-inner { display: inline-block; transform: translateY(110%); will-change: transform; }
+
+    /* ══ NAVBAR ══════════════════════════════════════════════════════ */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      padding: 2.25rem 5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: padding 0.5s ease, background 0.5s ease;
+      opacity: 0;
+    }
+    @media (max-width: 768px) { #navbar { padding: 1.5rem 2rem; } }
+    #navbar.is-scrolled {
+      background: rgba(253,251,247,0.94); backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      padding-top: 1.25rem !important; padding-bottom: 1.25rem !important;
+    }
+    .nav-logo { font-family: 'Instrument Serif', serif; font-size: 1.5rem; color: var(--c-dark); text-decoration: none; }
+    .nav-links { display: flex; gap: 2.5rem; }
+    @media (max-width: 768px) { .nav-links { display: none; } }
+    .nav-link { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(26,26,26,0.6); text-decoration: none; transition: color 0.3s ease; }
+    .nav-link:hover { color: var(--c-primary); }
+    .nav-cta { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.4rem; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; border-radius: 9999px; text-decoration: none; border: 1.5px solid var(--c-primary); color: var(--c-primary); transition: all 0.35s var(--expo); }
+    .nav-cta:hover { background: var(--c-primary); color: var(--c-bg); }
+    @media (max-width: 768px) { .nav-cta { display: none; } }
+
+    /* ══ HERO LAYOUT ════════════════════════════════════════════════ */
+    #hero-pin-wrapper { position: relative; }
+
+    #hero-viewport {
+      position: relative; width: 100%; height: 100vh;
+      overflow: hidden; background: var(--c-bg);
+      display: flex; flex-direction: row;
+    }
+    @media (max-width: 767px) { #hero-viewport { flex-direction: column; } }
+
+    /* LEFT column */
+    #hero-left {
+      position: relative; z-index: 20;
+      display: flex; flex-direction: column; justify-content: center;
+      width: 50%; padding: 0 3.5rem 0 5rem; flex-shrink: 0;
+      pointer-events: none;
+    }
+    @media (max-width: 1280px) { #hero-left { padding: 0 2.5rem 0 3.5rem; } }
+    @media (max-width: 767px) { #hero-left { width: 100%; padding: 5.5rem 2rem 2rem; height: 50%; } }
+
+    #hero-left::after {
+      content: ''; display: block; position: absolute;
+      right: 0; top: 18%; bottom: 18%; width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(26,26,26,0.07) 30%, rgba(26,26,26,0.07) 70%, transparent);
+    }
+    @media (max-width: 767px) { #hero-left::after { display: none; } }
+
+    .kicker {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--c-primary);
+      margin-bottom: 1.75rem;
+    }
+    .kicker-line { width: 20px; height: 1px; background: var(--c-primary); flex-shrink: 0; }
+
+    #hero-headline {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(3rem, 6.5vw, 7.5rem);
+      line-height: 0.9; letter-spacing: -0.025em;
+      color: var(--c-dark); margin-bottom: 2rem;
+    }
+    #hero-headline .line { display: block; overflow: hidden; }
+    #hero-headline .line-inner { display: block; will-change: transform, filter; }
+
+    .hero-body {
+      font-size: 1rem; font-weight: 300; line-height: 1.75;
+      color: rgba(26,26,26,0.58); max-width: 380px;
+      margin-bottom: 2.5rem;
+    }
+    @media (min-width: 768px) { .hero-body { font-size: 1.0625rem; } }
+
+    .hero-cta { display: flex; align-items: center; gap: 1.5rem; }
+
+    .btn-order {
+      display: inline-flex; align-items: center; gap: 0.625rem;
+      padding: 0.95rem 2.1rem; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      border-radius: 9999px; text-decoration: none; cursor: pointer;
+    }
+    .btn-order svg { width: 13px; height: 13px; transition: transform 0.35s var(--expo); }
+    .btn-order:hover svg { transform: translateX(5px); }
+
+    .link-ghost {
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(26,26,26,0.4);
+      text-decoration: none; border-bottom: 1px solid rgba(26,26,26,0.18);
+      padding-bottom: 1px; transition: color 0.3s ease, border-color 0.3s ease;
+    }
+    .link-ghost:hover { color: var(--c-primary); border-color: var(--c-primary); }
+
+    .hero-meta { display: flex; align-items: center; gap: 0.875rem; margin-top: 2.5rem; }
+    .meta-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(26,26,26,0.25); }
+    .meta-text { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(26,26,26,0.32); }
+
+    /* RIGHT column */
+    #hero-right {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; justify-content: center;
+      width: 50%; height: 100%; padding: 2rem 3rem 2rem 2rem; flex-shrink: 0;
+    }
+    @media (max-width: 1280px) { #hero-right { padding: 2rem 2.5rem 2rem 1.5rem; } }
+    @media (max-width: 767px) { #hero-right { width: 100%; height: 50%; padding: 1rem 1.5rem 1.5rem; } }
+
+    .video-glow {
+      position: absolute; inset: 5%; border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(43,74,59,0.13) 0%, transparent 70%);
+      filter: blur(45px); pointer-events: none;
+    }
+
+    /* ══ VIDEO FRAME (expande via GSAP) ═════════════════════════════ */
+    #video-frame {
+      position: absolute; overflow: hidden; background: #0a0a0a;
+      border-radius: 22px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.07), 0 30px 70px -15px rgba(0,0,0,0.28), 0 12px 28px -6px rgba(0,0,0,0.18);
+      will-change: border-radius, box-shadow;
+    }
+
+    #video-overlay {
+      position: absolute; inset: 0; z-index: 5;
+      background: linear-gradient(135deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.45) 100%);
+      opacity: 0; pointer-events: none;
+    }
+
+    .video-badge {
+      position: absolute; top: 1.1rem; right: 1.1rem; z-index: 15;
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.58rem; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(255,255,255,0.75);
+    }
+    .badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--c-primary); box-shadow: 0 0 8px rgba(43,74,59,0.9);
+      animation: dotPulse 2.2s ease-in-out infinite;
+    }
+    @keyframes dotPulse {
+      0%, 100% { box-shadow: 0 0 6px rgba(43,74,59,0.8); }
+      50%       { box-shadow: 0 0 14px rgba(43,74,59,1); }
+    }
+
+    /*
+     * ══ CANVAS — substitui o <video> ════════════════════════════════
+     * O canvas ocupa 100% do #video-frame e exibe os frames desenhados
+     * via drawImage(). É instantâneo, sem lag de decodificação.
+     */
+    #seq-canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;   /* via CSS — o JS mantém proporção no drawImage */
+      display: block;
+      /* blur inicial removido após preload */
+      filter: blur(20px) brightness(0.7);
+      transition: filter 0.8s var(--expo);
+    }
+    #seq-canvas.ready { filter: blur(0) brightness(1); }
+
+    /* ══ SCROLL INDICATOR ════════════════════════════════════════════ */
+    .scroll-indicator {
+      position: absolute; z-index: 30; bottom: 1.75rem;
+      left: 5rem;
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    }
+    @media (max-width: 767px) { .scroll-indicator { left: 50%; transform: translateX(-50%); } }
+    .scroll-indicator span { font-size: 0.58rem; letter-spacing: 0.26em; text-transform: uppercase; color: rgba(26,26,26,0.35); writing-mode: vertical-rl; }
+    .scroll-line { width: 1px; height: 2.5rem; background: linear-gradient(to bottom, rgba(26,26,26,0.22), transparent); animation: linePulse 2.6s ease-in-out infinite; }
+    @keyframes linePulse {
+      0%, 100% { transform: scaleY(0.6); transform-origin: top; opacity: 0.4; }
+      60%       { transform: scaleY(1); opacity: 1; }
+    }
+
+    /* ══ PRELOADER ═══════════════════════════════════════════════════ */
+    #preloader {
+      position: fixed; inset: 0; z-index: 10000;
+      background: var(--c-bg);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 2rem;
+    }
+    .preloader-brand { font-family: 'Instrument Serif', serif; font-size: 3rem; color: var(--c-primary); }
+    .preloader-bar-track { width: 200px; height: 2px; background: rgba(43,74,59,0.12); border-radius: 2px; overflow: hidden; }
+    .preloader-bar { height: 100%; width: 0%; background: var(--c-primary); transition: width 0.1s linear; border-radius: 2px; }
+    .preloader-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(26,26,26,0.4); }
+
+    /* ══ NEXT SECTION ════════════════════════════════════════════════ */
+    #next-section {
+      position: relative; z-index: 20; background: var(--c-bg);
+      min-height: 80vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 2rem;
+      padding: 8rem 2rem; border-top: 1px solid rgba(0,0,0,0.05);
+    }
+    .next-label { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(26,26,26,0.28); font-weight: 500; }
+    .next-title { font-family: 'Instrument Serif', serif; font-size: clamp(2rem, 4vw, 4rem); color: var(--c-dark); text-align: center; letter-spacing: -0.02em; opacity: 0.08; }
+  </style>
+</head>
+
+<body>
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- ══ PRELOADER ═══════════════════════════════════════════════════ -->
+  <div id="preloader" aria-live="polite" aria-label="Carregando">
+    <span class="preloader-brand">Giardini</span>
+    <div class="preloader-bar-track">
+      <div class="preloader-bar" id="preloader-bar"></div>
+    </div>
+    <span class="preloader-label" id="preloader-label">Carregando experiência...</span>
+  </div>
+
+  <!-- ══ NAVBAR ══════════════════════════════════════════════════════ -->
+  <nav id="navbar" aria-label="Navegação principal">
+    <a href="#" class="nav-logo">Giardini Café</a>
+    <div class="nav-links">
+      <a href="#" class="nav-link">Menu</a>
+      <a href="#" class="nav-link">Origens</a>
+      <a href="#" class="nav-link">Ritual</a>
+      <a href="#" class="nav-link">Visitar</a>
+    </div>
+    <a href="#" class="nav-cta">
+      Reservar
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </nav>
+
+  <!-- ══ HERO WRAPPER (dá a altura de scroll ao ScrollTrigger) ════════ -->
+  <div id="hero-pin-wrapper">
+    <div id="hero-viewport" role="banner" aria-label="Hero — The Art of Espresso">
+
+      <!-- LEFT: text -->
+      <div id="hero-left">
+        <div class="kicker" id="el-kicker">
+          <span class="kicker-line"></span>
+          Welcome
+        </div>
+
+        <h1 id="hero-headline" aria-label="The Art of Espresso">
+          <span class="line">
+            <span class="line-inner" id="el-h1a">The Art of</span>
+          </span>
+          <span class="line" style="font-style:italic;">
+            <span class="line-inner" id="el-h1b">Espresso.</span>
+          </span>
+        </h1>
+
+        <p class="hero-body" id="el-body">
+          Cada gota é uma maestria de tempo, temperatura e pressão —
+          uma jornada sensorial para os verdadeiros connoisseurs do café.
+        </p>
+
+        <div class="hero-cta" id="el-cta">
+          <a href="#" class="btn-primary btn-order" aria-label="Fazer pedido agora">
+            Order Now
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#" class="link-ghost">Ver Cardápio</a>
+        </div>
+
+        <div class="hero-meta hidden md:flex" id="el-meta">
+          <span class="meta-dot"></span>
+          <span class="meta-text">Single Origin · Specialty Grade</span>
+          <span class="meta-dot"></span>
+          <span class="meta-text">Est. 2019</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: canvas sequence -->
+      <div id="hero-right">
+        <div class="video-glow" aria-hidden="true"></div>
+      </div>
+
+      <div class="scroll-indicator" id="el-scroll" aria-hidden="true">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </div><!-- /hero-viewport -->
+  </div><!-- /hero-pin-wrapper -->
+
+  <!-- VIDEO FRAME (posicionado via JS, fora do fluxo) -->
+  <div id="video-frame" aria-label="Extração de espresso — sequência de frames">
+    <div id="video-overlay" aria-hidden="true"></div>
+
+    <!--
+      CANVAS IMAGE SEQUENCE
+      ═══════════════════════════════════════════════════════════════
+      Substitui o <video> por uma sequência de imagens desenhadas
+      no canvas via drawImage() — instantâneo, sem lag de decoder.
+
+      Como funciona:
+      1. JS carrega TOTAL_FRAMES imagens WebP na memória (Image objects)
+      2. ScrollTrigger onUpdate calcula o índice do frame pelo progresso
+      3. ctx.drawImage(frames[index]) pinta o frame correto no canvas
+      4. Resultado: 60fps garantido em qualquer direção de scroll
+
+      Para ajustar:
+      • TOTAL_FRAMES — deve bater com o número de arquivos em /frames/
+      • FRAMES_DIR   — caminho relativo até a pasta de frames
+      ═══════════════════════════════════════════════════════════════
+    -->
+    <canvas id="seq-canvas" aria-hidden="true"></canvas>
+  </div>
+
+  <!-- NEXT SECTION -->
+  <section id="next-section" aria-label="Continue explorando">
+    <span class="next-label">Descubra o sabor</span>
+    <p class="next-title">Giardini Café</p>
+  </section>
+
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* ══════════════════════════════════════════════════════════════
+       CONFIG
+       ══════════════════════════════════════════════════════════════
+       TOTAL_FRAMES → deve ser igual ao número de arquivos gerados
+                      pelo extract_frames.py (padrão: 150)
+       FRAMES_DIR   → caminho RELATIVO a este HTML até a pasta frames
+       scrollVH     → distância de scroll virtual em % do viewport
+                      (maior = transformação mais lenta)
+       scrub        → suavidade do ScrollTrigger (true = 1:1, número = lag)
+    ══════════════════════════════════════════════════════════════ */
+    const CONFIG = {
+      TOTAL_FRAMES: 150,
+      FRAMES_DIR:   'frames',   // relativo ao HTML → assets/templates/assets/frames/
+      scrollVH:     200,        // % do viewport de scroll virtual
+      scrub:        1.0,        // 1.0 = seguindo o scroll com pequeno amortecimento suave
+    };
+
+    /* ══ GSAP ══════════════════════════════════════════════════════ */
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ══ LENIS (smooth scroll, corretamente sincronizado) ══════════ */
+    const lenis = new Lenis({
+      duration:    1.05,
+      easing:      (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      smoothWheel: true,
+      smoothTouch: false,
+    });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
+
+    /* ══ CANVAS + CONTEXT ══════════════════════════════════════════ */
+    const canvas = document.getElementById('seq-canvas');
+    const ctx    = canvas.getContext('2d');
+    let frames   = [];      // array de Image objects pré-carregados
+    let currentFrameIndex = -1; // evita repintar o mesmo frame
+
+    /* Redimensiona o canvas para o tamanho do #video-frame */
+    function resizeCanvas() {
+      const frame = document.getElementById('video-frame');
+      canvas.width  = frame.offsetWidth;
+      canvas.height = frame.offsetHeight;
+      // Repinta frame atual após resize
+      if (frames.length > 0 && currentFrameIndex >= 0) {
+        drawFrame(currentFrameIndex);
+      }
+    }
+
+    /* Desenha um frame no canvas preservando aspect ratio (object-fit: cover) */
+    function drawFrame(index) {
+      if (index === currentFrameIndex) return; // sem redraw desnecessário
+      const img = frames[index];
+      if (!img || !img.complete || img.naturalWidth === 0) return;
+
+      currentFrameIndex = index;
+
+      const cw = canvas.width;
+      const ch = canvas.height;
+      const iw = img.naturalWidth;
+      const ih = img.naturalHeight;
+
+      // Cover: escala para preencher mantendo proporção, centraliza
+      const scale = Math.max(cw / iw, ch / ih);
+      const dw    = iw * scale;
+      const dh    = ih * scale;
+      const dx    = (cw - dw) / 2;
+      const dy    = (ch - dh) / 2;
+
+      ctx.clearRect(0, 0, cw, ch);
+      ctx.drawImage(img, dx, dy, dw, dh);
+    }
+
+    /* ══ PRELOAD DE FRAMES ═════════════════════════════════════════
+       Carrega todos os frames em paralelo (Image objects) antes de
+       iniciar a hero. Mostra barra de progresso no preloader.
+    ══════════════════════════════════════════════════════════════ */
+    const preloaderBar   = document.getElementById('preloader-bar');
+    const preloaderLabel = document.getElementById('preloader-label');
+    const preloaderEl    = document.getElementById('preloader');
+
+    function preloadFrames() {
+      return new Promise((resolve) => {
+        let loaded = 0;
+        const total = CONFIG.TOTAL_FRAMES;
+        frames = new Array(total);
+
+        for (let i = 0; i < total; i++) {
+          const img = new Image();
+          // Nomes: frame_0000.webp, frame_0001.webp, ...
+          img.src = `${CONFIG.FRAMES_DIR}/frame_${String(i).padStart(4, '0')}.webp`;
+          frames[i] = img;
+
+          img.onload = img.onerror = () => {
+            loaded++;
+            const pct = Math.round((loaded / total) * 100);
+            preloaderBar.style.width  = `${pct}%`;
+            preloaderLabel.textContent = `${pct}%`;
+            if (loaded === total) resolve();
+          };
+        }
+      });
+    }
+
+    /* ══ LAYOUT: calcula o rect inicial do video-frame ════════════ */
+    function getInitialFrameRect() {
+      const right = document.getElementById('hero-right');
+      const rect  = right.getBoundingClientRect();
+      const cs    = getComputedStyle(right);
+      const pt = parseFloat(cs.paddingTop);
+      const pr = parseFloat(cs.paddingRight);
+      const pb = parseFloat(cs.paddingBottom);
+      const pl = parseFloat(cs.paddingLeft);
+      return {
+        left:   rect.left + pl,
+        top:    rect.top  + pt,
+        width:  rect.width  - pl - pr,
+        height: rect.height - pt - pb,
+      };
+    }
+
+    /* ══ INIT (chamado após preload concluído) ═════════════════════ */
+    function init() {
+      const frame    = document.getElementById('video-frame');
+      const viewport = document.getElementById('hero-viewport');
+      const wrapper  = document.getElementById('hero-pin-wrapper');
+
+      /* Altura virtual do scroll */
+      const scrollPx = window.innerHeight * (CONFIG.scrollVH / 100);
+      wrapper.style.height = `${window.innerHeight + scrollPx}px`;
+
+      /* Posiciona video-frame no rect do hero-right */
+      const initRect = getInitialFrameRect();
+      gsap.set(frame, {
+        position:     'fixed',
+        left:         initRect.left,
+        top:          initRect.top,
+        width:        initRect.width,
+        height:       initRect.height,
+        borderRadius: 22,
+        zIndex:       50,
+      });
+
+      /* Dimensiona canvas para o frame */
+      resizeCanvas();
+
+      /* Desenha o frame 0 */
+      if (frames[0]?.complete) drawFrame(0);
+
+      canvas.classList.add('ready');
+
+      /* ── NAVBAR ─────────────────────────────────────────────── */
+      ScrollTrigger.create({
+        start: 'top -80px', end: 99999,
+        onEnter:     () => document.getElementById('navbar').classList.add('is-scrolled'),
+        onLeaveBack: () => document.getElementById('navbar').classList.remove('is-scrolled'),
+      });
+
+      /* ── INTRO ANIMATION (design_system2 patterns) ───────────── */
+      gsap.set(['#el-kicker','#el-body','#el-cta','#el-meta','#el-scroll','#el-badge'], { opacity: 0 });
+      gsap.set(['#el-h1a','#el-h1b'], { y: '108%', filter: 'blur(10px)' });
+      gsap.set(frame, { opacity: 0, scale: 0.94 });
+      gsap.set('#navbar', { opacity: 0 });
+
+      const tl = gsap.timeline({
+        delay: 0.05,
+        onStart: () => {
+          document.body.style.opacity = '1';
+          document.getElementById('hero-left').style.pointerEvents = 'auto';
+        }
+      });
+
+      tl
+        .to('#navbar',     { opacity: 1, duration: 0.7, ease: 'power2.out' })
+        .to('#el-kicker',  { opacity: 1, duration: 0.9, ease: 'power3.out' }, '-=0.4')
+        .to('#el-h1a',     { y: '0%', filter: 'blur(0px)', duration: 1.25, ease: 'power4.out' }, '-=0.65')
+        .to('#el-h1b',     { y: '0%', filter: 'blur(0px)', duration: 1.25, ease: 'power4.out' }, '-=1.1')
+        .to('#el-body',    { opacity: 1, duration: 1.0, ease: 'power3.out' }, '-=0.9')
+        .to('#el-cta',     { opacity: 1, duration: 0.8, ease: 'power3.out' }, '-=0.75')
+        .to('#el-meta',    { opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.55')
+        .to(frame,         { opacity: 1, scale: 1, borderRadius: 22, duration: 1.3, ease: 'power3.out' }, '-=1.1')
+        .to(['#el-badge','#el-scroll'], { opacity: 1, duration: 0.7, ease: 'power2.out', stagger: 0.12 }, '-=0.5');
+
+      /* ── SCROLL PIN ──────────────────────────────────────────── */
+      ScrollTrigger.create({
+        trigger:       wrapper,
+        start:         'top top',
+        end:           () => `+=${scrollPx}`,
+        pin:           viewport,
+        pinSpacing:    false,
+        anticipatePin: 1,
+      });
+
+      /* ── IMAGE SEQUENCE SCRUB ────────────────────────────────────
+         OnUpdate dispara a cada tick de scroll.
+         O índice é calculado pelo progresso (0→1) × total de frames.
+         DrawImage é instantâneo — sem latência de codec H.264.
+      ────────────────────────────────────────────────────────────── */
+      ScrollTrigger.create({
+        trigger:  wrapper,
+        start:    'top top',
+        end:      () => `+=${scrollPx}`,
+        scrub:    CONFIG.scrub,
+        onUpdate: (self) => {
+          const idx = Math.min(
+            Math.floor(self.progress * CONFIG.TOTAL_FRAMES),
+            CONFIG.TOTAL_FRAMES - 1
+          );
+          drawFrame(idx);
+        }
+      });
+
+      /* ── TEXT FADE OUT (scroll) ──────────────────────────────── */
+      gsap.to(['#el-kicker','#el-h1a','#el-h1b','#el-body','#el-cta','#el-meta'], {
+        opacity: 0, y: -28, filter: 'blur(5px)',
+        ease: 'power1.inOut',
+        stagger: { each: 0.04, from: 'end' },
+        scrollTrigger: {
+          trigger: wrapper, start: 'top top',
+          end: () => `+=${scrollPx * 0.5}`, scrub: CONFIG.scrub,
+        }
+      });
+
+      gsap.to('#el-scroll', {
+        opacity: 0, ease: 'power1.out',
+        scrollTrigger: {
+          trigger: wrapper, start: 'top top',
+          end: () => `+=${scrollPx * 0.2}`, scrub: CONFIG.scrub,
+        }
+      });
+
+      /* ── VIDEO-FRAME EXPANSION (split → fullscreen) ──────────── */
+      gsap.to(frame, {
+        left: 0, top: 0, width: '100vw', height: '100vh',
+        borderRadius: 0, boxShadow: '0 0 0 0 transparent',
+        ease: 'power2.inOut',
+        scrollTrigger: {
+          trigger: wrapper, start: 'top top',
+          end: () => `+=${scrollPx}`, scrub: CONFIG.scrub,
+        }
+      });
+
+      /* ── CINEMATIC OVERLAY ───────────────────────────────────── */
+      gsap.to('#video-overlay', {
+        opacity: 1, ease: 'power1.inOut',
+        scrollTrigger: {
+          trigger: wrapper,
+          start:   () => `+=${scrollPx * 0.35}`,
+          end:     () => `+=${scrollPx}`,
+          scrub:   CONFIG.scrub,
+        }
+      });
+
+      /* Canvas resize on window resize */
+      window.addEventListener('resize', () => {
+        resizeCanvas();
+        ScrollTrigger.refresh();
+      });
+    }
+
+    /* ══ BOOTSTRAP ════════════════════════════════════════════════
+       1. Preload todos os frames (mostra barra de progresso)
+       2. Remove preloader com animação
+       3. Calcula layout e inicia GSAP
+    ══════════════════════════════════════════════════════════════ */
+    document.fonts.ready.then(() => {
+      preloadFrames().then(() => {
+        /* Preload concluído — remove o preloader */
+        gsap.to(preloaderEl, {
+          yPercent: -100,
+          duration: 1.0,
+          ease: 'power4.inOut',
+          onComplete: () => {
+            preloaderEl.style.display = 'none';
+            requestAnimationFrame(() => requestAnimationFrame(init));
+          }
+        });
+      });
+    });
+
+  }());
+  </script>
+</body>
+</html>

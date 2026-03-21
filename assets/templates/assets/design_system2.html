@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Design System - Giardini Café</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'giardini-bg': '#FDFBF7',
+                        'giardini-dark': '#1A1A1A',
+                        'giardini-primary': '#2B4A3B',
+                        'giardini-accent': '#EAE4D9',
+                        'giardini-success': '#345E47',
+                        'giardini-error': '#8C3131',
+                        'giardini-warning': '#C49749'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Instrument Serif', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Icons -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    
+    <!-- GSAP / Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+    
+    <style>
+        :root {
+            --c-bg: #FDFBF7;
+            --c-dark: #1A1A1A;
+            --c-primary: #2B4A3B;
+            --c-accent: #EAE4D9;
+        }
+
+        body {
+            background-color: var(--c-bg);
+            color: var(--c-dark);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            opacity: 0;
+            cursor: auto;
+        }
+
+        .font-display {
+            font-family: 'Instrument Serif', serif;
+        }
+
+        /* Utils */
+        .glass-panel {
+            background: rgba(253, 251, 247, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .glass-dark {
+            background: rgba(26, 26, 26, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-text {
+            color: rgba(253, 251, 247, 0.85);
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Buttons Core */
+        .btn-primary {
+            background-color: var(--c-primary);
+            color: #FDFBF7;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.5s ease;
+            pointer-events: none;
+        }
+        
+        .btn-primary:hover::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(43, 74, 59, 0.4);
+        }
+
+        .btn-secondary {
+            border: 1px solid var(--c-primary);
+            color: var(--c-primary);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(43, 74, 59, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* Text Reveal */
+        .word-wrap {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: top;
+            padding-bottom: 0.1em;
+        }
+        
+        .word-inner {
+            display: inline-block;
+            transform: translateY(110%);
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: var(--c-bg);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--c-primary);
+        }
+        
+        .loader-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: var(--c-primary);
+            width: 0%;
+        }
+
+        /* Noise */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9000;
+            opacity: 0.25;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+            mix-blend-mode: multiply;
+        }
+
+        /* Custom Hover Cards */
+        .hover-lift {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.08);
+        }
+
+        /* Input styling */
+        .input-clean {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(26, 26, 26, 0.2);
+            padding: 0.75rem 0;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .input-clean:focus {
+            outline: none;
+            border-bottom: 1px solid var(--c-primary);
+            box-shadow: 0 1px 0 0 var(--c-primary);
+        }
+        
+        /* Navbar Scrolled State */
+        .nav-scrolled {
+            background: rgba(253, 251, 247, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-top: 1.5rem !important;
+            padding-bottom: 1.5rem !important;
+            color: var(--c-dark) !important;
+        }
+        
+        .nav-scrolled .nav-link {
+            color: var(--c-dark);
+        }
+        .nav-scrolled .nav-link:hover {
+            color: var(--c-primary);
+        }
+
+        /* Animations */
+        .blur-reveal {
+            filter: blur(12px);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .blur-reveal.is-revealed {
+            filter: blur(0);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+        
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .delay-300 { animation-delay: 300ms; }
+        .delay-500 { animation-delay: 500ms; }
+    </style>
+</head>
+<body class="antialiased selection:bg-giardini-primary/20 selection:text-giardini-primary">
+    <!-- UTILS -->
+    <div class="noise-overlay"></div>
+    
+    <!-- PRELOADER -->
+    <div class="loader">
+        <div class="font-display text-5xl md:text-7xl text-giardini-primary loader-text">Giardini</div>
+        <div class="loader-bar"></div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav id="navbar" class="fixed top-0 w-full px-8 md:px-16 py-8 flex justify-between items-center z-50 transition-all duration-500 text-white">
+        <div class="font-display text-3xl tracking-wide">Giardini Café</div>
+        <div class="hidden md:flex gap-10 text-[11px] font-medium uppercase tracking-[0.2em]">
+            <a class="nav-link text-white/90 hover:text-white transition-colors" href="#hero">Início</a>
+            <a class="nav-link text-white/90 hover:text-white transition-colors" href="#typography">Tipografia</a>
+            <a class="nav-link text-white/90 hover:text-white transition-colors" href="#colors">Cores</a>
+            <a class="nav-link text-white/90 hover:text-white transition-colors" href="#components">Componentes</a>
+        </div>
+        <div class="md:hidden">
+            <iconify-icon icon="lucide:menu" class="text-3xl"></iconify-icon>
+        </div>
+    </nav>
+
+    <main>
+        <!-- 1. HERO -->
+        <section id="hero" class="h-screen relative flex flex-col justify-center px-8 md:px-20 overflow-hidden">
+            <!-- Background Image -->
+            <div class="absolute inset-0 w-full h-full">
+                <!-- Imagem cinematográfica quente de café -->
+                <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=2000&auto=format&fit=crop" alt="Coffee pouring" class="w-full h-full object-cover hero-img" />
+                <!-- Gradiente escuro para garantir contraste e sofisticação -->
+                <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-giardini-bg/90"></div>
+            </div>
+
+            <!-- Content -->
+            <div class="relative z-10 max-w-5xl mt-20">
+                <span class="text-[10px] md:text-xs text-white/70 uppercase tracking-[0.3em] mb-6 block animate-fade-in-up">Design System — Premium</span>
+                
+                <h1 class="font-display text-[18vw] md:text-[12vw] leading-[0.85] glass-text split-animate mb-8 tracking-tight">
+                    Experiência<br/>Sensorial
+                </h1>
+                
+                <p class="text-white/80 text-lg md:text-xl font-light max-w-lg mb-12 leading-relaxed animate-fade-in-up delay-300">
+                    Sinta o aroma. Abrace a textura. Um design system construído para refletir a arte de um café perfeito.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-6 animate-fade-in-up delay-500">
+                    <button class="glass-dark px-10 py-5 text-xs uppercase tracking-[0.15em] font-medium text-white hover:bg-white/10 transition-all duration-300 rounded-sm flex items-center justify-center gap-3 group border border-white/20 hover:border-white/40 shadow-lg">
+                        Ver cardápio
+                        <iconify-icon icon="lucide:arrow-right" class="group-hover:translate-x-1 transition-transform"></iconify-icon>
+                    </button>
+                    <button class="bg-white/5 backdrop-blur-md border border-white/10 px-10 py-5 text-xs uppercase tracking-[0.15em] font-medium text-white hover:bg-white hover:text-giardini-dark transition-all duration-300 rounded-sm">
+                        Como chegar
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-10 left-8 md:left-20 text-giardini-dark/60 animate-bounce flex flex-col items-center gap-2">
+                <span class="text-[10px] uppercase tracking-[0.2em]">Scroll</span>
+                <div class="w-[1px] h-8 bg-giardini-dark/40"></div>
+            </div>
+        </section>
+
+        <!-- 2. TYPOGRAPHY -->
+        <section id="typography" class="py-32 px-8 md:px-20 max-w-[1600px] mx-auto border-b border-black/5 bg-giardini-bg relative z-10">
+            <div class="text-[10px] md:text-xs text-giardini-primary font-bold uppercase tracking-[0.2em] mb-20 blur-reveal">01 / Tipografia</div>
+            
+            <div class="grid md:grid-cols-12 gap-16 md:gap-8 items-start">
+                <div class="md:col-span-4 blur-reveal">
+                    <h2 class="font-display text-4xl md:text-5xl mb-6">A Voz da Marca</h2>
+                    <p class="text-gray-500 font-light text-sm leading-relaxed max-w-sm">
+                        Uma combinação elegante e fluida entre a estrutura moderna e clean da Inter e o requinte clássico da Instrument Serif. Foco absoluto em clareza, emoção e uma experiência de leitura premium.
+                    </p>
+                </div>
+                
+                <div class="md:col-span-8 space-y-16">
+                    <!-- Display -->
+                    <div class="pb-10 border-b border-black/5 blur-reveal">
+                        <div class="text-[9px] md:text-[10px] uppercase tracking-widest text-gray-400 mb-6 flex justify-between">
+                            <span>Heading 1 / Display</span>
+                            <span>Instrument Serif / Regular</span>
+                        </div>
+                        <h1 class="font-display text-5xl md:text-8xl leading-none tracking-tight text-giardini-dark">O Café Perfeito</h1>
+                    </div>
+                    
+                    <!-- H2 -->
+                    <div class="pb-10 border-b border-black/5 blur-reveal">
+                        <div class="text-[9px] md:text-[10px] uppercase tracking-widest text-gray-400 mb-6 flex justify-between">
+                            <span>Heading 2</span>
+                            <span>Instrument Serif / Regular</span>
+                        </div>
+                        <h2 class="font-display text-4xl md:text-6xl text-giardini-dark tracking-tight">Cultura & Origens</h2>
+                    </div>
+
+                    <!-- H3 -->
+                    <div class="pb-10 border-b border-black/5 blur-reveal">
+                        <div class="text-[9px] md:text-[10px] uppercase tracking-widest text-gray-400 mb-6 flex justify-between">
+                            <span>Heading 3</span>
+                            <span>Inter / Medium</span>
+                        </div>
+                        <h3 class="text-2xl md:text-3xl font-medium tracking-tight text-giardini-dark">Processo de Torra Manual</h3>
+                    </div>
+
+                    <!-- Body Lg -->
+                    <div class="pb-10 border-b border-black/5 blur-reveal">
+                        <div class="text-[9px] md:text-[10px] uppercase tracking-widest text-gray-400 mb-6 flex justify-between">
+                            <span>Body Large</span>
+                            <span>Inter / Light</span>
+                        </div>
+                        <p class="text-xl md:text-2xl inline-block leading-relaxed font-light text-gray-600 max-w-2xl">
+                            Acreditamos no tempo. Cada grão é torrado localmente com precisão para extrair as notas mais ocultas e complexas.
+                        </p>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="blur-reveal">
+                        <div class="text-[9px] md:text-[10px] uppercase tracking-widest text-gray-400 mb-6 flex justify-between">
+                            <span>Body Standard</span>
+                            <span>Inter / Regular</span>
+                        </div>
+                        <p class="text-sm md:text-base inline-block leading-relaxed text-gray-600 max-w-2xl">
+                            Localizada no coração da cidade, a Giardini Café oferece um refúgio para os amantes da bebida. Um ambiente pensado com a mesma dedicação que aplicamos ao preparo de um espresso: focado nos detalhes, na qualidade e na pausa que o seu dia merece.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. COLOR SYSTEM -->
+        <section id="colors" class="py-32 px-8 md:px-20 max-w-[1600px] mx-auto border-b border-black/5 bg-giardini-bg relative z-10">
+            <div class="text-[10px] md:text-xs text-giardini-primary font-bold uppercase tracking-[0.2em] mb-20 blur-reveal">02 / Cores & Texturas</div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 gap-y-16 blur-reveal">
+                <!-- Neutral/Background -->
+                <div class="group">
+                    <div class="aspect-square bg-giardini-bg border border-black/5 rounded-sm mb-6 shadow-sm group-hover:shadow-md transition-shadow relative overflow-hidden">
+                        <!-- Bottom highlight indicator -->
+                        <span class="absolute inset-x-0 bottom-0 h-1 bg-gray-200"></span>
+                    </div>
+                    <h4 class="font-medium text-sm md:text-base mb-2">Off-White</h4>
+                    <p class="text-[10px] font-mono text-gray-500 uppercase">#FDFBF7 — Background Base</p>
+                </div>
+
+                <!-- Primary -->
+                <div class="group">
+                    <div class="aspect-square bg-giardini-primary rounded-sm mb-6 shadow-sm group-hover:shadow-xl transition-shadow relative overflow-hidden">
+                        <span class="absolute inset-x-0 bottom-0 h-1 bg-black/20"></span>
+                    </div>
+                    <h4 class="font-medium text-sm md:text-base mb-2">Giardini Green</h4>
+                    <p class="text-[10px] font-mono text-gray-500 uppercase">#2B4A3B — Brand Primary</p>
+                </div>
+
+                <!-- Accent -->
+                <div class="group">
+                    <div class="aspect-square bg-giardini-accent border border-black/5 rounded-sm mb-6 shadow-sm group-hover:shadow-md transition-shadow relative overflow-hidden">
+                        <span class="absolute inset-x-0 bottom-0 h-1 bg-black/5"></span>
+                    </div>
+                    <h4 class="font-medium text-sm md:text-base mb-2">Sand Accent</h4>
+                    <p class="text-[10px] font-mono text-gray-500 uppercase">#EAE4D9 — Surfaces / Details</p>
+                </div>
+
+                <!-- Dark/Text -->
+                <div class="group">
+                    <div class="aspect-square bg-giardini-dark rounded-sm mb-6 shadow-md group-hover:shadow-xl transition-shadow relative overflow-hidden">
+                        <span class="absolute inset-x-0 bottom-0 h-1 bg-black/50"></span>
+                    </div>
+                    <h4 class="font-medium text-sm md:text-base mb-2">Soft Black</h4>
+                    <p class="text-[10px] font-mono text-gray-500 uppercase">#1A1A1A — Main Typography</p>
+                </div>
+                
+                <!-- Feedback Colors -->
+                <div class="col-span-2 lg:col-span-4 mt-12">
+                    <h4 class="text-[10px] md:text-xs text-gray-400 font-bold uppercase tracking-widest mb-8 border-t border-black/5 pt-12">Cores de Feedback Semântico</h4>
+                    <div class="flex flex-wrap gap-6">
+                        <div class="flex items-center gap-4 bg-white p-4 border border-black/5 rounded-full pr-8 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="w-6 h-6 rounded-full bg-giardini-success"></div>
+                            <span class="text-[10px] font-mono text-gray-600 font-semibold tracking-wider">SUCCESS</span>
+                        </div>
+                        <div class="flex items-center gap-4 bg-white p-4 border border-black/5 rounded-full pr-8 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="w-6 h-6 rounded-full bg-giardini-error"></div>
+                            <span class="text-[10px] font-mono text-gray-600 font-semibold tracking-wider">ERROR</span>
+                        </div>
+                        <div class="flex items-center gap-4 bg-white p-4 border border-black/5 rounded-full pr-8 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="w-6 h-6 rounded-full bg-giardini-warning"></div>
+                            <span class="text-[10px] font-mono text-gray-600 font-semibold tracking-wider">WARNING</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. UI COMPONENTS -->
+        <section id="components" class="py-32 px-8 md:px-20 max-w-[1600px] mx-auto bg-giardini-bg relative z-10">
+            <div class="text-[10px] md:text-xs text-giardini-primary font-bold uppercase tracking-[0.2em] mb-20 blur-reveal">03 / Componentes de UI</div>
+
+            <div class="grid lg:grid-cols-2 gap-24">
+                <!-- Inputs & Buttons -->
+                <div class="space-y-20 blur-reveal">
+                    <div>
+                        <h3 class="font-display text-4xl mb-10 text-giardini-dark">Inputs & Formulários</h3>
+                        <div class="bg-white p-10 md:p-14 border border-black/5 rounded-sm shadow-sm space-y-10 group">
+                            <div>
+                                <label class="block text-[10px] font-semibold uppercase tracking-[0.15em] text-gray-500 mb-2">E-mail</label>
+                                <input type="email" class="input-clean text-sm" placeholder="seu@email.com">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-semibold uppercase tracking-[0.15em] text-gray-500 mb-2">Mensagem</label>
+                                <textarea class="input-clean resize-none h-12 text-sm" placeholder="Como podemos ajudar?"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-display text-4xl mb-10 text-giardini-dark">Botões & Badges</h3>
+                        <div class="flex flex-col sm:flex-row flex-wrap gap-8 items-start sm:items-center">
+                            <!-- Primary -->
+                            <button class="btn-primary px-10 py-4 text-[11px] uppercase tracking-[0.15em] font-semibold rounded-sm w-full sm:w-auto text-center">
+                                Fazer Reserva
+                            </button>
+                            
+                            <!-- Secondary -->
+                            <button class="btn-secondary px-10 py-4 text-[11px] uppercase tracking-[0.15em] font-semibold rounded-sm w-full sm:w-auto text-center">
+                                Nosso Menu
+                            </button>
+                            
+                            <!-- Badges -->
+                            <div class="flex gap-4 sm:ml-auto w-full sm:w-auto">
+                                <span class="px-4 py-1.5 bg-giardini-accent text-giardini-primary text-[10px] font-bold uppercase tracking-widest rounded-sm border border-giardini-primary/10">Novo</span>
+                                <span class="px-4 py-1.5 bg-giardini-dark text-white text-[10px] font-bold uppercase tracking-widest rounded-sm">Premium</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cards & Overlays -->
+                <div class="space-y-20 blur-reveal lg:mt-0">
+                    <div>
+                        <h3 class="font-display text-4xl mb-10 text-giardini-dark">Cards de Destaque</h3>
+                        
+                        <!-- Card Instance -->
+                        <div class="hover-lift bg-white rounded-sm border border-black/5 overflow-hidden shadow-sm group cursor-pointer block">
+                            <div class="aspect-[4/3] w-full overflow-hidden relative">
+                                <!-- Imagem Latte Art -->
+                                <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?q=80&w=1000&auto=format&fit=crop" alt="Latte Art" class="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105" />
+                                <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500"></div>
+                                
+                                <!-- Tooltip Overlay on hover -->
+                                <div class="absolute top-6 right-6 bg-white/95 backdrop-blur-md px-4 py-1.5 text-[9px] font-black shadow-sm uppercase tracking-widest rounded-sm opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-500 ease-out text-giardini-dark border border-black/5">
+                                    Especial
+                                </div>
+                            </div>
+                            <div class="p-10 md:p-12">
+                                <div class="text-[10px] text-giardini-primary font-bold uppercase tracking-[0.15em] mb-4">Single Origin</div>
+                                <h4 class="font-display text-4xl mb-4 text-giardini-dark">Etiópia Yirgacheffe</h4>
+                                <p class="text-sm text-gray-500 font-light leading-relaxed mb-8">
+                                    Notas florais intensas no aroma, toques cítricos de bergamota no paladar e finalização excepcionalmente limpa, reminiscente de um chá preto fino.
+                                </p>
+                                <button class="flex items-center gap-3 text-[11px] font-bold uppercase tracking-widest text-giardini-dark group-hover:text-giardini-primary transition-colors">
+                                    Explorar detalhes <iconify-icon icon="lucide:arrow-right" class="text-base group-hover:translate-x-1 transition-transform duration-300"></iconify-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-display text-4xl mb-10 text-giardini-dark">Glassmorphism & Modais</h3>
+                        <div class="relative w-full h-80 bg-giardini-accent rounded-sm overflow-hidden flex items-center justify-center border border-black/5 p-6">
+                            <!-- Background pattern sutil -->
+                            <div class="absolute inset-0 opacity-20 mix-blend-multiply" style="background-image: radial-gradient(#2B4A3B 1px, transparent 1px); background-size: 24px 24px;"></div>
+                            <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-giardini-primary/10 rounded-full blur-3xl"></div>
+                            
+                            <!-- Modal/Glass Panel -->
+                            <div class="glass-panel p-10 w-full max-w-md relative z-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] group">
+                                <button class="absolute top-6 right-6 text-giardini-dark/30 hover:text-giardini-dark transition-colors">
+                                    <iconify-icon icon="lucide:x" class="text-xl"></iconify-icon>
+                                </button>
+                                <h4 class="font-display text-3xl mb-3 text-giardini-dark">Mesa Garantida</h4>
+                                <p class="text-xs text-gray-600 mb-8 font-light">Um convite para pausar. Reserve seu ambiente preferido para sua próxima visita.</p>
+                                
+                                <div class="bg-white/40 backdrop-blur-md p-6 text-center rounded-sm text-[11px] uppercase tracking-widest font-semibold border border-white/50 text-giardini-primary shadow-sm">
+                                    Verificar Disponibilidade
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- FOOTER -->
+        <footer class="py-32 px-8 text-center border-t border-black/5 bg-white blur-reveal relative z-10">
+            <h2 class="font-display text-5xl md:text-6xl text-giardini-dark mb-6">Giardini Café</h2>
+            <div class="text-[10px] md:text-xs uppercase tracking-[0.3em] text-gray-400 font-medium mb-16">Premium Design System v1.0</div>
+            
+            <div class="flex justify-center gap-6 mb-16">
+                <a href="#" class="w-12 h-12 rounded-full bg-giardini-bg flex items-center justify-center text-giardini-dark hover:bg-giardini-primary hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1">
+                    <iconify-icon icon="lucide:instagram" class="text-xl"></iconify-icon>
+                </a>
+                <a href="#" class="w-12 h-12 rounded-full bg-giardini-bg flex items-center justify-center text-giardini-dark hover:bg-giardini-primary hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1">
+                    <iconify-icon icon="lucide:twitter" class="text-xl"></iconify-icon>
+                </a>
+                <a href="#" class="w-12 h-12 rounded-full bg-giardini-bg flex items-center justify-center text-giardini-dark hover:bg-giardini-primary hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1">
+                    <iconify-icon icon="lucide:map-pin" class="text-xl"></iconify-icon>
+                </a>
+            </div>
+            
+            <p class="text-[10px] text-gray-400 uppercase tracking-widest">© 2026 Giardini Café. Todos os direitos reservados.</p>
+        </footer>
+    </main>
+
+    <script>
+        // Setup GSAP
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Instanciar Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.4,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            smooth: true,
+            smoothTouch: false,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Utility para quebrar textos mantendo as tags HTML complexas intactas (versão minimalista)
+        document.querySelectorAll('.split-animate').forEach(el => {
+            const html = el.innerHTML.trim();
+            // Evita quebrar no meio de tags. Simplificação: faz split nas <br/> ou espaços, isolando as palavras.
+            const tokens = html.split(/(<br\s*\/?>|\s+)/i);
+            
+            el.innerHTML = '';
+            tokens.forEach(token => {
+                if (/<br\s*\/?>/i.test(token)) {
+                    el.appendChild(document.createElement('br'));
+                } else if (token.trim() !== '') {
+                    const wordWrap = document.createElement('span');
+                    wordWrap.classList.add('word-wrap');
+                    wordWrap.innerHTML = `<span class="word-inner">${token}</span>`;
+                    el.appendChild(wordWrap);
+                    el.appendChild(document.createTextNode(' '));
+                }
+            });
+        });
+
+        // Timeline de Loader Inicial
+        const loadTl = gsap.timeline({
+            onComplete: () => {
+                document.body.style.opacity = 1;
+                initAnims();
+            }
+        });
+
+        loadTl.to('.loader-bar', { width: '100%', duration: 1.5, ease: 'power3.inOut' })
+              .to('.loader-text', { y: -30, opacity: 0, duration: 0.6, ease: 'power2.in' }, "-=0.2")
+              .to('.loader', { yPercent: -100, duration: 1.2, ease: 'power4.inOut' });
+
+        function initAnims() {
+            // Navbar behavior on scroll
+            ScrollTrigger.create({
+                start: 'top -80',
+                end: 99999,
+                toggleClass: {className: 'nav-scrolled', targets: '#navbar'}
+            });
+
+            // Hero Parallax sutil da Imagem
+            gsap.to('.hero-img', {
+                yPercent: 15,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+
+            // Animação GSAP nas palavras do Hero splitizadas
+            const splitElements = document.querySelectorAll('.split-animate');
+            splitElements.forEach(el => {
+                const words = el.querySelectorAll('.word-inner');
+                gsap.to(words, {
+                    y: "0%",
+                    duration: 1.4,
+                    ease: "power4.out",
+                    stagger: 0.05,
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 90%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+            });
+
+            // Observador genérico para revelar com Blur (Section titles, content)
+            const blurElements = document.querySelectorAll('.blur-reveal');
+            blurElements.forEach(el => {
+                ScrollTrigger.create({
+                    trigger: el,
+                    start: "top 85%",
+                    onEnter: () => el.classList.add('is-revealed')
+                });
+            });
+        }
+    </script>
+</body>
+</html>
