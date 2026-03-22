@@ -280,12 +280,7 @@
       opacity: 1;
     }
 
-    .magnetic-btn {
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: transform;
-    }
-
-    /* ══ HERO LAYOUT ════════════════════════════════════════════════ */
+     /* ══ HERO LAYOUT ════════════════════════════════════════════════ */
     #hero-pin-wrapper {
       position: relative;
     }
@@ -799,7 +794,7 @@
         </p>
 
         <div class="hero-cta" id="el-cta">
-          <a href="#" class="btn-primary btn-order magnetic-btn shimmer-border" aria-label="Fazer pedido agora">
+          <a href="#" class="btn-primary btn-order shimmer-border" aria-label="Fazer pedido agora">
             Order Now
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
               stroke-linejoin="round" aria-hidden="true">
@@ -845,8 +840,8 @@
     <div class="hero-grid-bg opacity-[0.3]"></div>
 
     <!-- Animated Soft Glows behind cards (Parallax + Float) -->
-    <div class="absolute top-[20%] left-[5%] w-[40vw] h-[40vw] bg-[var(--c-primary)] rounded-full mix-blend-multiply filter blur-[100px] opacity-[0.12] animate-float pointer-events-none parallax-glow-1"></div>
-    <div class="absolute bottom-[0%] right-[5%] w-[50vw] h-[50vw] bg-[#D4CFC4] rounded-full mix-blend-multiply filter blur-[120px] opacity-[0.3] animate-float pointer-events-none parallax-glow-2" style="animation-delay: 2s;"></div>
+    <div class="absolute top-[20%] left-[5%] w-[40vw] h-[40vw] bg-[var(--c-primary)] rounded-full filter blur-[64px] opacity-[0.08] animate-float pointer-events-none parallax-glow-1 will-change-transform"></div>
+    <div class="absolute bottom-[0%] right-[5%] w-[50vw] h-[50vw] bg-[#D4CFC4] rounded-full filter blur-[64px] opacity-[0.15] animate-float pointer-events-none parallax-glow-2 will-change-transform" style="animation-delay: 2s;"></div>
 
     <!-- Parallax Watermark -->
     <div id="parallax-text"
@@ -936,9 +931,83 @@
     </div>
   </section>
 
+  <!-- ══ SECTION 3: FEATURED MENU ═════════════════════════════════ -->
+  <section id="featured"
+    class="py-32 px-8 md:px-20 max-w-[1600px] mx-auto bg-[var(--c-bg)] relative z-[60] overflow-hidden">
+    
+    <!-- Clean Background without moving glows for max performance -->
+
+    <!-- Título Principal -->
+    <div class="mb-20 flex flex-col items-center text-center relative z-10 w-full">
+      <div class="text-[10px] md:text-xs text-[var(--c-primary)] font-bold uppercase tracking-[0.2em] mb-4 word-wrap">
+        <span class="word-inner block flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--c-primary)] animate-pulse"></span>
+          02 / Seleção Especial
+        </span>
+      </div>
+      <div class="word-wrap">
+        <h2 class="word-inner font-display text-5xl md:text-7xl text-[var(--c-dark)] tracking-tight">
+          A Arte em Grãos
+        </h2>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-16 relative z-10 w-full">
+
+      <!-- Card 1 -->
+      <div class="flex flex-col items-center featured-reveal group cursor-pointer" style="will-change: transform, opacity;">
+        <div class="w-full aspect-[4/5] rounded-[24px] overflow-hidden mb-6 bg-black/[0.03] transition-transform duration-300 ease-out group-hover:-translate-y-1">
+          <img src="../../raw_files/_MG_1789.jpg" alt="Bourbon Amarelo" class="w-full h-full object-cover transition-opacity duration-300" loading="lazy">
+        </div>
+        <div class="text-center w-full">
+          <div class="flex items-center justify-center gap-3 mb-2">
+            <h3 class="font-display text-2xl lg:text-3xl text-[var(--c-dark)] tracking-tight group-hover:text-[var(--c-primary)] transition-colors duration-300">Bourbon Amarelo</h3>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="opacity-0 -translate-x-2 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0 text-[var(--c-primary)]"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+          <p class="text-[0.9rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)] mx-auto max-w-[280px]">Notas suaves de caramelo e acidez cítrica vibrante. Um clássico elevado.</p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="flex flex-col items-center featured-reveal group cursor-pointer" style="will-change: transform, opacity;">
+        <div class="w-full aspect-[4/5] rounded-[24px] overflow-hidden mb-6 bg-black/[0.03] transition-transform duration-300 ease-out group-hover:-translate-y-1">
+          <img src="../../raw_files/_MG_1794.jpg" alt="Geisha Reserve" class="w-full h-full object-cover transition-opacity duration-300" loading="lazy">
+        </div>
+        <div class="text-center w-full">
+          <div class="flex items-center justify-center gap-3 mb-2">
+            <h3 class="font-display text-2xl lg:text-3xl text-[var(--c-dark)] tracking-tight group-hover:text-[var(--c-primary)] transition-colors duration-300">Geisha Reserve</h3>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="opacity-0 -translate-x-2 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0 text-[var(--c-primary)]"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+          <p class="text-[0.9rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)] mx-auto max-w-[280px]">Perfil floral exótico com toques de jasmim e final adocicado prolongado.</p>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="flex flex-col items-center featured-reveal group cursor-pointer" style="will-change: transform, opacity;">
+        <div class="w-full aspect-[4/5] rounded-[24px] overflow-hidden mb-6 bg-black/[0.03] transition-transform duration-300 ease-out group-hover:-translate-y-1">
+          <img src="../../raw_files/_MG_1804.jpg" alt="Blend Origens" class="w-full h-full object-cover transition-opacity duration-300" loading="lazy">
+        </div>
+        <div class="text-center w-full">
+          <div class="flex items-center justify-center gap-3 mb-2">
+            <h3 class="font-display text-2xl lg:text-3xl text-[var(--c-dark)] tracking-tight group-hover:text-[var(--c-primary)] transition-colors duration-300">Blend Origens</h3>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="opacity-0 -translate-x-2 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0 text-[var(--c-primary)]"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+          <p class="text-[0.9rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)] mx-auto max-w-[280px]">Corpo denso, notas de chocolate amargo e avelã. Torra média perfeita.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <script>
       (function () {
         'use strict';
+
+        /* ── PRELOAD HIDING ─────────────────────────────────────────── */
+        gsap.set(['#el-kicker', '#el-body', '#el-cta', '#el-meta', '#el-scroll', '#el-badge'], { opacity: 0, y: 15, filter: 'blur(8px)' });
+        gsap.set(['#el-h1a', '#el-h1b'], { y: '108%', filter: 'blur(10px)' });
+        gsap.set('#video-frame', { opacity: 0, scale: 0.94 });
+        gsap.set('#navbar', { opacity: 0 });
 
         /* ══════════════════════════════════════════════════════════════
            CONFIG
@@ -1054,17 +1123,22 @@
         /* ══ LAYOUT: calcula o rect inicial do video-frame ════════════ */
         function getInitialFrameRect() {
           const right = document.getElementById('hero-right');
-          const rect = right.getBoundingClientRect();
+          const vp = document.getElementById('hero-viewport');
+          
+          const rRect = right.getBoundingClientRect();
+          const vpRect = vp.getBoundingClientRect();
+          
           const cs = getComputedStyle(right);
           const pt = parseFloat(cs.paddingTop);
           const pr = parseFloat(cs.paddingRight);
           const pb = parseFloat(cs.paddingBottom);
           const pl = parseFloat(cs.paddingLeft);
+          
           return {
-            left: rect.left + pl,
-            top: rect.top + pt,
-            width: rect.width - pl - pr,
-            height: rect.height - pt - pb,
+            left: (rRect.left - vpRect.left) + pl,
+            top: (rRect.top - vpRect.top) + pt,
+            width: rRect.width - pl - pr,
+            height: rRect.height - pt - pb,
           };
         }
 
@@ -1106,11 +1180,6 @@
           });
 
           /* ── INTRO ANIMATION (Blur/Fade-in sync with design_system2) ───────────── */
-          gsap.set(['#el-kicker', '#el-body', '#el-cta', '#el-meta', '#el-scroll', '#el-badge'], { opacity: 0, y: 15, filter: 'blur(8px)' });
-          gsap.set(['#el-h1a', '#el-h1b'], { y: '108%', filter: 'blur(10px)' });
-          gsap.set(frame, { opacity: 0, scale: 0.94 });
-          gsap.set('#navbar', { opacity: 0 });
-
           const tl = gsap.timeline({
             delay: 0.05,
             onStart: () => {
@@ -1125,32 +1194,21 @@
                 viewportElem.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
               });
 
-              // Initialize Magnetic Button
-              const magBtn = document.querySelector('.magnetic-btn');
-              if (magBtn) {
-                magBtn.addEventListener('mousemove', (e) => {
-                  const rect = magBtn.getBoundingClientRect();
-                  const x = e.clientX - rect.left - rect.width / 2;
-                  const y = e.clientY - rect.top - rect.height / 2;
-                  magBtn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-                });
-                magBtn.addEventListener('mouseleave', () => {
-                  magBtn.style.transform = `translate(0px, 0px)`;
-                });
-              }
+              // Magnetic Button Logic Removed
             }
           });
 
           tl
             .to('#navbar', { opacity: 1, duration: 0.7, ease: 'power2.out' })
             .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out' }, '-=0.4')
-            .to('#el-h1a', { y: '0%', filter: 'blur(0px)', duration: 1.25, ease: 'power4.out' }, '-=0.65')
-            .to('#el-h1b', { y: '0%', filter: 'blur(0px)', duration: 1.25, ease: 'power4.out' }, '-=1.1')
-            .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, '-=0.9')
-            .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8, ease: 'power3.out' }, '-=0.75')
-            .to('#el-meta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' }, '-=0.55')
-            .to(frame, { opacity: 1, scale: 1, borderRadius: 22, duration: 1.3, ease: 'power3.out' }, '-=1.1')
-            .to(['#el-badge', '#el-scroll'], { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out', stagger: 0.12 }, '-=0.5');
+            .add('titleShow', '-=0.65')
+            .to('#el-h1a', { y: '0%', filter: 'blur(0px)', duration: 1.25, ease: 'power4.out' }, 'titleShow')
+            .to(frame, { opacity: 1, scale: 1, borderRadius: 22, duration: 1.5, ease: 'power4.out' }, 'titleShow')
+            .to('#el-h1b', { y: '0%', filter: 'blur(0px)', duration: 1.25, ease: 'power4.out' }, 'titleShow+=0.15')
+            .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, 'titleShow+=0.35')
+            .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8, ease: 'power3.out' }, 'titleShow+=0.5')
+            .to('#el-meta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' }, 'titleShow+=0.7')
+            .to(['#el-badge', '#el-scroll'], { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out', stagger: 0.12 }, 'titleShow+=0.75');
 
           /* ── SCROLL PIN ──────────────────────────────────────────── */
           ScrollTrigger.create({
@@ -1182,19 +1240,22 @@
           });
 
           /* ── TEXT FADE/BLUR OUT (scroll) ──────────────────────────────── */
-          gsap.to(['#el-kicker', '#el-h1a', '#el-h1b', '#el-body', '#el-cta', '#el-meta'], {
-            opacity: 0,
-            y: -30,
-            filter: 'blur(12px)',
-            ease: 'power2.in',
-            stagger: { each: 0.05, from: 'end' },
-            scrollTrigger: {
-              trigger: wrapper,
-              start: 'top top',
-              end: () => `+=${scrollPx * 0.45}`,
-              scrub: CONFIG.scrub,
+          /* Using fromTo on the parent to avoid conflict with individual item entrance animations */
+          gsap.fromTo('#hero-left',
+            { opacity: 1, y: 0, filter: 'blur(0px)' },
+            {
+              opacity: 0,
+              y: -50,
+              filter: 'blur(12px)',
+              ease: 'power2.in',
+              scrollTrigger: {
+                trigger: wrapper,
+                start: 'top top',
+                end: () => `+=${scrollPx * 0.45}`,
+                scrub: CONFIG.scrub,
+              }
             }
-          });
+          );
 
           gsap.to('#el-scroll', {
             opacity: 0, ease: 'power1.out',
@@ -1270,17 +1331,18 @@
             onEnter: () => {
               const tExp = gsap.timeline();
 
-              tExp.to('.word-inner', {
-                y: '0%',
-                duration: 1.2,
-                ease: 'expo.out',
-                stagger: 0.1
-              })
+              tExp.add('expStart')
+                .to('.word-inner', {
+                  y: '0%',
+                  duration: 1.2,
+                  ease: 'expo.out',
+                  stagger: 0.1
+                }, 'expStart')
                 .to('.exp-line', {
                   scaleY: 1,
                   duration: 1.0,
                   ease: 'power3.inOut'
-                }, "-=0.8")
+                }, 'expStart+=0.4')
                 .to('.exp-reveal', {
                   opacity: 1,
                   y: 0,
@@ -1288,14 +1350,14 @@
                   filter: 'blur(0px)',
                   duration: 1.2,
                   ease: 'power3.out',
-                  stagger: 0.15
-                }, "-=0.8")
+                  stagger: 0.08
+                }, 'expStart')
                 .to('.draw-svg path, .draw-svg circle', {
                   strokeDashoffset: 0,
                   duration: 2,
                   ease: 'power2.inOut',
                   stagger: 0.1
-                }, "-=1.0");
+                }, 'expStart+=0.5');
             }
           });
 
@@ -1313,6 +1375,36 @@
               scrub: true
             }
           });
+
+          // ── SECTION 3 ANIMATION ───────────────────────────────────
+          /* Removed all blur filters for maximum rendering performance */
+          gsap.set('.featured-reveal', { opacity: 0, y: 20 });
+
+          ScrollTrigger.create({
+            trigger: '#featured',
+            start: 'top 85%',
+            once: true,
+            onEnter: () => {
+              const tFeat = gsap.timeline();
+
+              tFeat.to('#featured .word-inner', {
+                y: '0%',
+                duration: 0.6,
+                ease: 'power3.out',
+                stagger: 0.05
+              })
+                .to('#featured .featured-reveal', {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.5,
+                  ease: 'power2.out',
+                  stagger: 0.1
+                }, "-=0.2");
+            }
+          });
+          
+          // Parallax Glow Logic Removed for Performance
+          // Section 3 Exit Animation Removed for Performance
         }
 
         /* ══ BOOTSTRAP ════════════════════════════════════════════════
