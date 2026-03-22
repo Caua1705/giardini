@@ -76,24 +76,29 @@
       width: 12px;
       height: 12px;
     }
+
     body::-webkit-scrollbar-track {
       background: transparent;
     }
+
     body::-webkit-scrollbar-thumb {
       background-color: rgba(26, 26, 26, 0.2);
       border-radius: 10px;
       border: 4px solid transparent;
       background-clip: padding-box;
     }
+
     body::-webkit-scrollbar-thumb:hover {
       background-color: rgba(26, 26, 26, 0.35);
       border: 4px solid transparent;
       background-clip: padding-box;
     }
+
     body {
       scrollbar-width: thin;
       scrollbar-color: rgba(26, 26, 26, 0.2) transparent;
     }
+
     /* ══ DESIGN SYSTEM CLASSES ═══════════════════════════════════════ */
     .font-display {
       font-family: 'Instrument Serif', serif;
@@ -235,13 +240,23 @@
       color: var(--c-bg);
     }
 
-    @media (max-width: 768px) {
-      .nav-cta {
-        display: none;
-      }
-    }
-
     /* ══ PREMIUM ANIMATION UTILITIES ═════════════════════════════════ */
+    /* Personalização básica do scrollbar para ser visível e premium */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(26, 26, 26, 0.03);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(43, 74, 59, 0.2); /* Tom verde sutil */
+      border-radius: 10px;
+      border: 2px solid transparent;
+      background-clip: content-box;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(43, 74, 59, 0.4);
+    }
     .hero-grid-bg {
       position: absolute;
       inset: 0;
@@ -257,8 +272,10 @@
     /* ── GRAIN NOISE TEXTURE ────────────────────────────────────────── */
     #hero-grain {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       opacity: 0.028;
       pointer-events: none;
       z-index: 9998;
@@ -273,17 +290,21 @@
       inset: 0;
       z-index: 3;
       pointer-events: none;
-      background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(43,74,59,0.055), transparent 60%);
+      background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(43, 74, 59, 0.055), transparent 60%);
       opacity: 0;
       transition: opacity 0.6s ease;
     }
-    #hero-viewport:hover #hero-spotlight { opacity: 1; }
+
+    #hero-viewport:hover #hero-spotlight {
+      opacity: 1;
+    }
 
     /* ── SHIMMER BEAM BUTTON (conic-gradient advanced) ──────────────── */
     .btn-beam-container {
       position: relative;
       border-radius: 9999px;
     }
+
     .beam-border {
       position: absolute;
       inset: -1px;
@@ -295,10 +316,19 @@
       animation: rotate-beam 2s linear infinite;
       transition: opacity 0.3s;
     }
-    .btn-beam-container:hover .beam-border { opacity: 1; }
+
+    .btn-beam-container:hover .beam-border {
+      opacity: 1;
+    }
+
     @keyframes rotate-beam {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     /* ── BG COLUMN REVEAL ────────────────────────────────────────── */
@@ -309,39 +339,41 @@
       z-index: 0;
       pointer-events: none;
     }
+
     .hero-col {
       flex: 1;
       height: 100%;
-      border-right: 1px solid rgba(26,26,26,0.045);
+      border-right: 1px solid rgba(26, 26, 26, 0.045);
       clip-path: inset(100% 0 0 0);
       transition: clip-path 1.6s cubic-bezier(0.65, 0, 0.35, 1);
     }
-    .hero-col.active { clip-path: inset(0 0 0 0); }
-    .hero-col:last-child { border-right: none; }
 
-    /* ── SCROLL PROGRESS LINE ──────────────────────────────────────── */
-    #scroll-progress-line {
+    .hero-col.active {
+      clip-path: inset(0 0 0 0);
+    }
+
+    .hero-col:last-child {
+      border-right: none;
+    }
+
+    /* ── CUSTOM MINIMALIST SCROLL INDICATOR ────────────────────────── */
+    .scroll-indicator-wrap {
       position: fixed;
-      right: 2rem;
+      right: 3rem; /* Slightly further in to avoid cluttering with standard scrollbar */
       top: 50%;
       transform: translateY(-50%);
-      width: 1px;
-      height: 90px;
-      background: rgba(26,26,26,0.12);
       z-index: 9999;
-      border-radius: 2px;
-    }
-    #scroll-progress-line::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      background: var(--c-primary);
-      border-radius: 2px;
-      height: 0%;
-      transition: height 0.1s linear;
+      pointer-events: none;
     }
 
-    /* ── LIVE META TICKER ──────────────────────────────────────────── */
+    #scroll-progress-line {
+      width: 2px;
+      height: 100px;
+      background: rgba(26, 26, 26, 0.15);
+      position: relative;
+      border-radius: 2px;
+      overflow: hidden;
+    }
     .live-badge {
       display: inline-flex;
       align-items: center;
@@ -350,9 +382,10 @@
       font-weight: 600;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: rgba(26,26,26,0.4);
+      color: rgba(26, 26, 26, 0.4);
       pointer-events: none;
     }
+
     .live-pulse {
       width: 5px;
       height: 5px;
@@ -361,10 +394,22 @@
       flex-shrink: 0;
       animation: live-glow 2s ease-in-out infinite;
     }
+
     @keyframes live-glow {
-      0%, 100% { opacity: 0.4; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.4); box-shadow: 0 0 6px var(--c-primary); }
+
+      0%,
+      100% {
+        opacity: 0.4;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.4);
+        box-shadow: 0 0 6px var(--c-primary);
+      }
     }
+
     /* Clock */
     #hero-clock {
       position: absolute;
@@ -373,13 +418,18 @@
       font-size: 0.6rem;
       font-family: var(--f-mono);
       letter-spacing: 0.12em;
-      color: rgba(26,26,26,0.25);
+      color: rgba(26, 26, 26, 0.25);
       pointer-events: none;
       z-index: 20;
     }
-    @media (max-width: 767px) { #hero-clock { display: none; } }
 
-     /* ══ HERO LAYOUT ════════════════════════════════════════════════ */
+    @media (max-width: 767px) {
+      #hero-clock {
+        display: none;
+      }
+    }
+
+    /* ══ HERO LAYOUT ════════════════════════════════════════════════ */
     #hero-pin-wrapper {
       position: relative;
     }
@@ -610,27 +660,50 @@
       border: 1px solid rgba(26, 26, 26, 0.04);
       transition: all 0.5s var(--expo);
     }
+
     .glass-card:hover {
       background: rgba(255, 255, 255, 0.7);
       box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
       transform: translateY(-4px);
       border-color: rgba(26, 26, 26, 0.08);
     }
-    
-    .flashlight-effect { position: relative; overflow: hidden; }
-    .flashlight-effect::before {
-      content: ""; position: absolute; inset: 0px;
-      background: radial-gradient(350px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(43, 74, 59, 0.04), transparent 50%);
-      opacity: 0; transition: opacity 0.5s; pointer-events: none; z-index: 1;
+
+    .flashlight-effect {
+      position: relative;
+      overflow: hidden;
     }
-    .flashlight-effect:hover::before { opacity: 1; }
+
+    .flashlight-effect::before {
+      content: "";
+      position: absolute;
+      inset: 0px;
+      background: radial-gradient(350px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(43, 74, 59, 0.04), transparent 50%);
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .flashlight-effect:hover::before {
+      opacity: 1;
+    }
 
     /* Floating Animations */
     @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-40px); }
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-40px);
+      }
     }
-    .animate-float { animation: float 8s ease-in-out infinite; }
+
+    .animate-float {
+      animation: float 8s ease-in-out infinite;
+    }
 
     /* ══ VIDEO FRAME (expande via GSAP) ═════════════════════════════ */
     #video-frame {
@@ -713,34 +786,21 @@
       0% {
         transform: translate(0, 0) scale(1);
       }
+
       100% {
         transform: translate(40px, -40px) scale(1.15);
       }
     }
 
-    /* ── BORDER BEAM EFFECT ────────────────────────────────────────── */
-    .btn-beam-container {
-      position: relative;
-      overflow: hidden;
-      border-radius: 9999px;
-    }
-    .beam-border {
-      position: absolute;
-      inset: -1px;
-      border-radius: 9999px;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0;
-      background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, var(--c-primary) 60deg, transparent 120deg);
-      animation: rotate-beam 2s linear infinite;
-      transition: opacity 0.3s;
-    }
-    .btn-beam-container:hover .beam-border {
-      opacity: 1;
-    }
-    @keyframes rotate-beam {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    /* ── GEMINI SHIMMER ──────────────────────────────── */
+    @keyframes shimmer {
+      from {
+        transform: translateX(-100%) skewX(-15deg);
+      }
+
+      to {
+        transform: translateX(200%) skewX(-15deg);
+      }
     }
 
     /* ── FLASHLIGHT / SPOTLIGHT EFFECT ──────────────────────────────── */
@@ -749,16 +809,15 @@
       position: absolute;
       inset: 0;
       border-radius: inherit;
-      background: radial-gradient(
-        400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-        rgba(255, 255, 255, 0.12),
-        transparent 40%
-      );
+      background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+          rgba(255, 255, 255, 0.12),
+          transparent 40%);
       opacity: 0;
       transition: opacity 0.5s;
       pointer-events: none;
       z-index: 15;
     }
+
     .flashlight-card:hover::before {
       opacity: 1;
     }
@@ -766,8 +825,14 @@
 
 
     /* ── CHAR REVEAL ────────────────────────────────────────────────── */
-    .split-parent { overflow: hidden; }
-    .split-child { display: inline-block; will-change: transform; }
+    .split-parent {
+      overflow: hidden;
+    }
+
+    .split-child {
+      display: inline-block;
+      will-change: transform;
+    }
 
     /* ══ SCROLL INDICATOR ════════════════════════════════════════════ */
     .scroll-indicator {
@@ -909,8 +974,10 @@
   <!-- GRAIN NOISE TEXTURE -->
   <div id="hero-grain" aria-hidden="true"></div>
 
-  <!-- SCROLL PROGRESS LINE -->
-  <div id="scroll-progress-line" aria-hidden="true"></div>
+  <!-- CUSTOM SCROLL INDICATOR (Minimalist Line) -->
+  <div class="scroll-indicator-wrap" aria-hidden="true">
+    <div id="scroll-progress-line"></div>
+  </div>
   <nav id="navbar" class="is-scrolled" aria-label="Navegação principal">
     <a href="#" class="nav-logo">Giardini Café</a>
     <div class="nav-links">
@@ -921,8 +988,7 @@
     </div>
     <a href="#" class="nav-cta">
       Reservar
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-        aria-hidden="true">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
         <path d="M5 12h14M12 5l7 7-7 7" />
       </svg>
     </a>
@@ -949,24 +1015,26 @@
             <span class="line-inner" id="el-h1a">Onde o silêncio</span>
           </span>
           <span class="line" style="font-style:italic;">
-            <span class="line-inner" id="el-h1b">ganha <span class="text-[var(--c-primary)] relative inline-block group cursor-pointer transition-colors duration-400 mix-blend-multiply">acordes<span class="absolute left-0 bottom-[10%] w-full h-[3px] bg-[var(--c-primary)] origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100"></span></span>.</span>
+            <span class="line-inner" id="el-h1b">ganha <span
+                class="text-[var(--c-primary)] relative inline-block group cursor-pointer transition-colors duration-400 mix-blend-multiply">acordes<span
+                  class="absolute left-0 bottom-[10%] w-full h-[3px] bg-[var(--c-primary)] origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100"></span></span>.</span>
           </span>
         </h1>
         <p class="hero-body" id="el-body">
-          Entre o aroma de um espresso perfeito e as teclas de um piano, encontre o refúgio ideal para a sua próxima imersão literária.
+          Entre o aroma de um espresso perfeito e as teclas de um piano, encontre o refúgio ideal para a sua próxima
+          imersão literária.
         </p>
 
         <div class="hero-cta" id="el-cta">
-          <div class="btn-beam-container inline-block">
-            <div class="beam-border"></div>
-            <a href="#" class="btn-primary btn-order relative z-10" aria-label="Descobrir o Espaço">
-              Descobrir
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                stroke-linejoin="round" aria-hidden="true">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </a>
-          </div>
+          <a href="#" class="btn-primary btn-order group relative overflow-hidden" aria-label="Descobrir o Espaço">
+            <span class="absolute inset-0 overflow-hidden pointer-events-none" style="border-radius: inherit; z-index: 1;">
+              <span class="absolute top-0 left-0 h-full w-full -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:animate-[shimmer_1.5s_infinite] group-hover:opacity-100"></span>
+            </span>
+            <span style="position: relative; z-index: 2;">Descobrir</span>
+            <svg style="position: relative; z-index: 2;" class="transition duration-200 group-hover:translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a>
           <a href="#" class="link-ghost">Nosso Acervo</a>
         </div>
 
@@ -975,7 +1043,8 @@
           <span style="color: rgba(26,26,26,0.15); font-size: 0.6rem;">|</span>
           <span class="live-badge"><span class="live-pulse" style="animation-delay: 0.8s;"></span>Piano: 19h00</span>
           <span style="color: rgba(26,26,26,0.15); font-size: 0.6rem;">|</span>
-          <span class="live-badge"><span class="live-pulse" style="animation-delay: 1.6s; background: rgba(26,26,26,0.25);"></span>Troca de Livros</span>
+          <span class="live-badge"><span class="live-pulse"
+              style="animation-delay: 1.6s; background: rgba(26,26,26,0.25);"></span>Troca de Livros</span>
         </div>
       </div>
 
@@ -983,8 +1052,7 @@
         <div class="video-glow" aria-hidden="true"></div>
       </div>
 
-      <!-- HERO CLOCK (bottom left) -->
-      <div id="hero-clock" aria-hidden="true"></div>
+      <!-- HERO CLOCK (Removed) -->
 
       <div class="scroll-indicator" id="el-scroll" aria-hidden="true">
         <span>Scroll</span>
@@ -1004,20 +1072,23 @@
   <!-- ══ HERO → SECTION 2 GRADIENT TRANSITION ══════════════════════ -->
   <!-- Sutil efeito de continuidade: funde o final da hero com o início da próxima seção -->
   <div class="pointer-events-none relative z-[59] w-full h-32 md:h-48 -mt-32 md:-mt-48"
-    style="background: linear-gradient(to bottom, transparent 0%, #FDFBF7 100%);"
-    aria-hidden="true">
+    style="background: linear-gradient(to bottom, transparent 0%, #FDFBF7 100%);" aria-hidden="true">
   </div>
 
   <!-- ══ SECTION 2: A EXPERIÊNCIA ═════════════════════════════════ -->
   <section id="experience"
     class="py-32 md:py-48 px-8 md:px-20 w-full bg-[var(--c-bg)] relative z-[60] overflow-hidden rounded-t-[40px] shadow-[0_-40px_80px_rgba(253,251,247,0.8)]">
-    
+
     <!-- Grid BG sutil -->
     <div class="hero-grid-bg opacity-[0.3]"></div>
 
     <!-- Animated Soft Glows behind content (Parallax + Float) -->
-    <div class="absolute top-[10%] left-[50%] w-[40vw] h-[40vw] bg-[var(--c-primary)] rounded-full filter blur-[80px] opacity-[0.06] animate-float pointer-events-none parallax-glow-1 will-change-transform z-0"></div>
-    <div class="absolute bottom-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-[#D4CFC4] rounded-full filter blur-[80px] opacity-[0.10] animate-float pointer-events-none parallax-glow-2 will-change-transform z-0" style="animation-delay: 2s;"></div>
+    <div
+      class="absolute top-[10%] left-[50%] w-[40vw] h-[40vw] bg-[var(--c-primary)] rounded-full filter blur-[80px] opacity-[0.06] animate-float pointer-events-none parallax-glow-1 will-change-transform z-0">
+    </div>
+    <div
+      class="absolute bottom-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-[#D4CFC4] rounded-full filter blur-[80px] opacity-[0.10] animate-float pointer-events-none parallax-glow-2 will-change-transform z-0"
+      style="animation-delay: 2s;"></div>
 
     <!-- Parallax Watermark -->
     <div id="parallax-text"
@@ -1025,98 +1096,130 @@
       <span class="font-display text-[20vw] leading-none text-center whitespace-nowrap tracking-tighter"
         style="transform: translateX(30%);">TEMPO</span>
     </div>
-    
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center relative z-10 w-full max-w-[1600px] mx-auto">
-      
+
+    <div
+      class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center relative z-10 w-full max-w-[1600px] mx-auto">
+
       <!-- LEFT COLUMN: IMAGE -->
-      <div class="lg:col-span-6 w-full h-[60vh] md:h-[80vh] rounded-[24px] overflow-hidden relative shadow-[0_40px_80px_rgba(0,0,0,0.08)] group exp-left translate-y-12 scale-[0.96] opacity-0 blur-[10px]">
+      <div
+        class="lg:col-span-6 w-full h-[60vh] md:h-[80vh] rounded-[24px] overflow-hidden relative shadow-[0_40px_80px_rgba(0,0,0,0.08)] group exp-left translate-y-12 scale-[0.96] opacity-0 blur-[10px]">
         <div class="absolute inset-0 bg-black/5 mix-blend-multiply pointer-events-none z-10"></div>
         <!-- Efeito sutil interno de gravidade scale -->
-        <img src="../../raw_files/leitura.jpg" alt="Pessoa lendo em nossa sala" class="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.03] exp-left-img scale-[1.08]" loading="lazy">
+        <img src="../../raw_files/leitura.jpg" alt="Pessoa lendo em nossa sala"
+          class="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.03] exp-left-img scale-[1.08]"
+          loading="lazy">
       </div>
 
       <!-- RIGHT COLUMN: CONTENT -->
       <div class="lg:col-span-6 flex flex-col justify-center w-full relative z-10">
-        
+
         <!-- Label -->
         <div class="flex items-center gap-3 mb-6 sec2-title translate-y-8 opacity-0 blur-[10px]">
           <span class="w-2 h-2 rounded-full bg-[var(--c-primary)] animate-pulse"></span>
-          <span class="text-[10px] md:text-xs text-[var(--c-primary)] font-bold uppercase tracking-[0.2em]">01 / A Experiência</span>
+          <span class="text-[10px] md:text-xs text-[var(--c-primary)] font-bold uppercase tracking-[0.2em]">01 / A
+            Experiência</span>
         </div>
-        
+
         <div class="word-wrap mb-8" style="overflow:visible;">
-          <h2 class="sec2-title font-display text-5xl md:text-6xl lg:text-[4.5rem] text-[var(--c-dark)] tracking-tight leading-[1.05] opacity-0 translate-y-8 blur-[10px]">
+          <h2
+            class="sec2-title font-display text-5xl md:text-6xl lg:text-[4.5rem] text-[var(--c-dark)] tracking-tight leading-[1.05] opacity-0 translate-y-8 blur-[10px]">
             Onde o tempo desacelera e as histórias começam.
           </h2>
         </div>
 
-        <p class="text-[1.05rem] md:text-[1.125rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)] mb-16 max-w-lg sec2-title translate-y-8 opacity-0 blur-[10px]">
-          Mais do que apenas cafés especiais, criamos um refúgio da cidade. A harmonia perfeita entre o aroma da torra, uma impecável curadoria literária e o silêncio de que você precisa para a sua próxima leitura.
+        <p
+          class="text-[1.05rem] md:text-[1.125rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)] mb-16 max-w-lg sec2-title translate-y-8 opacity-0 blur-[10px]">
+          Mais do que apenas cafés especiais, criamos um refúgio da cidade. A harmonia perfeita entre o aroma da torra,
+          uma impecável curadoria literária e o silêncio de que você precisa para a sua próxima leitura.
         </p>
 
         <!-- 3 Pillars -->
         <div class="flex flex-col gap-[0.4rem] border-t border-black/5 pt-[1.75rem] relative mt-0">
 
           <!-- Pillar 1 -->
-          <div class="flex flex-col exp-pillar opacity-0 translate-y-8 blur-[10px] relative z-10 p-5 md:p-6 group cursor-crosshair">
+          <div
+            class="flex flex-col exp-pillar opacity-0 translate-y-8 blur-[10px] relative z-10 p-5 md:p-6 group cursor-crosshair">
             <!-- Delayed Background Box -->
-            <div class="absolute inset-0 rounded-xl bg-white shadow-[0_12px_24px_rgba(26,26,26,0.04)] border border-black/[0.04] opacity-0 transition-opacity duration-500 delay-0 group-hover:opacity-100 group-hover:delay-[250ms] pointer-events-none -z-10"></div>
+            <div
+              class="absolute inset-0 rounded-xl bg-white shadow-[0_12px_24px_rgba(26,26,26,0.04)] border border-black/[0.04] opacity-0 transition-opacity duration-500 delay-0 group-hover:opacity-100 group-hover:delay-[250ms] pointer-events-none -z-10">
+            </div>
             <!-- Content -->
             <div class="flex items-start gap-5 relative z-10">
               <!-- Left Column: Number + Line -->
               <div class="flex flex-col items-center mt-1">
-                <span class="font-mono text-[11px] font-bold text-[var(--c-dark)] opacity-[0.35] mb-3 group-hover:opacity-100 transition-opacity duration-200">01</span>
-                <div class="w-[1px] h-full min-h-[46px] bg-[var(--c-dark)] opacity-[0.15] group-hover:opacity-100 transition-opacity duration-200"></div>
+                <span
+                  class="font-mono text-[11px] font-bold text-[var(--c-dark)] opacity-[0.35] mb-3 group-hover:opacity-100 transition-opacity duration-200">01</span>
+                <div
+                  class="w-[1px] h-full min-h-[46px] bg-[var(--c-dark)] opacity-[0.15] group-hover:opacity-100 transition-opacity duration-200">
+                </div>
               </div>
-              
+
               <!-- Right Column: Title + Desc -->
               <div class="flex flex-col">
-                <h4 class="font-display text-[1.4rem] md:text-[1.6rem] text-[var(--c-dark)] tracking-tight mb-1">Livros & Curadoria</h4>
-                <p class="text-[0.9rem] font-light leading-relaxed text-[var(--c-dark)] opacity-60">Acervo vivo à disposição em todos os ambientes. Leia no local ou troque até dois exemplares por consumação.</p>
+                <h4 class="font-display text-[1.4rem] md:text-[1.6rem] text-[var(--c-dark)] tracking-tight mb-1">Livros
+                  & Curadoria</h4>
+                <p class="text-[0.9rem] font-light leading-relaxed text-[var(--c-dark)] opacity-60">Acervo vivo à
+                  disposição em todos os ambientes. Leia no local ou troque até dois exemplares por consumação.</p>
               </div>
             </div>
           </div>
 
           <!-- Pillar 2 -->
-          <div class="flex flex-col exp-pillar opacity-0 translate-y-8 blur-[10px] relative z-10 p-5 md:p-6 group cursor-crosshair">
+          <div
+            class="flex flex-col exp-pillar opacity-0 translate-y-8 blur-[10px] relative z-10 p-5 md:p-6 group cursor-crosshair">
             <!-- Delayed Background Box -->
-            <div class="absolute inset-0 rounded-xl bg-white shadow-[0_12px_24px_rgba(26,26,26,0.04)] border border-black/[0.04] opacity-0 transition-opacity duration-500 delay-0 group-hover:opacity-100 group-hover:delay-[250ms] pointer-events-none -z-10"></div>
+            <div
+              class="absolute inset-0 rounded-xl bg-white shadow-[0_12px_24px_rgba(26,26,26,0.04)] border border-black/[0.04] opacity-0 transition-opacity duration-500 delay-0 group-hover:opacity-100 group-hover:delay-[250ms] pointer-events-none -z-10">
+            </div>
             <!-- Content -->
             <div class="flex items-start gap-5 relative z-10">
               <!-- Left Column: Number + Line -->
               <div class="flex flex-col items-center mt-1">
-                <span class="font-mono text-[11px] font-bold text-[var(--c-dark)] opacity-[0.35] mb-3 group-hover:opacity-100 transition-opacity duration-200">02</span>
-                <div class="w-[1px] h-full min-h-[46px] bg-[var(--c-dark)] opacity-[0.15] group-hover:opacity-100 transition-opacity duration-200"></div>
+                <span
+                  class="font-mono text-[11px] font-bold text-[var(--c-dark)] opacity-[0.35] mb-3 group-hover:opacity-100 transition-opacity duration-200">02</span>
+                <div
+                  class="w-[1px] h-full min-h-[46px] bg-[var(--c-dark)] opacity-[0.15] group-hover:opacity-100 transition-opacity duration-200">
+                </div>
               </div>
-              
+
               <!-- Right Column: Title + Desc -->
               <div class="flex flex-col">
-                <h4 class="font-display text-[1.4rem] md:text-[1.6rem] text-[var(--c-dark)] tracking-tight mb-1">Café & Ritual</h4>
-                <p class="text-[0.9rem] font-light leading-relaxed text-[var(--c-dark)] opacity-60">O respeito ao tempo de cada extração e o grão selecionado para elevar qualquer momento do seu dia.</p>
+                <h4 class="font-display text-[1.4rem] md:text-[1.6rem] text-[var(--c-dark)] tracking-tight mb-1">Café &
+                  Ritual</h4>
+                <p class="text-[0.9rem] font-light leading-relaxed text-[var(--c-dark)] opacity-60">O respeito ao tempo
+                  de cada extração e o grão selecionado para elevar qualquer momento do seu dia.</p>
               </div>
             </div>
           </div>
 
           <!-- Pillar 3 -->
-          <div class="flex flex-col exp-pillar opacity-0 translate-y-8 blur-[10px] relative z-10 p-5 md:p-6 group cursor-crosshair">
+          <div
+            class="flex flex-col exp-pillar opacity-0 translate-y-8 blur-[10px] relative z-10 p-5 md:p-6 group cursor-crosshair">
             <!-- Delayed Background Box -->
-            <div class="absolute inset-0 rounded-xl bg-white shadow-[0_12px_24px_rgba(26,26,26,0.04)] border border-black/[0.04] opacity-0 transition-opacity duration-500 delay-0 group-hover:opacity-100 group-hover:delay-[250ms] pointer-events-none -z-10"></div>
+            <div
+              class="absolute inset-0 rounded-xl bg-white shadow-[0_12px_24px_rgba(26,26,26,0.04)] border border-black/[0.04] opacity-0 transition-opacity duration-500 delay-0 group-hover:opacity-100 group-hover:delay-[250ms] pointer-events-none -z-10">
+            </div>
             <!-- Content -->
             <div class="flex items-start gap-5 relative z-10">
               <!-- Left Column: Number + Line -->
               <div class="flex flex-col items-center mt-1">
-                <span class="font-mono text-[11px] font-bold text-[var(--c-dark)] opacity-[0.35] mb-3 group-hover:opacity-100 transition-opacity duration-200">03</span>
-                <div class="w-[1px] h-full min-h-[46px] bg-[var(--c-dark)] opacity-[0.15] group-hover:opacity-100 transition-opacity duration-200"></div>
+                <span
+                  class="font-mono text-[11px] font-bold text-[var(--c-dark)] opacity-[0.35] mb-3 group-hover:opacity-100 transition-opacity duration-200">03</span>
+                <div
+                  class="w-[1px] h-full min-h-[46px] bg-[var(--c-dark)] opacity-[0.15] group-hover:opacity-100 transition-opacity duration-200">
+                </div>
               </div>
-              
+
               <!-- Right Column: Title + Desc -->
               <div class="flex flex-col">
-                <h4 class="font-display text-[1.4rem] md:text-[1.6rem] text-[var(--c-dark)] tracking-tight mb-1">Atmosfera & Piano</h4>
-                <p class="text-[0.9rem] font-light leading-relaxed text-[var(--c-dark)] opacity-60">Isolamento acústico mesclado a notas suaves de piano, criando o ambiente perfeito para quem busca imersão.</p>
+                <h4 class="font-display text-[1.4rem] md:text-[1.6rem] text-[var(--c-dark)] tracking-tight mb-1">
+                  Atmosfera & Piano</h4>
+                <p class="text-[0.9rem] font-light leading-relaxed text-[var(--c-dark)] opacity-60">Isolamento acústico
+                  mesclado a notas suaves de piano, criando o ambiente perfeito para quem busca imersão.</p>
               </div>
             </div>
           </div>
-          
+
         </div>
 
       </div>
@@ -1129,14 +1232,21 @@
   </section>
 
   <!-- SECTION 3: SABORES E OBRAS -->
-  <section id="featured" class="relative z-[60] overflow-hidden rounded-t-[40px] shadow-[0_-20px_60px_rgba(26,26,26,0.05)] -mt-8" style="background:linear-gradient(180deg,var(--c-bg) 0%,#f7f4ef 50%,#f4f0e8 100%);padding:8rem 0 10rem;">
+  <section id="featured"
+    class="relative z-[60] overflow-hidden rounded-t-[40px] shadow-[0_-20px_60px_rgba(26,26,26,0.05)] -mt-8"
+    style="background:linear-gradient(180deg,var(--c-bg) 0%,#f7f4ef 50%,#f4f0e8 100%);padding:8rem 0 10rem;">
 
     <!-- Warm ambient glows -->
-    <div aria-hidden="true" style="position:absolute;top:-60px;left:-100px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(183,147,88,0.10) 0%,transparent 70%);filter:blur(70px);pointer-events:none;z-index:0;"></div>
-    <div aria-hidden="true" style="position:absolute;bottom:-40px;right:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(43,74,59,0.07) 0%,transparent 70%);filter:blur(70px);pointer-events:none;z-index:0;"></div>
+    <div aria-hidden="true"
+      style="position:absolute;top:-60px;left:-100px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(183,147,88,0.10) 0%,transparent 70%);filter:blur(70px);pointer-events:none;z-index:0;">
+    </div>
+    <div aria-hidden="true"
+      style="position:absolute;bottom:-40px;right:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(43,74,59,0.07) 0%,transparent 70%);filter:blur(70px);pointer-events:none;z-index:0;">
+    </div>
 
     <!-- Editorial vertical lines -->
-    <div aria-hidden="true" style="position:absolute;inset:0;display:flex;justify-content:space-between;padding:0 4rem;pointer-events:none;z-index:0;">
+    <div aria-hidden="true"
+      style="position:absolute;inset:0;display:flex;justify-content:space-between;padding:0 4rem;pointer-events:none;z-index:0;">
       <div style="width:1px;height:100%;background:rgba(26,26,26,0.04);"></div>
       <div style="width:1px;height:100%;background:rgba(26,26,26,0.04);"></div>
       <div style="width:1px;height:100%;background:rgba(26,26,26,0.04);"></div>
@@ -1149,22 +1259,27 @@
 
       <!-- HEADER -->
       <div class="feat-reveal opacity-0 translate-y-6" style="margin-bottom:4.5rem;">
-        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1.1rem;">
-          <span style="width:5px;height:5px;border-radius:50%;background:var(--c-primary);display:inline-block;"></span>
-          <span style="font-size:0.58rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:var(--c-primary);font-family:var(--f-mono);">02 / Sabores &amp; Obras</span>
+        <div class="flex items-center gap-3 mb-6">
+          <span class="w-2 h-2 rounded-full bg-[var(--c-primary)] animate-pulse inline-block"></span>
+          <span class="text-[10px] md:text-xs text-[var(--c-primary)] font-bold uppercase tracking-[0.2em] font-mono">02
+            / Sabores &amp; Obras</span>
         </div>
         <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:2rem;">
           <div class="word-wrap split-parent" style="overflow:hidden;">
-            <h2 id="featured-title" style="font-family:'Instrument Serif',serif;font-size:clamp(2.6rem,5.5vw,5rem);line-height:1;letter-spacing:-0.025em;color:var(--c-dark);font-weight:400;margin:0;">
+            <h2 id="featured-title"
+              style="font-family:'Instrument Serif',serif;font-size:clamp(2.6rem,5.5vw,5rem);line-height:1;letter-spacing:-0.025em;color:var(--c-dark);font-weight:400;margin:0;">
               <span class="word-inner" style="display:block;">Sabores que</span>
-              <span class="word-inner" style="display:block;font-style:italic;color:var(--c-dark);">contam hist&#243;rias</span>
+              <span class="word-inner" style="display:block;font-style:italic;color:var(--c-dark);">contam
+                hist&#243;rias</span>
             </h2>
           </div>
-          <p class="feat-reveal opacity-0" style="font-size:0.9rem;font-weight:300;line-height:1.8;color:rgba(26,26,26,0.48);max-width:280px;text-align:right;margin:0;">
+          <p class="feat-reveal opacity-0"
+            style="font-size:0.9rem;font-weight:300;line-height:1.8;color:rgba(26,26,26,0.48);max-width:280px;text-align:right;margin:0;">
             Uma curadoria para acompanhar cada leitura &#8212; com pausa e inten&#231;&#227;o.
           </p>
         </div>
-        <div style="margin-top:2rem;height:1px;background:linear-gradient(to right,rgba(26,26,26,0.07),transparent);"></div>
+        <div style="margin-top:2rem;height:1px;background:linear-gradient(to right,rgba(26,26,26,0.07),transparent);">
+        </div>
       </div>
 
       <!-- GALLERY -->
@@ -1172,54 +1287,93 @@
 
         <!-- Card 1 -->
         <div class="feat-card" style="opacity:0;transform:translateY(60px);margin-top:0;">
-          <div class="feat-card-inner" style="position:relative;width:100%;aspect-ratio:3/4;border-radius:22px;overflow:hidden;background:#ede8e0;box-shadow:0 12px 40px rgba(26,26,26,0.07),0 3px 10px rgba(26,26,26,0.04);">
-            <img src="../../raw_files/_MG_1789.jpg" alt="Croissant Brie e Mel" class="feat-img" style="position:absolute;top:-10%;left:0;width:100%;height:120%;object-fit:cover;transform:scale(1.35);will-change:transform;filter:saturate(0.85) brightness(1.03);transition:transform 0.85s cubic-bezier(0.22,1,0.36,1),filter 0.4s ease;" loading="lazy">
+          <div class="feat-card-inner"
+            style="position:relative;width:100%;aspect-ratio:3/4;border-radius:22px;overflow:hidden;background:#ede8e0;box-shadow:0 12px 40px rgba(26,26,26,0.07),0 3px 10px rgba(26,26,26,0.04);">
+            <img src="../../raw_files/_MG_1789.jpg" alt="Croissant Brie e Mel" class="feat-img"
+              style="position:absolute;top:-10%;left:0;width:100%;height:120%;object-fit:cover;transform:scale(1.35);will-change:transform;filter:saturate(0.85) brightness(1.03);transition:transform 0.85s cubic-bezier(0.22,1,0.36,1),filter 0.4s ease;"
+              loading="lazy">
             <!-- Warm ivory veil on hover (no black!) -->
-            <div class="feat-veil" style="position:absolute;inset:0;z-index:5;opacity:0;transition:opacity 0.5s ease;background:linear-gradient(to top,rgba(245,238,225,0.94) 0%,rgba(245,238,225,0.35) 55%,transparent 100%);"></div>
+            <div class="feat-veil"
+              style="position:absolute;inset:0;z-index:5;opacity:0;transition:opacity 0.5s ease;background:linear-gradient(to top,rgba(245,238,225,0.94) 0%,rgba(245,238,225,0.35) 55%,transparent 100%);">
+            </div>
             <!-- Info panel -->
-            <div class="feat-panel" style="position:absolute;bottom:0;left:0;right:0;z-index:10;padding:1.75rem 1.5rem;opacity:0;transform:translateY(10px);transition:all 0.4s ease;">
+            <div class="feat-panel"
+              style="position:absolute;bottom:0;left:0;right:0;z-index:10;padding:1.75rem 1.5rem;opacity:0;transform:translateY(10px);transition:all 0.4s ease;">
               <div style="width:20px;height:1px;background:var(--c-primary);margin-bottom:0.75rem;opacity:0.7;"></div>
-              <h3 style="font-family:'Instrument Serif',serif;font-size:1.35rem;color:var(--c-dark);letter-spacing:-0.01em;margin:0 0 0.35rem;line-height:1.2;">Croissant Brie e Mel</h3>
-              <p style="font-size:0.8rem;font-weight:300;color:rgba(26,26,26,0.55);line-height:1.65;margin:0;">Para leituras longas e tardes suaves.</p>
+              <h3
+                style="font-family:'Instrument Serif',serif;font-size:1.35rem;color:var(--c-dark);letter-spacing:-0.01em;margin:0 0 0.35rem;line-height:1.2;">
+                Croissant Brie e Mel</h3>
+              <p style="font-size:0.8rem;font-weight:300;color:rgba(26,26,26,0.55);line-height:1.65;margin:0;">Para
+                leituras longas e tardes suaves.</p>
             </div>
           </div>
           <div class="feat-label" style="padding:1rem 0.2rem 0;transition:opacity 0.3s,transform 0.3s;">
-            <p style="font-family:var(--f-mono);font-size:0.58rem;color:var(--c-primary);opacity:0.4;margin:0 0 0.3rem;letter-spacing:0.18em;">01</p>
-            <h3 style="font-family:'Instrument Serif',serif;font-size:1.2rem;color:var(--c-dark);margin:0;letter-spacing:-0.01em;">Croissant Brie e Mel</h3>
+            <p
+              style="font-family:var(--f-mono);font-size:0.58rem;color:var(--c-primary);opacity:0.4;margin:0 0 0.3rem;letter-spacing:0.18em;">
+              01</p>
+            <h3
+              style="font-family:'Instrument Serif',serif;font-size:1.2rem;color:var(--c-dark);margin:0;letter-spacing:-0.01em;">
+              Croissant Brie e Mel</h3>
           </div>
         </div>
 
         <!-- Card 2 (pushed down) -->
         <div class="feat-card" style="opacity:0;transform:translateY(60px);margin-top:4.5rem;">
-          <div class="feat-card-inner" style="position:relative;width:100%;aspect-ratio:3/4;border-radius:22px;overflow:hidden;background:#e8e2d6;box-shadow:0 12px 40px rgba(26,26,26,0.07),0 3px 10px rgba(26,26,26,0.04);">
-            <img src="../../raw_files/_MG_1794.jpg" alt="Cappuccino Italiano" class="feat-img" style="position:absolute;top:-10%;left:0;width:100%;height:120%;object-fit:cover;transform:scale(1.35);will-change:transform;filter:saturate(0.85) brightness(1.03);transition:transform 0.85s cubic-bezier(0.22,1,0.36,1),filter 0.4s ease;" loading="lazy">
-            <div class="feat-veil" style="position:absolute;inset:0;z-index:5;opacity:0;transition:opacity 0.5s ease;background:linear-gradient(to top,rgba(240,232,218,0.94) 0%,rgba(240,232,218,0.35) 55%,transparent 100%);"></div>
-            <div class="feat-panel" style="position:absolute;bottom:0;left:0;right:0;z-index:10;padding:1.75rem 1.5rem;opacity:0;transform:translateY(10px);transition:all 0.4s ease;">
+          <div class="feat-card-inner"
+            style="position:relative;width:100%;aspect-ratio:3/4;border-radius:22px;overflow:hidden;background:#e8e2d6;box-shadow:0 12px 40px rgba(26,26,26,0.07),0 3px 10px rgba(26,26,26,0.04);">
+            <img src="../../raw_files/_MG_1794.jpg" alt="Cappuccino Italiano" class="feat-img"
+              style="position:absolute;top:-10%;left:0;width:100%;height:120%;object-fit:cover;transform:scale(1.35);will-change:transform;filter:saturate(0.85) brightness(1.03);transition:transform 0.85s cubic-bezier(0.22,1,0.36,1),filter 0.4s ease;"
+              loading="lazy">
+            <div class="feat-veil"
+              style="position:absolute;inset:0;z-index:5;opacity:0;transition:opacity 0.5s ease;background:linear-gradient(to top,rgba(240,232,218,0.94) 0%,rgba(240,232,218,0.35) 55%,transparent 100%);">
+            </div>
+            <div class="feat-panel"
+              style="position:absolute;bottom:0;left:0;right:0;z-index:10;padding:1.75rem 1.5rem;opacity:0;transform:translateY(10px);transition:all 0.4s ease;">
               <div style="width:20px;height:1px;background:var(--c-primary);margin-bottom:0.75rem;opacity:0.7;"></div>
-              <h3 style="font-family:'Instrument Serif',serif;font-size:1.35rem;color:var(--c-dark);letter-spacing:-0.01em;margin:0 0 0.35rem;line-height:1.2;">Cappuccino Italiano</h3>
-              <p style="font-size:0.8rem;font-weight:300;color:rgba(26,26,26,0.55);line-height:1.65;margin:0;">Veludo e silêncio, num copo s&#243;.</p>
+              <h3
+                style="font-family:'Instrument Serif',serif;font-size:1.35rem;color:var(--c-dark);letter-spacing:-0.01em;margin:0 0 0.35rem;line-height:1.2;">
+                Cappuccino Italiano</h3>
+              <p style="font-size:0.8rem;font-weight:300;color:rgba(26,26,26,0.55);line-height:1.65;margin:0;">Veludo e
+                silêncio, num copo s&#243;.</p>
             </div>
           </div>
           <div class="feat-label" style="padding:1rem 0.2rem 0;transition:opacity 0.3s,transform 0.3s;">
-            <p style="font-family:var(--f-mono);font-size:0.58rem;color:var(--c-primary);opacity:0.4;margin:0 0 0.3rem;letter-spacing:0.18em;">02</p>
-            <h3 style="font-family:'Instrument Serif',serif;font-size:1.2rem;color:var(--c-dark);margin:0;letter-spacing:-0.01em;">Cappuccino Italiano</h3>
+            <p
+              style="font-family:var(--f-mono);font-size:0.58rem;color:var(--c-primary);opacity:0.4;margin:0 0 0.3rem;letter-spacing:0.18em;">
+              02</p>
+            <h3
+              style="font-family:'Instrument Serif',serif;font-size:1.2rem;color:var(--c-dark);margin:0;letter-spacing:-0.01em;">
+              Cappuccino Italiano</h3>
           </div>
         </div>
 
         <!-- Card 3 (mid offset) -->
         <div class="feat-card" style="opacity:0;transform:translateY(60px);margin-top:2rem;">
-          <div class="feat-card-inner" style="position:relative;width:100%;aspect-ratio:3/4;border-radius:22px;overflow:hidden;background:#ece5d8;box-shadow:0 12px 40px rgba(26,26,26,0.07),0 3px 10px rgba(26,26,26,0.04);">
-            <img src="../../raw_files/_MG_1804.jpg" alt="Tapioca do Sertao" class="feat-img" style="position:absolute;top:-10%;left:0;width:100%;height:120%;object-fit:cover;transform:scale(1.35);will-change:transform;filter:saturate(0.85) brightness(1.03);transition:transform 0.85s cubic-bezier(0.22,1,0.36,1),filter 0.4s ease;" loading="lazy">
-            <div class="feat-veil" style="position:absolute;inset:0;z-index:5;opacity:0;transition:opacity 0.5s ease;background:linear-gradient(to top,rgba(242,235,220,0.94) 0%,rgba(242,235,220,0.35) 55%,transparent 100%);"></div>
-            <div class="feat-panel" style="position:absolute;bottom:0;left:0;right:0;z-index:10;padding:1.75rem 1.5rem;opacity:0;transform:translateY(10px);transition:all 0.4s ease;">
+          <div class="feat-card-inner"
+            style="position:relative;width:100%;aspect-ratio:3/4;border-radius:22px;overflow:hidden;background:#ece5d8;box-shadow:0 12px 40px rgba(26,26,26,0.07),0 3px 10px rgba(26,26,26,0.04);">
+            <img src="../../raw_files/_MG_1804.jpg" alt="Tapioca do Sertao" class="feat-img"
+              style="position:absolute;top:-10%;left:0;width:100%;height:120%;object-fit:cover;transform:scale(1.35);will-change:transform;filter:saturate(0.85) brightness(1.03);transition:transform 0.85s cubic-bezier(0.22,1,0.36,1),filter 0.4s ease;"
+              loading="lazy">
+            <div class="feat-veil"
+              style="position:absolute;inset:0;z-index:5;opacity:0;transition:opacity 0.5s ease;background:linear-gradient(to top,rgba(242,235,220,0.94) 0%,rgba(242,235,220,0.35) 55%,transparent 100%);">
+            </div>
+            <div class="feat-panel"
+              style="position:absolute;bottom:0;left:0;right:0;z-index:10;padding:1.75rem 1.5rem;opacity:0;transform:translateY(10px);transition:all 0.4s ease;">
               <div style="width:20px;height:1px;background:var(--c-primary);margin-bottom:0.75rem;opacity:0.7;"></div>
-              <h3 style="font-family:'Instrument Serif',serif;font-size:1.35rem;color:var(--c-dark);letter-spacing:-0.01em;margin:0 0 0.35rem;line-height:1.2;">Tapioca do Sert&#227;o</h3>
-              <p style="font-size:0.8rem;font-weight:300;color:rgba(26,26,26,0.55);line-height:1.65;margin:0;">Mem&#243;ria e calor numa mordida.</p>
+              <h3
+                style="font-family:'Instrument Serif',serif;font-size:1.35rem;color:var(--c-dark);letter-spacing:-0.01em;margin:0 0 0.35rem;line-height:1.2;">
+                Tapioca do Sert&#227;o</h3>
+              <p style="font-size:0.8rem;font-weight:300;color:rgba(26,26,26,0.55);line-height:1.65;margin:0;">
+                Mem&#243;ria e calor numa mordida.</p>
             </div>
           </div>
           <div class="feat-label" style="padding:1rem 0.2rem 0;transition:opacity 0.3s,transform 0.3s;">
-            <p style="font-family:var(--f-mono);font-size:0.58rem;color:var(--c-primary);opacity:0.4;margin:0 0 0.3rem;letter-spacing:0.18em;">03</p>
-            <h3 style="font-family:'Instrument Serif',serif;font-size:1.2rem;color:var(--c-dark);margin:0;letter-spacing:-0.01em;">Tapioca do Sert&#227;o</h3>
+            <p
+              style="font-family:var(--f-mono);font-size:0.58rem;color:var(--c-primary);opacity:0.4;margin:0 0 0.3rem;letter-spacing:0.18em;">
+              03</p>
+            <h3
+              style="font-family:'Instrument Serif',serif;font-size:1.2rem;color:var(--c-dark);margin:0;letter-spacing:-0.01em;">
+              Tapioca do Sert&#227;o</h3>
           </div>
         </div>
 
@@ -1228,14 +1382,37 @@
 
     <!-- Hover interactions (pure CSS) -->
     <style>
-      .feat-card-inner:hover img.feat-img { transform: scale(1.4) !important; filter: saturate(0.92) brightness(1.05) !important; }
-      .feat-card-inner:hover .feat-veil { opacity: 1 !important; }
-      .feat-card-inner:hover .feat-panel { opacity: 1 !important; transform: translateY(0) !important; }
-      .feat-card-inner:hover { box-shadow: 0 24px 64px rgba(26,26,26,0.12), 0 6px 18px rgba(26,26,26,0.07) !important; }
-      .feat-card-inner:hover + .feat-label { opacity: 0; transform: translateY(-4px); }
-      @media(max-width:768px){
-        #featured > div > div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
-        .feat-card { margin-top: 0 !important; }
+      .feat-card-inner:hover img.feat-img {
+        transform: scale(1.4) !important;
+        filter: saturate(0.92) brightness(1.05) !important;
+      }
+
+      .feat-card-inner:hover .feat-veil {
+        opacity: 1 !important;
+      }
+
+      .feat-card-inner:hover .feat-panel {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+
+      .feat-card-inner:hover {
+        box-shadow: 0 24px 64px rgba(26, 26, 26, 0.12), 0 6px 18px rgba(26, 26, 26, 0.07) !important;
+      }
+
+      .feat-card-inner:hover+.feat-label {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+
+      @media(max-width:768px) {
+        #featured>div>div[style*="grid-template-columns"] {
+          grid-template-columns: 1fr !important;
+        }
+
+        .feat-card {
+          margin-top: 0 !important;
+        }
       }
     </style>
 
@@ -1253,14 +1430,21 @@
 
 
   <!-- ══ LOCATION MODAL ═══════════════════════════════════════════ -->
-  <div id="location-modal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300" aria-modal="true" role="dialog">
+  <div id="location-modal"
+    class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300"
+    aria-modal="true" role="dialog">
     <!-- Backdrop -->
     <div class="absolute inset-0 bg-black/40 backdrop-blur-sm cursor-pointer" onclick="closeLocationModal()"></div>
-    
+
     <!-- Modal Content -->
-    <div class="relative w-full max-w-lg bg-white rounded-[32px] p-8 md:p-10 shadow-2xl transform scale-95 opacity-0 transition-transform duration-300" id="location-modal-content">
-      <button onclick="closeLocationModal()" class="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-black/5 hover:bg-black/10 transition-colors text-black/40 hover:text-black">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    <div
+      class="relative w-full max-w-lg bg-white rounded-[32px] p-8 md:p-10 shadow-2xl transform scale-95 opacity-0 transition-transform duration-300"
+      id="location-modal-content">
+      <button onclick="closeLocationModal()"
+        class="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-black/5 hover:bg-black/10 transition-colors text-black/40 hover:text-black">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
       </button>
 
       <h3 class="font-display text-3xl text-[var(--c-dark)] tracking-tight mb-4">Como chegar</h3>
@@ -1268,15 +1452,23 @@
         Nosso espaço fica localizado no coração do bairro. Será um prazer receber você para uma pausa.
       </p>
 
-      <div class="w-full rounded-[16px] bg-black/5 overflow-hidden border border-black/10 p-6 mb-8 flex flex-col items-center justify-center text-center">
-        <svg class="w-10 h-10 text-[var(--c-primary)] mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+      <div
+        class="w-full rounded-[16px] bg-black/5 overflow-hidden border border-black/10 p-6 mb-8 flex flex-col items-center justify-center text-center">
+        <svg class="w-10 h-10 text-[var(--c-primary)] mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.5">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
         <span class="text-sm text-[var(--c-dark)] font-medium">Giardini Café & Livraria</span>
         <span class="text-xs text-black/50 mt-1">Rua Central, 123 - Centro</span>
       </div>
 
-      <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="btn-primary w-full flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform">
+      <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer"
+        class="btn-primary w-full flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform">
         Abrir no Google Maps
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
+        </svg>
       </a>
     </div>
   </div>
@@ -1406,16 +1598,16 @@
         function getInitialFrameRect() {
           const right = document.getElementById('hero-right');
           const vp = document.getElementById('hero-viewport');
-          
+
           const rRect = right.getBoundingClientRect();
           const vpRect = vp.getBoundingClientRect();
-          
+
           const cs = getComputedStyle(right);
           const pt = parseFloat(cs.paddingTop);
           const pr = parseFloat(cs.paddingRight);
           const pb = parseFloat(cs.paddingBottom);
           const pl = parseFloat(cs.paddingLeft);
-          
+
           return {
             left: (rRect.left - vpRect.left) + pl,
             top: (rRect.top - vpRect.top) + pt,
@@ -1463,13 +1655,13 @@
 
           /* ── HERO ENTRANCE: cinematic per-element blur+fade+parallax ── */
           gsap.set('#el-kicker', { opacity: 0, y: 28, filter: 'blur(12px)' });
-          gsap.set('#el-h1a',    { y: '110%', filter: 'blur(8px)' });
-          gsap.set('#el-h1b',    { y: '110%', filter: 'blur(8px)' });
-          gsap.set('#el-body',   { opacity: 0, y: 22, filter: 'blur(10px)' });
-          gsap.set('#el-cta',    { opacity: 0, y: 20, filter: 'blur(8px)' });
-          gsap.set('#el-meta',   { opacity: 0, y: 14, filter: 'blur(6px)' });
+          gsap.set('#el-h1a', { y: '110%', filter: 'blur(8px)' });
+          gsap.set('#el-h1b', { y: '110%', filter: 'blur(8px)' });
+          gsap.set('#el-body', { opacity: 0, y: 22, filter: 'blur(10px)' });
+          gsap.set('#el-cta', { opacity: 0, y: 20, filter: 'blur(8px)' });
+          gsap.set('#el-meta', { opacity: 0, y: 14, filter: 'blur(6px)' });
           gsap.set('#el-scroll', { opacity: 0, y: 10 });
-          gsap.set('#navbar',    { opacity: 0 });
+          gsap.set('#navbar', { opacity: 0 });
 
           const tl = gsap.timeline({
             delay: 0.05,
@@ -1488,16 +1680,16 @@
           });
 
           tl
-            .to('#navbar',   { opacity: 1, duration: 0.7, ease: 'power2.out' })
-            .to('#el-kicker',{ opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'expo.out' }, '-=0.4')
+            .to('#navbar', { opacity: 1, duration: 0.7, ease: 'power2.out' })
+            .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'expo.out' }, '-=0.4')
             .add('titleShow', '-=0.65')
-            .to('#el-h1a',   { y: '0%', filter: 'blur(0px)', duration: 1.35, ease: 'expo.out' }, 'titleShow')
-            .to(frame,       { opacity: 1, scale: 1, borderRadius: 22, duration: 1.5, ease: 'power4.out' }, 'titleShow')
-            .to('#el-h1b',   { y: '0%', filter: 'blur(0px)', duration: 1.35, ease: 'expo.out' }, 'titleShow+=0.12')
-            .to('#el-body',  { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, 'titleShow+=0.32')
-            .to('#el-cta',   { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.85, ease: 'power3.out' }, 'titleShow+=0.48')
-            .to('#el-meta',  { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' }, 'titleShow+=0.66')
-            .to(['#el-badge','#el-scroll'], { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out', stagger: 0.12 }, 'titleShow+=0.72');
+            .to('#el-h1a', { y: '0%', filter: 'blur(0px)', duration: 1.35, ease: 'expo.out' }, 'titleShow')
+            .to(frame, { opacity: 1, scale: 1, borderRadius: 22, duration: 1.5, ease: 'power4.out' }, 'titleShow')
+            .to('#el-h1b', { y: '0%', filter: 'blur(0px)', duration: 1.35, ease: 'expo.out' }, 'titleShow+=0.12')
+            .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, 'titleShow+=0.32')
+            .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.85, ease: 'power3.out' }, 'titleShow+=0.48')
+            .to('#el-meta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' }, 'titleShow+=0.66')
+            .to(['#el-badge', '#el-scroll'], { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out', stagger: 0.12 }, 'titleShow+=0.72');
 
           /* ── SCROLL-OUT: staggered parallax per element ─────────────── */
           gsap.fromTo('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
@@ -1569,6 +1761,7 @@
           gsap.to(frame, {
             left: 0, top: 0, width: '100vw', height: '100vh',
             borderRadius: 0, boxShadow: '0 0 0 0 transparent',
+            zIndex: 40,
             ease: 'power2.inOut',
             scrollTrigger: {
               trigger: wrapper, start: 'top top',
@@ -1596,7 +1789,7 @@
           /* ── SECTION 2 ANIMATION (2-Col Layout Polished) ─────────── */
           // Set initial states for word mask
           gsap.set('.word-inner', { y: '110%' });
-          
+
           // Parallax background text and glows
           gsap.to('#parallax-text span', {
             x: '-30%',
@@ -1608,13 +1801,13 @@
               scrub: true
             }
           });
-          
+
           gsap.to('.parallax-glow-1', {
             yPercent: -40,
             ease: 'none',
             scrollTrigger: { trigger: '#experience', start: 'top bottom', end: 'bottom top', scrub: true }
           });
-          
+
           gsap.to('.parallax-glow-2', {
             yPercent: 40,
             ease: 'none',
@@ -1629,35 +1822,35 @@
               const tExp = gsap.timeline();
 
               tExp.add('start')
-              .to('.exp-left', {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                filter: 'blur(0px)',
-                duration: 1.6,
-                ease: 'power3.out'
-              }, 'start')
-              .to('.exp-left-img', {
-                scale: 1,
-                duration: 2.0,
-                ease: 'power3.out',
-                clearProps: 'transform'
-              }, 'start')
-              .to('.sec2-title', {
-                opacity: 1,
-                y: 0,
-                filter: 'blur(0px)',
-                duration: 1.0,
-                ease: 'power3.out'
-              }, 'start+=0.4')
-              .to('.exp-pillar', {
-                opacity: 1,
-                y: 0,
-                filter: 'blur(0px)',
-                duration: 1.0,
-                ease: 'power3.out',
-                stagger: 0.4
-              }, 'start+=1.2');
+                .to('.exp-left', {
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                  filter: 'blur(0px)',
+                  duration: 1.6,
+                  ease: 'power3.out'
+                }, 'start')
+                .to('.exp-left-img', {
+                  scale: 1,
+                  duration: 2.0,
+                  ease: 'power3.out',
+                  clearProps: 'transform'
+                }, 'start')
+                .to('.sec2-title', {
+                  opacity: 1,
+                  y: 0,
+                  filter: 'blur(0px)',
+                  duration: 1.0,
+                  ease: 'power3.out'
+                }, 'start+=0.4')
+                .to('.exp-pillar', {
+                  opacity: 1,
+                  y: 0,
+                  filter: 'blur(0px)',
+                  duration: 1.0,
+                  ease: 'power3.out',
+                  stagger: 0.4
+                }, 'start+=1.2');
             }
           });
 
@@ -1673,34 +1866,34 @@
               const tFeat = gsap.timeline();
 
               tFeat.add('start')
-              // Heading mask reveal
-              .to('#featured .word-inner', {
-                y: '0%',
-                duration: 1.1,
-                ease: 'expo.out',
-                stagger: 0.04
-              }, 'start')
-              // Label + subtitle reveal
-              .to('.feat-reveal', {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                ease: 'power3.out',
-                stagger: 0.1
-              }, 'start+=0.3')
-              // Cards stagger reveal (elegant waterfall)
-              .to('.feat-card', {
-                opacity: 1,
-                y: 0,
-                duration: 1.0,
-                ease: 'power3.out',
-                stagger: 0.15
-              }, 'start+=0.4');
+                // Heading mask reveal
+                .to('#featured .word-inner', {
+                  y: '0%',
+                  duration: 1.1,
+                  ease: 'expo.out',
+                  stagger: 0.04
+                }, 'start')
+                // Label + subtitle reveal
+                .to('.feat-reveal', {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.8,
+                  ease: 'power3.out',
+                  stagger: 0.1
+                }, 'start+=0.3')
+                // Cards stagger reveal (elegant waterfall)
+                .to('.feat-card', {
+                  opacity: 1,
+                  y: 0,
+                  duration: 1.0,
+                  ease: 'power3.out',
+                  stagger: 0.15
+                }, 'start+=0.4');
             }
           });
 
           // ── CREATIVE ANIMATIONS (NEW) ──────────────────────────────
-          
+
           // 1. Text Split & Char Reveal Logic
           function splitAndAnimate(selector, delayStart = 0) {
             const el = document.querySelector(selector);
@@ -1784,7 +1977,7 @@
           // 4. Parallax scroll for cards images
           document.querySelectorAll('.feat-img').forEach((img, i) => {
             const card = img.closest('.feat-card');
-            const direction = i % 2 === 0 ? -8 : 8; 
+            const direction = i % 2 === 0 ? -8 : 8;
             gsap.to(img, {
               yPercent: direction,
               ease: 'none',
@@ -1799,26 +1992,26 @@
         }
 
         /* ══ LOCATION MODAL LOGIC ═════════════════════════════════════ */
-        window.openLocationModal = function() {
+        window.openLocationModal = function () {
           const modal = document.getElementById('location-modal');
           const content = document.getElementById('location-modal-content');
-          
+
           modal.classList.remove('pointer-events-none');
           modal.classList.replace('opacity-0', 'opacity-100');
-          
+
           setTimeout(() => {
             content.classList.replace('scale-95', 'scale-100');
             content.classList.replace('opacity-0', 'opacity-100');
           }, 50);
         };
 
-        window.closeLocationModal = function() {
+        window.closeLocationModal = function () {
           const modal = document.getElementById('location-modal');
           const content = document.getElementById('location-modal-content');
-          
+
           content.classList.replace('scale-100', 'scale-95');
           content.classList.replace('opacity-100', 'opacity-0');
-          
+
           setTimeout(() => {
             modal.classList.replace('opacity-100', 'opacity-0');
             modal.classList.add('pointer-events-none');
@@ -1835,7 +2028,7 @@
         };
 
         /* ══ HERO BG COLUMNS REVEAL ════════════════════════════════════ */
-        (function() {
+        (function () {
           const bgCols = document.getElementById('hero-bg-cols');
           if (!bgCols) return;
           const NUM_COLS = 9;
@@ -1853,7 +2046,7 @@
         })();
 
         /* ══ HERO MOUSE SPOTLIGHT ══════════════════════════════════════ */
-        (function() {
+        (function () {
           const viewport = document.getElementById('hero-viewport');
           const spotlight = document.getElementById('hero-spotlight');
           if (!viewport || !spotlight) return;
@@ -1882,32 +2075,28 @@
           });
         })();
 
-        /* ══ SCROLL PROGRESS LINE ══════════════════════════════════════ */
-        (function() {
+
+
+        /* ══ CUSTOM SCROLL INDICATOR LOGIC ════════════════════════════ */
+        (function () {
           const line = document.getElementById('scroll-progress-line');
           if (!line) return;
-          function updateProgress() {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = Math.min(100, (scrollTop / docHeight) * 100);
-            line.style.setProperty('--progress', progress + '%');
-            // Dynamic inline style since `::after` needs JS variable workaround
-            // Use a real element instead
-          }
-          // Use a child element for the fill
+
           const fill = document.createElement('div');
           fill.style.cssText = 'position:absolute;top:0;left:0;right:0;background:var(--c-primary);border-radius:2px;height:0%;transition:height 0.15s linear;';
           line.appendChild(fill);
-          window.addEventListener('scroll', () => {
+
+          function updateScrollProgress() {
             const scrollTop = window.scrollY;
             const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = Math.min(100, (scrollTop / docHeight) * 100);
-            fill.style.height = progress + '%';
-          }, { passive: true });
-        })();
+            const progress = (scrollTop / (docHeight || 1)) * 100;
+            fill.style.height = Math.min(100, Math.max(0, progress)) + '%';
+          }
 
-        /* ══ LIVE HERO CLOCK ═══════════════════════════════════════════ */
-        (function() {
+          window.addEventListener('scroll', updateScrollProgress, { passive: true });
+          updateScrollProgress();
+        })();
+        (function () {
           const clockEl = document.getElementById('hero-clock');
           if (!clockEl) return;
           function tick() {
