@@ -831,9 +831,16 @@
     </div><!-- /hero-viewport -->
   </div><!-- /hero-pin-wrapper -->
 
+  <!-- ══ HERO → SECTION 2 GRADIENT TRANSITION ══════════════════════ -->
+  <!-- Sutil efeito de continuidade: funde o final da hero com o início da próxima seção -->
+  <div class="pointer-events-none relative z-[59] w-full h-32 md:h-48 -mt-32 md:-mt-48"
+    style="background: linear-gradient(to bottom, transparent 0%, #FDFBF7 100%);"
+    aria-hidden="true">
+  </div>
+
   <!-- ══ SECTION 2: A EXPERIÊNCIA ═════════════════════════════════ -->
   <section id="experience"
-    class="py-32 md:py-48 px-8 md:px-20 max-w-[1600px] mx-auto bg-[var(--c-bg)] relative z-[60] overflow-hidden rounded-t-[40px] shadow-[0_-20px_50px_rgba(0,0,0,0.02)] border-t border-black/5 mt-[-2px]">
+    class="py-32 md:py-48 px-8 md:px-20 max-w-[1600px] mx-auto bg-[var(--c-bg)] relative z-[60] overflow-hidden rounded-t-[40px] shadow-[0_-40px_80px_rgba(253,251,247,0.8)]">
     
     <!-- Grid BG sutil -->
     <div class="hero-grid-bg opacity-[0.3]"></div>
@@ -844,9 +851,9 @@
 
     <!-- Parallax Watermark -->
     <div id="parallax-text"
-      class="absolute top-[30%] lg:right-0 lg:w-[50%] w-full flex items-center justify-center pointer-events-none opacity-[0.03] overflow-hidden z-0">
-      <span class="font-display text-[14vw] lg:text-[8vw] leading-none text-center whitespace-nowrap tracking-tighter"
-        style="transform: translateX(0%);">RITUAL</span>
+      class="absolute top-[35%] w-full flex items-center justify-center pointer-events-none opacity-[0.03] overflow-hidden z-0">
+      <span class="font-display text-[20vw] leading-none text-center whitespace-nowrap tracking-tighter"
+        style="transform: translateX(30%);">TEMPO</span>
     </div>
     
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center relative z-10 w-full">
@@ -878,40 +885,56 @@
         </p>
 
         <!-- 3 Pillars -->
-        <div class="flex flex-col gap-6 border-t border-black/5 pt-10 relative">
-          
-          <div class="absolute left-[40px] top-[40px] bottom-0 w-[1px] bg-gradient-to-b from-black/10 to-transparent z-0 hidden md:block exp-pillar-line scale-y-0 origin-top"></div>
+        <div class="flex flex-col gap-4 border-t border-black/5 pt-10 relative mt-4">
 
           <!-- Pillar 1 -->
-          <div onmousemove="window.updateMouse(this, event)" class="flex items-start gap-6 exp-pillar opacity-0 translate-y-6 relative z-10 p-5 rounded-[24px] glass-card flashlight-effect group cursor-default transition-all duration-300 hover:bg-black/[0.02]">
-            <div class="w-12 h-12 shrink-0 rounded-full bg-white border border-black/10 shadow-sm flex items-center justify-center text-[var(--c-primary)] group-hover:scale-110 transition-transform duration-500 relative z-10">
-              <svg class="draw-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-            </div>
-            <div class="relative z-10">
-              <h4 class="font-display text-2xl text-[var(--c-dark)] tracking-tight mb-2 group-hover:translate-x-1 transition-transform duration-300">Livros & Curadoria</h4>
-              <p class="text-[0.95rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)]">Acervo vivo à disposição em todos os ambientes. Leia no local ou troque até dois exemplares por consumação.</p>
+          <div onmousemove="window.updateMouse(this, event)" class="flex flex-col exp-pillar opacity-0 translate-y-6 relative z-10 p-6 rounded-[24px] glass-card flashlight-effect group cursor-crosshair transition-all duration-300 hover:bg-black/[0.02]">
+            <div class="flex items-start gap-5">
+              <!-- Left Column: Number + Line -->
+              <div class="flex flex-col items-center mt-1">
+                <span class="font-mono text-xs text-[var(--c-primary)] opacity-50 mb-3 group-hover:opacity-100 transition-opacity">01</span>
+                <div class="w-[1px] h-full min-h-[40px] bg-gradient-to-b from-[var(--c-primary)] to-transparent opacity-20 group-hover:opacity-40 transition-opacity"></div>
+              </div>
+              
+              <!-- Right Column: Title + Desc -->
+              <div class="flex flex-col">
+                <h4 class="font-display text-2xl md:text-[1.7rem] text-[var(--c-dark)] tracking-tight mb-3 group-hover:translate-x-1 transition-transform duration-300">Livros & Curadoria</h4>
+                <p class="text-[0.95rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)]">Acervo vivo à disposição em todos os ambientes. Leia no local ou troque até dois exemplares por consumação.</p>
+              </div>
             </div>
           </div>
 
           <!-- Pillar 2 -->
-          <div onmousemove="window.updateMouse(this, event)" class="flex items-start gap-6 exp-pillar opacity-0 translate-y-6 relative z-10 p-5 rounded-[24px] glass-card flashlight-effect group cursor-default transition-all duration-300 hover:bg-black/[0.02]">
-            <div class="w-12 h-12 shrink-0 rounded-full bg-white border border-black/10 shadow-sm flex items-center justify-center text-[var(--c-primary)] group-hover:scale-110 transition-transform duration-500 relative z-10">
-              <svg class="draw-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            </div>
-            <div class="relative z-10">
-              <h4 class="font-display text-2xl text-[var(--c-dark)] tracking-tight mb-2 group-hover:translate-x-1 transition-transform duration-300">Café & Ritual</h4>
-              <p class="text-[0.95rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)]">O respeito ao tempo de cada extração e o grão selecionado para elevar qualquer momento do seu dia.</p>
+          <div onmousemove="window.updateMouse(this, event)" class="flex flex-col exp-pillar opacity-0 translate-y-6 relative z-10 p-6 rounded-[24px] glass-card flashlight-effect group cursor-crosshair transition-all duration-300 hover:bg-black/[0.02]">
+            <div class="flex items-start gap-5">
+              <!-- Left Column: Number + Line -->
+              <div class="flex flex-col items-center mt-1">
+                <span class="font-mono text-xs text-[var(--c-primary)] opacity-50 mb-3 group-hover:opacity-100 transition-opacity">02</span>
+                <div class="w-[1px] h-full min-h-[40px] bg-gradient-to-b from-[var(--c-primary)] to-transparent opacity-20 group-hover:opacity-40 transition-opacity"></div>
+              </div>
+              
+              <!-- Right Column: Title + Desc -->
+              <div class="flex flex-col">
+                <h4 class="font-display text-2xl md:text-[1.7rem] text-[var(--c-dark)] tracking-tight mb-3 group-hover:translate-x-1 transition-transform duration-300">Café & Ritual</h4>
+                <p class="text-[0.95rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)]">O respeito ao tempo de cada extração e o grão selecionado para elevar qualquer momento do seu dia.</p>
+              </div>
             </div>
           </div>
 
           <!-- Pillar 3 -->
-          <div onmousemove="window.updateMouse(this, event)" class="flex items-start gap-6 exp-pillar opacity-0 translate-y-6 relative z-10 p-5 rounded-[24px] glass-card flashlight-effect group cursor-default transition-all duration-300 hover:bg-black/[0.02]">
-            <div class="w-12 h-12 shrink-0 rounded-full bg-white border border-black/10 shadow-sm flex items-center justify-center text-[var(--c-primary)] group-hover:scale-110 transition-transform duration-500 relative z-10">
-              <svg class="draw-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-            </div>
-            <div class="relative z-10">
-              <h4 class="font-display text-2xl text-[var(--c-dark)] tracking-tight mb-2 group-hover:translate-x-1 transition-transform duration-300">Atmosfera & Piano</h4>
-              <p class="text-[0.95rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)]">Isolamento acústico mesclado a notas suaves de piano, criando o ambiente perfeito para quem busca imersão.</p>
+          <div onmousemove="window.updateMouse(this, event)" class="flex flex-col exp-pillar opacity-0 translate-y-6 relative z-10 p-6 rounded-[24px] glass-card flashlight-effect group cursor-crosshair transition-all duration-300 hover:bg-black/[0.02]">
+            <div class="flex items-start gap-5">
+              <!-- Left Column: Number + Line -->
+              <div class="flex flex-col items-center mt-1">
+                <span class="font-mono text-xs text-[var(--c-primary)] opacity-50 mb-3 group-hover:opacity-100 transition-opacity">03</span>
+                <div class="w-[1px] h-full min-h-[40px] bg-gradient-to-b from-[var(--c-primary)] to-transparent opacity-20 group-hover:opacity-40 transition-opacity"></div>
+              </div>
+              
+              <!-- Right Column: Title + Desc -->
+              <div class="flex flex-col">
+                <h4 class="font-display text-2xl md:text-[1.7rem] text-[var(--c-dark)] tracking-tight mb-3 group-hover:translate-x-1 transition-transform duration-300">Atmosfera & Piano</h4>
+                <p class="text-[0.95rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)]">Isolamento acústico mesclado a notas suaves de piano, criando o ambiente perfeito para quem busca imersão.</p>
+              </div>
             </div>
           </div>
           
@@ -1379,13 +1402,12 @@
           });
 
           /* ── SECTION 2 ANIMATION (2-Col Layout Polished) ─────────── */
-          // Set initial states for SVG draw and word mask
+          // Set initial states for word mask
           gsap.set('.word-inner', { y: '110%' });
-          gsap.set('.draw-svg path, .draw-svg circle, .draw-svg polyline', { strokeDasharray: 200, strokeDashoffset: 200 });
           
           // Parallax background text and glows
           gsap.to('#parallax-text span', {
-            x: '-20%',
+            x: '-30%',
             ease: 'none',
             scrollTrigger: {
               trigger: '#experience',
@@ -1439,18 +1461,7 @@
                 duration: 0.8,
                 ease: 'power2.out',
                 stagger: 0.15
-              }, 'start+=0.6')
-              .to('.exp-pillar-line', {
-                scaleY: 1,
-                duration: 1.0,
-                ease: 'power3.inOut'
-              }, 'start+=0.6')
-              .to('.draw-svg path, .draw-svg circle, .draw-svg polyline', {
-                strokeDashoffset: 0,
-                duration: 1.8,
-                ease: 'power2.inOut',
-                stagger: 0.1
-              }, 'start+=0.8');
+              }, 'start+=0.6');
             }
           });
 
