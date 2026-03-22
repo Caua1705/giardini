@@ -108,6 +108,45 @@
     .nav-cta:hover { background: var(--c-primary); color: var(--c-bg); }
     @media (max-width: 768px) { .nav-cta { display: none; } }
 
+    /* ══ PREMIUM ANIMATION UTILITIES ═════════════════════════════════ */
+    .hero-grid-bg {
+      position: absolute; inset: 0; pointer-events: none; z-index: 1;
+      background-size: 40px 40px;
+      background-image: linear-gradient(to right, rgba(26,26,26,0.03) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(26,26,26,0.03) 1px, transparent 1px);
+      mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+    }
+
+    /* Beam Effect (Button) */
+    .shimmer-border {
+      position: relative; overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(43,74,59,0.2) inset;
+    }
+    .shimmer-border::before {
+      content: ""; position: absolute; inset: -2px; pointer-events: none;
+      background: conic-gradient(from 0deg, transparent 0% 320deg, rgba(43,74,59,0.8) 360deg);
+      animation: spin 3s linear infinite; opacity: 0; transition: opacity 0.5s;
+    }
+    .shimmer-border:hover::before { opacity: 1; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Flashlight on Hero Background */
+    #hero-viewport {
+      --mouse-x: 50%; --mouse-y: 50%;
+    }
+    #hero-viewport::after {
+      content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(43,74,59,0.03), transparent 40%);
+      opacity: 0; transition: opacity 0.5s ease;
+    }
+    #hero-viewport:hover::after { opacity: 1; }
+
+    .magnetic-btn {
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+    }
+
     /* ══ HERO LAYOUT ════════════════════════════════════════════════ */
     #hero-pin-wrapper { position: relative; }
 
@@ -312,6 +351,9 @@
   <div id="hero-pin-wrapper">
     <div id="hero-viewport" role="banner" aria-label="Hero — The Art of Espresso">
 
+      <!-- BACKGROUND OVERLAYS (Grid & Flashlight) -->
+      <div class="hero-grid-bg" aria-hidden="true"></div>
+
       <!-- LEFT: text -->
       <div id="hero-left">
         <div class="kicker" id="el-kicker">
@@ -334,7 +376,7 @@
         </p>
 
         <div class="hero-cta" id="el-cta">
-          <a href="#" class="btn-primary btn-order" aria-label="Fazer pedido agora">
+          <a href="#" class="btn-primary btn-order magnetic-btn shimmer-border" aria-label="Fazer pedido agora">
             Order Now
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
@@ -550,9 +592,9 @@
         onLeaveBack: () => document.getElementById('navbar').classList.remove('is-scrolled'),
       });
 
-      /* ── INTRO ANIMATION (design_system2 patterns) ───────────── */
-      gsap.set(['#el-kicker','#el-body','#el-cta','#el-meta','#el-scroll','#el-badge'], { opacity: 0 });
-      gsap.set(['#el-h1a','#el-h1b'], { y: '108%', filter: 'blur(10px)' });
+      /* ── INTRO ANIMATION (Blur/Fade-in sync with design_system2) ───────────── */
+      gsap.set(['#el-kicker', '#el-body', '#el-cta', '#el-meta', '#el-scroll', '#el-badge'], { opacity: 0, y: 15, filter: 'blur(8px)' });
+      gsap.set(['#el-h1a', '#el-h1b'], { y: '108%', filter: 'blur(10px)' });
       gsap.set(frame, { opacity: 0, scale: 0.94 });
       gsap.set('#navbar', { opacity: 0 });
 
@@ -561,19 +603,41 @@
         onStart: () => {
           document.body.style.opacity = '1';
           document.getElementById('hero-left').style.pointerEvents = 'auto';
+
+          // Initialize Flashlight tracking
+          const viewportElem = document.getElementById('hero-viewport');
+          viewportElem.addEventListener('mousemove', (e) => {
+            const rect = viewportElem.getBoundingClientRect();
+            viewportElem.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+            viewportElem.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+          });
+
+          // Initialize Magnetic Button
+          const magBtn = document.querySelector('.magnetic-btn');
+          if (magBtn) {
+            magBtn.addEventListener('mousemove', (e) => {
+              const rect = magBtn.getBoundingClientRect();
+              const x = e.clientX - rect.left - rect.width / 2;
+              const y = e.clientY - rect.top - rect.height / 2;
+              magBtn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+            magBtn.addEventListener('mouseleave', () => {
+              magBtn.style.transform = `translate(0px, 0px)`;
+            });
+          }
         }
       });
 
       tl
         .to('#navbar',     { opacity: 1, duration: 0.7, ease: 'power2.out' })
-        .to('#el-kicker',  { opacity: 1, duration: 0.9, ease: 'power3.out' }, '-=0.4')
+        .to('#el-kicker',  { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out' }, '-=0.4')
         .to('#el-h1a',     { y: '0%', filter: 'blur(0px)', duration: 1.25, ease: 'power4.out' }, '-=0.65')
         .to('#el-h1b',     { y: '0%', filter: 'blur(0px)', duration: 1.25, ease: 'power4.out' }, '-=1.1')
-        .to('#el-body',    { opacity: 1, duration: 1.0, ease: 'power3.out' }, '-=0.9')
-        .to('#el-cta',     { opacity: 1, duration: 0.8, ease: 'power3.out' }, '-=0.75')
-        .to('#el-meta',    { opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.55')
+        .to('#el-body',    { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, '-=0.9')
+        .to('#el-cta',     { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8, ease: 'power3.out' }, '-=0.75')
+        .to('#el-meta',    { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' }, '-=0.55')
         .to(frame,         { opacity: 1, scale: 1, borderRadius: 22, duration: 1.3, ease: 'power3.out' }, '-=1.1')
-        .to(['#el-badge','#el-scroll'], { opacity: 1, duration: 0.7, ease: 'power2.out', stagger: 0.12 }, '-=0.5');
+        .to(['#el-badge','#el-scroll'], { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out', stagger: 0.12 }, '-=0.5');
 
       /* ── SCROLL PIN ──────────────────────────────────────────── */
       ScrollTrigger.create({
@@ -604,14 +668,18 @@
         }
       });
 
-      /* ── TEXT FADE OUT (scroll) ──────────────────────────────── */
+      /* ── TEXT FADE/BLUR OUT (scroll) ──────────────────────────────── */
       gsap.to(['#el-kicker','#el-h1a','#el-h1b','#el-body','#el-cta','#el-meta'], {
-        opacity: 0, y: -28, filter: 'blur(5px)',
-        ease: 'power1.inOut',
-        stagger: { each: 0.04, from: 'end' },
+        opacity:   0,
+        y:         -30,
+        filter:    'blur(12px)',
+        ease:      'power2.in',
+        stagger:   { each: 0.05, from: 'end' },
         scrollTrigger: {
-          trigger: wrapper, start: 'top top',
-          end: () => `+=${scrollPx * 0.5}`, scrub: CONFIG.scrub,
+          trigger: wrapper,
+          start:   'top top',
+          end:     () => `+=${scrollPx * 0.45}`,
+          scrub:   CONFIG.scrub,
         }
       });
 
