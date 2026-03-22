@@ -71,6 +71,29 @@
       opacity: 0;
     }
 
+    /* FLOATING MINIMALIST SCROLLBAR (MAC STYLE) */
+    body::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+    body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: rgba(26, 26, 26, 0.2);
+      border-radius: 10px;
+      border: 4px solid transparent;
+      background-clip: padding-box;
+    }
+    body::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(26, 26, 26, 0.35);
+      border: 4px solid transparent;
+      background-clip: padding-box;
+    }
+    body {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(26, 26, 26, 0.2) transparent;
+    }
     /* ══ DESIGN SYSTEM CLASSES ═══════════════════════════════════════ */
     .font-display {
       font-family: 'Instrument Serif', serif;
@@ -305,7 +328,7 @@
       width: 1px;
       height: 90px;
       background: rgba(26,26,26,0.12);
-      z-index: 60;
+      z-index: 9999;
       border-radius: 2px;
     }
     #scroll-progress-line::after {
@@ -926,10 +949,9 @@
             <span class="line-inner" id="el-h1a">Onde o silêncio</span>
           </span>
           <span class="line" style="font-style:italic;">
-            <span class="line-inner" id="el-h1b">ganha acordes.</span>
+            <span class="line-inner" id="el-h1b">ganha <span class="text-[var(--c-primary)] relative inline-block group cursor-pointer transition-colors duration-400 mix-blend-multiply">acordes<span class="absolute left-0 bottom-[10%] w-full h-[3px] bg-[var(--c-primary)] origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100"></span></span>.</span>
           </span>
         </h1>
-
         <p class="hero-body" id="el-body">
           Entre o aroma de um espresso perfeito e as teclas de um piano, encontre o refúgio ideal para a sua próxima imersão literária.
         </p>
@@ -1007,81 +1029,90 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center relative z-10 w-full max-w-[1600px] mx-auto">
       
       <!-- LEFT COLUMN: IMAGE -->
-      <div class="lg:col-span-6 w-full h-[60vh] md:h-[80vh] rounded-[24px] overflow-hidden relative shadow-[0_40px_80px_rgba(0,0,0,0.08)] group exp-left translate-y-8 opacity-0">
+      <div class="lg:col-span-6 w-full h-[60vh] md:h-[80vh] rounded-[24px] overflow-hidden relative shadow-[0_40px_80px_rgba(0,0,0,0.08)] group exp-left translate-y-12 scale-[0.96] opacity-0 blur-[10px]">
         <div class="absolute inset-0 bg-black/5 mix-blend-multiply pointer-events-none z-10"></div>
         <!-- Efeito sutil interno de gravidade scale -->
-        <img src="../../raw_files/leitura.jpg" alt="Pessoa lendo em nossa sala" class="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.03]" loading="lazy">
+        <img src="../../raw_files/leitura.jpg" alt="Pessoa lendo em nossa sala" class="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.03] exp-left-img scale-[1.08]" loading="lazy">
       </div>
 
       <!-- RIGHT COLUMN: CONTENT -->
       <div class="lg:col-span-6 flex flex-col justify-center w-full relative z-10">
         
         <!-- Label -->
-        <div class="flex items-center gap-3 mb-6 exp-right translate-y-8 opacity-0">
+        <div class="flex items-center gap-3 mb-6 sec2-title translate-y-8 opacity-0 blur-[10px]">
           <span class="w-2 h-2 rounded-full bg-[var(--c-primary)] animate-pulse"></span>
           <span class="text-[10px] md:text-xs text-[var(--c-primary)] font-bold uppercase tracking-[0.2em]">01 / A Experiência</span>
         </div>
         
-        <div class="word-wrap mb-8">
-          <h2 class="word-inner font-display text-5xl md:text-6xl lg:text-[4.5rem] text-[var(--c-dark)] tracking-tight leading-[1.05]">
+        <div class="word-wrap mb-8" style="overflow:visible;">
+          <h2 class="sec2-title font-display text-5xl md:text-6xl lg:text-[4.5rem] text-[var(--c-dark)] tracking-tight leading-[1.05] opacity-0 translate-y-8 blur-[10px]">
             Onde o tempo desacelera e as histórias começam.
           </h2>
         </div>
 
-        <p class="text-[1.05rem] md:text-[1.125rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)] mb-16 max-w-lg exp-right translate-y-8 opacity-0">
+        <p class="text-[1.05rem] md:text-[1.125rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)] mb-16 max-w-lg sec2-title translate-y-8 opacity-0 blur-[10px]">
           Mais do que apenas cafés especiais, criamos um refúgio da cidade. A harmonia perfeita entre o aroma da torra, uma impecável curadoria literária e o silêncio de que você precisa para a sua próxima leitura.
         </p>
 
         <!-- 3 Pillars -->
-        <div class="flex flex-col gap-4 border-t border-black/5 pt-10 relative mt-4">
+        <div class="flex flex-col gap-[0.4rem] border-t border-black/5 pt-[1.75rem] relative mt-0">
 
           <!-- Pillar 1 -->
-          <div onmousemove="window.updateMouse(this, event)" class="flex flex-col exp-pillar opacity-0 translate-y-6 relative z-10 p-6 rounded-[24px] glass-card flashlight-effect group cursor-crosshair transition-all duration-300 hover:bg-black/[0.02]">
-            <div class="flex items-start gap-5">
+          <div class="flex flex-col exp-pillar opacity-0 translate-y-8 blur-[10px] relative z-10 p-5 md:p-6 group cursor-crosshair">
+            <!-- Delayed Background Box -->
+            <div class="absolute inset-0 rounded-xl bg-white shadow-[0_12px_24px_rgba(26,26,26,0.04)] border border-black/[0.04] opacity-0 transition-opacity duration-500 delay-0 group-hover:opacity-100 group-hover:delay-[250ms] pointer-events-none -z-10"></div>
+            <!-- Content -->
+            <div class="flex items-start gap-5 relative z-10">
               <!-- Left Column: Number + Line -->
               <div class="flex flex-col items-center mt-1">
-                <span class="font-mono text-xs text-[var(--c-primary)] opacity-50 mb-3 group-hover:opacity-100 transition-opacity">01</span>
-                <div class="w-[1px] h-full min-h-[40px] bg-gradient-to-b from-[var(--c-primary)] to-transparent opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                <span class="font-mono text-[11px] font-bold text-[var(--c-dark)] opacity-[0.35] mb-3 group-hover:opacity-100 transition-opacity duration-200">01</span>
+                <div class="w-[1px] h-full min-h-[46px] bg-[var(--c-dark)] opacity-[0.15] group-hover:opacity-100 transition-opacity duration-200"></div>
               </div>
               
               <!-- Right Column: Title + Desc -->
               <div class="flex flex-col">
-                <h4 class="font-display text-2xl md:text-[1.7rem] text-[var(--c-dark)] tracking-tight mb-3 group-hover:translate-x-1 transition-transform duration-300">Livros & Curadoria</h4>
-                <p class="text-[0.95rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)]">Acervo vivo à disposição em todos os ambientes. Leia no local ou troque até dois exemplares por consumação.</p>
+                <h4 class="font-display text-[1.4rem] md:text-[1.6rem] text-[var(--c-dark)] tracking-tight mb-1">Livros & Curadoria</h4>
+                <p class="text-[0.9rem] font-light leading-relaxed text-[var(--c-dark)] opacity-60">Acervo vivo à disposição em todos os ambientes. Leia no local ou troque até dois exemplares por consumação.</p>
               </div>
             </div>
           </div>
 
           <!-- Pillar 2 -->
-          <div onmousemove="window.updateMouse(this, event)" class="flex flex-col exp-pillar opacity-0 translate-y-6 relative z-10 p-6 rounded-[24px] glass-card flashlight-effect group cursor-crosshair transition-all duration-300 hover:bg-black/[0.02]">
-            <div class="flex items-start gap-5">
+          <div class="flex flex-col exp-pillar opacity-0 translate-y-8 blur-[10px] relative z-10 p-5 md:p-6 group cursor-crosshair">
+            <!-- Delayed Background Box -->
+            <div class="absolute inset-0 rounded-xl bg-white shadow-[0_12px_24px_rgba(26,26,26,0.04)] border border-black/[0.04] opacity-0 transition-opacity duration-500 delay-0 group-hover:opacity-100 group-hover:delay-[250ms] pointer-events-none -z-10"></div>
+            <!-- Content -->
+            <div class="flex items-start gap-5 relative z-10">
               <!-- Left Column: Number + Line -->
               <div class="flex flex-col items-center mt-1">
-                <span class="font-mono text-xs text-[var(--c-primary)] opacity-50 mb-3 group-hover:opacity-100 transition-opacity">02</span>
-                <div class="w-[1px] h-full min-h-[40px] bg-gradient-to-b from-[var(--c-primary)] to-transparent opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                <span class="font-mono text-[11px] font-bold text-[var(--c-dark)] opacity-[0.35] mb-3 group-hover:opacity-100 transition-opacity duration-200">02</span>
+                <div class="w-[1px] h-full min-h-[46px] bg-[var(--c-dark)] opacity-[0.15] group-hover:opacity-100 transition-opacity duration-200"></div>
               </div>
               
               <!-- Right Column: Title + Desc -->
               <div class="flex flex-col">
-                <h4 class="font-display text-2xl md:text-[1.7rem] text-[var(--c-dark)] tracking-tight mb-3 group-hover:translate-x-1 transition-transform duration-300">Café & Ritual</h4>
-                <p class="text-[0.95rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)]">O respeito ao tempo de cada extração e o grão selecionado para elevar qualquer momento do seu dia.</p>
+                <h4 class="font-display text-[1.4rem] md:text-[1.6rem] text-[var(--c-dark)] tracking-tight mb-1">Café & Ritual</h4>
+                <p class="text-[0.9rem] font-light leading-relaxed text-[var(--c-dark)] opacity-60">O respeito ao tempo de cada extração e o grão selecionado para elevar qualquer momento do seu dia.</p>
               </div>
             </div>
           </div>
 
           <!-- Pillar 3 -->
-          <div onmousemove="window.updateMouse(this, event)" class="flex flex-col exp-pillar opacity-0 translate-y-6 relative z-10 p-6 rounded-[24px] glass-card flashlight-effect group cursor-crosshair transition-all duration-300 hover:bg-black/[0.02]">
-            <div class="flex items-start gap-5">
+          <div class="flex flex-col exp-pillar opacity-0 translate-y-8 blur-[10px] relative z-10 p-5 md:p-6 group cursor-crosshair">
+            <!-- Delayed Background Box -->
+            <div class="absolute inset-0 rounded-xl bg-white shadow-[0_12px_24px_rgba(26,26,26,0.04)] border border-black/[0.04] opacity-0 transition-opacity duration-500 delay-0 group-hover:opacity-100 group-hover:delay-[250ms] pointer-events-none -z-10"></div>
+            <!-- Content -->
+            <div class="flex items-start gap-5 relative z-10">
               <!-- Left Column: Number + Line -->
               <div class="flex flex-col items-center mt-1">
-                <span class="font-mono text-xs text-[var(--c-primary)] opacity-50 mb-3 group-hover:opacity-100 transition-opacity">03</span>
-                <div class="w-[1px] h-full min-h-[40px] bg-gradient-to-b from-[var(--c-primary)] to-transparent opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                <span class="font-mono text-[11px] font-bold text-[var(--c-dark)] opacity-[0.35] mb-3 group-hover:opacity-100 transition-opacity duration-200">03</span>
+                <div class="w-[1px] h-full min-h-[46px] bg-[var(--c-dark)] opacity-[0.15] group-hover:opacity-100 transition-opacity duration-200"></div>
               </div>
               
               <!-- Right Column: Title + Desc -->
               <div class="flex flex-col">
-                <h4 class="font-display text-2xl md:text-[1.7rem] text-[var(--c-dark)] tracking-tight mb-3 group-hover:translate-x-1 transition-transform duration-300">Atmosfera & Piano</h4>
-                <p class="text-[0.95rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)]">Isolamento acústico mesclado a notas suaves de piano, criando o ambiente perfeito para quem busca imersão.</p>
+                <h4 class="font-display text-[1.4rem] md:text-[1.6rem] text-[var(--c-dark)] tracking-tight mb-1">Atmosfera & Piano</h4>
+                <p class="text-[0.9rem] font-light leading-relaxed text-[var(--c-dark)] opacity-60">Isolamento acústico mesclado a notas suaves de piano, criando o ambiente perfeito para quem busca imersão.</p>
               </div>
             </div>
           </div>
@@ -1090,10 +1121,15 @@
 
       </div>
     </div>
+
+    <!-- Sutil continuidade: funde o grid da section 2 e suaviza a transição -->
+    <div class="pointer-events-none absolute bottom-0 left-0 w-full h-32 md:h-48 z-[5]"
+      style="background: linear-gradient(to bottom, transparent 0%, var(--c-bg) 100%);">
+    </div>
   </section>
 
   <!-- SECTION 3: SABORES E OBRAS -->
-  <section id="featured" class="relative z-[60] overflow-hidden" style="background:linear-gradient(180deg,var(--c-bg) 0%,#f7f4ef 50%,#f4f0e8 100%);padding:8rem 0 10rem;">
+  <section id="featured" class="relative z-[60] overflow-hidden rounded-t-[40px] shadow-[0_-20px_60px_rgba(26,26,26,0.05)] -mt-8" style="background:linear-gradient(180deg,var(--c-bg) 0%,#f7f4ef 50%,#f4f0e8 100%);padding:8rem 0 10rem;">
 
     <!-- Warm ambient glows -->
     <div aria-hidden="true" style="position:absolute;top:-60px;left:-100px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(183,147,88,0.10) 0%,transparent 70%);filter:blur(70px);pointer-events:none;z-index:0;"></div>
@@ -1107,10 +1143,7 @@
       <div style="width:1px;height:100%;background:rgba(26,26,26,0.04);"></div>
     </div>
 
-    <!-- Ghost italic parallax word -->
-    <div aria-hidden="true" style="position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;display:flex;align-items:flex-start;justify-content:center;padding-top:1rem;">
-      <div id="giant-text" style="font-family:'Instrument Serif',serif;font-size:clamp(8rem,22vw,26rem);font-style:italic;-webkit-text-stroke:1px rgba(43,74,59,0.055);color:transparent;line-height:1;white-space:nowrap;will-change:transform;transform:translateY(70px);user-select:none;letter-spacing:-0.02em;">Ritual</div>
-    </div>
+
 
     <div style="max-width:1440px;margin:0 auto;padding:0 3.5rem;position:relative;z-index:10;">
 
@@ -1599,28 +1632,32 @@
               .to('.exp-left', {
                 opacity: 1,
                 y: 0,
-                duration: 1.2,
+                scale: 1,
+                filter: 'blur(0px)',
+                duration: 1.6,
                 ease: 'power3.out'
               }, 'start')
-              .to('.exp-right', {
+              .to('.exp-left-img', {
+                scale: 1,
+                duration: 2.0,
+                ease: 'power3.out',
+                clearProps: 'transform'
+              }, 'start')
+              .to('.sec2-title', {
                 opacity: 1,
                 y: 0,
+                filter: 'blur(0px)',
                 duration: 1.0,
-                ease: 'power3.out',
-                stagger: 0.1
-              }, 'start+=0.3')
-              .to('.word-inner', {
-                y: '0%',
-                duration: 1.2,
-                ease: 'expo.out'
+                ease: 'power3.out'
               }, 'start+=0.4')
               .to('.exp-pillar', {
                 opacity: 1,
                 y: 0,
-                duration: 0.8,
-                ease: 'power2.out',
-                stagger: 0.15
-              }, 'start+=0.6');
+                filter: 'blur(0px)',
+                duration: 1.0,
+                ease: 'power3.out',
+                stagger: 0.4
+              }, 'start+=1.2');
             }
           });
 
