@@ -1237,53 +1237,83 @@
 
   <!-- SECTION 3: SABORES E OBRAS -->
   <section id="featured"
-    class="relative z-[60] overflow-hidden rounded-t-[40px] shadow-[0_-20px_60px_rgba(26,26,26,0.05)] -mt-8"
-    style="background:linear-gradient(180deg,var(--c-bg) 0%,#f7f4ef 50%,#f4f0e8 100%);padding:8rem 0 10rem;">
+    class="relative z-[60] overflow-hidden rounded-t-[40px] -mt-8"
+    style="background:linear-gradient(160deg,#faf7f2 0%,#f5f0e8 40%,#ede5d8 100%);padding:8rem 0 12rem;box-shadow:0 -30px 80px rgba(26,26,26,0.06)">
+
+    <!-- Grain overlay for warmth -->
+    <div aria-hidden="true" style="position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0.025;background-image:url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.3\'/%3E%3C/svg%3E');background-size:200px 200px;"></div>
 
     <!-- Warm ambient glows -->
     <div aria-hidden="true"
-      style="position:absolute;top:-60px;left:-100px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(183,147,88,0.10) 0%,transparent 70%);filter:blur(70px);pointer-events:none;z-index:0;">
-    </div>
+      style="position:absolute;top:-80px;left:-120px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(183,147,88,0.12) 0%,transparent 65%);filter:blur(80px);pointer-events:none;z-index:1;"></div>
     <div aria-hidden="true"
-      style="position:absolute;bottom:-40px;right:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(43,74,59,0.07) 0%,transparent 70%);filter:blur(70px);pointer-events:none;z-index:0;">
-    </div>
+      style="position:absolute;bottom:-60px;right:-100px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(43,74,59,0.09) 0%,transparent 65%);filter:blur(90px);pointer-events:none;z-index:1;"></div>
+    <div aria-hidden="true"
+      style="position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(183,147,88,0.06) 0%,transparent 70%);filter:blur(100px);pointer-events:none;z-index:1;"></div>
 
     <!-- Editorial vertical lines -->
     <div aria-hidden="true"
-      style="position:absolute;inset:0;display:flex;justify-content:space-between;padding:0 4rem;pointer-events:none;z-index:0;">
-      <div style="width:1px;height:100%;background:rgba(26,26,26,0.04);"></div>
-      <div style="width:1px;height:100%;background:rgba(26,26,26,0.04);"></div>
-      <div style="width:1px;height:100%;background:rgba(26,26,26,0.04);"></div>
-      <div style="width:1px;height:100%;background:rgba(26,26,26,0.04);"></div>
+      style="position:absolute;inset:0;display:flex;justify-content:space-between;padding:0 4rem;pointer-events:none;z-index:1;">
+      <div style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.05) 30%,rgba(26,26,26,0.05) 70%,transparent);"></div>
+      <div style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.05) 30%,rgba(26,26,26,0.05) 70%,transparent);"></div>
+      <div style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.05) 30%,rgba(26,26,26,0.05) 70%,transparent);"></div>
+      <div style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.05) 30%,rgba(26,26,26,0.05) 70%,transparent);"></div>
     </div>
 
-
+    <!-- Giant Watermark background text -->
+    <div aria-hidden="true" style="position:absolute;bottom:-2rem;left:50%;transform:translateX(-50%);width:100%;text-align:center;pointer-events:none;z-index:1;overflow:hidden;">
+      <span style="font-family:'Instrument Serif',serif;font-size:clamp(6rem,18vw,16rem);line-height:1;color:rgba(26,26,26,0.028);white-space:nowrap;letter-spacing:-0.03em;display:block;">Sabores</span>
+    </div>
 
     <div style="max-width:1440px;margin:0 auto;padding:0 3.5rem;position:relative;z-index:10;">
 
       <!-- HEADER -->
-      <div class="feat-reveal opacity-0 translate-y-6" style="margin-bottom:4.5rem;">
-        <div class="flex items-center gap-3 mb-6">
-          <span class="w-2 h-2 rounded-full bg-[var(--c-primary)] animate-pulse inline-block"></span>
-          <span class="text-[10px] md:text-xs text-[var(--c-primary)] font-bold uppercase tracking-[0.2em] font-mono">02
-            / Sabores &amp; Obras</span>
+      <div class="feat-reveal opacity-0 translate-y-6" style="margin-bottom:5rem;">
+        <!-- Top label row -->
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;">
+          <span style="display:inline-flex;align-items:center;gap:0.5rem;">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--c-primary);display:inline-block;animation:live-glow 2s ease-in-out infinite;"></span>
+            <span style="font-family:'Inter',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--c-primary);">02 / Sabores &amp; Obras</span>
+          </span>
+          <!-- Decorative horizontal rule growing from label -->
+          <div style="flex:1;height:1px;background:linear-gradient(to right,rgba(43,74,59,0.2),transparent);"></div>
+          <span style="font-family:'Inter',sans-serif;font-size:0.6rem;letter-spacing:0.15em;color:rgba(26,26,26,0.28);text-transform:uppercase;">Curadoria</span>
         </div>
+
         <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:2rem;">
           <div class="word-wrap split-parent" style="overflow:hidden;">
             <h2 id="featured-title"
               style="font-family:'Instrument Serif',serif;font-size:clamp(2.6rem,5.5vw,5rem);line-height:1;letter-spacing:-0.025em;color:var(--c-dark);font-weight:400;margin:0;">
               <span class="word-inner" style="display:block;">Sabores que</span>
-              <span class="word-inner" style="display:block;font-style:italic;color:var(--c-dark);">contam
-                hist&#243;rias</span>
+              <span class="word-inner" style="display:block;font-style:italic;color:var(--c-dark);">contam hist&#243;rias</span>
             </h2>
           </div>
-          <p class="feat-reveal opacity-0"
-            style="font-size:0.9rem;font-weight:300;line-height:1.8;color:rgba(26,26,26,0.48);max-width:280px;text-align:right;margin:0;">
-            Uma curadoria para acompanhar cada leitura &#8212; com pausa e inten&#231;&#227;o.
-          </p>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:1rem;">
+            <p class="feat-reveal opacity-0"
+              style="font-size:0.9rem;font-weight:300;line-height:1.8;color:rgba(26,26,26,0.48);max-width:280px;text-align:right;margin:0;">
+              Uma curadoria para acompanhar cada leitura &#8212; com pausa e inten&#231;&#227;o.
+            </p>
+            <!-- Small detail: count badge -->
+            <span style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.35rem 0.85rem;border:1px solid rgba(26,26,26,0.1);border-radius:9999px;font-family:'Inter',sans-serif;font-size:0.6rem;font-weight:500;letter-spacing:0.12em;color:rgba(26,26,26,0.4);">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:0.5;"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              3 pratos do dia
+            </span>
+          </div>
         </div>
-        <div style="margin-top:2rem;height:1px;background:linear-gradient(to right,rgba(26,26,26,0.07),transparent);">
+
+        <!-- Animated divider -->
+        <div style="margin-top:2.5rem;position:relative;height:1px;overflow:hidden;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(26,26,26,0.06),rgba(43,74,59,0.15) 50%,transparent);"></div>
+          <div style="position:absolute;top:0;left:-100%;width:40%;height:100%;background:linear-gradient(to right,transparent,rgba(43,74,59,0.35),transparent);animation:featDivider 3.5s ease-in-out infinite 1s;"></div>
         </div>
+        <style>
+          @keyframes featDivider {
+            0% { left: -40%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { left: 110%; opacity: 0; }
+          }
+        </style>
       </div>
 
       <!-- GALLERY -->
@@ -1382,6 +1412,15 @@
         </div>
 
       </div><!-- /gallery -->
+
+      <!-- SECTION FOOTER: decorative closing row -->
+      <div class="feat-reveal opacity-0 translate-y-4" style="margin-top:5rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;border-top:1px solid rgba(26,26,26,0.06);padding-top:2.5rem;">
+        <p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:1.15rem;color:rgba(26,26,26,0.35);margin:0;">Sabor &eacute; mem&oacute;ria. Cada prato, um cap&iacute;tulo.</p>
+        <a href="#" style="display:inline-flex;align-items:center;gap:0.65rem;font-family:'Inter',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--c-primary);text-decoration:none;border-bottom:1px solid rgba(43,74,59,0.25);padding-bottom:2px;">
+          Ver card&aacute;pio completo
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
     </div><!-- /container -->
 
     <!-- Hover interactions (pure CSS) -->
