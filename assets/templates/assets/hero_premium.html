@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <meta name="description" content="Giardini Café — Origem, ritual e a perfeição de um espresso."/>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta name="description" content="Giardini Café — Origem, ritual e a perfeição de um espresso." />
   <title>Giardini Café — The Art of Espresso</title>
 
   <!-- FONTS (design_system2) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
 
   <!-- TAILWIND (tokens do design_system2) -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,13 +21,13 @@
       theme: {
         extend: {
           colors: {
-            'g-bg':      '#FDFBF7',
-            'g-dark':    '#1A1A1A',
+            'g-bg': '#FDFBF7',
+            'g-dark': '#1A1A1A',
             'g-primary': '#2B4A3B',
-            'g-accent':  '#EAE4D9',
+            'g-accent': '#EAE4D9',
           },
           fontFamily: {
-            sans:  ['Inter', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
             serif: ['Instrument Serif', 'serif'],
           }
         }
@@ -40,16 +43,26 @@
   <style>
     /* ══ TOKENS (design_system2) ════════════════════════════════════ */
     :root {
-      --c-bg:      #FDFBF7;
-      --c-dark:    #1A1A1A;
+      --c-bg: #FDFBF7;
+      --c-dark: #1A1A1A;
       --c-primary: #2B4A3B;
-      --c-accent:  #EAE4D9;
-      --expo:      cubic-bezier(0.16, 1, 0.3, 1);
+      --c-accent: #EAE4D9;
+      --expo: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     /* ══ BASE ════════════════════════════════════════════════════════ */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: auto; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: auto;
+    }
+
     body {
       background: var(--c-bg);
       color: var(--c-dark);
@@ -59,88 +72,213 @@
     }
 
     /* ══ DESIGN SYSTEM CLASSES ═══════════════════════════════════════ */
-    .font-display { font-family: 'Instrument Serif', serif; }
+    .font-display {
+      font-family: 'Instrument Serif', serif;
+    }
 
     .noise-overlay {
-      position: fixed; inset: 0; pointer-events: none; z-index: 9000;
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9000;
       opacity: 0.22;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
       mix-blend-mode: multiply;
     }
 
     .btn-primary {
-      background-color: var(--c-primary); color: var(--c-bg);
-      position: relative; overflow: hidden;
+      background-color: var(--c-primary);
+      color: var(--c-bg);
+      position: relative;
+      overflow: hidden;
       transition: all 0.4s var(--expo);
     }
-    .btn-primary::after {
-      content: ''; position: absolute; top: -50%; left: -50%;
-      width: 200%; height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.13) 0%, transparent 60%);
-      opacity: 0; transform: scale(0.5); transition: all 0.5s ease; pointer-events: none;
-    }
-    .btn-primary:hover::after { opacity: 1; transform: scale(1); }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 32px -8px rgba(43,74,59,0.45); }
 
-    .word-wrap  { display: inline-block; overflow: hidden; vertical-align: bottom; }
-    .word-inner { display: inline-block; transform: translateY(110%); will-change: transform; }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.13) 0%, transparent 60%);
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.5s ease;
+      pointer-events: none;
+    }
+
+    .btn-primary:hover::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 32px -8px rgba(43, 74, 59, 0.45);
+    }
+
+    .word-wrap {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+    }
+
+    .word-inner {
+      display: inline-block;
+      transform: translateY(110%);
+      will-change: transform;
+    }
 
     /* ══ NAVBAR ══════════════════════════════════════════════════════ */
     #navbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
       padding: 2.25rem 5rem;
-      display: flex; justify-content: space-between; align-items: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       transition: padding 0.5s ease, background 0.5s ease;
       opacity: 0;
     }
-    @media (max-width: 768px) { #navbar { padding: 1.5rem 2rem; } }
-    #navbar.is-scrolled {
-      background: rgba(253,251,247,0.94); backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-      padding-top: 1.25rem !important; padding-bottom: 1.25rem !important;
+
+    @media (max-width: 768px) {
+      #navbar {
+        padding: 1.5rem 2rem;
+      }
     }
-    .nav-logo { font-family: 'Instrument Serif', serif; font-size: 1.5rem; color: var(--c-dark); text-decoration: none; }
-    .nav-links { display: flex; gap: 2.5rem; }
-    @media (max-width: 768px) { .nav-links { display: none; } }
-    .nav-link { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(26,26,26,0.6); text-decoration: none; transition: color 0.3s ease; }
-    .nav-link:hover { color: var(--c-primary); }
-    .nav-cta { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.4rem; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; border-radius: 9999px; text-decoration: none; border: 1.5px solid var(--c-primary); color: var(--c-primary); transition: all 0.35s var(--expo); }
-    .nav-cta:hover { background: var(--c-primary); color: var(--c-bg); }
-    @media (max-width: 768px) { .nav-cta { display: none; } }
+
+    #navbar.is-scrolled {
+      background: rgba(253, 251, 247, 0.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      padding-top: 1.25rem !important;
+      padding-bottom: 1.25rem !important;
+    }
+
+    .nav-logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.5rem;
+      color: var(--c-dark);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+    }
+
+    .nav-link {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(26, 26, 26, 0.6);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--c-primary);
+    }
+
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border-radius: 9999px;
+      text-decoration: none;
+      border: 1.5px solid var(--c-primary);
+      color: var(--c-primary);
+      transition: all 0.35s var(--expo);
+    }
+
+    .nav-cta:hover {
+      background: var(--c-primary);
+      color: var(--c-bg);
+    }
+
+    @media (max-width: 768px) {
+      .nav-cta {
+        display: none;
+      }
+    }
 
     /* ══ PREMIUM ANIMATION UTILITIES ═════════════════════════════════ */
     .hero-grid-bg {
-      position: absolute; inset: 0; pointer-events: none; z-index: 1;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
       background-size: 40px 40px;
-      background-image: linear-gradient(to right, rgba(26,26,26,0.03) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(26,26,26,0.03) 1px, transparent 1px);
+      background-image: linear-gradient(to right, rgba(26, 26, 26, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(26, 26, 26, 0.03) 1px, transparent 1px);
       mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
       -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
     }
 
     /* Beam Effect (Button) */
     .shimmer-border {
-      position: relative; overflow: hidden;
-      box-shadow: 0 0 0 1px rgba(43,74,59,0.2) inset;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(43, 74, 59, 0.2) inset;
     }
+
     .shimmer-border::before {
-      content: ""; position: absolute; inset: -2px; pointer-events: none;
-      background: conic-gradient(from 0deg, transparent 0% 320deg, rgba(43,74,59,0.8) 360deg);
-      animation: spin 3s linear infinite; opacity: 0; transition: opacity 0.5s;
+      content: "";
+      position: absolute;
+      inset: -2px;
+      pointer-events: none;
+      background: conic-gradient(from 0deg, transparent 0% 320deg, rgba(43, 74, 59, 0.8) 360deg);
+      animation: spin 3s linear infinite;
+      opacity: 0;
+      transition: opacity 0.5s;
     }
-    .shimmer-border:hover::before { opacity: 1; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .shimmer-border:hover::before {
+      opacity: 1;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
 
     /* Flashlight on Hero Background */
     #hero-viewport {
-      --mouse-x: 50%; --mouse-y: 50%;
+      --mouse-x: 50%;
+      --mouse-y: 50%;
     }
+
     #hero-viewport::after {
-      content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
-      background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(43,74,59,0.03), transparent 40%);
-      opacity: 0; transition: opacity 0.5s ease;
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(43, 74, 59, 0.03), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
     }
-    #hero-viewport:hover::after { opacity: 1; }
+
+    #hero-viewport:hover::after {
+      opacity: 1;
+    }
 
     .magnetic-btn {
       transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -148,122 +286,311 @@
     }
 
     /* ══ HERO LAYOUT ════════════════════════════════════════════════ */
-    #hero-pin-wrapper { position: relative; }
+    #hero-pin-wrapper {
+      position: relative;
+    }
 
     #hero-viewport {
-      position: relative; width: 100%; height: 100vh;
-      overflow: hidden; background: var(--c-bg);
-      display: flex; flex-direction: row;
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--c-bg);
+      display: flex;
+      flex-direction: row;
     }
-    @media (max-width: 767px) { #hero-viewport { flex-direction: column; } }
+
+    @media (max-width: 767px) {
+      #hero-viewport {
+        flex-direction: column;
+      }
+    }
 
     /* LEFT column */
     #hero-left {
-      position: relative; z-index: 20;
-      display: flex; flex-direction: column; justify-content: center;
-      width: 50%; padding: 0 3.5rem 0 5rem; flex-shrink: 0;
+      position: relative;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 50%;
+      padding: 0 3.5rem 0 5rem;
+      flex-shrink: 0;
       pointer-events: none;
     }
-    @media (max-width: 1280px) { #hero-left { padding: 0 2.5rem 0 3.5rem; } }
-    @media (max-width: 767px) { #hero-left { width: 100%; padding: 5.5rem 2rem 2rem; height: 50%; } }
+
+    @media (max-width: 1280px) {
+      #hero-left {
+        padding: 0 2.5rem 0 3.5rem;
+      }
+    }
+
+    @media (max-width: 767px) {
+      #hero-left {
+        width: 100%;
+        padding: 5.5rem 2rem 2rem;
+        height: 50%;
+      }
+    }
 
     #hero-left::after {
-      content: ''; display: block; position: absolute;
-      right: 0; top: 18%; bottom: 18%; width: 1px;
-      background: linear-gradient(to bottom, transparent, rgba(26,26,26,0.07) 30%, rgba(26,26,26,0.07) 70%, transparent);
+      content: '';
+      display: block;
+      position: absolute;
+      right: 0;
+      top: 18%;
+      bottom: 18%;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(26, 26, 26, 0.07) 30%, rgba(26, 26, 26, 0.07) 70%, transparent);
     }
-    @media (max-width: 767px) { #hero-left::after { display: none; } }
+
+    @media (max-width: 767px) {
+      #hero-left::after {
+        display: none;
+      }
+    }
 
     .kicker {
-      display: flex; align-items: center; gap: 0.75rem;
-      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.3em;
-      text-transform: uppercase; color: var(--c-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--c-primary);
       margin-bottom: 1.75rem;
     }
-    .kicker-line { width: 20px; height: 1px; background: var(--c-primary); flex-shrink: 0; }
+
+    .kicker-line {
+      width: 20px;
+      height: 1px;
+      background: var(--c-primary);
+      flex-shrink: 0;
+    }
 
     #hero-headline {
       font-family: 'Instrument Serif', serif;
       font-size: clamp(3rem, 6.5vw, 7.5rem);
-      line-height: 0.9; letter-spacing: -0.025em;
-      color: var(--c-dark); margin-bottom: 2rem;
+      line-height: 0.9;
+      letter-spacing: -0.025em;
+      color: var(--c-dark);
+      margin-bottom: 2rem;
     }
-    #hero-headline .line { display: block; overflow: hidden; }
-    #hero-headline .line-inner { display: block; will-change: transform, filter; }
+
+    #hero-headline .line {
+      display: block;
+      overflow: hidden;
+    }
+
+    #hero-headline .line-inner {
+      display: block;
+      will-change: transform, filter;
+    }
 
     .hero-body {
-      font-size: 1rem; font-weight: 300; line-height: 1.75;
-      color: rgba(26,26,26,0.58); max-width: 380px;
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: rgba(26, 26, 26, 0.58);
+      max-width: 380px;
       margin-bottom: 2.5rem;
     }
-    @media (min-width: 768px) { .hero-body { font-size: 1.0625rem; } }
 
-    .hero-cta { display: flex; align-items: center; gap: 1.5rem; }
+    @media (min-width: 768px) {
+      .hero-body {
+        font-size: 1.0625rem;
+      }
+    }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
 
     .btn-order {
-      display: inline-flex; align-items: center; gap: 0.625rem;
-      padding: 0.95rem 2.1rem; font-size: 0.72rem; font-weight: 600;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      border-radius: 9999px; text-decoration: none; cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.95rem 2.1rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border-radius: 9999px;
+      text-decoration: none;
+      cursor: pointer;
     }
-    .btn-order svg { width: 13px; height: 13px; transition: transform 0.35s var(--expo); }
-    .btn-order:hover svg { transform: translateX(5px); }
+
+    .btn-order svg {
+      width: 13px;
+      height: 13px;
+      transition: transform 0.35s var(--expo);
+    }
+
+    .btn-order:hover svg {
+      transform: translateX(5px);
+    }
 
     .link-ghost {
-      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em;
-      text-transform: uppercase; color: rgba(26,26,26,0.4);
-      text-decoration: none; border-bottom: 1px solid rgba(26,26,26,0.18);
-      padding-bottom: 1px; transition: color 0.3s ease, border-color 0.3s ease;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(26, 26, 26, 0.4);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(26, 26, 26, 0.18);
+      padding-bottom: 1px;
+      transition: color 0.3s ease, border-color 0.3s ease;
     }
-    .link-ghost:hover { color: var(--c-primary); border-color: var(--c-primary); }
 
-    .hero-meta { display: flex; align-items: center; gap: 0.875rem; margin-top: 2.5rem; }
-    .meta-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(26,26,26,0.25); }
-    .meta-text { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(26,26,26,0.32); }
+    .link-ghost:hover {
+      color: var(--c-primary);
+      border-color: var(--c-primary);
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      margin-top: 2.5rem;
+    }
+
+    .meta-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(26, 26, 26, 0.25);
+    }
+
+    .meta-text {
+      font-size: 0.58rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(26, 26, 26, 0.32);
+    }
 
     /* RIGHT column */
     #hero-right {
-      position: relative; z-index: 10;
-      display: flex; align-items: center; justify-content: center;
-      width: 50%; height: 100%; padding: 2rem 3rem 2rem 2rem; flex-shrink: 0;
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50%;
+      height: 100%;
+      padding: 8rem 3rem 4.5rem 1rem;
+      flex-shrink: 0;
     }
-    @media (max-width: 1280px) { #hero-right { padding: 2rem 2.5rem 2rem 1.5rem; } }
-    @media (max-width: 767px) { #hero-right { width: 100%; height: 50%; padding: 1rem 1.5rem 1.5rem; } }
+
+    @media (max-width: 1280px) {
+      #hero-right {
+        padding: 7rem 2.5rem 4rem 1rem;
+      }
+    }
+
+    @media (max-width: 767px) {
+      #hero-right {
+        width: 100%;
+        height: 50%;
+        padding: 1rem 1.5rem 1.5rem;
+      }
+    }
 
     .video-glow {
-      position: absolute; inset: 5%; border-radius: 50%;
-      background: radial-gradient(ellipse, rgba(43,74,59,0.13) 0%, transparent 70%);
-      filter: blur(45px); pointer-events: none;
+      position: absolute;
+      inset: 5%;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(43, 74, 59, 0.13) 0%, transparent 70%);
+      filter: blur(45px);
+      pointer-events: none;
     }
+
+    /* Premium Cards for Section 2 */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(26, 26, 26, 0.04);
+      transition: all 0.5s var(--expo);
+    }
+    .glass-card:hover {
+      background: rgba(255, 255, 255, 0.7);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
+      transform: translateY(-4px);
+      border-color: rgba(26, 26, 26, 0.08);
+    }
+    
+    .flashlight-effect { position: relative; overflow: hidden; }
+    .flashlight-effect::before {
+      content: ""; position: absolute; inset: 0px;
+      background: radial-gradient(350px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(43, 74, 59, 0.04), transparent 50%);
+      opacity: 0; transition: opacity 0.5s; pointer-events: none; z-index: 1;
+    }
+    .flashlight-effect:hover::before { opacity: 1; }
+
+    /* Floating Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-40px); }
+    }
+    .animate-float { animation: float 8s ease-in-out infinite; }
 
     /* ══ VIDEO FRAME (expande via GSAP) ═════════════════════════════ */
     #video-frame {
-      position: absolute; overflow: hidden; background: #0a0a0a;
+      position: absolute;
+      overflow: hidden;
+      background: #0a0a0a;
       border-radius: 22px;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.07), 0 30px 70px -15px rgba(0,0,0,0.28), 0 12px 28px -6px rgba(0,0,0,0.18);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.07), 0 30px 70px -15px rgba(0, 0, 0, 0.28), 0 12px 28px -6px rgba(0, 0, 0, 0.18);
       will-change: border-radius, box-shadow;
     }
 
     #video-overlay {
-      position: absolute; inset: 0; z-index: 5;
-      background: linear-gradient(135deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.45) 100%);
-      opacity: 0; pointer-events: none;
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.45) 100%);
+      opacity: 0;
+      pointer-events: none;
     }
 
     .video-badge {
-      position: absolute; top: 1.1rem; right: 1.1rem; z-index: 15;
-      display: flex; align-items: center; gap: 0.5rem;
-      font-size: 0.58rem; font-weight: 700; letter-spacing: 0.2em;
-      text-transform: uppercase; color: rgba(255,255,255,0.75);
+      position: absolute;
+      top: 1.1rem;
+      right: 1.1rem;
+      z-index: 15;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.75);
     }
+
     .badge-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--c-primary); box-shadow: 0 0 8px rgba(43,74,59,0.9);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--c-primary);
+      box-shadow: 0 0 8px rgba(43, 74, 59, 0.9);
       animation: dotPulse 2.2s ease-in-out infinite;
     }
+
     @keyframes dotPulse {
-      0%, 100% { box-shadow: 0 0 6px rgba(43,74,59,0.8); }
-      50%       { box-shadow: 0 0 14px rgba(43,74,59,1); }
+
+      0%,
+      100% {
+        box-shadow: 0 0 6px rgba(43, 74, 59, 0.8);
+      }
+
+      50% {
+        box-shadow: 0 0 14px rgba(43, 74, 59, 1);
+      }
     }
 
     /*
@@ -272,51 +599,144 @@
      * via drawImage(). É instantâneo, sem lag de decodificação.
      */
     #seq-canvas {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;   /* via CSS — o JS mantém proporção no drawImage */
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* via CSS — o JS mantém proporção no drawImage */
       display: block;
       /* blur inicial removido após preload */
       filter: blur(20px) brightness(0.7);
       transition: filter 0.8s var(--expo);
     }
-    #seq-canvas.ready { filter: blur(0) brightness(1); }
+
+    #seq-canvas.ready {
+      filter: blur(0) brightness(1);
+    }
 
     /* ══ SCROLL INDICATOR ════════════════════════════════════════════ */
     .scroll-indicator {
-      position: absolute; z-index: 30; bottom: 1.75rem;
+      position: absolute;
+      z-index: 30;
+      bottom: 1.75rem;
       left: 5rem;
-      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
     }
-    @media (max-width: 767px) { .scroll-indicator { left: 50%; transform: translateX(-50%); } }
-    .scroll-indicator span { font-size: 0.58rem; letter-spacing: 0.26em; text-transform: uppercase; color: rgba(26,26,26,0.35); writing-mode: vertical-rl; }
-    .scroll-line { width: 1px; height: 2.5rem; background: linear-gradient(to bottom, rgba(26,26,26,0.22), transparent); animation: linePulse 2.6s ease-in-out infinite; }
+
+    @media (max-width: 767px) {
+      .scroll-indicator {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+
+    .scroll-indicator span {
+      font-size: 0.58rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(26, 26, 26, 0.35);
+      writing-mode: vertical-rl;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 2.5rem;
+      background: linear-gradient(to bottom, rgba(26, 26, 26, 0.22), transparent);
+      animation: linePulse 2.6s ease-in-out infinite;
+    }
+
     @keyframes linePulse {
-      0%, 100% { transform: scaleY(0.6); transform-origin: top; opacity: 0.4; }
-      60%       { transform: scaleY(1); opacity: 1; }
+
+      0%,
+      100% {
+        transform: scaleY(0.6);
+        transform-origin: top;
+        opacity: 0.4;
+      }
+
+      60% {
+        transform: scaleY(1);
+        opacity: 1;
+      }
     }
 
     /* ══ PRELOADER ═══════════════════════════════════════════════════ */
     #preloader {
-      position: fixed; inset: 0; z-index: 10000;
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
       background: var(--c-bg);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       gap: 2rem;
     }
-    .preloader-brand { font-family: 'Instrument Serif', serif; font-size: 3rem; color: var(--c-primary); }
-    .preloader-bar-track { width: 200px; height: 2px; background: rgba(43,74,59,0.12); border-radius: 2px; overflow: hidden; }
-    .preloader-bar { height: 100%; width: 0%; background: var(--c-primary); transition: width 0.1s linear; border-radius: 2px; }
-    .preloader-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(26,26,26,0.4); }
+
+    .preloader-brand {
+      font-family: 'Instrument Serif', serif;
+      font-size: 3rem;
+      color: var(--c-primary);
+    }
+
+    .preloader-bar-track {
+      width: 200px;
+      height: 2px;
+      background: rgba(43, 74, 59, 0.12);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .preloader-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--c-primary);
+      transition: width 0.1s linear;
+      border-radius: 2px;
+    }
+
+    .preloader-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(26, 26, 26, 0.4);
+    }
 
     /* ══ NEXT SECTION ════════════════════════════════════════════════ */
     #next-section {
-      position: relative; z-index: 20; background: var(--c-bg);
-      min-height: 80vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 2rem;
-      padding: 8rem 2rem; border-top: 1px solid rgba(0,0,0,0.05);
+      position: relative;
+      z-index: 20;
+      background: var(--c-bg);
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      padding: 8rem 2rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
     }
-    .next-label { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(26,26,26,0.28); font-weight: 500; }
-    .next-title { font-family: 'Instrument Serif', serif; font-size: clamp(2rem, 4vw, 4rem); color: var(--c-dark); text-align: center; letter-spacing: -0.02em; opacity: 0.08; }
+
+    .next-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(26, 26, 26, 0.28);
+      font-weight: 500;
+    }
+
+    .next-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2rem, 4vw, 4rem);
+      color: var(--c-dark);
+      text-align: center;
+      letter-spacing: -0.02em;
+      opacity: 0.08;
+    }
   </style>
 </head>
 
@@ -343,7 +763,10 @@
     </div>
     <a href="#" class="nav-cta">
       Reservar
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        aria-hidden="true">
+        <path d="M5 12h14M12 5l7 7-7 7" />
+      </svg>
     </a>
   </nav>
 
@@ -378,7 +801,10 @@
         <div class="hero-cta" id="el-cta">
           <a href="#" class="btn-primary btn-order magnetic-btn shimmer-border" aria-label="Fazer pedido agora">
             Order Now
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+              stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
           </a>
           <a href="#" class="link-ghost">Ver Cardápio</a>
         </div>
@@ -400,347 +826,517 @@
         <span>Scroll</span>
         <div class="scroll-line"></div>
       </div>
+
+      <!-- VIDEO FRAME (agora dentro do viewport para rolar naturalmente no final) -->
+      <div id="video-frame" aria-label="Extração de espresso — sequência de frames">
+        <div id="video-overlay" aria-hidden="true"></div>
+        <!-- sequence canvas -->
+        <canvas id="seq-canvas" aria-hidden="true"></canvas>
+      </div>
+
     </div><!-- /hero-viewport -->
   </div><!-- /hero-pin-wrapper -->
 
-  <!-- VIDEO FRAME (posicionado via JS, fora do fluxo) -->
-  <div id="video-frame" aria-label="Extração de espresso — sequência de frames">
-    <div id="video-overlay" aria-hidden="true"></div>
+  <!-- ══ SECTION 2: THE COFFEE EXPERIENCE ═════════════════════════ -->
+  <section id="experience"
+    class="py-32 px-8 md:px-20 max-w-[1600px] mx-auto bg-[var(--c-bg)] relative z-[60] overflow-hidden rounded-t-[40px] shadow-[0_-20px_50px_rgba(0,0,0,0.02)] border-t border-black/5 mt-[-2px]">
+    
+    <!-- Grid BG sutil -->
+    <div class="hero-grid-bg opacity-[0.3]"></div>
 
-    <!--
-      CANVAS IMAGE SEQUENCE
-      ═══════════════════════════════════════════════════════════════
-      Substitui o <video> por uma sequência de imagens desenhadas
-      no canvas via drawImage() — instantâneo, sem lag de decoder.
+    <!-- Animated Soft Glows behind cards (Parallax + Float) -->
+    <div class="absolute top-[20%] left-[5%] w-[40vw] h-[40vw] bg-[var(--c-primary)] rounded-full mix-blend-multiply filter blur-[100px] opacity-[0.12] animate-float pointer-events-none parallax-glow-1"></div>
+    <div class="absolute bottom-[0%] right-[5%] w-[50vw] h-[50vw] bg-[#D4CFC4] rounded-full mix-blend-multiply filter blur-[120px] opacity-[0.3] animate-float pointer-events-none parallax-glow-2" style="animation-delay: 2s;"></div>
 
-      Como funciona:
-      1. JS carrega TOTAL_FRAMES imagens WebP na memória (Image objects)
-      2. ScrollTrigger onUpdate calcula o índice do frame pelo progresso
-      3. ctx.drawImage(frames[index]) pinta o frame correto no canvas
-      4. Resultado: 60fps garantido em qualquer direção de scroll
+    <!-- Parallax Watermark -->
+    <div id="parallax-text"
+      class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.02] overflow-hidden">
+      <span class="font-display text-[25vw] leading-none whitespace-nowrap tracking-tighter"
+        style="transform: translateX(10%);">RITUAL</span>
+    </div>
 
-      Para ajustar:
-      • TOTAL_FRAMES — deve bater com o número de arquivos em /frames/
-      • FRAMES_DIR   — caminho relativo até a pasta de frames
-      ═══════════════════════════════════════════════════════════════
-    -->
-    <canvas id="seq-canvas" aria-hidden="true"></canvas>
-  </div>
+    <!-- Título Principal -->
+    <div class="mb-14 mt-4 flex flex-col items-center text-center relative z-10 w-full">
+      <div class="text-[10px] md:text-xs text-[var(--c-primary)] font-bold uppercase tracking-[0.2em] mb-4 word-wrap">
+        <span class="word-inner block flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--c-primary)] animate-pulse"></span>
+          01 / A Experiência
+        </span>
+      </div>
+      <div class="word-wrap">
+        <h2 class="word-inner font-display text-5xl md:text-7xl text-[var(--c-dark)] tracking-tight">A Prática da
+          Perfeição</h2>
+      </div>
+      <div class="w-[1px] h-12 bg-gradient-to-b from-black/20 to-transparent mt-12 scale-y-0 transform origin-top exp-line"></div>
+    </div>
 
-  <!-- próxima seção da página real entra aqui -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 relative z-10">
 
+      <!-- Block 1 -->
+      <div onmousemove="window.updateMouse(this, event)"
+        class="flex flex-col items-start exp-reveal group p-8 md:p-10 rounded-[28px] glass-card flashlight-effect relative cursor-default">
+        <div class="w-16 h-16 rounded-full bg-white/50 border border-black/5 flex items-center justify-center mb-8 shadow-sm group-hover:scale-110 transition-transform duration-500">
+          <svg class="w-7 h-7 text-[var(--c-primary)] draw-svg" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.2">
+            <path d="M17 8h1a4 4 0 110 8h-1M3 8h14v9a4 4 0 01-4 4H7a4 4 0 01-4-4V8zM6 2v2M10 2v2M14 2v2" />
+          </svg>
+        </div>
+        <h3
+          class="font-display text-3xl md:text-4xl text-[var(--c-dark)] mb-4 tracking-tight group-hover:translate-x-1 transition-transform duration-500">
+          Origem Selecionada</h3>
+        <p class="text-[0.95rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)] mb-8">Grãos
+          cultivados em altitudes extremas, garantindo maturação lenta e notas complexas.</p>
+        <div class="mt-auto w-full flex items-center justify-between pt-6 border-t border-black/5">
+          <span class="text-[9px] uppercase tracking-widest font-bold text-black/40">100% Arábica</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-30 group-hover:translate-x-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+
+      <!-- Block 2 -->
+      <div onmousemove="window.updateMouse(this, event)"
+        class="flex flex-col items-start exp-reveal group p-8 md:p-10 rounded-[28px] glass-card flashlight-effect relative cursor-default">
+        <div class="w-16 h-16 rounded-full bg-white/50 border border-black/5 flex items-center justify-center mb-8 shadow-sm group-hover:scale-110 transition-transform duration-500">
+          <svg class="w-7 h-7 text-[var(--c-primary)] draw-svg" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.2">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 8v4l3 3" />
+          </svg>
+        </div>
+        <h3
+          class="font-display text-3xl md:text-4xl text-[var(--c-dark)] mb-4 tracking-tight group-hover:translate-x-1 transition-transform duration-500">
+          Extração Precisa</h3>
+        <p class="text-[0.95rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)] mb-8">Controle exato
+          de temperatura e tempo para desvendar o ápice do sabor em cada xícara.</p>
+        <div class="mt-auto w-full flex items-center justify-between pt-6 border-t border-black/5">
+          <span class="text-[9px] uppercase tracking-widest font-bold text-black/40">9 Bar de Pressão</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-30 group-hover:translate-x-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+
+      <!-- Block 3 -->
+      <div onmousemove="window.updateMouse(this, event)"
+        class="flex flex-col items-start exp-reveal group p-8 md:p-10 rounded-[28px] glass-card flashlight-effect relative cursor-default">
+        <div class="w-16 h-16 rounded-full bg-white/50 border border-black/5 flex items-center justify-center mb-8 shadow-sm group-hover:scale-110 transition-transform duration-500">
+          <svg class="w-7 h-7 text-[var(--c-primary)] draw-svg" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.2">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
+          </svg>
+        </div>
+        <h3
+          class="font-display text-3xl md:text-4xl text-[var(--c-dark)] mb-4 tracking-tight group-hover:translate-x-1 transition-transform duration-500">
+          Ritual Diário</h3>
+        <p class="text-[0.95rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)] mb-8">Mais que uma
+          bebida, a arte de pausar. Um momento dedicado a despertar os sentidos.</p>
+        <div class="mt-auto w-full flex items-center justify-between pt-6 border-t border-black/5">
+          <span class="text-[9px] uppercase tracking-widest font-bold text-black/40">Design & Tempo</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-30 group-hover:translate-x-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+
+    </div>
+  </section>
 
   <script>
-  (function () {
-    'use strict';
+      (function () {
+        'use strict';
 
-    /* ══════════════════════════════════════════════════════════════
-       CONFIG
-       ══════════════════════════════════════════════════════════════
-       TOTAL_FRAMES → deve ser igual ao número de arquivos gerados
-                      pelo extract_frames.py (padrão: 150)
-       FRAMES_DIR   → caminho RELATIVO a este HTML até a pasta frames
-       scrollVH     → distância de scroll virtual em % do viewport
-                      (maior = transformação mais lenta)
-       scrub        → suavidade do ScrollTrigger (true = 1:1, número = lag)
-    ══════════════════════════════════════════════════════════════ */
-    const CONFIG = {
-      TOTAL_FRAMES: 150,
-      FRAMES_DIR:   'frames',   // relativo ao HTML → assets/templates/assets/frames/
-      scrollVH:     380,        // % do viewport — aumentado para o vídeo fluir até o fim do scroll
-      scrub:        1.0,        // 1.0 = seguindo o scroll com pequeno amortecimento suave
-    };
+        /* ══════════════════════════════════════════════════════════════
+           CONFIG
+           ══════════════════════════════════════════════════════════════
+           TOTAL_FRAMES → deve ser igual ao número de arquivos gerados
+                          pelo extract_frames.py (padrão: 150)
+           FRAMES_DIR   → caminho RELATIVO a este HTML até a pasta frames
+           scrollVH     → distância de scroll virtual em % do viewport
+                          (maior = transformação mais lenta)
+           scrub        → suavidade do ScrollTrigger (true = 1:1, número = lag)
+        ══════════════════════════════════════════════════════════════ */
+        const CONFIG = {
+          TOTAL_FRAMES: 150,
+          FRAMES_DIR: 'frames',   // relativo ao HTML → assets/templates/assets/frames/
+          scrollVH: 380,        // % do viewport — aumentado para o vídeo fluir até o fim do scroll
+          scrub: 1.0,        // 1.0 = seguindo o scroll com pequeno amortecimento suave
+        };
 
-    /* ══ GSAP ══════════════════════════════════════════════════════ */
-    gsap.registerPlugin(ScrollTrigger);
+        /* ══ GSAP ══════════════════════════════════════════════════════ */
+        gsap.registerPlugin(ScrollTrigger);
 
-    /* ══ LENIS (smooth scroll, corretamente sincronizado) ══════════ */
-    const lenis = new Lenis({
-      duration:    1.05,
-      easing:      (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      smoothWheel: true,
-      smoothTouch: false,
-    });
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-    gsap.ticker.lagSmoothing(0);
+        /* ══ UTILIDADES ════════════════════════════════════════════════ */
+        window.updateMouse = function (element, e) {
+          const rect = element.getBoundingClientRect();
+          element.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+          element.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+        };
 
-    /* ══ CANVAS + CONTEXT ══════════════════════════════════════════ */
-    const canvas = document.getElementById('seq-canvas');
-    const ctx    = canvas.getContext('2d');
-    let frames   = [];      // array de Image objects pré-carregados
-    let currentFrameIndex = -1; // evita repintar o mesmo frame
+        /* ══ LENIS (smooth scroll, corretamente sincronizado) ══════════ */
+        const lenis = new Lenis({
+          duration: 1.05,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          orientation: 'vertical',
+          smoothWheel: true,
+          smoothTouch: false,
+        });
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+        gsap.ticker.lagSmoothing(0);
 
-    /* Redimensiona o canvas para o tamanho do #video-frame */
-    function resizeCanvas() {
-      const frame = document.getElementById('video-frame');
-      canvas.width  = frame.offsetWidth;
-      canvas.height = frame.offsetHeight;
-      // Repinta frame atual após resize
-      if (frames.length > 0 && currentFrameIndex >= 0) {
-        drawFrame(currentFrameIndex);
-      }
-    }
+        /* ══ CANVAS + CONTEXT ══════════════════════════════════════════ */
+        const canvas = document.getElementById('seq-canvas');
+        const ctx = canvas.getContext('2d');
+        let frames = [];      // array de Image objects pré-carregados
+        let currentFrameIndex = -1; // evita repintar o mesmo frame
 
-    /* Desenha um frame no canvas preservando aspect ratio (object-fit: cover) */
-    function drawFrame(index) {
-      if (index === currentFrameIndex) return; // sem redraw desnecessário
-      const img = frames[index];
-      if (!img || !img.complete || img.naturalWidth === 0) return;
+        /* Redimensiona o canvas para o tamanho do #video-frame */
+        function resizeCanvas() {
+          const frame = document.getElementById('video-frame');
+          canvas.width = frame.offsetWidth;
+          canvas.height = frame.offsetHeight;
+          // Repinta frame atual após resize
+          if (frames.length > 0 && currentFrameIndex >= 0) {
+            drawFrame(currentFrameIndex);
+          }
+        }
 
-      currentFrameIndex = index;
+        /* Desenha um frame no canvas preservando aspect ratio (object-fit: cover) */
+        function drawFrame(index) {
+          if (index === currentFrameIndex) return; // sem redraw desnecessário
+          const img = frames[index];
+          if (!img || !img.complete || img.naturalWidth === 0) return;
 
-      const cw = canvas.width;
-      const ch = canvas.height;
-      const iw = img.naturalWidth;
-      const ih = img.naturalHeight;
+          currentFrameIndex = index;
 
-      // Cover: escala para preencher mantendo proporção, centraliza
-      const scale = Math.max(cw / iw, ch / ih);
-      const dw    = iw * scale;
-      const dh    = ih * scale;
-      const dx    = (cw - dw) / 2;
-      const dy    = (ch - dh) / 2;
+          const cw = canvas.width;
+          const ch = canvas.height;
+          const iw = img.naturalWidth;
+          const ih = img.naturalHeight;
 
-      ctx.clearRect(0, 0, cw, ch);
-      ctx.drawImage(img, dx, dy, dw, dh);
-    }
+          // Cover: escala para preencher mantendo proporção, centraliza
+          const scale = Math.max(cw / iw, ch / ih);
+          const dw = iw * scale;
+          const dh = ih * scale;
+          const dx = (cw - dw) / 2;
+          const dy = (ch - dh) / 2;
 
-    /* ══ PRELOAD DE FRAMES ═════════════════════════════════════════
-       Carrega todos os frames em paralelo (Image objects) antes de
-       iniciar a hero. Mostra barra de progresso no preloader.
-    ══════════════════════════════════════════════════════════════ */
-    const preloaderBar   = document.getElementById('preloader-bar');
-    const preloaderLabel = document.getElementById('preloader-label');
-    const preloaderEl    = document.getElementById('preloader');
+          ctx.clearRect(0, 0, cw, ch);
+          ctx.drawImage(img, dx, dy, dw, dh);
+        }
 
-    function preloadFrames() {
-      return new Promise((resolve) => {
-        let loaded = 0;
-        const total = CONFIG.TOTAL_FRAMES;
-        frames = new Array(total);
+        /* ══ PRELOAD DE FRAMES ═════════════════════════════════════════
+           Carrega todos os frames em paralelo (Image objects) antes de
+           iniciar a hero. Mostra barra de progresso no preloader.
+        ══════════════════════════════════════════════════════════════ */
+        const preloaderBar = document.getElementById('preloader-bar');
+        const preloaderLabel = document.getElementById('preloader-label');
+        const preloaderEl = document.getElementById('preloader');
 
-        for (let i = 0; i < total; i++) {
-          const img = new Image();
-          // Nomes: frame_0000.webp, frame_0001.webp, ...
-          img.src = `${CONFIG.FRAMES_DIR}/frame_${String(i).padStart(4, '0')}.webp`;
-          frames[i] = img;
+        function preloadFrames() {
+          return new Promise((resolve) => {
+            let loaded = 0;
+            const total = CONFIG.TOTAL_FRAMES;
+            frames = new Array(total);
 
-          img.onload = img.onerror = () => {
-            loaded++;
-            const pct = Math.round((loaded / total) * 100);
-            preloaderBar.style.width  = `${pct}%`;
-            preloaderLabel.textContent = `${pct}%`;
-            if (loaded === total) resolve();
+            for (let i = 0; i < total; i++) {
+              const img = new Image();
+              // Nomes: frame_0000.webp, frame_0001.webp, ...
+              img.src = `${CONFIG.FRAMES_DIR}/frame_${String(i).padStart(4, '0')}.webp`;
+              frames[i] = img;
+
+              img.onload = img.onerror = () => {
+                loaded++;
+                const pct = Math.round((loaded / total) * 100);
+                preloaderBar.style.width = `${pct}%`;
+                preloaderLabel.textContent = `${pct}%`;
+                if (loaded === total) resolve();
+              };
+            }
+          });
+        }
+
+        /* ══ LAYOUT: calcula o rect inicial do video-frame ════════════ */
+        function getInitialFrameRect() {
+          const right = document.getElementById('hero-right');
+          const rect = right.getBoundingClientRect();
+          const cs = getComputedStyle(right);
+          const pt = parseFloat(cs.paddingTop);
+          const pr = parseFloat(cs.paddingRight);
+          const pb = parseFloat(cs.paddingBottom);
+          const pl = parseFloat(cs.paddingLeft);
+          return {
+            left: rect.left + pl,
+            top: rect.top + pt,
+            width: rect.width - pl - pr,
+            height: rect.height - pt - pb,
           };
         }
-      });
-    }
 
-    /* ══ LAYOUT: calcula o rect inicial do video-frame ════════════ */
-    function getInitialFrameRect() {
-      const right = document.getElementById('hero-right');
-      const rect  = right.getBoundingClientRect();
-      const cs    = getComputedStyle(right);
-      const pt = parseFloat(cs.paddingTop);
-      const pr = parseFloat(cs.paddingRight);
-      const pb = parseFloat(cs.paddingBottom);
-      const pl = parseFloat(cs.paddingLeft);
-      return {
-        left:   rect.left + pl,
-        top:    rect.top  + pt,
-        width:  rect.width  - pl - pr,
-        height: rect.height - pt - pb,
-      };
-    }
+        /* ══ INIT (chamado após preload concluído) ═════════════════════ */
+        function init() {
+          const frame = document.getElementById('video-frame');
+          const viewport = document.getElementById('hero-viewport');
+          const wrapper = document.getElementById('hero-pin-wrapper');
 
-    /* ══ INIT (chamado após preload concluído) ═════════════════════ */
-    function init() {
-      const frame    = document.getElementById('video-frame');
-      const viewport = document.getElementById('hero-viewport');
-      const wrapper  = document.getElementById('hero-pin-wrapper');
+          /* Altura virtual do scroll */
+          const scrollPx = window.innerHeight * (CONFIG.scrollVH / 100);
+          wrapper.style.height = `${window.innerHeight + scrollPx}px`;
 
-      /* Altura virtual do scroll */
-      const scrollPx = window.innerHeight * (CONFIG.scrollVH / 100);
-      wrapper.style.height = `${window.innerHeight + scrollPx}px`;
-
-      /* Posiciona video-frame no rect do hero-right */
-      const initRect = getInitialFrameRect();
-      gsap.set(frame, {
-        position:     'fixed',
-        left:         initRect.left,
-        top:          initRect.top,
-        width:        initRect.width,
-        height:       initRect.height,
-        borderRadius: 22,
-        zIndex:       50,
-      });
-
-      /* Dimensiona canvas para o frame */
-      resizeCanvas();
-
-      /* Desenha o frame 0 */
-      if (frames[0]?.complete) drawFrame(0);
-
-      canvas.classList.add('ready');
-
-      /* ── NAVBAR ─────────────────────────────────────────────── */
-      ScrollTrigger.create({
-        start: 'top -80px', end: 99999,
-        onEnter:     () => document.getElementById('navbar').classList.add('is-scrolled'),
-        onLeaveBack: () => document.getElementById('navbar').classList.remove('is-scrolled'),
-      });
-
-      /* ── INTRO ANIMATION (Blur/Fade-in sync with design_system2) ───────────── */
-      gsap.set(['#el-kicker', '#el-body', '#el-cta', '#el-meta', '#el-scroll', '#el-badge'], { opacity: 0, y: 15, filter: 'blur(8px)' });
-      gsap.set(['#el-h1a', '#el-h1b'], { y: '108%', filter: 'blur(10px)' });
-      gsap.set(frame, { opacity: 0, scale: 0.94 });
-      gsap.set('#navbar', { opacity: 0 });
-
-      const tl = gsap.timeline({
-        delay: 0.05,
-        onStart: () => {
-          document.body.style.opacity = '1';
-          document.getElementById('hero-left').style.pointerEvents = 'auto';
-
-          // Initialize Flashlight tracking
-          const viewportElem = document.getElementById('hero-viewport');
-          viewportElem.addEventListener('mousemove', (e) => {
-            const rect = viewportElem.getBoundingClientRect();
-            viewportElem.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-            viewportElem.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+          /* Posiciona video-frame no rect do hero-right */
+          const initRect = getInitialFrameRect();
+          gsap.set(frame, {
+            position: 'absolute',
+            left: initRect.left,
+            top: initRect.top,
+            width: initRect.width,
+            height: initRect.height,
+            borderRadius: 22,
+            zIndex: 50,
           });
 
-          // Initialize Magnetic Button
-          const magBtn = document.querySelector('.magnetic-btn');
-          if (magBtn) {
-            magBtn.addEventListener('mousemove', (e) => {
-              const rect = magBtn.getBoundingClientRect();
-              const x = e.clientX - rect.left - rect.width / 2;
-              const y = e.clientY - rect.top - rect.height / 2;
-              magBtn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+          /* Dimensiona canvas para o frame */
+          resizeCanvas();
+
+          /* Desenha o frame 0 */
+          if (frames[0]?.complete) drawFrame(0);
+
+          canvas.classList.add('ready');
+
+          /* ── NAVBAR ─────────────────────────────────────────────── */
+          ScrollTrigger.create({
+            start: 'top -80px', end: 99999,
+            onEnter: () => document.getElementById('navbar').classList.add('is-scrolled'),
+            onLeaveBack: () => document.getElementById('navbar').classList.remove('is-scrolled'),
+          });
+
+          /* ── INTRO ANIMATION (Blur/Fade-in sync with design_system2) ───────────── */
+          gsap.set(['#el-kicker', '#el-body', '#el-cta', '#el-meta', '#el-scroll', '#el-badge'], { opacity: 0, y: 15, filter: 'blur(8px)' });
+          gsap.set(['#el-h1a', '#el-h1b'], { y: '108%', filter: 'blur(10px)' });
+          gsap.set(frame, { opacity: 0, scale: 0.94 });
+          gsap.set('#navbar', { opacity: 0 });
+
+          const tl = gsap.timeline({
+            delay: 0.05,
+            onStart: () => {
+              document.body.style.opacity = '1';
+              document.getElementById('hero-left').style.pointerEvents = 'auto';
+
+              // Initialize Flashlight tracking
+              const viewportElem = document.getElementById('hero-viewport');
+              viewportElem.addEventListener('mousemove', (e) => {
+                const rect = viewportElem.getBoundingClientRect();
+                viewportElem.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                viewportElem.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+              });
+
+              // Initialize Magnetic Button
+              const magBtn = document.querySelector('.magnetic-btn');
+              if (magBtn) {
+                magBtn.addEventListener('mousemove', (e) => {
+                  const rect = magBtn.getBoundingClientRect();
+                  const x = e.clientX - rect.left - rect.width / 2;
+                  const y = e.clientY - rect.top - rect.height / 2;
+                  magBtn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                });
+                magBtn.addEventListener('mouseleave', () => {
+                  magBtn.style.transform = `translate(0px, 0px)`;
+                });
+              }
+            }
+          });
+
+          tl
+            .to('#navbar', { opacity: 1, duration: 0.7, ease: 'power2.out' })
+            .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out' }, '-=0.4')
+            .to('#el-h1a', { y: '0%', filter: 'blur(0px)', duration: 1.25, ease: 'power4.out' }, '-=0.65')
+            .to('#el-h1b', { y: '0%', filter: 'blur(0px)', duration: 1.25, ease: 'power4.out' }, '-=1.1')
+            .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, '-=0.9')
+            .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8, ease: 'power3.out' }, '-=0.75')
+            .to('#el-meta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' }, '-=0.55')
+            .to(frame, { opacity: 1, scale: 1, borderRadius: 22, duration: 1.3, ease: 'power3.out' }, '-=1.1')
+            .to(['#el-badge', '#el-scroll'], { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out', stagger: 0.12 }, '-=0.5');
+
+          /* ── SCROLL PIN ──────────────────────────────────────────── */
+          ScrollTrigger.create({
+            trigger: wrapper,
+            start: 'top top',
+            end: () => `+=${scrollPx}`,
+            pin: viewport,
+            pinSpacing: false,
+            anticipatePin: 1,
+          });
+
+          /* ── IMAGE SEQUENCE SCRUB ────────────────────────────────────
+             OnUpdate dispara a cada tick de scroll.
+             O índice é calculado pelo progresso (0→1) × total de frames.
+             DrawImage é instantâneo — sem latência de codec H.264.
+          ────────────────────────────────────────────────────────────── */
+          ScrollTrigger.create({
+            trigger: wrapper,
+            start: 'top top',
+            end: () => `+=${scrollPx}`,
+            scrub: CONFIG.scrub,
+            onUpdate: (self) => {
+              const idx = Math.min(
+                Math.floor(self.progress * CONFIG.TOTAL_FRAMES),
+                CONFIG.TOTAL_FRAMES - 1
+              );
+              drawFrame(idx);
+            }
+          });
+
+          /* ── TEXT FADE/BLUR OUT (scroll) ──────────────────────────────── */
+          gsap.to(['#el-kicker', '#el-h1a', '#el-h1b', '#el-body', '#el-cta', '#el-meta'], {
+            opacity: 0,
+            y: -30,
+            filter: 'blur(12px)',
+            ease: 'power2.in',
+            stagger: { each: 0.05, from: 'end' },
+            scrollTrigger: {
+              trigger: wrapper,
+              start: 'top top',
+              end: () => `+=${scrollPx * 0.45}`,
+              scrub: CONFIG.scrub,
+            }
+          });
+
+          gsap.to('#el-scroll', {
+            opacity: 0, ease: 'power1.out',
+            scrollTrigger: {
+              trigger: wrapper, start: 'top top',
+              end: () => `+=${scrollPx * 0.2}`, scrub: CONFIG.scrub,
+            }
+          });
+
+          /* ── VIDEO-FRAME EXPANSION (split → fullscreen) ──────────── */
+          gsap.to(frame, {
+            left: 0, top: 0, width: '100vw', height: '100vh',
+            borderRadius: 0, boxShadow: '0 0 0 0 transparent',
+            ease: 'power2.inOut',
+            scrollTrigger: {
+              trigger: wrapper, start: 'top top',
+              end: () => `+=${scrollPx}`, scrub: CONFIG.scrub,
+            }
+          });
+
+          /* ── CINEMATIC OVERLAY ───────────────────────────────────── */
+          gsap.to('#video-overlay', {
+            opacity: 1, ease: 'power1.inOut',
+            scrollTrigger: {
+              trigger: wrapper,
+              start: () => `+=${scrollPx * 0.35}`,
+              end: () => `+=${scrollPx}`,
+              scrub: CONFIG.scrub,
+            }
+          });
+
+          /* Canvas resize on window resize */
+          window.addEventListener('resize', () => {
+            resizeCanvas();
+            ScrollTrigger.refresh();
+          });
+
+          /* ── SECTION 2 ANIMATION ─────────────────────────────────── */
+          // 1. Estados iniciais
+          gsap.set('.word-inner', { y: '110%' });
+          gsap.set('.exp-reveal', { opacity: 0, y: 40, scale: 0.95, filter: 'blur(10px)' });
+          gsap.set('.draw-svg path, .draw-svg circle', { strokeDasharray: 200, strokeDashoffset: 200 });
+
+          // 2. Parallax background text and glows
+          gsap.to('#parallax-text span', {
+            x: '-20%',
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '#experience',
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true
+            }
+          });
+          
+          gsap.to('.parallax-glow-1', {
+            yPercent: -40,
+            ease: 'none',
+            scrollTrigger: { trigger: '#experience', start: 'top bottom', end: 'bottom top', scrub: true }
+          });
+          
+          gsap.to('.parallax-glow-2', {
+            yPercent: 40,
+            ease: 'none',
+            scrollTrigger: { trigger: '#experience', start: 'top bottom', end: 'bottom top', scrub: true }
+          });
+
+          // 3. Enter Animation (Fade in + Reveal)
+          ScrollTrigger.create({
+            trigger: '#experience',
+            start: 'top 75%',
+            once: true,
+            onEnter: () => {
+              const tExp = gsap.timeline();
+
+              tExp.to('.word-inner', {
+                y: '0%',
+                duration: 1.2,
+                ease: 'expo.out',
+                stagger: 0.1
+              })
+                .to('.exp-line', {
+                  scaleY: 1,
+                  duration: 1.0,
+                  ease: 'power3.inOut'
+                }, "-=0.8")
+                .to('.exp-reveal', {
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                  filter: 'blur(0px)',
+                  duration: 1.2,
+                  ease: 'power3.out',
+                  stagger: 0.15
+                }, "-=0.8")
+                .to('.draw-svg path, .draw-svg circle', {
+                  strokeDashoffset: 0,
+                  duration: 2,
+                  ease: 'power2.inOut',
+                  stagger: 0.1
+                }, "-=1.0");
+            }
+          });
+
+          // 4. Fade-Out (Exit) Animation (Scrolling past Section 2)
+          gsap.to('#experience', {
+            opacity: 0,
+            y: -40,
+            filter: 'blur(8px)',
+            scale: 0.97,
+            ease: 'power1.in',
+            scrollTrigger: {
+              trigger: '#experience',
+              start: 'bottom 60%',
+              end: 'bottom top',
+              scrub: true
+            }
+          });
+        }
+
+        /* ══ BOOTSTRAP ════════════════════════════════════════════════
+           1. Preload todos os frames (mostra barra de progresso)
+           2. Remove preloader com animação
+           3. Calcula layout e inicia GSAP
+        ══════════════════════════════════════════════════════════════ */
+        document.fonts.ready.then(() => {
+          preloadFrames().then(() => {
+            /* Preload concluído — remove o preloader */
+            gsap.to(preloaderEl, {
+              yPercent: -100,
+              duration: 1.0,
+              ease: 'power4.inOut',
+              onComplete: () => {
+                preloaderEl.style.display = 'none';
+                requestAnimationFrame(() => requestAnimationFrame(init));
+              }
             });
-            magBtn.addEventListener('mouseleave', () => {
-              magBtn.style.transform = `translate(0px, 0px)`;
-            });
-          }
-        }
-      });
-
-      tl
-        .to('#navbar',     { opacity: 1, duration: 0.7, ease: 'power2.out' })
-        .to('#el-kicker',  { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out' }, '-=0.4')
-        .to('#el-h1a',     { y: '0%', filter: 'blur(0px)', duration: 1.25, ease: 'power4.out' }, '-=0.65')
-        .to('#el-h1b',     { y: '0%', filter: 'blur(0px)', duration: 1.25, ease: 'power4.out' }, '-=1.1')
-        .to('#el-body',    { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, '-=0.9')
-        .to('#el-cta',     { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8, ease: 'power3.out' }, '-=0.75')
-        .to('#el-meta',    { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' }, '-=0.55')
-        .to(frame,         { opacity: 1, scale: 1, borderRadius: 22, duration: 1.3, ease: 'power3.out' }, '-=1.1')
-        .to(['#el-badge','#el-scroll'], { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out', stagger: 0.12 }, '-=0.5');
-
-      /* ── SCROLL PIN ──────────────────────────────────────────── */
-      ScrollTrigger.create({
-        trigger:       wrapper,
-        start:         'top top',
-        end:           () => `+=${scrollPx}`,
-        pin:           viewport,
-        pinSpacing:    false,
-        anticipatePin: 1,
-      });
-
-      /* ── IMAGE SEQUENCE SCRUB ────────────────────────────────────
-         OnUpdate dispara a cada tick de scroll.
-         O índice é calculado pelo progresso (0→1) × total de frames.
-         DrawImage é instantâneo — sem latência de codec H.264.
-      ────────────────────────────────────────────────────────────── */
-      ScrollTrigger.create({
-        trigger:  wrapper,
-        start:    'top top',
-        end:      () => `+=${scrollPx}`,
-        scrub:    CONFIG.scrub,
-        onUpdate: (self) => {
-          const idx = Math.min(
-            Math.floor(self.progress * CONFIG.TOTAL_FRAMES),
-            CONFIG.TOTAL_FRAMES - 1
-          );
-          drawFrame(idx);
-        }
-      });
-
-      /* ── TEXT FADE/BLUR OUT (scroll) ──────────────────────────────── */
-      gsap.to(['#el-kicker','#el-h1a','#el-h1b','#el-body','#el-cta','#el-meta'], {
-        opacity:   0,
-        y:         -30,
-        filter:    'blur(12px)',
-        ease:      'power2.in',
-        stagger:   { each: 0.05, from: 'end' },
-        scrollTrigger: {
-          trigger: wrapper,
-          start:   'top top',
-          end:     () => `+=${scrollPx * 0.45}`,
-          scrub:   CONFIG.scrub,
-        }
-      });
-
-      gsap.to('#el-scroll', {
-        opacity: 0, ease: 'power1.out',
-        scrollTrigger: {
-          trigger: wrapper, start: 'top top',
-          end: () => `+=${scrollPx * 0.2}`, scrub: CONFIG.scrub,
-        }
-      });
-
-      /* ── VIDEO-FRAME EXPANSION (split → fullscreen) ──────────── */
-      gsap.to(frame, {
-        left: 0, top: 0, width: '100vw', height: '100vh',
-        borderRadius: 0, boxShadow: '0 0 0 0 transparent',
-        ease: 'power2.inOut',
-        scrollTrigger: {
-          trigger: wrapper, start: 'top top',
-          end: () => `+=${scrollPx}`, scrub: CONFIG.scrub,
-        }
-      });
-
-      /* ── CINEMATIC OVERLAY ───────────────────────────────────── */
-      gsap.to('#video-overlay', {
-        opacity: 1, ease: 'power1.inOut',
-        scrollTrigger: {
-          trigger: wrapper,
-          start:   () => `+=${scrollPx * 0.35}`,
-          end:     () => `+=${scrollPx}`,
-          scrub:   CONFIG.scrub,
-        }
-      });
-
-      /* Canvas resize on window resize */
-      window.addEventListener('resize', () => {
-        resizeCanvas();
-        ScrollTrigger.refresh();
-      });
-    }
-
-    /* ══ BOOTSTRAP ════════════════════════════════════════════════
-       1. Preload todos os frames (mostra barra de progresso)
-       2. Remove preloader com animação
-       3. Calcula layout e inicia GSAP
-    ══════════════════════════════════════════════════════════════ */
-    document.fonts.ready.then(() => {
-      preloadFrames().then(() => {
-        /* Preload concluído — remove o preloader */
-        gsap.to(preloaderEl, {
-          yPercent: -100,
-          duration: 1.0,
-          ease: 'power4.inOut',
-          onComplete: () => {
-            preloaderEl.style.display = 'none';
-            requestAnimationFrame(() => requestAnimationFrame(init));
-          }
+          });
         });
-      });
-    });
 
-  }());
+      }());
   </script>
 </body>
+
 </html>
