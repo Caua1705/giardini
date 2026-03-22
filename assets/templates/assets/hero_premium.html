@@ -305,22 +305,67 @@
     /* ── SHIMMER BEAM BUTTON (conic-gradient advanced) ──────────────── */
     .btn-beam-container {
       position: relative;
-      border-radius: 9999px;
+      display: inline-flex;
     }
 
     .beam-border {
       position: absolute;
-      inset: -1px;
+      inset: -1.5px;
       border-radius: 9999px;
       pointer-events: none;
       z-index: 0;
       opacity: 0;
-      background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, var(--c-primary) 60deg, transparent 120deg);
-      animation: rotate-beam 2s linear infinite;
-      transition: opacity 0.3s;
+      background: conic-gradient(from 0deg at 50% 50%, 
+        transparent 0deg, 
+        var(--c-accent) 45deg, 
+        var(--c-dark) 90deg, 
+        transparent 135deg, 
+        var(--c-accent) 225deg, 
+        transparent 360deg);
+      animation: rotate-beam 4s linear infinite;
+      transition: opacity 0.5s var(--expo);
     }
 
     .btn-beam-container:hover .beam-border {
+      opacity: 1;
+    }
+
+    /* ── FLASHLIGHT CARD (Map Refined) ───────────────────────────── */
+    .flashlight-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        800px circle at var(--mouse-x) var(--mouse-y),
+        rgba(255, 255, 255, 0.05),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.6s;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .flashlight-card:hover::before {
+      opacity: 1;
+    }
+
+    .flashlight-border {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.6s;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .flashlight-card:hover .flashlight-border {
       opacity: 1;
     }
 
@@ -1504,59 +1549,101 @@
 
   </section>
 
-  <!-- ══ SECTION 4: LOCALIZAÇÃO & CONTATO ═══════════════════════════ -->
-  <section id="location"
-    class="relative z-[60] py-32 md:py-48 bg-[var(--c-bg)] overflow-hidden"
-    style="background: var(--c-bg); border-top: 1px solid rgba(26,26,26,0.04);">
+  <!-- ══ SECTION 4: LOCALIZAÇÃO & EXPERIÊNCIA ══════════════════════ -->
+  <section id="location" class="py-24 md:py-40 px-8 md:px-20 w-full relative z-[60] overflow-hidden" style="background: #0A0A0A;">
+    
+    <!-- Background Noise & Glows -->
+    <div class="absolute inset-0 opacity-[0.05] pointer-events-none hero-grid-bg"></div>
+    <div class="absolute -top-[20%] -right-[10%] w-[50vw] h-[50vw] bg-[var(--c-primary)]/10 rounded-full filter blur-[100px] pointer-events-none"></div>
 
-    <!-- Grid BG sutil -->
-    <div class="hero-grid-bg opacity-[0.2]"></div>
-
-    <div style="max-width:1440px;margin:0 auto;padding:0 3.5rem;position:relative;z-index:10;">
-      <div style="display:grid;grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;" class="loc-grid">
+    <div class="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-10 gap-16 md:gap-24 items-center relative z-10 w-full">
+      
+      <!-- LEFT: Info Column -->
+      <div class="lg:col-span-4 flex flex-col">
+        <div class="kicker text-[var(--c-accent)]/40 mb-10 loc-reveal" style="letter-spacing: 0.3em; font-size: 10px; font-weight: 700; text-transform: uppercase;">
+          <span class="w-8 h-[1px] bg-[var(--c-accent)]/20 inline-block align-middle mr-4"></span>
+          Location
+        </div>
         
-        <!-- Info Column -->
-        <div class="loc-reveal-left opacity-0" style="filter: blur(4px);">
-          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;">
-            <span class="w-2 h-2 rounded-full bg-[var(--c-primary)] animate-pulse"></span>
-            <span class="text-[10px] md:text-xs text-[var(--c-primary)] font-bold uppercase tracking-[0.2em]">04 / Localização</span>
+        <h2 class="font-serif text-5xl md:text-7xl leading-tight text-white mb-8 loc-reveal" style="font-family:'Instrument Serif',serif; letter-spacing: -0.01em;">
+          Besuchen <span class="italic text-[var(--c-accent)]">Sie Uns</span>
+        </h2>
+
+        <p class="text-white/40 text-sm md:text-base leading-relaxed mb-16 loc-reveal max-w-sm">
+          Ein Ort der Ruhe und des Genusses inmitten von Hamburg. Authentische japanische Küche, serviert mit Tradition.
+        </p>
+
+        <div class="space-y-12">
+          <!-- Item: Hours -->
+          <div class="loc-reveal loc-info-group">
+            <div class="flex items-center gap-3 mb-4 text-[var(--c-accent)]/50">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span class="text-[10px] uppercase font-bold tracking-widest">Öffnungszeiten</span>
+            </div>
+            <p class="font-serif text-2xl text-white mb-1" style="font-family:'Instrument Serif',serif;">MI - SA 18:00 - 22:00</p>
+            <p class="text-[11px] text-white/30 uppercase tracking-widest">SO - DI Geschlossen</p>
           </div>
 
-          <h2 style="font-family:'Instrument Serif',serif;font-size:clamp(3rem,6vw,5rem);color:var(--c-dark);line-height:0.95;margin-bottom:2.5rem;">
-            Venha viver <br><span style="font-style:italic;">o ritual</span>
-          </h2>
-
-          <div style="display:grid; gap: 2.5rem;">
-            <!-- Address -->
-            <div>
-              <p style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(26,26,26,0.4); margin-bottom:0.5rem;">Endereço</p>
-              <p style="font-size:1.1rem; font-weight:400; color:var(--c-dark); font-family:'Instrument Serif',serif;">Alameda dos Jardins, 1024<br>Jardim Paulista, São Paulo — SP</p>
+          <!-- Item: Address -->
+          <div class="loc-reveal loc-info-group">
+            <div class="flex items-center gap-3 mb-4 text-[var(--c-accent)]/50">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span class="text-[10px] uppercase font-bold tracking-widest">Adresse</span>
             </div>
+            <p class="text-lg text-white/80 leading-snug">Hamburger Berg 25<br>20359 Hamburg<br>GERMANY</p>
+          </div>
 
-            <!-- Hours -->
-            <div>
-              <p style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(26,26,26,0.4); margin-bottom:0.5rem;">Horários</p>
-              <p style="font-size:1rem; font-weight:400; color:var(--c-dark);">Segunda a Sexta — 08:00 às 20:00<br>Sábados e Domingos — 09:00 às 18:00</p>
+          <!-- Item: Contact -->
+          <div class="loc-reveal loc-info-group">
+            <div class="flex items-center gap-3 mb-4 text-[var(--c-accent)]/50">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span class="text-[10px] uppercase font-bold tracking-widest">Kontakt</span>
             </div>
+            <a href="mailto:info@kampai-hamburg.de" class="text-lg text-white/80 hover:text-[var(--c-accent)] transition-colors inline-block pb-1 border-b border-white/10">info@kampai-hamburg.de</a>
           </div>
         </div>
+      </div>
 
-        <!-- Map Mockup -->
-        <div class="loc-reveal-right opacity-0" 
-             style="position:relative; width:100%; aspect-ratio:1/1; border-radius:30px; overflow:hidden; box-shadow:0 35px 90px rgba(43,74,59,0.15); filter: blur(4px);">
-          <img src="../../raw_files/_MG_1804.jpg" alt="Localização Giardini" 
-               style="width:100%; height:100%; object-fit:cover; filter: grayscale(0.2) brightness(0.9);">
+      <!-- RIGHT: Interactive Map Card -->
+      <div class="lg:col-span-6 w-full loc-reveal-right">
+        <div class="flashlight-card map-card w-full aspect-video md:aspect-square lg:aspect-[4/5] rounded-[24px] overflow-hidden shadow-2xl relative group bg-[#111]"
+             onmousemove="const rect = this.getBoundingClientRect(); this.style.setProperty('--mouse-x', `${event.clientX - rect.left}px`); this.style.setProperty('--mouse-y', `${event.clientY - rect.top}px`);">
           
-          <div style="position:absolute; bottom:2rem; left:2rem; right:2rem; background:rgba(253,251,247,0.7); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); padding:1.5rem; border-radius:20px; border:1px solid rgba(255,255,255,0.4);">
-            <div style="display:flex; align-items:center; gap:1rem;">
-              <div style="background:var(--c-primary); color:white; width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <!-- Lanterna / Flashlight Overlay -->
+          <div class="flashlight-border" style="background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(183,147,88,0.25), transparent 80%);"></div>
+
+          <!-- Monochrome Map Layer -->
+          <img src="../../raw_files/_MG_1804.jpg" alt="Hamburg Map" class="w-full h-full object-cover filter grayscale brightness-[0.4] contrast-[1.2] group-hover:brightness-[0.6] transition-all duration-1000 scale-[1.05] group-hover:scale-100">
+          
+          <!-- Overlay UI -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+
+          <!-- Interactive Pin & Button -->
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="btn-beam-container">
+              <div class="beam-border" style="background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, var(--c-accent) 60deg, transparent 120deg);"></div>
+              <a href="#" class="glass-dark px-8 py-4 rounded-full text-white text-[10px] font-bold uppercase tracking-widest flex items-center gap-3 hover:bg-white/10 transition-all duration-500">
+                <span>View on Google Maps</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Bottom Glass Card (Map Details) -->
+          <div class="absolute bottom-8 left-8 right-8 p-6 glass-dark rounded-2xl border border-white/5 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-700">
+            <div class="flex items-center gap-4">
+              <div class="w-10 h-10 rounded-lg bg-[var(--c-accent)]/10 flex items-center justify-center flex-shrink-0">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-[var(--c-accent)]"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
               </div>
-              <p style="font-family:'Instrument Serif',serif; font-size:1.3rem; color:var(--c-dark); margin:0;">Um refúgio no coração da cidade.</p>
+              <div>
+                <p class="text-[var(--c-accent)] font-serif text-lg leading-none mb-1">Hamburg, St. Pauli</p>
+                <p class="text-white/30 text-[10px] uppercase font-bold tracking-widest">Our Cultural District</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
@@ -2123,31 +2210,41 @@
             }
           });
 
-          // 4. Section 4 Location Animation
-          gsap.set('.loc-reveal-left', { opacity: 0, x: -50, filter: 'blur(8px)' });
-          gsap.set('.loc-reveal-right', { opacity: 0, x: 50, filter: 'blur(8px)' });
+          // 4. Section 4 Location Animation (Improved Gemini Style)
+          gsap.set('.loc-reveal', { opacity: 0, y: 30, filter: 'blur(10px)' });
+          gsap.set('.loc-reveal-right', { opacity: 0, scale: 0.96, filter: 'blur(15px)' });
 
           ScrollTrigger.create({
             trigger: '#location',
-            start: 'top 75%',
+            start: 'top 70%',
             once: true,
             onEnter: () => {
-              gsap.to('.loc-reveal-left', { 
+              gsap.to('.loc-reveal', { 
                 opacity: 1, 
-                x: 0, 
+                y: 0, 
                 filter: 'blur(0px)', 
-                duration: 1.4, 
-                ease: 'power4.out' 
+                duration: 1.2, 
+                ease: 'power4.out',
+                stagger: 0.1
               });
               gsap.to('.loc-reveal-right', { 
                 opacity: 1, 
-                x: 0, 
+                scale: 1,
                 filter: 'blur(0px)', 
-                duration: 1.4, 
-                ease: 'power4.out',
-                delay: 0.15
+                duration: 1.6, 
+                ease: 'expo.out',
+                delay: 0.3
               });
             }
+          });
+
+          // Body Background Transition for Location
+          ScrollTrigger.create({
+            trigger: '#location',
+            start: 'top 50%',
+            end: 'bottom 50%',
+            onEnter: () => gsap.to('body', { backgroundColor: '#0A0A0A', duration: 1.2 }),
+            onLeaveBack: () => gsap.to('body', { backgroundColor: 'var(--c-bg)', duration: 1.2 })
           });
 
           // Giant Background Text Parallax
