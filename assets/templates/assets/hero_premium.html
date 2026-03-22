@@ -986,9 +986,13 @@
       <a href="#" class="nav-link">Acervo</a>
       <a href="#" class="nav-link">Visitar</a>
     </div>
-    <a href="#" class="nav-cta">
-      Reservar
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+    <a href="#" class="nav-cta group relative overflow-hidden">
+      <!-- Shimmer Effect -->
+      <span class="absolute inset-0 overflow-hidden pointer-events-none" style="border-radius: inherit; z-index: 1;">
+        <span class="absolute top-0 left-0 h-full w-full -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:animate-[shimmer_1.5s_infinite] group-hover:opacity-100"></span>
+      </span>
+      <span style="position: relative; z-index: 2;">Reservar</span>
+      <svg style="position: relative; z-index: 2;" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
         <path d="M5 12h14M12 5l7 7-7 7" />
       </svg>
     </a>
