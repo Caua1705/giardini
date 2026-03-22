@@ -834,6 +834,25 @@
       will-change: transform;
     }
 
+    /* ── GEMINI animationIn keyframe (used for section 3) ───────────── */
+    @keyframes animationIn {
+      0%   { opacity: 0; transform: translateY(28px); filter: blur(8px); }
+      100% { opacity: 1; transform: translateY(0);    filter: blur(0px); }
+    }
+
+    /* ── LINE-CLIP reveal (Gemini Typography slide) ─────────────────── */
+    .sect3-line-wrap {
+      display: block;
+      overflow: hidden;
+      line-height: 1.05;
+    }
+    .sect3-line-inner {
+      display: block;
+      transform: translateY(110%);
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
     /* ══ SCROLL INDICATOR ════════════════════════════════════════════ */
     .scroll-indicator {
       position: absolute;
@@ -1283,9 +1302,9 @@
         <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:2rem;">
           <div class="word-wrap split-parent" style="overflow:hidden;">
             <h2 id="featured-title"
-              style="font-family:'Instrument Serif',serif;font-size:clamp(2.6rem,5.5vw,5rem);line-height:1;letter-spacing:-0.025em;color:var(--c-dark);font-weight:400;margin:0;">
-              <span class="word-inner" style="display:block;">Sabores que</span>
-              <span class="word-inner" style="display:block;font-style:italic;color:var(--c-dark);">contam hist&#243;rias</span>
+              style="font-family:'Instrument Serif',serif;font-size:clamp(2.6rem,5.5vw,5rem);letter-spacing:-0.025em;color:var(--c-dark);font-weight:400;margin:0;line-height:1.05;">
+              <span class="sect3-line-wrap"><span class="sect3-line-inner">Sabores que</span></span>
+              <span class="sect3-line-wrap"><span class="sect3-line-inner" style="font-style:italic;">contam hist&#243;rias</span></span>
             </h2>
           </div>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:1rem;">
@@ -1897,41 +1916,48 @@
             }
           });
 
-          // ── SECTION 3 ANIMATION (Cinematic Showcase) ──────────────
-          gsap.set('.feat-card', { opacity: 0, y: 60 });
-          gsap.set('.feat-reveal', { opacity: 0, y: 24 });
+          // ── SECTION 3 ANIMATION (Gemini-style) ─────────────────────
+          gsap.set('.feat-card', { opacity: 0, y: 70, scale: 0.94, filter: 'blur(6px)' });
+          gsap.set('.feat-reveal', { opacity: 0, y: 28, filter: 'blur(6px)' });
+          // Title lines start clipped
+          gsap.set('.sect3-line-inner', { y: '110%', opacity: 0 });
 
           ScrollTrigger.create({
             trigger: '#featured',
-            start: 'top 75%',
+            start: 'top 72%',
             once: true,
             onEnter: () => {
               const tFeat = gsap.timeline();
 
               tFeat.add('start')
-                // Heading mask reveal
-                .to('#featured .word-inner', {
-                  y: '0%',
-                  duration: 1.1,
-                  ease: 'expo.out',
-                  stagger: 0.04
-                }, 'start')
-                // Label + subtitle reveal
+                // 1. Label animationIn blur
                 .to('.feat-reveal', {
                   opacity: 1,
                   y: 0,
-                  duration: 0.8,
+                  filter: 'blur(0px)',
+                  duration: 0.9,
                   ease: 'power3.out',
-                  stagger: 0.1
-                }, 'start+=0.3')
-                // Cards stagger reveal (elegant waterfall)
+                  stagger: 0.08
+                }, 'start')
+                // 2. Heading: each line slides up from clip (Gemini textSlide)
+                .to('.sect3-line-inner', {
+                  y: '0%',
+                  opacity: 1,
+                  duration: 1.0,
+                  ease: 'expo.out',
+                  stagger: 0.14
+                }, 'start+=0.1')
+                // 3. Cards: stagger with blur + scale (Gemini animationIn energy)
                 .to('.feat-card', {
                   opacity: 1,
                   y: 0,
-                  duration: 1.0,
-                  ease: 'power3.out',
-                  stagger: 0.15
-                }, 'start+=0.4');
+                  scale: 1,
+                  filter: 'blur(0px)',
+                  duration: 1.1,
+                  ease: 'power4.out',
+                  stagger: 0.18,
+                  clearProps: 'filter'
+                }, 'start+=0.35');
             }
           });
 
@@ -1964,12 +1990,9 @@
             });
           }
 
-          // Apply Char Reveal to titles
+          // Apply Char Reveal to hero/experience titles (unchanged)
           splitAndAnimate('#hero-headline .line-inner#el-h1a', 0.5);
           splitAndAnimate('#hero-headline .line-inner#el-h1b', 0.8);
-          splitAndAnimate('#experience .word-inner', 0);
-          splitAndAnimate('#featured-title .word-inner:nth-child(1)', 0);
-          splitAndAnimate('#featured-title .word-inner:nth-child(2)', 0.2);
 
           // 2. Flashlight / Spotlight Mouse Follow
           document.querySelectorAll('.flashlight-card').forEach(card => {
