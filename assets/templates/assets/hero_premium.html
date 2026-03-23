@@ -61,7 +61,8 @@
 
     html {
       scroll-behavior: auto;
-      background: var(--c-bg); /* Prevents black bars when overscrolling */
+      background: var(--c-bg);
+      /* Prevents black bars when overscrolling */
       overflow-x: hidden;
     }
 
@@ -248,18 +249,23 @@
     ::-webkit-scrollbar {
       width: 10px;
     }
+
     ::-webkit-scrollbar-track {
       background: rgba(26, 26, 26, 0.03);
     }
+
     ::-webkit-scrollbar-thumb {
-      background: rgba(43, 74, 59, 0.2); /* Tom verde sutil */
+      background: rgba(43, 74, 59, 0.2);
+      /* Tom verde sutil */
       border-radius: 10px;
       border: 2px solid transparent;
       background-clip: content-box;
     }
+
     ::-webkit-scrollbar-thumb:hover {
       background: rgba(43, 74, 59, 0.4);
     }
+
     .hero-grid-bg {
       position: absolute;
       inset: 0;
@@ -315,13 +321,13 @@
       pointer-events: none;
       z-index: 0;
       opacity: 0;
-      background: conic-gradient(from 0deg at 50% 50%, 
-        transparent 0deg, 
-        var(--c-accent) 45deg, 
-        var(--c-dark) 90deg, 
-        transparent 135deg, 
-        var(--c-accent) 225deg, 
-        transparent 360deg);
+      background: conic-gradient(from 0deg at 50% 50%,
+          transparent 0deg,
+          var(--c-accent) 45deg,
+          var(--c-dark) 90deg,
+          transparent 135deg,
+          var(--c-accent) 225deg,
+          transparent 360deg);
       animation: rotate-beam 4s linear infinite;
       transition: opacity 0.5s var(--expo);
     }
@@ -335,11 +341,9 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(
-        800px circle at var(--mouse-x) var(--mouse-y),
-        rgba(255, 255, 255, 0.05),
-        transparent 40%
-      );
+      background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y),
+          rgba(255, 255, 255, 0.05),
+          transparent 40%);
       opacity: 0;
       transition: opacity 0.6s;
       pointer-events: none;
@@ -407,7 +411,8 @@
     /* ── CUSTOM MINIMALIST SCROLL INDICATOR ────────────────────────── */
     .scroll-indicator-wrap {
       position: fixed;
-      right: 3rem; /* Slightly further in to avoid cluttering with standard scrollbar */
+      right: 3rem;
+      /* Slightly further in to avoid cluttering with standard scrollbar */
       top: 50%;
       transform: translateY(-50%);
       z-index: 9999;
@@ -422,6 +427,7 @@
       border-radius: 2px;
       overflow: hidden;
     }
+
     .live-badge {
       display: inline-flex;
       align-items: center;
@@ -884,8 +890,17 @@
 
     /* ── GEMINI animationIn keyframe (used for section 3) ───────────── */
     @keyframes animationIn {
-      0%   { opacity: 0; transform: translateY(28px); filter: blur(8px); }
-      100% { opacity: 1; transform: translateY(0);    filter: blur(0px); }
+      0% {
+        opacity: 0;
+        transform: translateY(28px);
+        filter: blur(8px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0px);
+      }
     }
 
     /* ── LINE-CLIP reveal (Gemini Typography slide) ─────────────────── */
@@ -894,6 +909,7 @@
       overflow: hidden;
       line-height: 1.05;
     }
+
     .sect3-line-inner {
       display: block;
       transform: translateY(110%);
@@ -1056,10 +1072,12 @@
     <a href="#" class="nav-cta group relative overflow-hidden">
       <!-- Shimmer Effect -->
       <span class="absolute inset-0 overflow-hidden pointer-events-none" style="border-radius: inherit; z-index: 1;">
-        <span class="absolute top-0 left-0 h-full w-full -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:animate-[shimmer_1.5s_infinite] group-hover:opacity-100"></span>
+        <span
+          class="absolute top-0 left-0 h-full w-full -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:animate-[shimmer_1.5s_infinite] group-hover:opacity-100"></span>
       </span>
       <span style="position: relative; z-index: 2;">Reservar</span>
-      <svg style="position: relative; z-index: 2;" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+      <svg style="position: relative; z-index: 2;" width="10" height="10" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2.5" aria-hidden="true">
         <path d="M5 12h14M12 5l7 7-7 7" />
       </svg>
     </a>
@@ -1090,16 +1108,21 @@
           </span>
         </h1>
         <p class="hero-body" id="el-body">
-          Um espaço pensado para a pausa. Café de especialidade, acervo literário e o ambiente ideal para a sua próxima leitura.
+          Um espaço pensado para a pausa. Café de especialidade, acervo literário e o ambiente ideal para a sua próxima
+          leitura.
         </p>
 
         <div class="hero-cta" id="el-cta">
           <a href="#" class="btn-primary btn-order group relative overflow-hidden" aria-label="Descobrir o Espaço">
-            <span class="absolute inset-0 overflow-hidden pointer-events-none" style="border-radius: inherit; z-index: 1;">
-              <span class="absolute top-0 left-0 h-full w-full -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:animate-[shimmer_1.5s_infinite] group-hover:opacity-100"></span>
+            <span class="absolute inset-0 overflow-hidden pointer-events-none"
+              style="border-radius: inherit; z-index: 1;">
+              <span
+                class="absolute top-0 left-0 h-full w-full -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:animate-[shimmer_1.5s_infinite] group-hover:opacity-100"></span>
             </span>
             <span style="position: relative; z-index: 2;">Descobrir</span>
-            <svg style="position: relative; z-index: 2;" class="transition duration-200 group-hover:translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg style="position: relative; z-index: 2;" class="transition duration-200 group-hover:translate-x-1"
+              width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </a>
@@ -1109,7 +1132,8 @@
         <div class="hero-meta hidden md:flex" id="el-meta" style="gap: 1.2rem;">
           <span class="live-badge"><span class="live-pulse"></span>Ambiente para leitura</span>
           <span style="color: rgba(26,26,26,0.15); font-size: 0.6rem;">|</span>
-          <span class="live-badge"><span class="live-pulse" style="animation-delay: 0.8s; background: rgba(26,26,26,0.25);"></span>Café especial</span>
+          <span class="live-badge"><span class="live-pulse"
+              style="animation-delay: 0.8s; background: rgba(26,26,26,0.25);"></span>Café especial</span>
           <span style="color: rgba(26,26,26,0.15); font-size: 0.6rem;">|</span>
           <span class="live-badge"><span class="live-pulse"
               style="animation-delay: 1.6s; background: rgba(26,26,26,0.25);"></span>Troca de Livros</span>
@@ -1147,8 +1171,17 @@
   <style>
     /* Logo badge: subtle breathe only — no rotation */
     @keyframes logoBadgeBreathe {
-      0%,100% { transform: scale(1);     box-shadow: 0 10px 36px rgba(43,74,59,0.14), 0 3px 10px rgba(43,74,59,0.08); }
-      50%      { transform: scale(1.04); box-shadow: 0 16px 52px rgba(43,74,59,0.22), 0 5px 16px rgba(43,74,59,0.13); }
+
+      0%,
+      100% {
+        transform: scale(1);
+        box-shadow: 0 10px 36px rgba(43, 74, 59, 0.14), 0 3px 10px rgba(43, 74, 59, 0.08);
+      }
+
+      50% {
+        transform: scale(1.04);
+        box-shadow: 0 16px 52px rgba(43, 74, 59, 0.22), 0 5px 16px rgba(43, 74, 59, 0.13);
+      }
     }
   </style>
 
@@ -1206,7 +1239,8 @@
 
         <p
           class="text-[1.05rem] md:text-[1.125rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)] mb-16 max-w-lg sec2-title translate-y-8 opacity-0 blur-[10px]">
-          Nascemos da vontade de unir um bom preparo de café ao hábito da leitura, prezando sempre por um ambiente equilibrado e propício para o foco.
+          Nascemos da vontade de unir um bom preparo de café ao hábito da leitura, prezando sempre por um ambiente
+          equilibrado e propício para o foco.
         </p>
 
         <!-- 3 Pillars -->
@@ -1234,7 +1268,8 @@
               <div class="flex flex-col">
                 <h4 class="font-display text-[1.4rem] md:text-[1.6rem] text-[var(--c-dark)] tracking-tight mb-1">Livros
                   & Leitura</h4>
-                <p class="text-[0.9rem] font-light leading-relaxed text-[var(--c-dark)] opacity-60">Uma livraria integrada ao café. Leia no local ou traga até 2 livros de casa para troca mediante consumo.</p>
+                <p class="text-[0.9rem] font-light leading-relaxed text-[var(--c-dark)] opacity-60">Uma livraria
+                  integrada ao café. Leia no local ou traga até 2 livros de casa para troca mediante consumo.</p>
               </div>
             </div>
           </div>
@@ -1259,8 +1294,11 @@
 
               <!-- Right Column: Title + Desc -->
               <div class="flex flex-col">
-                <h4 class="font-display text-[1.4rem] md:text-[1.6rem] text-[var(--c-dark)] tracking-tight mb-1">Café Especial</h4>
-                <p class="text-[0.9rem] font-light leading-relaxed text-[var(--c-dark)] opacity-60">Focamos na qualidade da extração. Usamos grãos selecionados e métodos de preparo que respeitam a bebida, entregando um café limpo e bem feito.</p>
+                <h4 class="font-display text-[1.4rem] md:text-[1.6rem] text-[var(--c-dark)] tracking-tight mb-1">Café
+                  Especial</h4>
+                <p class="text-[0.9rem] font-light leading-relaxed text-[var(--c-dark)] opacity-60">Focamos na qualidade
+                  da extração. Usamos grãos selecionados e métodos de preparo que respeitam a bebida, entregando um café
+                  limpo e bem feito.</p>
               </div>
             </div>
           </div>
@@ -1287,7 +1325,9 @@
               <div class="flex flex-col">
                 <h4 class="font-display text-[1.4rem] md:text-[1.6rem] text-[var(--c-dark)] tracking-tight mb-1">
                   O Ambiente</h4>
-                <p class="text-[0.9rem] font-light leading-relaxed text-[var(--c-dark)] opacity-60">Desenhado para o conforto de quem trabalha, estuda ou lê. Privilegiamos a iluminação suave e a acústica equilibrada para garantir tranquilidade.</p>
+                <p class="text-[0.9rem] font-light leading-relaxed text-[var(--c-dark)] opacity-60">Desenhado para o
+                  conforto de quem trabalha, estuda ou lê. Privilegiamos a iluminação suave e a acústica equilibrada
+                  para garantir tranquilidade.</p>
               </div>
             </div>
           </div>
@@ -1304,43 +1344,59 @@
   </section>
 
   <!-- SECTION 3: SABORES E OBRAS -->
-  <section id="featured"
-    class="relative z-[60] overflow-visible rounded-t-[40px] -mt-16"
+  <section id="featured" class="relative z-[60] overflow-visible rounded-t-[40px] -mt-16"
     style="background:linear-gradient(160deg,#faf7f2 0%,#f5f0e8 40%,#ede5d8 100%);padding:7rem 0 12rem;box-shadow:0 -30px 80px rgba(26,26,26,0.06)">
 
     <!-- Clip interno para grain/glows não vazarem -->
     <div style="position:absolute;inset:0;border-radius:40px 40px 0 0;overflow:hidden;pointer-events:none;z-index:0;">
-    <!-- Grain overlay for warmth -->
-    <div aria-hidden="true" style="position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0.025;background-image:url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.3\'/%3E%3C/svg%3E');background-size:200px 200px;"></div>
+      <!-- Grain overlay for warmth -->
+      <div aria-hidden="true"
+        style="position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0.025;background-image:url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.3\'/%3E%3C/svg%3E');background-size:200px 200px;">
+      </div>
 
-    <!-- Warm ambient glows -->
-    <div aria-hidden="true"
-      style="position:absolute;top:-80px;left:-120px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(183,147,88,0.12) 0%,transparent 65%);filter:blur(80px);pointer-events:none;z-index:1;"></div>
-    <div aria-hidden="true"
-      style="position:absolute;bottom:-60px;right:-100px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(43,74,59,0.09) 0%,transparent 65%);filter:blur(90px);pointer-events:none;z-index:1;"></div>
-    <div aria-hidden="true"
-      style="position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(183,147,88,0.06) 0%,transparent 70%);filter:blur(100px);pointer-events:none;z-index:1;"></div>
+      <!-- Warm ambient glows -->
+      <div aria-hidden="true"
+        style="position:absolute;top:-80px;left:-120px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(183,147,88,0.12) 0%,transparent 65%);filter:blur(80px);pointer-events:none;z-index:1;">
+      </div>
+      <div aria-hidden="true"
+        style="position:absolute;bottom:-60px;right:-100px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(43,74,59,0.09) 0%,transparent 65%);filter:blur(90px);pointer-events:none;z-index:1;">
+      </div>
+      <div aria-hidden="true"
+        style="position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(183,147,88,0.06) 0%,transparent 70%);filter:blur(100px);pointer-events:none;z-index:1;">
+      </div>
     </div><!-- /clip interno -->
 
     <!-- Logo badge: centralizado sobre a linha de topo da seção -->
     <div style="position:absolute;top:-50px;left:50%;transform:translateX(-50%);z-index:30;">
-      <div style="width:100px;height:100px;border-radius:50%;overflow:hidden;border:4px solid #fdfbf7;box-shadow:0 8px 32px rgba(43,74,59,0.18);animation:logoBadgeBreathe 5s ease-in-out infinite;">
-        <img src="../../raw_files/novalogo.jpeg" alt="Giardini Café" style="width:100%;height:100%;object-fit:cover;display:block;">
+      <div
+        style="width:100px;height:100px;border-radius:50%;overflow:hidden;border:4px solid #fdfbf7;box-shadow:0 8px 32px rgba(43,74,59,0.18);animation:logoBadgeBreathe 5s ease-in-out infinite;">
+        <img src="../../raw_files/novalogo.jpeg" alt="Giardini Café"
+          style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
     </div>
 
     <!-- Editorial vertical lines -->
     <div aria-hidden="true"
       style="position:absolute;inset:0;display:flex;justify-content:space-between;padding:0 4rem;pointer-events:none;z-index:1;">
-      <div style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.05) 30%,rgba(26,26,26,0.05) 70%,transparent);"></div>
-      <div style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.05) 30%,rgba(26,26,26,0.05) 70%,transparent);"></div>
-      <div style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.05) 30%,rgba(26,26,26,0.05) 70%,transparent);"></div>
-      <div style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.05) 30%,rgba(26,26,26,0.05) 70%,transparent);"></div>
+      <div
+        style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.05) 30%,rgba(26,26,26,0.05) 70%,transparent);">
+      </div>
+      <div
+        style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.05) 30%,rgba(26,26,26,0.05) 70%,transparent);">
+      </div>
+      <div
+        style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.05) 30%,rgba(26,26,26,0.05) 70%,transparent);">
+      </div>
+      <div
+        style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.05) 30%,rgba(26,26,26,0.05) 70%,transparent);">
+      </div>
     </div>
 
     <!-- Giant Watermark background text -->
-    <div aria-hidden="true" style="position:absolute;bottom:-2rem;left:50%;transform:translateX(-50%);width:100%;text-align:center;pointer-events:none;z-index:1;overflow:hidden;">
-      <span style="font-family:'Instrument Serif',serif;font-size:clamp(6rem,18vw,16rem);line-height:1;color:rgba(26,26,26,0.028);white-space:nowrap;letter-spacing:-0.03em;display:block;">Sabores</span>
+    <div aria-hidden="true"
+      style="position:absolute;bottom:-2rem;left:50%;transform:translateX(-50%);width:100%;text-align:center;pointer-events:none;z-index:1;overflow:hidden;">
+      <span
+        style="font-family:'Instrument Serif',serif;font-size:clamp(6rem,18vw,16rem);line-height:1;color:rgba(26,26,26,0.028);white-space:nowrap;letter-spacing:-0.03em;display:block;">Sabores</span>
     </div>
 
     <div style="max-width:1440px;margin:0 auto;padding:0 3.5rem;position:relative;z-index:10;">
@@ -1353,11 +1409,13 @@
             <!-- Same dot as Section 2: w-2 h-2 = 8px, animate-pulse -->
             <span class="w-2 h-2 rounded-full bg-[var(--c-primary)] animate-pulse inline-block"></span>
             <!-- Same text style as Section 2: text-[10px] md:text-xs, tracking-[0.2em], font-bold, uppercase -->
-            <span class="text-[10px] md:text-xs text-[var(--c-primary)] font-bold uppercase tracking-[0.2em]">02 / Sabores &amp; Obras</span>
+            <span class="text-[10px] md:text-xs text-[var(--c-primary)] font-bold uppercase tracking-[0.2em]">02 /
+              Sabores &amp; Obras</span>
           </span>
           <!-- Decorative horizontal rule -->
           <div style="flex:1;height:1px;background:linear-gradient(to right,rgba(43,74,59,0.2),transparent);"></div>
-          <span class="text-[10px] md:text-xs uppercase tracking-[0.15em]" style="color:rgba(26,26,26,0.28);">DESTAQUES</span>
+          <span class="text-[10px] md:text-xs uppercase tracking-[0.15em]"
+            style="color:rgba(26,26,26,0.28);">DESTAQUES</span>
         </div>
 
         <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:2rem;">
@@ -1365,7 +1423,8 @@
             <h2 id="featured-title"
               style="font-family:'Instrument Serif',serif;font-size:clamp(2.6rem,5.5vw,4.5rem);letter-spacing:-0.025em;color:var(--c-dark);font-weight:400;margin:0;line-height:1.05;">
               <span class="sect3-line-wrap"><span class="sect3-line-inner">Sabores que</span></span>
-              <span class="sect3-line-wrap"><span class="sect3-line-inner" style="font-style:italic;">contam hist&#243;rias</span></span>
+              <span class="sect3-line-wrap"><span class="sect3-line-inner" style="font-style:italic;">contam
+                  hist&#243;rias</span></span>
             </h2>
           </div>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:1rem;">
@@ -1374,8 +1433,13 @@
               Os favoritos de quem já viveu o Giardini.
             </p>
             <!-- Small detail: count badge -->
-            <span style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.35rem 0.85rem;border:1px solid rgba(26,26,26,0.1);border-radius:9999px;font-family:'Inter',sans-serif;font-size:0.6rem;font-weight:500;letter-spacing:0.12em;color:rgba(26,26,26,0.4);">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:0.5;"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <span
+              style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.35rem 0.85rem;border:1px solid rgba(26,26,26,0.1);border-radius:9999px;font-family:'Inter',sans-serif;font-size:0.6rem;font-weight:500;letter-spacing:0.12em;color:rgba(26,26,26,0.4);">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                style="opacity:0.5;">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+              </svg>
               Seleção da casa
             </span>
           </div>
@@ -1383,15 +1447,32 @@
 
         <!-- Animated divider -->
         <div style="margin-top:2.5rem;position:relative;height:1px;overflow:hidden;">
-          <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(26,26,26,0.06),rgba(43,74,59,0.15) 50%,transparent);"></div>
-          <div style="position:absolute;top:0;left:-100%;width:40%;height:100%;background:linear-gradient(to right,transparent,rgba(43,74,59,0.35),transparent);animation:featDivider 3.5s ease-in-out infinite 1s;"></div>
+          <div
+            style="position:absolute;inset:0;background:linear-gradient(to right,rgba(26,26,26,0.06),rgba(43,74,59,0.15) 50%,transparent);">
+          </div>
+          <div
+            style="position:absolute;top:0;left:-100%;width:40%;height:100%;background:linear-gradient(to right,transparent,rgba(43,74,59,0.35),transparent);animation:featDivider 3.5s ease-in-out infinite 1s;">
+          </div>
         </div>
         <style>
           @keyframes featDivider {
-            0% { left: -40%; opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { left: 110%; opacity: 0; }
+            0% {
+              left: -40%;
+              opacity: 0;
+            }
+
+            10% {
+              opacity: 1;
+            }
+
+            90% {
+              opacity: 1;
+            }
+
+            100% {
+              left: 110%;
+              opacity: 0;
+            }
           }
         </style>
       </div>
@@ -1417,7 +1498,8 @@
               <h3
                 style="font-family:'Instrument Serif',serif;font-size:1.35rem;color:var(--c-dark);letter-spacing:-0.01em;margin:0 0 0.35rem;line-height:1.2;">
                 Croissant Sertaneja</h3>
-              <p style="font-size:0.8rem;font-weight:300;color:rgba(26,26,26,0.55);line-height:1.65;margin:0;">Carne de sol, purê de jerimum e picles de cebola roxa.</p>
+              <p style="font-size:0.8rem;font-weight:300;color:rgba(26,26,26,0.55);line-height:1.65;margin:0;">Carne de
+                sol, purê de jerimum e picles de cebola roxa.</p>
             </div>
           </div>
           <div class="feat-label" style="padding:1rem 0.2rem 0;transition:opacity 0.3s,transform 0.3s;">
@@ -1446,7 +1528,8 @@
               <h3
                 style="font-family:'Instrument Serif',serif;font-size:1.35rem;color:var(--c-dark);letter-spacing:-0.01em;margin:0 0 0.35rem;line-height:1.2;">
                 Cappuccino Italiano</h3>
-              <p style="font-size:0.8rem;font-weight:300;color:rgba(26,26,26,0.55);line-height:1.65;margin:0;">Espresso duplo extra&#237;do no ponto, acompanhado de leite vaporizado na temperatura ideal.</p>
+              <p style="font-size:0.8rem;font-weight:300;color:rgba(26,26,26,0.55);line-height:1.65;margin:0;">Espresso
+                duplo extra&#237;do no ponto, acompanhado de leite vaporizado na temperatura ideal.</p>
             </div>
           </div>
           <div class="feat-label" style="padding:1rem 0.2rem 0;transition:opacity 0.3s,transform 0.3s;">
@@ -1475,7 +1558,8 @@
               <h3
                 style="font-family:'Instrument Serif',serif;font-size:1.35rem;color:var(--c-dark);letter-spacing:-0.01em;margin:0 0 0.35rem;line-height:1.2;">
                 Brusqueta Vigneto Cremoso</h3>
-              <p style="font-size:0.8rem;font-weight:300;color:rgba(26,26,26,0.55);line-height:1.65;margin:0;">Homus de queijo gorgonzola e castanha de caju, uvas verdes assadas, mel e manjericão.</p>
+              <p style="font-size:0.8rem;font-weight:300;color:rgba(26,26,26,0.55);line-height:1.65;margin:0;">Homus de
+                queijo gorgonzola e castanha de caju, uvas verdes assadas, mel e manjericão.</p>
             </div>
           </div>
           <div class="feat-label" style="padding:1rem 0.2rem 0;transition:opacity 0.3s,transform 0.3s;">
@@ -1491,11 +1575,17 @@
       </div><!-- /gallery -->
 
       <!-- SECTION FOOTER: decorative closing row -->
-      <div class="feat-reveal opacity-0 translate-y-4" style="margin-top:5rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;border-top:1px solid rgba(26,26,26,0.06);padding-top:2.5rem;">
-        <p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:1.15rem;color:rgba(26,26,26,0.35);margin:0;">Giardini, café com propósito.</p>
-        <a href="#" style="display:inline-flex;align-items:center;gap:0.65rem;font-family:'Inter',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--c-primary);text-decoration:none;border-bottom:1px solid rgba(43,74,59,0.25);padding-bottom:2px;">
+      <div class="feat-reveal opacity-0 translate-y-4"
+        style="margin-top:5rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;border-top:1px solid rgba(26,26,26,0.06);padding-top:2.5rem;">
+        <p
+          style="font-family:'Instrument Serif',serif;font-style:italic;font-size:1.15rem;color:rgba(26,26,26,0.35);margin:0;">
+          Giardini, café com propósito.</p>
+        <a href="#"
+          style="display:inline-flex;align-items:center;gap:0.65rem;font-family:'Inter',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--c-primary);text-decoration:none;border-bottom:1px solid rgba(43,74,59,0.25);padding-bottom:2px;">
           Explorar card&aacute;pio
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
         </a>
       </div>
     </div><!-- /container -->
@@ -1539,32 +1629,39 @@
   </section>
 
   <!-- ══ SECTION: CLUBE DO LIVRO ════════════════════════════════════════ -->
-  <section id="clube-livro" class="py-24 md:py-40 px-8 w-full relative z-[60] bg-[var(--c-bg)] overflow-hidden" 
-           style="border-top: 1px solid rgba(26,26,26,0.06);">
+  <section id="clube-livro" class="py-24 md:py-40 px-8 w-full relative z-[60] bg-[var(--c-bg)] overflow-hidden"
+    style="border-top: 1px solid rgba(26,26,26,0.06);">
     <!-- Background Grid Subtil -->
-    <div class="absolute inset-0 opacity-[0.03] pointer-events-none" 
-         style="background-image: linear-gradient(#1a1a1a 1px, transparent 1px), linear-gradient(90deg, #1a1a1a 1px, transparent 1px); background-size: 40px 40px;"></div>
-    
-    <div class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20 lg:gap-32 items-center relative z-10 w-full mb-16">
-      
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none"
+      style="background-image: linear-gradient(#1a1a1a 1px, transparent 1px), linear-gradient(90deg, #1a1a1a 1px, transparent 1px); background-size: 40px 40px;">
+    </div>
+
+    <div
+      class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20 lg:gap-32 items-center relative z-10 w-full mb-16">
+
       <!-- ESQUERDA: Texto e Features -->
       <div class="lg:col-span-5 flex flex-col pt-8 lg:pr-8">
         <div class="blur-reveal flex items-center mb-10 overflow-hidden">
-          <div class="text-[10px] md:text-xs text-[var(--c-dark)] font-bold uppercase tracking-[0.3em] flex items-center gap-4">
+          <div
+            class="text-[10px] md:text-xs text-[var(--c-dark)] font-bold uppercase tracking-[0.3em] flex items-center gap-4">
             <span class="w-8 h-[1px] bg-[var(--c-primary)] opacity-40"></span>
             03 / Clube do Livro
           </div>
         </div>
-        
+
         <div class="mb-10 overflow-hidden perspective-distant">
-          <h2 style="font-family:'Instrument Serif',serif; letter-spacing:-0.02em;" class="title-clip-reveal text-5xl md:text-6xl lg:text-[5.5rem] leading-[0.95] text-[var(--c-dark)]">
-            <span class="block overflow-hidden relative"><span class="block transition-transform duration-1000 translate-y-full">A leitura ganha</span></span>
-            <span class="block overflow-hidden relative italic text-[var(--c-primary)]"><span class="block transition-transform duration-1000 translate-y-full delay-100">companhia.</span></span>
+          <h2 style="font-family:'Instrument Serif',serif; letter-spacing:-0.02em;"
+            class="title-clip-reveal text-5xl md:text-6xl lg:text-[5.5rem] leading-[0.95] text-[var(--c-dark)]">
+            <span class="block overflow-hidden relative"><span
+                class="block transition-transform duration-1000 translate-y-full">A leitura ganha</span></span>
+            <span class="block overflow-hidden relative italic text-[var(--c-primary)]"><span
+                class="block transition-transform duration-1000 translate-y-full delay-100">companhia.</span></span>
           </h2>
         </div>
 
-        <p class="blur-reveal text-[var(--c-dark)]/80 font-light text-[1.1rem] md:text-[1.25rem] leading-relaxed mb-12 max-w-xl" style="transition-delay: 400ms;">
-          No Giardini, cada livro é um convite para o diálogo. 
+        <p class="blur-reveal text-[var(--c-dark)]/80 font-light text-[1.1rem] md:text-[1.25rem] leading-relaxed mb-12 max-w-xl"
+          style="transition-delay: 400ms;">
+          No Giardini, cada livro é um convite para o diálogo.
           Nossos encontros mensais transformam a leitura solitaria em uma experiência coletiva e memorável.
         </p>
 
@@ -1572,34 +1669,48 @@
         <div class="blur-reveal mb-20" style="transition-delay: 500ms;">
           <a href="#" class="inline-flex relative btn-beam-container group">
             <div class="beam-border"></div>
-            <span class="relative z-10 flex items-center justify-center bg-[var(--c-dark)] text-white px-10 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-neutral-900 shadow-xl group-hover:scale-[0.98]">
+            <span
+              class="relative z-10 flex items-center justify-center bg-[var(--c-dark)] text-white px-10 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-neutral-900 shadow-xl group-hover:scale-[0.98]">
               Participar da Próxima Edição
-              <svg class="ml-3 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+              <svg class="ml-3 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3">
+                </path>
+              </svg>
             </span>
           </a>
         </div>
 
         <!-- Features -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 border-t border-[var(--c-dark)]/5 pt-12" id="flashlight-grid-clube">
-          <div class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-2xl p-7 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default" style="transition-delay: 600ms;">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 border-t border-[var(--c-dark)]/5 pt-12"
+          id="flashlight-grid-clube">
+          <div
+            class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-2xl p-7 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default"
+            style="transition-delay: 600ms;">
             <div class="flashlight-border"></div>
             <div class="relative z-10 flex flex-col gap-4">
               <span class="text-3xl opacity-80 group-hover:scale-110 transition-transform duration-500">📚</span>
-              <span class="text-[9px] font-bold uppercase tracking-widest text-[var(--c-dark)]/60">Encontros Mensais</span>
+              <span class="text-[9px] font-bold uppercase tracking-widest text-[var(--c-dark)]/60">Encontros
+                Mensais</span>
             </div>
           </div>
-          <div class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-2xl p-7 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default" style="transition-delay: 700ms;">
+          <div
+            class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-2xl p-7 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default"
+            style="transition-delay: 700ms;">
             <div class="flashlight-border"></div>
             <div class="relative z-10 flex flex-col gap-4">
               <span class="text-3xl opacity-80 group-hover:scale-110 transition-transform duration-500">☕</span>
               <span class="text-[9px] font-bold uppercase tracking-widest text-[var(--c-dark)]/60">Coffee Break</span>
             </div>
           </div>
-          <div class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-2xl p-7 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default" style="transition-delay: 800ms;">
+          <div
+            class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-2xl p-7 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default"
+            style="transition-delay: 800ms;">
             <div class="flashlight-border"></div>
             <div class="relative z-10 flex flex-col gap-4">
               <span class="text-3xl opacity-80 group-hover:scale-110 transition-transform duration-500">🎻</span>
-              <span class="text-[9px] font-bold uppercase tracking-widest text-[var(--c-dark)]/60">Curadoria Musical</span>
+              <span class="text-[9px] font-bold uppercase tracking-widest text-[var(--c-dark)]/60">Curadoria
+                Musical</span>
             </div>
           </div>
         </div>
@@ -1607,16 +1718,32 @@
 
       <!-- DIREITA: 3D Stack -->
       <div class="lg:col-span-7 w-full h-[700px] md:h-[850px] relative mt-24 lg:mt-0 perspective-2000">
-        <div class="blur-reveal absolute top-0 right-0 w-[85%] h-[80%] rounded-[32px] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.12)] glass-card transform-style-3d hover:rotate-y-[-5] transition-transform duration-1000">
-          <img src="C:\Users\Arenapc\.gemini\antigravity\brain\df66d82a-da61-4f6e-8a12-19bb3fe8d4f6\clube_livro_1_1774232657893.png" alt="Cultura" class="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-1000">
+        <div
+          class="blur-reveal absolute top-0 right-0 w-[85%] h-[80%] rounded-[32px] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.12)] glass-card transform-style-3d hover:rotate-y-[-5] transition-transform duration-1000">
+          <img
+            src="C:\Users\Arenapc\.gemini\antigravity\brain\df66d82a-da61-4f6e-8a12-19bb3fe8d4f6\clube_livro_1_1774232657893.png"
+            alt="Cultura"
+            class="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-1000">
         </div>
-        <div class="blur-reveal absolute bottom-[15%] left-[-10%] w-[50%] h-[55%] rounded-[24px] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.25)] border-[8px] border-[var(--c-bg)] z-10 transform-style-3d hover:translate-z-10 transition-all duration-700" style="transition-delay: 200ms;">
-          <img src="C:\Users\Arenapc\.gemini\antigravity\brain\df66d82a-da61-4f6e-8a12-19bb3fe8d4f6\clube_livro_2_1774232673827.png" alt="Livros" class="w-full h-full object-cover transition-transform duration-1000">
+        <div
+          class="blur-reveal absolute bottom-[15%] left-[-10%] w-[50%] h-[55%] rounded-[24px] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.25)] border-[8px] border-[var(--c-bg)] z-10 transform-style-3d hover:translate-z-10 transition-all duration-700"
+          style="transition-delay: 200ms;">
+          <img
+            src="C:\Users\Arenapc\.gemini\antigravity\brain\df66d82a-da61-4f6e-8a12-19bb3fe8d4f6\clube_livro_2_1774232673827.png"
+            alt="Livros" class="w-full h-full object-cover transition-transform duration-1000">
         </div>
-        <div class="blur-reveal absolute bottom-0 right-[5%] w-[45%] h-[45%] rounded-[24px] overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.3)] border-[8px] border-[var(--c-bg)] z-20 group transform-style-3d transition-all duration-700" style="transition-delay: 500ms;">
-          <img src="C:\Users\Arenapc\.gemini\antigravity\brain\df66d82a-da61-4f6e-8a12-19bb3fe8d4f6\clube_livro_3_1774232690454.png" alt="Inspiração" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
-          <div class="absolute inset-0 bg-gradient-to-t from-[var(--c-dark)]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          <div class="absolute bottom-6 left-6 text-white opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700 delay-100">
+        <div
+          class="blur-reveal absolute bottom-0 right-[5%] w-[45%] h-[45%] rounded-[24px] overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.3)] border-[8px] border-[var(--c-bg)] z-20 group transform-style-3d transition-all duration-700"
+          style="transition-delay: 500ms;">
+          <img
+            src="C:\Users\Arenapc\.gemini\antigravity\brain\df66d82a-da61-4f6e-8a12-19bb3fe8d4f6\clube_livro_3_1774232690454.png"
+            alt="Inspiração"
+            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-[var(--c-dark)]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          </div>
+          <div
+            class="absolute bottom-6 left-6 text-white opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700 delay-100">
             <span class="text-[10px] font-bold uppercase tracking-[0.3em] block mb-1">Destaque</span>
             <span class="italic text-2xl font-serif">Inspiração Compartilhada</span>
           </div>
@@ -1625,9 +1752,12 @@
     </div>
 
     <!-- Marquee -->
-    <div class="w-full mt-24 border-y border-[var(--c-dark)]/5 bg-[var(--c-bg)] relative z-10 py-10 overflow-hidden marquee-mask blur-reveal" style="transition-delay: 900ms;">
+    <div
+      class="w-full mt-24 border-y border-[var(--c-dark)]/5 bg-[var(--c-bg)] relative z-10 py-10 overflow-hidden marquee-mask blur-reveal"
+      style="transition-delay: 900ms;">
       <div class="flex marquee-content w-max">
-        <div class="flex items-center gap-24 px-12 text-[var(--c-dark)]/20 font-serif text-[5rem] leading-none tracking-tight">
+        <div
+          class="flex items-center gap-24 px-12 text-[var(--c-dark)]/20 font-serif text-[5rem] leading-none tracking-tight">
           <span>O Silêncio Literário</span>
           <span class="text-[var(--c-primary)] opacity-30 italic">Giardini</span>
           <span>Aromas que Conectam</span>
@@ -1662,32 +1792,51 @@
 
   <style>
     /* 3D Transform Utils */
-    .perspective-2000 { perspective: 2000px; }
-    .transform-style-3d { transform-style: preserve-3d; }
-    .translate-z-10 { transform: translateZ(10px); }
-    .rotate-y-[-5]:hover { transform: rotateY(-5deg); }
+    .perspective-2000 {
+      perspective: 2000px;
+    }
+
+    .transform-style-3d {
+      transform-style: preserve-3d;
+    }
+
+    .translate-z-10 {
+      transform: translateZ(10px);
+    }
+
+    .rotate-y-[-5]:hover {
+      transform: rotateY(-5deg);
+    }
 
     /* Title Clip Reveal */
     .title-clip-reveal span span {
       display: inline-block;
     }
+
     .is-visible .title-clip-reveal span span {
       transform: translateY(0) !important;
     }
-    
+
     /* Marquee Animation */
     @keyframes scroll-left {
-      from { transform: translateX(0); }
-      to { transform: translateX(-25%); }
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-25%);
+      }
     }
+
     .marquee-content {
       animation: scroll-left 40s linear infinite;
     }
+
     .marquee-mask {
       mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
       -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
     }
-    
+
     /* Clube do Livro Entry Animations */
     .blur-reveal {
       opacity: 0;
@@ -1695,43 +1844,55 @@
       filter: blur(15px);
       transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
     .blur-reveal.is-visible {
       opacity: 1;
       transform: translateY(0);
       filter: blur(0px);
     }
-    
+
     /* Flashlight Cards */
     .flashlight-card .flashlight-border {
       position: absolute;
       inset: 0;
-      background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(43,74,59,0.15), transparent 60%);
+      background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(43, 74, 59, 0.15), transparent 60%);
       opacity: 0;
       transition: opacity 0.5s;
       pointer-events: none;
     }
+
     .flashlight-card:hover .flashlight-border {
       opacity: 1;
     }
-    
+
     /* Shimmer Beam Button (Gemini) */
     @property --beam-angle {
       syntax: '<angle>';
       inherits: false;
       initial-value: 0deg;
     }
+
     @keyframes rotate-beam {
-      0% { --beam-angle: 0deg; transform: rotate(0deg); }
-      100% { --beam-angle: 360deg; transform: rotate(360deg); }
+      0% {
+        --beam-angle: 0deg;
+        transform: rotate(0deg);
+      }
+
+      100% {
+        --beam-angle: 360deg;
+        transform: rotate(360deg);
+      }
     }
+
     .btn-beam-container {
       position: relative;
       display: inline-flex;
       border-radius: 9999px;
       padding: 1px;
       overflow: hidden;
-      background: rgba(0,0,0,0.1);
+      background: rgba(0, 0, 0, 0.1);
     }
+
     .beam-border {
       position: absolute;
       inset: -150%;
@@ -1739,27 +1900,37 @@
       animation: rotate-beam 4s linear infinite;
       z-index: 0;
       /* Fallback for browsers without @property support */
-      background: conic-gradient(from 0deg at 50% 50%, transparent 70%, var(--c-primary) 100%); 
+      background: conic-gradient(from 0deg at 50% 50%, transparent 70%, var(--c-primary) 100%);
     }
   </style>
 
   <style>
     /* ── LOC SPECIFIC STYLES (Light Theme) ──────────────── */
-    
+
     /* ── GEMINI ANIMATIONS ──────────────── */
     @keyframes animationIn {
-      0% { opacity: 0; transform: translateY(30px); filter: blur(10px); }
-      100% { opacity: 1; transform: translateY(0); filter: blur(0px); }
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+        filter: blur(10px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0px);
+      }
     }
-    
+
     .anim-fade-blur {
       opacity: 0;
       will-change: transform, opacity, filter;
     }
+
     .anim-fade-blur.is-visible {
       animation: animationIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-    
+
     /* Elegant Button (Gemini 2 style) */
     .btn-bordered-kinetic {
       border: 1px solid var(--c-dark);
@@ -1772,45 +1943,53 @@
       align-items: center;
       justify-content: center;
     }
+
     .btn-bordered-kinetic:hover {
       background: var(--c-dark);
       color: var(--c-bg);
       transform: translateY(-2px);
       box-shadow: 0 10px 20px -5px rgba(26, 26, 26, 0.15);
     }
-    
+
     /* Container do Mapa Light */
     .map-light-container {
       background: var(--c-bg);
-      border: 1px solid rgba(26,26,26,0.08);
+      border: 1px solid rgba(26, 26, 26, 0.08);
       box-shadow: 0 15px 35px -5px rgba(26, 26, 26, 0.05);
       transition: all 0.5s ease;
     }
+
     .map-light-container:hover {
       box-shadow: 0 25px 50px -12px rgba(26, 26, 26, 0.1);
     }
   </style>
 
   <!-- ══ SECTION 4: LOCALIZAÇÃO ════════════════════════════════════════ -->
-  <section id="location" class="py-24 md:py-40 px-8 w-full relative z-[60] bg-[var(--c-bg)] overflow-hidden" style="border-top: 1px solid rgba(26,26,26,0.06);">
-    
-    <div class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start relative z-10 w-full">
-      
+  <section id="location" class="py-24 md:py-40 px-8 w-full relative z-[60] bg-[var(--c-bg)] overflow-hidden"
+    style="border-top: 1px solid rgba(26,26,26,0.06);">
+
+    <div
+      class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start relative z-10 w-full">
+
       <!-- ESQUERDA: Conteúdo da Localização -->
       <div class="lg:col-span-4 flex flex-col pt-8 lg:pr-8">
         <div class="anim-fade-blur flex items-center justify-between mb-10">
-          <div class="text-[10px] md:text-xs text-[var(--c-dark)] font-bold uppercase tracking-[0.2em] flex items-center gap-3 opacity-60">
+          <div
+            class="text-[10px] md:text-xs text-[var(--c-dark)] font-bold uppercase tracking-[0.2em] flex items-center gap-3 opacity-60">
             <span class="w-6 h-px bg-[var(--c-dark)] block opacity-30"></span>
             Localização
           </div>
         </div>
-        
-        <h2 style="font-family:'Instrument Serif',serif; letter-spacing:-0.01em;" class="anim-fade-blur text-5xl md:text-7xl leading-[0.95] text-[var(--c-dark)] mb-8">
-          Visite Nossa <br/><span class="italic text-[var(--c-primary)] text-4xl md:text-6xl">Casa</span>
+
+        <h2 style="font-family:'Instrument Serif',serif; letter-spacing:-0.01em;"
+          class="anim-fade-blur text-5xl md:text-7xl leading-[0.95] text-[var(--c-dark)] mb-8">
+          Visite Nossa <br /><span class="italic text-[var(--c-primary)] text-4xl md:text-6xl">Casa</span>
         </h2>
 
-        <p class="anim-fade-blur text-[var(--c-dark)]/70 font-medium text-sm md:text-base leading-relaxed max-w-[320px] mb-16">
-          Um ambiente pensado com a mesma dedicação que aplicamos ao preparo de um café especial: focado nos detalhes, na qualidade e na pausa que o seu dia merece.
+        <p
+          class="anim-fade-blur text-[var(--c-dark)]/70 font-medium text-sm md:text-base leading-relaxed max-w-[320px] mb-16">
+          Um ambiente pensado com a mesma dedicação que aplicamos ao preparo de um café especial: focado nos detalhes,
+          na qualidade e na pausa que o seu dia merece.
         </p>
 
         <div class="space-y-12 mb-16 relative">
@@ -1833,32 +2012,39 @@
         </div>
 
         <div class="anim-fade-blur">
-          <a href="https://maps.google.com" target="_blank" class="btn-bordered-kinetic px-8 py-4 text-[10px] uppercase tracking-[0.2em] font-bold rounded-sm gap-3">
+          <a href="https://maps.google.com" target="_blank"
+            class="btn-bordered-kinetic px-8 py-4 text-[10px] uppercase tracking-[0.2em] font-bold rounded-sm gap-3">
             Como chegar
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
+            </svg>
           </a>
         </div>
       </div>
 
       <!-- DIREITA: Mapa Interativo Minimalista -->
       <div class="lg:col-span-8 w-full anim-fade-blur lg:pl-12">
-        <div class="map-light-container relative w-full aspect-[4/3] lg:aspect-[16/10] rounded-[24px] overflow-hidden p-2 group cursor-pointer" onclick="window.open('https://maps.google.com', '_blank')">
-          
+        <div
+          class="map-light-container relative w-full aspect-[4/3] lg:aspect-[16/10] rounded-[24px] overflow-hidden p-2 group cursor-pointer"
+          onclick="window.open('https://maps.google.com', '_blank')">
+
           <div class="w-full h-full rounded-[18px] overflow-hidden relative bg-[#E1DBD0]">
             <!-- Mapa iframe -->
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.365314751761!2d-38.4870535!3d-3.7303038!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7c7487cbbacbb21%3A0x67ee1c8dcab0fc41!2sR.%20Tavares%20Coutinho%2C%20580%20-%20Varjota%2C%20Fortaleza%20-%20CE%2C%2060165-080!5e0!3m2!1spt-BR!2sbr!4v1710000000000!5m2!1spt-BR!2sbr" 
-              class="absolute top-[-5%] left-[-5%] w-[110%] h-[110%] border-0 object-cover pointer-events-none filter grayscale-[80%] opacity-70 transition-all duration-700 group-hover:grayscale-0 group-hover:opacity-[0.85] group-hover:scale-[1.02]" 
-              allowfullscreen="" 
-              loading="lazy" 
-              referrerpolicy="no-referrer-when-downgrade">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.365314751761!2d-38.4870535!3d-3.7303038!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7c7487cbbacbb21%3A0x67ee1c8dcab0fc41!2sR.%20Tavares%20Coutinho%2C%20580%20-%20Varjota%2C%20Fortaleza%20-%20CE%2C%2060165-080!5e0!3m2!1spt-BR!2sbr!4v1710000000000!5m2!1spt-BR!2sbr"
+              class="absolute top-[-5%] left-[-5%] w-[110%] h-[110%] border-0 object-cover pointer-events-none filter grayscale-[80%] opacity-70 transition-all duration-700 group-hover:grayscale-0 group-hover:opacity-[0.85] group-hover:scale-[1.02]"
+              allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
             </iframe>
 
             <!-- Float Button: "Abrir no Google Maps" -->
-            <div class="absolute top-6 left-6 z-20 transform transition-all duration-500 ease-out group-hover:scale-105">
-              <div class="bg-[var(--c-bg)]/90 backdrop-blur-md px-5 py-3 text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-3 text-[var(--c-dark)] rounded-sm shadow-md border border-[var(--c-dark)]/10 hover:bg-[var(--c-dark)] hover:text-[var(--c-bg)] transition-colors duration-300">
+            <div
+              class="absolute top-6 left-6 z-20 transform transition-all duration-500 ease-out group-hover:scale-105">
+              <div
+                class="bg-[var(--c-bg)]/90 backdrop-blur-md px-5 py-3 text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-3 text-[var(--c-dark)] rounded-sm shadow-md border border-[var(--c-dark)]/10 hover:bg-[var(--c-dark)] hover:text-[var(--c-bg)] transition-colors duration-300">
                 Abrir no Maps
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
+                </svg>
               </div>
             </div>
 
@@ -1872,7 +2058,9 @@
 
   <style>
     @media (max-width: 768px) {
-      .loc-grid { grid-template-columns: 1fr !important; }
+      .loc-grid {
+        grid-template-columns: 1fr !important;
+      }
     }
   </style>
 
@@ -1933,717 +2121,717 @@
   </div>
 
   <script>
-      (function () {
-        'use strict';
+    (function () {
+      'use strict';
 
-        /* ── PRELOAD HIDING ─────────────────────────────────────────── */
-        gsap.set(['#el-kicker', '#el-body', '#el-cta', '#el-meta', '#el-scroll', '#el-badge'], { opacity: 0, y: 15, filter: 'blur(8px)' });
-        gsap.set(['#el-h1a', '#el-h1b'], { y: '108%', filter: 'blur(10px)' });
-        gsap.set('#video-frame', { opacity: 0, scale: 0.94 });
+      /* ── PRELOAD HIDING ─────────────────────────────────────────── */
+      gsap.set(['#el-kicker', '#el-body', '#el-cta', '#el-meta', '#el-scroll', '#el-badge'], { opacity: 0, y: 15, filter: 'blur(8px)' });
+      gsap.set(['#el-h1a', '#el-h1b'], { y: '108%', filter: 'blur(10px)' });
+      gsap.set('#video-frame', { opacity: 0, scale: 0.94 });
+      gsap.set('#navbar', { opacity: 0 });
+
+      /* ══════════════════════════════════════════════════════════════
+         CONFIG
+         ══════════════════════════════════════════════════════════════
+         TOTAL_FRAMES → deve ser igual ao número de arquivos gerados
+                        pelo extract_frames.py (padrão: 150)
+         FRAMES_DIR   → caminho RELATIVO a este HTML até a pasta frames
+         scrollVH     → distância de scroll virtual em % do viewport
+                        (maior = transformação mais lenta)
+         scrub        → suavidade do ScrollTrigger (true = 1:1, número = lag)
+      ══════════════════════════════════════════════════════════════ */
+      const CONFIG = {
+        TOTAL_FRAMES: 150,
+        FRAMES_DIR: 'frames',   // relativo ao HTML → assets/templates/assets/frames/
+        scrollVH: 380,        // % do viewport — aumentado para o vídeo fluir até o fim do scroll
+        scrub: 1.0,        // 1.0 = seguindo o scroll com pequeno amortecimento suave
+      };
+
+      /* ══ GSAP ══════════════════════════════════════════════════════ */
+      gsap.registerPlugin(ScrollTrigger);
+
+      /* ══ UTILIDADES ════════════════════════════════════════════════ */
+      window.updateMouse = function (element, e) {
+        const rect = element.getBoundingClientRect();
+        element.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+        element.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+      };
+
+      /* ══ LENIS (smooth scroll, corretamente sincronizado) ══════════ */
+      const lenis = new Lenis({
+        duration: 1.05,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        smoothWheel: true,
+        smoothTouch: false,
+      });
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+
+      /* ══ CANVAS + CONTEXT ══════════════════════════════════════════ */
+      const canvas = document.getElementById('seq-canvas');
+      const ctx = canvas.getContext('2d');
+      let frames = [];      // array de Image objects pré-carregados
+      let currentFrameIndex = -1; // evita repintar o mesmo frame
+
+      /* Redimensiona o canvas para o tamanho do #video-frame */
+      function resizeCanvas() {
+        const frame = document.getElementById('video-frame');
+        canvas.width = frame.offsetWidth;
+        canvas.height = frame.offsetHeight;
+        // Repinta frame atual após resize
+        if (frames.length > 0 && currentFrameIndex >= 0) {
+          drawFrame(currentFrameIndex);
+        }
+      }
+
+      /* Desenha um frame no canvas preservando aspect ratio (object-fit: cover) */
+      function drawFrame(index) {
+        if (index === currentFrameIndex) return; // sem redraw desnecessário
+        const img = frames[index];
+        if (!img || !img.complete || img.naturalWidth === 0) return;
+
+        currentFrameIndex = index;
+
+        const cw = canvas.width;
+        const ch = canvas.height;
+        const iw = img.naturalWidth;
+        const ih = img.naturalHeight;
+
+        // Cover: escala para preencher mantendo proporção, centraliza
+        const scale = Math.max(cw / iw, ch / ih);
+        const dw = iw * scale;
+        const dh = ih * scale;
+        const dx = (cw - dw) / 2;
+        const dy = (ch - dh) / 2;
+
+        ctx.clearRect(0, 0, cw, ch);
+        ctx.drawImage(img, dx, dy, dw, dh);
+      }
+
+      /* ══ PRELOAD DE FRAMES ═════════════════════════════════════════
+         Carrega todos os frames em paralelo (Image objects) antes de
+         iniciar a hero. Mostra barra de progresso no preloader.
+      ══════════════════════════════════════════════════════════════ */
+      const preloaderBar = document.getElementById('preloader-bar');
+      const preloaderLabel = document.getElementById('preloader-label');
+      const preloaderEl = document.getElementById('preloader');
+
+      function preloadFrames() {
+        return new Promise((resolve) => {
+          let loaded = 0;
+          const total = CONFIG.TOTAL_FRAMES;
+          frames = new Array(total);
+
+          for (let i = 0; i < total; i++) {
+            const img = new Image();
+            // Nomes: frame_0000.webp, frame_0001.webp, ...
+            img.src = `${CONFIG.FRAMES_DIR}/frame_${String(i).padStart(4, '0')}.webp`;
+            frames[i] = img;
+
+            img.onload = img.onerror = () => {
+              loaded++;
+              const pct = Math.round((loaded / total) * 100);
+              preloaderBar.style.width = `${pct}%`;
+              preloaderLabel.textContent = `${pct}%`;
+              if (loaded === total) resolve();
+            };
+          }
+        });
+      }
+
+      /* ══ LAYOUT: calcula o rect inicial do video-frame ════════════ */
+      function getInitialFrameRect() {
+        const right = document.getElementById('hero-right');
+        const vp = document.getElementById('hero-viewport');
+
+        const rRect = right.getBoundingClientRect();
+        const vpRect = vp.getBoundingClientRect();
+
+        const cs = getComputedStyle(right);
+        const pt = parseFloat(cs.paddingTop);
+        const pr = parseFloat(cs.paddingRight);
+        const pb = parseFloat(cs.paddingBottom);
+        const pl = parseFloat(cs.paddingLeft);
+
+        return {
+          left: (rRect.left - vpRect.left) + pl,
+          top: (rRect.top - vpRect.top) + pt,
+          width: rRect.width - pl - pr,
+          height: rRect.height - pt - pb,
+        };
+      }
+
+      /* ══ INIT (chamado após preload concluído) ═════════════════════ */
+      function init() {
+        const frame = document.getElementById('video-frame');
+        const viewport = document.getElementById('hero-viewport');
+        const wrapper = document.getElementById('hero-pin-wrapper');
+
+        /* Altura virtual do scroll */
+        const scrollPx = window.innerHeight * (CONFIG.scrollVH / 100);
+        wrapper.style.height = `${window.innerHeight + scrollPx}px`;
+
+        /* Posiciona video-frame no rect do hero-right */
+        const initRect = getInitialFrameRect();
+        gsap.set(frame, {
+          position: 'absolute',
+          left: initRect.left,
+          top: initRect.top,
+          width: initRect.width,
+          height: initRect.height,
+          borderRadius: 22,
+          zIndex: 15,
+        });
+
+        /* Dimensiona canvas para o frame */
+        resizeCanvas();
+
+        /* Desenha o frame 0 */
+        if (frames[0]?.complete) drawFrame(0);
+
+        canvas.classList.add('ready');
+
+        /* ── NAVBAR ─────────────────────────────────────────────── */
+        ScrollTrigger.create({
+          start: 'top -80px', end: 99999,
+          onEnter: () => document.getElementById('navbar').classList.add('is-scrolled'),
+          onLeaveBack: () => document.getElementById('navbar').classList.remove('is-scrolled'),
+        });
+
+        /* ── HERO ENTRANCE: cinematic per-element blur+fade+parallax ── */
+        gsap.set('#el-kicker', { opacity: 0, y: 28, filter: 'blur(12px)' });
+        gsap.set('#el-h1a', { y: '110%', filter: 'blur(8px)' });
+        gsap.set('#el-h1b', { y: '110%', filter: 'blur(8px)' });
+        gsap.set('#el-body', { opacity: 0, y: 22, filter: 'blur(10px)' });
+        gsap.set('#el-cta', { opacity: 0, y: 20, filter: 'blur(8px)' });
+        gsap.set('#el-meta', { opacity: 0, y: 14, filter: 'blur(6px)' });
+        gsap.set('#el-scroll', { opacity: 0, y: 10 });
         gsap.set('#navbar', { opacity: 0 });
 
-        /* ══════════════════════════════════════════════════════════════
-           CONFIG
-           ══════════════════════════════════════════════════════════════
-           TOTAL_FRAMES → deve ser igual ao número de arquivos gerados
-                          pelo extract_frames.py (padrão: 150)
-           FRAMES_DIR   → caminho RELATIVO a este HTML até a pasta frames
-           scrollVH     → distância de scroll virtual em % do viewport
-                          (maior = transformação mais lenta)
-           scrub        → suavidade do ScrollTrigger (true = 1:1, número = lag)
-        ══════════════════════════════════════════════════════════════ */
-        const CONFIG = {
-          TOTAL_FRAMES: 150,
-          FRAMES_DIR: 'frames',   // relativo ao HTML → assets/templates/assets/frames/
-          scrollVH: 380,        // % do viewport — aumentado para o vídeo fluir até o fim do scroll
-          scrub: 1.0,        // 1.0 = seguindo o scroll com pequeno amortecimento suave
-        };
+        const tl = gsap.timeline({
+          delay: 0.05,
+          onStart: () => {
+            document.body.style.opacity = '1';
+            document.getElementById('hero-left').style.pointerEvents = 'auto';
 
-        /* ══ GSAP ══════════════════════════════════════════════════════ */
-        gsap.registerPlugin(ScrollTrigger);
-
-        /* ══ UTILIDADES ════════════════════════════════════════════════ */
-        window.updateMouse = function (element, e) {
-          const rect = element.getBoundingClientRect();
-          element.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-          element.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-        };
-
-        /* ══ LENIS (smooth scroll, corretamente sincronizado) ══════════ */
-        const lenis = new Lenis({
-          duration: 1.05,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          orientation: 'vertical',
-          smoothWheel: true,
-          smoothTouch: false,
-        });
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-        gsap.ticker.lagSmoothing(0);
-
-        /* ══ CANVAS + CONTEXT ══════════════════════════════════════════ */
-        const canvas = document.getElementById('seq-canvas');
-        const ctx = canvas.getContext('2d');
-        let frames = [];      // array de Image objects pré-carregados
-        let currentFrameIndex = -1; // evita repintar o mesmo frame
-
-        /* Redimensiona o canvas para o tamanho do #video-frame */
-        function resizeCanvas() {
-          const frame = document.getElementById('video-frame');
-          canvas.width = frame.offsetWidth;
-          canvas.height = frame.offsetHeight;
-          // Repinta frame atual após resize
-          if (frames.length > 0 && currentFrameIndex >= 0) {
-            drawFrame(currentFrameIndex);
+            // Initialize Flashlight tracking
+            const viewportElem = document.getElementById('hero-viewport');
+            viewportElem.addEventListener('mousemove', (e) => {
+              const rect = viewportElem.getBoundingClientRect();
+              viewportElem.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+              viewportElem.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+            });
           }
-        }
+        });
 
-        /* Desenha um frame no canvas preservando aspect ratio (object-fit: cover) */
-        function drawFrame(index) {
-          if (index === currentFrameIndex) return; // sem redraw desnecessário
-          const img = frames[index];
-          if (!img || !img.complete || img.naturalWidth === 0) return;
+        tl
+          .to('#navbar', { opacity: 1, duration: 0.7, ease: 'power2.out' })
+          .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'expo.out' }, '-=0.4')
+          .add('titleShow', '-=0.65')
+          .to('#el-h1a', { y: '0%', filter: 'blur(0px)', duration: 1.35, ease: 'expo.out' }, 'titleShow')
+          .to(frame, { opacity: 1, scale: 1, borderRadius: 22, duration: 1.5, ease: 'power4.out' }, 'titleShow')
+          .to('#el-h1b', { y: '0%', filter: 'blur(0px)', duration: 1.35, ease: 'expo.out' }, 'titleShow+=0.12')
+          .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, 'titleShow+=0.32')
+          .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.85, ease: 'power3.out' }, 'titleShow+=0.48')
+          .to('#el-meta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' }, 'titleShow+=0.66')
+          .to(['#el-badge', '#el-scroll'], { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out', stagger: 0.12 }, 'titleShow+=0.72');
 
-          currentFrameIndex = index;
+        /* ── SCROLL-OUT: staggered parallax per element ─────────────── */
+        gsap.fromTo('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
+          opacity: 0, y: -40, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.22}`, scrub: CONFIG.scrub }
+        });
+        gsap.fromTo('#el-h1a', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
+          opacity: 0, y: -60, filter: 'blur(12px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.3}`, scrub: CONFIG.scrub }
+        });
+        gsap.fromTo('#el-h1b', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
+          opacity: 0, y: -48, filter: 'blur(10px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.36}`, scrub: CONFIG.scrub }
+        });
+        gsap.fromTo('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
+          opacity: 0, y: -32, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.43}`, scrub: CONFIG.scrub }
+        });
+        gsap.fromTo('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
+          opacity: 0, y: -26, filter: 'blur(6px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.5}`, scrub: CONFIG.scrub }
+        });
+        gsap.fromTo('#el-meta', { opacity: 1, y: 0 }, {
+          opacity: 0, y: -18, ease: 'power1.in', immediateRender: false,
+          scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.35}`, scrub: CONFIG.scrub }
+        });
 
-          const cw = canvas.width;
-          const ch = canvas.height;
-          const iw = img.naturalWidth;
-          const ih = img.naturalHeight;
+        /* ── SCROLL PIN ──────────────────────────────────────────── */
+        ScrollTrigger.create({
+          trigger: wrapper,
+          start: 'top top',
+          end: () => `+=${scrollPx}`,
+          pin: viewport,
+          pinSpacing: false,
+          anticipatePin: 1,
+        });
 
-          // Cover: escala para preencher mantendo proporção, centraliza
-          const scale = Math.max(cw / iw, ch / ih);
-          const dw = iw * scale;
-          const dh = ih * scale;
-          const dx = (cw - dw) / 2;
-          const dy = (ch - dh) / 2;
+        /* ── IMAGE SEQUENCE SCRUB ────────────────────────────────────
+           OnUpdate dispara a cada tick de scroll.
+           O índice é calculado pelo progresso (0→1) × total de frames.
+           DrawImage é instantâneo — sem latência de codec H.264.
+        ────────────────────────────────────────────────────────────── */
+        ScrollTrigger.create({
+          trigger: wrapper,
+          start: 'top top',
+          end: () => `+=${scrollPx}`,
+          scrub: CONFIG.scrub,
+          onUpdate: (self) => {
+            const idx = Math.min(
+              Math.floor(self.progress * CONFIG.TOTAL_FRAMES),
+              CONFIG.TOTAL_FRAMES - 1
+            );
+            drawFrame(idx);
+          }
+        });
 
-          ctx.clearRect(0, 0, cw, ch);
-          ctx.drawImage(img, dx, dy, dw, dh);
-        }
+        /* ── TEXT SCROLL-OUT: per-element parallax exits (see below) ── */
+        // Handled by individual gsap.to() blocks in the CREATIVE ANIMATIONS section
 
-        /* ══ PRELOAD DE FRAMES ═════════════════════════════════════════
-           Carrega todos os frames em paralelo (Image objects) antes de
-           iniciar a hero. Mostra barra de progresso no preloader.
-        ══════════════════════════════════════════════════════════════ */
-        const preloaderBar = document.getElementById('preloader-bar');
-        const preloaderLabel = document.getElementById('preloader-label');
-        const preloaderEl = document.getElementById('preloader');
+        gsap.fromTo('#el-scroll', { opacity: 1 }, {
+          opacity: 0, ease: 'power1.out', immediateRender: false,
+          scrollTrigger: {
+            trigger: wrapper, start: 'top top',
+            end: () => `+=${scrollPx * 0.2}`, scrub: CONFIG.scrub,
+          }
+        });
 
-        function preloadFrames() {
-          return new Promise((resolve) => {
-            let loaded = 0;
-            const total = CONFIG.TOTAL_FRAMES;
-            frames = new Array(total);
+        /* ── VIDEO-FRAME EXPANSION (split → fullscreen) ──────────── */
+        gsap.to(frame, {
+          left: 0, top: 0, width: '100vw', height: '100vh',
+          borderRadius: 0, boxShadow: '0 0 0 0 transparent',
+          zIndex: 40,
+          ease: 'power2.inOut',
+          scrollTrigger: {
+            trigger: wrapper, start: 'top top',
+            end: () => `+=${scrollPx}`, scrub: CONFIG.scrub,
+          }
+        });
 
-            for (let i = 0; i < total; i++) {
-              const img = new Image();
-              // Nomes: frame_0000.webp, frame_0001.webp, ...
-              img.src = `${CONFIG.FRAMES_DIR}/frame_${String(i).padStart(4, '0')}.webp`;
-              frames[i] = img;
-
-              img.onload = img.onerror = () => {
-                loaded++;
-                const pct = Math.round((loaded / total) * 100);
-                preloaderBar.style.width = `${pct}%`;
-                preloaderLabel.textContent = `${pct}%`;
-                if (loaded === total) resolve();
-              };
-            }
-          });
-        }
-
-        /* ══ LAYOUT: calcula o rect inicial do video-frame ════════════ */
-        function getInitialFrameRect() {
-          const right = document.getElementById('hero-right');
-          const vp = document.getElementById('hero-viewport');
-
-          const rRect = right.getBoundingClientRect();
-          const vpRect = vp.getBoundingClientRect();
-
-          const cs = getComputedStyle(right);
-          const pt = parseFloat(cs.paddingTop);
-          const pr = parseFloat(cs.paddingRight);
-          const pb = parseFloat(cs.paddingBottom);
-          const pl = parseFloat(cs.paddingLeft);
-
-          return {
-            left: (rRect.left - vpRect.left) + pl,
-            top: (rRect.top - vpRect.top) + pt,
-            width: rRect.width - pl - pr,
-            height: rRect.height - pt - pb,
-          };
-        }
-
-        /* ══ INIT (chamado após preload concluído) ═════════════════════ */
-        function init() {
-          const frame = document.getElementById('video-frame');
-          const viewport = document.getElementById('hero-viewport');
-          const wrapper = document.getElementById('hero-pin-wrapper');
-
-          /* Altura virtual do scroll */
-          const scrollPx = window.innerHeight * (CONFIG.scrollVH / 100);
-          wrapper.style.height = `${window.innerHeight + scrollPx}px`;
-
-          /* Posiciona video-frame no rect do hero-right */
-          const initRect = getInitialFrameRect();
-          gsap.set(frame, {
-            position: 'absolute',
-            left: initRect.left,
-            top: initRect.top,
-            width: initRect.width,
-            height: initRect.height,
-            borderRadius: 22,
-            zIndex: 15,
-          });
-
-          /* Dimensiona canvas para o frame */
-          resizeCanvas();
-
-          /* Desenha o frame 0 */
-          if (frames[0]?.complete) drawFrame(0);
-
-          canvas.classList.add('ready');
-
-          /* ── NAVBAR ─────────────────────────────────────────────── */
-          ScrollTrigger.create({
-            start: 'top -80px', end: 99999,
-            onEnter: () => document.getElementById('navbar').classList.add('is-scrolled'),
-            onLeaveBack: () => document.getElementById('navbar').classList.remove('is-scrolled'),
-          });
-
-          /* ── HERO ENTRANCE: cinematic per-element blur+fade+parallax ── */
-          gsap.set('#el-kicker', { opacity: 0, y: 28, filter: 'blur(12px)' });
-          gsap.set('#el-h1a', { y: '110%', filter: 'blur(8px)' });
-          gsap.set('#el-h1b', { y: '110%', filter: 'blur(8px)' });
-          gsap.set('#el-body', { opacity: 0, y: 22, filter: 'blur(10px)' });
-          gsap.set('#el-cta', { opacity: 0, y: 20, filter: 'blur(8px)' });
-          gsap.set('#el-meta', { opacity: 0, y: 14, filter: 'blur(6px)' });
-          gsap.set('#el-scroll', { opacity: 0, y: 10 });
-          gsap.set('#navbar', { opacity: 0 });
-
-          const tl = gsap.timeline({
-            delay: 0.05,
-            onStart: () => {
-              document.body.style.opacity = '1';
-              document.getElementById('hero-left').style.pointerEvents = 'auto';
-
-              // Initialize Flashlight tracking
-              const viewportElem = document.getElementById('hero-viewport');
-              viewportElem.addEventListener('mousemove', (e) => {
-                const rect = viewportElem.getBoundingClientRect();
-                viewportElem.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-                viewportElem.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-              });
-            }
-          });
-
-          tl
-            .to('#navbar', { opacity: 1, duration: 0.7, ease: 'power2.out' })
-            .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'expo.out' }, '-=0.4')
-            .add('titleShow', '-=0.65')
-            .to('#el-h1a', { y: '0%', filter: 'blur(0px)', duration: 1.35, ease: 'expo.out' }, 'titleShow')
-            .to(frame, { opacity: 1, scale: 1, borderRadius: 22, duration: 1.5, ease: 'power4.out' }, 'titleShow')
-            .to('#el-h1b', { y: '0%', filter: 'blur(0px)', duration: 1.35, ease: 'expo.out' }, 'titleShow+=0.12')
-            .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, 'titleShow+=0.32')
-            .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.85, ease: 'power3.out' }, 'titleShow+=0.48')
-            .to('#el-meta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' }, 'titleShow+=0.66')
-            .to(['#el-badge', '#el-scroll'], { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out', stagger: 0.12 }, 'titleShow+=0.72');
-
-          /* ── SCROLL-OUT: staggered parallax per element ─────────────── */
-          gsap.fromTo('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
-            opacity: 0, y: -40, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
-            scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.22}`, scrub: CONFIG.scrub }
-          });
-          gsap.fromTo('#el-h1a', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
-            opacity: 0, y: -60, filter: 'blur(12px)', ease: 'power2.in', immediateRender: false,
-            scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.3}`, scrub: CONFIG.scrub }
-          });
-          gsap.fromTo('#el-h1b', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
-            opacity: 0, y: -48, filter: 'blur(10px)', ease: 'power2.in', immediateRender: false,
-            scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.36}`, scrub: CONFIG.scrub }
-          });
-          gsap.fromTo('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
-            opacity: 0, y: -32, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
-            scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.43}`, scrub: CONFIG.scrub }
-          });
-          gsap.fromTo('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
-            opacity: 0, y: -26, filter: 'blur(6px)', ease: 'power2.in', immediateRender: false,
-            scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.5}`, scrub: CONFIG.scrub }
-          });
-          gsap.fromTo('#el-meta', { opacity: 1, y: 0 }, {
-            opacity: 0, y: -18, ease: 'power1.in', immediateRender: false,
-            scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.35}`, scrub: CONFIG.scrub }
-          });
-
-          /* ── SCROLL PIN ──────────────────────────────────────────── */
-          ScrollTrigger.create({
+        /* ── CINEMATIC OVERLAY ───────────────────────────────────── */
+        gsap.to('#video-overlay', {
+          opacity: 1, ease: 'power1.inOut',
+          scrollTrigger: {
             trigger: wrapper,
-            start: 'top top',
-            end: () => `+=${scrollPx}`,
-            pin: viewport,
-            pinSpacing: false,
-            anticipatePin: 1,
-          });
-
-          /* ── IMAGE SEQUENCE SCRUB ────────────────────────────────────
-             OnUpdate dispara a cada tick de scroll.
-             O índice é calculado pelo progresso (0→1) × total de frames.
-             DrawImage é instantâneo — sem latência de codec H.264.
-          ────────────────────────────────────────────────────────────── */
-          ScrollTrigger.create({
-            trigger: wrapper,
-            start: 'top top',
+            start: () => `+=${scrollPx * 0.35}`,
             end: () => `+=${scrollPx}`,
             scrub: CONFIG.scrub,
-            onUpdate: (self) => {
-              const idx = Math.min(
-                Math.floor(self.progress * CONFIG.TOTAL_FRAMES),
-                CONFIG.TOTAL_FRAMES - 1
-              );
-              drawFrame(idx);
-            }
-          });
+          }
+        });
 
-          /* ── TEXT SCROLL-OUT: per-element parallax exits (see below) ── */
-          // Handled by individual gsap.to() blocks in the CREATIVE ANIMATIONS section
+        /* Canvas resize on window resize */
+        window.addEventListener('resize', () => {
+          resizeCanvas();
+          ScrollTrigger.refresh();
+        });
 
-          gsap.fromTo('#el-scroll', { opacity: 1 }, {
-            opacity: 0, ease: 'power1.out', immediateRender: false,
-            scrollTrigger: {
-              trigger: wrapper, start: 'top top',
-              end: () => `+=${scrollPx * 0.2}`, scrub: CONFIG.scrub,
-            }
-          });
+        /* ── SECTION 2 ANIMATION (2-Col Layout Polished) ─────────── */
+        // Set initial states for word mask
+        gsap.set('.word-inner', { y: '110%' });
 
-          /* ── VIDEO-FRAME EXPANSION (split → fullscreen) ──────────── */
-          gsap.to(frame, {
-            left: 0, top: 0, width: '100vw', height: '100vh',
-            borderRadius: 0, boxShadow: '0 0 0 0 transparent',
-            zIndex: 40,
-            ease: 'power2.inOut',
-            scrollTrigger: {
-              trigger: wrapper, start: 'top top',
-              end: () => `+=${scrollPx}`, scrub: CONFIG.scrub,
-            }
-          });
-
-          /* ── CINEMATIC OVERLAY ───────────────────────────────────── */
-          gsap.to('#video-overlay', {
-            opacity: 1, ease: 'power1.inOut',
-            scrollTrigger: {
-              trigger: wrapper,
-              start: () => `+=${scrollPx * 0.35}`,
-              end: () => `+=${scrollPx}`,
-              scrub: CONFIG.scrub,
-            }
-          });
-
-          /* Canvas resize on window resize */
-          window.addEventListener('resize', () => {
-            resizeCanvas();
-            ScrollTrigger.refresh();
-          });
-
-          /* ── SECTION 2 ANIMATION (2-Col Layout Polished) ─────────── */
-          // Set initial states for word mask
-          gsap.set('.word-inner', { y: '110%' });
-
-          // Parallax background text and glows
-          gsap.to('#parallax-text span', {
-            x: '-30%',
-            ease: 'none',
-            scrollTrigger: {
-              trigger: '#experience',
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true
-            }
-          });
-
-          gsap.to('.parallax-glow-1', {
-            yPercent: -40,
-            ease: 'none',
-            scrollTrigger: { trigger: '#experience', start: 'top bottom', end: 'bottom top', scrub: true }
-          });
-
-          gsap.to('.parallax-glow-2', {
-            yPercent: 40,
-            ease: 'none',
-            scrollTrigger: { trigger: '#experience', start: 'top bottom', end: 'bottom top', scrub: true }
-          });
-
-          ScrollTrigger.create({
+        // Parallax background text and glows
+        gsap.to('#parallax-text span', {
+          x: '-30%',
+          ease: 'none',
+          scrollTrigger: {
             trigger: '#experience',
-            start: 'top 80%',
-            once: true,
-            onEnter: () => {
-              const tExp = gsap.timeline();
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true
+          }
+        });
 
-              tExp.add('start')
-                .to('.exp-left', {
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  filter: 'blur(0px)',
-                  duration: 1.6,
-                  ease: 'power3.out'
-                }, 'start')
-                .to('.exp-left-img', {
-                  scale: 1,
-                  duration: 2.0,
-                  ease: 'power3.out',
-                  clearProps: 'transform'
-                }, 'start')
-                .to('.sec2-title', {
-                  opacity: 1,
-                  y: 0,
-                  filter: 'blur(0px)',
-                  duration: 1.0,
-                  ease: 'power3.out'
-                }, 'start+=0.3')
-                .to('.exp-pillar', {
-                  opacity: 1,
-                  y: 0,
-                  filter: 'blur(0px)',
-                  duration: 1.0,
-                  ease: 'power3.out',
-                  stagger: 0.4
-                }, 'start+=0.7');
-            }
-          });
+        gsap.to('.parallax-glow-1', {
+          yPercent: -40,
+          ease: 'none',
+          scrollTrigger: { trigger: '#experience', start: 'top bottom', end: 'bottom top', scrub: true }
+        });
 
-          // ── SECTION 3 ANIMATION (Gemini-style) ─────────────────────
-          gsap.set('.feat-card', { opacity: 0, y: 70, scale: 0.94, filter: 'blur(6px)' });
-          gsap.set('.feat-reveal', { opacity: 0, y: 28, filter: 'blur(6px)' });
-          // Title lines start clipped
-          gsap.set('.sect3-line-inner', { y: '110%', opacity: 0 });
+        gsap.to('.parallax-glow-2', {
+          yPercent: 40,
+          ease: 'none',
+          scrollTrigger: { trigger: '#experience', start: 'top bottom', end: 'bottom top', scrub: true }
+        });
 
-          ScrollTrigger.create({
-            trigger: '#featured',
-            start: 'top 72%',
-            once: true,
-            onEnter: () => {
-              const tFeat = gsap.timeline();
+        ScrollTrigger.create({
+          trigger: '#experience',
+          start: 'top 80%',
+          once: true,
+          onEnter: () => {
+            const tExp = gsap.timeline();
 
-              tFeat.add('start')
-                // 1. Label animationIn blur
-                .to('.feat-reveal', {
-                  opacity: 1,
-                  y: 0,
-                  filter: 'blur(0px)',
-                  duration: 0.9,
-                  ease: 'power3.out',
-                  stagger: 0.08
-                }, 'start')
-                // 2. Heading: each line slides up from clip (Gemini textSlide)
-                .to('.sect3-line-inner', {
-                  y: '0%',
-                  opacity: 1,
-                  duration: 1.0,
-                  ease: 'expo.out',
-                  stagger: 0.14
-                }, 'start+=0.1')
-                // 3. Cards: stagger with blur + scale (Gemini animationIn energy)
-                .to('.feat-card', {
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  filter: 'blur(0px)',
-                  duration: 1.1,
-                  ease: 'power4.out',
-                  stagger: 0.18,
-                  clearProps: 'filter'
-                }, 'start+=0.35');
-            }
-          });
-
-          // ── CREATIVE ANIMATIONS (NEW) ──────────────────────────────
-
-          // 1. Text Split & Char Reveal Logic
-          function splitAndAnimate(selector, delayStart = 0) {
-            const el = document.querySelector(selector);
-            if (!el) return;
-            const text = el.innerText;
-            el.innerHTML = '';
-            text.split('').forEach((char, i) => {
-              const span = document.createElement('span');
-              span.innerText = char === ' ' ? '\u00A0' : char;
-              span.className = 'split-child opacity-0';
-              el.appendChild(span);
-              gsap.to(span, {
+            tExp.add('start')
+              .to('.exp-left', {
                 opacity: 1,
                 y: 0,
-                startAt: { y: 20 },
-                duration: 0.8,
-                delay: delayStart + (i * 0.03),
+                scale: 1,
+                filter: 'blur(0px)',
+                duration: 1.6,
+                ease: 'power3.out'
+              }, 'start')
+              .to('.exp-left-img', {
+                scale: 1,
+                duration: 2.0,
                 ease: 'power3.out',
-                scrollTrigger: {
-                  trigger: el,
-                  start: 'top 85%',
-                  toggleActions: 'play none none none'
-                }
-              });
-            });
+                clearProps: 'transform'
+              }, 'start')
+              .to('.sec2-title', {
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 1.0,
+                ease: 'power3.out'
+              }, 'start+=0.3')
+              .to('.exp-pillar', {
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 1.0,
+                ease: 'power3.out',
+                stagger: 0.4
+              }, 'start+=0.7');
           }
+        });
 
-          // Apply Char Reveal to hero/experience titles (unchanged)
-          splitAndAnimate('#hero-headline .line-inner#el-h1a', 0.5);
-          splitAndAnimate('#hero-headline .line-inner#el-h1b', 0.8);
+        // ── SECTION 3 ANIMATION (Gemini-style) ─────────────────────
+        gsap.set('.feat-card', { opacity: 0, y: 70, scale: 0.94, filter: 'blur(6px)' });
+        gsap.set('.feat-reveal', { opacity: 0, y: 28, filter: 'blur(6px)' });
+        // Title lines start clipped
+        gsap.set('.sect3-line-inner', { y: '110%', opacity: 0 });
 
-          // 2. Flashlight / Spotlight Mouse Follow
-          document.querySelectorAll('.flashlight-card').forEach(card => {
-            card.addEventListener('mousemove', e => {
-              const rect = card.getBoundingClientRect();
-              const x = e.clientX - rect.left;
-              const y = e.clientY - rect.top;
-              card.style.setProperty('--mouse-x', `${x}px`);
-              card.style.setProperty('--mouse-y', `${y}px`);
-            });
-          });
+        ScrollTrigger.create({
+          trigger: '#featured',
+          start: 'top 72%',
+          once: true,
+          onEnter: () => {
+            const tFeat = gsap.timeline();
 
-          // 3. Section 3 Dark Mode (Improved Transitions)
-          ScrollTrigger.create({
-            trigger: '#featured',
-            start: 'top 55%',
-            end: 'bottom 45%',
-            onEnter: () => {
-              gsap.to('#featured', { backgroundColor: 'var(--c-dark)', duration: 1.2, ease: 'power2.out' });
-              gsap.to('body', { backgroundColor: 'var(--c-dark)', duration: 1.2, ease: 'power2.out' });
-              gsap.to('.feat-text-dark', { color: '#ffffff', duration: 1.2 });
-              gsap.to('.feat-text-muted', { color: 'rgba(255,255,255,0.6)', duration: 1.2 });
-              gsap.to('.glow-orb', { opacity: 0.25, duration: 2, ease: 'power2.inOut', stagger: 0.2 });
-              gsap.to('.feat-grid', { opacity: 1, duration: 2 });
-            },
-            onLeave: () => {
-              // Smooth return to ivory when scrolling to Section 4
-              gsap.to('body', { backgroundColor: 'var(--c-bg)', duration: 1.0 });
-            },
-            onEnterBack: () => {
-              // Return to dark when scrolling back up to Section 3
-              gsap.to('body', { backgroundColor: 'var(--c-dark)', duration: 1.0 });
-            },
-            onLeaveBack: () => {
-              gsap.to('#featured', { backgroundColor: 'var(--c-bg)', duration: 1.2, ease: 'power2.out' });
-              gsap.to('body', { backgroundColor: 'var(--c-bg)', duration: 1.2, ease: 'power2.out' });
-              gsap.to('.feat-text-dark', { color: 'var(--c-dark)', duration: 1.2 });
-              gsap.to('.feat-text-muted', { color: 'rgba(26,26,26,0.5)', duration: 1.2 });
-              gsap.to('.glow-orb', { opacity: 0, duration: 1.2 });
-              gsap.to('.feat-grid', { opacity: 0, duration: 1.2 });
-            }
-          });
+            tFeat.add('start')
+              // 1. Label animationIn blur
+              .to('.feat-reveal', {
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 0.9,
+                ease: 'power3.out',
+                stagger: 0.08
+              }, 'start')
+              // 2. Heading: each line slides up from clip (Gemini textSlide)
+              .to('.sect3-line-inner', {
+                y: '0%',
+                opacity: 1,
+                duration: 1.0,
+                ease: 'expo.out',
+                stagger: 0.14
+              }, 'start+=0.1')
+              // 3. Cards: stagger with blur + scale (Gemini animationIn energy)
+              .to('.feat-card', {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                filter: 'blur(0px)',
+                duration: 1.1,
+                ease: 'power4.out',
+                stagger: 0.18,
+                clearProps: 'filter'
+              }, 'start+=0.35');
+          }
+        });
 
-          // 3b. Clube do Livro Animation
-          const clubeElements = gsap.utils.toArray('.blur-reveal, .split-animate');
-          ScrollTrigger.create({
-            trigger: '#clube-livro',
-            start: 'top 75%',
-            once: true,
-            onEnter: () => {
-              clubeElements.forEach((el, index) => {
-                setTimeout(() => {
-                  el.classList.add('is-visible');
-                }, index * 120);
-              });
-            }
-          });
+        // ── CREATIVE ANIMATIONS (NEW) ──────────────────────────────
 
-          gsap.to('.clube-parallax-img', {
-            yPercent: 20,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: '#clube-livro',
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true
-            }
-          });
-
-          // 4. Section 4 Location Animation (Gemini Fade-In Style)
-          const locElements = gsap.utils.toArray('.anim-fade-blur');
-          
-          ScrollTrigger.create({
-            trigger: '#location',
-            start: 'top 80%',
-            once: true,
-            onEnter: () => {
-              locElements.forEach((el, index) => {
-                setTimeout(() => {
-                  el.classList.add('is-visible');
-                }, index * 120);
-              });
-            }
-          });
-
-          // Giant Background Text Parallax
-          gsap.to('#giant-text', {
-            y: -150,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: '#featured',
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true
-            }
-          });
-
-          // 4. Parallax scroll for cards images
-          document.querySelectorAll('.feat-img').forEach((img, i) => {
-            const card = img.closest('.feat-card');
-            const direction = i % 2 === 0 ? -8 : 8;
-            gsap.to(img, {
-              yPercent: direction,
-              ease: 'none',
+        // 1. Text Split & Char Reveal Logic
+        function splitAndAnimate(selector, delayStart = 0) {
+          const el = document.querySelector(selector);
+          if (!el) return;
+          const text = el.innerText;
+          el.innerHTML = '';
+          text.split('').forEach((char, i) => {
+            const span = document.createElement('span');
+            span.innerText = char === ' ' ? '\u00A0' : char;
+            span.className = 'split-child opacity-0';
+            el.appendChild(span);
+            gsap.to(span, {
+              opacity: 1,
+              y: 0,
+              startAt: { y: 20 },
+              duration: 0.8,
+              delay: delayStart + (i * 0.03),
+              ease: 'power3.out',
               scrollTrigger: {
-                trigger: card,
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: true
+                trigger: el,
+                start: 'top 85%',
+                toggleActions: 'play none none none'
               }
             });
           });
         }
 
-        /* ══ LOCATION MODAL LOGIC ═════════════════════════════════════ */
-        window.openLocationModal = function () {
-          const modal = document.getElementById('location-modal');
-          const content = document.getElementById('location-modal-content');
+        // Apply Char Reveal to hero/experience titles (unchanged)
+        splitAndAnimate('#hero-headline .line-inner#el-h1a', 0.5);
+        splitAndAnimate('#hero-headline .line-inner#el-h1b', 0.8);
 
-          modal.classList.remove('pointer-events-none');
-          modal.classList.replace('opacity-0', 'opacity-100');
-
-          setTimeout(() => {
-            content.classList.replace('scale-95', 'scale-100');
-            content.classList.replace('opacity-0', 'opacity-100');
-          }, 50);
-        };
-
-        window.closeLocationModal = function () {
-          const modal = document.getElementById('location-modal');
-          const content = document.getElementById('location-modal-content');
-
-          content.classList.replace('scale-100', 'scale-95');
-          content.classList.replace('opacity-100', 'opacity-0');
-
-          setTimeout(() => {
-            modal.classList.replace('opacity-100', 'opacity-0');
-            modal.classList.add('pointer-events-none');
-          }, 200);
-        };
-
-        /* ══ UTILIDADES DE MOUSE (PARALLAX/FLASHLIGHT) ═══════════════ */
-        window.updateMouse = function (element, e) {
-          const rect = element.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          element.style.setProperty('--mouse-x', `${x}px`);
-          element.style.setProperty('--mouse-y', `${y}px`);
-        };
-
-        /* ══ HERO BG COLUMNS REVEAL ════════════════════════════════════ */
-        (function () {
-          const bgCols = document.getElementById('hero-bg-cols');
-          if (!bgCols) return;
-          const NUM_COLS = 9;
-          for (let i = 0; i < NUM_COLS; i++) {
-            const col = document.createElement('div');
-            col.className = 'hero-col';
-            bgCols.appendChild(col);
-          }
-          // Reveal in stagger after fonts load
-          setTimeout(() => {
-            bgCols.querySelectorAll('.hero-col').forEach((col, i) => {
-              setTimeout(() => col.classList.add('active'), i * 80);
-            });
-          }, 600);
-        })();
-
-        /* ══ HERO MOUSE SPOTLIGHT ══════════════════════════════════════ */
-        (function () {
-          const viewport = document.getElementById('hero-viewport');
-          const spotlight = document.getElementById('hero-spotlight');
-          if (!viewport || !spotlight) return;
-          let rafId;
-          let tx = 50, ty = 50;
-          let cx = 50, cy = 50;
-          function lerp(a, b, t) { return a + (b - a) * t; }
-          function loop() {
-            cx = lerp(cx, tx, 0.07);
-            cy = lerp(cy, ty, 0.07);
-            spotlight.style.background = `radial-gradient(600px circle at ${cx}% ${cy}%, rgba(43,74,59,0.06), transparent 60%)`;
-            rafId = requestAnimationFrame(loop);
-          }
-          viewport.addEventListener('mousemove', e => {
-            const rect = viewport.getBoundingClientRect();
-            tx = ((e.clientX - rect.left) / rect.width) * 100;
-            ty = ((e.clientY - rect.top) / rect.height) * 100;
-          });
-          viewport.addEventListener('mouseenter', () => {
-            spotlight.style.opacity = '1';
-            loop();
-          });
-          viewport.addEventListener('mouseleave', () => {
-            spotlight.style.opacity = '0';
-            cancelAnimationFrame(rafId);
-          });
-        })();
-
-
-
-        /* ══ CUSTOM SCROLL INDICATOR LOGIC ════════════════════════════ */
-        (function () {
-          const line = document.getElementById('scroll-progress-line');
-          if (!line) return;
-
-          const fill = document.createElement('div');
-          fill.style.cssText = 'position:absolute;top:0;left:0;right:0;background:var(--c-primary);border-radius:2px;height:0%;transition:height 0.15s linear;';
-          line.appendChild(fill);
-
-          function updateScrollProgress() {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = (scrollTop / (docHeight || 1)) * 100;
-            fill.style.height = Math.min(100, Math.max(0, progress)) + '%';
-          }
-
-          window.addEventListener('scroll', updateScrollProgress, { passive: true });
-          updateScrollProgress();
-        })();
-        (function () {
-          const clockEl = document.getElementById('hero-clock');
-          if (!clockEl) return;
-          function tick() {
-            const now = new Date();
-            const h = String(now.getHours()).padStart(2, '0');
-            const m = String(now.getMinutes()).padStart(2, '0');
-            const s = String(now.getSeconds()).padStart(2, '0');
-            clockEl.textContent = `São Paulo — ${h}:${m}:${s}`;
-          }
-          tick();
-          setInterval(tick, 1000);
-        })();
-
-        /* ══ BOOTSTRAP ════════════════════════════════════════════════
-           1. Preload todos os frames (mostra barra de progresso)
-           2. Remove preloader com animação
-           3. Calcula layout e inicia GSAP
-        ══════════════════════════════════════════════════════════════ */
-        document.fonts.ready.then(() => {
-          preloadFrames().then(() => {
-            /* Preload concluído — remove o preloader */
-            gsap.to(preloaderEl, {
-              yPercent: -100,
-              duration: 1.0,
-              ease: 'power4.inOut',
-              onComplete: () => {
-                preloaderEl.style.display = 'none';
-                requestAnimationFrame(() => requestAnimationFrame(init));
-              }
-            });
+        // 2. Flashlight / Spotlight Mouse Follow
+        document.querySelectorAll('.flashlight-card').forEach(card => {
+          card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
           });
         });
 
-      }());
+        // 3. Section 3 Dark Mode (Improved Transitions)
+        ScrollTrigger.create({
+          trigger: '#featured',
+          start: 'top 55%',
+          end: 'bottom 45%',
+          onEnter: () => {
+            gsap.to('#featured', { backgroundColor: 'var(--c-dark)', duration: 1.2, ease: 'power2.out' });
+            gsap.to('body', { backgroundColor: 'var(--c-dark)', duration: 1.2, ease: 'power2.out' });
+            gsap.to('.feat-text-dark', { color: '#ffffff', duration: 1.2 });
+            gsap.to('.feat-text-muted', { color: 'rgba(255,255,255,0.6)', duration: 1.2 });
+            gsap.to('.glow-orb', { opacity: 0.25, duration: 2, ease: 'power2.inOut', stagger: 0.2 });
+            gsap.to('.feat-grid', { opacity: 1, duration: 2 });
+          },
+          onLeave: () => {
+            // Smooth return to ivory when scrolling to Section 4
+            gsap.to('body', { backgroundColor: 'var(--c-bg)', duration: 1.0 });
+          },
+          onEnterBack: () => {
+            // Return to dark when scrolling back up to Section 3
+            gsap.to('body', { backgroundColor: 'var(--c-dark)', duration: 1.0 });
+          },
+          onLeaveBack: () => {
+            gsap.to('#featured', { backgroundColor: 'var(--c-bg)', duration: 1.2, ease: 'power2.out' });
+            gsap.to('body', { backgroundColor: 'var(--c-bg)', duration: 1.2, ease: 'power2.out' });
+            gsap.to('.feat-text-dark', { color: 'var(--c-dark)', duration: 1.2 });
+            gsap.to('.feat-text-muted', { color: 'rgba(26,26,26,0.5)', duration: 1.2 });
+            gsap.to('.glow-orb', { opacity: 0, duration: 1.2 });
+            gsap.to('.feat-grid', { opacity: 0, duration: 1.2 });
+          }
+        });
+
+        // 3b. Clube do Livro Animation
+        const clubeElements = gsap.utils.toArray('.blur-reveal, .split-animate');
+        ScrollTrigger.create({
+          trigger: '#clube-livro',
+          start: 'top 75%',
+          once: true,
+          onEnter: () => {
+            clubeElements.forEach((el, index) => {
+              setTimeout(() => {
+                el.classList.add('is-visible');
+              }, index * 120);
+            });
+          }
+        });
+
+        gsap.to('.clube-parallax-img', {
+          yPercent: 20,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '#clube-livro',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true
+          }
+        });
+
+        // 4. Section 4 Location Animation (Gemini Fade-In Style)
+        const locElements = gsap.utils.toArray('.anim-fade-blur');
+
+        ScrollTrigger.create({
+          trigger: '#location',
+          start: 'top 80%',
+          once: true,
+          onEnter: () => {
+            locElements.forEach((el, index) => {
+              setTimeout(() => {
+                el.classList.add('is-visible');
+              }, index * 120);
+            });
+          }
+        });
+
+        // Giant Background Text Parallax
+        gsap.to('#giant-text', {
+          y: -150,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '#featured',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true
+          }
+        });
+
+        // 4. Parallax scroll for cards images
+        document.querySelectorAll('.feat-img').forEach((img, i) => {
+          const card = img.closest('.feat-card');
+          const direction = i % 2 === 0 ? -8 : 8;
+          gsap.to(img, {
+            yPercent: direction,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true
+            }
+          });
+        });
+      }
+
+      /* ══ LOCATION MODAL LOGIC ═════════════════════════════════════ */
+      window.openLocationModal = function () {
+        const modal = document.getElementById('location-modal');
+        const content = document.getElementById('location-modal-content');
+
+        modal.classList.remove('pointer-events-none');
+        modal.classList.replace('opacity-0', 'opacity-100');
+
+        setTimeout(() => {
+          content.classList.replace('scale-95', 'scale-100');
+          content.classList.replace('opacity-0', 'opacity-100');
+        }, 50);
+      };
+
+      window.closeLocationModal = function () {
+        const modal = document.getElementById('location-modal');
+        const content = document.getElementById('location-modal-content');
+
+        content.classList.replace('scale-100', 'scale-95');
+        content.classList.replace('opacity-100', 'opacity-0');
+
+        setTimeout(() => {
+          modal.classList.replace('opacity-100', 'opacity-0');
+          modal.classList.add('pointer-events-none');
+        }, 200);
+      };
+
+      /* ══ UTILIDADES DE MOUSE (PARALLAX/FLASHLIGHT) ═══════════════ */
+      window.updateMouse = function (element, e) {
+        const rect = element.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        element.style.setProperty('--mouse-x', `${x}px`);
+        element.style.setProperty('--mouse-y', `${y}px`);
+      };
+
+      /* ══ HERO BG COLUMNS REVEAL ════════════════════════════════════ */
+      (function () {
+        const bgCols = document.getElementById('hero-bg-cols');
+        if (!bgCols) return;
+        const NUM_COLS = 9;
+        for (let i = 0; i < NUM_COLS; i++) {
+          const col = document.createElement('div');
+          col.className = 'hero-col';
+          bgCols.appendChild(col);
+        }
+        // Reveal in stagger after fonts load
+        setTimeout(() => {
+          bgCols.querySelectorAll('.hero-col').forEach((col, i) => {
+            setTimeout(() => col.classList.add('active'), i * 80);
+          });
+        }, 600);
+      })();
+
+      /* ══ HERO MOUSE SPOTLIGHT ══════════════════════════════════════ */
+      (function () {
+        const viewport = document.getElementById('hero-viewport');
+        const spotlight = document.getElementById('hero-spotlight');
+        if (!viewport || !spotlight) return;
+        let rafId;
+        let tx = 50, ty = 50;
+        let cx = 50, cy = 50;
+        function lerp(a, b, t) { return a + (b - a) * t; }
+        function loop() {
+          cx = lerp(cx, tx, 0.07);
+          cy = lerp(cy, ty, 0.07);
+          spotlight.style.background = `radial-gradient(600px circle at ${cx}% ${cy}%, rgba(43,74,59,0.06), transparent 60%)`;
+          rafId = requestAnimationFrame(loop);
+        }
+        viewport.addEventListener('mousemove', e => {
+          const rect = viewport.getBoundingClientRect();
+          tx = ((e.clientX - rect.left) / rect.width) * 100;
+          ty = ((e.clientY - rect.top) / rect.height) * 100;
+        });
+        viewport.addEventListener('mouseenter', () => {
+          spotlight.style.opacity = '1';
+          loop();
+        });
+        viewport.addEventListener('mouseleave', () => {
+          spotlight.style.opacity = '0';
+          cancelAnimationFrame(rafId);
+        });
+      })();
+
+
+
+      /* ══ CUSTOM SCROLL INDICATOR LOGIC ════════════════════════════ */
+      (function () {
+        const line = document.getElementById('scroll-progress-line');
+        if (!line) return;
+
+        const fill = document.createElement('div');
+        fill.style.cssText = 'position:absolute;top:0;left:0;right:0;background:var(--c-primary);border-radius:2px;height:0%;transition:height 0.15s linear;';
+        line.appendChild(fill);
+
+        function updateScrollProgress() {
+          const scrollTop = window.scrollY;
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = (scrollTop / (docHeight || 1)) * 100;
+          fill.style.height = Math.min(100, Math.max(0, progress)) + '%';
+        }
+
+        window.addEventListener('scroll', updateScrollProgress, { passive: true });
+        updateScrollProgress();
+      })();
+      (function () {
+        const clockEl = document.getElementById('hero-clock');
+        if (!clockEl) return;
+        function tick() {
+          const now = new Date();
+          const h = String(now.getHours()).padStart(2, '0');
+          const m = String(now.getMinutes()).padStart(2, '0');
+          const s = String(now.getSeconds()).padStart(2, '0');
+          clockEl.textContent = `São Paulo — ${h}:${m}:${s}`;
+        }
+        tick();
+        setInterval(tick, 1000);
+      })();
+
+      /* ══ BOOTSTRAP ════════════════════════════════════════════════
+         1. Preload todos os frames (mostra barra de progresso)
+         2. Remove preloader com animação
+         3. Calcula layout e inicia GSAP
+      ══════════════════════════════════════════════════════════════ */
+      document.fonts.ready.then(() => {
+        preloadFrames().then(() => {
+          /* Preload concluído — remove o preloader */
+          gsap.to(preloaderEl, {
+            yPercent: -100,
+            duration: 1.0,
+            ease: 'power4.inOut',
+            onComplete: () => {
+              preloaderEl.style.display = 'none';
+              requestAnimationFrame(() => requestAnimationFrame(init));
+            }
+          });
+        });
+      });
+
+    }());
   </script>
 </body>
 
