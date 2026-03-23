@@ -515,8 +515,8 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      width: 50%;
-      padding: 0 3.5rem 0 5rem;
+      width: 48%;
+      padding: 0 4rem 0 5rem;
       flex-shrink: 0;
       pointer-events: none;
     }
@@ -540,8 +540,8 @@
       display: block;
       position: absolute;
       right: 0;
-      top: 18%;
-      bottom: 18%;
+      top: 22%;
+      bottom: 22%;
       width: 1px;
       background: linear-gradient(to bottom, transparent, rgba(26, 26, 26, 0.07) 30%, rgba(26, 26, 26, 0.07) 70%, transparent);
     }
@@ -681,9 +681,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 50%;
+      width: 52%;
       height: 100%;
-      padding: 8rem 3rem 4.5rem 1rem;
+      padding: 9rem 3.5rem 3.5rem 2rem;
       flex-shrink: 0;
     }
 
@@ -703,10 +703,10 @@
 
     .video-glow {
       position: absolute;
-      inset: 5%;
+      inset: 8%;
       border-radius: 50%;
-      background: radial-gradient(ellipse, rgba(43, 74, 59, 0.13) 0%, transparent 70%);
-      filter: blur(45px);
+      background: radial-gradient(ellipse at 55% 45%, rgba(43, 74, 59, 0.09) 0%, rgba(183, 147, 88, 0.04) 40%, transparent 70%);
+      filter: blur(55px);
       pointer-events: none;
     }
 
@@ -768,8 +768,12 @@
       position: absolute;
       overflow: hidden;
       background: #0a0a0a;
-      border-radius: 22px;
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.07), 0 30px 70px -15px rgba(0, 0, 0, 0.28), 0 12px 28px -6px rgba(0, 0, 0, 0.18);
+      border-radius: 20px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.08),
+        0 4px 16px rgba(0, 0, 0, 0.04),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.04);
       will-change: border-radius, box-shadow;
     }
 
@@ -2678,10 +2682,10 @@
         gsap.set(frame, {
           position: 'absolute',
           left: initRect.left,
-          top: initRect.top,
+          top: initRect.top + 14,
           width: initRect.width,
           height: initRect.height,
-          borderRadius: 22,
+          borderRadius: 20,
           zIndex: 15,
         });
 
