@@ -13,7 +13,7 @@ import os
 from pathlib import Path
 
 # ── CONFIG ───────────────────────────────────────────────────────────────────
-VIDEO_PATH    = Path(__file__).parent / "Espresso_machine_extraction_202603211935.mp4"
+VIDEO_PATH    = Path(__file__).parent / "novinhoo.mp4"
 OUTPUT_DIR    = Path(__file__).parent.parent / "templates" / "assets" / "frames"
 TOTAL_FRAMES  = 150        # número de frames extraídos (mais = mais suave, mais pesado)
 FRAME_WIDTH   = 1280       # largura de saída (height proporcional)
