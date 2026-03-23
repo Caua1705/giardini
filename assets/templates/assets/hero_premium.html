@@ -1946,94 +1946,138 @@
         </div>
       </div>
 
-      <!-- ── THREE-PANEL MOSAIC + SIDEBAR ────────────────────────── -->
-      <!-- Narrower sidebar, wider centre image, balanced right column -->
-      <div style="display:grid;grid-template-columns:0.65fr 1.9fr 1fr;gap:2rem;align-items:start;" class="clube-mosaic">
+      <!-- ── PREMIUM EDITORIAL LAYOUT: 2-col (sidebar + stacked images) ──── -->
+      <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:3.5rem;align-items:start;" class="clube-mosaic">
 
-        <!-- LEFT COLUMN: Stat panel + small image block -->
-        <div class="clube-reveal__left" style="opacity:0;transform:translateX(-30px);filter:blur(8px);display:flex;flex-direction:column;gap:1.5rem;">
+        <!-- LEFT: Text sidebar — quote + how it works -->
+        <div class="clube-reveal__left" style="opacity:0;transform:translateX(-30px);filter:blur(8px);display:flex;flex-direction:column;gap:2.5rem;padding-top:0.5rem;">
 
-          <!-- ── Premium quote block only (48 editorial block removed) ───── -->
-
-
-          <!-- ── Expanded premium quote block ───────────────────────── -->
-          <div style="padding:2rem 1.75rem;border-left:2px solid rgba(43,74,59,0.18);
-            background:linear-gradient(135deg,rgba(43,74,59,0.025) 0%,transparent 100%);
-            border-radius:0 16px 16px 0;position:relative;overflow:hidden;">
-
-            <!-- Opening guillemet decoration -->
-            <div style="font-family:'Instrument Serif',serif;font-size:4rem;line-height:0;
-              color:rgba(43,74,59,0.07);position:absolute;top:0.6rem;left:1.2rem;
+          <!-- Premium quote -->
+          <div style="padding:2.25rem 2rem 2rem;border-left:2px solid rgba(43,74,59,0.2);
+            background:linear-gradient(135deg,rgba(43,74,59,0.03) 0%,transparent 100%);
+            border-radius:0 18px 18px 0;position:relative;overflow:hidden;">
+            <!-- Guillemet decoration -->
+            <div style="font-family:'Instrument Serif',serif;font-size:5rem;line-height:0;
+              color:rgba(43,74,59,0.06);position:absolute;top:0.8rem;left:1rem;
               user-select:none;pointer-events:none;">&ldquo;</div>
-
-            <blockquote style="font-family:'Instrument Serif',serif;font-size:1.1rem;font-style:italic;
-              line-height:1.7;color:rgba(26,26,26,0.6);margin:0;position:relative;z-index:1;
-              padding-top:1.25rem;">
+            <blockquote style="font-family:'Instrument Serif',serif;font-size:1.15rem;font-style:italic;
+              line-height:1.75;color:rgba(26,26,26,0.62);margin:0;position:relative;z-index:1;
+              padding-top:1.5rem;">
               Um café e um livro — a combinação perfeita para desacelerar.
             </blockquote>
-
             <div style="margin-top:1.5rem;display:flex;align-items:center;gap:0.65rem;">
               <div style="width:22px;height:1px;background:rgba(43,74,59,0.3);"></div>
-              <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;
-                color:var(--c-primary);opacity:0.65;">Giardini Café</span>
-              <span style="width:4px;height:4px;border-radius:50%;background:rgba(43,74,59,0.2);"></span>
-              <span style="font-size:0.5rem;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;
+              <span style="font-size:0.52rem;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;
+                color:var(--c-primary);opacity:0.7;">Giardini Café</span>
+              <span style="width:3px;height:3px;border-radius:50%;background:rgba(43,74,59,0.2);"></span>
+              <span style="font-size:0.52rem;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;
                 color:rgba(26,26,26,0.3);">Clube do Livro</span>
             </div>
           </div>
+
+          <!-- How it works block -->
+          <div style="padding:2rem;border:1px solid rgba(43,74,59,0.09);border-radius:20px;
+            background:rgba(255,255,255,0.55);backdrop-filter:blur(16px);
+            box-shadow:0 8px 32px rgba(0,0,0,0.03),inset 0 1px 0 rgba(255,255,255,0.9);">
+            <!-- Label -->
+            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.75rem;">
+              <div style="width:16px;height:1px;background:rgba(43,74,59,0.4);"></div>
+              <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;
+                color:var(--c-primary);opacity:0.8;">Como funciona</span>
+            </div>
+            <!-- Three micro-steps -->
+            <div style="display:flex;flex-direction:column;gap:1.25rem;">
+              <div style="display:flex;gap:1rem;align-items:flex-start;">
+                <span style="font-family:'Instrument Serif',serif;font-size:1.4rem;
+                  color:rgba(43,74,59,0.25);flex-shrink:0;line-height:1;margin-top:0.05rem;">01</span>
+                <p style="font-size:0.83rem;font-weight:400;color:rgba(26,26,26,0.55);line-height:1.65;margin:0;">
+                  Você pode participar com consumo livre ou escolher um pacote definido para o encontro.</p>
+              </div>
+              <div style="width:100%;height:1px;background:rgba(26,26,26,0.04);"></div>
+              <div style="display:flex;gap:1rem;align-items:flex-start;">
+                <span style="font-family:'Instrument Serif',serif;font-size:1.4rem;
+                  color:rgba(43,74,59,0.25);flex-shrink:0;line-height:1;margin-top:0.05rem;">02</span>
+                <p style="font-size:0.83rem;font-weight:400;color:rgba(26,26,26,0.55);line-height:1.65;margin:0;">
+                  As reservas são flexíveis — você pode participar conforme sua disponibilidade.</p>
+              </div>
+              <div style="width:100%;height:1px;background:rgba(26,26,26,0.04);"></div>
+              <div style="display:flex;gap:1rem;align-items:flex-start;">
+                <span style="font-family:'Instrument Serif',serif;font-size:1.4rem;
+                  color:rgba(43,74,59,0.25);flex-shrink:0;line-height:1;margin-top:0.05rem;">03</span>
+                <p style="font-size:0.83rem;font-weight:400;color:rgba(26,26,26,0.55);line-height:1.65;margin:0;">
+                  O encontro acontece em um ambiente preparado para leitura, com café e espaço para troca de ideias.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Small editorial detail bottom -->
+          <div style="display:flex;align-items:center;gap:0.75rem;padding:0 0.25rem;">
+            <span style="width:5px;height:5px;border-radius:50%;background:var(--c-primary);opacity:0.35;"></span>
+            <span style="font-size:0.52rem;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;
+              color:rgba(26,26,26,0.28);">Última sexta de cada mês · Giardini Café</span>
+          </div>
+
         </div>
 
-        <!-- CENTER: Big hero image -->
-        <div class="clube-reveal__center clube-img-main" style="opacity:0;transform:translateY(40px);
-          border-radius:22px;overflow:hidden;position:relative;
-          box-shadow:0 32px 80px rgba(0,0,0,0.11),0 8px 24px rgba(0,0,0,0.06);
-          /* Fixed aspect ratio for consistent image display */
-          aspect-ratio:3/4;
-          transition:transform 0.9s cubic-bezier(0.16,1,0.3,1),box-shadow 0.9s ease;">
-          <!-- Warm gradient at bottom -->
-          <div style="position:absolute;inset:0;z-index:5;pointer-events:none;
-            background:linear-gradient(to bottom,transparent 55%,rgba(30,20,10,0.62) 100%);"></div>
-          <!-- Hover shimmer layer -->
-          <div class="clube-img-shimmer" style="position:absolute;inset:0;z-index:7;pointer-events:none;opacity:0;
-            background:linear-gradient(135deg,transparent 0%,rgba(255,255,255,0.05) 50%,transparent 100%);
-            transition:opacity 0.6s;"></div>
-          <img src="../../raw_files/_MG_2075.jpg" alt="Clube do Livro — Giardini Café"
-            style="width:100%;height:100%;object-fit:cover;
-              filter:saturate(0.85) brightness(0.96) contrast(1.04);
-              transition:transform 1.4s cubic-bezier(0.22,1,0.36,1);
-              transform:scale(1.05);">
-          <!-- Floating pill badge -->
-          <div style="position:absolute;top:1.5rem;left:1.5rem;z-index:15;
-            background:rgba(253,251,247,0.9);backdrop-filter:blur(14px);
-            border:1px solid rgba(43,74,59,0.14);border-radius:9999px;
-            padding:0.45rem 1.15rem;display:flex;align-items:center;gap:0.55rem;">
-            <span style="width:5px;height:5px;border-radius:50%;background:var(--c-primary);
-              animation:live-glow 2.2s ease-in-out infinite;flex-shrink:0;"></span>
-            <span style="font-size:0.48rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
-              color:var(--c-primary);">Encontro Literário</span>
-          </div>
-          <!-- Bottom overlay caption -->
-          <div style="position:absolute;bottom:0;left:0;right:0;z-index:15;
-            padding:2.5rem 2rem 2rem;">
-            <div style="width:32px;height:2px;background:rgba(255,255,255,0.5);margin-bottom:1rem;"></div>
-            <h3 style="font-family:'Instrument Serif',serif;font-size:1.7rem;font-style:italic;
-              color:#fff;margin:0 0 0.5rem;line-height:1.1;">Cultura & Conexão</h3>
-            <p style="font-size:0.78rem;font-weight:300;color:rgba(255,255,255,0.65);margin:0;line-height:1.55;">
-              Toda última sexta-feira do mês.<br>Café da casa incluso.
-            </p>
-          </div>
-        </div>
+        <!-- RIGHT: Two stacked landscape images -->
+        <div class="clube-reveal__right" style="opacity:0;transform:translateX(30px);filter:blur(8px);
+          display:flex;flex-direction:column;gap:1.5rem;">
 
-        <!-- RIGHT COLUMN: accent image + details -->
-        <div class="clube-reveal__right" style="opacity:0;transform:translateX(30px);filter:blur(8px);display:flex;flex-direction:column;gap:1.5rem;">
+          <!-- Image 1 — main, wider -->
+          <div class="clube-img-main" style="border-radius:20px;overflow:hidden;position:relative;
+            aspect-ratio:16/10;
+            box-shadow:0 24px 64px rgba(0,0,0,0.1),0 6px 18px rgba(0,0,0,0.05);
+            transition:transform 0.9s cubic-bezier(0.16,1,0.3,1),box-shadow 0.9s ease;">
+            <!-- Bottom scrim -->
+            <div style="position:absolute;inset:0;z-index:5;pointer-events:none;
+              background:linear-gradient(to bottom,transparent 45%,rgba(20,12,4,0.58) 100%);"></div>
+            <!-- Shimmer on hover -->
+            <div class="clube-img-shimmer" style="position:absolute;inset:0;z-index:7;pointer-events:none;opacity:0;
+              background:linear-gradient(135deg,transparent,rgba(255,255,255,0.05),transparent);transition:opacity 0.6s;"></div>
+            <img src="../../raw_files/_MG_2075.jpg" alt="Clube do Livro — Giardini Café"
+              style="width:100%;height:100%;object-fit:cover;
+                filter:saturate(0.88) brightness(0.95) contrast(1.03);
+                transition:transform 1.4s cubic-bezier(0.22,1,0.36,1);
+                transform:scale(1.04);">
+            <!-- Pill badge -->
+            <div style="position:absolute;top:1.25rem;left:1.25rem;z-index:15;
+              background:rgba(253,251,247,0.92);backdrop-filter:blur(14px);
+              border:1px solid rgba(43,74,59,0.14);border-radius:9999px;
+              padding:0.4rem 1rem;display:flex;align-items:center;gap:0.5rem;">
+              <span style="width:5px;height:5px;border-radius:50%;background:var(--c-primary);
+                animation:live-glow 2.2s ease-in-out infinite;flex-shrink:0;"></span>
+              <span style="font-size:0.48rem;font-weight:700;letter-spacing:0.22em;
+                text-transform:uppercase;color:var(--c-primary);">Encontro Literário</span>
+            </div>
+            <!-- Bottom caption overlay -->
+            <div style="position:absolute;bottom:0;left:0;right:0;z-index:15;padding:2rem 1.75rem 1.75rem;">
+              <div style="width:24px;height:1px;background:rgba(255,255,255,0.45);margin-bottom:0.75rem;"></div>
+              <h3 style="font-family:'Instrument Serif',serif;font-size:1.5rem;font-style:italic;
+                color:#fff;margin:0 0 0.35rem;line-height:1.1;">Cultura &amp; Conexão</h3>
+              <p style="font-size:0.72rem;font-weight:300;color:rgba(255,255,255,0.6);margin:0;line-height:1.5;">
+              <p style="font-size:0.72rem;font-weight:300;color:rgba(255,255,255,0.6);margin:0;line-height:1.5;">
+                Toda última sexta-feira do mês. Café da casa incluso.</p>
+            </div>
+          </div>
 
-          <!-- Accent photo — taller, consistent aspect ratio -->
-          <div class="clube-img-accent" style="border-radius:18px;overflow:hidden;position:relative;
-            aspect-ratio:4/5;
-            box-shadow:0 16px 48px rgba(0,0,0,0.09),0 4px 12px rgba(0,0,0,0.05);
+          <!-- Thin divider with editorial metadata -->
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0 0.25rem;">
+            <div style="display:flex;align-items:center;gap:0.6rem;">
+              <div style="width:20px;height:1px;background:rgba(43,74,59,0.2);"></div>
+              <span style="font-size:0.5rem;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;
+                color:rgba(26,26,26,0.3);">Acervo e café</span>
+            </div>
+            <span style="font-size:0.5rem;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;
+              color:rgba(26,26,26,0.22);">Giardini · 2024</span>
+          </div>
+
+          <!-- Image 2 — secondary landscape -->
+          <div class="clube-img-accent" style="border-radius:20px;overflow:hidden;position:relative;
+            aspect-ratio:16/9;
+            box-shadow:0 16px 48px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.04);
             transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),box-shadow 0.8s ease;">
             <div style="position:absolute;inset:0;z-index:5;pointer-events:none;
-              background:linear-gradient(to bottom,transparent 55%,rgba(20,14,6,0.45) 100%);"></div>
+              background:linear-gradient(to bottom,transparent 50%,rgba(20,12,4,0.5) 100%);"></div>
             <div class="clube-img-shimmer" style="position:absolute;inset:0;z-index:7;pointer-events:none;opacity:0;
               background:linear-gradient(135deg,transparent,rgba(255,255,255,0.06),transparent);transition:opacity 0.5s;"></div>
             <img src="../../raw_files/_MG_2005.jpg" alt="Detalhes — Clube do Livro"
@@ -2042,35 +2086,15 @@
                 transition:transform 1.2s cubic-bezier(0.22,1,0.36,1);
                 transform:scale(1.06);">
           </div>
-
-          <!-- Editorial info block -->
-          <div style="padding:1.75rem;border:1px solid rgba(43,74,59,0.1);border-radius:18px;
-            background:rgba(255,255,255,0.5);backdrop-filter:blur(16px);
-            box-shadow:0 6px 24px rgba(0,0,0,0.04);">
-            <div style="font-size:0.52rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;
-              color:var(--c-primary);margin-bottom:1rem;opacity:0.7;">Como funciona</div>
-            <!-- Three micro-steps -->
-            <div style="display:flex;flex-direction:column;gap:1rem;">
-              <div style="display:flex;gap:0.85rem;align-items:flex-start;">
-                <span style="font-family:'Instrument Serif',serif;font-size:1.25rem;color:rgba(43,74,59,0.3);flex-shrink:0;line-height:1;margin-top:0.1rem;">01</span>
-                <p style="font-size:0.82rem;font-weight:400;color:rgba(26,26,26,0.55);line-height:1.55;margin:0;">Você pode participar com consumo livre ou escolher um pacote definido para o encontro.</p>
-              </div>
-              <div style="width:100%;height:1px;background:rgba(26,26,26,0.05);"></div>
-              <div style="display:flex;gap:0.85rem;align-items:flex-start;">
-                <span style="font-family:'Instrument Serif',serif;font-size:1.25rem;color:rgba(43,74,59,0.3);flex-shrink:0;line-height:1;margin-top:0.1rem;">02</span>
-                <p style="font-size:0.82rem;font-weight:400;color:rgba(26,26,26,0.55);line-height:1.55;margin:0;">As reservas são flexíveis — você pode participar conforme sua disponibilidade.</p>
-              </div>
-              <div style="width:100%;height:1px;background:rgba(26,26,26,0.05);"></div>
-              <div style="display:flex;gap:0.85rem;align-items:flex-start;">
-                <span style="font-family:'Instrument Serif',serif;font-size:1.25rem;color:rgba(43,74,59,0.3);flex-shrink:0;line-height:1;margin-top:0.1rem;">03</span>
-                <p style="font-size:0.82rem;font-weight:400;color:rgba(26,26,26,0.55);line-height:1.55;margin:0;">O encontro acontece em um ambiente preparado para leitura, com café e espaço para troca de ideias.</p>
-              </div>
-            </div>
+          <!-- caption below image 2 -->
+          <div style="display:flex;align-items:center;gap:0.65rem;padding:0 0.25rem;">
+            <span style="width:5px;height:5px;border-radius:50%;background:var(--c-primary);opacity:0.3;"></span>
+            <span style="font-size:0.5rem;font-weight:400;letter-spacing:0.16em;text-transform:uppercase;
+              color:rgba(26,26,26,0.28);">Inspiração compartilhada</span>
           </div>
 
-
         </div>
-      </div>
+      </div><!-- /clube-mosaic -->
     </div>
 
     <!-- Bottom ambient gradient fade-out -->
