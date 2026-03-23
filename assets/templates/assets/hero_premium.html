@@ -1540,74 +1540,203 @@
 
   <!-- ══ SECTION: CLUBE DO LIVRO ════════════════════════════════════════ -->
   <section id="clube-livro" class="py-24 md:py-32 px-8 w-full relative z-[60] bg-[var(--c-bg)] overflow-hidden" style="border-top: 1px solid rgba(26,26,26,0.06);">
-    <div class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center relative z-10 w-full">
+    <div class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center relative z-10 w-full mb-16">
       
       <!-- ESQUERDA: Texto -->
       <div class="lg:col-span-5 flex flex-col pt-8 lg:pr-8">
-        <div class="clube-fade flex items-center mb-8">
+        <div class="blur-reveal flex items-center mb-8">
           <div class="text-[10px] md:text-xs text-[var(--c-dark)] font-bold uppercase tracking-[0.2em] flex items-center gap-3 opacity-60">
             <span class="w-2 h-2 rounded-full bg-[var(--c-primary)] animate-pulse inline-block"></span>
-            CLUBE DO LIVRO
+            03 / Clube do Livro
           </div>
         </div>
         
-        <h2 style="font-family:'Instrument Serif',serif; letter-spacing:-0.01em;" class="clube-fade text-4xl md:text-5xl lg:text-[4.5rem] leading-[1.05] text-[var(--c-dark)] mb-6">
-          "Um lugar onde a leitura ganha <span class="italic text-[var(--c-primary)]">companhia.</span>"
-        </h2>
+        <div class="split-parent word-wrap mb-8">
+          <h2 style="font-family:'Instrument Serif',serif; letter-spacing:-0.01em;" class="split-animate text-4xl md:text-5xl lg:text-[4.5rem] leading-[1.05] text-[var(--c-dark)]">
+            Um lugar onde a leitura ganha <br/><span class="italic text-[var(--c-primary)]">companhia.</span>
+          </h2>
+        </div>
 
-        <p class="clube-fade text-[var(--c-dark)]/80 font-light text-[1.05rem] md:text-[1.125rem] leading-relaxed mb-6">
+        <p class="blur-reveal text-[var(--c-dark)]/80 font-light text-[1.05rem] md:text-[1.125rem] leading-relaxed mb-6" style="transition-delay: 200ms;">
           Mais do que um café, o Giardini conecta pessoas através da leitura.
           Nosso clube do livro reúne encontros, conversas e pausas que fazem você querer voltar.
         </p>
 
-        <p class="clube-fade text-[var(--c-dark)]/60 font-light text-[0.95rem] leading-relaxed mb-12">
-          Participe dos encontros ou simplesmente escolha um livro e aproveite o momento no seu tempo.
-        </p>
+        <!-- Botão com Beam Animation (Gemini) -->
+        <div class="blur-reveal mb-12" style="transition-delay: 300ms;">
+          <a href="#" class="inline-flex relative btn-beam-container group">
+            <div class="beam-border"></div>
+            <span class="relative z-10 flex items-center justify-center bg-[var(--c-dark)] text-white px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest transition-transform hover:scale-[0.98] shadow-lg">
+              Conheça o Clube
+            </span>
+          </a>
+        </div>
 
-        <!-- Bloquinhos inferiores -->
-        <div class="clube-fade flex flex-col sm:flex-row gap-8 sm:gap-12 border-t border-[var(--c-dark)]/10 pt-8">
-          <div class="flex flex-col gap-3">
-            <span class="text-2xl">📚</span>
-            <span class="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--c-dark)]">Encontros do clube</span>
+        <!-- Bloquinhos inferiores: Flashlight Cards (Gemini 2) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-[var(--c-dark)]/10 pt-8" id="flashlight-grid-clube">
+          
+          <div class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-xl p-6 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default" style="transition-delay: 400ms;">
+            <div class="flashlight-border" style="background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(26,26,26,0.3), transparent 40%);"></div>
+            <div class="relative z-10 flex flex-col gap-3">
+              <span class="text-2xl group-hover:scale-110 transition-transform duration-300">📚</span>
+              <span class="text-[10px] font-bold uppercase tracking-widest text-[var(--c-dark)]">Encontros literários</span>
+            </div>
           </div>
-          <div class="flex flex-col gap-3">
-            <span class="text-2xl">☕</span>
-            <span class="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--c-dark)]">Café especial</span>
+          
+          <div class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-xl p-6 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default" style="transition-delay: 500ms;">
+            <div class="flashlight-border" style="background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(26,26,26,0.3), transparent 40%);"></div>
+            <div class="relative z-10 flex flex-col gap-3">
+              <span class="text-2xl group-hover:scale-110 transition-transform duration-300">☕</span>
+              <span class="text-[10px] font-bold uppercase tracking-widest text-[var(--c-dark)]">Café especial</span>
+            </div>
           </div>
-          <div class="flex flex-col gap-3">
-            <span class="text-2xl">🎹</span>
-            <span class="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--c-dark)]">Música ambiente</span>
+          
+          <div class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-xl p-6 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default" style="transition-delay: 600ms;">
+            <div class="flashlight-border" style="background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(26,26,26,0.3), transparent 40%);"></div>
+            <div class="relative z-10 flex flex-col gap-3">
+              <span class="text-2xl group-hover:scale-110 transition-transform duration-300">🎹</span>
+              <span class="text-[10px] font-bold uppercase tracking-widest text-[var(--c-dark)]">Música ambiente</span>
+            </div>
           </div>
+
         </div>
         
       </div>
 
       <!-- DIREITA: Imagens Compostas -->
-      <div class="lg:col-span-7 w-full h-[550px] md:h-[700px] relative mt-16 lg:mt-0">
+      <div class="lg:col-span-7 w-full h-[600px] md:h-[750px] relative mt-16 lg:mt-0">
         <!-- Main Image -->
-        <div class="clube-fade absolute top-0 right-0 w-[85%] h-[85%] rounded-[24px] overflow-hidden shadow-[0_20px_60px_rgba(26,26,26,0.12)]" style="background:#e8e2d6;">
-          <img src="../../raw_files/reading_cafe.png" 
-               alt="Ambiente de leitura" 
-               class="w-full h-[120%] object-cover object-center clube-parallax-img -translate-y-[10%]" loading="lazy">
+        <div class="blur-reveal absolute top-0 right-[5%] w-[80%] h-[75%] rounded-[24px] overflow-hidden shadow-[0_20px_60px_rgba(43,74,59,0.12)] glass-card">
+          <img src="../../raw_files/clube_livro_01.png" alt="Ambiente de leitura" class="w-full h-full object-cover object-center transition-transform duration-1000 ease-out hover:scale-105" loading="lazy">
         </div>
-        <!-- Secondary Image -->
-        <div class="clube-fade absolute bottom-0 left-0 w-[55%] h-[60%] rounded-[20px] overflow-hidden shadow-[0_30px_60px_rgba(26,26,26,0.18)] border-[6px] border-[var(--c-bg)] group z-10" style="background:#ede8e0;">
-          <img src="../../raw_files/books_table.png" 
-               alt="Livros e café" 
-               class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" loading="lazy">
+        
+        <!-- Secondary Image (Bottom Left) -->
+        <div class="blur-reveal absolute bottom-[10%] left-0 w-[45%] h-[50%] rounded-[20px] overflow-hidden shadow-[0_30px_60px_rgba(26,26,26,0.18)] border-[6px] border-[var(--c-bg)] group z-10 block" style="transition-delay: 200ms;">
+          <img src="../../raw_files/clube_livro_02.png" alt="Livros e café" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" loading="lazy">
+        </div>
+
+        <!-- Third Image (Bottom Right) -->
+        <div class="blur-reveal absolute bottom-0 right-[10%] w-[42%] h-[42%] rounded-[20px] overflow-hidden shadow-[0_30px_60px_rgba(26,26,26,0.18)] border-[6px] border-[var(--c-bg)] group z-20 block" style="transition-delay: 400ms;">
+          <img src="../../raw_files/clube_livro_03.png" alt="Inspiração Compartilhada" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" loading="lazy">
+          <div class="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-sm shadow-sm opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400">
+            <span class="text-[9px] font-bold uppercase tracking-[0.25em] text-[var(--c-dark)]">Inspiração Compartilhada</span>
+          </div>
         </div>
       </div>
 
     </div>
+
+    <!-- Marquee -->
+    <div class="w-full mt-10 border-y border-[var(--c-dark)]/5 bg-[var(--c-bg)] relative z-10 py-6 overflow-hidden marquee-mask blur-reveal" style="transition-delay: 500ms;">
+      <div class="flex marquee-content w-max">
+        <!-- Loop 1 -->
+        <div class="flex items-center gap-16 px-8 text-[var(--c-dark)]/30 font-display text-4xl italic tracking-tight">
+          <span>A leitura como pausa</span>
+          <span class="text-[var(--c-primary)]/40">•</span>
+          <span>Cafés que contam histórias</span>
+          <span class="text-[var(--c-primary)]/40">•</span>
+          <span>Encontros Literários</span>
+          <span class="text-[var(--c-primary)]/40">•</span>
+          <span>Arte do Espresso</span>
+          <span class="text-[var(--c-primary)]/40">•</span>
+        </div>
+        <!-- Loop 2 -->
+        <div class="flex items-center gap-16 px-8 text-[var(--c-dark)]/30 font-display text-4xl italic tracking-tight">
+          <span>A leitura como pausa</span>
+          <span class="text-[var(--c-primary)]/40">•</span>
+          <span>Cafés que contam histórias</span>
+          <span class="text-[var(--c-primary)]/40">•</span>
+          <span>Encontros Literários</span>
+          <span class="text-[var(--c-primary)]/40">•</span>
+          <span>Arte do Espresso</span>
+          <span class="text-[var(--c-primary)]/40">•</span>
+        </div>
+      </div>
+    </div>
   </section>
 
+  <script>
+    // Configura evento de mouse move para Flashlight Cards do Clube
+    document.addEventListener('DOMContentLoaded', () => {
+      const gridContainer = document.getElementById('flashlight-grid-clube');
+      if (gridContainer) {
+        gridContainer.addEventListener('mousemove', (e) => {
+          const cards = document.querySelectorAll('#flashlight-grid-clube .flashlight-card');
+          cards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+          });
+        });
+      }
+    });
+  </script>
+
   <style>
-    .clube-fade {
-      opacity: 0;
-      will-change: transform, opacity, filter;
+    /* Marquee Animation */
+    @keyframes scroll-left {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
     }
-    .clube-fade.is-visible {
-      animation: animationIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    .marquee-content {
+      animation: scroll-left 25s linear infinite;
+    }
+    .marquee-mask {
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+    
+    /* Clube do Livro Entry Animations */
+    .blur-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      filter: blur(10px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                  filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .blur-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0px);
+    }
+
+    .split-animate {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .split-animate.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Shimmer Beam Button (Gemini) */
+    @property --beam-angle {
+      syntax: '<angle>';
+      inherits: false;
+      initial-value: 0deg;
+    }
+    @keyframes rotate-beam {
+      0% { --beam-angle: 0deg; }
+      100% { --beam-angle: 360deg; }
+    }
+    .btn-beam-container {
+      position: relative;
+      display: inline-flex;
+      border-radius: 9999px;
+      padding: 1px;
+      overflow: hidden;
+      background: var(--c-dark);
+    }
+    .beam-border {
+      position: absolute;
+      inset: -50%;
+      background: conic-gradient(from var(--beam-angle, 0deg) at 50% 50%, transparent 80%, var(--c-primary) 100%);
+      animation: rotate-beam 3s linear infinite;
+      z-index: 0;
     }
   </style>
 
@@ -2302,7 +2431,7 @@
           });
 
           // 3b. Clube do Livro Animation
-          const clubeElements = gsap.utils.toArray('.clube-fade');
+          const clubeElements = gsap.utils.toArray('.blur-reveal, .split-animate');
           ScrollTrigger.create({
             trigger: '#clube-livro',
             start: 'top 75%',
