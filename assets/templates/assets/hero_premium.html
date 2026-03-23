@@ -1574,19 +1574,35 @@
 
       </div><!-- /gallery -->
 
-      <!-- SECTION FOOTER: decorative closing row -->
+      <!-- SECTION FOOTER: rich outro with divider and strong brand statement -->
       <div class="feat-reveal opacity-0 translate-y-4"
-        style="margin-top:5rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;border-top:1px solid rgba(26,26,26,0.06);padding-top:2.5rem;">
-        <p
-          style="font-family:'Instrument Serif',serif;font-style:italic;font-size:1.15rem;color:rgba(26,26,26,0.35);margin:0;">
-          Giardini, café com propósito.</p>
-        <a href="#"
-          style="display:inline-flex;align-items:center;gap:0.65rem;font-family:'Inter',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--c-primary);text-decoration:none;border-bottom:1px solid rgba(43,74,59,0.25);padding-bottom:2px;">
-          Explorar card&aacute;pio
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </a>
+        style="margin-top:5.5rem;padding-top:3rem;border-top:1px solid rgba(26,26,26,0.07);">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;">
+          <!-- Brand tagline left -->
+          <div style="display:flex;flex-direction:column;gap:1rem;">
+            <p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(1.1rem,2vw,1.5rem);color:rgba(26,26,26,0.38);margin:0;">
+              Giardini, café com propósito.
+            </p>
+            <!-- Decorative dot row -->
+            <div style="display:flex;align-items:center;gap:0.6rem;">
+              <span style="width:4px;height:4px;border-radius:50%;background:var(--c-primary);opacity:0.5;display:block;"></span>
+              <span style="width:4px;height:4px;border-radius:50%;background:var(--c-primary);opacity:0.25;display:block;"></span>
+              <span style="width:4px;height:4px;border-radius:50%;background:var(--c-primary);opacity:0.1;display:block;"></span>
+            </div>
+          </div>
+          <!-- CTA right -->
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:1rem;">
+            <a href="#"
+              class="group"
+              style="display:inline-flex;align-items:center;gap:0.75rem;font-family:'Inter',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--c-primary);text-decoration:none;padding:0.8rem 1.6rem;border:1px solid rgba(43,74,59,0.2);border-radius:9999px;transition:all 0.35s cubic-bezier(0.16,1,0.3,1);">
+              Explorar cardápio
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transition:transform 0.3s ease;" class="group-hover:translate-x-1">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+            <span style="font-size:0.58rem;text-transform:uppercase;letter-spacing:0.2em;color:rgba(26,26,26,0.22);">Seleção atualizada mensalmente</span>
+          </div>
+        </div>
       </div>
     </div><!-- /container -->
 
@@ -1628,166 +1644,400 @@
 
   </section>
 
-  <!-- ══ SECTION: CLUBE DO LIVRO ════════════════════════════════════════ -->
-  <section id="clube-livro" class="py-24 md:py-40 px-8 w-full relative z-[60] bg-[var(--c-bg)] overflow-hidden"
-    style="border-top: 1px solid rgba(26,26,26,0.06);">
-    <!-- Background Grid Subtil -->
-    <div class="absolute inset-0 opacity-[0.03] pointer-events-none"
-      style="background-image: linear-gradient(#1a1a1a 1px, transparent 1px), linear-gradient(90deg, #1a1a1a 1px, transparent 1px); background-size: 40px 40px;">
+  <!-- ══ TRANSITION BRIDGE: Sabores → Clube do Livro ════════════════════ -->
+  <!-- A flowing gradient transition that connects the warm ivory of Section 3
+       to the deep, atmospheric dark tones of Section 4 -->
+  <div aria-hidden="true" style="position:relative;z-index:61;height:160px;margin-top:-1px;
+    background:linear-gradient(to bottom, #ede5d8 0%, #d4cfc4 35%, #b8b0a2 65%, #1a1a1a 100%);pointer-events:none;">
+    <!-- Shimmer line that slides across during scroll -->
+    <div style="position:absolute;bottom:0;left:0;width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(43,74,59,0.4),transparent);"></div>
+  </div>
+
+  <!-- ══ SECTION: CLUBE DO LIVRO (Full Dark Premium) ═══════════════════ -->
+  <section id="clube-livro" class="relative z-[60] overflow-hidden"
+    style="background: linear-gradient(160deg, #111111 0%, #161412 40%, #1a1714 70%, #131311 100%);padding: 7rem 0 0;">
+
+    <!-- ░░░ RICH BACKGROUND LAYERS ░░░ -->
+
+    <!-- 1. Subtle noise grain for texture -->
+    <div aria-hidden="true" style="position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0.04;
+      background-image:url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'1\'/%3E%3C/svg%3E');
+      background-size:180px 180px;"></div>
+
+    <!-- 2. Fine editorial grid lines -->
+    <div aria-hidden="true" style="position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0.04;
+      background-image:linear-gradient(rgba(253,251,247,1) 1px, transparent 1px),linear-gradient(90deg,rgba(253,251,247,1) 1px, transparent 1px);
+      background-size:50px 50px;"></div>
+
+    <!-- 3. Warm amber orb top-left -->
+    <div aria-hidden="true" class="clube-orb-1" style="position:absolute;top:-15%;left:-10%;width:60vw;height:60vw;
+      border-radius:50%;background:radial-gradient(circle,rgba(183,130,60,0.14) 0%,transparent 65%);
+      filter:blur(80px);pointer-events:none;z-index:1;"></div>
+
+    <!-- 4. Green brand orb bottom-right -->
+    <div aria-hidden="true" class="clube-orb-2" style="position:absolute;bottom:-20%;right:-10%;width:55vw;height:55vw;
+      border-radius:50%;background:radial-gradient(circle,rgba(43,74,59,0.18) 0%,transparent 65%);
+      filter:blur(100px);pointer-events:none;z-index:1;"></div>
+
+    <!-- 5. Center atmospheric glow -->
+    <div aria-hidden="true" style="position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);width:80vw;height:40vw;
+      border-radius:50%;background:radial-gradient(ellipse,rgba(100,70,30,0.08) 0%,transparent 70%);
+      filter:blur(120px);pointer-events:none;z-index:1;"></div>
+
+    <!-- 6. Horizontal accent line (top of section) -->
+    <div aria-hidden="true" style="position:absolute;top:0;left:0;right:0;height:1px;z-index:2;pointer-events:none;
+      background:linear-gradient(to right,transparent,rgba(183,130,60,0.25) 30%,rgba(43,74,59,0.3) 70%,transparent);"></div>
+
+    <!-- 7. Giant watermark text -->
+    <div aria-hidden="true" style="position:absolute;top:8%;left:50%;transform:translateX(-50%);z-index:1;pointer-events:none;overflow:hidden;width:100%;text-align:center;">
+      <span style="font-family:'Instrument Serif',serif;font-size:clamp(8rem,20vw,18rem);line-height:1;color:rgba(253,251,247,0.025);
+        white-space:nowrap;letter-spacing:-0.04em;display:block;">Livros</span>
     </div>
 
-    <div
-      class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20 lg:gap-32 items-center relative z-10 w-full mb-16">
+    <!-- 8. Vertical editorial lines -->
+    <div aria-hidden="true" style="position:absolute;inset:0;display:flex;justify-content:space-between;padding:0 5%;pointer-events:none;z-index:1;">
+      <div style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(253,251,247,0.04) 20%,rgba(253,251,247,0.04) 80%,transparent);"></div>
+      <div style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(253,251,247,0.04) 20%,rgba(253,251,247,0.04) 80%,transparent);"></div>
+      <div style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(253,251,247,0.04) 20%,rgba(253,251,247,0.04) 80%,transparent);"></div>
+      <div style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(253,251,247,0.04) 20%,rgba(253,251,247,0.04) 80%,transparent);"></div>
+    </div>
 
-      <!-- ESQUERDA: Texto e Features -->
-      <div class="lg:col-span-5 flex flex-col pt-8 lg:pr-8">
-        <div class="blur-reveal flex items-center mb-10 overflow-hidden">
-          <div
-            class="text-[10px] md:text-xs text-[var(--c-dark)] font-bold uppercase tracking-[0.3em] flex items-center gap-4">
-            <span class="w-8 h-[1px] bg-[var(--c-primary)] opacity-40"></span>
-            03 / Clube do Livro
+    <!-- ░░░ MAIN CONTENT GRID ░░░ -->
+    <div class="max-w-[1440px] mx-auto relative z-10 w-full px-8 md:px-14">
+
+      <!-- ── SECTION HEADER (kicker + divider) ──────────────────────── -->
+      <div class="clube-reveal__header" style="margin-bottom:5rem;opacity:0;transform:translateY(30px);filter:blur(8px);">
+        <div style="display:flex;align-items:center;gap:1.25rem;margin-bottom:0;">
+          <!-- Animated kicker line -->
+          <div style="width:32px;height:1px;background:rgba(183,130,60,0.5);"></div>
+          <span style="font-size:0.6rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:rgba(183,130,60,0.7);">03 / Clube do Livro</span>
+          <!-- Separator dot -->
+          <span style="width:3px;height:3px;border-radius:50%;background:rgba(183,130,60,0.3);display:block;"></span>
+          <div style="flex:1;height:1px;background:linear-gradient(to right,rgba(253,251,247,0.06),transparent);"></div>
+          <span style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(253,251,247,0.2);">Encontros Mensais</span>
+        </div>
+      </div>
+
+      <!-- ── TWO-COLUMN: LEFT TEXT + RIGHT IMAGES ───────────────────── -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;
+        "  class="clube-main-grid">
+
+        <!-- ─ LEFT: Text Content ─ -->
+        <div class="clube-reveal__text" style="opacity:0;transform:translateY(40px);filter:blur(12px);padding-bottom:5rem;">
+
+          <!-- Main title -->
+          <div style="margin-bottom:2.5rem;overflow:hidden;">
+            <h2 class="clube-title-anim" style="font-family:'Instrument Serif',serif;font-size:clamp(3rem,5.5vw,5.5rem);
+              line-height:0.93;letter-spacing:-0.03em;color:#fdfbf7;font-weight:400;margin:0;">
+              <span class="clube-line" style="display:block;overflow:hidden;"><span style="display:block;transform:translateY(110%);transition:transform 1.1s cubic-bezier(0.16,1,0.3,1);">A leitura ganha</span></span>
+              <span class="clube-line" style="display:block;overflow:hidden;"><span style="display:block;transform:translateY(110%);transition:transform 1.1s cubic-bezier(0.16,1,0.3,1);transition-delay:0.12s;font-style:italic;color:rgba(183,130,60,0.9);">companhia.</span></span>
+            </h2>
           </div>
-        </div>
 
-        <div class="mb-10 overflow-hidden perspective-distant">
-          <h2 style="font-family:'Instrument Serif',serif; letter-spacing:-0.02em;"
-            class="title-clip-reveal text-5xl md:text-6xl lg:text-[5.5rem] leading-[0.95] text-[var(--c-dark)]">
-            <span class="block overflow-hidden relative"><span
-                class="block transition-transform duration-1000 translate-y-full">A leitura ganha</span></span>
-            <span class="block overflow-hidden relative italic text-[var(--c-primary)]"><span
-                class="block transition-transform duration-1000 translate-y-full delay-100">companhia.</span></span>
-          </h2>
-        </div>
+          <!-- Decorative horizontal rule -->
+          <div style="width:48px;height:2px;background:linear-gradient(to right,rgba(43,74,59,0.7),transparent);margin-bottom:2rem;"></div>
 
-        <p class="blur-reveal text-[var(--c-dark)]/80 font-light text-[1.1rem] md:text-[1.25rem] leading-relaxed mb-12 max-w-xl"
-          style="transition-delay: 400ms;">
-          No Giardini, cada livro é um convite para o diálogo.
-          Nossos encontros mensais transformam a leitura solitaria em uma experiência coletiva e memorável.
-        </p>
+          <!-- Body copy -->
+          <p style="font-size:1.05rem;font-weight:300;line-height:1.85;color:rgba(253,251,247,0.55);margin-bottom:3rem;max-width:440px;">
+            No Giardini, cada livro é um convite para o diálogo.
+            Nossos encontros mensais transformam a leitura solitária em uma experiência coletiva e memorável, regada a café especial e boa música.
+          </p>
 
-        <!-- Botão com Beam Animation -->
-        <div class="blur-reveal mb-20" style="transition-delay: 500ms;">
-          <a href="#" class="inline-flex relative btn-beam-container group">
-            <div class="beam-border"></div>
-            <span
-              class="relative z-10 flex items-center justify-center bg-[var(--c-dark)] text-white px-10 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-neutral-900 shadow-xl group-hover:scale-[0.98]">
-              Participar da Próxima Edição
-              <svg class="ml-3 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3">
-                </path>
+          <!-- Stats row -->
+          <div style="display:flex;gap:2.5rem;margin-bottom:3rem;padding:2rem 0;border-top:1px solid rgba(253,251,247,0.06);border-bottom:1px solid rgba(253,251,247,0.06);">
+            <div style="display:flex;flex-direction:column;gap:0.3rem;">
+              <span class="clube-stat" data-target="24" style="font-family:'Instrument Serif',serif;font-size:2.8rem;color:#fdfbf7;line-height:1;">0</span>
+              <span style="font-size:0.58rem;text-transform:uppercase;letter-spacing:0.2em;color:rgba(183,130,60,0.6);">Edições realizadas</span>
+            </div>
+            <div style="width:1px;background:rgba(253,251,247,0.07);"></div>
+            <div style="display:flex;flex-direction:column;gap:0.3rem;">
+              <span class="clube-stat" data-target="12" style="font-family:'Instrument Serif',serif;font-size:2.8rem;color:#fdfbf7;line-height:1;">0</span>
+              <span style="font-size:0.58rem;text-transform:uppercase;letter-spacing:0.2em;color:rgba(183,130,60,0.6);">Livros discutidos</span>
+            </div>
+            <div style="width:1px;background:rgba(253,251,247,0.07);"></div>
+            <div style="display:flex;flex-direction:column;gap:0.3rem;">
+              <span class="clube-stat" data-target="80" style="font-family:'Instrument Serif',serif;font-size:2.8rem;color:#fdfbf7;line-height:1;">0</span>
+              <span style="font-size:0.58rem;text-transform:uppercase;letter-spacing:0.2em;color:rgba(183,130,60,0.6);">Participantes</span>
+            </div>
+          </div>
+
+          <!-- Features (icon pills) -->
+          <div style="display:flex;flex-wrap:wrap;gap:0.85rem;margin-bottom:3rem;" id="flashlight-grid-clube">
+            <!-- Feature pill 1 -->
+            <div class="clube-pill flashlight-card" style="display:inline-flex;align-items:center;gap:0.65rem;
+              padding:0.7rem 1.35rem;border-radius:9999px;border:1px solid rgba(253,251,247,0.1);
+              background:rgba(253,251,247,0.04);backdrop-filter:blur(8px);cursor:default;position:relative;
+              transition:all 0.4s cubic-bezier(0.16,1,0.3,1);">
+              <div class="flashlight-border" style="background:radial-gradient(300px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(183,130,60,0.2),transparent 60%);"></div>
+              <span style="font-size:1rem;">📚</span>
+              <span style="font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:0.18em;color:rgba(253,251,247,0.5);">Encontros Mensais</span>
+            </div>
+            <!-- Feature pill 2 -->
+            <div class="clube-pill flashlight-card" style="display:inline-flex;align-items:center;gap:0.65rem;
+              padding:0.7rem 1.35rem;border-radius:9999px;border:1px solid rgba(253,251,247,0.1);
+              background:rgba(253,251,247,0.04);backdrop-filter:blur(8px);cursor:default;position:relative;
+              transition:all 0.4s cubic-bezier(0.16,1,0.3,1);">
+              <div class="flashlight-border" style="background:radial-gradient(300px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(183,130,60,0.2),transparent 60%);"></div>
+              <span style="font-size:1rem;">☕</span>
+              <span style="font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:0.18em;color:rgba(253,251,247,0.5);">Coffee Break</span>
+            </div>
+            <!-- Feature pill 3 -->
+            <div class="clube-pill flashlight-card" style="display:inline-flex;align-items:center;gap:0.65rem;
+              padding:0.7rem 1.35rem;border-radius:9999px;border:1px solid rgba(253,251,247,0.1);
+              background:rgba(253,251,247,0.04);backdrop-filter:blur(8px);cursor:default;position:relative;
+              transition:all 0.4s cubic-bezier(0.16,1,0.3,1);">
+              <div class="flashlight-border" style="background:radial-gradient(300px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(183,130,60,0.2),transparent 60%);"></div>
+              <span style="font-size:1rem;">🎻</span>
+              <span style="font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:0.18em;color:rgba(253,251,247,0.5);">Curadoria Musical</span>
+            </div>
+          </div>
+
+          <!-- CTA Button (Shimmer Beam from templates) -->
+          <div class="inline-flex relative" style="">
+            <!-- Conic beam rotating (from animation-clean template) -->
+            <div class="clube-beam-outer" style="position:absolute;inset:-1.5px;border-radius:9999px;
+              pointer-events:none;z-index:0;opacity:0;
+              background:conic-gradient(from 0deg at 50% 50%,transparent 0deg,rgba(183,130,60,0.7) 45deg,rgba(43,74,59,0.9) 90deg,transparent 135deg,rgba(183,130,60,0.5) 225deg,transparent 360deg);
+              animation:rotate-beam 4s linear infinite;transition:opacity 0.5s;"></div>
+            <a href="#" class="clube-cta-btn group" style="position:relative;z-index:1;display:inline-flex;align-items:center;
+              gap:0.75rem;background:rgba(43,74,59,0.85);backdrop-filter:blur(8px);
+              color:#fdfbf7;padding:1.1rem 2.5rem;border-radius:9999px;font-size:0.68rem;
+              font-weight:700;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;
+              border:1px solid rgba(43,74,59,0.5);
+              transition:all 0.4s cubic-bezier(0.16,1,0.3,1);">
+              <!-- Inner shimmer sweep (gemini template) -->
+              <span style="position:absolute;inset:0;overflow:hidden;border-radius:inherit;z-index:0;pointer-events:none;">
+                <span class="clube-shimmer" style="position:absolute;top:0;left:0;height:100%;width:100%;
+                  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.13),transparent);
+                  transform:translateX(-100%) skewX(-15deg);"></span>
+              </span>
+              <span style="position:relative;z-index:1;">Participar da Próxima Edição</span>
+              <svg style="position:relative;z-index:1;width:16px;height:16px;transition:transform 0.35s ease;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
-            </span>
-          </a>
+            </a>
+          </div>
         </div>
 
-        <!-- Features -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 border-t border-[var(--c-dark)]/5 pt-12"
-          id="flashlight-grid-clube">
-          <div
-            class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-2xl p-7 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default"
-            style="transition-delay: 600ms;">
-            <div class="flashlight-border"></div>
-            <div class="relative z-10 flex flex-col gap-4">
-              <span class="text-3xl opacity-80 group-hover:scale-110 transition-transform duration-500">📚</span>
-              <span class="text-[9px] font-bold uppercase tracking-widest text-[var(--c-dark)]/60">Encontros
-                Mensais</span>
+        <!-- ─ RIGHT: 2-Image Cinematic Composition ─ -->
+        <div class="clube-reveal__images" style="position:relative;height:720px;opacity:0;transform:translateY(40px);filter:blur(12px);">
+
+          <!-- Glow behind images -->
+          <div aria-hidden="true" style="position:absolute;top:15%;right:-5%;width:55%;height:55%;border-radius:50%;
+            background:radial-gradient(circle,rgba(43,74,59,0.25) 0%,transparent 70%);
+            filter:blur(60px);pointer-events:none;z-index:0;"></div>
+
+          <!-- Image 1: Large hero image (top-right) -->
+          <div class="clube-img-main group" style="position:absolute;top:0;right:0;width:82%;height:62%;
+            border-radius:28px;overflow:hidden;
+            box-shadow:0 40px 80px rgba(0,0,0,0.5),0 12px 28px rgba(0,0,0,0.35),inset 0 0 0 1px rgba(253,251,247,0.06);
+            transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),box-shadow 0.8s ease;">
+            <!-- Cinematic overlay: dark vignette + warm tint -->
+            <div style="position:absolute;inset:0;z-index:5;pointer-events:none;
+              background:linear-gradient(135deg,rgba(0,0,0,0.55) 0%,rgba(0,0,0,0.1) 50%,rgba(0,0,0,0.4) 100%);
+              mix-blend-mode:multiply;"></div>
+            <!-- Warm color grade overlay -->
+            <div style="position:absolute;inset:0;z-index:6;pointer-events:none;
+              background:linear-gradient(to bottom,transparent 50%,rgba(26,14,5,0.7) 100%);"></div>
+            <!-- Shimmer light sweep on hover -->
+            <div class="clube-img-shimmer" style="position:absolute;inset:0;z-index:7;pointer-events:none;opacity:0;
+              background:linear-gradient(135deg,transparent 0%,rgba(255,255,255,0.06) 50%,transparent 100%);
+              transition:opacity 0.5s;"></div>
+            <img
+              src="C:\Users\Arenapc\.gemini\antigravity\brain\df66d82a-da61-4f6e-8a12-19bb3fe8d4f6\clube_livro_1_1774232657893.png"
+              alt="Ambiente do Clube do Livro"
+              style="width:100%;height:100%;object-fit:cover;
+                filter:saturate(0.75) brightness(0.88) contrast(1.05);
+                transition:transform 1.2s cubic-bezier(0.22,1,0.36,1),filter 0.6s ease;
+                transform:scale(1.05);">
+            <!-- Badge tag on image -->
+            <div style="position:absolute;top:1.4rem;left:1.4rem;z-index:15;
+              background:rgba(0,0,0,0.55);backdrop-filter:blur(10px);
+              border:1px solid rgba(253,251,247,0.12);border-radius:9999px;
+              padding:0.45rem 1rem;display:flex;align-items:center;gap:0.6rem;">
+              <span style="width:6px;height:6px;border-radius:50%;background:rgba(183,130,60,0.9);
+                animation:live-glow 2.2s ease-in-out infinite;display:block;flex-shrink:0;"></span>
+              <span style="font-size:0.55rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(253,251,247,0.75);">Encontro Literário</span>
+            </div>
+            <!-- Bottom text overlay -->
+            <div style="position:absolute;bottom:0;left:0;right:0;z-index:15;padding:2rem 1.75rem;
+              background:linear-gradient(to top,rgba(0,0,0,0.75) 0%,transparent 100%);
+              transform:translateY(8px);opacity:0;transition:all 0.5s ease;" class="clube-img-caption">
+              <span style="font-family:'Instrument Serif',serif;font-size:1.2rem;color:#fdfbf7;font-style:italic;">Cultura &amp; Conexão</span>
             </div>
           </div>
-          <div
-            class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-2xl p-7 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default"
-            style="transition-delay: 700ms;">
-            <div class="flashlight-border"></div>
-            <div class="relative z-10 flex flex-col gap-4">
-              <span class="text-3xl opacity-80 group-hover:scale-110 transition-transform duration-500">☕</span>
-              <span class="text-[9px] font-bold uppercase tracking-widest text-[var(--c-dark)]/60">Coffee Break</span>
+
+          <!-- Image 2: Smaller accent (bottom-left, overlapping) -->
+          <div class="clube-img-accent group" style="position:absolute;bottom:0;left:0;width:52%;height:52%;
+            border-radius:22px;overflow:hidden;
+            border:6px solid rgba(17,17,17,0.95);
+            box-shadow:0 30px 60px rgba(0,0,0,0.55),0 8px 20px rgba(0,0,0,0.4),inset 0 0 0 1px rgba(253,251,247,0.08);
+            z-index:10;transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),box-shadow 0.8s ease;">
+            <!-- Overlay -->
+            <div style="position:absolute;inset:0;z-index:5;pointer-events:none;
+              background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 60%);"></div>
+            <img
+              src="C:\Users\Arenapc\.gemini\antigravity\brain\df66d82a-da61-4f6e-8a12-19bb3fe8d4f6\clube_livro_2_1774232673827.png"
+              alt="Livros no Giardini"
+              style="width:100%;height:100%;object-fit:cover;
+                filter:saturate(0.7) brightness(0.85) contrast(1.08);
+                transition:transform 1.2s cubic-bezier(0.22,1,0.36,1);
+                transform:scale(1.08);">
+            <!-- Interactive reveal label -->
+            <div style="position:absolute;bottom:1.25rem;left:1.25rem;right:1.25rem;z-index:15;
+              opacity:0;transform:translateY(6px);transition:all 0.5s ease;" class="clube-img-caption">
+              <div style="width:18px;height:1px;background:rgba(183,130,60,0.7);margin-bottom:0.5rem;"></div>
+              <span style="font-family:'Instrument Serif',serif;font-size:1rem;color:rgba(253,251,247,0.9);font-style:italic;">Inspiração Compartilhada</span>
             </div>
           </div>
-          <div
-            class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-2xl p-7 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default"
-            style="transition-delay: 800ms;">
-            <div class="flashlight-border"></div>
-            <div class="relative z-10 flex flex-col gap-4">
-              <span class="text-3xl opacity-80 group-hover:scale-110 transition-transform duration-500">🎻</span>
-              <span class="text-[9px] font-bold uppercase tracking-widest text-[var(--c-dark)]/60">Curadoria
-                Musical</span>
-            </div>
+
+          <!-- Floating detail: section number -->
+          <div aria-hidden="true" style="position:absolute;bottom:4%;right:2%;z-index:20;
+            font-family:'Instrument Serif',serif;font-size:6rem;line-height:1;
+            color:rgba(253,251,247,0.04);letter-spacing:-0.05em;pointer-events:none;user-select:none;">04</div>
+
+          <!-- Small decorative accent line connecting the images -->
+          <div aria-hidden="true" style="position:absolute;bottom:42%;left:46%;width:8%;height:1px;z-index:15;
+            background:linear-gradient(to right,rgba(183,130,60,0.4),transparent);"></div>
+        </div>
+      </div><!-- /main grid -->
+
+    </div><!-- /container -->
+
+    <!-- ──────────────────────────────────────────────────────────────── -->
+    <!-- MARQUEE SECTION (premium dark treatment) -->
+    <!-- ──────────────────────────────────────────────────────────────── -->
+    <div style="width:100%;margin-top:5rem;position:relative;z-index:10;" aria-hidden="true">
+      <!-- Top delimiter -->
+      <div style="height:1px;background:linear-gradient(to right,transparent,rgba(253,251,247,0.06) 20%,rgba(183,130,60,0.15) 50%,rgba(253,251,247,0.06) 80%,transparent);"></div>
+      <!-- Marquee track -->
+      <div class="clube-marquee-mask" style="padding:2.5rem 0;overflow:hidden;">
+        <div class="flex clube-marquee-content w-max">
+          <div style="display:flex;align-items:center;gap:3.5rem;padding:0 3.5rem;">
+            <span style="font-family:'Instrument Serif',serif;font-size:clamp(3rem,6vw,5rem);line-height:1;color:rgba(253,251,247,0.08);white-space:nowrap;letter-spacing:-0.02em;">O Silêncio Literário</span>
+            <span style="font-family:'Instrument Serif',serif;font-size:clamp(3rem,6vw,5rem);line-height:1;font-style:italic;color:rgba(183,130,60,0.18);white-space:nowrap;letter-spacing:-0.02em;">Giardini</span>
+            <span style="font-family:'Instrument Serif',serif;font-size:clamp(3rem,6vw,5rem);line-height:1;color:rgba(253,251,247,0.08);white-space:nowrap;letter-spacing:-0.02em;">Aromas que Conectam</span>
+            <span style="font-family:'Instrument Serif',serif;font-size:clamp(3rem,6vw,5rem);line-height:1;font-style:italic;color:rgba(43,74,59,0.35);white-space:nowrap;letter-spacing:-0.02em;">Clube</span>
+            <span style="font-family:'Instrument Serif',serif;font-size:clamp(3rem,6vw,5rem);line-height:1;color:rgba(253,251,247,0.08);white-space:nowrap;letter-spacing:-0.02em;">O Silêncio Literário</span>
+            <span style="font-family:'Instrument Serif',serif;font-size:clamp(3rem,6vw,5rem);line-height:1;font-style:italic;color:rgba(183,130,60,0.18);white-space:nowrap;letter-spacing:-0.02em;">Giardini</span>
+            <span style="font-family:'Instrument Serif',serif;font-size:clamp(3rem,6vw,5rem);line-height:1;color:rgba(253,251,247,0.08);white-space:nowrap;letter-spacing:-0.02em;">Aromas que Conectam</span>
+            <span style="font-family:'Instrument Serif',serif;font-size:clamp(3rem,6vw,5rem);line-height:1;font-style:italic;color:rgba(43,74,59,0.35);white-space:nowrap;letter-spacing:-0.02em;">Clube</span>
           </div>
         </div>
       </div>
-
-      <!-- DIREITA: 3D Stack -->
-      <div class="lg:col-span-7 w-full h-[700px] md:h-[850px] relative mt-24 lg:mt-0 perspective-2000">
-        <div
-          class="blur-reveal absolute top-0 right-0 w-[85%] h-[80%] rounded-[32px] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.12)] glass-card transform-style-3d hover:rotate-y-[-5] transition-transform duration-1000">
-          <img
-            src="C:\Users\Arenapc\.gemini\antigravity\brain\df66d82a-da61-4f6e-8a12-19bb3fe8d4f6\clube_livro_1_1774232657893.png"
-            alt="Cultura"
-            class="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-1000">
-        </div>
-        <div
-          class="blur-reveal absolute bottom-[15%] left-[-10%] w-[50%] h-[55%] rounded-[24px] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.25)] border-[8px] border-[var(--c-bg)] z-10 transform-style-3d hover:translate-z-10 transition-all duration-700"
-          style="transition-delay: 200ms;">
-          <img
-            src="C:\Users\Arenapc\.gemini\antigravity\brain\df66d82a-da61-4f6e-8a12-19bb3fe8d4f6\clube_livro_2_1774232673827.png"
-            alt="Livros" class="w-full h-full object-cover transition-transform duration-1000">
-        </div>
-        <div
-          class="blur-reveal absolute bottom-0 right-[5%] w-[45%] h-[45%] rounded-[24px] overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.3)] border-[8px] border-[var(--c-bg)] z-20 group transform-style-3d transition-all duration-700"
-          style="transition-delay: 500ms;">
-          <img
-            src="C:\Users\Arenapc\.gemini\antigravity\brain\df66d82a-da61-4f6e-8a12-19bb3fe8d4f6\clube_livro_3_1774232690454.png"
-            alt="Inspiração"
-            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
-          <div
-            class="absolute inset-0 bg-gradient-to-t from-[var(--c-dark)]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-          </div>
-          <div
-            class="absolute bottom-6 left-6 text-white opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700 delay-100">
-            <span class="text-[10px] font-bold uppercase tracking-[0.3em] block mb-1">Destaque</span>
-            <span class="italic text-2xl font-serif">Inspiração Compartilhada</span>
-          </div>
-        </div>
-      </div>
+      <!-- Bottom delimiter -->
+      <div style="height:1px;background:linear-gradient(to right,transparent,rgba(253,251,247,0.06) 20%,rgba(183,130,60,0.15) 50%,rgba(253,251,247,0.06) 80%,transparent);"></div>
     </div>
 
-    <!-- Marquee -->
-    <div
-      class="w-full mt-24 border-y border-[var(--c-dark)]/5 bg-[var(--c-bg)] relative z-10 py-10 overflow-hidden marquee-mask blur-reveal"
-      style="transition-delay: 900ms;">
-      <div class="flex marquee-content w-max">
-        <div
-          class="flex items-center gap-24 px-12 text-[var(--c-dark)]/20 font-serif text-[5rem] leading-none tracking-tight">
-          <span>O Silêncio Literário</span>
-          <span class="text-[var(--c-primary)] opacity-30 italic">Giardini</span>
-          <span>Aromas que Conectam</span>
-          <span class="text-[var(--c-primary)] opacity-30 italic">Clube</span>
-          <span>O Silêncio Literário</span>
-          <span class="text-[var(--c-primary)] opacity-30 italic">Giardini</span>
-          <span>Aromas que Conectam</span>
-          <span class="text-[var(--c-primary)] opacity-30 italic">Clube</span>
-        </div>
-      </div>
-    </div>
   </section>
 
   <script>
-    // Configura evento de mouse move para Flashlight Cards do Clube
-    document.addEventListener('DOMContentLoaded', () => {
-      const gridContainer = document.getElementById('flashlight-grid-clube');
-      if (gridContainer) {
-        gridContainer.addEventListener('mousemove', (e) => {
-          const cards = document.querySelectorAll('#flashlight-grid-clube .flashlight-card');
-          cards.forEach(card => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
-          });
+    /* ── CLUBE DO LIVRO: scroll reveals, stats, image hover, CTA ─────────── */
+    (function () {
+      /* Flashlight tracking on pills */
+      document.addEventListener('mousemove', function (e) {
+        document.querySelectorAll('#flashlight-grid-clube .flashlight-card').forEach(function (card) {
+          var rect = card.getBoundingClientRect();
+          card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+          card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+        });
+      });
+
+      /* Scroll reveal observer */
+      var revealIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var el = entry.target;
+          var tag = el.dataset.clubeReveal;
+          var ease = '1.1s cubic-bezier(0.16,1,0.3,1)';
+
+          el.style.transition = 'opacity ' + ease + ', transform ' + ease + ', filter ' + ease;
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          el.style.filter = 'blur(0)';
+
+          if (tag === 'text') {
+            /* Animate title lines */
+            setTimeout(function () {
+              el.querySelectorAll('.clube-line span').forEach(function (span) {
+                span.style.transform = 'translateY(0)';
+              });
+            }, 150);
+
+            /* Count-up stats */
+            setTimeout(function () {
+              el.querySelectorAll('.clube-stat').forEach(function (stat) {
+                var target = parseInt(stat.dataset.target || '0', 10);
+                var current = 0;
+                var step = Math.max(1, Math.ceil(target / 50));
+                var timer = setInterval(function () {
+                  current = Math.min(current + step, target);
+                  stat.textContent = current;
+                  if (current >= target) clearInterval(timer);
+                }, 28);
+              });
+            }, 700);
+
+            /* Reveal beam border */
+            setTimeout(function () {
+              var beam = el.querySelector('.clube-beam-outer');
+              if (beam) beam.style.opacity = '1';
+            }, 900);
+          }
+
+          revealIO.unobserve(el);
+        });
+      }, { threshold: 0.12 });
+
+      /* Attach data-tags and observe */
+      var header = document.querySelector('.clube-reveal__header');
+      var textCol = document.querySelector('.clube-reveal__text');
+      var imgsCol = document.querySelector('.clube-reveal__images');
+      if (header) { header.dataset.clubeReveal = 'header'; revealIO.observe(header); }
+      if (textCol) { textCol.dataset.clubeReveal = 'text'; revealIO.observe(textCol); }
+      if (imgsCol) { imgsCol.dataset.clubeReveal = 'images'; revealIO.observe(imgsCol); }
+
+      /* Image hover captions */
+      document.querySelectorAll('.clube-img-main, .clube-img-accent').forEach(function (wrap) {
+        var caption = wrap.querySelector('.clube-img-caption');
+        var img = wrap.querySelector('img');
+        var shimmer2 = wrap.querySelector('.clube-img-shimmer');
+        wrap.addEventListener('mouseenter', function () {
+          if (caption) { caption.style.opacity = '1'; caption.style.transform = 'translateY(0)'; }
+          if (img) img.style.transform = 'scale(1.1)';
+          if (shimmer2) shimmer2.style.opacity = '1';
+        });
+        wrap.addEventListener('mouseleave', function () {
+          if (caption) { caption.style.opacity = '0'; caption.style.transform = 'translateY(6px)'; }
+          if (img) img.style.transform = img.classList.contains('main-img') ? 'scale(1.05)' : 'scale(1.08)';
+          if (shimmer2) shimmer2.style.opacity = '0';
+        });
+      });
+
+      /* CTA shimmer sweep on hover */
+      var ctaBtn = document.querySelector('.clube-cta-btn');
+      if (ctaBtn) {
+        var shimmerEl = ctaBtn.querySelector('.clube-shimmer');
+        ctaBtn.addEventListener('mouseenter', function () {
+          ctaBtn.style.background = 'rgba(43,74,59,1)';
+          ctaBtn.style.boxShadow = '0 12px 32px rgba(43,74,59,0.4)';
+          ctaBtn.style.transform = 'translateY(-2px)';
+          if (shimmerEl) {
+            shimmerEl.style.transition = 'transform 0.75s ease';
+            shimmerEl.style.transform = 'translateX(220%) skewX(-15deg)';
+          }
+        });
+        ctaBtn.addEventListener('mouseleave', function () {
+          ctaBtn.style.background = 'rgba(43,74,59,0.85)';
+          ctaBtn.style.boxShadow = 'none';
+          ctaBtn.style.transform = 'translateY(0)';
+          if (shimmerEl) {
+            shimmerEl.style.transition = 'none';
+            shimmerEl.style.transform = 'translateX(-100%) skewX(-15deg)';
+          }
         });
       }
-    });
+    })();
   </script>
 
   <style>
@@ -1804,7 +2054,9 @@
       transform: translateZ(10px);
     }
 
-    .rotate-y-[-5]:hover {
+
+    /* Image rotate on hover (for 3D wrappers) */
+    .img-rotate-hover:hover {
       transform: rotateY(-5deg);
     }
 
@@ -1901,6 +2153,60 @@
       z-index: 0;
       /* Fallback for browsers without @property support */
       background: conic-gradient(from 0deg at 50% 50%, transparent 70%, var(--c-primary) 100%);
+    }
+  </style>
+
+  <style>
+    /* ── CLUBE DO LIVRO: dedicated CSS ──────────────────────────────── */
+
+    /* Marquee animation */
+    @keyframes clube-scroll-left {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .clube-marquee-content {
+      animation: clube-scroll-left 50s linear infinite;
+    }
+    .clube-marquee-mask {
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+
+    /* Floating orbs */
+    @keyframes clube-float-1 {
+      0%, 100% { transform: translate(0, 0);       }
+      50%       { transform: translate(30px, -25px); }
+    }
+    @keyframes clube-float-2 {
+      0%, 100% { transform: translate(0, 0);        }
+      50%       { transform: translate(-25px, 20px); }
+    }
+    .clube-orb-1 { animation: clube-float-1 12s ease-in-out infinite; }
+    .clube-orb-2 { animation: clube-float-2 15s ease-in-out infinite; }
+
+    /* Pill hover accent */
+    .clube-pill:hover {
+      background: rgba(253,251,247,0.08) !important;
+      border-color: rgba(183,130,60,0.35) !important;
+    }
+
+    /* Title line slide */
+    .clube-line span {
+      transition: transform 1.1s cubic-bezier(0.16,1,0.3,1);
+    }
+    .clube-line:nth-child(2) span {
+      transition-delay: 0.12s;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 900px) {
+      .clube-main-grid {
+        grid-template-columns: 1fr !important;
+        gap: 3rem !important;
+      }
+      .clube-reveal__images {
+        height: 420px !important;
+      }
     }
   </style>
 
