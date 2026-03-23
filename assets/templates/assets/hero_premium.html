@@ -1915,13 +1915,12 @@
       <!-- ── SECTION HEADER ──────────────────────────────────────── -->
       <div class="clube-reveal__header" style="margin-bottom:5rem;opacity:0;transform:translateY(28px);filter:blur(8px);">
         <div style="display:flex;align-items:center;gap:1rem;">
-          <!-- Pulsing dot — matches Sections 2 & 3 -->
-          <span style="width:8px;height:8px;border-radius:50%;background:var(--c-primary);display:block;
-            animation:pulse 2s cubic-bezier(0.4,0,0.6,1) infinite;flex-shrink:0;"></span>
-          <span style="font-size:0.6rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--c-primary);">03 / Clube do Livro</span>
-          <!-- Decorative horizontal rule -->
+          <span style="display:inline-flex;align-items:center;gap:0.75rem;">
+            <span class="w-2 h-2 rounded-full bg-[var(--c-primary)] animate-pulse inline-block"></span>
+            <span class="text-[10px] md:text-xs text-[var(--c-primary)] font-bold uppercase tracking-[0.2em]">03 / Clube do Livro</span>
+          </span>
           <div style="flex:1;height:1px;background:linear-gradient(to right,rgba(43,74,59,0.2),transparent);"></div>
-          <span style="font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(26,26,26,0.28);font-weight:500;">Encontros Mensais</span>
+          <span class="text-[10px] md:text-xs uppercase tracking-[0.15em]" style="color:rgba(26,26,26,0.28);">Encontros Mensais</span>
         </div>
       </div>
 
@@ -2060,38 +2059,6 @@
             </div>
           </div>
 
-          <!-- Thin divider with editorial metadata -->
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:0 0.25rem;">
-            <div style="display:flex;align-items:center;gap:0.6rem;">
-              <div style="width:20px;height:1px;background:rgba(43,74,59,0.2);"></div>
-              <span style="font-size:0.5rem;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;
-                color:rgba(26,26,26,0.3);">Acervo e café</span>
-            </div>
-            <span style="font-size:0.5rem;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;
-              color:rgba(26,26,26,0.22);">Giardini · 2024</span>
-          </div>
-
-          <!-- Image 2 — secondary landscape -->
-          <div class="clube-img-accent" style="border-radius:20px;overflow:hidden;position:relative;
-            aspect-ratio:16/9;
-            box-shadow:0 16px 48px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.04);
-            transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),box-shadow 0.8s ease;">
-            <div style="position:absolute;inset:0;z-index:5;pointer-events:none;
-              background:linear-gradient(to bottom,transparent 50%,rgba(20,12,4,0.5) 100%);"></div>
-            <div class="clube-img-shimmer" style="position:absolute;inset:0;z-index:7;pointer-events:none;opacity:0;
-              background:linear-gradient(135deg,transparent,rgba(255,255,255,0.06),transparent);transition:opacity 0.5s;"></div>
-            <img src="../../raw_files/_MG_2005.jpg" alt="Detalhes — Clube do Livro"
-              style="width:100%;height:100%;object-fit:cover;
-                filter:saturate(0.85) brightness(0.97) contrast(1.03);
-                transition:transform 1.2s cubic-bezier(0.22,1,0.36,1);
-                transform:scale(1.06);">
-          </div>
-          <!-- caption below image 2 -->
-          <div style="display:flex;align-items:center;gap:0.65rem;padding:0 0.25rem;">
-            <span style="width:5px;height:5px;border-radius:50%;background:var(--c-primary);opacity:0.3;"></span>
-            <span style="font-size:0.5rem;font-weight:400;letter-spacing:0.16em;text-transform:uppercase;
-              color:rgba(26,26,26,0.28);">Inspiração compartilhada</span>
-          </div>
 
         </div>
       </div><!-- /clube-mosaic -->
