@@ -1538,6 +1538,79 @@
 
   </section>
 
+  <!-- ══ SECTION: CLUBE DO LIVRO ════════════════════════════════════════ -->
+  <section id="clube-livro" class="py-24 md:py-32 px-8 w-full relative z-[60] bg-[var(--c-bg)] overflow-hidden" style="border-top: 1px solid rgba(26,26,26,0.06);">
+    <div class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center relative z-10 w-full">
+      
+      <!-- ESQUERDA: Texto -->
+      <div class="lg:col-span-5 flex flex-col pt-8 lg:pr-8">
+        <div class="clube-fade flex items-center mb-8">
+          <div class="text-[10px] md:text-xs text-[var(--c-dark)] font-bold uppercase tracking-[0.2em] flex items-center gap-3 opacity-60">
+            <span class="w-2 h-2 rounded-full bg-[var(--c-primary)] animate-pulse inline-block"></span>
+            CLUBE DO LIVRO
+          </div>
+        </div>
+        
+        <h2 style="font-family:'Instrument Serif',serif; letter-spacing:-0.01em;" class="clube-fade text-4xl md:text-5xl lg:text-[4.5rem] leading-[1.05] text-[var(--c-dark)] mb-6">
+          "Um lugar onde a leitura ganha <span class="italic text-[var(--c-primary)]">companhia.</span>"
+        </h2>
+
+        <p class="clube-fade text-[var(--c-dark)]/80 font-light text-[1.05rem] md:text-[1.125rem] leading-relaxed mb-6">
+          Mais do que um café, o Giardini conecta pessoas através da leitura.
+          Nosso clube do livro reúne encontros, conversas e pausas que fazem você querer voltar.
+        </p>
+
+        <p class="clube-fade text-[var(--c-dark)]/60 font-light text-[0.95rem] leading-relaxed mb-12">
+          Participe dos encontros ou simplesmente escolha um livro e aproveite o momento no seu tempo.
+        </p>
+
+        <!-- Bloquinhos inferiores -->
+        <div class="clube-fade flex flex-col sm:flex-row gap-8 sm:gap-12 border-t border-[var(--c-dark)]/10 pt-8">
+          <div class="flex flex-col gap-3">
+            <span class="text-2xl">📚</span>
+            <span class="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--c-dark)]">Encontros do clube</span>
+          </div>
+          <div class="flex flex-col gap-3">
+            <span class="text-2xl">☕</span>
+            <span class="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--c-dark)]">Café especial</span>
+          </div>
+          <div class="flex flex-col gap-3">
+            <span class="text-2xl">🎹</span>
+            <span class="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--c-dark)]">Música ambiente</span>
+          </div>
+        </div>
+        
+      </div>
+
+      <!-- DIREITA: Imagens Compostas -->
+      <div class="lg:col-span-7 w-full h-[550px] md:h-[700px] relative mt-16 lg:mt-0">
+        <!-- Main Image -->
+        <div class="clube-fade absolute top-0 right-0 w-[85%] h-[85%] rounded-[24px] overflow-hidden shadow-[0_20px_60px_rgba(26,26,26,0.12)]" style="background:#e8e2d6;">
+          <img src="../../raw_files/reading_cafe.png" 
+               alt="Ambiente de leitura" 
+               class="w-full h-[120%] object-cover object-center clube-parallax-img -translate-y-[10%]" loading="lazy">
+        </div>
+        <!-- Secondary Image -->
+        <div class="clube-fade absolute bottom-0 left-0 w-[55%] h-[60%] rounded-[20px] overflow-hidden shadow-[0_30px_60px_rgba(26,26,26,0.18)] border-[6px] border-[var(--c-bg)] group z-10" style="background:#ede8e0;">
+          <img src="../../raw_files/books_table.png" 
+               alt="Livros e café" 
+               class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" loading="lazy">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <style>
+    .clube-fade {
+      opacity: 0;
+      will-change: transform, opacity, filter;
+    }
+    .clube-fade.is-visible {
+      animation: animationIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+
   <style>
     /* ── LOC SPECIFIC STYLES (Light Theme) ──────────────── */
     
@@ -2225,6 +2298,32 @@
               gsap.to('.feat-text-muted', { color: 'rgba(26,26,26,0.5)', duration: 1.2 });
               gsap.to('.glow-orb', { opacity: 0, duration: 1.2 });
               gsap.to('.feat-grid', { opacity: 0, duration: 1.2 });
+            }
+          });
+
+          // 3b. Clube do Livro Animation
+          const clubeElements = gsap.utils.toArray('.clube-fade');
+          ScrollTrigger.create({
+            trigger: '#clube-livro',
+            start: 'top 75%',
+            once: true,
+            onEnter: () => {
+              clubeElements.forEach((el, index) => {
+                setTimeout(() => {
+                  el.classList.add('is-visible');
+                }, index * 120);
+              });
+            }
+          });
+
+          gsap.to('.clube-parallax-img', {
+            yPercent: 20,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '#clube-livro',
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true
             }
           });
 
