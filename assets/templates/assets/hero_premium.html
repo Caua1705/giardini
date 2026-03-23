@@ -272,15 +272,15 @@
       inset: 0;
       pointer-events: none;
       z-index: 1;
-      background-size: 80px 80px;
       background-image:
-        linear-gradient(to right, rgba(26, 26, 26, 0.055) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(26, 26, 26, 0.055) 1px, transparent 1px),
-        linear-gradient(to right, rgba(26, 26, 26, 0.022) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(26, 26, 26, 0.022) 1px, transparent 1px);
+        linear-gradient(to right, rgba(26, 26, 26, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(26, 26, 26, 0.05) 1px, transparent 1px),
+        linear-gradient(to right, rgba(26, 26, 26, 0.018) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(26, 26, 26, 0.018) 1px, transparent 1px);
       background-size: 80px 80px, 80px 80px, 20px 20px, 20px 20px;
-      mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 40%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 40%, transparent 100%);
+      /* Grid is stronger near text (left) and fades toward the image area (right), creating depth */
+      mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 45%, transparent 72%);
+      -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 45%, transparent 72%);
     }
 
     /* ── GRAIN NOISE TEXTURE ────────────────────────────────────────── */
@@ -770,7 +770,9 @@
       overflow: hidden;
       background: #0a0a0a;
       border-radius: 20px;
+      /* Editorial minimal border — barely visible, adds polish */
       border: 1px solid rgba(0, 0, 0, 0.06);
+      /* Soft shadow that lets the image breathe naturally */
       box-shadow:
         0 20px 60px rgba(0, 0, 0, 0.08),
         0 4px 16px rgba(0, 0, 0, 0.04),
@@ -1089,16 +1091,27 @@
       animation:hFadeIn 2.5s ease 1.8s forwards;
     }
 
-    /* Warm ambient glow on the right (behind image) */
+    /* Warm ambient light — off-center left, simulates soft natural light pooling */
     #hero-warm {
       position:absolute;
-      top:-15%; right:-2%;
-      width:65vw; height:130%;
-      background:radial-gradient(ellipse at 68% 38%,
-        rgba(183,147,88,.065) 0%,
-        rgba(43,74,59,.028) 42%,
-        transparent 68%);
+      top:0; left:0;
+      width:100%; height:100%;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(200,170,120,0.07) 0%, transparent 58%),
+        radial-gradient(ellipse at 68% 38%, rgba(183,147,88,.04) 0%, rgba(43,74,59,.018) 42%, transparent 68%);
       pointer-events:none; z-index:1;
+    }
+
+    /* Soft warm glow behind the image frame */
+    #hero-image-glow {
+      position:absolute;
+      top:50%; right:4%;
+      width:42vw; height:80%;
+      transform:translateY(-50%);
+      background:radial-gradient(ellipse at 50% 50%, rgba(200,170,120,0.055) 0%, transparent 65%);
+      filter:blur(55px);
+      pointer-events:none;
+      z-index:2;
     }
 
     /* Edge vignette (framing device) */
@@ -1196,8 +1209,9 @@
       <div class="hero-grid-bg" aria-hidden="true"></div>
       <div id="hero-spotlight" aria-hidden="true"></div>
 
-      <!-- Warm radial glow (right, behind image) -->
+      <!-- Warm ambient light (off-center left) + subtle image glow -->
       <div id="hero-warm" aria-hidden="true"></div>
+      <div id="hero-image-glow" aria-hidden="true"></div>
       <!-- Floating ambient orbs -->
       <div class="h-orb h-orb-1" aria-hidden="true"></div>
       <div class="h-orb h-orb-2" aria-hidden="true"></div>
