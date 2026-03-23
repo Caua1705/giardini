@@ -1539,117 +1539,103 @@
   </section>
 
   <!-- ══ SECTION: CLUBE DO LIVRO ════════════════════════════════════════ -->
-  <section id="clube-livro" class="py-24 md:py-32 px-8 w-full relative z-[60] bg-[var(--c-bg)] overflow-hidden" style="border-top: 1px solid rgba(26,26,26,0.06);">
-    <div class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center relative z-10 w-full mb-16">
+  <section id="clube-livro" class="py-24 md:py-40 px-8 w-full relative z-[60] bg-[var(--c-bg)] overflow-hidden" 
+           style="border-top: 1px solid rgba(26,26,26,0.06);">
+    <!-- Background Grid Subtil -->
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none" 
+         style="background-image: linear-gradient(#1a1a1a 1px, transparent 1px), linear-gradient(90deg, #1a1a1a 1px, transparent 1px); background-size: 40px 40px;"></div>
+    
+    <div class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20 lg:gap-32 items-center relative z-10 w-full mb-16">
       
-      <!-- ESQUERDA: Texto -->
+      <!-- ESQUERDA: Texto e Features -->
       <div class="lg:col-span-5 flex flex-col pt-8 lg:pr-8">
-        <div class="blur-reveal flex items-center mb-8">
-          <div class="text-[10px] md:text-xs text-[var(--c-dark)] font-bold uppercase tracking-[0.2em] flex items-center gap-3 opacity-60">
-            <span class="w-2 h-2 rounded-full bg-[var(--c-primary)] animate-pulse inline-block"></span>
+        <div class="blur-reveal flex items-center mb-10 overflow-hidden">
+          <div class="text-[10px] md:text-xs text-[var(--c-dark)] font-bold uppercase tracking-[0.3em] flex items-center gap-4">
+            <span class="w-8 h-[1px] bg-[var(--c-primary)] opacity-40"></span>
             03 / Clube do Livro
           </div>
         </div>
         
-        <div class="split-parent word-wrap mb-8">
-          <h2 style="font-family:'Instrument Serif',serif; letter-spacing:-0.01em;" class="split-animate text-4xl md:text-5xl lg:text-[4.5rem] leading-[1.05] text-[var(--c-dark)]">
-            Um lugar onde a leitura ganha <br/><span class="italic text-[var(--c-primary)]">companhia.</span>
+        <div class="mb-10 overflow-hidden perspective-distant">
+          <h2 style="font-family:'Instrument Serif',serif; letter-spacing:-0.02em;" class="title-clip-reveal text-5xl md:text-6xl lg:text-[5.5rem] leading-[0.95] text-[var(--c-dark)]">
+            <span class="block overflow-hidden relative"><span class="block transition-transform duration-1000 translate-y-full">A leitura ganha</span></span>
+            <span class="block overflow-hidden relative italic text-[var(--c-primary)]"><span class="block transition-transform duration-1000 translate-y-full delay-100">companhia.</span></span>
           </h2>
         </div>
 
-        <p class="blur-reveal text-[var(--c-dark)]/80 font-light text-[1.05rem] md:text-[1.125rem] leading-relaxed mb-6" style="transition-delay: 200ms;">
-          Mais do que um café, o Giardini conecta pessoas através da leitura.
-          Nosso clube do livro reúne encontros, conversas e pausas que fazem você querer voltar.
+        <p class="blur-reveal text-[var(--c-dark)]/80 font-light text-[1.1rem] md:text-[1.25rem] leading-relaxed mb-12 max-w-xl" style="transition-delay: 400ms;">
+          No Giardini, cada livro é um convite para o diálogo. 
+          Nossos encontros mensais transformam a leitura solitaria em uma experiência coletiva e memorável.
         </p>
 
-        <!-- Botão com Beam Animation (Gemini) -->
-        <div class="blur-reveal mb-12" style="transition-delay: 300ms;">
+        <!-- Botão com Beam Animation -->
+        <div class="blur-reveal mb-20" style="transition-delay: 500ms;">
           <a href="#" class="inline-flex relative btn-beam-container group">
             <div class="beam-border"></div>
-            <span class="relative z-10 flex items-center justify-center bg-[var(--c-dark)] text-white px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest transition-transform hover:scale-[0.98] shadow-lg">
-              Conheça o Clube
+            <span class="relative z-10 flex items-center justify-center bg-[var(--c-dark)] text-white px-10 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-neutral-900 shadow-xl group-hover:scale-[0.98]">
+              Participar da Próxima Edição
+              <svg class="ml-3 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
             </span>
           </a>
         </div>
 
-        <!-- Bloquinhos inferiores: Flashlight Cards (Gemini 2) -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-[var(--c-dark)]/10 pt-8" id="flashlight-grid-clube">
-          
-          <div class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-xl p-6 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default" style="transition-delay: 400ms;">
-            <div class="flashlight-border" style="background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(26,26,26,0.3), transparent 40%);"></div>
-            <div class="relative z-10 flex flex-col gap-3">
-              <span class="text-2xl group-hover:scale-110 transition-transform duration-300">📚</span>
-              <span class="text-[10px] font-bold uppercase tracking-widest text-[var(--c-dark)]">Encontros literários</span>
+        <!-- Features -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 border-t border-[var(--c-dark)]/5 pt-12" id="flashlight-grid-clube">
+          <div class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-2xl p-7 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default" style="transition-delay: 600ms;">
+            <div class="flashlight-border"></div>
+            <div class="relative z-10 flex flex-col gap-4">
+              <span class="text-3xl opacity-80 group-hover:scale-110 transition-transform duration-500">📚</span>
+              <span class="text-[9px] font-bold uppercase tracking-widest text-[var(--c-dark)]/60">Encontros Mensais</span>
             </div>
           </div>
-          
-          <div class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-xl p-6 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default" style="transition-delay: 500ms;">
-            <div class="flashlight-border" style="background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(26,26,26,0.3), transparent 40%);"></div>
-            <div class="relative z-10 flex flex-col gap-3">
-              <span class="text-2xl group-hover:scale-110 transition-transform duration-300">☕</span>
-              <span class="text-[10px] font-bold uppercase tracking-widest text-[var(--c-dark)]">Café especial</span>
+          <div class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-2xl p-7 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default" style="transition-delay: 700ms;">
+            <div class="flashlight-border"></div>
+            <div class="relative z-10 flex flex-col gap-4">
+              <span class="text-3xl opacity-80 group-hover:scale-110 transition-transform duration-500">☕</span>
+              <span class="text-[9px] font-bold uppercase tracking-widest text-[var(--c-dark)]/60">Coffee Break</span>
             </div>
           </div>
-          
-          <div class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-xl p-6 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default" style="transition-delay: 600ms;">
-            <div class="flashlight-border" style="background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(26,26,26,0.3), transparent 40%);"></div>
-            <div class="relative z-10 flex flex-col gap-3">
-              <span class="text-2xl group-hover:scale-110 transition-transform duration-300">🎹</span>
-              <span class="text-[10px] font-bold uppercase tracking-widest text-[var(--c-dark)]">Música ambiente</span>
+          <div class="flashlight-card relative border border-transparent bg-[var(--c-dark)]/5 rounded-2xl p-7 flex flex-col justify-end group overflow-hidden blur-reveal cursor-default" style="transition-delay: 800ms;">
+            <div class="flashlight-border"></div>
+            <div class="relative z-10 flex flex-col gap-4">
+              <span class="text-3xl opacity-80 group-hover:scale-110 transition-transform duration-500">🎻</span>
+              <span class="text-[9px] font-bold uppercase tracking-widest text-[var(--c-dark)]/60">Curadoria Musical</span>
             </div>
-          </div>
-
-        </div>
-        
-      </div>
-
-      <!-- DIREITA: Imagens Compostas -->
-      <div class="lg:col-span-7 w-full h-[600px] md:h-[750px] relative mt-16 lg:mt-0">
-        <!-- Main Image -->
-        <div class="blur-reveal absolute top-0 right-[5%] w-[80%] h-[75%] rounded-[24px] overflow-hidden shadow-[0_20px_60px_rgba(43,74,59,0.12)] glass-card">
-          <img src="../../raw_files/clube_livro_01.png" alt="Ambiente de leitura" class="w-full h-full object-cover object-center transition-transform duration-1000 ease-out hover:scale-105" loading="lazy">
-        </div>
-        
-        <!-- Secondary Image (Bottom Left) -->
-        <div class="blur-reveal absolute bottom-[10%] left-0 w-[45%] h-[50%] rounded-[20px] overflow-hidden shadow-[0_30px_60px_rgba(26,26,26,0.18)] border-[6px] border-[var(--c-bg)] group z-10 block" style="transition-delay: 200ms;">
-          <img src="../../raw_files/clube_livro_02.png" alt="Livros e café" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" loading="lazy">
-        </div>
-
-        <!-- Third Image (Bottom Right) -->
-        <div class="blur-reveal absolute bottom-0 right-[10%] w-[42%] h-[42%] rounded-[20px] overflow-hidden shadow-[0_30px_60px_rgba(26,26,26,0.18)] border-[6px] border-[var(--c-bg)] group z-20 block" style="transition-delay: 400ms;">
-          <img src="../../raw_files/clube_livro_03.png" alt="Inspiração Compartilhada" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" loading="lazy">
-          <div class="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-sm shadow-sm opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400">
-            <span class="text-[9px] font-bold uppercase tracking-[0.25em] text-[var(--c-dark)]">Inspiração Compartilhada</span>
           </div>
         </div>
       </div>
 
+      <!-- DIREITA: 3D Stack -->
+      <div class="lg:col-span-7 w-full h-[700px] md:h-[850px] relative mt-24 lg:mt-0 perspective-2000">
+        <div class="blur-reveal absolute top-0 right-0 w-[85%] h-[80%] rounded-[32px] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.12)] glass-card transform-style-3d hover:rotate-y-[-5] transition-transform duration-1000">
+          <img src="C:\Users\Arenapc\.gemini\antigravity\brain\df66d82a-da61-4f6e-8a12-19bb3fe8d4f6\clube_livro_1_1774232657893.png" alt="Cultura" class="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-1000">
+        </div>
+        <div class="blur-reveal absolute bottom-[15%] left-[-10%] w-[50%] h-[55%] rounded-[24px] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.25)] border-[8px] border-[var(--c-bg)] z-10 transform-style-3d hover:translate-z-10 transition-all duration-700" style="transition-delay: 200ms;">
+          <img src="C:\Users\Arenapc\.gemini\antigravity\brain\df66d82a-da61-4f6e-8a12-19bb3fe8d4f6\clube_livro_2_1774232673827.png" alt="Livros" class="w-full h-full object-cover transition-transform duration-1000">
+        </div>
+        <div class="blur-reveal absolute bottom-0 right-[5%] w-[45%] h-[45%] rounded-[24px] overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.3)] border-[8px] border-[var(--c-bg)] z-20 group transform-style-3d transition-all duration-700" style="transition-delay: 500ms;">
+          <img src="C:\Users\Arenapc\.gemini\antigravity\brain\df66d82a-da61-4f6e-8a12-19bb3fe8d4f6\clube_livro_3_1774232690454.png" alt="Inspiração" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-[var(--c-dark)]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div class="absolute bottom-6 left-6 text-white opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700 delay-100">
+            <span class="text-[10px] font-bold uppercase tracking-[0.3em] block mb-1">Destaque</span>
+            <span class="italic text-2xl font-serif">Inspiração Compartilhada</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Marquee -->
-    <div class="w-full mt-10 border-y border-[var(--c-dark)]/5 bg-[var(--c-bg)] relative z-10 py-6 overflow-hidden marquee-mask blur-reveal" style="transition-delay: 500ms;">
+    <div class="w-full mt-24 border-y border-[var(--c-dark)]/5 bg-[var(--c-bg)] relative z-10 py-10 overflow-hidden marquee-mask blur-reveal" style="transition-delay: 900ms;">
       <div class="flex marquee-content w-max">
-        <!-- Loop 1 -->
-        <div class="flex items-center gap-16 px-8 text-[var(--c-dark)]/30 font-display text-4xl italic tracking-tight">
-          <span>A leitura como pausa</span>
-          <span class="text-[var(--c-primary)]/40">•</span>
-          <span>Cafés que contam histórias</span>
-          <span class="text-[var(--c-primary)]/40">•</span>
-          <span>Encontros Literários</span>
-          <span class="text-[var(--c-primary)]/40">•</span>
-          <span>Arte do Espresso</span>
-          <span class="text-[var(--c-primary)]/40">•</span>
-        </div>
-        <!-- Loop 2 -->
-        <div class="flex items-center gap-16 px-8 text-[var(--c-dark)]/30 font-display text-4xl italic tracking-tight">
-          <span>A leitura como pausa</span>
-          <span class="text-[var(--c-primary)]/40">•</span>
-          <span>Cafés que contam histórias</span>
-          <span class="text-[var(--c-primary)]/40">•</span>
-          <span>Encontros Literários</span>
-          <span class="text-[var(--c-primary)]/40">•</span>
-          <span>Arte do Espresso</span>
-          <span class="text-[var(--c-primary)]/40">•</span>
+        <div class="flex items-center gap-24 px-12 text-[var(--c-dark)]/20 font-serif text-[5rem] leading-none tracking-tight">
+          <span>O Silêncio Literário</span>
+          <span class="text-[var(--c-primary)] opacity-30 italic">Giardini</span>
+          <span>Aromas que Conectam</span>
+          <span class="text-[var(--c-primary)] opacity-30 italic">Clube</span>
+          <span>O Silêncio Literário</span>
+          <span class="text-[var(--c-primary)] opacity-30 italic">Giardini</span>
+          <span>Aromas que Conectam</span>
+          <span class="text-[var(--c-primary)] opacity-30 italic">Clube</span>
         </div>
       </div>
     </div>
@@ -1675,42 +1661,57 @@
   </script>
 
   <style>
+    /* 3D Transform Utils */
+    .perspective-2000 { perspective: 2000px; }
+    .transform-style-3d { transform-style: preserve-3d; }
+    .translate-z-10 { transform: translateZ(10px); }
+    .rotate-y-[-5]:hover { transform: rotateY(-5deg); }
+
+    /* Title Clip Reveal */
+    .title-clip-reveal span span {
+      display: inline-block;
+    }
+    .is-visible .title-clip-reveal span span {
+      transform: translateY(0) !important;
+    }
+    
     /* Marquee Animation */
     @keyframes scroll-left {
       from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
+      to { transform: translateX(-25%); }
     }
     .marquee-content {
-      animation: scroll-left 25s linear infinite;
+      animation: scroll-left 40s linear infinite;
     }
     .marquee-mask {
-      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
     }
     
     /* Clube do Livro Entry Animations */
     .blur-reveal {
       opacity: 0;
-      transform: translateY(30px);
-      filter: blur(10px);
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
-                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
-                  filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(40px);
+      filter: blur(15px);
+      transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .blur-reveal.is-visible {
       opacity: 1;
       transform: translateY(0);
       filter: blur(0px);
     }
-
-    .split-animate {
+    
+    /* Flashlight Cards */
+    .flashlight-card .flashlight-border {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(43,74,59,0.15), transparent 60%);
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.5s;
+      pointer-events: none;
     }
-    .split-animate.is-visible {
+    .flashlight-card:hover .flashlight-border {
       opacity: 1;
-      transform: translateY(0);
     }
     
     /* Shimmer Beam Button (Gemini) */
@@ -1720,8 +1721,8 @@
       initial-value: 0deg;
     }
     @keyframes rotate-beam {
-      0% { --beam-angle: 0deg; }
-      100% { --beam-angle: 360deg; }
+      0% { --beam-angle: 0deg; transform: rotate(0deg); }
+      100% { --beam-angle: 360deg; transform: rotate(360deg); }
     }
     .btn-beam-container {
       position: relative;
@@ -1729,14 +1730,16 @@
       border-radius: 9999px;
       padding: 1px;
       overflow: hidden;
-      background: var(--c-dark);
+      background: rgba(0,0,0,0.1);
     }
     .beam-border {
       position: absolute;
-      inset: -50%;
-      background: conic-gradient(from var(--beam-angle, 0deg) at 50% 50%, transparent 80%, var(--c-primary) 100%);
-      animation: rotate-beam 3s linear infinite;
+      inset: -150%;
+      background: conic-gradient(from var(--beam-angle, 0deg) at 50% 50%, transparent 70%, var(--c-primary) 100%);
+      animation: rotate-beam 4s linear infinite;
       z-index: 0;
+      /* Fallback for browsers without @property support */
+      background: conic-gradient(from 0deg at 50% 50%, transparent 70%, var(--c-primary) 100%); 
     }
   </style>
 
