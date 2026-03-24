@@ -2883,80 +2883,116 @@
         });
 
         /* ── HERO ENTRANCE: cinematic per-element blur+fade+parallax ── */
-        gsap.set('#el-kicker', { opacity: 0, y: 28, filter: 'blur(12px)' });
-        gsap.set('#el-h1a', { y: '110%', filter: 'blur(8px)' });
-        gsap.set('#el-h1b', { y: '110%', filter: 'blur(8px)' });
-        gsap.set('#el-body', { opacity: 0, y: 22, filter: 'blur(10px)' });
-        gsap.set('#el-cta', { opacity: 0, y: 20, filter: 'blur(8px)' });
-        gsap.set('#el-meta', { opacity: 0, y: 14, filter: 'blur(6px)' });
-        gsap.set('#el-scroll', { opacity: 0, y: 10 });
-        gsap.set('#navbar', { opacity: 0 });
-        /* New elements: sep line + watermark — start invisible for GSAP */
-        gsap.set('#hero-sep', { opacity: 0, scaleX: 0, transformOrigin: 'left center' });
-        gsap.set('#hero-wm', { opacity: 0 });
 
-        const tl = gsap.timeline({
-          delay: 0.05,
-          onStart: () => {
-            document.body.style.opacity = '1';
-            document.getElementById('hero-left').style.pointerEvents = 'auto';
+        // Detect if page was reloaded while already scrolled down.
+        // If so, skip entrance animation and set all hero elements to final
+        // visible state to avoid the scroll-out fromTo conflicting with
+        // a never-played entrance (which causes elements to vanish on scroll-back).
+        const isAlreadyScrolled = (window.scrollY || window.pageYOffset) > 10;
 
-            // Initialize Flashlight tracking
-            const viewportElem = document.getElementById('hero-viewport');
-            viewportElem.addEventListener('mousemove', (e) => {
-              const rect = viewportElem.getBoundingClientRect();
-              viewportElem.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-              viewportElem.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-            });
-          }
-        });
+        if (isAlreadyScrolled) {
+          // Page loaded mid-scroll: commit all hero elements to their
+          // fully-visible final state immediately, then let scroll-out handle it.
+          document.body.style.opacity = '1';
+          document.getElementById('hero-left').style.pointerEvents = 'auto';
+          gsap.set('#navbar', { opacity: 1 });
+          gsap.set('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)' });
+          gsap.set('#el-h1a', { y: '0%', filter: 'blur(0px)' });
+          gsap.set('#el-h1b', { y: '0%', filter: 'blur(0px)' });
+          gsap.set('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)' });
+          gsap.set('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)' });
+          gsap.set('#el-meta', { opacity: 1, y: 0, filter: 'blur(0px)' });
+          gsap.set('#el-scroll', { opacity: 1, y: 0 });
+          gsap.set('#hero-sep', { opacity: 1, scaleX: 1, transformOrigin: 'left center' });
+          gsap.set('#hero-wm', { opacity: 1 });
+          gsap.set(frame, { opacity: 1, scale: 1, borderRadius: 22 });
 
-        tl
-          .to('#navbar', { opacity: 1, duration: 0.7, ease: 'power2.out' })
-          .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'expo.out' }, '-=0.4')
-          .add('titleShow', '-=0.65')
-          .to('#el-h1a', { y: '0%', filter: 'blur(0px)', duration: 1.35, ease: 'expo.out' }, 'titleShow')
-          .to(frame, { opacity: 1, scale: 1, borderRadius: 22, duration: 1.5, ease: 'power4.out' }, 'titleShow')
-          .to('#el-h1b', { y: '0%', filter: 'blur(0px)', duration: 1.35, ease: 'expo.out' }, 'titleShow+=0.12')
-          .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, 'titleShow+=0.32')
-          .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.85, ease: 'power3.out' }, 'titleShow+=0.48')
-          .to('#el-meta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' }, 'titleShow+=0.66')
-          .to(['#el-badge', '#el-scroll'], { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out', stagger: 0.12 }, 'titleShow+=0.72')
-          /* New elements: shimmer separator + watermark */
-          .to('#hero-sep', { opacity: 1, scaleX: 1, duration: 0.9, ease: 'power3.out' }, 'titleShow+=0.38')
-          .to('#hero-wm',  { opacity: 1, duration: 2.0, ease: 'power1.out' }, 'titleShow+=0.5');
+          // Initialize Flashlight tracking
+          const viewportElemScroll = document.getElementById('hero-viewport');
+          viewportElemScroll.addEventListener('mousemove', (e) => {
+            const rect = viewportElemScroll.getBoundingClientRect();
+            viewportElemScroll.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+            viewportElemScroll.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+          });
+        } else {
+          // Normal page load at top: run entrance animation
+          gsap.set('#el-kicker', { opacity: 0, y: 28, filter: 'blur(12px)' });
+          gsap.set('#el-h1a', { y: '110%', filter: 'blur(8px)' });
+          gsap.set('#el-h1b', { y: '110%', filter: 'blur(8px)' });
+          gsap.set('#el-body', { opacity: 0, y: 22, filter: 'blur(10px)' });
+          gsap.set('#el-cta', { opacity: 0, y: 20, filter: 'blur(8px)' });
+          gsap.set('#el-meta', { opacity: 0, y: 14, filter: 'blur(6px)' });
+          gsap.set('#el-scroll', { opacity: 0, y: 10 });
+          gsap.set('#navbar', { opacity: 0 });
+          gsap.set('#hero-sep', { opacity: 0, scaleX: 0, transformOrigin: 'left center' });
+          gsap.set('#hero-wm', { opacity: 0 });
+
+          const tl = gsap.timeline({
+            delay: 0.05,
+            onStart: () => {
+              document.body.style.opacity = '1';
+              document.getElementById('hero-left').style.pointerEvents = 'auto';
+
+              // Initialize Flashlight tracking
+              const viewportElem = document.getElementById('hero-viewport');
+              viewportElem.addEventListener('mousemove', (e) => {
+                const rect = viewportElem.getBoundingClientRect();
+                viewportElem.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                viewportElem.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+              });
+            }
+          });
+
+          tl
+            .to('#navbar', { opacity: 1, duration: 0.7, ease: 'power2.out' })
+            .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'expo.out' }, '-=0.4')
+            .add('titleShow', '-=0.65')
+            .to('#el-h1a', { y: '0%', filter: 'blur(0px)', duration: 1.35, ease: 'expo.out' }, 'titleShow')
+            .to(frame, { opacity: 1, scale: 1, borderRadius: 22, duration: 1.5, ease: 'power4.out' }, 'titleShow')
+            .to('#el-h1b', { y: '0%', filter: 'blur(0px)', duration: 1.35, ease: 'expo.out' }, 'titleShow+=0.12')
+            .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, 'titleShow+=0.32')
+            .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.85, ease: 'power3.out' }, 'titleShow+=0.48')
+            .to('#el-meta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' }, 'titleShow+=0.66')
+            .to(['#el-badge', '#el-scroll'], { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out', stagger: 0.12 }, 'titleShow+=0.72')
+            /* New elements: shimmer separator + watermark */
+            .to('#hero-sep', { opacity: 1, scaleX: 1, duration: 0.9, ease: 'power3.out' }, 'titleShow+=0.38')
+            .to('#hero-wm',  { opacity: 1, duration: 2.0, ease: 'power1.out' }, 'titleShow+=0.5');
+        }
 
         /* ── SCROLL-OUT: staggered parallax per element ─────────────── */
-        gsap.fromTo('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
+        // Using gsap.to (not fromTo) so that the "from" state is never force-set
+        // by GSAP when the ScrollTrigger initializes, which is what caused elements
+        // to disappear when the page was reloaded mid-scroll and then scrolled back.
+        gsap.to('#el-kicker', {
           opacity: 0, y: -40, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.22}`, scrub: CONFIG.scrub }
         });
-        gsap.fromTo('#el-h1a', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
+        gsap.to('#el-h1a', {
           opacity: 0, y: -60, filter: 'blur(12px)', ease: 'power2.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.3}`, scrub: CONFIG.scrub }
         });
-        gsap.fromTo('#el-h1b', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
+        gsap.to('#el-h1b', {
           opacity: 0, y: -48, filter: 'blur(10px)', ease: 'power2.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.36}`, scrub: CONFIG.scrub }
         });
-        gsap.fromTo('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
+        gsap.to('#el-body', {
           opacity: 0, y: -32, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.43}`, scrub: CONFIG.scrub }
         });
-        gsap.fromTo('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
+        gsap.to('#el-cta', {
           opacity: 0, y: -26, filter: 'blur(6px)', ease: 'power2.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.5}`, scrub: CONFIG.scrub }
         });
-        gsap.fromTo('#el-meta', { opacity: 1, y: 0, filter: 'blur(0px)' }, {
+        gsap.to('#el-meta', {
           opacity: 0, y: -18, filter: 'blur(6px)', ease: 'power1.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.35}`, scrub: CONFIG.scrub }
         });
-        /* New elements scroll-out */
-        gsap.fromTo('#hero-sep', { opacity: 1 }, {
+        /* hero-sep and hero-wm scroll-out */
+        gsap.to('#hero-sep', {
           opacity: 0, scaleX: 0, transformOrigin: 'left center', ease: 'power2.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.28}`, scrub: CONFIG.scrub }
         });
-        gsap.fromTo('#hero-wm', { opacity: 1 }, {
+        gsap.to('#hero-wm', {
           opacity: 0, ease: 'power1.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.4}`, scrub: CONFIG.scrub }
         });
