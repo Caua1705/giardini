@@ -116,19 +116,30 @@
           Um espaço pensado para a pausa. Café de especialidade, livros e o ambiente ideal para a sua próxima leitura.
         </p>
         <div class="hero-cta" id="el-cta">
-          <!-- Primary CTA: direct action -->
-          <a href="#" class="btn-primary btn-order group relative overflow-hidden" aria-label="Reservar uma mesa no Giardini Café">
-            <span class="absolute inset-0 overflow-hidden pointer-events-none"
-              style="border-radius: inherit; z-index: 1;">
-              <span
-                class="absolute top-0 left-0 h-full w-full -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:animate-[shimmer_1.5s_infinite] group-hover:opacity-100"></span>
-            </span>
-            <span style="position: relative; z-index: 2;">Reservar mesa</span>
-            <svg style="position: relative; z-index: 2;" class="transition duration-200 group-hover:translate-x-1"
-              width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
+          <!-- Primary CTA: direct action (now with Premium Beam Effect - Always Visible) -->
+          <a href="#"
+            class="loc-beam-container group relative overflow-hidden transition-transform duration-700 hover:scale-[1.04]"
+            style="padding: 2.2px; background: rgba(0,0,0,0.15);" aria-label="Reservar uma mesa no Giardini Café">
+            <div class="loc-beam-border"
+              style="background: conic-gradient(from 0deg at 50% 50%, transparent 40%, rgba(255,255,255,0.85) 75%, #fff 100%, transparent 100%); filter: blur(1.5px); width: 400%; height: 400%; top: -150%; left: -150%; opacity: 1;">
+            </div>
+
+            <div
+              class="btn-primary btn-order relative z-10 flex items-center justify-center w-full h-full px-9 py-4 rounded-full bg-[var(--c-primary)]">
+              <!-- Original Shimmer Effect -->
+              <span class="absolute inset-0 overflow-hidden pointer-events-none"
+                style="border-radius: inherit; z-index: 1;">
+                <span
+                  class="absolute top-0 left-0 h-full w-full -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:animate-[shimmer_1.5s_infinite] group-hover:opacity-100"></span>
+              </span>
+
+              <span style="position: relative; z-index: 2;">Reservar mesa</span>
+              <svg style="position: relative; z-index: 2;" class="transition duration-200 group-hover:translate-x-1"
+                width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </div>
           </a>
           <!-- Tertiary ghost link -->
           <a href="#" class="link-ghost">Ver cardápio</a>
