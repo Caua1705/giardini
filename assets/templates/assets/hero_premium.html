@@ -1319,23 +1319,80 @@
         </p>
 
         <div class="hero-cta" id="el-cta">
-          <!-- Primary CTA: direct action -->
-          <a href="#" class="btn-primary btn-order group relative overflow-hidden" aria-label="Reservar uma mesa no Giardini Café">
-            <span class="absolute inset-0 overflow-hidden pointer-events-none"
-              style="border-radius: inherit; z-index: 1;">
-              <span
-                class="absolute top-0 left-0 h-full w-full -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:animate-[shimmer_1.5s_infinite] group-hover:opacity-100"></span>
-            </span>
-            <span style="position: relative; z-index: 2;">Reservar mesa</span>
-            <svg style="position: relative; z-index: 2;" class="transition duration-200 group-hover:translate-x-1"
-              width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </a>
-          <!-- Tertiary ghost link renamed to Ver cardápio -->
-          <a href="#" class="link-ghost">Ver cardápio</a>
+          <!-- Premium single CTA button: glassmorphism pill -->
+          <div class="hero-premium-cta-wrap" style="position:relative;display:inline-flex;border-radius:9999px;padding:1.5px;">
+            <!-- Spinning beam border (visible on hover) -->
+            <div class="hero-beam-ring" aria-hidden="true"
+              style="position:absolute;inset:-1.5px;border-radius:inherit;overflow:hidden;opacity:0;transition:opacity 0.4s cubic-bezier(0.16,1,0.3,1);pointer-events:none;">
+              <div style="position:absolute;top:50%;left:50%;
+                width:300%;height:300%;
+                transform:translate(-50%,-50%);
+                background:conic-gradient(from 0deg,transparent 0 310deg,rgba(43,74,59,0.7) 360deg);
+                animation:hero-cta-spin 3s linear infinite;"></div>
+            </div>
+            <!-- Button -->
+            <a href="#" id="hero-cta-btn" aria-label="Reservar uma experiência no Giardini Café"
+              style="position:relative;z-index:2;overflow:hidden;
+                display:inline-flex;align-items:center;gap:0.85rem;
+                padding:1rem 2.5rem;
+                border-radius:9999px;
+                background:rgba(43,74,59,0.12);
+                backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+                border:1px solid rgba(43,74,59,0.25);
+                box-shadow:0 4px 24px rgba(43,74,59,0.12),inset 0 1px 0 rgba(255,255,255,0.55),0 0 0 0 rgba(43,74,59,0.0);
+                font-family:'Instrument Serif',serif;
+                font-size:1rem;font-weight:400;
+                letter-spacing:0.08em;
+                color:var(--c-dark);
+                text-decoration:none;
+                transition:transform 0.3s cubic-bezier(0.16,1,0.3,1),
+                           box-shadow 0.3s ease,
+                           background 0.3s ease,
+                           border-color 0.3s ease;"
+              onmouseenter="
+                this.style.transform='scale(1.035)';
+                this.style.background='rgba(43,74,59,0.18)';
+                this.style.borderColor='rgba(43,74,59,0.4)';
+                this.style.boxShadow='0 10px 36px rgba(43,74,59,0.18),inset 0 1px 0 rgba(255,255,255,0.7)';
+                this.parentElement.querySelector('.hero-beam-ring').style.opacity='1';
+                var sh=this.querySelector('.hero-cta-shimmer');sh.style.left='140%';"
+              onmouseleave="
+                this.style.transform='';
+                this.style.background='';
+                this.style.borderColor='';
+                this.style.boxShadow='';
+                this.parentElement.querySelector('.hero-beam-ring').style.opacity='0';
+                var sh=this.querySelector('.hero-cta-shimmer');sh.style.transition='none';sh.style.left='-100%';setTimeout(function(){sh.style.transition='';},50);"
+              onmousedown="this.style.transform='scale(0.975)';"
+              onmouseup="this.style.transform='scale(1.035)';">
+              <!-- Shimmer sweep -->
+              <span class="hero-cta-shimmer"
+                style="position:absolute;top:0;left:-100%;width:50%;height:100%;
+                  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.28),transparent);
+                  transform:skewX(-12deg);
+                  transition:left 0.65s ease;
+                  pointer-events:none;"></span>
+              <!-- Inner glow -->
+              <span aria-hidden="true"
+                style="position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+                  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,255,255,0.22),transparent 65%);"></span>
+              <span style="position:relative;z-index:1;">Reservar Experi&ecirc;ncia</span>
+              <svg style="position:relative;z-index:1;flex-shrink:0;transition:transform 0.3s ease;"
+                class="hero-cta-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
         </div>
+        <style>
+          @keyframes hero-cta-spin {
+            from { transform: translate(-50%,-50%) rotate(0deg); }
+            to   { transform: translate(-50%,-50%) rotate(360deg); }
+          }
+          #hero-cta-btn:hover .hero-cta-arrow { transform: translateX(4px); }
+        </style>
 
         <div class="hero-meta hidden md:flex" id="el-meta" style="gap: 1.2rem;">
           <span class="live-badge"><span class="live-pulse"></span>Ambiente para leitura</span>
@@ -2244,74 +2301,9 @@
 
 
 
-        <!-- Card 1: Horários -->
-        <div class="s5-glow-card s5-reveal"
 
-          style="position:relative;padding:2.25rem 2rem;border-radius:20px;overflow:hidden;
-            background:rgba(255,255,255,0.05);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
-            border:1px solid rgba(255,255,255,0.09);
-            box-shadow:0 8px 40px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.08);"
-          onmousemove="const rect1=this.getBoundingClientRect();this.style.setProperty('--gx',`${event.clientX-rect1.left}px`);this.style.setProperty('--gy',`${event.clientY-rect1.top}px`);">
-
-          <!-- Radial glow follow -->
-          <div class="s5-glow-light" style="pointer-events:none;"></div>
-          <!-- Icon -->
-          <div style="width:42px;height:42px;border-radius:12px;background:rgba(183,130,60,0.15);border:1px solid rgba(183,130,60,0.25);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(183,130,60,0.9)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <h3 style="font-family:'Instrument Serif',serif;font-size:1.35rem;color:#fff;margin:0 0 0.65rem;letter-spacing:-0.01em;">Horários</h3>
-          <p style="font-size:0.82rem;font-weight:300;color:rgba(255,255,255,0.5);line-height:1.75;margin:0;">
-            Terça a Sábado<br>
-            <strong style="color:rgba(255,255,255,0.8);font-weight:500;">08:00 às 20:00</strong><br><br>
-            Domingos<br>
-            <strong style="color:rgba(255,255,255,0.8);font-weight:500;">09:00 às 15:00</strong>
-          </p>
-        </div>
-
-        <!-- Card 2: Acervo -->
-        <div class="s5-glow-card s5-reveal"
-
-          style="position:relative;padding:2.25rem 2rem;border-radius:20px;overflow:hidden;
-            background:rgba(255,255,255,0.05);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
-            border:1px solid rgba(255,255,255,0.09);
-            box-shadow:0 8px 40px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.08);"
-          onmousemove="const rect2=this.getBoundingClientRect();this.style.setProperty('--gx',`${event.clientX-rect2.left}px`);this.style.setProperty('--gy',`${event.clientY-rect2.top}px`);">
-
-          <div class="s5-glow-light" style="pointer-events:none;"></div>
-          <!-- Icon -->
-          <div style="width:42px;height:42px;border-radius:12px;background:rgba(43,74,59,0.2);border:1px solid rgba(43,74,59,0.35);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(80,160,110,0.9)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-          </div>
-          <h3 style="font-family:'Instrument Serif',serif;font-size:1.35rem;color:#fff;margin:0 0 0.65rem;letter-spacing:-0.01em;">Acervo & Troca</h3>
-          <p style="font-size:0.82rem;font-weight:300;color:rgba(255,255,255,0.5);line-height:1.75;margin:0;">
-            Traga até <strong style="color:rgba(255,255,255,0.8);font-weight:500;">2 livros</strong> de casa e troque pelo mesmo valor mediante consumo.<br><br>
-            Ou simplesmente leia no local — nosso acervo está à sua disposição.
-          </p>
-        </div>
-
-        <!-- Card 3: Café -->
-        <div class="s5-glow-card s5-reveal"
-
-          style="position:relative;padding:2.25rem 2rem;border-radius:20px;overflow:hidden;
-            background:rgba(255,255,255,0.05);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
-            border:1px solid rgba(255,255,255,0.09);
-            box-shadow:0 8px 40px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.08);"
-          onmousemove="const rect3=this.getBoundingClientRect();this.style.setProperty('--gx',`${event.clientX-rect3.left}px`);this.style.setProperty('--gy',`${event.clientY-rect3.top}px`);">
-          <div class="s5-glow-light" style="pointer-events:none;"></div>
-          <!-- Icon -->
-          <div style="width:42px;height:42px;border-radius:12px;background:rgba(183,130,60,0.12);border:1px solid rgba(183,130,60,0.22);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(210,160,80,0.9)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-          </div>
-          <h3 style="font-family:'Instrument Serif',serif;font-size:1.35rem;color:#fff;margin:0 0 0.65rem;letter-spacing:-0.01em;">Café de Especialidade</h3>
-          <p style="font-size:0.82rem;font-weight:300;color:rgba(255,255,255,0.5);line-height:1.75;margin:0;">
-            Grãos <strong style="color:rgba(255,255,255,0.8);font-weight:500;">selecionados</strong> e métodos de preparo que respeitam a bebida — do espresso ao coado.
-            <br><br>
-            Limpo, bem feito e servido no ponto certo.
-          </p>
-        </div>
-
-      </div><!-- /cards -->
     </div><!-- /content -->
+
 
     <!-- Glow card CSS -->
     <style>
@@ -2375,7 +2367,7 @@
         items.forEach(function (el, i) {
           setTimeout(function () {
             el.classList.add('s5-visible');
-          }, 3000 + i * 160);
+          }, 1500 + i * 160);
         });
       }, { threshold: 0.25 });
       io5.observe(s5);
