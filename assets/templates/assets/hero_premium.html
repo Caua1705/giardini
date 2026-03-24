@@ -2034,7 +2034,8 @@
           <div class="s4-flashlight" style="padding:2rem;border:1px solid rgba(43,74,59,0.09);border-radius:20px;
             background:rgba(255,255,255,0.55);backdrop-filter:blur(16px);
             box-shadow:0 8px 32px rgba(0,0,0,0.03),inset 0 1px 0 rgba(255,255,255,0.9);"
-            onmousemove="const r=this.getBoundingClientRect();this.style.setProperty('--mouse-x',`${event.clientX-r.left}px`);this.style.setProperty('--mouse-y',`${event.clientY-r.top}px`);">
+            onmousemove="const rCard=this.getBoundingClientRect();this.style.setProperty('--mouse-x',`${event.clientX-rCard.left}px`);this.style.setProperty('--mouse-y',`${event.clientY-rCard.top}px`);">
+
             <!-- Label -->
             <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.75rem;">
               <div style="width:16px;height:1px;background:rgba(43,74,59,0.4);"></div>
@@ -2120,6 +2121,270 @@
     </div>
 
   </section>
+
+  <!-- ══ SECTION 5: EXPERIÊNCIA — VIDEO + GLOW ═════════════════════════ -->
+  <section id="experience-video" class="relative z-[60] overflow-hidden" style="min-height:100vh;">
+
+    <!-- ── VIDEO BACKGROUND ──────────────────────────────────────────── -->
+    <video
+      autoplay muted loop playsinline
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"
+      aria-hidden="true">
+      <source src="../../raw_files/Women_entering_café_202603232328.mp4" type="video/mp4">
+    </video>
+
+    <!-- ── OVERLAYS (dark + warm vignette) ───────────────────────────── -->
+    <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(160deg,rgba(10,8,5,0.72) 0%,rgba(20,14,8,0.58) 50%,rgba(10,8,5,0.75) 100%);pointer-events:none;"></div>
+    <!-- Edge vignette -->
+    <div style="position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 110% 90% at 50% 50%,transparent 35%,rgba(0,0,0,0.45) 100%);"></div>
+    <!-- Warm amber glow (top-left) -->
+    <div style="position:absolute;top:-15%;left:-10%;width:50vw;height:50vw;border-radius:50%;background:radial-gradient(circle,rgba(183,130,60,0.18) 0%,transparent 65%);filter:blur(90px);pointer-events:none;z-index:2;"></div>
+    <!-- Green accent glow (bottom-right) -->
+    <div style="position:absolute;bottom:-10%;right:-8%;width:40vw;height:40vw;border-radius:50%;background:radial-gradient(circle,rgba(43,74,59,0.22) 0%,transparent 65%);filter:blur(80px);pointer-events:none;z-index:2;"></div>
+
+    <!-- ── CONTENT ───────────────────────────────────────────────────── -->
+    <div style="position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:8rem 2rem 6rem;">
+
+      <!-- Section label -->
+      <div class="s5-reveal" style="display:flex;align-items:center;gap:0.75rem;margin-bottom:2rem;">
+
+        <span style="width:5px;height:5px;border-radius:50%;background:rgba(183,130,60,0.85);animation:live-glow 2.2s ease-in-out infinite;"></span>
+        <span style="font-size:0.58rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.45);">04 / Experiência</span>
+      </div>
+
+      <!-- Headline -->
+      <div class="s5-reveal" style="text-align:center;margin-bottom:1rem;">
+
+        <h2 style="font-family:'Instrument Serif',serif;font-size:clamp(3rem,7vw,6.5rem);line-height:0.92;letter-spacing:-0.035em;color:#fff;font-weight:400;margin:0;">
+          <span style="display:block;">Um espaço feito</span>
+          <span style="display:block;font-style:italic;color:rgba(183,130,60,0.9);">para você viver.</span>
+        </h2>
+      </div>
+
+      <!-- Subline -->
+      <p class="s5-reveal" style="font-size:0.95rem;font-weight:300;color:rgba(255,255,255,0.45);text-align:center;max-width:440px;line-height:1.8;margin:0 0 5rem;">
+
+        Do café ao acervo — cada detalhe foi pensado para que a sua pausa seja inesquecível.
+      </p>
+
+      <!-- ── PREMIUM CTA ──────────────────────────────────────────── -->
+      <div class="s5-reveal" style="margin-top:1rem;text-align:center;">
+        <!-- Wrapper with spinning beam border on hover -->
+        <div class="s5-cta-wrap" style="position:relative;display:inline-flex;border-radius:9999px;padding:1px;">
+          <!-- Spinning conic beam layer (visible on hover) -->
+          <div class="s5-beam-ring" aria-hidden="true"
+            style="position:absolute;inset:-1px;border-radius:inherit;overflow:hidden;opacity:0;transition:opacity 0.4s;pointer-events:none;">
+            <div style="position:absolute;top:50%;left:50%;
+              width:300%;height:300%;
+              transform:translate(-50%,-50%);
+              background:conic-gradient(from 0deg,transparent 0 320deg,rgba(183,130,60,0.85) 360deg);
+              animation:s5-spin 2.8s linear infinite;"></div>
+          </div>
+          <!-- Button -->
+          <a href="#" id="s5-cta"
+            style="position:relative;z-index:2;overflow:hidden;
+              display:inline-flex;align-items:center;gap:0.9rem;
+              padding:1.05rem 2.5rem;
+              border-radius:9999px;
+              background:rgba(43,74,59,0.5);
+              backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+              border:1px solid rgba(183,130,60,0.28);
+              box-shadow:0 6px 32px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.07);
+              font-family:'Instrument Serif',serif;
+              font-size:1.05rem;font-weight:400;
+              letter-spacing:0.1em;
+              color:rgba(255,255,255,0.9);
+              text-decoration:none;
+              transition:transform 0.35s cubic-bezier(0.16,1,0.3,1),
+                         box-shadow 0.35s ease,
+                         background 0.35s ease,
+                         border-color 0.35s ease;"
+            onmouseenter="
+              this.style.transform='scale(1.04)';
+              this.style.background='rgba(43,74,59,0.72)';
+              this.style.borderColor='rgba(183,130,60,0.5)';
+              this.style.boxShadow='0 14px 50px rgba(0,0,0,0.35),0 0 0 1px rgba(183,130,60,0.18),inset 0 1px 0 rgba(255,255,255,0.1)';
+              this.parentElement.querySelector('.s5-beam-ring').style.opacity='1';
+              this.querySelector('.s5-shimmer').style.left='140%';"
+            onmouseleave="
+              this.style.transform='';
+              this.style.background='';
+              this.style.borderColor='';
+              this.style.boxShadow='';
+              this.parentElement.querySelector('.s5-beam-ring').style.opacity='0';
+              var sh=this.querySelector('.s5-shimmer');sh.style.transition='none';sh.style.left='-100%';setTimeout(function(){sh.style.transition='';},50);"
+            onmousedown="this.style.transform='scale(0.97)';"
+            onmouseup="this.style.transform='scale(1.04)';">
+            <!-- Shimmer sweep -->
+            <span class="s5-shimmer"
+              style="position:absolute;top:0;left:-100%;width:50%;height:100%;
+                background:linear-gradient(90deg,transparent,rgba(255,255,255,0.11),transparent);
+                transform:skewX(-12deg);
+                transition:left 0.65s ease;
+                pointer-events:none;"></span>
+            <span style="position:relative;z-index:1;">Reservar Experi&ecirc;ncia</span>
+            <svg style="position:relative;z-index:1;flex-shrink:0;transition:transform 0.3s ease;"
+              class="s5-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+        <p style="margin-top:1.2rem;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;
+          color:rgba(255,255,255,0.22);text-align:center;">experi&ecirc;ncia reservada &middot; giardini caf&eacute;</p>
+      </div><!-- /CTA -->
+
+      <style>
+        @keyframes s5-spin {
+          from { transform: translate(-50%,-50%) rotate(0deg); }
+          to   { transform: translate(-50%,-50%) rotate(360deg); }
+        }
+        #s5-cta:hover .s5-arrow { transform: translateX(4px); }
+      </style>
+
+
+
+        <!-- Card 1: Horários -->
+        <div class="s5-glow-card s5-reveal"
+
+          style="position:relative;padding:2.25rem 2rem;border-radius:20px;overflow:hidden;
+            background:rgba(255,255,255,0.05);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+            border:1px solid rgba(255,255,255,0.09);
+            box-shadow:0 8px 40px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.08);"
+          onmousemove="const rect1=this.getBoundingClientRect();this.style.setProperty('--gx',`${event.clientX-rect1.left}px`);this.style.setProperty('--gy',`${event.clientY-rect1.top}px`);">
+
+          <!-- Radial glow follow -->
+          <div class="s5-glow-light" style="pointer-events:none;"></div>
+          <!-- Icon -->
+          <div style="width:42px;height:42px;border-radius:12px;background:rgba(183,130,60,0.15);border:1px solid rgba(183,130,60,0.25);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(183,130,60,0.9)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3 style="font-family:'Instrument Serif',serif;font-size:1.35rem;color:#fff;margin:0 0 0.65rem;letter-spacing:-0.01em;">Horários</h3>
+          <p style="font-size:0.82rem;font-weight:300;color:rgba(255,255,255,0.5);line-height:1.75;margin:0;">
+            Terça a Sábado<br>
+            <strong style="color:rgba(255,255,255,0.8);font-weight:500;">08:00 às 20:00</strong><br><br>
+            Domingos<br>
+            <strong style="color:rgba(255,255,255,0.8);font-weight:500;">09:00 às 15:00</strong>
+          </p>
+        </div>
+
+        <!-- Card 2: Acervo -->
+        <div class="s5-glow-card s5-reveal"
+
+          style="position:relative;padding:2.25rem 2rem;border-radius:20px;overflow:hidden;
+            background:rgba(255,255,255,0.05);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+            border:1px solid rgba(255,255,255,0.09);
+            box-shadow:0 8px 40px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.08);"
+          onmousemove="const rect2=this.getBoundingClientRect();this.style.setProperty('--gx',`${event.clientX-rect2.left}px`);this.style.setProperty('--gy',`${event.clientY-rect2.top}px`);">
+
+          <div class="s5-glow-light" style="pointer-events:none;"></div>
+          <!-- Icon -->
+          <div style="width:42px;height:42px;border-radius:12px;background:rgba(43,74,59,0.2);border:1px solid rgba(43,74,59,0.35);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(80,160,110,0.9)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <h3 style="font-family:'Instrument Serif',serif;font-size:1.35rem;color:#fff;margin:0 0 0.65rem;letter-spacing:-0.01em;">Acervo & Troca</h3>
+          <p style="font-size:0.82rem;font-weight:300;color:rgba(255,255,255,0.5);line-height:1.75;margin:0;">
+            Traga até <strong style="color:rgba(255,255,255,0.8);font-weight:500;">2 livros</strong> de casa e troque pelo mesmo valor mediante consumo.<br><br>
+            Ou simplesmente leia no local — nosso acervo está à sua disposição.
+          </p>
+        </div>
+
+        <!-- Card 3: Café -->
+        <div class="s5-glow-card s5-reveal"
+
+          style="position:relative;padding:2.25rem 2rem;border-radius:20px;overflow:hidden;
+            background:rgba(255,255,255,0.05);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+            border:1px solid rgba(255,255,255,0.09);
+            box-shadow:0 8px 40px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.08);"
+          onmousemove="const rect3=this.getBoundingClientRect();this.style.setProperty('--gx',`${event.clientX-rect3.left}px`);this.style.setProperty('--gy',`${event.clientY-rect3.top}px`);">
+          <div class="s5-glow-light" style="pointer-events:none;"></div>
+          <!-- Icon -->
+          <div style="width:42px;height:42px;border-radius:12px;background:rgba(183,130,60,0.12);border:1px solid rgba(183,130,60,0.22);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(210,160,80,0.9)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
+          <h3 style="font-family:'Instrument Serif',serif;font-size:1.35rem;color:#fff;margin:0 0 0.65rem;letter-spacing:-0.01em;">Café de Especialidade</h3>
+          <p style="font-size:0.82rem;font-weight:300;color:rgba(255,255,255,0.5);line-height:1.75;margin:0;">
+            Grãos <strong style="color:rgba(255,255,255,0.8);font-weight:500;">selecionados</strong> e métodos de preparo que respeitam a bebida — do espresso ao coado.
+            <br><br>
+            Limpo, bem feito e servido no ponto certo.
+          </p>
+        </div>
+
+      </div><!-- /cards -->
+    </div><!-- /content -->
+
+    <!-- Glow card CSS -->
+    <style>
+      .s5-glow-light {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: radial-gradient(
+          500px circle at var(--gx, 50%) var(--gy, 50%),
+          rgba(183, 130, 60, 0.13),
+          transparent 55%
+        );
+        opacity: 0;
+        transition: opacity 0.45s;
+        z-index: 1;
+      }
+      .s5-glow-card:hover .s5-glow-light { opacity: 1; }
+      .s5-glow-card > *:not(.s5-glow-light) { position: relative; z-index: 2; }
+      .s5-glow-card {
+        transition: transform 0.5s cubic-bezier(0.16,1,0.3,1),
+                    box-shadow 0.5s ease,
+                    border-color 0.4s ease;
+      }
+      .s5-glow-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(183,130,60,0.22) !important;
+        box-shadow: 0 24px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(183,130,60,0.12), inset 0 1px 0 rgba(255,255,255,0.12) !important;
+      }
+      @media (max-width: 900px) {
+        #experience-video [style*="grid-template-columns:repeat(3"] {
+          grid-template-columns: 1fr !important;
+        }
+      }
+      /* s5-reveal: base hidden state */
+      .s5-reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        filter: blur(10px);
+        transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1),
+                    transform 0.9s cubic-bezier(0.16,1,0.3,1),
+                    filter 0.9s cubic-bezier(0.16,1,0.3,1);
+      }
+      .s5-reveal.s5-visible {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    </style>
+
+    <!-- s5 reveal: trigger 3s after section enters viewport -->
+    <script>
+    (function () {
+      var s5 = document.getElementById('experience-video');
+      var triggered = false;
+      var io5 = new IntersectionObserver(function (entries) {
+        if (triggered) return;
+        if (!entries[0].isIntersecting) return;
+        triggered = true;
+        io5.disconnect();
+        var items = s5.querySelectorAll('.s5-reveal');
+        items.forEach(function (el, i) {
+          setTimeout(function () {
+            el.classList.add('s5-visible');
+          }, 3000 + i * 160);
+        });
+      }, { threshold: 0.25 });
+      io5.observe(s5);
+    })();
+    </script>
+
+
+  </section>
+
 
 
   <script>
