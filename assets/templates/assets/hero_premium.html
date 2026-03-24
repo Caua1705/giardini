@@ -1319,80 +1319,23 @@
         </p>
 
         <div class="hero-cta" id="el-cta">
-          <!-- Premium single CTA button: glassmorphism pill -->
-          <div class="hero-premium-cta-wrap" style="position:relative;display:inline-flex;border-radius:9999px;padding:1.5px;">
-            <!-- Spinning beam border (visible on hover) -->
-            <div class="hero-beam-ring" aria-hidden="true"
-              style="position:absolute;inset:-1.5px;border-radius:inherit;overflow:hidden;opacity:0;transition:opacity 0.4s cubic-bezier(0.16,1,0.3,1);pointer-events:none;">
-              <div style="position:absolute;top:50%;left:50%;
-                width:300%;height:300%;
-                transform:translate(-50%,-50%);
-                background:conic-gradient(from 0deg,transparent 0 310deg,rgba(43,74,59,0.7) 360deg);
-                animation:hero-cta-spin 3s linear infinite;"></div>
-            </div>
-            <!-- Button -->
-            <a href="#" id="hero-cta-btn" aria-label="Reservar uma experiência no Giardini Café"
-              style="position:relative;z-index:2;overflow:hidden;
-                display:inline-flex;align-items:center;gap:0.85rem;
-                padding:1rem 2.5rem;
-                border-radius:9999px;
-                background:rgba(43,74,59,0.12);
-                backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-                border:1px solid rgba(43,74,59,0.25);
-                box-shadow:0 4px 24px rgba(43,74,59,0.12),inset 0 1px 0 rgba(255,255,255,0.55),0 0 0 0 rgba(43,74,59,0.0);
-                font-family:'Instrument Serif',serif;
-                font-size:1rem;font-weight:400;
-                letter-spacing:0.08em;
-                color:var(--c-dark);
-                text-decoration:none;
-                transition:transform 0.3s cubic-bezier(0.16,1,0.3,1),
-                           box-shadow 0.3s ease,
-                           background 0.3s ease,
-                           border-color 0.3s ease;"
-              onmouseenter="
-                this.style.transform='scale(1.035)';
-                this.style.background='rgba(43,74,59,0.18)';
-                this.style.borderColor='rgba(43,74,59,0.4)';
-                this.style.boxShadow='0 10px 36px rgba(43,74,59,0.18),inset 0 1px 0 rgba(255,255,255,0.7)';
-                this.parentElement.querySelector('.hero-beam-ring').style.opacity='1';
-                var sh=this.querySelector('.hero-cta-shimmer');sh.style.left='140%';"
-              onmouseleave="
-                this.style.transform='';
-                this.style.background='';
-                this.style.borderColor='';
-                this.style.boxShadow='';
-                this.parentElement.querySelector('.hero-beam-ring').style.opacity='0';
-                var sh=this.querySelector('.hero-cta-shimmer');sh.style.transition='none';sh.style.left='-100%';setTimeout(function(){sh.style.transition='';},50);"
-              onmousedown="this.style.transform='scale(0.975)';"
-              onmouseup="this.style.transform='scale(1.035)';">
-              <!-- Shimmer sweep -->
-              <span class="hero-cta-shimmer"
-                style="position:absolute;top:0;left:-100%;width:50%;height:100%;
-                  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.28),transparent);
-                  transform:skewX(-12deg);
-                  transition:left 0.65s ease;
-                  pointer-events:none;"></span>
-              <!-- Inner glow -->
-              <span aria-hidden="true"
-                style="position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-                  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,255,255,0.22),transparent 65%);"></span>
-              <span style="position:relative;z-index:1;">Reservar Experi&ecirc;ncia</span>
-              <svg style="position:relative;z-index:1;flex-shrink:0;transition:transform 0.3s ease;"
-                class="hero-cta-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-                aria-hidden="true">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </a>
-          </div>
+          <!-- Primary CTA: direct action -->
+          <a href="#" class="btn-primary btn-order group relative overflow-hidden" aria-label="Reservar uma mesa no Giardini Café">
+            <span class="absolute inset-0 overflow-hidden pointer-events-none"
+              style="border-radius: inherit; z-index: 1;">
+              <span
+                class="absolute top-0 left-0 h-full w-full -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:animate-[shimmer_1.5s_infinite] group-hover:opacity-100"></span>
+            </span>
+            <span style="position: relative; z-index: 2;">Reservar mesa</span>
+            <svg style="position: relative; z-index: 2;" class="transition duration-200 group-hover:translate-x-1"
+              width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a>
+          <!-- Tertiary ghost link -->
+          <a href="#" class="link-ghost">Ver cardápio</a>
         </div>
-        <style>
-          @keyframes hero-cta-spin {
-            from { transform: translate(-50%,-50%) rotate(0deg); }
-            to   { transform: translate(-50%,-50%) rotate(360deg); }
-          }
-          #hero-cta-btn:hover .hero-cta-arrow { transform: translateX(4px); }
-        </style>
 
         <div class="hero-meta hidden md:flex" id="el-meta" style="gap: 1.2rem;">
           <span class="live-badge"><span class="live-pulse"></span>Ambiente para leitura</span>
