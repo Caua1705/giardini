@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <meta name="description" content="Giardini Café — Origem, ritual e a perfeição de um espresso." />
   <title>Giardini Café — The Art of Espresso</title>
+
   <!-- FONTS (design_system2) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap"
     rel="stylesheet">
+
   <!-- TAILWIND (tokens do design_system2) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -31,19 +34,1302 @@
       }
     }
   </script>
+
   <!-- GSAP + ScrollTrigger + Lenis -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
   <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+
+  <style>
+    /* ══ TOKENS (design_system2) ════════════════════════════════════ */
+    :root {
+      --c-bg: #FDFBF7;
+      --c-dark: #1A1A1A;
+      --c-primary: #2B4A3B;
+      --c-accent: #EAE4D9;
+      --expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ══ BASE ════════════════════════════════════════════════════════ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: auto;
+      background: var(--c-bg);
+      /* Prevents black bars when overscrolling */
+      overflow-x: hidden;
+    }
+
+    body {
+      background: var(--c-bg);
+      color: var(--c-dark);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      width: 100%;
+      opacity: 0;
+    }
+
+    /* FLOATING MINIMALIST SCROLLBAR (MAC STYLE) */
+    body::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background-color: rgba(26, 26, 26, 0.2);
+      border-radius: 10px;
+      border: 4px solid transparent;
+      background-clip: padding-box;
+    }
+
+    body::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(26, 26, 26, 0.35);
+      border: 4px solid transparent;
+      background-clip: padding-box;
+    }
+
+    body {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(26, 26, 26, 0.2) transparent;
+    }
+
+    /* ══ DESIGN SYSTEM CLASSES ═══════════════════════════════════════ */
+    .font-display {
+      font-family: 'Instrument Serif', serif;
+    }
+
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9000;
+      opacity: 0.22;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+
+    .btn-primary {
+      background-color: var(--c-primary);
+      color: var(--c-bg);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s var(--expo);
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.13) 0%, transparent 60%);
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.5s ease;
+      pointer-events: none;
+    }
+
+    .btn-primary:hover::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 32px -8px rgba(43, 74, 59, 0.45);
+    }
+
+    .word-wrap {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+    }
+
+    .word-inner {
+      display: block;
+      transform: translateY(110%);
+      will-change: transform;
+    }
+
+    /* ══ NAVBAR ══════════════════════════════════════════════════════ */
+    #navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      padding: 2.25rem 5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: padding 0.5s ease, background 0.5s ease;
+      opacity: 0;
+    }
+
+    @media (max-width: 768px) {
+      #navbar {
+        padding: 1.5rem 2rem;
+      }
+    }
+
+    #navbar.is-scrolled {
+      background: rgba(253, 251, 247, 0.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      padding-top: 1.25rem !important;
+      padding-bottom: 1.25rem !important;
+    }
+
+    .nav-logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.5rem;
+      color: var(--c-dark);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+    }
+
+    .nav-link {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(26, 26, 26, 0.6);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--c-primary);
+    }
+
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border-radius: 9999px;
+      text-decoration: none;
+      border: 1.5px solid var(--c-primary);
+      color: var(--c-primary);
+      transition: all 0.35s var(--expo);
+    }
+
+    .nav-cta:hover {
+      background: var(--c-primary);
+      color: var(--c-bg);
+    }
+
+    /* ══ PREMIUM ANIMATION UTILITIES ═════════════════════════════════ */
+    /* Personalização básica do scrollbar para ser visível e premium */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(26, 26, 26, 0.03);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(43, 74, 59, 0.2);
+      /* Tom verde sutil */
+      border-radius: 10px;
+      border: 2px solid transparent;
+      background-clip: content-box;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(43, 74, 59, 0.4);
+    }
+
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background-image:
+        linear-gradient(to right, rgba(26, 26, 26, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(26, 26, 26, 0.05) 1px, transparent 1px),
+        linear-gradient(to right, rgba(26, 26, 26, 0.018) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(26, 26, 26, 0.018) 1px, transparent 1px);
+      background-size: 80px 80px, 80px 80px, 20px 20px, 20px 20px;
+      /* Grid is stronger near text (left) and fades toward the image area (right), creating depth */
+      mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 45%, transparent 72%);
+      -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 45%, transparent 72%);
+    }
+
+    /* ── GRAIN NOISE TEXTURE ────────────────────────────────────────── */
+    #hero-grain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.028;
+      pointer-events: none;
+      z-index: 9998;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+    }
+
+    /* ── MOUSE SPOTLIGHT (enhanced warm) ─────────────────────────── */
+    #hero-spotlight {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(43, 74, 59, 0.055), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    #hero-viewport:hover #hero-spotlight {
+      opacity: 1;
+    }
+
+    /* ── SHIMMER BEAM BUTTON (conic-gradient advanced) ──────────────── */
+    .btn-beam-container {
+      position: relative;
+      display: inline-flex;
+    }
+
+    .beam-border {
+      position: absolute;
+      inset: -1.5px;
+      border-radius: 9999px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      background: conic-gradient(from 0deg at 50% 50%,
+          transparent 0deg,
+          var(--c-accent) 45deg,
+          var(--c-dark) 90deg,
+          transparent 135deg,
+          var(--c-accent) 225deg,
+          transparent 360deg);
+      animation: rotate-beam 4s linear infinite;
+      transition: opacity 0.5s var(--expo);
+    }
+
+    .btn-beam-container:hover .beam-border {
+      opacity: 1;
+    }
+
+    /* ── FLASHLIGHT CARD (Map Refined) ───────────────────────────── */
+    .flashlight-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y),
+          rgba(255, 255, 255, 0.05),
+          transparent 40%);
+      opacity: 0;
+      transition: opacity 0.6s;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .flashlight-card:hover::before {
+      opacity: 1;
+    }
+
+    .flashlight-border {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.6s;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .flashlight-card:hover .flashlight-border {
+      opacity: 1;
+    }
+
+    @keyframes rotate-beam {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ── BG COLUMN REVEAL ────────────────────────────────────────── */
+    #hero-bg-cols {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-col {
+      flex: 1;
+      height: 100%;
+      border-right: 1px solid rgba(26, 26, 26, 0.045);
+      clip-path: inset(100% 0 0 0);
+      transition: clip-path 1.6s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .hero-col.active {
+      clip-path: inset(0 0 0 0);
+    }
+
+    .hero-col:last-child {
+      border-right: none;
+    }
+
+    /* ── CUSTOM MINIMALIST SCROLL INDICATOR ────────────────────────── */
+    .scroll-indicator-wrap {
+      position: fixed;
+      right: 3rem;
+      /* Slightly further in to avoid cluttering with standard scrollbar */
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    #scroll-progress-line {
+      width: 2px;
+      height: 100px;
+      background: rgba(26, 26, 26, 0.15);
+      position: relative;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(26, 26, 26, 0.4);
+      pointer-events: none;
+    }
+
+    .live-pulse {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--c-primary);
+      flex-shrink: 0;
+      animation: live-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes live-glow {
+
+      0%,
+      100% {
+        opacity: 0.4;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.4);
+        box-shadow: 0 0 6px var(--c-primary);
+      }
+    }
+
+    /* Clock */
+    #hero-clock {
+      position: absolute;
+      bottom: 2rem;
+      left: 5rem;
+      font-size: 0.6rem;
+      font-family: var(--f-mono);
+      letter-spacing: 0.12em;
+      color: rgba(26, 26, 26, 0.25);
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    @media (max-width: 767px) {
+      #hero-clock {
+        display: none;
+      }
+    }
+
+    /* ══ HERO LAYOUT ════════════════════════════════════════════════ */
+    #hero-pin-wrapper {
+      position: relative;
+    }
+
+    #hero-viewport {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--c-bg);
+      display: flex;
+      flex-direction: row;
+    }
+
+    @media (max-width: 767px) {
+      #hero-viewport {
+        flex-direction: column;
+      }
+    }
+
+    /* LEFT column */
+    #hero-left {
+      position: relative;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 48%;
+      padding: 0 4rem 0 5rem;
+      flex-shrink: 0;
+      pointer-events: none;
+    }
+
+    @media (max-width: 1280px) {
+      #hero-left {
+        padding: 0 2.5rem 0 3.5rem;
+      }
+    }
+
+    @media (max-width: 767px) {
+      #hero-left {
+        width: 100%;
+        padding: 5.5rem 2rem 2rem;
+        height: 50%;
+      }
+    }
+
+    #hero-left::after {
+      content: '';
+      display: block;
+      position: absolute;
+      right: 0;
+      top: 22%;
+      bottom: 22%;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(26, 26, 26, 0.07) 30%, rgba(26, 26, 26, 0.07) 70%, transparent);
+    }
+
+    @media (max-width: 767px) {
+      #hero-left::after {
+        display: none;
+      }
+    }
+
+    .kicker {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--c-primary);
+      margin-bottom: 1.75rem;
+    }
+
+    .kicker-line {
+      width: 20px;
+      height: 1px;
+      background: var(--c-primary);
+      flex-shrink: 0;
+    }
+
+    #hero-headline {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(3rem, 6.5vw, 7.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--c-dark);
+      margin-bottom: 0.75rem;
+    }
+
+    #hero-headline .line {
+      display: block;
+      overflow: hidden;
+    }
+
+    #hero-headline .line-inner {
+      display: block;
+      will-change: transform, filter;
+    }
+
+    .hero-body {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(26, 26, 26, 0.68);
+      max-width: 480px;
+      margin-top: 1.75rem;
+      margin-bottom: 2.75rem;
+    }
+
+    @media (min-width: 768px) {
+      .hero-body {
+        font-size: 1.0625rem;
+      }
+    }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-order {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 1rem 2.25rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border-radius: 9999px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      transform: scale(1);
+    }
+
+    .btn-order svg {
+      width: 13px;
+      height: 13px;
+      transition: transform 0.35s var(--expo);
+    }
+
+    .btn-order:hover {
+      transform: scale(1.03);
+    }
+
+    .btn-order:hover svg {
+      transform: translateX(5px);
+    }
+
+    /* Secondary outlined CTA */
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.95rem 1.8rem;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 9999px;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1.5px solid rgba(26, 26, 26, 0.18);
+      color: rgba(26, 26, 26, 0.6);
+      background: transparent;
+      transition: all 0.3s ease;
+      transform: scale(1);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--c-primary);
+      color: var(--c-primary);
+      transform: scale(1.03);
+    }
+
+    .link-ghost {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(26, 26, 26, 0.36);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 2px;
+      transition: color 0.3s ease;
+    }
+
+    /* Animated underline — grows from left on hover */
+    .link-ghost::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--c-primary);
+      transition: width 0.35s var(--expo);
+    }
+
+    .link-ghost:hover {
+      color: var(--c-primary);
+    }
+
+    .link-ghost:hover::after {
+      width: 100%;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      margin-top: 2.5rem;
+    }
+
+    .meta-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(26, 26, 26, 0.25);
+    }
+
+    .meta-text {
+      font-size: 0.58rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(26, 26, 26, 0.32);
+    }
+
+    /* RIGHT column */
+    #hero-right {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 52%;
+      height: 100%;
+      padding: 9rem 3.5rem 3.5rem 2rem;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 1280px) {
+      #hero-right {
+        padding: 7rem 2.5rem 4rem 1rem;
+      }
+    }
+
+    @media (max-width: 767px) {
+      #hero-right {
+        width: 100%;
+        height: 50%;
+        padding: 1rem 1.5rem 1.5rem;
+      }
+    }
+
+    .video-glow {
+      position: absolute;
+      inset: 8%;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 55% 45%, rgba(43, 74, 59, 0.09) 0%, rgba(183, 147, 88, 0.04) 40%, transparent 70%);
+      filter: blur(55px);
+      pointer-events: none;
+    }
+
+    /* Premium Cards for Section 2 */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(26, 26, 26, 0.04);
+      transition: all 0.5s var(--expo);
+    }
+
+    .glass-card:hover {
+      background: rgba(255, 255, 255, 0.7);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
+      transform: translateY(-4px);
+      border-color: rgba(26, 26, 26, 0.08);
+    }
+
+    .flashlight-effect {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .flashlight-effect::before {
+      content: "";
+      position: absolute;
+      inset: 0px;
+      background: radial-gradient(350px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(43, 74, 59, 0.04), transparent 50%);
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .flashlight-effect:hover::before {
+      opacity: 1;
+    }
+
+    /* Floating Animations */
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-40px);
+      }
+    }
+
+    .animate-float {
+      animation: float 8s ease-in-out infinite;
+    }
+
+    /* ══ VIDEO FRAME (expande via GSAP) ═════════════════════════════ */
+    #video-frame {
+      position: absolute;
+      overflow: hidden;
+      background: #0a0a0a;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      /* Soft, wide shadow — image breathes naturally in the space */
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.08),
+        0 10px 30px rgba(0, 0, 0, 0.05),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+      will-change: border-radius, box-shadow;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+    }
+
+    #video-frame:hover {
+      transform: scale(1.01);
+      box-shadow:
+        0 40px 100px rgba(0, 0, 0, 0.1),
+        0 14px 40px rgba(0, 0, 0, 0.06),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+    }
+
+    #video-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.45) 100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .video-badge {
+      position: absolute;
+      top: 1.1rem;
+      right: 1.1rem;
+      z-index: 15;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--c-primary);
+      box-shadow: 0 0 8px rgba(43, 74, 59, 0.9);
+      animation: dotPulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes dotPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 6px rgba(43, 74, 59, 0.8);
+      }
+
+      50% {
+        box-shadow: 0 0 14px rgba(43, 74, 59, 1);
+      }
+    }
+
+    /*
+     * ══ CANVAS — substitui o <video> ════════════════════════════════
+     * O canvas ocupa 100% do #video-frame e exibe os frames desenhados
+     * via drawImage(). É instantâneo, sem lag de decodificação.
+     */
+    #seq-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* via CSS — o JS mantém proporção no drawImage */
+      display: block;
+      /* blur inicial removido após preload */
+      filter: blur(20px) brightness(0.7);
+      transition: filter 0.8s var(--expo);
+    }
+
+    #seq-canvas.ready {
+      filter: blur(0) brightness(1);
+    }
+
+    @keyframes floatOrb {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      100% {
+        transform: translate(40px, -40px) scale(1.15);
+      }
+    }
+
+    /* ── GEMINI SHIMMER ──────────────────────────────── */
+    @keyframes shimmer {
+      from {
+        transform: translateX(-100%) skewX(-15deg);
+      }
+
+      to {
+        transform: translateX(200%) skewX(-15deg);
+      }
+    }
+
+    /* ── FLASHLIGHT / SPOTLIGHT EFFECT ──────────────────────────────── */
+    .flashlight-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+          rgba(255, 255, 255, 0.12),
+          transparent 40%);
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+      z-index: 15;
+    }
+
+    .flashlight-card:hover::before {
+      opacity: 1;
+    }
+
+
+
+    /* ── CHAR REVEAL ────────────────────────────────────────────────── */
+    .split-parent {
+      overflow: hidden;
+    }
+
+    .split-child {
+      display: inline-block;
+      will-change: transform;
+    }
+
+    /* ── GEMINI animationIn keyframe (used for section 3) ───────────── */
+    @keyframes animationIn {
+      0% {
+        opacity: 0;
+        transform: translateY(28px);
+        filter: blur(8px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0px);
+      }
+    }
+
+    /* ── LINE-CLIP reveal (Gemini Typography slide) ─────────────────── */
+    .sect3-line-wrap {
+      display: block;
+      overflow: hidden;
+      line-height: 1.05;
+    }
+
+    .sect3-line-inner {
+      display: block;
+      transform: translateY(110%);
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    /* ══ SCROLL INDICATOR ════════════════════════════════════════════ */
+    .scroll-indicator {
+      position: absolute;
+      z-index: 30;
+      bottom: 1.75rem;
+      left: 5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    @media (max-width: 767px) {
+      .scroll-indicator {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+
+    .scroll-indicator span {
+      font-size: 0.58rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(26, 26, 26, 0.35);
+      writing-mode: vertical-rl;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 2.5rem;
+      background: linear-gradient(to bottom, rgba(26, 26, 26, 0.22), transparent);
+      animation: linePulse 2.6s ease-in-out infinite;
+    }
+
+    @keyframes linePulse {
+
+      0%,
+      100% {
+        transform: scaleY(0.6);
+        transform-origin: top;
+        opacity: 0.4;
+      }
+
+      60% {
+        transform: scaleY(1);
+        opacity: 1;
+      }
+    }
+
+    /* ══ PRELOADER ═══════════════════════════════════════════════════ */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: var(--c-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .preloader-brand {
+      font-family: 'Instrument Serif', serif;
+      font-size: 3rem;
+      color: var(--c-primary);
+    }
+
+    .preloader-bar-track {
+      width: 200px;
+      height: 2px;
+      background: rgba(43, 74, 59, 0.12);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .preloader-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--c-primary);
+      transition: width 0.1s linear;
+      border-radius: 2px;
+    }
+
+    .preloader-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(26, 26, 26, 0.4);
+    }
+
+    /* ══ NEXT SECTION ════════════════════════════════════════════════ */
+    #next-section {
+      position: relative;
+      z-index: 20;
+      background: var(--c-bg);
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      padding: 8rem 2rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .next-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(26, 26, 26, 0.28);
+      font-weight: 500;
+    }
+
+    .next-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2rem, 4vw, 4rem);
+      color: var(--c-dark);
+      text-align: center;
+      letter-spacing: -0.02em;
+      opacity: 0.08;
+    }
+  </style>
+
   <!-- ══ HERO PREMIUM BACKGROUND & ANIMATION POLISH ══ -->
+  <style>
+    /* Floating warm orbs — match Section 2's glow aesthetic */
+    @keyframes hOrb1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+    @keyframes hOrb2 { 0%,100%{transform:translate(0,0)} 40%{transform:translate(12px,-14px)} 80%{transform:translate(-8px,10px)} }
+    .h-orb { position:absolute; border-radius:50%; pointer-events:none; will-change:transform; }
+    .h-orb-1 {
+      width:620px; height:620px;
+      top:-18%; right:8%; z-index:2;
+      background:radial-gradient(circle, rgba(183,147,88,.075) 0%, transparent 65%);
+      filter:blur(85px);
+      animation:hOrb1 20s ease-in-out infinite;
+    }
+    .h-orb-2 {
+      width:420px; height:420px;
+      bottom:-22%; left:-5%; z-index:2;
+      background:radial-gradient(circle, rgba(43,74,59,.09) 0%, transparent 65%);
+      filter:blur(68px);
+      animation:hOrb2 26s ease-in-out infinite 3s;
+    }
+
+    /* Watermark word — like Section 2's 'TEMPO' parallax text */
+    @keyframes hFadeIn { from{opacity:0} to{opacity:1} }
+    #hero-wm {
+      position:absolute;
+      right:-2%; top:50%;
+      transform:translateY(-55%);
+      z-index:1;
+      font-family:'Instrument Serif',serif;
+      font-size:clamp(10rem,19vw,17rem);
+      line-height:0.88;
+      color:rgba(26,26,26,.03);
+      letter-spacing:-.04em;
+      pointer-events:none; user-select:none;
+      white-space:nowrap;
+      opacity:0;
+      animation:hFadeIn 2.5s ease 1.8s forwards;
+    }
+
+    /* Warm ambient light — off-center left, simulates soft natural light pooling */
+    #hero-warm {
+      position:absolute;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(200,170,120,0.07) 0%, transparent 58%),
+        radial-gradient(ellipse at 68% 38%, rgba(183,147,88,.04) 0%, rgba(43,74,59,.018) 42%, transparent 68%);
+      pointer-events:none; z-index:1;
+    }
+
+    /* Soft warm glow behind the image frame */
+    #hero-image-glow {
+      position:absolute;
+      top:50%; right:4%;
+      width:42vw; height:80%;
+      transform:translateY(-50%);
+      background:radial-gradient(ellipse at 50% 50%, rgba(200,170,120,0.055) 0%, transparent 65%);
+      filter:blur(55px);
+      pointer-events:none;
+      z-index:2;
+    }
+
+    /* Edge vignette (framing device) */
+    #hero-vig {
+      position:absolute; inset:0; z-index:3;
+      pointer-events:none;
+      background:radial-gradient(ellipse at 50% 50%,
+        transparent 50%, rgba(26,26,26,.07) 100%);
+    }
+
+    /* Shimmer separator line below h1 */
+    @keyframes hLineGrow { from{width:0;opacity:0} to{width:100%;opacity:1} }
+    @keyframes hBeam     { 0%{left:-65%} 100%{left:165%} }
+    #hero-sep {
+      position:relative; height:1px; overflow:hidden;
+      margin:1.5rem 0 1.75rem;
+      max-width:450px;
+    }
+    #hero-sep::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:1px;
+      background:linear-gradient(90deg,
+        transparent 0%, rgba(43,74,59,.28) 15%,
+        rgba(43,74,59,.55) 50%, rgba(43,74,59,.28) 85%, transparent 100%);
+      animation:hLineGrow 1s cubic-bezier(.16,1,.3,1) 1.1s both;
+    }
+    #hero-sep::after {
+      content:''; position:absolute; top:-1px; left:-65%;
+      width:55%; height:3px;
+      background:linear-gradient(90deg,
+        transparent, rgba(43,74,59,.15) 25%,
+        rgba(255,255,255,.75) 50%, rgba(43,74,59,.15) 75%, transparent);
+      filter:blur(1px);
+      animation:hBeam 2s cubic-bezier(.25,0,.1,1) 2.1s both;
+    }
+
+    /* textSlide: per-line clip reveal — structure only, GSAP handles the animation */
+    #hero-headline .line       { display:block; overflow:hidden; }
+    #hero-headline .line-inner { display:block; will-change:transform,filter; }
+
+    /* hero-sep and hero-wm start hidden — GSAP will reveal them */
+    #hero-sep { opacity:0; }
+    #hero-wm  { opacity:0; }
+  </style>
+
   <!-- ══ REFINAMENTO FINAL — POLISH & TEXTURE ══════════════════════ -->
-<style>
-/* ══ TOKENS (design_system2) ════════════════════════════════════ */ :root { --c-bg: #FDFBF7; --c-dark: #1A1A1A; --c-primary: #2B4A3B; --c-accent: #EAE4D9; --expo: cubic-bezier(0.16, 1, 0.3, 1); } /* ══ BASE ════════════════════════════════════════════════════════ */ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; } html { scroll-behavior: auto; background: var(--c-bg); /* Prevents black bars when overscrolling */ overflow-x: hidden; } body { background: var(--c-bg); color: var(--c-dark); font-family: 'Inter', sans-serif; overflow-x: hidden; width: 100%; opacity: 0; } /* FLOATING MINIMALIST SCROLLBAR (MAC STYLE) */ body::-webkit-scrollbar { width: 12px; height: 12px; } body::-webkit-scrollbar-track { background: transparent; } body::-webkit-scrollbar-thumb { background-color: rgba(26, 26, 26, 0.2); border-radius: 10px; border: 4px solid transparent; background-clip: padding-box; } body::-webkit-scrollbar-thumb:hover { background-color: rgba(26, 26, 26, 0.35); border: 4px solid transparent; background-clip: padding-box; } body { scrollbar-width: thin; scrollbar-color: rgba(26, 26, 26, 0.2) transparent; } /* ══ DESIGN SYSTEM CLASSES ═══════════════════════════════════════ */ .font-display { font-family: 'Instrument Serif', serif; } .noise-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9000; opacity: 0.22; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E"); mix-blend-mode: multiply; } .btn-primary { background-color: var(--c-primary); color: var(--c-bg); position: relative; overflow: hidden; transition: all 0.4s var(--expo); } .btn-primary::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255, 255, 255, 0.13) 0%, transparent 60%); opacity: 0; transform: scale(0.5); transition: all 0.5s ease; pointer-events: none; } .btn-primary:hover::after { opacity: 1; transform: scale(1); } .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 32px -8px rgba(43, 74, 59, 0.45); } .word-wrap { display: inline-block; overflow: hidden; vertical-align: bottom; } .word-inner { display: block; transform: translateY(110%); will-change: transform; } /* ══ NAVBAR ══════════════════════════════════════════════════════ */ #navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 2.25rem 5rem; display: flex; justify-content: space-between; align-items: center; transition: padding 0.5s ease, background 0.5s ease; opacity: 0; } @media (max-width: 768px) { #navbar { padding: 1.5rem 2rem; } } #navbar.is-scrolled { background: rgba(253, 251, 247, 0.94); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(0, 0, 0, 0.05); padding-top: 1.25rem !important; padding-bottom: 1.25rem !important; } .nav-logo { font-family: 'Instrument Serif', serif; font-size: 1.5rem; color: var(--c-dark); text-decoration: none; } .nav-links { display: flex; gap: 2.5rem; } @media (max-width: 768px) { .nav-links { display: none; } } .nav-link { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(26, 26, 26, 0.6); text-decoration: none; transition: color 0.3s ease; } .nav-link:hover { color: var(--c-primary); } .nav-cta { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.4rem; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; border-radius: 9999px; text-decoration: none; border: 1.5px solid var(--c-primary); color: var(--c-primary); transition: all 0.35s var(--expo); } .nav-cta:hover { background: var(--c-primary); color: var(--c-bg); } /* ══ PREMIUM ANIMATION UTILITIES ═════════════════════════════════ */ /* Personalização básica do scrollbar para ser visível e premium */ ::-webkit-scrollbar { width: 10px; } ::-webkit-scrollbar-track { background: rgba(26, 26, 26, 0.03); } ::-webkit-scrollbar-thumb { background: rgba(43, 74, 59, 0.2); /* Tom verde sutil */ border-radius: 10px; border: 2px solid transparent; background-clip: content-box; } ::-webkit-scrollbar-thumb:hover { background: rgba(43, 74, 59, 0.4); } .hero-grid-bg { position: absolute; inset: 0; pointer-events: none; z-index: 1; background-image: linear-gradient(to right, rgba(26, 26, 26, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(26, 26, 26, 0.05) 1px, transparent 1px), linear-gradient(to right, rgba(26, 26, 26, 0.018) 1px, transparent 1px), linear-gradient(to bottom, rgba(26, 26, 26, 0.018) 1px, transparent 1px); background-size: 80px 80px, 80px 80px, 20px 20px, 20px 20px; /* Grid is stronger near text (left) and fades toward the image area (right), creating depth */ mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 45%, transparent 72%); -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 45%, transparent 72%); } /* ── GRAIN NOISE TEXTURE ────────────────────────────────────────── */ #hero-grain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.028; pointer-events: none; z-index: 9998; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); background-repeat: repeat; background-size: 200px 200px; } /* ── MOUSE SPOTLIGHT (enhanced warm) ─────────────────────────── */ #hero-spotlight { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(43, 74, 59, 0.055), transparent 60%); opacity: 0; transition: opacity 0.6s ease; } #hero-viewport:hover #hero-spotlight { opacity: 1; } /* ── SHIMMER BEAM BUTTON (conic-gradient advanced) ──────────────── */ .btn-beam-container { position: relative; display: inline-flex; } .beam-border { position: absolute; inset: -1.5px; border-radius: 9999px; pointer-events: none; z-index: 0; opacity: 0; background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, var(--c-accent) 45deg, var(--c-dark) 90deg, transparent 135deg, var(--c-accent) 225deg, transparent 360deg); animation: rotate-beam 4s linear infinite; transition: opacity 0.5s var(--expo); } .btn-beam-container:hover .beam-border { opacity: 1; } /* ── FLASHLIGHT CARD (Map Refined) ───────────────────────────── */ .flashlight-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.05), transparent 40%); opacity: 0; transition: opacity 0.6s; pointer-events: none; z-index: 5; } .flashlight-card:hover::before { opacity: 1; } .flashlight-border { position: absolute; inset: 0; border-radius: inherit; padding: 1px; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; opacity: 0; transition: opacity 0.6s; pointer-events: none; z-index: 6; } .flashlight-card:hover .flashlight-border { opacity: 1; } @keyframes rotate-beam { from { transform: rotate(0deg); } to { transform: rotate(360deg); } } /* ── BG COLUMN REVEAL ────────────────────────────────────────── */ #hero-bg-cols { position: absolute; inset: 0; display: flex; z-index: 0; pointer-events: none; } .hero-col { flex: 1; height: 100%; border-right: 1px solid rgba(26, 26, 26, 0.045); clip-path: inset(100% 0 0 0); transition: clip-path 1.6s cubic-bezier(0.65, 0, 0.35, 1); } .hero-col.active { clip-path: inset(0 0 0 0); } .hero-col:last-child { border-right: none; } /* ── CUSTOM MINIMALIST SCROLL INDICATOR ────────────────────────── */ .scroll-indicator-wrap { position: fixed; right: 3rem; /* Slightly further in to avoid cluttering with standard scrollbar */ top: 50%; transform: translateY(-50%); z-index: 9999; pointer-events: none; } #scroll-progress-line { width: 2px; height: 100px; background: rgba(26, 26, 26, 0.15); position: relative; border-radius: 2px; overflow: hidden; } .live-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(26, 26, 26, 0.4); pointer-events: none; } .live-pulse { width: 5px; height: 5px; border-radius: 50%; background: var(--c-primary); flex-shrink: 0; animation: live-glow 2s ease-in-out infinite; } @keyframes live-glow { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 1; transform: scale(1.4); box-shadow: 0 0 6px var(--c-primary); } } /* Clock */ #hero-clock { position: absolute; bottom: 2rem; left: 5rem; font-size: 0.6rem; font-family: var(--f-mono); letter-spacing: 0.12em; color: rgba(26, 26, 26, 0.25); pointer-events: none; z-index: 20; } @media (max-width: 767px) { #hero-clock { display: none; } } /* ══ HERO LAYOUT ════════════════════════════════════════════════ */ #hero-pin-wrapper { position: relative; } #hero-viewport { position: relative; width: 100%; height: 100vh; overflow: hidden; background: var(--c-bg); display: flex; flex-direction: row; } @media (max-width: 767px) { #hero-viewport { flex-direction: column; } } /* LEFT column */ #hero-left { position: relative; z-index: 20; display: flex; flex-direction: column; justify-content: center; width: 48%; padding: 0 4rem 0 5rem; flex-shrink: 0; pointer-events: none; } @media (max-width: 1280px) { #hero-left { padding: 0 2.5rem 0 3.5rem; } } @media (max-width: 767px) { #hero-left { width: 100%; padding: 5.5rem 2rem 2rem; height: 50%; } } #hero-left::after { content: ''; display: block; position: absolute; right: 0; top: 22%; bottom: 22%; width: 1px; background: linear-gradient(to bottom, transparent, rgba(26, 26, 26, 0.07) 30%, rgba(26, 26, 26, 0.07) 70%, transparent); } @media (max-width: 767px) { #hero-left::after { display: none; } } .kicker { display: flex; align-items: center; gap: 0.75rem; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--c-primary); margin-bottom: 1.75rem; } .kicker-line { width: 20px; height: 1px; background: var(--c-primary); flex-shrink: 0; } #hero-headline { font-family: 'Instrument Serif', serif; font-size: clamp(3rem, 6.5vw, 7.5rem); line-height: 1.1; letter-spacing: -0.03em; color: var(--c-dark); margin-bottom: 0.75rem; } #hero-headline .line { display: block; overflow: hidden; } #hero-headline .line-inner { display: block; will-change: transform; } .hero-body { font-size: 1rem; font-weight: 300; line-height: 1.8; color: rgba(26, 26, 26, 0.68); max-width: 480px; margin-top: 1.75rem; margin-bottom: 2.75rem; } @media (min-width: 768px) { .hero-body { font-size: 1.0625rem; } } .hero-cta { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; } .btn-order { display: inline-flex; align-items: center; gap: 0.625rem; padding: 1rem 2.25rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; border-radius: 9999px; text-decoration: none; cursor: pointer; transition: all 0.3s ease; transform: scale(1); } .btn-order svg { width: 13px; height: 13px; transition: transform 0.35s var(--expo); } .btn-order:hover { transform: scale(1.03); } .btn-order:hover svg { transform: translateX(5px); } /* Secondary outlined CTA */ .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.95rem 1.8rem; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 9999px; text-decoration: none; cursor: pointer; border: 1.5px solid rgba(26, 26, 26, 0.18); color: rgba(26, 26, 26, 0.6); background: transparent; transition: all 0.3s ease; transform: scale(1); } .btn-secondary:hover { border-color: var(--c-primary); color: var(--c-primary); transform: scale(1.03); } .link-ghost { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(26, 26, 26, 0.36); text-decoration: none; position: relative; padding-bottom: 2px; transition: color 0.3s ease; } /* Animated underline — grows from left on hover */ .link-ghost::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background: var(--c-primary); transition: width 0.35s var(--expo); } .link-ghost:hover { color: var(--c-primary); } .link-ghost:hover::after { width: 100%; } .hero-meta { display: flex; align-items: center; gap: 0.875rem; margin-top: 2.5rem; } .meta-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(26, 26, 26, 0.25); } .meta-text { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(26, 26, 26, 0.32); } /* RIGHT column */ #hero-right { position: relative; z-index: 10; display: flex; align-items: center; justify-content: center; width: 52%; height: 100%; padding: 9rem 3.5rem 3.5rem 2rem; flex-shrink: 0; } @media (max-width: 1280px) { #hero-right { padding: 7rem 2.5rem 4rem 1rem; } } @media (max-width: 767px) { #hero-right { width: 100%; height: 50%; padding: 1rem 1.5rem 1.5rem; } } .video-glow { position: absolute; inset: 8%; border-radius: 50%; background: radial-gradient(ellipse at 55% 45%, rgba(43, 74, 59, 0.09) 0%, rgba(183, 147, 88, 0.04) 40%, transparent 70%); pointer-events: none; } /* Premium Cards for Section 2 */ .glass-card { background: rgba(255, 255, 255, 0.35); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(26, 26, 26, 0.04); transition: all 0.5s var(--expo); } .glass-card:hover { background: rgba(255, 255, 255, 0.7); box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05); transform: translateY(-4px); border-color: rgba(26, 26, 26, 0.08); } .flashlight-effect { position: relative; overflow: hidden; } .flashlight-effect::before { content: ""; position: absolute; inset: 0px; background: radial-gradient(350px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(43, 74, 59, 0.04), transparent 50%); opacity: 0; transition: opacity 0.5s; pointer-events: none; z-index: 1; } .flashlight-effect:hover::before { opacity: 1; } /* Floating Animations */ @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-40px); } } .animate-float { animation: float 8s ease-in-out infinite; } /* ══ VIDEO FRAME (expande via GSAP) ═════════════════════════════ */ #video-frame { position: absolute; overflow: hidden; background: #0a0a0a; border-radius: 20px; border: 1px solid rgba(0, 0, 0, 0.06); /* Soft, wide shadow — image breathes naturally in the space */ box-shadow: 0 30px 80px rgba(0, 0, 0, 0.08), 0 10px 30px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.04); will-change: border-radius, box-shadow; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease; } #video-frame:hover { transform: scale(1.01); box-shadow: 0 40px 100px rgba(0, 0, 0, 0.1), 0 14px 40px rgba(0, 0, 0, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.06); } #video-overlay { position: absolute; inset: 0; z-index: 5; background: linear-gradient(135deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.45) 100%); opacity: 0; pointer-events: none; } .video-badge { position: absolute; top: 1.1rem; right: 1.1rem; z-index: 15; display: flex; align-items: center; gap: 0.5rem; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255, 255, 255, 0.75); } .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--c-primary); box-shadow: 0 0 8px rgba(43, 74, 59, 0.9); animation: dotPulse 2.2s ease-in-out infinite; } @keyframes dotPulse { 0%, 100% { box-shadow: 0 0 6px rgba(43, 74, 59, 0.8); } 50% { box-shadow: 0 0 14px rgba(43, 74, 59, 1); } } /* * ══ CANVAS — substitui o <video> ════════════════════════════════ * O canvas ocupa 100% do #video-frame e exibe os frames desenhados * via drawImage(). É instantâneo, sem lag de decodificação. */ #seq-canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; /* via CSS — o JS mantém proporção no drawImage */ display: block; /* blur inicial removido após preload */ filter: blur(20px) brightness(0.7); transition: filter 0.8s var(--expo); } #seq-canvas.ready { filter: blur(0) brightness(1); } @keyframes floatOrb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(40px, -40px) scale(1.15); } } /* ── GEMINI SHIMMER ──────────────────────────────── */ @keyframes shimmer { from { transform: translateX(-100%) skewX(-15deg); } to { transform: translateX(200%) skewX(-15deg); } } /* ── FLASHLIGHT / SPOTLIGHT EFFECT ──────────────────────────────── */ .flashlight-card::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.12), transparent 40%); opacity: 0; transition: opacity 0.5s; pointer-events: none; z-index: 15; } .flashlight-card:hover::before { opacity: 1; } /* ── CHAR REVEAL ────────────────────────────────────────────────── */ .split-parent { overflow: hidden; } .split-child { display: inline-block; will-change: transform; } /* ── GEMINI animationIn keyframe (used for section 3) ───────────── */ @keyframes animationIn { 0% { opacity: 0; transform: translateY(28px); filter: blur(8px); } 100% { opacity: 1; transform: translateY(0); filter: blur(0px); } } /* ── LINE-CLIP reveal (Gemini Typography slide) ─────────────────── */ .sect3-line-wrap { display: block; overflow: hidden; line-height: 1.05; } .sect3-line-inner { display: block; transform: translateY(110%); opacity: 0; will-change: transform, opacity; } /* ══ SCROLL INDICATOR ════════════════════════════════════════════ */ .scroll-indicator { position: absolute; z-index: 30; bottom: 1.75rem; left: 5rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; } @media (max-width: 767px) { .scroll-indicator { left: 50%; transform: translateX(-50%); } } .scroll-indicator span { font-size: 0.58rem; letter-spacing: 0.26em; text-transform: uppercase; color: rgba(26, 26, 26, 0.35); writing-mode: vertical-rl; } .scroll-line { width: 1px; height: 2.5rem; background: linear-gradient(to bottom, rgba(26, 26, 26, 0.22), transparent); animation: linePulse 2.6s ease-in-out infinite; } @keyframes linePulse { 0%, 100% { transform: scaleY(0.6); transform-origin: top; opacity: 0.4; } 60% { transform: scaleY(1); opacity: 1; } } /* ══ PRELOADER ═══════════════════════════════════════════════════ */ #preloader { position: fixed; inset: 0; z-index: 10000; background: var(--c-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; } .preloader-brand { font-family: 'Instrument Serif', serif; font-size: 3rem; color: var(--c-primary); } .preloader-bar-track { width: 200px; height: 2px; background: rgba(43, 74, 59, 0.12); border-radius: 2px; overflow: hidden; } .preloader-bar { height: 100%; width: 0%; background: var(--c-primary); transition: width 0.1s linear; border-radius: 2px; } .preloader-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(26, 26, 26, 0.4); } /* ══ NEXT SECTION ════════════════════════════════════════════════ */ #next-section { position: relative; z-index: 20; background: var(--c-bg); min-height: 80vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; padding: 8rem 2rem; border-top: 1px solid rgba(0, 0, 0, 0.05); } .next-label { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(26, 26, 26, 0.28); font-weight: 500; } .next-title { font-family: 'Instrument Serif', serif; font-size: clamp(2rem, 4vw, 4rem); color: var(--c-dark); text-align: center; letter-spacing: -0.02em; opacity: 0.08; } /* Floating warm orbs — match Section 2's glow aesthetic */ @keyframes hOrb1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} } @keyframes hOrb2 { 0%,100%{transform:translate(0,0)} 40%{transform:translate(12px,-14px)} 80%{transform:translate(-8px,10px)} } .h-orb { position:absolute; border-radius:50%; pointer-events:none; will-change:transform; } .h-orb-1 { width:620px; height:620px; top:-18%; right:8%; z-index:2; background:radial-gradient(circle, rgba(183,147,88,.075) 0%, transparent 65%); animation:hOrb1 20s ease-in-out infinite; } .h-orb-2 { width:420px; height:420px; bottom:-22%; left:-5%; z-index:2; background:radial-gradient(circle, rgba(43,74,59,.09) 0%, transparent 65%); animation:hOrb2 26s ease-in-out infinite 3s; } /* Watermark word — like Section 2's 'TEMPO' parallax text */ @keyframes hFadeIn { from{opacity:0} to{opacity:1} } #hero-wm { position:absolute; right:-2%; top:50%; transform:translateY(-55%); z-index:1; font-family:'Instrument Serif',serif; font-size:clamp(10rem,19vw,17rem); line-height:0.88; color:rgba(26,26,26,.03); letter-spacing:-.04em; pointer-events:none; user-select:none; white-space:nowrap; opacity:0; animation:hFadeIn 2.5s ease 1.8s forwards; } /* Warm ambient light — off-center left, simulates soft natural light pooling */ #hero-warm { position:absolute; top:0; left:0; width:100%; height:100%; background: radial-gradient(circle at 20% 30%, rgba(200,170,120,0.07) 0%, transparent 58%), radial-gradient(ellipse at 68% 38%, rgba(183,147,88,.04) 0%, rgba(43,74,59,.018) 42%, transparent 68%); pointer-events:none; z-index:1; } /* Soft warm glow behind the image frame */ #hero-image-glow { position:absolute; top:50%; right:4%; width:42vw; height:80%; transform:translateY(-50%); background:radial-gradient(ellipse at 50% 50%, rgba(200,170,120,0.055) 0%, transparent 65%); pointer-events:none; z-index:2; } /* Edge vignette (framing device) */ #hero-vig { position:absolute; inset:0; z-index:3; pointer-events:none; background:radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(26,26,26,.07) 100%); } /* Shimmer separator line below h1 */ @keyframes hLineGrow { from{width:0;opacity:0} to{width:100%;opacity:1} } @keyframes hBeam     { 0%{left:-65%} 100%{left:165%} } #hero-sep { position:relative; height:1px; overflow:hidden; margin:1.5rem 0 1.75rem; max-width:450px; } #hero-sep::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg, transparent 0%, rgba(43,74,59,.28) 15%, rgba(43,74,59,.55) 50%, rgba(43,74,59,.28) 85%, transparent 100%); animation:hLineGrow 1s cubic-bezier(.16,1,.3,1) 1.1s both; } #hero-sep::after { content:''; position:absolute; top:-1px; left:-65%; width:55%; height:3px; background:linear-gradient(90deg, transparent, rgba(43,74,59,.15) 25%, rgba(255,255,255,.75) 50%, rgba(43,74,59,.15) 75%, transparent); filter:blur(1px); animation:hBeam 2s cubic-bezier(.25,0,.1,1) 2.1s both; } /* textSlide: per-line clip reveal — structure only, GSAP handles the animation */ #hero-headline .line       { display:block; overflow:hidden; } #hero-headline .line-inner { display:block; will-change:transform,filter; } /* hero-sep and hero-wm start hidden — GSAP will reveal them */ #hero-sep { opacity:0; } #hero-wm  { opacity:0; } /* 1. Global Grain Texture — sutil textura de papel sobre tudo */ #global-grain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9001; pointer-events: none; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); mix-blend-mode: multiply; } /* 2. Custom Cursor Hover Instead of full JS cursor, we use a simple CSS scale effect on links */ a, button { cursor: pointer; } /* 3. Navbar Links — Underline Sweep Animation */ .nav-link { position: relative; background: transparent; } .nav-link::before { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: rgba(43,74,59,0.7); transition: width 0.35s cubic-bezier(0.16,1,0.3,1); } .nav-link:hover::before { width: 100%; } /* 4. Navbar Logo Shimmer */ .nav-logo { position: relative; overflow: hidden; display: inline-block; } .nav-logo::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(43,74,59,0.12), transparent); transform: skewX(-15deg); transition: left 0.6s ease; pointer-events: none; } .nav-logo:hover::after { left: 150%; } /* 5. Button Hover Depths */ .btn-primary:hover { transform: translateY(-2px) scale(1.01) !important; box-shadow: 0 16px 36px -8px rgba(43, 74, 59, 0.45) !important; } .btn-primary:active { transform: translateY(1px) scale(0.98) !important; } /* 6. Ghost Link Hover Polish */ .link-ghost { position: relative; transition: color 0.3s ease, opacity 0.3s ease; } .link-ghost::before { content: ''; position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%); width: 0; height: 1px; background: var(--c-dark); transition: width 0.3s cubic-bezier(0.16,1,0.3,1); } .link-ghost:hover::before { width: 100%; } /* 7. Kicker Badge Glow */ .live-badge { border: none; background: transparent; transition: opacity 0.4s ease; } .live-badge:hover { opacity: 0.8; } /* 8. Menu / Section Cards Hover Tilt */ .feat-card { transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.5s ease !important; } .feat-card:hover { transform: translateY(-8px) !important; border-color: rgba(43,74,59,0.15) !important; } .feat-card:hover img { transform: scale(1.08) !important; } /* 9. Hero Corner Frames */ .frame-corner { position: fixed; width: 40px; height: 40px; border: 1px solid rgba(26,26,26,0.15); pointer-events: none; z-index: 9999; opacity: 0; animation: fIn 1.5s ease 2s forwards; } .frame-tl { top: 2rem; left: 2rem; border-right: none; border-bottom: none; } .frame-br { bottom: 2rem; right: 2rem; border-left: none; border-top: none; display:none;} @media(min-width: 768px){ .frame-br { display:block; } } @keyframes fIn { to{opacity:1;} } .hero-wm-underline { position: relative; display: inline-block; } .hero-wm-underline::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(26,26,26,0.35) 30%, rgba(26,26,26,0.55) 60%, transparent); animation: hBeam 3s cubic-bezier(0.25,0,0.1,1) 2.8s both; } /* Logo badge: subtle breathe only — no rotation */ @keyframes logoBadgeBreathe { 0%, 100% { transform: scale(1); box-shadow: 0 10px 36px rgba(43, 74, 59, 0.14), 0 3px 10px rgba(43, 74, 59, 0.08); } 50% { transform: scale(1.04); box-shadow: 0 16px 52px rgba(43, 74, 59, 0.22), 0 5px 16px rgba(43, 74, 59, 0.13); } } @keyframes featDivider { 0% { left: -40%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 110%; opacity: 0; } } .feat-card-inner:hover img.feat-img { transform: scale(1.4) !important; filter: saturate(0.92) brightness(1.05) !important; } .feat-card-inner:hover .feat-veil { opacity: 1 !important; } .feat-card-inner:hover .feat-panel { opacity: 1 !important; transform: translateY(0) !important; } .feat-card-inner:hover { box-shadow: 0 24px 64px rgba(26, 26, 26, 0.12), 0 6px 18px rgba(26, 26, 26, 0.07) !important; } .feat-card-inner:hover+.feat-label { opacity: 0; transform: translateY(-4px); } @media(max-width:768px) { #featured>div>div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; } .feat-card { margin-top: 0 !important; } } .clube-img-main:hover img, .clube-img-accent:hover img { transform: scale(1.08) !important; } .clube-img-main:hover, .clube-img-accent:hover { box-shadow: 0 24px 60px rgba(0,0,0,0.12), 0 6px 18px rgba(0,0,0,0.06) !important; } .clube-img-main:hover .clube-img-shimmer, .clube-img-accent:hover .clube-img-shimmer { opacity: 1 !important; } .clube-img-main:hover .clube-img-caption, .clube-img-accent:hover .clube-img-caption { opacity: 1 !important; transform: translateY(0) !important; } /* ── Flashlight effect (from animations-gemini) ─────────── */ .s4-flashlight { position: relative; } .s4-flashlight::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient( 600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(183,147,88,0.10), transparent 50% ); opacity: 0; transition: opacity 0.45s; pointer-events: none; z-index: 3; } .s4-flashlight:hover::before { opacity: 1; } /* ── Shimmer beam sweep ────────────────────────────────────── */ @keyframes s4-shimmer { from { transform: translateX(-110%) skewX(-18deg); } to   { transform: translateX(220%)  skewX(-18deg); } } .s4-beam { position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.10) 45%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.10) 55%, transparent 100%); transform: translateX(-110%) skewX(-18deg); pointer-events: none; z-index: 8; opacity: 0; transition: opacity 0.1s; } .clube-img-main:hover .s4-beam, .clube-img-accent:hover .s4-beam { opacity: 1; animation: s4-shimmer 1.1s cubic-bezier(0.4,0,0.2,1) forwards; } /* ── Marquee strip ─────────────────────────────────────────── */ @keyframes s4-marquee { from { transform: translateX(0); } to   { transform: translateX(-50%); } } .s4-marquee-track { display: flex; white-space: nowrap; animation: s4-marquee 28s linear infinite; } @keyframes s5-spin { from { transform: translate(-50%,-50%) rotate(0deg); } to   { transform: translate(-50%,-50%) rotate(360deg); } } #s5-cta:hover .s5-arrow { transform: translateX(4px); } .s5-glow-light { position: absolute; inset: 0; border-radius: inherit; background: radial-gradient( 500px circle at var(--gx, 50%) var(--gy, 50%), rgba(183, 130, 60, 0.13), transparent 55% ); opacity: 0; transition: opacity 0.45s; z-index: 1; } .s5-glow-card:hover .s5-glow-light { opacity: 1; } .s5-glow-card > *:not(.s5-glow-light) { position: relative; z-index: 2; } .s5-glow-card { transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease, border-color 0.4s ease; } .s5-glow-card:hover { transform: translateY(-6px); border-color: rgba(183,130,60,0.22) !important; box-shadow: 0 24px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(183,130,60,0.12), inset 0 1px 0 rgba(255,255,255,0.12) !important; } @media (max-width: 900px) { #experience-video [style*="grid-template-columns:repeat(3"] { grid-template-columns: 1fr !important; } } /* s5-reveal: base hidden state */ .s5-reveal { opacity: 0; transform: translateY(28px); filter: blur(10px); transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1), filter 0.9s cubic-bezier(0.16,1,0.3,1); } .s5-reveal.s5-visible { opacity: 1; transform: translateY(0); filter: blur(0); } /* 3D Transform Utils */ .perspective-2000 { perspective: 2000px; } .transform-style-3d { transform-style: preserve-3d; } .translate-z-10 { transform: translateZ(10px); } /* Image rotate on hover (for 3D wrappers) */ .img-rotate-hover:hover { transform: rotateY(-5deg); } /* Title Clip Reveal */ .title-clip-reveal span span { display: inline-block; } .is-visible .title-clip-reveal span span { transform: translateY(0) !important; } /* Marquee Animation */ @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-25%); } } .marquee-content { animation: scroll-left 40s linear infinite; } .marquee-mask { mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); } /* Clube do Livro Entry Animations */ .blur-reveal { opacity: 0; transform: translateY(40px); filter: blur(15px); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); } .blur-reveal.is-visible { opacity: 1; transform: translateY(0); filter: blur(0px); } /* Flashlight Cards */ .flashlight-card .flashlight-border { position: absolute; inset: 0; background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(43, 74, 59, 0.15), transparent 60%); opacity: 0; transition: opacity 0.5s; pointer-events: none; } .flashlight-card:hover .flashlight-border { opacity: 1; } /* Shimmer Beam Button (Gemini) */ @property --beam-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; } @keyframes rotate-beam { 0% { --beam-angle: 0deg; transform: rotate(0deg); } 100% { --beam-angle: 360deg; transform: rotate(360deg); } } .btn-beam-container { position: relative; display: inline-flex; border-radius: 9999px; padding: 1px; overflow: hidden; background: rgba(0, 0, 0, 0.1); } .beam-border { position: absolute; inset: -150%; background: conic-gradient(from var(--beam-angle, 0deg) at 50% 50%, transparent 70%, var(--c-primary) 100%); animation: rotate-beam 4s linear infinite; z-index: 0; /* Fallback for browsers without @property support */ background: conic-gradient(from 0deg at 50% 50%, transparent 70%, var(--c-primary) 100%); } /* ── CLUBE DO LIVRO: dedicated CSS ──────────────────────────────── */ /* Marquee animation */ @keyframes clube-scroll-left { from { transform: translateX(0); } to   { transform: translateX(-50%); } } .clube-marquee-content { animation: clube-scroll-left 50s linear infinite; } .clube-marquee-mask { mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); } /* Floating orbs */ @keyframes clube-float-1 { 0%, 100% { transform: translate(0, 0);       } 50%       { transform: translate(30px, -25px); } } @keyframes clube-float-2 { 0%, 100% { transform: translate(0, 0);        } 50%       { transform: translate(-25px, 20px); } } .clube-orb-1 { animation: clube-float-1 12s ease-in-out infinite; } .clube-orb-2 { animation: clube-float-2 15s ease-in-out infinite; } /* Pill hover accent */ .clube-pill:hover { background: rgba(253,251,247,0.08) !important; border-color: rgba(183,130,60,0.35) !important; } /* Title line slide */ .clube-line span { transition: transform 1.1s cubic-bezier(0.16,1,0.3,1); } .clube-line:nth-child(2) span { transition-delay: 0.12s; } /* Mobile responsive */ @media (max-width: 900px) { .clube-main-grid { grid-template-columns: 1fr !important; gap: 3rem !important; } .clube-reveal__images { height: 420px !important; } } /* ── LOC SPECIFIC STYLES (Light Theme) ──────────────── */ /* ── GEMINI ANIMATIONS ──────────────── */ @keyframes animationIn { 0% { opacity: 0; transform: translateY(30px); filter: blur(10px); } 100% { opacity: 1; transform: translateY(0); filter: blur(0px); } } .anim-fade-blur { opacity: 0; will-change: transform, opacity; } .anim-fade-blur.is-visible { animation: animationIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; } /* Elegant Button (Gemini 2 style) */ .btn-bordered-kinetic { border: 1px solid var(--c-dark); background: transparent; color: var(--c-dark); position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); display: inline-flex; align-items: center; justify-content: center; } .btn-bordered-kinetic:hover { background: var(--c-dark); color: var(--c-bg); transform: translateY(-2px); box-shadow: 0 10px 20px -5px rgba(26, 26, 26, 0.15); } /* Container do Mapa Light */ .map-light-container { background: var(--c-bg); border: 1px solid rgba(26, 26, 26, 0.08); box-shadow: 0 15px 35px -5px rgba(26, 26, 26, 0.05); transition: all 0.5s ease; } .map-light-container:hover { box-shadow: 0 25px 50px -12px rgba(26, 26, 26, 0.1); } @media (max-width: 768px) { .loc-grid { grid-template-columns: 1fr !important; } } 
-</style>
+  <style>
+    /* 1. Global Grain Texture — sutil textura de papel sobre tudo */
+    #global-grain {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 9001; pointer-events: none; opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+
+    /* 2. Custom Cursor Hover 
+       Instead of full JS cursor, we use a simple CSS scale effect on links */
+    a, button {
+      cursor: pointer;
+    }
+    
+    /* 3. Navbar Links — Underline Sweep Animation */
+    .nav-link {
+      position: relative;
+      background: transparent;
+    }
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: rgba(43,74,59,0.7);
+      transition: width 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    .nav-link:hover::before { width: 100%; }
+
+    /* 4. Navbar Logo Shimmer */
+    .nav-logo {
+      position: relative; overflow: hidden;
+      display: inline-block;
+    }
+    .nav-logo::after {
+      content: ''; position: absolute;
+      top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(43,74,59,0.12), transparent);
+      transform: skewX(-15deg);
+      transition: left 0.6s ease;
+      pointer-events: none;
+    }
+    .nav-logo:hover::after { left: 150%; }
+
+    /* 5. Button Hover Depths */
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.01) !important;
+      box-shadow: 0 16px 36px -8px rgba(43, 74, 59, 0.45) !important;
+    }
+    .btn-primary:active {
+      transform: translateY(1px) scale(0.98) !important;
+    }
+
+    /* 6. Ghost Link Hover Polish */
+    .link-ghost {
+      position: relative;
+      transition: color 0.3s ease, opacity 0.3s ease;
+    }
+    .link-ghost::before {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 1px;
+      background: var(--c-dark);
+      transition: width 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .link-ghost:hover::before { width: 100%; }
+
+    /* 7. Kicker Badge Glow */
+    .live-badge {
+      border: none;
+      background: transparent;
+      transition: opacity 0.4s ease;
+    }
+    .live-badge:hover {
+      opacity: 0.8;
+    }
+
+    /* 8. Menu / Section Cards Hover Tilt */
+    .feat-card {
+      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.5s ease !important;
+    }
+    .feat-card:hover {
+      transform: translateY(-8px) !important;
+      border-color: rgba(43,74,59,0.15) !important;
+    }
+    .feat-card:hover img {
+      transform: scale(1.08) !important;
+    }
+
+    /* 9. Hero Corner Frames */
+    .frame-corner {
+      position: fixed;
+      width: 40px; height: 40px;
+      border: 1px solid rgba(26,26,26,0.15);
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0;
+      animation: fIn 1.5s ease 2s forwards;
+    }
+    .frame-tl { top: 2rem; left: 2rem; border-right: none; border-bottom: none; }
+    .frame-br { bottom: 2rem; right: 2rem; border-left: none; border-top: none; display:none;}
+    @media(min-width: 768px){ .frame-br { display:block; } }
+    @keyframes fIn { to{opacity:1;} }
+  </style>
+
 </head>
+
+
 <body>
   <div id="global-grain" aria-hidden="true"></div>
+  <div class="frame-corner frame-tl" aria-hidden="true"></div>
+  <div class="frame-corner frame-br" aria-hidden="true"></div>
+
+  <div class="noise-overlay" aria-hidden="true"></div>
 
   <!-- ══ PRELOADER ═══════════════════════════════════════════════════ -->
   <div id="preloader" aria-live="polite" aria-label="Carregando">
@@ -53,7 +1339,10 @@
     </div>
     <span class="preloader-label" id="preloader-label">Carregando experiência...</span>
   </div>
+
   <!-- GRAIN NOISE TEXTURE -->
+  <div id="hero-grain" aria-hidden="true"></div>
+
   <!-- CUSTOM SCROLL INDICATOR (Minimalist Line) -->
   <div class="scroll-indicator-wrap" aria-hidden="true">
     <div id="scroll-progress-line"></div>
@@ -79,15 +1368,18 @@
       </svg>
     </a>
   </nav>
+
   <!-- ══ HERO WRAPPER (dá a altura de scroll ao ScrollTrigger) ════════ -->
   <div id="hero-pin-wrapper">
     <div id="hero-viewport" role="banner" aria-label="Hero — The Art of Espresso">
+
       <!-- BACKGROUND OVERLAYS (Animated Columns, Spotlight, Grid) -->
       <div id="hero-bg-cols" aria-hidden="true"></div>
       <div class="hero-grid-bg" aria-hidden="true"></div>
       <div id="hero-spotlight" aria-hidden="true"></div>
       <!-- Depth overlay: breaks flat grid feel with barely-there atmospheric shadow -->
       <div id="hero-depth" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:2;background:radial-gradient(circle at 70% 40%, rgba(0,0,0,0.03), transparent 60%);"></div>
+
       <!-- Warm ambient light (off-center left) + subtle image glow -->
       <div id="hero-warm" aria-hidden="true"></div>
       <div id="hero-image-glow" aria-hidden="true"></div>
@@ -96,12 +1388,15 @@
       <div class="h-orb h-orb-2" aria-hidden="true"></div>
       <!-- Edge vignette -->
       <div id="hero-vig" aria-hidden="true"></div>
+
+
       <!-- LEFT: text -->
       <div id="hero-left">
         <div class="kicker" id="el-kicker">
           <span class="kicker-line"></span>
           Leitura & Café
         </div>
+
         <h1 id="hero-headline" aria-label="Um refúgio entre café, livros e tempo.">
           <span class="line">
             <span class="line-inner" id="el-h1a">Um <em style="font-style:italic;color:var(--c-primary);">refúgio</em> entre</span>
@@ -110,11 +1405,31 @@
             <span class="line-inner" id="el-h1b">café, livros e tempo.</span>
           </span>
         </h1>
+
+        <style>
+          .hero-wm-underline {
+            position: relative;
+            display: inline-block;
+          }
+          .hero-wm-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(26,26,26,0.35) 30%, rgba(26,26,26,0.55) 60%, transparent);
+            animation: hBeam 3s cubic-bezier(0.25,0,0.1,1) 2.8s both;
+          }
+        </style>
+
         <!-- Shimmer separator line (animated, matches section dividers) -->
         <div id="hero-sep" aria-hidden="true"></div>
+
         <p class="hero-body" id="el-body">
           Um espaço pensado para a pausa. Café de especialidade, livros e o ambiente ideal para a sua próxima leitura.
         </p>
+
         <div class="hero-cta" id="el-cta">
           <!-- Primary CTA: direct action -->
           <a href="#" class="btn-primary btn-order group relative overflow-hidden" aria-label="Reservar uma mesa no Giardini Café">
@@ -133,6 +1448,7 @@
           <!-- Tertiary ghost link -->
           <a href="#" class="link-ghost">Ver cardápio</a>
         </div>
+
         <div class="hero-meta hidden md:flex" id="el-meta" style="gap: 1.2rem;">
           <span class="live-badge"><span class="live-pulse"></span>Ambiente para leitura</span>
           <span style="color: rgba(26,26,26,0.15); font-size: 0.6rem;">|</span>
@@ -143,32 +1459,59 @@
               style="animation-delay: 1.6s; background: rgba(26,26,26,0.25);"></span>Troca de Livros</span>
         </div>
       </div>
+
       <div id="hero-right">
         <div class="video-glow" aria-hidden="true"></div>
       </div>
+
       <!-- HERO CLOCK (Removed) -->
+
       <div class="scroll-indicator" id="el-scroll" aria-hidden="true">
         <span>Scroll</span>
         <div class="scroll-line"></div>
       </div>
+
       <!-- VIDEO FRAME (agora dentro do viewport para rolar naturalmente no final) -->
       <div id="video-frame" aria-label="Extração de espresso — sequência de frames">
         <div id="video-overlay" aria-hidden="true"></div>
         <!-- sequence canvas -->
         <canvas id="seq-canvas" aria-hidden="true"></canvas>
       </div>
+
     </div><!-- /hero-viewport -->
   </div><!-- /hero-pin-wrapper -->
+
   <!-- ══ HERO → SECTION 2 GRADIENT TRANSITION ══════════════════════ -->
   <!-- Sutil efeito de continuidade: funde o final da hero com o início da próxima seção -->
   <div class="pointer-events-none relative z-[59] w-full h-32 md:h-48 -mt-32 md:-mt-48"
     style="background: linear-gradient(to bottom, transparent 0%, #FDFBF7 100%);" aria-hidden="true">
   </div>
+
+
+  <style>
+    /* Logo badge: subtle breathe only — no rotation */
+    @keyframes logoBadgeBreathe {
+
+      0%,
+      100% {
+        transform: scale(1);
+        box-shadow: 0 10px 36px rgba(43, 74, 59, 0.14), 0 3px 10px rgba(43, 74, 59, 0.08);
+      }
+
+      50% {
+        transform: scale(1.04);
+        box-shadow: 0 16px 52px rgba(43, 74, 59, 0.22), 0 5px 16px rgba(43, 74, 59, 0.13);
+      }
+    }
+  </style>
+
   <!-- ══ SECTION 2: A EXPERIÊNCIA ═════════════════════════════════ -->
   <section id="experience"
     class="py-32 md:py-48 px-8 md:px-20 w-full bg-[var(--c-bg)] relative z-[60] overflow-hidden rounded-t-[40px] shadow-[0_-40px_80px_rgba(253,251,247,0.8)]">
+
     <!-- Grid BG sutil -->
     <div class="hero-grid-bg opacity-[0.3]"></div>
+
     <!-- Animated Soft Glows behind content (Parallax + Float) -->
     <div
       class="absolute top-[10%] left-[50%] w-[40vw] h-[40vw] bg-[var(--c-primary)] rounded-full filter blur-[80px] opacity-[0.06] animate-float pointer-events-none parallax-glow-1 will-change-transform z-0">
@@ -176,14 +1519,17 @@
     <div
       class="absolute bottom-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-[#D4CFC4] rounded-full filter blur-[80px] opacity-[0.10] animate-float pointer-events-none parallax-glow-2 will-change-transform z-0"
       style="animation-delay: 2s;"></div>
+
     <!-- Parallax Watermark -->
     <div id="parallax-text"
       class="absolute top-[35%] w-full flex items-center justify-center pointer-events-none opacity-[0.03] overflow-hidden z-0">
       <span class="font-display text-[20vw] leading-none text-center whitespace-nowrap tracking-tighter"
         style="transform: translateX(30%);">TEMPO</span>
     </div>
+
     <div
       class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center relative z-10 w-full max-w-[1600px] mx-auto">
+
       <!-- LEFT COLUMN: IMAGE -->
       <div
         class="lg:col-span-6 w-full h-[60vh] md:h-[80vh] rounded-[24px] overflow-hidden relative shadow-[0_40px_80px_rgba(0,0,0,0.08)] group exp-left translate-y-12 scale-[0.96] opacity-0 blur-[10px]">
@@ -193,27 +1539,33 @@
           class="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.03] exp-left-img scale-[1.08]"
           loading="lazy">
       </div>
+
       <!-- RIGHT COLUMN: CONTENT -->
       <div class="lg:col-span-6 flex flex-col justify-center w-full relative z-10">
+
         <!-- Label -->
         <div class="flex items-center gap-3 mb-6 sec2-title translate-y-8 opacity-0 blur-[10px]">
           <span class="w-2 h-2 rounded-full bg-[var(--c-primary)] animate-pulse"></span>
           <span class="text-[10px] md:text-xs text-[var(--c-primary)] font-bold uppercase tracking-[0.2em]">01 / A
             Experiência</span>
         </div>
+
         <div class="word-wrap mb-8" style="overflow:visible;">
           <h2
             class="sec2-title font-display text-5xl md:text-6xl lg:text-[4.5rem] text-[var(--c-dark)] tracking-tight leading-[1.05] opacity-0 translate-y-8 blur-[10px]">
             O conceito Giardini.
           </h2>
         </div>
+
         <p
           class="text-[1.05rem] md:text-[1.125rem] font-light leading-relaxed text-[rgba(26,26,26,0.6)] mb-16 max-w-lg sec2-title translate-y-8 opacity-0 blur-[10px]">
           Nascemos da vontade de unir um bom preparo de café ao hábito da leitura, prezando sempre por um ambiente
           equilibrado e propício para o foco.
         </p>
+
         <!-- 3 Pillars -->
         <div class="flex flex-col gap-[0.4rem] border-t border-black/5 pt-[1.75rem] relative mt-0">
+
           <!-- Pillar 1 -->
           <div
             class="flex flex-col exp-pillar opacity-0 translate-y-8 blur-[10px] relative z-10 p-5 md:p-6 group cursor-crosshair">
@@ -231,6 +1583,7 @@
                   class="w-[1px] h-full min-h-[46px] bg-[var(--c-dark)] opacity-[0.15] group-hover:opacity-100 transition-opacity duration-200">
                 </div>
               </div>
+
               <!-- Right Column: Title + Desc -->
               <div class="flex flex-col">
                 <h4 class="font-display text-[1.4rem] md:text-[1.6rem] text-[var(--c-dark)] tracking-tight mb-1">Livros
@@ -240,6 +1593,7 @@
               </div>
             </div>
           </div>
+
           <!-- Pillar 2 -->
           <div
             class="flex flex-col exp-pillar opacity-0 translate-y-8 blur-[10px] relative z-10 p-5 md:p-6 group cursor-crosshair">
@@ -257,6 +1611,7 @@
                   class="w-[1px] h-full min-h-[46px] bg-[var(--c-dark)] opacity-[0.15] group-hover:opacity-100 transition-opacity duration-200">
                 </div>
               </div>
+
               <!-- Right Column: Title + Desc -->
               <div class="flex flex-col">
                 <h4 class="font-display text-[1.4rem] md:text-[1.6rem] text-[var(--c-dark)] tracking-tight mb-1">Café
@@ -267,6 +1622,7 @@
               </div>
             </div>
           </div>
+
           <!-- Pillar 3 -->
           <div
             class="flex flex-col exp-pillar opacity-0 translate-y-8 blur-[10px] relative z-10 p-5 md:p-6 group cursor-crosshair">
@@ -284,6 +1640,7 @@
                   class="w-[1px] h-full min-h-[46px] bg-[var(--c-dark)] opacity-[0.15] group-hover:opacity-100 transition-opacity duration-200">
                 </div>
               </div>
+
               <!-- Right Column: Title + Desc -->
               <div class="flex flex-col">
                 <h4 class="font-display text-[1.4rem] md:text-[1.6rem] text-[var(--c-dark)] tracking-tight mb-1">
@@ -294,38 +1651,46 @@
               </div>
             </div>
           </div>
+
         </div>
+
       </div>
     </div>
+
     <!-- Sutil continuidade: funde o grid da section 2 e suaviza a transição -->
     <div class="pointer-events-none absolute bottom-0 left-0 w-full h-32 md:h-48 z-[5]"
       style="background: linear-gradient(to bottom, transparent 0%, var(--c-bg) 100%);">
     </div>
   </section>
+
   <!-- SECTION 3: SABORES E OBRAS -->
   <section id="featured" class="relative z-[60] overflow-visible rounded-t-[40px] -mt-16"
     style="background:linear-gradient(160deg,#faf7f2 0%,#f5f0e8 40%,#ede5d8 100%);padding:7rem 0 12rem;box-shadow:0 -30px 80px rgba(26,26,26,0.06)">
+
     <!-- Clip interno para grain/glows não vazarem -->
     <div style="position:absolute;inset:0;border-radius:40px 40px 0 0;overflow:hidden;pointer-events:none;z-index:0;">
       <!-- Grain overlay for warmth -->
       <div aria-hidden="true"
         style="position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0.025;background-image:url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.3\'/%3E%3C/svg%3E');background-size:200px 200px;">
       </div>
+
       <!-- Warm ambient glows -->
       <div aria-hidden="true"
-        style="position:absolute;top:-80px;left:-120px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(183,147,88,0.08) 0%,transparent 65%);pointer-events:none;z-index:1;">
+        style="position:absolute;top:-80px;left:-120px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(183,147,88,0.08) 0%,transparent 65%);filter:blur(80px);pointer-events:none;z-index:1;">
       </div>
       <div aria-hidden="true"
-        style="position:absolute;bottom:-60px;right:-100px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(43,74,59,0.06) 0%,transparent 65%);pointer-events:none;z-index:1;">
+        style="position:absolute;bottom:-60px;right:-100px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(43,74,59,0.06) 0%,transparent 65%);filter:blur(90px);pointer-events:none;z-index:1;">
       </div>
       <div aria-hidden="true"
-        style="position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(183,147,88,0.04) 0%,transparent 70%);pointer-events:none;z-index:1;">
+        style="position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(183,147,88,0.04) 0%,transparent 70%);filter:blur(100px);pointer-events:none;z-index:1;">
       </div>
+      
       <!-- Novo fluxo de luz que vem da direita (orgânico e sutil) -->
       <div aria-hidden="true" class="animate-float"
-        style="position:absolute;top:30%;right:-15%;width:1000px;height:1000px;border-radius:50%;background:radial-gradient(circle,rgba(200,170,120,0.07) 0%,transparent 70%);pointer-events:none;z-index:2;">
+        style="position:absolute;top:30%;right:-15%;width:1000px;height:1000px;border-radius:50%;background:radial-gradient(circle,rgba(200,170,120,0.07) 0%,transparent 70%);filter:blur(120px);pointer-events:none;z-index:2;">
       </div>
     </div><!-- /clip interno -->
+
     <!-- Logo badge: centralizado sobre a linha de topo da seção -->
     <div style="position:absolute;top:-50px;left:50%;transform:translateX(-50%);z-index:30;">
       <div
@@ -334,6 +1699,7 @@
           style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
     </div>
+
     <!-- Editorial vertical lines (Grid subconsciente muito suave) -->
     <div aria-hidden="true"
       style="position:absolute;inset:0;display:flex;justify-content:space-between;padding:0 4rem;pointer-events:none;z-index:1;">
@@ -350,7 +1716,11 @@
         style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.015) 30%,rgba(26,26,26,0.015) 70%,transparent);">
       </div>
     </div>
+
+
+
     <div style="max-width:1440px;margin:0 auto;padding:0 3.5rem;position:relative;z-index:10;">
+
       <!-- HEADER -->
       <div class="feat-reveal opacity-0 translate-y-6" style="margin-bottom:5rem;">
         <!-- Top label row -->
@@ -367,6 +1737,7 @@
           <span class="text-[10px] md:text-xs uppercase tracking-[0.15em]"
             style="color:rgba(26,26,26,0.28);">DESTAQUES</span>
         </div>
+
         <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:2rem;">
           <div class="word-wrap split-parent" style="overflow:hidden;">
             <h2 id="featured-title"
@@ -394,6 +1765,7 @@
             </a>
           </div>
         </div>
+
         <!-- Animated divider -->
         <div style="margin-top:2.5rem;position:relative;height:1px;overflow:hidden;">
           <div
@@ -403,9 +1775,32 @@
             style="position:absolute;top:0;left:-100%;width:40%;height:100%;background:linear-gradient(to right,transparent,rgba(43,74,59,0.35),transparent);animation:featDivider 3.5s ease-in-out infinite 1s;">
           </div>
         </div>
+        <style>
+          @keyframes featDivider {
+            0% {
+              left: -40%;
+              opacity: 0;
+            }
+
+            10% {
+              opacity: 1;
+            }
+
+            90% {
+              opacity: 1;
+            }
+
+            100% {
+              left: 110%;
+              opacity: 0;
+            }
+          }
+        </style>
       </div>
+
       <!-- GALLERY -->
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2.25rem;align-items:start;">
+
         <!-- Card 1 -->
         <div class="feat-card" style="opacity:0;transform:translateY(60px);margin-top:0;">
           <div class="feat-card-inner"
@@ -437,6 +1832,7 @@
               Croissant Sertaneja</h3>
           </div>
         </div>
+
         <!-- Card 2 (pushed down) -->
         <div class="feat-card" style="opacity:0;transform:translateY(60px);margin-top:4.5rem;">
           <div class="feat-card-inner"
@@ -466,6 +1862,7 @@
               Cappuccino Italiano</h3>
           </div>
         </div>
+
         <!-- Card 3 (mid offset) -->
         <div class="feat-card" style="opacity:0;transform:translateY(60px);margin-top:2rem;">
           <div class="feat-card-inner"
@@ -495,45 +1892,173 @@
               Brusqueta Vigneto Cremoso</h3>
           </div>
         </div>
+
       </div><!-- /gallery -->
+
+
     </div><!-- /container -->
+
     <!-- Hover interactions (pure CSS) -->
+    <style>
+      .feat-card-inner:hover img.feat-img {
+        transform: scale(1.4) !important;
+        filter: saturate(0.92) brightness(1.05) !important;
+      }
+
+      .feat-card-inner:hover .feat-veil {
+        opacity: 1 !important;
+      }
+
+      .feat-card-inner:hover .feat-panel {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+
+      .feat-card-inner:hover {
+        box-shadow: 0 24px 64px rgba(26, 26, 26, 0.12), 0 6px 18px rgba(26, 26, 26, 0.07) !important;
+      }
+
+      .feat-card-inner:hover+.feat-label {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+
+      @media(max-width:768px) {
+        #featured>div>div[style*="grid-template-columns"] {
+          grid-template-columns: 1fr !important;
+        }
+
+        .feat-card {
+          margin-top: 0 !important;
+        }
+      }
+    </style>
+
+
   </section>
+
   <!-- ══ TRANSITION BRIDGE: Sabores → Clube do Livro ════════════════════ -->
   <div aria-hidden="true" style="position:relative;z-index:61;height:1px;margin-top:0;pointer-events:none;
     background:linear-gradient(to right,transparent,rgba(26,26,26,0.1) 25%,rgba(43,74,59,0.2) 50%,rgba(26,26,26,0.1) 75%,transparent);">
   </div>
+
   <!-- ══ SECTION: CLUBE DO LIVRO ══════════════════════════════════════ -->
   <section id="clube-livro" class="relative z-[60] overflow-hidden"
     style="background:linear-gradient(175deg,#fdfbf7 0%,#f5eedf 55%,#ece2cc 100%);padding:8rem 0 6rem;">
+
+    <style>
+      .clube-img-main:hover img,
+      .clube-img-accent:hover img {
+        transform: scale(1.08) !important;
+      }
+      .clube-img-main:hover,
+      .clube-img-accent:hover {
+        box-shadow: 0 24px 60px rgba(0,0,0,0.12), 0 6px 18px rgba(0,0,0,0.06) !important;
+      }
+      .clube-img-main:hover .clube-img-shimmer,
+      .clube-img-accent:hover .clube-img-shimmer {
+        opacity: 1 !important;
+      }
+      .clube-img-main:hover .clube-img-caption,
+      .clube-img-accent:hover .clube-img-caption {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+
+      /* ── Flashlight effect (from animations-gemini) ─────────── */
+      .s4-flashlight { position: relative; }
+      .s4-flashlight::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: radial-gradient(
+          600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+          rgba(183,147,88,0.10),
+          transparent 50%
+        );
+        opacity: 0;
+        transition: opacity 0.45s;
+        pointer-events: none;
+        z-index: 3;
+      }
+      .s4-flashlight:hover::before { opacity: 1; }
+
+      /* ── Shimmer beam sweep ────────────────────────────────────── */
+      @keyframes s4-shimmer {
+        from { transform: translateX(-110%) skewX(-18deg); }
+        to   { transform: translateX(220%)  skewX(-18deg); }
+      }
+      .s4-beam {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg,
+          transparent 0%,
+          rgba(255,255,255,0.10) 45%,
+          rgba(255,255,255,0.18) 50%,
+          rgba(255,255,255,0.10) 55%,
+          transparent 100%);
+        transform: translateX(-110%) skewX(-18deg);
+        pointer-events: none;
+        z-index: 8;
+        opacity: 0;
+        transition: opacity 0.1s;
+      }
+      .clube-img-main:hover .s4-beam,
+      .clube-img-accent:hover .s4-beam {
+        opacity: 1;
+        animation: s4-shimmer 1.1s cubic-bezier(0.4,0,0.2,1) forwards;
+      }
+
+      /* ── Marquee strip ─────────────────────────────────────────── */
+      @keyframes s4-marquee {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
+      }
+      .s4-marquee-track {
+        display: flex;
+        white-space: nowrap;
+        animation: s4-marquee 28s linear infinite;
+      }
+    </style>
+
+
     <!-- ═══ BACKGROUND LAYERS ═══════════════════════════════════════ -->
+
     <!-- Grain texture -->
     <div aria-hidden="true" style="position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0.038;
       background-image:url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'1\'/%3E%3C/svg%3E');
       background-size:180px 180px;"></div>
+
     <!-- Dot grid pattern (subtle editorial texture) -->
     <div aria-hidden="true" style="position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0.25;
       background-image:radial-gradient(circle,rgba(43,74,59,0.18) 1px,transparent 1px);
       background-size:36px 36px;"></div>
+
     <!-- Warm amber glow top-left -->
     <div aria-hidden="true" class="clube-orb-1" style="position:absolute;top:-10%;left:-8%;width:55vw;height:55vw;
       border-radius:50%;background:radial-gradient(circle,rgba(183,130,60,0.18) 0%,transparent 65%);
-      pointer-events:none;z-index:1;"></div>
+      filter:blur(90px);pointer-events:none;z-index:1;"></div>
+
     <!-- Brand green glow bottom-right -->
     <div aria-hidden="true" class="clube-orb-2" style="position:absolute;bottom:-15%;right:-8%;width:50vw;height:50vw;
       border-radius:50%;background:radial-gradient(circle,rgba(43,74,59,0.22) 0%,transparent 65%);
-      pointer-events:none;z-index:1;"></div>
+      filter:blur(110px);pointer-events:none;z-index:1;"></div>
+
     <!-- Mid atmospheric center glow -->
     <div aria-hidden="true" style="position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);width:80vw;height:35vw;
       border-radius:50%;background:radial-gradient(ellipse,rgba(100,70,30,0.09) 0%,transparent 70%);
-      pointer-events:none;z-index:1;"></div>
+      filter:blur(130px);pointer-events:none;z-index:1;"></div>
+
     <!-- Extra cool-green accent glow top-right (depth layer) -->
     <div aria-hidden="true" style="position:absolute;top:10%;right:-5%;width:35vw;height:35vw;
       border-radius:50%;background:radial-gradient(circle,rgba(43,74,59,0.1) 0%,transparent 70%);
-      pointer-events:none;z-index:1;"></div>
+      filter:blur(70px);pointer-events:none;z-index:1;"></div>
+
     <!-- Top accent line -->
     <div aria-hidden="true" style="position:absolute;top:0;left:0;right:0;height:1px;z-index:2;pointer-events:none;
       background:linear-gradient(to right,transparent,rgba(183,130,60,0.35) 30%,rgba(43,74,59,0.4) 70%,transparent);"></div>
+
     <!-- Watermark giant text -->
     <div aria-hidden="true" id="clube-wm" style="position:absolute;top:6%;left:50%;transform:translateX(-50%);
       z-index:1;pointer-events:none;overflow:hidden;width:100%;text-align:center;opacity:0;
@@ -542,15 +2067,21 @@
         color:rgba(43,74,59,0.028);white-space:nowrap;letter-spacing:-0.04em;display:block;
         font-style:italic;">Livros</span>
     </div>
+
+
+
     <!-- Mid-section horizontal shimmer band (premium editorial detail) -->
     <div aria-hidden="true" style="position:absolute;top:52%;left:0;right:0;height:1px;
       background:linear-gradient(to right,transparent 5%,rgba(183,130,60,0.08) 25%,rgba(43,74,59,0.06) 75%,transparent 95%);
       pointer-events:none;z-index:1;"></div>
+
     <!-- Edge vignette overlay for depth -->
     <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:2;
       background:radial-gradient(ellipse 110% 90% at 50% 50%,transparent 40%,rgba(20,16,10,0.06) 100%);"></div>
+
     <!-- ═══ MAIN CONTAINER ════════════════════════════════════════ -->
     <div class="max-w-[1480px] mx-auto relative z-10 w-full px-8 md:px-16">
+
       <!-- ── SECTION HEADER ──────────────────────────────────────── -->
       <div class="clube-reveal__header" style="margin-bottom:5rem;opacity:0;transform:translateY(28px);filter:blur(8px);">
         <div style="display:flex;align-items:center;gap:1rem;">
@@ -562,6 +2093,7 @@
           <span class="text-[10px] md:text-xs uppercase tracking-[0.15em]" style="color:rgba(26,26,26,0.28);">Experiência de Leitura</span>
         </div>
       </div>
+
       <!-- ── HERO TITLE ROW ───────────────────────────────────────── -->
       <div class="clube-reveal__title" style="opacity:0;transform:translateY(36px);filter:blur(10px);margin-bottom:5rem;">
         <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:2rem;">
@@ -582,10 +2114,13 @@
           </div>
         </div>
       </div>
+
       <!-- ── PREMIUM EDITORIAL LAYOUT: 2-col (sidebar + stacked images) ──── -->
       <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:3.5rem;align-items:start;" class="clube-mosaic">
+
         <!-- LEFT: Text sidebar — quote + how it works -->
         <div class="clube-reveal__left" style="opacity:0;transform:translateX(-30px);filter:blur(8px);display:flex;flex-direction:column;gap:2.5rem;padding-top:0.5rem;">
+
           <!-- Premium quote -->
           <div style="padding:2.25rem 2rem 2rem;border-left:2px solid rgba(43,74,59,0.2);
             background:linear-gradient(135deg,rgba(43,74,59,0.03) 0%,transparent 100%);
@@ -608,11 +2143,13 @@
                 color:rgba(26,26,26,0.3);">Clube do Livro</span>
             </div>
           </div>
+
           <!-- How it works block — flashlight hover effect -->
           <div class="s4-flashlight" style="padding:2rem;border:1px solid rgba(43,74,59,0.09);border-radius:20px;
             background:rgba(255,255,255,0.55);backdrop-filter:blur(16px);
             box-shadow:0 8px 32px rgba(0,0,0,0.03),inset 0 1px 0 rgba(255,255,255,0.9);"
             onmousemove="const rCard=this.getBoundingClientRect();this.style.setProperty('--mouse-x',`${event.clientX-rCard.left}px`);this.style.setProperty('--mouse-y',`${event.clientY-rCard.top}px`);">
+
             <!-- Label -->
             <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.75rem;">
               <div style="width:16px;height:1px;background:rgba(43,74,59,0.4);"></div>
@@ -643,16 +2180,20 @@
               </div>
             </div>
           </div>
+
           <!-- Small editorial detail bottom -->
           <div style="display:flex;align-items:center;gap:0.75rem;padding:0 0.25rem;">
             <span style="width:5px;height:5px;border-radius:50%;background:var(--c-primary);opacity:0.35;"></span>
             <span style="font-size:0.52rem;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;
               color:rgba(26,26,26,0.28);">Reserve sua experiência · Giardini Café</span>
           </div>
+
         </div>
+
         <!-- RIGHT: Two stacked landscape images -->
         <div class="clube-reveal__right" style="opacity:0;transform:translateX(30px);filter:blur(8px);
           display:flex;flex-direction:column;gap:1.5rem;">
+
           <!-- Image 1 — main, with shimmer beam -->
           <div class="clube-img-main" style="border-radius:20px;overflow:hidden;position:relative;
             aspect-ratio:16/10;
@@ -687,12 +2228,17 @@
                 Café da casa, livros e um ambiente pensado para desacelerar.</p>
             </div>
           </div>
+
+
         </div>
       </div><!-- /clube-mosaic -->
     </div>
+
   </section>
+
   <!-- ══ SECTION 5: EXPERIÊNCIA — VIDEO + GLOW ═════════════════════════ -->
   <section id="experience-video" class="relative z-[60] overflow-hidden" style="min-height:100vh;">
+
     <!-- ── VIDEO BACKGROUND ──────────────────────────────────────────── -->
     <video
       autoplay muted loop playsinline
@@ -700,32 +2246,41 @@
       aria-hidden="true">
       <source src="../../raw_files/Women_entering_café_202603232328.mp4" type="video/mp4">
     </video>
+
     <!-- ── OVERLAYS (dark + warm vignette) ───────────────────────────── -->
     <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(160deg,rgba(10,8,5,0.72) 0%,rgba(20,14,8,0.58) 50%,rgba(10,8,5,0.75) 100%);pointer-events:none;"></div>
     <!-- Edge vignette -->
     <div style="position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 110% 90% at 50% 50%,transparent 35%,rgba(0,0,0,0.45) 100%);"></div>
     <!-- Warm amber glow (top-left) -->
-    <div style="position:absolute;top:-15%;left:-10%;width:50vw;height:50vw;border-radius:50%;background:radial-gradient(circle,rgba(183,130,60,0.18) 0%,transparent 65%);pointer-events:none;z-index:2;"></div>
+    <div style="position:absolute;top:-15%;left:-10%;width:50vw;height:50vw;border-radius:50%;background:radial-gradient(circle,rgba(183,130,60,0.18) 0%,transparent 65%);filter:blur(90px);pointer-events:none;z-index:2;"></div>
     <!-- Green accent glow (bottom-right) -->
-    <div style="position:absolute;bottom:-10%;right:-8%;width:40vw;height:40vw;border-radius:50%;background:radial-gradient(circle,rgba(43,74,59,0.22) 0%,transparent 65%);pointer-events:none;z-index:2;"></div>
+    <div style="position:absolute;bottom:-10%;right:-8%;width:40vw;height:40vw;border-radius:50%;background:radial-gradient(circle,rgba(43,74,59,0.22) 0%,transparent 65%);filter:blur(80px);pointer-events:none;z-index:2;"></div>
+
     <!-- ── CONTENT ───────────────────────────────────────────────────── -->
     <div style="position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:8rem 2rem 6rem;">
+
       <!-- Section label -->
       <div class="s5-reveal" style="display:flex;align-items:center;gap:0.75rem;margin-bottom:2rem;">
+
         <span style="width:5px;height:5px;border-radius:50%;background:rgba(183,130,60,0.85);animation:live-glow 2.2s ease-in-out infinite;"></span>
         <span style="font-size:0.58rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.45);">04 / Experiência</span>
       </div>
+
       <!-- Headline -->
       <div class="s5-reveal" style="text-align:center;margin-bottom:1rem;">
+
         <h2 style="font-family:'Instrument Serif',serif;font-size:clamp(3rem,7vw,6.5rem);line-height:0.92;letter-spacing:-0.035em;color:#fff;font-weight:400;margin:0;">
           <span style="display:block;">Um espaço feito</span>
           <span style="display:block;font-style:italic;color:rgba(183,130,60,0.9);">para você viver.</span>
         </h2>
       </div>
+
       <!-- Subline -->
       <p class="s5-reveal" style="font-size:0.95rem;font-weight:300;color:rgba(255,255,255,0.45);text-align:center;max-width:440px;line-height:1.8;margin:0 0 5rem;">
+
         Do café ao acervo — cada detalhe foi pensado para que a sua pausa seja inesquecível.
       </p>
+
       <!-- ── PREMIUM CTA ──────────────────────────────────────────── -->
       <div class="s5-reveal" style="margin-top:1rem;text-align:center;">
         <!-- Wrapper with spinning beam border on hover -->
@@ -792,8 +2347,69 @@
         <p style="margin-top:1.2rem;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;
           color:rgba(255,255,255,0.22);text-align:center;">experi&ecirc;ncia reservada &middot; giardini caf&eacute;</p>
       </div><!-- /CTA -->
+
+      <style>
+        @keyframes s5-spin {
+          from { transform: translate(-50%,-50%) rotate(0deg); }
+          to   { transform: translate(-50%,-50%) rotate(360deg); }
+        }
+        #s5-cta:hover .s5-arrow { transform: translateX(4px); }
+      </style>
+
+
+
+
     </div><!-- /content -->
+
+
     <!-- Glow card CSS -->
+    <style>
+      .s5-glow-light {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: radial-gradient(
+          500px circle at var(--gx, 50%) var(--gy, 50%),
+          rgba(183, 130, 60, 0.13),
+          transparent 55%
+        );
+        opacity: 0;
+        transition: opacity 0.45s;
+        z-index: 1;
+      }
+      .s5-glow-card:hover .s5-glow-light { opacity: 1; }
+      .s5-glow-card > *:not(.s5-glow-light) { position: relative; z-index: 2; }
+      .s5-glow-card {
+        transition: transform 0.5s cubic-bezier(0.16,1,0.3,1),
+                    box-shadow 0.5s ease,
+                    border-color 0.4s ease;
+      }
+      .s5-glow-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(183,130,60,0.22) !important;
+        box-shadow: 0 24px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(183,130,60,0.12), inset 0 1px 0 rgba(255,255,255,0.12) !important;
+      }
+      @media (max-width: 900px) {
+        #experience-video [style*="grid-template-columns:repeat(3"] {
+          grid-template-columns: 1fr !important;
+        }
+      }
+      /* s5-reveal: base hidden state */
+      .s5-reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        filter: blur(10px);
+        transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1),
+                    transform 0.9s cubic-bezier(0.16,1,0.3,1),
+                    filter 0.9s cubic-bezier(0.16,1,0.3,1);
+      }
+      .s5-reveal.s5-visible {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    </style>
+
     <!-- s5 reveal: trigger 3s after section enters viewport -->
     <script>
     (function () {
@@ -814,13 +2430,20 @@
       io5.observe(s5);
     })();
     </script>
+
+
   </section>
+
+
+
   <script>
   /* ── CLUBE DO LIVRO: rich scroll reveals ─────────────────────────────── */
   (function () {
     var ease = '1.15s cubic-bezier(0.16,1,0.3,1)';
+
     /* show watermark when section is visible */
     var wm = document.getElementById('clube-wm');
+
     function countUp(el) {
       var target = parseInt(el.dataset.target || '0', 10);
       var current = 0;
@@ -831,17 +2454,21 @@
         if (current >= target) clearInterval(timer);
       }, 22);
     }
+
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
         var el = entry.target;
         var type = el.dataset.clubeReveal;
+
         /* Reveal watermark on first trigger */
         if (wm) wm.style.opacity = '1';
+
         el.style.transition = 'opacity ' + ease + ', transform ' + ease + ', filter ' + ease;
         el.style.opacity = '1';
         el.style.transform = 'translateY(0) translateX(0)';
         el.style.filter = 'blur(0)';
+
         if (type === 'title') {
           setTimeout(function () {
             el.querySelectorAll('.clube-line span').forEach(function (s) {
@@ -854,12 +2481,15 @@
             el.querySelectorAll('.clube-count').forEach(function (c) { countUp(c); });
           }, 500);
         }
+
         io.unobserve(el);
       });
     }, { threshold: 0.1 });
+
     document.querySelectorAll('[data-clube-reveal]').forEach(function (el) {
       io.observe(el);
     });
+
     /* Tag all targets */
     var tags = {
       '.clube-reveal__header': 'header',
@@ -872,6 +2502,7 @@
       var el = document.querySelector(sel);
       if (el) { el.dataset.clubeReveal = tags[sel]; io.observe(el); }
     });
+
     /* Image hover effects */
     document.querySelectorAll('.clube-img-main, .clube-img-accent').forEach(function (wrap) {
       var caption = wrap.querySelector('.clube-img-caption');
@@ -890,6 +2521,7 @@
         wrap.style.boxShadow = '';
       });
     });
+
     /* Stat cards shimmer on hover */
     document.querySelectorAll('.clube-stat-card').forEach(function (card) {
       var s = card.querySelector('.clube-stat-shimmer');
@@ -904,6 +2536,7 @@
         if(s) { s.style.transition='none'; s.style.left='-100%'; setTimeout(function(){s.style.transition='';},50); }
       });
     });
+
     /* CTA button hover */
     var cta = document.querySelector('.clube-cta-btn');
     if (cta) {
@@ -927,11 +2560,244 @@
     }
   })();
   </script>
+
+  <style>
+    /* 3D Transform Utils */
+    .perspective-2000 {
+      perspective: 2000px;
+    }
+
+    .transform-style-3d {
+      transform-style: preserve-3d;
+    }
+
+    .translate-z-10 {
+      transform: translateZ(10px);
+    }
+
+
+    /* Image rotate on hover (for 3D wrappers) */
+    .img-rotate-hover:hover {
+      transform: rotateY(-5deg);
+    }
+
+    /* Title Clip Reveal */
+    .title-clip-reveal span span {
+      display: inline-block;
+    }
+
+    .is-visible .title-clip-reveal span span {
+      transform: translateY(0) !important;
+    }
+
+    /* Marquee Animation */
+    @keyframes scroll-left {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-25%);
+      }
+    }
+
+    .marquee-content {
+      animation: scroll-left 40s linear infinite;
+    }
+
+    .marquee-mask {
+      mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    }
+
+    /* Clube do Livro Entry Animations */
+    .blur-reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      filter: blur(15px);
+      transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .blur-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0px);
+    }
+
+    /* Flashlight Cards */
+    .flashlight-card .flashlight-border {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(43, 74, 59, 0.15), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+    }
+
+    .flashlight-card:hover .flashlight-border {
+      opacity: 1;
+    }
+
+    /* Shimmer Beam Button (Gemini) */
+    @property --beam-angle {
+      syntax: '<angle>';
+      inherits: false;
+      initial-value: 0deg;
+    }
+
+    @keyframes rotate-beam {
+      0% {
+        --beam-angle: 0deg;
+        transform: rotate(0deg);
+      }
+
+      100% {
+        --beam-angle: 360deg;
+        transform: rotate(360deg);
+      }
+    }
+
+    .btn-beam-container {
+      position: relative;
+      display: inline-flex;
+      border-radius: 9999px;
+      padding: 1px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .beam-border {
+      position: absolute;
+      inset: -150%;
+      background: conic-gradient(from var(--beam-angle, 0deg) at 50% 50%, transparent 70%, var(--c-primary) 100%);
+      animation: rotate-beam 4s linear infinite;
+      z-index: 0;
+      /* Fallback for browsers without @property support */
+      background: conic-gradient(from 0deg at 50% 50%, transparent 70%, var(--c-primary) 100%);
+    }
+  </style>
+
+  <style>
+    /* ── CLUBE DO LIVRO: dedicated CSS ──────────────────────────────── */
+
+    /* Marquee animation */
+    @keyframes clube-scroll-left {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .clube-marquee-content {
+      animation: clube-scroll-left 50s linear infinite;
+    }
+    .clube-marquee-mask {
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+
+    /* Floating orbs */
+    @keyframes clube-float-1 {
+      0%, 100% { transform: translate(0, 0);       }
+      50%       { transform: translate(30px, -25px); }
+    }
+    @keyframes clube-float-2 {
+      0%, 100% { transform: translate(0, 0);        }
+      50%       { transform: translate(-25px, 20px); }
+    }
+    .clube-orb-1 { animation: clube-float-1 12s ease-in-out infinite; }
+    .clube-orb-2 { animation: clube-float-2 15s ease-in-out infinite; }
+
+    /* Pill hover accent */
+    .clube-pill:hover {
+      background: rgba(253,251,247,0.08) !important;
+      border-color: rgba(183,130,60,0.35) !important;
+    }
+
+    /* Title line slide */
+    .clube-line span {
+      transition: transform 1.1s cubic-bezier(0.16,1,0.3,1);
+    }
+    .clube-line:nth-child(2) span {
+      transition-delay: 0.12s;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 900px) {
+      .clube-main-grid {
+        grid-template-columns: 1fr !important;
+        gap: 3rem !important;
+      }
+      .clube-reveal__images {
+        height: 420px !important;
+      }
+    }
+  </style>
+
+  <style>
+    /* ── LOC SPECIFIC STYLES (Light Theme) ──────────────── */
+
+    /* ── GEMINI ANIMATIONS ──────────────── */
+    @keyframes animationIn {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+        filter: blur(10px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0px);
+      }
+    }
+
+    .anim-fade-blur {
+      opacity: 0;
+      will-change: transform, opacity, filter;
+    }
+
+    .anim-fade-blur.is-visible {
+      animation: animationIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Elegant Button (Gemini 2 style) */
+    .btn-bordered-kinetic {
+      border: 1px solid var(--c-dark);
+      background: transparent;
+      color: var(--c-dark);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-bordered-kinetic:hover {
+      background: var(--c-dark);
+      color: var(--c-bg);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px -5px rgba(26, 26, 26, 0.15);
+    }
+
+    /* Container do Mapa Light */
+    .map-light-container {
+      background: var(--c-bg);
+      border: 1px solid rgba(26, 26, 26, 0.08);
+      box-shadow: 0 15px 35px -5px rgba(26, 26, 26, 0.05);
+      transition: all 0.5s ease;
+    }
+
+    .map-light-container:hover {
+      box-shadow: 0 25px 50px -12px rgba(26, 26, 26, 0.1);
+    }
+  </style>
+
   <!-- ══ SECTION 4: LOCALIZAÇÃO ════════════════════════════════════════ -->
   <section id="location" class="py-24 md:py-40 px-8 w-full relative z-[60] bg-[var(--c-bg)] overflow-hidden"
     style="border-top: 1px solid rgba(26,26,26,0.06);">
+
     <div
       class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start relative z-10 w-full">
+
       <!-- ESQUERDA: Conteúdo da Localização -->
       <div class="lg:col-span-4 flex flex-col pt-8 lg:pr-8">
         <div class="anim-fade-blur flex items-center justify-between mb-10">
@@ -941,18 +2807,22 @@
             Localização
           </div>
         </div>
+
         <h2 style="font-family:'Instrument Serif',serif; letter-spacing:-0.01em;"
           class="anim-fade-blur text-5xl md:text-7xl leading-[0.95] text-[var(--c-dark)] mb-8">
           Visite Nossa <br /><span class="italic text-[var(--c-primary)] text-4xl md:text-6xl">Casa</span>
         </h2>
+
         <p
           class="anim-fade-blur text-[var(--c-dark)]/70 font-medium text-sm md:text-base leading-relaxed max-w-[320px] mb-16">
           Um ambiente pensado com a mesma dedicação que aplicamos ao preparo de um café especial: focado nos detalhes,
           na qualidade e na pausa que o seu dia merece.
         </p>
+
         <div class="space-y-12 mb-16 relative">
           <!-- Left Decorative Line -->
           <div class="absolute left-0 top-2 bottom-2 w-[2px] bg-[var(--c-primary)]/20"></div>
+
           <div class="anim-fade-blur pl-6 relative">
             <h4 class="text-[9px] font-bold uppercase tracking-[0.25em] text-[var(--c-dark)]/40 mb-3">Endereço</h4>
             <p class="text-[1.2rem] text-[var(--c-dark)] leading-snug font-display mb-1">
@@ -960,6 +2830,7 @@
             </p>
             <p class="text-[0.85rem] text-[var(--c-dark)]/70 font-medium">Varjota, Fortaleza — CE</p>
           </div>
+
           <div class="anim-fade-blur pl-6 relative">
             <h4 class="text-[9px] font-bold uppercase tracking-[0.25em] text-[var(--c-dark)]/40 mb-3">Horários</h4>
             <div class="flex flex-col gap-1">
@@ -974,6 +2845,7 @@
             </div>
           </div>
         </div>
+
         <div class="anim-fade-blur">
           <a href="https://maps.google.com" target="_blank"
             class="btn-bordered-kinetic px-8 py-4 text-[10px] uppercase tracking-[0.25em] font-bold rounded-sm gap-3 group"
@@ -986,11 +2858,13 @@
           </a>
         </div>
       </div>
+
       <!-- DIREITA: Mapa Interativo Minimalista -->
       <div class="lg:col-span-8 w-full anim-fade-blur lg:pl-12">
         <div
           class="map-light-container relative w-full aspect-[4/3] lg:aspect-[16/10] rounded-[24px] overflow-hidden p-2 group cursor-pointer"
           onclick="window.open('https://maps.google.com', '_blank')">
+
           <div class="w-full h-full rounded-[18px] overflow-hidden relative bg-[#E1DBD0]">
             <!-- Mapa iframe -->
             <iframe
@@ -998,6 +2872,7 @@
               class="absolute top-[-5%] left-[-5%] w-[110%] h-[110%] border-0 object-cover pointer-events-none filter grayscale-[80%] opacity-70 transition-all duration-700 group-hover:grayscale-0 group-hover:opacity-[0.85] group-hover:scale-[1.02]"
               allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
             </iframe>
+
             <!-- Float Button: "Abrir no Google Maps" -->
             <div
               class="absolute top-6 left-6 z-20 transform transition-all duration-500 ease-out group-hover:scale-105">
@@ -1009,17 +2884,42 @@
                 </svg>
               </div>
             </div>
+
           </div>
+
         </div>
       </div>
+
     </div>
   </section>
+
+  <style>
+    @media (max-width: 768px) {
+      .loc-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
   <!-- ══ LOCATION MODAL ═══════════════════════════════════════════ -->
   <div id="location-modal"
     class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300"
     aria-modal="true" role="dialog">
     <!-- Backdrop -->
     <div class="absolute inset-0 bg-black/40 backdrop-blur-sm cursor-pointer" onclick="closeLocationModal()"></div>
+
     <!-- Modal Content -->
     <div
       class="relative w-full max-w-lg bg-white rounded-[32px] p-8 md:p-10 shadow-2xl transform scale-95 opacity-0 transition-transform duration-300"
@@ -1030,10 +2930,12 @@
           <path d="M18 6L6 18M6 6l12 12" />
         </svg>
       </button>
+
       <h3 class="font-display text-3xl text-[var(--c-dark)] tracking-tight mb-4">Como chegar</h3>
       <p class="text-[0.95rem] font-light text-black/60 mb-8 leading-relaxed">
         Nosso espaço fica localizado no coração do bairro. Será um prazer receber você para uma pausa.
       </p>
+
       <div
         class="w-full rounded-[16px] bg-black/5 overflow-hidden border border-black/10 p-6 mb-8 flex flex-col items-center justify-center text-center">
         <svg class="w-10 h-10 text-[var(--c-primary)] mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -1044,6 +2946,7 @@
         <span class="text-sm text-[var(--c-dark)] font-medium">Giardini Café & Livraria</span>
         <span class="text-xs text-black/50 mt-1">Rua Central, 123 - Centro</span>
       </div>
+
       <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer"
         class="btn-primary w-full flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform">
         Abrir no Google Maps
@@ -1053,14 +2956,17 @@
       </a>
     </div>
   </div>
+
   <script>
     (function () {
       'use strict';
+
       /* ── PRELOAD HIDING ─────────────────────────────────────────── */
       gsap.set(['#el-kicker', '#el-body', '#el-cta', '#el-meta', '#el-scroll', '#el-badge'], { opacity: 0, y: 15, filter: 'blur(8px)' });
       gsap.set(['#el-h1a', '#el-h1b'], { y: '108%', filter: 'blur(10px)' });
       gsap.set('#video-frame', { opacity: 0, scale: 0.94 });
       gsap.set('#navbar', { opacity: 0 });
+
       /* ══════════════════════════════════════════════════════════════
          CONFIG
          ══════════════════════════════════════════════════════════════
@@ -1077,14 +2983,17 @@
         scrollVH: 380,        // % do viewport — aumentado para o vídeo fluir até o fim do scroll
         scrub: 1.0,        // 1.0 = seguindo o scroll com pequeno amortecimento suave
       };
+
       /* ══ GSAP ══════════════════════════════════════════════════════ */
       gsap.registerPlugin(ScrollTrigger);
+
       /* ══ UTILIDADES ════════════════════════════════════════════════ */
       window.updateMouse = function (element, e) {
         const rect = element.getBoundingClientRect();
         element.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
         element.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
       };
+
       /* ══ LENIS (smooth scroll, corretamente sincronizado) ══════════ */
       const lenis = new Lenis({
         duration: 1.05,
@@ -1096,11 +3005,13 @@
       lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add((time) => { lenis.raf(time * 1000); });
       gsap.ticker.lagSmoothing(0);
+
       /* ══ CANVAS + CONTEXT ══════════════════════════════════════════ */
       const canvas = document.getElementById('seq-canvas');
       const ctx = canvas.getContext('2d');
       let frames = [];      // array de Image objects pré-carregados
       let currentFrameIndex = -1; // evita repintar o mesmo frame
+
       /* Redimensiona o canvas para o tamanho do #video-frame */
       function resizeCanvas() {
         const frame = document.getElementById('video-frame');
@@ -1111,25 +3022,31 @@
           drawFrame(currentFrameIndex);
         }
       }
+
       /* Desenha um frame no canvas preservando aspect ratio (object-fit: cover) */
       function drawFrame(index) {
         if (index === currentFrameIndex) return; // sem redraw desnecessário
         const img = frames[index];
         if (!img || !img.complete || img.naturalWidth === 0) return;
+
         currentFrameIndex = index;
+
         const cw = canvas.width;
         const ch = canvas.height;
         const iw = img.naturalWidth;
         const ih = img.naturalHeight;
+
         // Cover: escala para preencher mantendo proporção, centraliza
         const scale = Math.max(cw / iw, ch / ih);
         const dw = iw * scale;
         const dh = ih * scale;
         const dx = (cw - dw) / 2;
         const dy = (ch - dh) / 2;
+
         ctx.clearRect(0, 0, cw, ch);
         ctx.drawImage(img, dx, dy, dw, dh);
       }
+
       /* ══ PRELOAD DE FRAMES ═════════════════════════════════════════
          Carrega todos os frames em paralelo (Image objects) antes de
          iniciar a hero. Mostra barra de progresso no preloader.
@@ -1137,16 +3054,19 @@
       const preloaderBar = document.getElementById('preloader-bar');
       const preloaderLabel = document.getElementById('preloader-label');
       const preloaderEl = document.getElementById('preloader');
+
       function preloadFrames() {
         return new Promise((resolve) => {
           let loaded = 0;
           const total = CONFIG.TOTAL_FRAMES;
           frames = new Array(total);
+
           for (let i = 0; i < total; i++) {
             const img = new Image();
             // Nomes: frame_0000.webp, frame_0001.webp, ...
             img.src = `${CONFIG.FRAMES_DIR}/frame_${String(i).padStart(4, '0')}.webp`;
             frames[i] = img;
+
             img.onload = img.onerror = () => {
               loaded++;
               const pct = Math.round((loaded / total) * 100);
@@ -1157,17 +3077,21 @@
           }
         });
       }
+
       /* ══ LAYOUT: calcula o rect inicial do video-frame ════════════ */
       function getInitialFrameRect() {
         const right = document.getElementById('hero-right');
         const vp = document.getElementById('hero-viewport');
+
         const rRect = right.getBoundingClientRect();
         const vpRect = vp.getBoundingClientRect();
+
         const cs = getComputedStyle(right);
         const pt = parseFloat(cs.paddingTop);
         const pr = parseFloat(cs.paddingRight);
         const pb = parseFloat(cs.paddingBottom);
         const pl = parseFloat(cs.paddingLeft);
+
         return {
           left: (rRect.left - vpRect.left) + pl,
           top: (rRect.top - vpRect.top) + pt,
@@ -1175,14 +3099,17 @@
           height: rRect.height - pt - pb,
         };
       }
+
       /* ══ INIT (chamado após preload concluído) ═════════════════════ */
       function init() {
         const frame = document.getElementById('video-frame');
         const viewport = document.getElementById('hero-viewport');
         const wrapper = document.getElementById('hero-pin-wrapper');
+
         /* Altura virtual do scroll */
         const scrollPx = window.innerHeight * (CONFIG.scrollVH / 100);
         wrapper.style.height = `${window.innerHeight + scrollPx}px`;
+
         /* Posiciona video-frame no rect do hero-right */
         const initRect = getInitialFrameRect();
         gsap.set(frame, {
@@ -1194,23 +3121,30 @@
           borderRadius: 20,
           zIndex: 15,
         });
+
         /* Dimensiona canvas para o frame */
         resizeCanvas();
+
         /* Desenha o frame 0 */
         if (frames[0]?.complete) drawFrame(0);
+
         canvas.classList.add('ready');
+
         /* ── NAVBAR ─────────────────────────────────────────────── */
         ScrollTrigger.create({
           start: 'top -80px', end: 99999,
           onEnter: () => document.getElementById('navbar').classList.add('is-scrolled'),
           onLeaveBack: () => document.getElementById('navbar').classList.remove('is-scrolled'),
         });
+
         /* ── HERO ENTRANCE: cinematic per-element blur+fade+parallax ── */
+
         // Detect if page was reloaded while already scrolled down.
         // If so, skip entrance animation and set all hero elements to final
         // visible state to avoid the scroll-out fromTo conflicting with
         // a never-played entrance (which causes elements to vanish on scroll-back).
         const isAlreadyScrolled = (window.scrollY || window.pageYOffset) > 10;
+
         if (isAlreadyScrolled) {
           // Page loaded mid-scroll: commit all hero elements to their
           // fully-visible final state immediately, then let scroll-out handle it.
@@ -1227,6 +3161,7 @@
           gsap.set('#hero-sep', { opacity: 1, scaleX: 1, transformOrigin: 'left center' });
           gsap.set('#hero-wm', { opacity: 1 });
           gsap.set(frame, { opacity: 1, scale: 1, borderRadius: 22 });
+
           // Initialize Flashlight tracking
           const viewportElemScroll = document.getElementById('hero-viewport');
           viewportElemScroll.addEventListener('mousemove', (e) => {
@@ -1246,11 +3181,13 @@
           gsap.set('#navbar', { opacity: 0 });
           gsap.set('#hero-sep', { opacity: 0, scaleX: 0, transformOrigin: 'left center' });
           gsap.set('#hero-wm', { opacity: 0 });
+
           const tl = gsap.timeline({
             delay: 0.05,
             onStart: () => {
               document.body.style.opacity = '1';
               document.getElementById('hero-left').style.pointerEvents = 'auto';
+
               // Initialize Flashlight tracking
               const viewportElem = document.getElementById('hero-viewport');
               viewportElem.addEventListener('mousemove', (e) => {
@@ -1260,6 +3197,7 @@
               });
             }
           });
+
           tl
             .to('#navbar', { opacity: 1, duration: 0.7, ease: 'power2.out' })
             .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'expo.out' }, '-=0.4')
@@ -1275,6 +3213,7 @@
             .to('#hero-sep', { opacity: 1, scaleX: 1, duration: 0.9, ease: 'power3.out' }, 'titleShow+=0.38')
             .to('#hero-wm',  { opacity: 1, duration: 2.0, ease: 'power1.out' }, 'titleShow+=0.5');
         }
+
         /* ── SCROLL-OUT: staggered parallax per element ─────────────── */
         // Using gsap.to (not fromTo) so that the "from" state is never force-set
         // by GSAP when the ScrollTrigger initializes, which is what caused elements
@@ -1312,6 +3251,7 @@
           opacity: 0, ease: 'power1.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.4}`, scrub: CONFIG.scrub }
         });
+
         /* ── SCROLL PIN ──────────────────────────────────────────── */
         ScrollTrigger.create({
           trigger: wrapper,
@@ -1321,6 +3261,7 @@
           pinSpacing: false,
           anticipatePin: 1,
         });
+
         /* ── IMAGE SEQUENCE SCRUB ────────────────────────────────────
            OnUpdate dispara a cada tick de scroll.
            O índice é calculado pelo progresso (0→1) × total de frames.
@@ -1339,8 +3280,10 @@
             drawFrame(idx);
           }
         });
+
         /* ── TEXT SCROLL-OUT: per-element parallax exits (see below) ── */
         // Handled by individual gsap.to() blocks in the CREATIVE ANIMATIONS section
+
         gsap.fromTo('#el-scroll', { opacity: 1 }, {
           opacity: 0, ease: 'power1.out', immediateRender: false,
           scrollTrigger: {
@@ -1348,6 +3291,7 @@
             end: () => `+=${scrollPx * 0.2}`, scrub: CONFIG.scrub,
           }
         });
+
         /* ── VIDEO-FRAME EXPANSION (split → fullscreen) ──────────── */
         gsap.to(frame, {
           left: 0, top: 0, width: '100vw', height: '100vh',
@@ -1359,6 +3303,7 @@
             end: () => `+=${scrollPx}`, scrub: CONFIG.scrub,
           }
         });
+
         /* ── CINEMATIC OVERLAY ───────────────────────────────────── */
         gsap.to('#video-overlay', {
           opacity: 1, ease: 'power1.inOut',
@@ -1369,14 +3314,17 @@
             scrub: CONFIG.scrub,
           }
         });
+
         /* Canvas resize on window resize */
         window.addEventListener('resize', () => {
           resizeCanvas();
           ScrollTrigger.refresh();
         });
+
         /* ── SECTION 2 ANIMATION (2-Col Layout Polished) ─────────── */
         // Set initial states for word mask
         gsap.set('.word-inner', { y: '110%' });
+
         // Parallax background text and glows
         gsap.to('#parallax-text span', {
           x: '-30%',
@@ -1388,22 +3336,26 @@
             scrub: true
           }
         });
+
         gsap.to('.parallax-glow-1', {
           yPercent: -40,
           ease: 'none',
           scrollTrigger: { trigger: '#experience', start: 'top bottom', end: 'bottom top', scrub: true }
         });
+
         gsap.to('.parallax-glow-2', {
           yPercent: 40,
           ease: 'none',
           scrollTrigger: { trigger: '#experience', start: 'top bottom', end: 'bottom top', scrub: true }
         });
+
         ScrollTrigger.create({
           trigger: '#experience',
           start: 'top 80%',
           once: true,
           onEnter: () => {
             const tExp = gsap.timeline();
+
             tExp.add('start')
               .to('.exp-left', {
                 opacity: 1,
@@ -1436,17 +3388,20 @@
               }, 'start+=0.7');
           }
         });
+
         // ── SECTION 3 ANIMATION (Gemini-style) ─────────────────────
         gsap.set('.feat-card', { opacity: 0, y: 70, scale: 0.94, filter: 'blur(6px)' });
         gsap.set('.feat-reveal', { opacity: 0, y: 28, filter: 'blur(6px)' });
         // Title lines start clipped
         gsap.set('.sect3-line-inner', { y: '110%', opacity: 0 });
+
         ScrollTrigger.create({
           trigger: '#featured',
           start: 'top 72%',
           once: true,
           onEnter: () => {
             const tFeat = gsap.timeline();
+
             tFeat.add('start')
               // 1. Label animationIn blur
               .to('.feat-reveal', {
@@ -1478,7 +3433,9 @@
               }, 'start+=0.35');
           }
         });
+
         // ── CREATIVE ANIMATIONS (NEW) ──────────────────────────────
+
         // 1. Text Split & Char Reveal Logic
         function splitAndAnimate(selector, delayStart = 0) {
           const el = document.querySelector(selector);
@@ -1505,8 +3462,10 @@
             });
           });
         }
+
         // Hero headline uses dedicated GSAP line animations (see tl above)
         // splitAndAnimate removed here to preserve HTML color/style markup
+
         // 2. Flashlight / Spotlight Mouse Follow
         document.querySelectorAll('.flashlight-card').forEach(card => {
           card.addEventListener('mousemove', e => {
@@ -1517,6 +3476,7 @@
             card.style.setProperty('--mouse-y', `${y}px`);
           });
         });
+
         // 3. Section 3 Dark Mode (Improved Transitions)
         ScrollTrigger.create({
           trigger: '#featured',
@@ -1547,6 +3507,7 @@
             gsap.to('.feat-grid', { opacity: 0, duration: 1.2 });
           }
         });
+
         // 3b. Clube do Livro Animation
         const clubeElements = gsap.utils.toArray('.blur-reveal, .split-animate');
         ScrollTrigger.create({
@@ -1561,6 +3522,7 @@
             });
           }
         });
+
         gsap.to('.clube-parallax-img', {
           yPercent: 20,
           ease: 'none',
@@ -1571,8 +3533,10 @@
             scrub: true
           }
         });
+
         // 4. Section 4 Location Animation (Gemini Fade-In Style)
         const locElements = gsap.utils.toArray('.anim-fade-blur');
+
         ScrollTrigger.create({
           trigger: '#location',
           start: 'top 80%',
@@ -1585,6 +3549,7 @@
             });
           }
         });
+
         // Giant Background Text Parallax
         gsap.to('#giant-text', {
           y: -150,
@@ -1596,6 +3561,7 @@
             scrub: true
           }
         });
+
         // 4. Parallax scroll for cards images
         document.querySelectorAll('.feat-img').forEach((img, i) => {
           const card = img.closest('.feat-card');
@@ -1612,27 +3578,34 @@
           });
         });
       }
+
       /* ══ LOCATION MODAL LOGIC ═════════════════════════════════════ */
       window.openLocationModal = function () {
         const modal = document.getElementById('location-modal');
         const content = document.getElementById('location-modal-content');
+
         modal.classList.remove('pointer-events-none');
         modal.classList.replace('opacity-0', 'opacity-100');
+
         setTimeout(() => {
           content.classList.replace('scale-95', 'scale-100');
           content.classList.replace('opacity-0', 'opacity-100');
         }, 50);
       };
+
       window.closeLocationModal = function () {
         const modal = document.getElementById('location-modal');
         const content = document.getElementById('location-modal-content');
+
         content.classList.replace('scale-100', 'scale-95');
         content.classList.replace('opacity-100', 'opacity-0');
+
         setTimeout(() => {
           modal.classList.replace('opacity-100', 'opacity-0');
           modal.classList.add('pointer-events-none');
         }, 200);
       };
+
       /* ══ UTILIDADES DE MOUSE (PARALLAX/FLASHLIGHT) ═══════════════ */
       window.updateMouse = function (element, e) {
         const rect = element.getBoundingClientRect();
@@ -1641,6 +3614,7 @@
         element.style.setProperty('--mouse-x', `${x}px`);
         element.style.setProperty('--mouse-y', `${y}px`);
       };
+
       /* ══ HERO BG COLUMNS REVEAL ════════════════════════════════════ */
       (function () {
         const bgCols = document.getElementById('hero-bg-cols');
@@ -1658,6 +3632,7 @@
           });
         }, 600);
       })();
+
       /* ══ HERO MOUSE SPOTLIGHT ══════════════════════════════════════ */
       (function () {
         const viewport = document.getElementById('hero-viewport');
@@ -1687,19 +3662,25 @@
           cancelAnimationFrame(rafId);
         });
       })();
+
+
+
       /* ══ CUSTOM SCROLL INDICATOR LOGIC ════════════════════════════ */
       (function () {
         const line = document.getElementById('scroll-progress-line');
         if (!line) return;
+
         const fill = document.createElement('div');
         fill.style.cssText = 'position:absolute;top:0;left:0;right:0;background:var(--c-primary);border-radius:2px;height:0%;transition:height 0.15s linear;';
         line.appendChild(fill);
+
         function updateScrollProgress() {
           const scrollTop = window.scrollY;
           const docHeight = document.documentElement.scrollHeight - window.innerHeight;
           const progress = (scrollTop / (docHeight || 1)) * 100;
           fill.style.height = Math.min(100, Math.max(0, progress)) + '%';
         }
+
         window.addEventListener('scroll', updateScrollProgress, { passive: true });
         updateScrollProgress();
       })();
@@ -1716,6 +3697,7 @@
         tick();
         setInterval(tick, 1000);
       })();
+
       /* ══ BOOTSTRAP ════════════════════════════════════════════════
          1. Preload todos os frames (mostra barra de progresso)
          2. Remove preloader com animação
@@ -1735,7 +3717,9 @@
           });
         });
       });
+
     }());
   </script>
 </body>
+
 </html>
