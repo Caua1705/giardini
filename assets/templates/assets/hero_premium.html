@@ -952,7 +952,8 @@
       font-size: clamp(10rem, 25vw, 30rem);
       line-height: 0.8;
       font-family: 'Instrument Serif', serif;
-      color: rgba(26,26,26,0.015);
+      color: rgba(26,26,26,0.04);
+      filter: blur(8px);
       white-space: nowrap;
       pointer-events: none;
       user-select: none;
@@ -1101,11 +1102,8 @@
       <!-- DIREITA: Mapa Asymmetrical Cinematic -->
       <div class="lg:col-span-7 w-full h-full flex items-center mt-20 lg:mt-0 relative" style="perspective: 2000px;">
         
-        <!-- Large backdrop shadow block extending the bleed effect -->
-        <div class="absolute inset-y-8 left-12 right-[-20%] bg-[#EAE4D9]/40 z-0 hidden lg:block ed-reveal anim-fade-blur" style="animation-delay: 0.3s"></div>
-        
-        <div class="ed-map-container relative z-10 w-[105%] md:w-full ml-[-2.5%] md:ml-0 aspect-[4/5] md:aspect-[5/6] overflow-hidden p-[1px] cursor-pointer bg-[var(--c-dark)]/5 ed-reveal anim-fade-blur group" style="animation-delay: 0.4s" onclick="window.open('https://maps.google.com', '_blank')">
-          <div class="w-full h-full overflow-hidden relative bg-[#EAE4D9]">
+        <div class="ed-map-container relative z-10 w-full md:w-[96%] mx-auto aspect-[4/5] md:aspect-[5/6] overflow-hidden rounded-[24px] shadow-[0_12px_40px_-10px_rgba(26,26,26,0.06)] cursor-pointer ed-reveal anim-fade-blur group" style="animation-delay: 0.4s" onclick="window.open('https://maps.google.com', '_blank')">
+          <div class="w-full h-full overflow-hidden relative bg-[#f7f5f2] rounded-[24px]">
             
             <!-- Cinematic Color Grade Overlays (Removed multiply/color blend modes to fix browser inconsistencies, just pure opacity) -->
             <div class="absolute inset-0 z-10 bg-[var(--c-bg)] opacity-60 pointer-events-none transition-opacity duration-1000 group-hover:opacity-40"></div>
