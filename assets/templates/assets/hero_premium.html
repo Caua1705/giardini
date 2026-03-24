@@ -1213,10 +1213,123 @@
     #hero-wm  { opacity:0; }
   </style>
 
+  <!-- ══ REFINAMENTO FINAL — POLISH & TEXTURE ══════════════════════ -->
+  <style>
+    /* 1. Global Grain Texture — sutil textura de papel sobre tudo */
+    #global-grain {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 9001; pointer-events: none; opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+
+    /* 2. Custom Cursor Hover 
+       Instead of full JS cursor, we use a simple CSS scale effect on links */
+    a, button {
+      cursor: pointer;
+    }
+    
+    /* 3. Navbar Links — Underline Sweep Animation */
+    .nav-link {
+      position: relative;
+      background: transparent;
+    }
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: rgba(43,74,59,0.7);
+      transition: width 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    .nav-link:hover::before { width: 100%; }
+
+    /* 4. Navbar Logo Shimmer */
+    .nav-logo {
+      position: relative; overflow: hidden;
+      display: inline-block;
+    }
+    .nav-logo::after {
+      content: ''; position: absolute;
+      top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(43,74,59,0.12), transparent);
+      transform: skewX(-15deg);
+      transition: left 0.6s ease;
+      pointer-events: none;
+    }
+    .nav-logo:hover::after { left: 150%; }
+
+    /* 5. Button Hover Depths */
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.01) !important;
+      box-shadow: 0 16px 36px -8px rgba(43, 74, 59, 0.45) !important;
+    }
+    .btn-primary:active {
+      transform: translateY(1px) scale(0.98) !important;
+    }
+
+    /* 6. Ghost Link Hover Polish */
+    .link-ghost {
+      position: relative;
+      transition: color 0.3s ease, opacity 0.3s ease;
+    }
+    .link-ghost::before {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 1px;
+      background: var(--c-dark);
+      transition: width 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .link-ghost:hover::before { width: 100%; }
+
+    /* 7. Kicker Badge Glow */
+    .live-badge {
+      border: 1px solid rgba(26,26,26,0.08);
+      background: rgba(255,255,255,0.4);
+      transition: background 0.4s ease, border-color 0.4s ease;
+    }
+    .live-badge:hover {
+      background: rgba(255,255,255,0.8);
+      border-color: rgba(26,26,26,0.15);
+    }
+
+    /* 8. Menu / Section Cards Hover Tilt */
+    .feat-card {
+      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.5s ease !important;
+    }
+    .feat-card:hover {
+      transform: translateY(-8px) !important;
+      border-color: rgba(43,74,59,0.15) !important;
+    }
+    .feat-card:hover img {
+      transform: scale(1.08) !important;
+    }
+
+    /* 9. Hero Corner Frames */
+    .frame-corner {
+      position: absolute;
+      width: 40px; height: 40px;
+      border: 1px solid rgba(26,26,26,0.15);
+      pointer-events: none;
+      z-index: 50;
+      opacity: 0;
+      animation: fIn 1.5s ease 2s forwards;
+    }
+    .frame-tl { top: 2rem; left: 2rem; border-right: none; border-bottom: none; }
+    .frame-br { bottom: 2rem; right: 2rem; border-left: none; border-top: none; display:none;}
+    @media(min-width: 768px){ .frame-br { display:block; } }
+    @keyframes fIn { to{opacity:1;} }
+  </style>
+
 </head>
 
 
 <body>
+  <div id="global-grain" aria-hidden="true"></div>
+  <div class="frame-corner frame-tl" aria-hidden="true"></div>
+  <div class="frame-corner frame-br" aria-hidden="true"></div>
+
   <div class="noise-overlay" aria-hidden="true"></div>
 
   <!-- ══ PRELOADER ═══════════════════════════════════════════════════ -->
@@ -1643,9 +1756,11 @@
             <!-- Small detail: count badge -->
             <a href="#"
               class="group"
-              style="display:inline-flex;align-items:center;gap:0.75rem;font-family:'Inter',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--c-primary);text-decoration:none;padding:0.8rem 1.6rem;border:1px solid rgba(43,74,59,0.2);border-radius:9999px;transition:all 0.35s cubic-bezier(0.16,1,0.3,1);">
+              style="display:inline-flex;align-items:center;gap:0.75rem;font-family:'Inter',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--c-primary);text-decoration:none;padding:0.9rem 1.8rem;border:1px solid rgba(43,74,59,0.2);border-radius:9999px;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);"
+              onmouseenter="this.style.background='rgba(43,74,59,0.03)';this.style.borderColor='rgba(43,74,59,0.35)';this.style.transform='translateY(-2px)';"
+              onmouseleave="this.style.background='transparent';this.style.borderColor='rgba(43,74,59,0.2)';this.style.transform='translateY(0)';">
               Explorar cardápio
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transition:transform 0.3s ease;" class="group-hover:translate-x-1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);" class="group-hover:translate-x-1">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </a>
@@ -1709,12 +1824,12 @@
                 sol, purê de jerimum e picles de cebola roxa.</p>
             </div>
           </div>
-          <div class="feat-label" style="padding:1rem 0.2rem 0;transition:opacity 0.3s,transform 0.3s;">
+          <div class="feat-label" style="padding:1rem 0.2rem 0;transition:opacity 0.4s ease,transform 0.4s cubic-bezier(0.16,1,0.3,1);">
             <p
-              style="font-family:var(--f-mono);font-size:0.58rem;color:var(--c-primary);opacity:0.4;margin:0 0 0.3rem;letter-spacing:0.18em;">
+              style="font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:600;color:var(--c-primary);opacity:0.4;margin:0 0 0.35rem;letter-spacing:0.25em;">
               01</p>
             <h3
-              style="font-family:'Instrument Serif',serif;font-size:1.2rem;color:var(--c-dark);margin:0;letter-spacing:-0.01em;">
+              style="font-family:'Instrument Serif',serif;font-size:1.25rem;color:var(--c-dark);margin:0;letter-spacing:-0.01em;transition:color 0.4s ease;">
               Croissant Sertaneja</h3>
           </div>
         </div>
@@ -1739,12 +1854,12 @@
                 duplo extra&#237;do no ponto, acompanhado de leite vaporizado na temperatura ideal.</p>
             </div>
           </div>
-          <div class="feat-label" style="padding:1rem 0.2rem 0;transition:opacity 0.3s,transform 0.3s;">
+          <div class="feat-label" style="padding:1rem 0.2rem 0;transition:opacity 0.4s ease,transform 0.4s cubic-bezier(0.16,1,0.3,1);">
             <p
-              style="font-family:var(--f-mono);font-size:0.58rem;color:var(--c-primary);opacity:0.4;margin:0 0 0.3rem;letter-spacing:0.18em;">
+              style="font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:600;color:var(--c-primary);opacity:0.4;margin:0 0 0.35rem;letter-spacing:0.25em;">
               02</p>
             <h3
-              style="font-family:'Instrument Serif',serif;font-size:1.2rem;color:var(--c-dark);margin:0;letter-spacing:-0.01em;">
+              style="font-family:'Instrument Serif',serif;font-size:1.25rem;color:var(--c-dark);margin:0;letter-spacing:-0.01em;transition:color 0.4s ease;">
               Cappuccino Italiano</h3>
           </div>
         </div>
@@ -1769,12 +1884,12 @@
                 queijo gorgonzola e castanha de caju, uvas verdes assadas, mel e manjericão.</p>
             </div>
           </div>
-          <div class="feat-label" style="padding:1rem 0.2rem 0;transition:opacity 0.3s,transform 0.3s;">
+          <div class="feat-label" style="padding:1rem 0.2rem 0;transition:opacity 0.4s ease,transform 0.4s cubic-bezier(0.16,1,0.3,1);">
             <p
-              style="font-family:var(--f-mono);font-size:0.58rem;color:var(--c-primary);opacity:0.4;margin:0 0 0.3rem;letter-spacing:0.18em;">
+              style="font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:600;color:var(--c-primary);opacity:0.4;margin:0 0 0.35rem;letter-spacing:0.25em;">
               03</p>
             <h3
-              style="font-family:'Instrument Serif',serif;font-size:1.2rem;color:var(--c-dark);margin:0;letter-spacing:-0.01em;">
+              style="font-family:'Instrument Serif',serif;font-size:1.25rem;color:var(--c-dark);margin:0;letter-spacing:-0.01em;transition:color 0.4s ease;">
               Brusqueta Vigneto Cremoso</h3>
           </div>
         </div>
@@ -2709,26 +2824,36 @@
           <!-- Left Decorative Line -->
           <div class="absolute left-0 top-2 bottom-2 w-[2px] bg-[var(--c-primary)]/20"></div>
 
-          <div class="anim-fade-blur pl-6">
-            <h4 class="text-[9px] font-bold uppercase tracking-[0.2em] text-[var(--c-dark)]/40 mb-2">Endereço</h4>
-            <p class="text-[1rem] text-[var(--c-dark)] leading-snug font-medium">
-              Rua Tavares Coutinho, 580<br>Varjota, Fortaleza — CE
+          <div class="anim-fade-blur pl-6 relative">
+            <h4 class="text-[9px] font-bold uppercase tracking-[0.25em] text-[var(--c-dark)]/40 mb-3">Endereço</h4>
+            <p class="text-[1.2rem] text-[var(--c-dark)] leading-snug font-display mb-1">
+              Rua Tavares Coutinho, 580
             </p>
+            <p class="text-[0.85rem] text-[var(--c-dark)]/70 font-medium">Varjota, Fortaleza — CE</p>
           </div>
 
-          <div class="anim-fade-blur pl-6">
-            <h4 class="text-[9px] font-bold uppercase tracking-[0.2em] text-[var(--c-dark)]/40 mb-2">Horários</h4>
-            <p class="text-[1rem] text-[var(--c-dark)] leading-snug font-medium">
-              Terça a Sábado — 08:00 às 20:00<br>Domingos — 09:00 às 15:00
-            </p>
+          <div class="anim-fade-blur pl-6 relative">
+            <h4 class="text-[9px] font-bold uppercase tracking-[0.25em] text-[var(--c-dark)]/40 mb-3">Horários</h4>
+            <div class="flex flex-col gap-1">
+              <p class="text-[0.85rem] text-[var(--c-dark)] leading-snug font-medium flex justify-between max-w-[240px]">
+                <span class="opacity-70">Terça a Sábado</span>
+                <span class="font-bold">08:00 às 20:00</span>
+              </p>
+              <p class="text-[0.85rem] text-[var(--c-dark)] leading-snug font-medium flex justify-between max-w-[240px]">
+                <span class="opacity-70">Domingos</span>
+                <span class="font-bold">09:00 às 15:00</span>
+              </p>
+            </div>
           </div>
         </div>
 
         <div class="anim-fade-blur">
           <a href="https://maps.google.com" target="_blank"
-            class="btn-bordered-kinetic px-8 py-4 text-[10px] uppercase tracking-[0.2em] font-bold rounded-sm gap-3">
-            Como chegar
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            class="btn-bordered-kinetic px-8 py-4 text-[10px] uppercase tracking-[0.25em] font-bold rounded-sm gap-3 group"
+            style="transition:all 0.4s cubic-bezier(0.16,1,0.3,1); border-color: rgba(26,26,26,0.2);">
+            <span style="position:relative; z-index:2;">Como chegar</span>
+            <svg style="position:relative; z-index:2; transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);" 
+              class="group-hover:translate-x-1" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
             </svg>
           </a>
