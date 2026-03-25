@@ -1975,6 +1975,39 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
   margin-bottom: 0rem !important; /* Garante que o container encoste perto das seções de baixo */
   margin-top: 1rem !important; /* Afastamento clean entre o botão e o vídeo */
 }
+
+/* ══ SECTION 2 (A EXPERIÊNCIA) - RESPONSIVO MOBILE ══ */
+@media (max-width: 767px) {
+  /* 1. Ocultar o texto gigante "TEMPO" no fundo */
+  #experience #parallax-text { display: none !important; }
+  
+  /* 2. Reduzir espaços vazios da seção como um todo */
+  #experience {
+    padding-top: 4.5rem !important;
+    padding-bottom: 4.5rem !important;
+  }
+  
+  /* 3. Conectar a imagem ao conteúdo (altura menor e gap reduzido) */
+  #experience .grid.gap-16 { gap: 2rem !important; }
+  #experience .exp-left { height: 40vh !important; }
+  
+  /* 4. Aproximar o Título da Descrição e do Divisor Animado */
+  #experience .word-wrap.mb-8 { margin-bottom: 0.75rem !important; }
+  #experience p.mb-10 { margin-bottom: 1.5rem !important; }
+  #experience div[style*="height:1px"].sec2-title { margin-bottom: 1.5rem !important; }
+  
+  /* 5. Compactar os itens da lista / pilares (01, 02, 03) */
+  #experience .flex-col.gap-\[0\.4rem\] { gap: 0rem !important; }
+  #experience .exp-pillar { padding: 1.2rem 0.5rem !important; }
+  #experience .exp-pillar h4 { 
+    margin-bottom: 0.15rem !important; 
+    font-size: 1.25rem !important; 
+  }
+  #experience .exp-pillar p { 
+    font-size: 0.9rem !important; 
+    line-height: 1.45 !important; 
+  }
+}
 </style>
 <script>
 (function(){
