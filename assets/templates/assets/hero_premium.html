@@ -466,7 +466,6 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
             <span class="text-[10px] md:text-xs text-[var(--c-primary)] font-bold uppercase tracking-[0.2em]">02 / Sabores &amp; Obras</span>
           </span>
           <div style="flex:1;height:1px;background:linear-gradient(to right,rgba(43,74,59,0.2),transparent);"></div>
-          <span class="text-[10px] md:text-xs uppercase tracking-[0.15em]" style="color:rgba(26,26,26,0.28);">DESTAQUES</span>
         </div>
         <div style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:2rem;">
           <div class="word-wrap split-parent" style="overflow:hidden;">
@@ -476,10 +475,12 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
               <span class="sect3-line-wrap"><span class="sect3-line-inner" style="font-style:italic;">contam histórias</span></span>
             </h2>
           </div>
-          <p class="feat-reveal opacity-0"
-            style="font-size:0.74rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(26,26,26,0.55);max-width:180px;text-align:right;margin:0;line-height:1.4;padding-top:0.4rem;">
-            Seleção da casa.
-          </p>
+          <div class="feat-reveal opacity-0" style="display:flex;flex-direction:column;align-items:flex-end;margin-top:1.75rem;">
+            <span style="font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(26,26,26,0.45);margin-bottom:0.4rem;">Destaques</span>
+            <div style="width:14px;height:1px;background:var(--c-primary);margin-bottom:0.5rem;opacity:0.6;"></div>
+            <span style="font-size:0.85rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(26,26,26,0.95);margin-bottom:0.65rem;">Seleção da casa.</span>
+            <p style="font-size:0.7rem;font-weight:400;color:rgba(26,26,26,0.55);margin:0;max-width:180px;text-align:right;line-height:1.4;">Sabores que definem a experiência.</p>
+          </div>
         </div>
         <!-- Animated divider -->
         <div style="margin-top:1.5rem;position:relative;height:1px;overflow:hidden;width:100%;">
@@ -607,7 +608,7 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
             <span class="font-serif italic text-[1.125rem] text-[var(--c-dark)] tracking-wide pr-5">
               Explorar cardápio
             </span>
-            <span class="text-[var(--c-dark)] opacity-40 transition-all duration-700 group-hover:translate-x-1 group-hover:opacity-100 flex items-center justify-center">
+            <span class="text-[var(--c-dark)] opacity-40 group-hover:translate-x-2 group-hover:opacity-100 flex items-center justify-center" style="transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
