@@ -600,7 +600,7 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
         </div>
         <!-- CTA Button -->
         <a href="#"
-          class="loc-beam-container group transition-all duration-700 hover:scale-[1.015]"
+          class="loc-beam-container group transition-all duration-700"
           style="background:rgba(26,26,26,0.08);padding:1.2px;">
           <div class="loc-beam-border" style="background:conic-gradient(from 0deg at 50% 50%,transparent 40%,var(--c-dark) 65%,var(--c-dark) 100%,transparent 100%);filter:blur(4px);width:400%;height:400%;top:-150%;left:-150%;opacity:0.5;"></div>
           <div class="relative z-10 flex w-full h-full items-center justify-between rounded-full bg-[#f4f1ea] px-8 py-3 border border-transparent shadow-none">
@@ -1376,6 +1376,7 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
     /* Premium Button (Retained) */
     .loc-beam-container {
       position: relative; display: inline-flex; border-radius: 9999px; padding: 1.5px; overflow: hidden; background: rgba(26, 26, 26, 0.1);
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; transform: translateZ(0); backface-visibility: hidden;
     }
     .loc-beam-container .loc-beam-border {
       position: absolute; inset: -400%; background: conic-gradient(from 0deg at 50% 50%, transparent 70%, var(--c-primary) 100%, transparent 100%);
