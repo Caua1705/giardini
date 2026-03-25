@@ -1004,17 +1004,18 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       filter: drop-shadow(0 2px 20px rgba(180,145,80,0.18)) drop-shadow(0 0 60px rgba(160,125,60,0.12));
     }
 
-    /* ── TRANSIÇÃO HERO -> PRÓXIMA SEÇÃO ────────────────────────── */
-    #hero-viewport::after {
+    /* ── TRANSIÇÃO SEÇÕES DE VÍDEO -> PRÓXIMAS SEÇÕES ────────────── */
+    #hero-viewport::after, 
+    #experience-video::after {
       content: '';
       position: absolute;
       bottom: -1px; /* Evita frestas de pixel */
       left: 0;
       right: 0;
-      height: 36vh; /* Altura generosa para um fade bem suave */
+      height: 45vh; /* Altura generosa para um fade bem suave */
       background: linear-gradient(to bottom, transparent 0%, var(--c-bg) 100%);
       pointer-events: none;
-      z-index: 100; /* Deve ficar acima do conteúdo do hero para lavar o fim da tela */
+      z-index: 100; /* Fica acima do vídeo para lavar o fim da tela */
     }
   </style>
 
