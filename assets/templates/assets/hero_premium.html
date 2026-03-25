@@ -687,16 +687,10 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
               <span style="display:block;transform:translateY(110%);transition:transform 1.1s cubic-bezier(0.16,1,0.3,1);transition-delay:0.1s;font-style:italic;color:var(--c-primary);">companhia aqui.</span>
             </span>
           </h2>
-          <!-- Right: body text only (no CTA) -->
-          <div style="max-width:380px;display:flex;flex-direction:column;gap:1.75rem;padding-bottom:0.5rem;">
-            <p style="font-size:1rem;font-weight:300;line-height:1.9;color:rgba(26,26,26,0.52);margin:0;">
-              Um espaço onde cada livro se torna ponto de partida. Nos reunimos para partilhar leituras, ideias e um café de especialidade.
-            </p>
-          </div>
         </div>
       </div>
       <!-- ── PREMIUM EDITORIAL LAYOUT: 2-col (sidebar + stacked images) ──── -->
-      <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:3.5rem;align-items:center;" class="clube-mosaic">
+      <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:3.5rem;align-items:start;" class="clube-mosaic">
         <!-- LEFT: Text sidebar — quote + how it works -->
         <div class="clube-reveal__left" style="opacity:0;transform:translateX(-30px);filter:blur(8px);display:flex;flex-direction:column;gap:2.5rem;padding-top:0.5rem;">
           <!-- Premium quote com animação de shimmer e cursor -->
@@ -789,32 +783,39 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
         </div><!-- /clube-reveal__left -->
         <!-- RIGHT: Image + stats -->
         <div class="clube-reveal__right" style="opacity:0;transform:translateX(30px);filter:blur(8px);">
+          <!-- Visual Anchor above image -->
+          <div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem;opacity:0.85;">
+            <div style="width:36px;height:1px;background:var(--c-primary);"></div>
+            <span style="font-family:'Instrument Serif',serif;font-size:1.6rem;font-style:italic;color:var(--c-primary);letter-spacing:0.02em;">Leitura &amp; Conex&atilde;o</span>
+            <div style="flex:1;height:1px;background:linear-gradient(to right,rgba(43,74,59,0.2),transparent);"></div>
+          </div>
           <!-- Image 1 — main, with shimmer beam -->
           <div class="clube-img-main" style="border-radius:20px;overflow:hidden;position:relative;
             aspect-ratio:4/3;
-            box-shadow:0 20px 56px rgba(0,0,0,0.07),0 4px 14px rgba(0,0,0,0.04);
+            box-shadow:0 24px 64px rgba(0,0,0,0.12),0 6px 18px rgba(0,0,0,0.06);
             transition:transform 0.9s cubic-bezier(0.16,1,0.3,1),box-shadow 0.9s ease;">
             <!-- Permanent soft top overlay to recede image slightly -->
             <div style="position:absolute;inset:0;z-index:4;pointer-events:none;
-              background:rgba(20,12,4,0.10);"></div>
+              background:rgba(43,74,59,0.18);"></div>
             <!-- Bottom scrim -->
             <div style="position:absolute;inset:0;z-index:5;pointer-events:none;
-              background:linear-gradient(to bottom,transparent 45%,rgba(20,12,4,0.62) 100%);"></div>
+              background:linear-gradient(to bottom,transparent 45%,rgba(20,12,4,0.68) 100%);"></div>
             <!-- Shimmer beam sweep -->
             <div class="s4-beam"></div>
             <img src="../../raw_files/_MG_2075.webp" alt="Clube do Livro — Giardini Café"
               style="width:100%;height:100%;object-fit:cover;
-                filter:saturate(0.82) brightness(0.92) contrast(1.03);
+                filter:saturate(0.78) brightness(0.88) contrast(1.05);
                 transition:transform 1.4s cubic-bezier(0.22,1,0.36,1);
                 transform:scale(1.04);">
             <!-- Pill badge -->
             <div style="position:absolute;top:1.25rem;left:1.25rem;z-index:15;
-              background:rgba(253,251,247,0.94);backdrop-filter:blur(14px);
-              border:1px solid rgba(43,74,59,0.18);border-radius:9999px;
+              background:rgba(253,251,247,0.98);backdrop-filter:blur(14px);
+              border:1px solid rgba(43,74,59,0.22);border-radius:9999px;
+              box-shadow:0 4px 12px rgba(0,0,0,0.05);
               padding:0.4rem 1rem;display:flex;align-items:center;gap:0.5rem;">
               <span style="width:5px;height:5px;border-radius:50%;background:var(--c-primary);
                 animation:live-glow 2.2s ease-in-out infinite;flex-shrink:0;"></span>
-              <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.22em;
+              <span style="font-size:0.5rem;font-weight:800;letter-spacing:0.22em;
                 text-transform:uppercase;color:var(--c-primary);">Encontro Literário</span>
             </div>
             <!-- Bottom caption overlay -->
