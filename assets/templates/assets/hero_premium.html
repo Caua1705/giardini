@@ -95,6 +95,11 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
     margin-left: auto !important;
     margin-right: auto !important;
   }
+
+  /* Ajustar linha vertical de progresso para a lateral direita no mobile */
+  .scroll-indicator-wrap {
+    right: 1.25rem !important;
+  }
 }
 </style>
 </head>
@@ -1691,31 +1696,30 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
         // 3. Section 3 Dark Mode (Improved Transitions)
         ScrollTrigger.create({
           trigger: '#featured',
-          start: 'top 55%',
+          start: 'top 35%', // Começa a escurecer a seção um pouco mais tarde
           end: 'bottom 45%',
           onEnter: () => {
-            gsap.to('#featured', { backgroundColor: 'var(--c-dark)', duration: 1.2, ease: 'power2.out' });
-            gsap.to('body', { backgroundColor: 'var(--c-dark)', duration: 1.2, ease: 'power2.out' });
-            gsap.to('.feat-text-dark', { color: '#ffffff', duration: 1.2 });
-            gsap.to('.feat-text-muted', { color: 'rgba(255,255,255,0.6)', duration: 1.2 });
-            gsap.to('.glow-orb', { opacity: 0.25, duration: 2, ease: 'power2.inOut', stagger: 0.2 });
-            gsap.to('.feat-grid', { opacity: 1, duration: 2 });
+             gsap.to('#featured', { backgroundColor: 'var(--c-dark)', duration: 1.2, ease: 'power2.out' });
+             // Body só escurece quando o topo encostar quase no topo, pra não vazar pelas bordas arredondadas
+             gsap.to('body', { backgroundColor: 'var(--c-dark)', duration: 1.0, delay: 0.1 });
+             gsap.to('.feat-text-dark', { color: '#ffffff', duration: 1.2 });
+             gsap.to('.feat-text-muted', { color: 'rgba(255,255,255,0.6)', duration: 1.2 });
+             gsap.to('.glow-orb', { opacity: 0.25, duration: 2, ease: 'power2.inOut', stagger: 0.2 });
+             gsap.to('.feat-grid', { opacity: 1, duration: 2 });
           },
           onLeave: () => {
-            // Smooth return to ivory when scrolling to Section 4
-            gsap.to('body', { backgroundColor: 'var(--c-bg)', duration: 1.0 });
+             gsap.to('body', { backgroundColor: 'var(--c-bg)', duration: 1.0 });
           },
           onEnterBack: () => {
-            // Return to dark when scrolling back up to Section 3
-            gsap.to('body', { backgroundColor: 'var(--c-dark)', duration: 1.0 });
+             gsap.to('body', { backgroundColor: 'var(--c-dark)', duration: 1.0 });
           },
           onLeaveBack: () => {
-            gsap.to('#featured', { backgroundColor: 'var(--c-bg)', duration: 1.2, ease: 'power2.out' });
-            gsap.to('body', { backgroundColor: 'var(--c-bg)', duration: 1.2, ease: 'power2.out' });
-            gsap.to('.feat-text-dark', { color: 'var(--c-dark)', duration: 1.2 });
-            gsap.to('.feat-text-muted', { color: 'rgba(26,26,26,0.5)', duration: 1.2 });
-            gsap.to('.glow-orb', { opacity: 0, duration: 1.2 });
-            gsap.to('.feat-grid', { opacity: 0, duration: 1.2 });
+             gsap.to('#featured', { backgroundColor: 'var(--c-bg)', duration: 1.2, ease: 'power2.out' });
+             gsap.to('body', { backgroundColor: 'var(--c-bg)', duration: 1.2, ease: 'power2.out' });
+             gsap.to('.feat-text-dark', { color: 'var(--c-dark)', duration: 1.2 });
+             gsap.to('.feat-text-muted', { color: 'rgba(26,26,26,0.5)', duration: 1.2 });
+             gsap.to('.glow-orb', { opacity: 0, duration: 1.2 });
+             gsap.to('.feat-grid', { opacity: 0, duration: 1.2 });
           }
         });
         // 3b. Clube do Livro Animation
@@ -1984,7 +1988,7 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
   /* 2. Reduzir espaços vazios da seção como um todo */
   #experience {
     padding-top: 4.5rem !important;
-    padding-bottom: 4.5rem !important;
+    padding-bottom: 8.5rem !important; /* Aumentado para dar espaço ao logo da próxima seção no mobile */
   }
   
   /* 3. Conectar a imagem ao conteúdo (altura menor e gap reduzido) */
@@ -2006,6 +2010,11 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
   #experience .exp-pillar p { 
     font-size: 0.9rem !important; 
     line-height: 1.45 !important; 
+  }
+  
+  /* Garantir que a Sessão 3 não suba sobre o conteúdo da Sessão 2 no mobile */
+  #featured {
+    margin-top: 0 !important;
   }
 }
 </style>
