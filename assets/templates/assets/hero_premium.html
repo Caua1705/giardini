@@ -880,6 +880,16 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       88%  { opacity: 1; }
       100% { left: 140%; opacity: 0; }
     }
+    @keyframes s5-sep-idle-shimmer {
+      0% { left: -100%; opacity: 0; }
+      20% { opacity: 0.4; }
+      80% { opacity: 0.4; }
+      100% { left: 100%; opacity: 0; }
+    }
+    @keyframes s5-sep-pulse {
+      0%, 100% { opacity: 0.3; shadow: 0 0 5px rgba(183,147,88,0.2); }
+      50% { opacity: 0.6; shadow: 0 0 15px rgba(183,147,88,0.4); }
+    }
     /* Particles */
     .s5-particle {
       position: absolute;
@@ -922,14 +932,15 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(201,173,128,0.3) 25%, rgba(255,255,255,0.4) 50%, rgba(201,173,128,0.3) 75%, transparent);
-      box-shadow: 0 0 12px rgba(201,173,128,0.25);
+      background: linear-gradient(90deg, transparent, rgba(183,147,88,0.3) 25%, rgba(255,255,255,0.4) 50%, rgba(183,147,88,0.3) 75%, transparent);
+      box-shadow: 0 0 12px rgba(183,147,88,0.15);
       transform: scaleX(0);
       transform-origin: center;
       opacity: 0;
+      animation: s5-sep-pulse 4s ease-in-out infinite;
     }
     .s5-sep.s5-sep-visible::before {
-      animation: s5-sep-line-grow 1s cubic-bezier(0.16,1,0.3,1) forwards;
+      animation: s5-sep-line-grow 1s cubic-bezier(0.16,1,0.3,1) forwards, s5-sep-pulse 4s ease-in-out infinite;
     }
     .s5-sep::after {
       content: '';
@@ -938,15 +949,16 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       left: -60%;
       width: 40%;
       height: 3px;
-      background: linear-gradient(90deg, transparent, rgba(201,173,128,0.6) 40%, rgba(255,255,255,0.95) 50%, rgba(201,173,128,0.6) 60%, transparent);
-      filter: blur(1px);
-      box-shadow: 0 0 16px rgba(255,255,255,0.4), 0 0 8px rgba(201,173,128,0.6);
+      background: linear-gradient(90deg, transparent, rgba(183,147,88,0.4) 40%, rgba(255,255,255,0.85) 50%, rgba(183,147,88,0.4) 60%, transparent);
+      filter: blur(1.5px);
+      box-shadow: 0 0 16px rgba(255,255,255,0.2), 0 0 8px rgba(183,147,88,0.4);
       opacity: 0;
+      animation: s5-sep-idle-shimmer 6s linear infinite;
     }
-    /* O feixe de luz agora so inicia quando o botao CTA abaixo for hover */
+    /* O feixe de luz intenso agora so inicia quando o botão CTA abaixo for hover */
     .s5-sep.s5-sep-active::after {
       opacity: 1;
-      animation: s5-sep-beam 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      animation: s5-sep-beam 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards !important;
     }
     /* Vertical guide lines (editorial) */
     .s5-guide-lines {
