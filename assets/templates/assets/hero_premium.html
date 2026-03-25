@@ -260,11 +260,7 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       </div>
     </div><!-- /hero-viewport -->
   </div><!-- /hero-pin-wrapper -->
-  <!-- ══ HERO → SECTION 2 GRADIENT TRANSITION ══════════════════════ -->
-  <!-- Sutil efeito de continuidade: funde o final da hero com o início da próxima seção -->
-  <div class="pointer-events-none relative z-[59] w-full h-32 md:h-48 -mt-32 md:-mt-48"
-    style="background: linear-gradient(to bottom, transparent 0%, #FDFBF7 100%);" aria-hidden="true">
-  </div>
+
   <!-- ══ SECTION 2: A EXPERIÊNCIA ═════════════════════════════════ -->
   <section id="experience"
     class="py-32 md:py-48 px-8 md:px-20 w-full bg-[var(--c-bg)] relative z-[60] overflow-hidden rounded-t-[40px] shadow-[0_-40px_80px_rgba(253,251,247,0.8)]">
@@ -892,18 +888,15 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       50%  { transform: translateX(-48%) scale(1.012); }
       100% { transform: translateX(-52%) scale(1); }
     }
-    @keyframes s5-pillar-in {
-      from { opacity: 0; transform: translateY(22px); filter: blur(8px); }
-      to   { opacity: 1; transform: translateY(0); filter: blur(0); }
-    }
+
     @keyframes s5-sep-line-grow {
       from { transform: scaleX(0); opacity: 0; }
       to   { transform: scaleX(1); opacity: 1; }
     }
     @keyframes s5-sep-beam {
-      0%   { left: -60%; opacity: 0; }
-      10%  { opacity: 1; }
-      90%  { opacity: 1; }
+      0%   { left: -30%; opacity: 0; }
+      12%  { opacity: 1; }
+      88%  { opacity: 1; }
       100% { left: 140%; opacity: 0; }
     }
     /* Particles */
@@ -915,95 +908,6 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       background: rgba(210, 195, 165, 0.45);
       pointer-events: none;
       animation: s5-particle 5s ease-in-out infinite;
-    }
-    /* Bottom pillar strip */
-    .s5-pillar-strip {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 10;
-      display: flex;
-      align-items: stretch;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
-      padding: 0;
-    }
-    .s5-pillar {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem 1.5rem;
-      border-right: 1px solid rgba(255,255,255,0.05);
-      opacity: 0;
-      transition: opacity 0.8s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1);
-      transform: translateY(18px);
-      cursor: default;
-      position: relative;
-    }
-    .s5-pillar:last-child { border-right: none; }
-    /* Premium hover: top-border line grows in + text brightens + lift */
-    .s5-pillar::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%) scaleX(0);
-      transform-origin: center;
-      width: calc(100% - 3rem);
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(201,173,128,0.55), transparent);
-      transition: transform 0.55s cubic-bezier(0.16,1,0.3,1);
-    }
-    .s5-pillar:hover::before {
-      transform: translateX(-50%) scaleX(1);
-    }
-    .s5-pillar:hover {
-      transform: translateY(-3px) !important;
-    }
-    .s5-pillar:hover .s5-pillar-num {
-      color: rgba(245, 235, 215, 0.98);
-      text-shadow: 0 0 30px rgba(201,173,128,0.20), 0 1px 10px rgba(0,0,0,0.4);
-    }
-    .s5-pillar:hover .s5-pillar-label {
-      color: rgba(255,255,255,0.55);
-      letter-spacing: 0.32em;
-    }
-    .s5-pillar:hover .s5-pillar-desc {
-      color: rgba(255,255,255,0.60);
-    }
-    .s5-pillar.s5-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .s5-pillar-num {
-      font-family: 'Instrument Serif', serif;
-      font-size: 2.2rem;
-      line-height: 1;
-      letter-spacing: -0.04em;
-      color: rgba(235, 225, 205, 0.88);
-      margin-bottom: 0.35rem;
-      text-shadow: 0 1px 10px rgba(0,0,0,0.4);
-      transition: color 0.4s ease, text-shadow 0.4s ease;
-    }
-    .s5-pillar-label {
-      font-size: 0.5rem;
-      font-weight: 700;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
-      transition: color 0.4s ease, letter-spacing 0.4s ease;
-    }
-    .s5-pillar-desc {
-      font-size: 0.72rem;
-      font-weight: 300;
-      color: rgba(255,255,255,0.38);
-      margin-top: 0.3rem;
-      text-align: center;
-      line-height: 1.5;
-      transition: color 0.4s ease;
     }
     /* Corner frame decorations */
     .s5-corner {
@@ -1024,23 +928,27 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
     .s5-sep {
       position: relative;
       width: 100%;
-      max-width: 340px;
+      max-width: 420px;
       height: 1px;
       margin: 0 auto 3.5rem;
-      overflow: hidden;
+      overflow: visible;
       transform-origin: center;
+      /* Mask to softly fade edges of the beam if it flies out */
+      mask-image: linear-gradient(90deg, transparent, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, transparent);
     }
     .s5-sep::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(43,74,59,0.35) 25%, rgba(255,255,255,0.18) 50%, rgba(43,74,59,0.35) 75%, transparent);
+      background: linear-gradient(90deg, transparent, rgba(201,173,128,0.3) 25%, rgba(255,255,255,0.4) 50%, rgba(201,173,128,0.3) 75%, transparent);
+      box-shadow: 0 0 12px rgba(201,173,128,0.25);
       transform: scaleX(0);
       transform-origin: center;
       opacity: 0;
     }
     .s5-sep.s5-sep-visible::before {
-      animation: s5-sep-line-grow 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+      animation: s5-sep-line-grow 1s cubic-bezier(0.16,1,0.3,1) forwards;
     }
     .s5-sep::after {
       content: '';
@@ -1049,12 +957,15 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       left: -60%;
       width: 40%;
       height: 3px;
-      background: linear-gradient(90deg, transparent, rgba(43,74,59,0.5) 40%, rgba(255,255,255,0.7) 50%, rgba(43,74,59,0.5) 60%, transparent);
+      background: linear-gradient(90deg, transparent, rgba(201,173,128,0.6) 40%, rgba(255,255,255,0.95) 50%, rgba(201,173,128,0.6) 60%, transparent);
       filter: blur(1px);
+      box-shadow: 0 0 16px rgba(255,255,255,0.4), 0 0 8px rgba(201,173,128,0.6);
       opacity: 0;
     }
-    .s5-sep.s5-sep-visible::after {
-      animation: s5-sep-beam 2.4s ease 0.7s both;
+    /* O feixe de luz agora so inicia quando o botao CTA abaixo for hover */
+    .s5-sep.s5-sep-active::after {
+      opacity: 1;
+      animation: s5-sep-beam 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     }
     /* Vertical guide lines (editorial) */
     .s5-guide-lines {
@@ -1091,6 +1002,19 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       background-clip: text;
       /* Leve sombra para profundidade contra o fundo escuro */
       filter: drop-shadow(0 2px 20px rgba(180,145,80,0.18)) drop-shadow(0 0 60px rgba(160,125,60,0.12));
+    }
+
+    /* ── TRANSIÇÃO HERO -> PRÓXIMA SEÇÃO ────────────────────────── */
+    #hero-viewport::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; /* Evita frestas de pixel */
+      left: 0;
+      right: 0;
+      height: 36vh; /* Altura generosa para um fade bem suave */
+      background: linear-gradient(to bottom, transparent 0%, var(--c-bg) 100%);
+      pointer-events: none;
+      z-index: 100; /* Deve ficar acima do conteúdo do hero para lavar o fim da tela */
     }
   </style>
 
@@ -1192,62 +1116,48 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
 
       <!-- ── PREMIUM CTA ──────────────────────────────────────── -->
       <div class="s5-reveal-up" style="text-align:center;">
-        <!-- Wrapper with spinning beam border on hover -->
-        <div class="s5-cta-wrap" style="position:relative;display:inline-flex;border-radius:9999px;padding:1px;">
-          <!-- Spinning conic beam (hover) -->
-          <div class="s5-beam-ring" aria-hidden="true"
-            style="position:absolute;inset:-1px;border-radius:inherit;overflow:hidden;opacity:0;
-              transition:opacity 0.4s;pointer-events:none;">
-            <div style="position:absolute;top:50%;left:50%;width:300%;height:300%;
-              transform:translate(-50%,-50%);
-              background:conic-gradient(from 0deg,transparent 0 320deg,rgba(43,74,59,0.9) 360deg);
-              animation:s5-spin 2.8s linear infinite;"></div>
-          </div>
-          <!-- Button -->
-          <a href="#" id="s5-cta"
-            style="position:relative;z-index:2;overflow:hidden;
-              display:inline-flex;align-items:center;gap:0.9rem;
-              padding:1.2rem 3rem;
-              border-radius:9999px;
-              background:rgba(43,74,59,0.50);
-              backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-              border:1px solid rgba(201,173,128,0.28);
-              box-shadow:0 6px 32px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.08),0 0 0 0 rgba(201,173,128,0);
-              font-family:'Instrument Serif',serif;
-              font-size:1.2rem;font-weight:400;
-              letter-spacing:0.06em;
-              color:rgba(255,255,255,0.92);
-              text-decoration:none;
-              transition:all 0.4s cubic-bezier(0.16,1,0.3,1);"
-            onmouseenter="
-              this.style.transform='scale(1.04)';
-              this.style.background='rgba(43,74,59,0.75)';
-              this.style.borderColor='rgba(201,173,128,0.52)';
-              this.style.boxShadow='0 16px 52px rgba(0,0,0,0.42),0 0 28px rgba(201,173,128,0.10),inset 0 1px 0 rgba(255,255,255,0.12)';
-              this.parentElement.querySelector('.s5-beam-ring').style.opacity='1';
-              this.querySelector('.s5-shimmer').style.left='140%';"
-            onmouseleave="
-              this.style.transform='';
-              this.style.background='';
-              this.style.borderColor='';
-              this.style.boxShadow='';
-              this.parentElement.querySelector('.s5-beam-ring').style.opacity='0';
-              var sh=this.querySelector('.s5-shimmer');sh.style.transition='none';sh.style.left='-100%';setTimeout(function(){sh.style.transition='';},50);"
-            onmousedown="this.style.transform='scale(0.97)';"
-            onmouseup="this.style.transform='scale(1.04)';">
-            <!-- Shimmer sweep -->
-            <span class="s5-shimmer"
-              style="position:absolute;top:0;left:-100%;width:50%;height:100%;
-                background:linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent);
-                transform:skewX(-12deg);transition:left 0.65s ease;pointer-events:none;"></span>
-            <span style="position:relative;z-index:1;">Reservar Experiência</span>
-            <svg style="position:relative;z-index:1;flex-shrink:0;transition:transform 0.3s ease;"
-              class="s5-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
+        <!-- Premium Minimalist CTA -->
+        <a href="#" id="s5-cta"
+          style="display:inline-flex;align-items:center;gap:1.2rem;
+            padding:1.1rem 3.2rem;
+            border-radius:9999px;
+            background:rgba(255,255,255,0.02);
+            backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+            border:1px solid rgba(255,255,255,0.15);
+            box-shadow:0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+            font-family:'Instrument Serif',serif;
+            font-size:1.15rem;font-weight:400;
+            letter-spacing:0.08em;
+            color:rgba(255,255,255,0.95);
+            text-decoration:none;
+            transition:all 0.6s cubic-bezier(0.16,1,0.3,1);"
+          onmouseenter="
+            this.style.transform='translateY(-2px)';
+            this.style.background='rgba(43,74,59,0.85)';
+            this.style.borderColor='rgba(255,255,255,0.25)';
+            this.style.boxShadow='0 12px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1)';
+            this.querySelector('.s5-arrow').style.transform='translateX(4px)';
+            var sep = document.getElementById('s5-separator');
+            if(sep) { sep.classList.remove('s5-sep-active'); void sep.offsetWidth; sep.classList.add('s5-sep-active'); }"
+          onmouseleave="
+            this.style.transform='translateY(0)';
+            this.style.background='rgba(255,255,255,0.02)';
+            this.style.borderColor='rgba(255,255,255,0.15)';
+            this.style.boxShadow='0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05)';
+            this.querySelector('.s5-arrow').style.transform='translateX(0)';
+            var sep = document.getElementById('s5-separator');
+            if(sep) { sep.classList.remove('s5-sep-active'); }"
+          onmousedown="this.style.transform='translateY(1px) scale(0.98)';"
+          onmouseup="this.style.transform='translateY(-2px) scale(1)';">
+          
+          <span style="position:relative;z-index:1;text-shadow:0 1px 8px rgba(0,0,0,0.2);">Reservar Experiência</span>
+          
+          <svg style="position:relative;z-index:1;flex-shrink:0;transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);"
+            class="s5-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
 
         <!-- Sub-caption -->
         <p class="s5-reveal-up" style="margin-top:1.75rem;font-size:0.58rem;letter-spacing:0.24em;
@@ -1257,29 +1167,6 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       </div><!-- /CTA -->
     </div><!-- /content -->
 
-    <!-- ── BOTTOM PILLAR STRIP ───────────────────────────────────── -->
-    <div class="s5-pillar-strip" aria-hidden="false">
-      <div class="s5-pillar" id="s5-p1" style="transition-delay:0s;">
-        <p class="s5-pillar-num">Leitura &amp; Foco</p>
-        <p class="s5-pillar-label">Experi&#234;ncia</p>
-        <p class="s5-pillar-desc">Ambiente pensado para desacelerar</p>
-      </div>
-      <div class="s5-pillar" id="s5-p2" style="transition-delay:0.12s;">
-        <p class="s5-pillar-num">Especial</p>
-        <p class="s5-pillar-label">Caf&#233;</p>
-        <p class="s5-pillar-desc">Extra&#231;&#227;o cuidadosa, sabor limpo</p>
-      </div>
-      <div class="s5-pillar" id="s5-p3" style="transition-delay:0.24s;">
-        <p class="s5-pillar-num">Troca de Livros</p>
-        <p class="s5-pillar-label">Conex&#227;o</p>
-        <p class="s5-pillar-desc">Leve, traga e descubra novas hist&#243;rias</p>
-      </div>
-      <div class="s5-pillar" id="s5-p4" style="transition-delay:0.36s;">
-        <p class="s5-pillar-num">Wi-Fi Est&#225;vel</p>
-        <p class="s5-pillar-label">Conectividade</p>
-        <p class="s5-pillar-desc">Para quem trabalha, estuda ou l&#234;</p>
-      </div>
-    </div>
 
     <!-- ── SCRIPTS ─────────────────────────────────────────────── -->
     <script>
@@ -1315,14 +1202,6 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
 
         /* Corner frames */
         s5.querySelectorAll('.s5-corner').forEach(function (c) { c.classList.add('s5-visible'); });
-
-        /* Pillar strip */
-        ['s5-p1','s5-p2','s5-p3','s5-p4'].forEach(function (id, i) {
-          setTimeout(function () {
-            var p = document.getElementById(id);
-            if (p) p.classList.add('s5-visible');
-          }, 700 + i * 140);
-        });
 
       }, { threshold: 0.18 });
 
