@@ -1428,18 +1428,18 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
           });
         } else {
           // Normal page load at top: run entrance animation
-          gsap.set('#el-kicker', { opacity: 0, y: 28, filter: 'blur(12px)' });
-          gsap.set('#el-h1a', { y: '110%', filter: 'blur(8px)' });
-          gsap.set('#el-h1b', { y: '110%', filter: 'blur(8px)' });
-          gsap.set('#el-body', { opacity: 0, y: 22, filter: 'blur(10px)' });
-          gsap.set('#el-cta', { opacity: 0, y: 20, filter: 'blur(8px)' });
-          gsap.set('#el-meta', { opacity: 0, y: 14, filter: 'blur(6px)' });
-          gsap.set('#el-scroll', { opacity: 0, y: 10 });
+          gsap.set('#el-kicker', { opacity: 0, y: 35, filter: 'blur(14px)' });
+          gsap.set('#el-h1a', { opacity: 0, y: 45, filter: 'blur(16px)' });
+          gsap.set('#el-h1b', { opacity: 0, y: -45, filter: 'blur(16px)' });
+          gsap.set('#el-body', { opacity: 0, y: 30, filter: 'blur(12px)' });
+          gsap.set('#el-cta', { opacity: 0, y: 25, filter: 'blur(10px)' });
+          gsap.set('#el-meta', { opacity: 0, y: 15, filter: 'blur(8px)' });
+          gsap.set(['#el-badge', '#el-scroll'], { opacity: 0, y: 15 });
           gsap.set('#navbar', { opacity: 0 });
           gsap.set('#hero-sep', { opacity: 0, scaleX: 0, transformOrigin: 'left center' });
           gsap.set('#hero-wm', { opacity: 0 });
           const tl = gsap.timeline({
-            delay: 0.05,
+            delay: 0.1,
             onStart: () => {
               document.body.style.opacity = '1';
               document.getElementById('hero-left').style.pointerEvents = 'auto';
@@ -1453,19 +1453,18 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
             }
           });
           tl
-            .to('#navbar', { opacity: 1, duration: 0.7, ease: 'power2.out' })
-            .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'expo.out' }, '-=0.4')
-            .add('titleShow', '-=0.65')
-            .to('#el-h1a', { y: '0%', filter: 'blur(0px)', duration: 1.35, ease: 'expo.out' }, 'titleShow')
-            .to(frame, { opacity: 1, scale: 1, borderRadius: 22, duration: 1.5, ease: 'power4.out' }, 'titleShow')
-            .to('#el-h1b', { y: '0%', filter: 'blur(0px)', duration: 1.35, ease: 'expo.out' }, 'titleShow+=0.12')
-            .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, 'titleShow+=0.32')
-            .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.85, ease: 'power3.out' }, 'titleShow+=0.48')
-            .to('#el-meta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' }, 'titleShow+=0.66')
-            .to(['#el-badge', '#el-scroll'], { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out', stagger: 0.12 }, 'titleShow+=0.72')
-            /* New elements: shimmer separator + watermark */
-            .to('#hero-sep', { opacity: 1, scaleX: 1, duration: 0.9, ease: 'power3.out' }, 'titleShow+=0.38')
-            .to('#hero-wm',  { opacity: 1, duration: 2.0, ease: 'power1.out' }, 'titleShow+=0.5');
+            .to('#navbar', { opacity: 1, duration: 0.8, ease: 'power2.out' })
+            .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.25, ease: 'expo.out' }, '-=0.5')
+            .add('titleShow', '-=0.8')
+            .to('#el-h1a', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'expo.out' }, 'titleShow')
+            .to(frame, { opacity: 1, scale: 1, borderRadius: 22, duration: 1.8, ease: 'power4.out' }, 'titleShow')
+            .to('#el-h1b', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'expo.out' }, 'titleShow+=0.18')
+            .to('#hero-sep', { opacity: 1, scaleX: 1, duration: 1.2, ease: 'power3.out' }, 'titleShow+=0.45')
+            .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' }, 'titleShow+=0.55')
+            .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, 'titleShow+=0.75')
+            .to('#el-meta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power2.out' }, 'titleShow+=0.95')
+            .to(['#el-badge', '#el-scroll'], { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', stagger: 0.15 }, 'titleShow+=1.1')
+            .to('#hero-wm',  { opacity: 1, duration: 2.5, ease: 'power1.out' }, 'titleShow+=0.8');
         }
         /* ── SCROLL-OUT: staggered parallax per element ─────────────── */
         // Using gsap.to (not fromTo) so that the "from" state is never force-set
