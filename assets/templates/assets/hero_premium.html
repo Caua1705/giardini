@@ -1129,6 +1129,7 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       <div class="s5-reveal-up" style="text-align:center;">
         <!-- Premium Minimalist CTA -->
         <a href="#" id="s5-cta"
+          class="group relative overflow-hidden"
           style="display:inline-flex;align-items:center;gap:1.2rem;
             padding:1.1rem 3.2rem;
             border-radius:9999px;
@@ -1161,6 +1162,12 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
           onmousedown="this.style.transform='translateY(1px) scale(0.98)';"
           onmouseup="this.style.transform='translateY(-2px) scale(1)';">
           
+          <!-- Shimmer Effect -->
+          <span class="absolute inset-0 overflow-hidden pointer-events-none" style="border-radius: inherit; z-index: 1;">
+            <span
+              class="absolute top-0 left-0 h-full w-full -skew-x-12 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:animate-[shimmer_1.5s_infinite] group-hover:opacity-100"></span>
+          </span>
+
           <span style="position:relative;z-index:1;text-shadow:0 1px 8px rgba(0,0,0,0.2);">Reservar Experiência</span>
           
           <svg style="position:relative;z-index:1;flex-shrink:0;transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);"
