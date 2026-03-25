@@ -938,13 +938,41 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       padding: 2rem 1.5rem;
       border-right: 1px solid rgba(255,255,255,0.05);
       opacity: 0;
-      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16,1,0.3,1), background 0.3s ease;
+      transition: opacity 0.8s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1);
       transform: translateY(18px);
       cursor: default;
+      position: relative;
     }
     .s5-pillar:last-child { border-right: none; }
+    /* Premium hover: top-border line grows in + text brightens + lift */
+    .s5-pillar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      transform-origin: center;
+      width: calc(100% - 3rem);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,173,128,0.55), transparent);
+      transition: transform 0.55s cubic-bezier(0.16,1,0.3,1);
+    }
+    .s5-pillar:hover::before {
+      transform: translateX(-50%) scaleX(1);
+    }
     .s5-pillar:hover {
-      background: rgba(43,74,59,0.06);
+      transform: translateY(-3px) !important;
+    }
+    .s5-pillar:hover .s5-pillar-num {
+      color: rgba(245, 235, 215, 0.98);
+      text-shadow: 0 0 30px rgba(201,173,128,0.20), 0 1px 10px rgba(0,0,0,0.4);
+    }
+    .s5-pillar:hover .s5-pillar-label {
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.32em;
+    }
+    .s5-pillar:hover .s5-pillar-desc {
+      color: rgba(255,255,255,0.60);
     }
     .s5-pillar.s5-visible {
       opacity: 1;
@@ -955,10 +983,10 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       font-size: 2.2rem;
       line-height: 1;
       letter-spacing: -0.04em;
-      /* Warm cream — readable against dark video overlay */
       color: rgba(235, 225, 205, 0.88);
       margin-bottom: 0.35rem;
       text-shadow: 0 1px 10px rgba(0,0,0,0.4);
+      transition: color 0.4s ease, text-shadow 0.4s ease;
     }
     .s5-pillar-label {
       font-size: 0.5rem;
@@ -966,6 +994,7 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       letter-spacing: 0.28em;
       text-transform: uppercase;
       color: rgba(255,255,255,0.3);
+      transition: color 0.4s ease, letter-spacing 0.4s ease;
     }
     .s5-pillar-desc {
       font-size: 0.72rem;
@@ -974,6 +1003,7 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       margin-top: 0.3rem;
       text-align: center;
       line-height: 1.5;
+      transition: color 0.4s ease;
     }
     /* Corner frame decorations */
     .s5-corner {
@@ -1042,13 +1072,25 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.025) 30%, rgba(255,255,255,0.025) 70%, transparent);
     }
 
-    /* ── HEADLINE ITALIC: muted warm gold — one controlled accent ──── */
+    /* ── HEADLINE ITALIC: gradient dourado suave — um único punto de destaque ─ */
     .s5-gold-text {
       display: inline-block;
       font-style: italic;
-      /* Desaturated warm gold — low saturation, for accent only */
-      color: #c9ad80;
-      text-shadow: 0 0 80px rgba(180,145,80,0.22), 0 2px 24px rgba(0,0,0,0.45);
+      /* Gradiente suave: dourado desaturado, varia de areia quente a creme iluminado */
+      background: linear-gradient(
+        102deg,
+        #b8976a 0%,
+        #d4b882 28%,
+        #ede0c0 52%,
+        #c9a86a 78%,
+        #b8976a 100%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      /* Leve sombra para profundidade contra o fundo escuro */
+      filter: drop-shadow(0 2px 20px rgba(180,145,80,0.18)) drop-shadow(0 0 60px rgba(160,125,60,0.12));
     }
   </style>
 
@@ -1286,22 +1328,11 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
 
       io5.observe(s5);
 
-      /* Flashlight / spotlight on mouse move */
-      s5.addEventListener('mousemove', function (e) {
-        var rect = s5.getBoundingClientRect();
-        var x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
-        var y = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1);
-        s5.style.setProperty('--s5-mx', x + '%');
-        s5.style.setProperty('--s5-my', y + '%');
-      });
+      /* Spotlight removed — intentional */
     })();
     </script>
 
-    <!-- Mouse spotlight overlay (subtle on-hover reveal) -->
-    <div aria-hidden="true" id="s5-spotlight" style="
-      position:absolute;inset:0;z-index:9;pointer-events:none;
-      background:radial-gradient(500px circle at var(--s5-mx,50%) var(--s5-my,50%), rgba(43,74,59,0.07), transparent 55%);
-    "></div>
+    <!-- Mouse spotlight removed -->
 
   </section>
   <script>
