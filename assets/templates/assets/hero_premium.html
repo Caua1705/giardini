@@ -1922,7 +1922,7 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
 .is-mobile-stack #hero-viewport {
   flex-direction: column !important;
   height: auto !important;
-  min-height: 100vh !important;
+  min-height: auto !important; /* Removido force 100vh para cortar o vazio no fundo */
   overflow: visible !important;
 }
 
@@ -1931,7 +1931,7 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
   order: 1 !important; 
   width: 100% !important;
   height: auto !important;
-  padding: 5rem 1.5rem 1rem !important; /* Respiro no topo ideal sem empurrar demais */
+  padding: 7rem 1.5rem 1rem !important; /* LEVE AUMENTO NO TOPO para descolar do navbar */
   align-items: center !important;
   text-align: center !important;
 }
@@ -1971,7 +1971,8 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
   width: 100% !important;
   height: auto !important;
   aspect-ratio: 4/3 !important; /* Largura x Altura equilibrados para não empurrar tela inteira (horizontal focado) */
-  padding: 0.5rem 1.5rem 2.5rem !important;
+  padding: 0.5rem 1.5rem 0rem !important; /* Removido padding excessivo do bottom */
+  margin-bottom: 0rem !important; /* Garante que o container encoste perto das seções de baixo */
   margin-top: 1rem !important; /* Afastamento clean entre o botão e o vídeo */
 }
 </style>
