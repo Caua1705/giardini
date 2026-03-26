@@ -2226,7 +2226,7 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
           opacity: 0, y: -20, filter: 'blur(5px)', ease: 'power2.in', immediateRender: false,
           scrollTrigger: {
             trigger: wrapper, start: 'top top',
-            end: () => `+=${scrollPx * 0.55}`, scrub: CONFIG.scrub,
+            end: () => `+=${scrollPx * 0.25}`, scrub: CONFIG.scrub,
           }
         });
         /* ── VIDEO-FRAME EXPANSION (split → fullscreen) ──────────── */
