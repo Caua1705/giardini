@@ -188,11 +188,105 @@
       0%, 100% { transform: translate(0, 0) scale(1); }
       50% { transform: translate(20px, -30px) scale(1.04); }
     }
+    /* ── Premium Typography Reveal (GSAP) ── */
+    .line { display: block; overflow: hidden; padding-bottom: 4px; }
+    .line-inner { display: block; transform: translateY(115%); will-change: transform; opacity: 0; }
+    
+    .hero-kicker {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.3em;
+      text-transform: uppercase; color: rgba(183,147,88,0.95);
+      margin-bottom: 2.2rem;
+      opacity: 0; transform: translateY(15px);
+    }
+    .kicker-line { width: 20px; height: 1px; background: rgba(183,147,88,0.8); flex-shrink: 0; }
+    
+    .hero-sep {
+      position: relative; height: 2px; overflow: hidden; margin: 1.5rem 0 1.7rem; max-width: 450px;
+      opacity: 0;
+    }
+    .hero-sep::before {
+      content: ''; position: absolute; top:0; left:0; right:0; height:1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3) 15%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.3) 85%, transparent);
+    }
+    .hero-sep::after {
+      content: ''; position: absolute; top:-1px; left:-65%; width:55%; height:3px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4) 25%, #fff 50%, rgba(255,255,255,0.4) 75%, transparent);
+      filter: blur(1px); animation: hBeam 2.5s cubic-bezier(0.25,0,0.1,1) infinite 1s;
+    }
+    @keyframes hBeam { 0% { left: -65%; } 100% { left: 165%; } }
+
     .hero-content {
       position: relative; z-index: 10;
       padding: 0 4rem 8rem;
       max-width: 1440px; width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+      gap: 4rem;
     }
+    .hero-left { display: flex; flex-direction: column; }
+    .hero-right { display: flex; justify-content: flex-end; align-items: flex-end; opacity: 0; transform: translateY(25px); filter: blur(5px); }
+    
+    .glass-hero-panel {
+      position: relative;
+      width: 100%; max-width: 440px;
+      aspect-ratio: 4/5;
+      background: rgba(10, 10, 10, 0.45);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 35px 80px -15px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.03);
+      transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), box-shadow 0.6s ease;
+    }
+    .glass-hero-panel:hover {
+      transform: scale(1.02); box-shadow: 0 45px 100px -15px rgba(0,0,0,0.9), inset 0 0 0 1px rgba(255,255,255,0.06);
+    }
+    .glass-hero-panel img.hero-img-main {
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0.8; filter: contrast(1.1) saturate(0.85);
+      transition: transform 1.5s cubic-bezier(0.16,1,0.3,1), opacity 1.5s ease;
+    }
+    .glass-hero-panel:hover img.hero-img-main {
+      transform: scale(1.05); opacity: 0.95; filter: contrast(1.15) saturate(1);
+    }
+    .glass-hero-panel::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.7) 100%);
+      pointer-events: none;
+    }
+    .hero-watermark {
+      position: absolute; bottom: 2rem; right: 2rem;
+      height: 24px; width: auto; opacity: 0.15; filter: invert(1); z-index: 10;
+      pointer-events: none; transition: opacity 0.4s ease;
+    }
+    .glass-hero-panel:hover .hero-watermark { opacity: 0.3; }
+    
+    .video-badge {
+      position: absolute; top: 1.5rem; right: 1.5rem; z-index: 15;
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.55rem; font-weight: 700; letter-spacing: 0.22em;
+      text-transform: uppercase; color: rgba(255,255,255,0.8);
+      padding: 0.5rem 0.8rem; background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(8px); border-radius: 99px; border: 1px solid rgba(255,255,255,0.05);
+    }
+    .badge-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: rgba(183,147,88,1);
+      box-shadow: 0 0 8px rgba(183,147,88,0.9);
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+    @keyframes dotPulse { 0%, 100% { box-shadow: 0 0 4px rgba(183,147,88,0.5); } 50% { box-shadow: 0 0 12px rgba(183,147,88,1); } }
+    
+    #hero-spotlight {
+      position: absolute; inset: 0; z-index: 5; pointer-events: none;
+      background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.07), transparent 60%);
+      opacity: 0; transition: opacity 0.6s ease;
+    }
+    .glass-hero-panel:hover #hero-spotlight { opacity: 1; }
     .hero-kicker {
       font-size: 0.6rem; font-weight: 700; letter-spacing: 0.35em;
       text-transform: uppercase; color: rgba(183,147,88,0.8);
@@ -206,18 +300,18 @@
     }
     .hero-title {
       font-family: 'Instrument Serif', serif;
-      font-size: clamp(4rem, 10vw, 9rem);
-      line-height: 0.9; letter-spacing: -0.04em;
-      color: rgba(255,255,255,0.94);
-      margin-bottom: 1.5rem;
+      font-size: clamp(4rem, 10vw, 8.5rem);
+      line-height: 0.95; letter-spacing: -0.04em;
+      color: rgba(255,255,255,0.96);
+      margin-bottom: 0.5rem;
     }
     .hero-title em {
-      font-style: italic; color: rgba(183,147,88,0.9);
+      font-style: italic; color: rgba(183,147,88,0.95);
     }
     .hero-sub {
       font-size: 1.05rem; font-weight: 300;
-      color: rgba(255,255,255,0.42);
-      max-width: 440px; line-height: 1.8;
+      color: rgba(255,255,255,0.48);
+      max-width: 480px; line-height: 1.8;
     }
     .hero-scroll {
       position: absolute; bottom: 3rem; right: 4rem; z-index: 10;
@@ -469,8 +563,9 @@
 
     /* ── Responsive ──────────────────────────────────────────────────── */
     @media (max-width: 1024px) {
+      .hero-content { grid-template-columns: 1fr; padding-bottom: 6rem; gap: 3rem; }
+      .hero-right { display: none; }
       #navbar { padding: 1.5rem 2.5rem; }
-      .hero-content { padding: 0 2.5rem 7rem; }
       .menu-container { padding: 0 2.5rem; }
       .cat-nav-inner { padding: 0 1.5rem; }
     }
@@ -521,9 +616,10 @@
     <a class="mobile-link" href="https://wa.me/5585994452724" target="_blank">Reservar</a>
   </div>
 
-  <!-- Navbar -->
   <nav id="navbar" class="nav-light">
-    <a href="./hero_premium.html" class="nav-logo">Giardini Café</a>
+    <a href="./hero_premium.html" class="nav-logo" aria-label="Início Giardini">
+      <img src="../raw_files/novalogo.webp" alt="Giardini Café" id="navbar-logo" style="height: 38px; width: auto; max-width: 140px; object-fit: contain; filter: invert(1); transition: filter 0.5s ease;">
+    </a>
     <div class="nav-links">
       <a href="./hero_premium.html" class="nav-link">Início</a>
       <a href="./hero_premium.html#featured" class="nav-link">Sabores</a>
@@ -543,12 +639,37 @@
     <div class="hero-orb-2"></div>
 
     <div class="hero-content">
-      <p class="hero-kicker">01 / Giardini Café</p>
-      <h1 class="hero-title">
-        Cardápio<br>
-        <em>Completo</em>
-      </h1>
-      <p class="hero-sub">Sabores que contam histórias. Cada prato, cada copo — preparado com intenção para que você se sinta em casa.</p>
+      <div class="hero-left">
+        <div class="hero-kicker" id="el-kicker">
+          <span class="kicker-line"></span>
+          01 / Giardini Café
+        </div>
+        <h1 class="hero-title" id="hero-headline">
+          <span class="line"><span class="line-inner" id="el-h1a">Cardápio</span></span>
+          <span class="line"><em class="line-inner" id="el-h1b">Completo</em></span>
+        </h1>
+        <div class="hero-sep" id="el-sep" aria-hidden="true"></div>
+        <p class="hero-sub line">
+          <span class="line-inner" id="el-body">Sabores que contam histórias. Cada prato, cada copo — preparado com intenção para que você se sinta em casa.</span>
+        </p>
+      </div>
+      
+      <div class="hero-right" id="el-hero-right">
+        <!-- Premium Video/Image Hero Frame simulation -->
+        <div class="glass-hero-panel" id="video-frame" onmousemove="const rect = this.getBoundingClientRect(); this.style.setProperty('--mouse-x', `${event.clientX - rect.left}px`); this.style.setProperty('--mouse-y', `${event.clientY - rect.top}px`);">
+          <img src="068eb8ef6075.webp" alt="Giardini Gastronomy" class="hero-img-main">
+          
+          <div id="hero-spotlight" aria-hidden="true"></div>
+          
+          <!-- Watermark Logo -->
+          <img src="../raw_files/novalogo.webp" alt="" class="hero-watermark">
+          
+          <div class="video-badge">
+            <div class="badge-dot"></div>
+            EXPERIÊNCIA COMPLETA
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="hero-scroll">
@@ -877,6 +998,16 @@
         document.body.style.opacity = 1;
         loader.style.display = 'none';
         initPage();
+
+        // ── Cinematic GSAP Reveal (Leitura & Café effect) ──
+        const heroTl = gsap.timeline({ defaults: { ease: "power4.out" } });
+        
+        heroTl.to("#el-kicker", { opacity: 1, y: 0, duration: 1.2 }, 0.1)
+              .to("#el-h1a", { opacity: 1, y: "0%", duration: 1.4 }, 0.3)
+              .to("#el-h1b", { opacity: 1, y: "0%", duration: 1.4 }, 0.4)
+              .to("#el-sep", { opacity: 1, duration: 0.8 }, 0.7)
+              .to("#el-body", { opacity: 1, y: "0%", duration: 1.2 }, 0.7)
+              .to("#el-hero-right", { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.8, ease: "power3.out" }, 0.4);
       }
     });
     loadTl
