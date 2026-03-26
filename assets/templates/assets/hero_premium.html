@@ -83,9 +83,19 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
 
 /* ── 1) 1280px: Ajuste Fino ── */
 @media (max-width: 1280px) and (min-width: 1025px) {
+  /* 1) Kicker (Leitura & Café) */
+  .kicker {
+    margin-top: 2.5rem !important;
+  }
+  
+  /* 2) Explore: Posicionado perfeitamente no "corredor" entre o fim do texto e o início da imagem */
   .hero-scroll-wrapper {
-    bottom: 0.5vh !important; /* Mais para baixo */
-    margin-left: 2rem !important; /* Um pouco mais para a direita criando margem do vídeo */
+    left: 46% !important; 
+    right: auto !important;
+    bottom: -2vh !important; 
+    transform: translateX(-50%) !important;
+    margin-right: 0 !important;
+    gap: 0.3rem !important; /* Reduz o gap p/ a linha encostar / ficar mais próxima do texto Explore */
   }
 }
 
