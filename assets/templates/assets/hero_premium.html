@@ -2204,14 +2204,16 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       gsap.ticker.lagSmoothing(0);
 
       // ── SMOOTH SCROLL FOR MENU LINKS (Optimized) ──────────────────
-      document.querySelectorAll('.nav-link, .ft-nav-link').forEach(anchor => {
+      document.querySelectorAll('.nav-link, .ft-nav-link, .nav-logo').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
           const href = this.getAttribute('href');
-          if (!href || !href.startsWith('#') || href === '#') return;
+          if (!href || (!href.startsWith('#') && href !== '#')) return;
           
           e.preventDefault();
-          const target = document.querySelector(href);
-          if (target) {
+          // Fix: if href is just #, target is top of page
+          const target = (href === '#') ? 0 : document.querySelector(href);
+          
+          if (target !== null) {
             lenis.scrollTo(target, {
               offset: 0,
               duration: 1.2,
