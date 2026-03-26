@@ -244,13 +244,11 @@
     /* ── Category Nav ────────────────────────────────────────────────── */
     #cat-nav {
       position: sticky; top: 0; z-index: 400;
-      background: rgba(253,251,247,0.97);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(26,26,26,0.06);
-      transition: box-shadow 0.3s ease;
+      background: rgba(253,251,247,0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(26,26,26,0.04);
     }
-    #cat-nav.shadowed { box-shadow: 0 4px 20px -4px rgba(0,0,0,0.06); }
     .cat-nav-inner {
       max-width: 1200px; margin: 0 auto;
       padding: 0 2.5rem;
@@ -329,11 +327,14 @@
       align-items: start;
       padding: 1.75rem 0;
       border-bottom: 1px solid rgba(26,26,26,0.05);
-      transition: background 0.2s ease;
     }
     .menu-item:last-child { border-bottom: none; }
-    .menu-item:hover { background: rgba(43,74,59,0.015); margin: 0 -1.5rem; padding-left: 1.5rem; padding-right: 1.5rem; }
-    .item-body {}
+    .item-body {
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .menu-item:hover .item-body {
+      transform: translateX(6px);
+    }
     .item-name {
       font-family: 'Instrument Serif', serif;
       font-size: clamp(1.1rem, 2.2vw, 1.45rem);
@@ -451,11 +452,11 @@
 
     /* ── Reveal animations ───────────────────────────────────────────── */
     .reveal {
-      opacity: 0; transform: translateY(22px);
-      filter: blur(6px);
-      transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1), filter 0.9s cubic-bezier(0.16,1,0.3,1);
+      opacity: 0; transform: translateY(15px);
+      transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1);
+      will-change: opacity, transform;
     }
-    .reveal.is-visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
     .reveal-delay-1 { transition-delay: 0.1s; }
     .reveal-delay-2 { transition-delay: 0.2s; }
 
@@ -884,83 +885,67 @@
       .to(loader, { yPercent: -105, duration: 1, ease: 'power4.inOut' }, '-=0.2');
 
     function initPage() {
-      /* Navbar state */
-      ScrollTrigger.create({
-        start: 'top -60',
-        end: 99999,
-        onUpdate: self => {
-          const nav = document.getElementById('navbar');
-          if (self.progress > 0) {
-            nav.classList.remove('nav-light');
-            nav.classList.add('nav-scrolled');
-          } else {
-            nav.classList.add('nav-light');
-            nav.classList.remove('nav-scrolled');
-          }
-        }
-      });
-
-      /* Cat nav shadow */
+      const nav = document.getElementById('navbar');
       const catNav = document.getElementById('cat-nav');
-      ScrollTrigger.create({
-        trigger: catNav,
-        start: 'top top',
-        end: 99999,
-        scrub: false,
-        onEnter: () => catNav.classList.add('shadowed'),
-        onLeaveBack: () => catNav.classList.remove('shadowed'),
-      });
+      const catNavInner = document.getElementById('cat-nav-inner');
+      const catBtns = document.querySelectorAll('.cat-btn');
+      const sections = document.querySelectorAll('[data-cat]');
 
-      /* Reveal on scroll */
-      document.querySelectorAll('.reveal').forEach(el => {
-        ScrollTrigger.create({
-          trigger: el,
-          start: 'top 88%',
-          onEnter: () => el.classList.add('is-visible'),
+      /* Navbar state */
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 60) {
+          nav.classList.remove('nav-light');
+          nav.classList.add('nav-scrolled');
+        } else {
+          nav.classList.add('nav-light');
+          nav.classList.remove('nav-scrolled');
+        }
+      }, { passive: true });
+
+      /* Native Intersection Observer for reveals */
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
         });
-      });
+      }, { rootMargin: "0px 0px -12% 0px" });
+
+      document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
       /* Category nav — click & smooth scroll */
-      document.querySelectorAll('.cat-btn').forEach(btn => {
+      catBtns.forEach(btn => {
         btn.addEventListener('click', () => {
           const id = btn.dataset.target;
           const target = document.getElementById(id);
           if (target) {
             const catNavH = catNav.getBoundingClientRect().height;
-            const top = target.getBoundingClientRect().top + window.scrollY - catNavH - 20;
+            const top = target.getBoundingClientRect().top + window.scrollY - catNavH - 40;
             window.scrollTo({ top: top, behavior: 'smooth' });
           }
         });
       });
 
-      /* Highlight active category on scroll */
-      const sections = document.querySelectorAll('[data-cat]');
-      const catBtns  = document.querySelectorAll('.cat-btn');
-      const catNavInner = document.getElementById('cat-nav-inner');
-
+      /* Native Intersection Observer for active category */
       function setActive(id) {
-        catBtns.forEach(b => {
-          b.classList.toggle('active', b.dataset.target === id);
-        });
-        /* Auto-scroll nav to keep active btn visible */
+        catBtns.forEach(b => b.classList.toggle('active', b.dataset.target === id));
         const activeBtn = catNavInner.querySelector('.cat-btn.active');
         if (activeBtn) {
           const btnLeft = activeBtn.offsetLeft;
-          const btnW    = activeBtn.offsetWidth;
-          const navW    = catNavInner.parentElement.offsetWidth;
+          const btnW = activeBtn.offsetWidth;
+          const navW = catNavInner.parentElement.offsetWidth;
           catNavInner.scrollTo({ left: btnLeft - navW / 2 + btnW / 2, behavior: 'smooth' });
         }
       }
 
-      sections.forEach(sec => {
-        ScrollTrigger.create({
-          trigger: sec,
-          start: 'top 55%',
-          end: 'bottom 55%',
-          onEnter:      () => setActive(sec.dataset.cat),
-          onEnterBack:  () => setActive(sec.dataset.cat),
+      const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) setActive(entry.target.dataset.cat);
         });
-      });
+      }, { rootMargin: "-25% 0px -65% 0px" });
+
+      sections.forEach(sec => sectionObserver.observe(sec));
     }
 
     /* ── Mobile menu ── */
