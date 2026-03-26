@@ -120,24 +120,11 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
     padding: 0 2rem 0 0 !important;
   }
 
-  /* Problema 2: Botão Explore integrado abaixo do texto (não solto) */
+  /* Restore: Botão Explore elegante, vertical e centralizado */
   .hero-scroll-wrapper {
-    left: 3rem !important; /* Alinha sob o texto da esquerda */
-    bottom: 4rem !important;
-    transform: none !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    gap: 1rem !important;
-    margin-left: 0 !important;
-  }
-  .hero-scroll-wrapper > div:last-child {
-    width: 60px !important;
-    height: 1px !important;
-  }
-  .hero-scroll-wrapper > div:last-child > div {
-    width: 50% !important;
-    height: 100% !important;
-    animation: explore-horiz-sweep 2s ease-in-out infinite !important;
+    left: 50% !important;
+    bottom: 3vh !important;
+    transform: translateX(-50%) !important;
   }
 
   /* Problema 4: Visite Nossa Casa cortado na Section Location */
@@ -146,11 +133,7 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
   }
 }
 
-/* Animação auxiliar do Explore em 1024px */
-@keyframes explore-horiz-sweep {
-  0%, 100% { left: 0%; }
-  50% { left: 50%; }
-}
+
 
 /* ── 3) 900px: Refinamento e Kicker ── */
 @media (max-width: 900px) and (min-width: 768px) {
@@ -181,9 +164,17 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
     padding: 0 1.5rem 0 0 !important;
   }
 
-  /* Explore fica invisível por estar apertado (Ajuste opcional sugerido) */
-  .hero-scroll-wrapper, #hero-clock {
+  /* Ocultar apenas o relógio. Reintroduzir Explore compactado e perfeitamente alinhado */
+  #hero-clock {
     display: none !important;
+  }
+  
+  /* Explore ressurge fino, centralizado e vertical no inferior da tela */
+  .hero-scroll-wrapper {
+    display: flex !important;
+    left: 50% !important; 
+    bottom: 2vh !important; 
+    transform: translateX(-50%) !important;
   }
   
   #location h2 {
