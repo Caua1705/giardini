@@ -78,15 +78,27 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
 }
 /* ── CLUBE STEP: hover bar transition already inline ─────────── */
 /* ══ RESPONSIVE HERO FIXES (User Requested) ═════════════════════ */
-/* Notebook / Tablet: Apenas reduzir paddings suavemente e manter grid */
+/* Notebook / Desktop menor: Ajustes exclusivos para 768px até 1279px */
 @media (max-width: 1279px) and (min-width: 768px) {
-  #hero-left {
-    width: 50% !important;
-    padding: 0 2.5rem 0 3rem !important;
+  #hero-viewport {
+    height: 100% !important;
+    min-height: 100vh !important;
+    align-items: stretch !important;
   }
+  
+  #hero-left {
+    width: clamp(380px, 50%, 550px) !important;
+    padding: clamp(4.5rem, 10vh, 6rem) 2.5rem clamp(3rem, 8vh, 4rem) 3rem !important;
+  }
+  
   #hero-right {
-    width: 50% !important;
-    padding: 7rem 2.5rem 3rem 1rem !important;
+    width: auto !important;
+    flex: 1 !important;
+    padding: clamp(4.5rem, 10vh, 7rem) 2.5rem clamp(2rem, 5vh, 3rem) 1rem !important;
+  }
+  
+  .hero-body {
+    max-width: clamp(340px, 90%, 450px) !important;
   }
 }
 
