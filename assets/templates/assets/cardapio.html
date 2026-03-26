@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cardápio — Giardini Café</title>
+  <meta name="description" content="Explore o cardápio completo do Giardini Café. Croissants artesanais, cafés de origem, brunchs, pratos e confeitaria premium em Fortaleza." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'c-bg':      '#FDFBF7',
+            'c-dark':    '#1A1A1A',
+            'c-primary': '#2B4A3B',
+            'c-accent':  '#EAE4D9',
+          },
+          fontFamily: {
+            sans:  ['Inter', 'sans-serif'],
+            serif: ['Instrument Serif', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Icons -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+  <!-- GSAP + Lenis -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+  <style>
+    :root {
+      --c-bg:      #FDFBF7;
+      --c-dark:    #1A1A1A;
+      --c-primary: #2B4A3B;
+      --c-accent:  #EAE4D9;
+      --c-gold:    #B79358;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--c-bg);
+      color: var(--c-dark);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      opacity: 0;
+    }
+
+    /* ── Noise ─────────────────────────────────────────────────────── */
+    .noise-overlay {
+      position: fixed; inset: 0; pointer-events: none; z-index: 9000;
+      opacity: 0.22;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+
+    /* ── Loader ─────────────────────────────────────────────────────── */
+    .loader {
+      position: fixed; inset: 0; background: var(--c-bg);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 10000;
+    }
+    .loader-text {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      color: var(--c-primary);
+      letter-spacing: -0.02em;
+    }
+    .loader-bar {
+      position: absolute; bottom: 0; left: 0;
+      height: 3px; width: 0%; background: var(--c-primary);
+    }
+
+    /* ── Navbar ─────────────────────────────────────────────────────── */
+    #navbar {
+      position: fixed; top: 0; width: 100%;
+      padding: 2rem 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 500;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #navbar.nav-light { color: rgba(255,255,255,0.9); }
+    #navbar.nav-scrolled {
+      background: rgba(253,251,247,0.96);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      padding-top: 1.35rem; padding-bottom: 1.35rem;
+      color: var(--c-dark);
+    }
+    .nav-logo { font-family: 'Instrument Serif', serif; font-size: 1.6rem; letter-spacing: -0.01em; text-decoration: none; }
+    .nav-light .nav-logo { color: #fff; }
+    .nav-scrolled .nav-logo { color: var(--c-dark); }
+    .nav-links { display: flex; gap: 2.5rem; align-items: center; }
+    .nav-link {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.18em;
+      text-transform: uppercase; text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .nav-light .nav-link { color: rgba(255,255,255,0.8); }
+    .nav-light .nav-link:hover { color: #fff; }
+    .nav-scrolled .nav-link { color: var(--c-dark); opacity: 0.65; }
+    .nav-scrolled .nav-link:hover { opacity: 1; color: var(--c-primary); }
+    .nav-btn {
+      font-size: 0.62rem; font-weight: 600; letter-spacing: 0.18em;
+      text-transform: uppercase; text-decoration: none;
+      padding: 0.65rem 1.5rem;
+      border-radius: 9999px;
+      transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    .nav-light .nav-btn {
+      border: 1px solid rgba(255,255,255,0.35);
+      color: #fff;
+    }
+    .nav-light .nav-btn:hover { background: rgba(255,255,255,0.12); }
+    .nav-scrolled .nav-btn {
+      background: var(--c-primary); color: #FDFBF7;
+      border: 1px solid transparent;
+    }
+    .nav-scrolled .nav-btn:hover { background: #1e3529; }
+
+    .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 0.25rem; }
+
+    /* Mobile menu */
+    #mobile-menu {
+      display: none;
+      position: fixed; inset: 0; z-index: 490;
+      background: var(--c-bg);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 2.5rem;
+    }
+    #mobile-menu.open { display: flex; }
+    .mobile-link {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.2rem; color: var(--c-dark);
+      text-decoration: none; letter-spacing: -0.01em;
+    }
+    .mobile-link:hover { color: var(--c-primary); }
+    .mobile-close {
+      position: absolute; top: 1.5rem; right: 2rem;
+      background: none; border: none; cursor: pointer;
+      font-size: 1.5rem; color: var(--c-dark);
+    }
+
+    /* ── Hero ────────────────────────────────────────────────────────── */
+    #hero {
+      position: relative; height: 100vh; min-height: 600px;
+      display: flex; flex-direction: column;
+      align-items: flex-start; justify-content: flex-end;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(165deg, #07100D 0%, #1a2e20 55%, #0d1a10 100%);
+    }
+    .hero-grain {
+      position: absolute; inset: 0; pointer-events: none; z-index: 2; opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+    }
+    .hero-orb-1 {
+      position: absolute; top: -10%; right: -5%; width: 60vw; height: 60vw;
+      border-radius: 50%; pointer-events: none; z-index: 1;
+      background: radial-gradient(circle, rgba(43,74,59,0.35) 0%, transparent 60%);
+      animation: orb-float 18s ease-in-out infinite;
+    }
+    .hero-orb-2 {
+      position: absolute; bottom: -15%; left: -8%; width: 50vw; height: 50vw;
+      border-radius: 50%; pointer-events: none; z-index: 1;
+      background: radial-gradient(circle, rgba(183,147,88,0.12) 0%, transparent 65%);
+      animation: orb-float 24s ease-in-out infinite 4s reverse;
+    }
+    @keyframes orb-float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(20px, -30px) scale(1.04); }
+    }
+    .hero-content {
+      position: relative; z-index: 10;
+      padding: 0 4rem 8rem;
+      max-width: 1440px; width: 100%;
+    }
+    .hero-kicker {
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.35em;
+      text-transform: uppercase; color: rgba(183,147,88,0.8);
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    .hero-kicker::before {
+      content: '';
+      width: 24px; height: 1px;
+      background: rgba(183,147,88,0.5);
+    }
+    .hero-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: 0.9; letter-spacing: -0.04em;
+      color: rgba(255,255,255,0.94);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em {
+      font-style: italic; color: rgba(183,147,88,0.9);
+    }
+    .hero-sub {
+      font-size: 1.05rem; font-weight: 300;
+      color: rgba(255,255,255,0.42);
+      max-width: 440px; line-height: 1.8;
+    }
+    .hero-scroll {
+      position: absolute; bottom: 3rem; right: 4rem; z-index: 10;
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: rgba(255,255,255,0.25);
+      font-size: 0.5rem; font-weight: 600;
+      letter-spacing: 0.3em; text-transform: uppercase;
+    }
+    .hero-scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+      position: relative; overflow: hidden;
+    }
+    .hero-scroll-line::after {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 100%; height: 50%;
+      background: rgba(183,147,88,0.7);
+      animation: scroll-drop 2s ease-in-out infinite;
+    }
+    @keyframes scroll-drop {
+      0%, 100% { top: 0%; } 50% { top: 50%; }
+    }
+
+    /* ── Category Nav ────────────────────────────────────────────────── */
+    #cat-nav {
+      position: sticky; top: 0; z-index: 400;
+      background: rgba(253,251,247,0.97);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(26,26,26,0.06);
+      transition: box-shadow 0.3s ease;
+    }
+    #cat-nav.shadowed { box-shadow: 0 4px 20px -4px rgba(0,0,0,0.06); }
+    .cat-nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 2.5rem;
+      display: flex; align-items: center; gap: 0;
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .cat-nav-inner::-webkit-scrollbar { display: none; }
+    .cat-btn {
+      flex-shrink: 0;
+      padding: 1.2rem 1.5rem;
+      font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(26,26,26,0.45);
+      background: none; border: none; border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+    .cat-btn:hover { color: var(--c-primary); }
+    .cat-btn.active { color: var(--c-primary); border-bottom-color: var(--c-primary); }
+
+    /* ── Menu Sections ───────────────────────────────────────────────── */
+    .menu-section {
+      padding: 6rem 0;
+      border-bottom: 1px solid rgba(26,26,26,0.06);
+    }
+    .menu-section:last-of-type { border-bottom: none; }
+    .menu-container {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 4rem;
+    }
+    .section-header {
+      display: flex; align-items: baseline;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 4rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(26,26,26,0.07);
+    }
+    .section-kicker {
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--c-primary); margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 0.65rem;
+    }
+    .section-kicker::before {
+      content: ''; display: inline-block;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--c-primary); flex-shrink: 0;
+    }
+    .section-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.2rem, 4vw, 3.6rem);
+      letter-spacing: -0.03em; line-height: 1;
+      color: var(--c-dark);
+    }
+    .section-title em {
+      font-style: italic; color: var(--c-primary);
+    }
+    .section-count {
+      font-size: 0.58rem; font-weight: 700; letter-spacing: 0.25em;
+      text-transform: uppercase; color: rgba(26,26,26,0.2);
+      white-space: nowrap; align-self: flex-end;
+    }
+
+    /* Menu item rows */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .menu-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1.5rem;
+      align-items: start;
+      padding: 1.75rem 0;
+      border-bottom: 1px solid rgba(26,26,26,0.05);
+      transition: background 0.2s ease;
+    }
+    .menu-item:last-child { border-bottom: none; }
+    .menu-item:hover { background: rgba(43,74,59,0.015); margin: 0 -1.5rem; padding-left: 1.5rem; padding-right: 1.5rem; }
+    .item-body {}
+    .item-name {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+      letter-spacing: -0.01em;
+      color: var(--c-dark);
+      margin-bottom: 0.35rem;
+      line-height: 1.2;
+    }
+    .item-desc {
+      font-size: 0.78rem; font-weight: 300;
+      color: rgba(26,26,26,0.48);
+      line-height: 1.65; max-width: 560px;
+    }
+    .item-badges {
+      display: flex; gap: 0.35rem; flex-wrap: wrap;
+      margin-top: 0.6rem;
+    }
+    .badge {
+      font-size: 0.5rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 0.2rem 0.6rem; border-radius: 9999px;
+    }
+    .badge-new { background: rgba(43,74,59,0.1); color: var(--c-primary); }
+    .badge-veg { background: rgba(100,180,100,0.12); color: #2d6e2d; }
+    .badge-hot { background: rgba(183,80,40,0.1); color: #a03820; }
+    .item-price {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.15rem; letter-spacing: -0.01em;
+      color: var(--c-dark);
+      white-space: nowrap; padding-top: 0.1rem;
+      text-align: right;
+    }
+    .item-price-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.58rem; font-weight: 500;
+      letter-spacing: 0.1em; color: rgba(26,26,26,0.3);
+      text-transform: uppercase; text-align: right;
+      margin-top: 0.1rem;
+    }
+
+    /* Dividers */
+    .cat-divider {
+      height: 1px; margin: 0;
+      background: linear-gradient(to right, transparent, rgba(43,74,59,0.15) 30%, rgba(43,74,59,0.15) 70%, transparent);
+    }
+
+    /* ── PDF Section ─────────────────────────────────────────────────── */
+    #pdf-section {
+      padding: 7rem 2rem;
+      text-align: center;
+      background: linear-gradient(160deg, #f5eedf 0%, #ede5d0 100%);
+      position: relative; overflow: hidden;
+    }
+    #pdf-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(43,74,59,0.08) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none; opacity: 0.8;
+    }
+    .pdf-label {
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.3em;
+      text-transform: uppercase; color: rgba(26,26,26,0.4);
+      margin-bottom: 1.25rem;
+    }
+    .pdf-heading {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2rem, 4.5vw, 3.5rem);
+      letter-spacing: -0.03em; line-height: 1;
+      color: var(--c-dark); margin-bottom: 0.75rem;
+    }
+    .pdf-heading em { font-style: italic; color: var(--c-primary); }
+    .pdf-sub {
+      font-size: 0.9rem; font-weight: 300;
+      color: rgba(26,26,26,0.45); margin-bottom: 2.5rem;
+    }
+    .pdf-btn {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      padding: 1rem 2.5rem;
+      background: var(--c-primary); color: #FDFBF7;
+      font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      text-decoration: none; border-radius: 9999px;
+      transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+      position: relative; overflow: hidden;
+    }
+    .pdf-btn:hover { background: #1e3529; transform: translateY(-2px); box-shadow: 0 16px 40px -8px rgba(43,74,59,0.35); }
+    .pdf-btn svg { flex-shrink: 0; }
+
+    /* ── Footer ──────────────────────────────────────────────────────── */
+    footer {
+      padding: 4rem 4rem 3rem;
+      border-top: 1px solid rgba(26,26,26,0.06);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 2rem;
+    }
+    .footer-logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.6rem; letter-spacing: -0.01em;
+      color: var(--c-dark); text-decoration: none;
+    }
+    .footer-links { display: flex; gap: 1.5rem; align-items: center; }
+    .footer-link {
+      width: 2.5rem; height: 2.5rem; border-radius: 50%;
+      background: var(--c-accent);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--c-dark); text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .footer-link:hover { background: var(--c-primary); color: #fff; transform: translateY(-2px); }
+    .footer-copy {
+      font-size: 0.58rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(26,26,26,0.28);
+    }
+
+    /* ── Reveal animations ───────────────────────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(22px);
+      filter: blur(6px);
+      transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1), filter 0.9s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+
+    /* ── Responsive ──────────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      #navbar { padding: 1.5rem 2.5rem; }
+      .hero-content { padding: 0 2.5rem 7rem; }
+      .menu-container { padding: 0 2.5rem; }
+      .cat-nav-inner { padding: 0 1.5rem; }
+    }
+
+    @media (max-width: 767px) {
+      #navbar { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .hero-content { padding: 0 1.5rem 6rem; }
+      .hero-sub { font-size: 0.9rem; }
+      .menu-container { padding: 0 1.5rem; }
+      .menu-section { padding: 4rem 0; }
+      .section-header { flex-direction: column; gap: 0.5rem; }
+      .section-count { display: none; }
+      .menu-item:hover { margin: 0; padding-left: 0; padding-right: 0; }
+      .cat-btn { padding: 1rem 1.1rem; font-size: 0.6rem; }
+      footer { padding: 3rem 1.5rem 2rem; flex-direction: column; align-items: flex-start; }
+      .hero-scroll { right: 1.5rem; }
+      #pdf-section { padding: 5rem 1.5rem; }
+    }
+
+    @media (max-width: 430px) {
+      .hero-title { font-size: 3.2rem; }
+      .item-name { font-size: 1.05rem; }
+      .item-price { font-size: 1rem; }
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+  <!-- Noise -->
+  <div class="noise-overlay"></div>
+
+  <!-- Preloader -->
+  <div class="loader" id="loader">
+    <div class="loader-text">Giardini</div>
+    <div class="loader-bar" id="loader-bar"></div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Navegação">
+    <button class="mobile-close" id="mobile-close" aria-label="Fechar menu">
+      <iconify-icon icon="lucide:x"></iconify-icon>
+    </button>
+    <a class="mobile-link" href="./hero_premium.html">Início</a>
+    <a class="mobile-link" href="./cardapio.html" style="color:var(--c-primary)">Cardápio</a>
+    <a class="mobile-link" href="./hero_premium.html#location">Localização</a>
+    <a class="mobile-link" href="https://wa.me/5585994452724" target="_blank">Reservar</a>
+  </div>
+
+  <!-- Navbar -->
+  <nav id="navbar" class="nav-light">
+    <a href="./hero_premium.html" class="nav-logo">Giardini Café</a>
+    <div class="nav-links">
+      <a href="./hero_premium.html" class="nav-link">Início</a>
+      <a href="./hero_premium.html#featured" class="nav-link">Sabores</a>
+      <a href="./hero_premium.html#location" class="nav-link">Visite-nos</a>
+      <a href="https://wa.me/5585994452724" target="_blank" class="nav-btn">Reservar →</a>
+    </div>
+    <button class="nav-hamburger" id="hamburger" aria-label="Abrir menu">
+      <iconify-icon icon="lucide:menu" style="font-size:1.6rem;color:currentColor"></iconify-icon>
+    </button>
+  </nav>
+
+  <!-- ════ HERO ════════════════════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grain"></div>
+    <div class="hero-orb-1"></div>
+    <div class="hero-orb-2"></div>
+
+    <div class="hero-content">
+      <p class="hero-kicker">01 / Giardini Café</p>
+      <h1 class="hero-title">
+        Cardápio<br>
+        <em>Completo</em>
+      </h1>
+      <p class="hero-sub">Sabores que contam histórias. Cada prato, cada copo — preparado com intenção para que você se sinta em casa.</p>
+    </div>
+
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ════ CATEGORY NAV ═══════════════════════════════════════════════ -->
+  <nav id="cat-nav" aria-label="Categorias do cardápio">
+    <div class="cat-nav-inner" id="cat-nav-inner">
+      <button class="cat-btn active" data-target="croissants">Croissants</button>
+      <button class="cat-btn" data-target="bruschettas">Bruschettas</button>
+      <button class="cat-btn" data-target="paes">Pães &amp; Chapa</button>
+      <button class="cat-btn" data-target="tapioca">Tapioca &amp; Cuscuz</button>
+      <button class="cat-btn" data-target="salgados">Salgados</button>
+      <button class="cat-btn" data-target="sanduiches">Sanduíches</button>
+      <button class="cat-btn" data-target="fit">Mundo Fit</button>
+      <button class="cat-btn" data-target="confeitaria">Confeitaria</button>
+      <button class="cat-btn" data-target="combos">Big Combos</button>
+      <button class="cat-btn" data-target="adicionais">Adicionais</button>
+      <button class="cat-btn" data-target="barista">Barista</button>
+      <button class="cat-btn" data-target="drinks">Drinks</button>
+      <button class="cat-btn" data-target="softdrinks">Soft Drinks</button>
+      <button class="cat-btn" data-target="sucos">Sucos</button>
+    </div>
+  </nav>
+
+  <!-- ════ MENU BODY ══════════════════════════════════════════════════ -->
+  <main id="menu-body">
+
+    <!-- ── Croissants ──────────────────────────────── -->
+    <section class="menu-section" id="croissants" data-cat="croissants">
+      <div class="menu-container">
+        <div class="section-header reveal"><div><p class="section-kicker">Croissants</p><h2 class="section-title">Massa <em>folhada</em></h2></div><span class="section-count">06 itens</span></div>
+        <div class="menu-grid">
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">O Clássico</h3><p class="item-desc">Acompanha manteiga ou geleia da casa.</p></div><div><p class="item-price">R$ 15</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Brie e Mel</h3><p class="item-desc">Queijo brie maçaricado e mel.</p></div><div><p class="item-price">R$ 34</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Caprese</h3><p class="item-desc">Mussarela de búfala, tomate confit e pesto.</p><div class="item-badges"><span class="badge badge-veg">Vegetariano</span></div></div><div><p class="item-price">R$ 35</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Doce de Leite Artesanal</h3><p class="item-desc">Doce de leite artesanal.</p></div><div><p class="item-price">R$ 28</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Frango com Requeijão</h3><p class="item-desc">Frango com requeijão cremoso.</p></div><div><p class="item-price">R$ 28</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Sertaneja</h3><p class="item-desc">Carne de sol, purê de jerimum e picles de cebola roxa.</p><div class="item-badges"><span class="badge badge-hot">Casa</span></div></div><div><p class="item-price">R$ 30</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Bruschettas ──────────────────────────────── -->
+    <section class="menu-section" id="bruschettas" data-cat="bruschettas">
+      <div class="menu-container">
+        <div class="section-header reveal"><div><p class="section-kicker">Bruschettas</p><h2 class="section-title">Pão & <em>tradição</em></h2></div><span class="section-count">03 itens</span></div>
+        <div class="menu-grid">
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Confit Rústica</h3><p class="item-desc">Tomates confit, manjericão fresco e parmesão.</p><div class="item-badges"><span class="badge badge-veg">Vegetariano</span></div></div><div><p class="item-price">R$ 15</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Brie com Parma</h3><p class="item-desc">Queijo brie derretido, presunto de parma e mel.</p></div><div><p class="item-price">R$ 30</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Vigneto Cremoso</h3><p class="item-desc">Cream cheese, uvas verdes assadas, mel e manjericão.</p></div><div><p class="item-price">R$ 23</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Pães & Chapa ──────────────────────────────── -->
+    <section class="menu-section" id="paes" data-cat="paes">
+      <div class="menu-container">
+        <div class="section-header reveal"><div><p class="section-kicker">Pães &amp; Chapa</p><h2 class="section-title">Simples & <em>irresistível</em></h2></div><span class="section-count">06 itens</span></div>
+        <div class="menu-grid">
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Pão na Chapa</h3><p class="item-desc">Com manteiga da terra ou requeijão.</p></div><div><p class="item-price">R$ 7</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Pão com Ovo</h3><p class="item-desc">Ovo frito ou mexido cremoso.</p></div><div><p class="item-price">R$ 10</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Misto Quente Clássico</h3><p class="item-desc">Presunto e queijo derretido.</p></div><div><p class="item-price">R$ 15</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Queijo Quente</h3><p class="item-desc">Queijo derretido.</p></div><div><p class="item-price">R$ 13</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Frango Giardini</h3><p class="item-desc">Frango desfiado e requeijão.</p></div><div><p class="item-price">R$ 20</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Pão Sertanejo</h3><p class="item-desc">Carne de sol refogada e queijo.</p></div><div><p class="item-price">R$ 24</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Tapioca & Cuscuz ──────────────────────────── -->
+    <section class="menu-section" id="tapioca" data-cat="tapioca">
+      <div class="menu-container">
+        <div class="section-header reveal"><div><p class="section-kicker">Tapioca &amp; Cuscuz</p><h2 class="section-title">Raízes <em>nordestinas</em></h2></div><span class="section-count">07 itens</span></div>
+        <!-- dual-price header -->
+        <div class="reveal" style="display:grid;grid-template-columns:1fr auto auto;gap:1rem;align-items:center;padding:0 0 1.25rem;margin-bottom:1.5rem;border-bottom:1px solid rgba(26,26,26,0.07);">
+          <span></span>
+          <span style="font-size:0.55rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(26,26,26,0.3);text-align:right;white-space:nowrap;">Cuscuz</span>
+          <span style="font-size:0.55rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(26,26,26,0.3);text-align:right;white-space:nowrap;min-width:4.5rem;">Tapioca</span>
+        </div>
+        <div class="menu-grid">
+          <!-- dual-price item -->
+          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
+            <div class="item-body"><h3 class="item-name">Tradicional</h3><p class="item-desc">Manteiga ou leite de coco.</p></div>
+            <p class="item-price">R$ 18</p><p class="item-price" style="min-width:4.5rem;">R$ 15</p>
+          </div>
+          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
+            <div class="item-body"><h3 class="item-name">Classic Eggs</h3><p class="item-desc">Ovo frito ou mexido.</p></div>
+            <p class="item-price">R$ 20</p><p class="item-price" style="min-width:4.5rem;">R$ 18</p>
+          </div>
+          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
+            <div class="item-body"><h3 class="item-name">Queijo Coalho</h3><p class="item-desc">Queijo na manteiga da terra.</p></div>
+            <p class="item-price">R$ 23</p><p class="item-price" style="min-width:4.5rem;">R$ 21</p>
+          </div>
+          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
+            <div class="item-body"><h3 class="item-name">Frango Cremoso</h3><p class="item-desc">Frango, milho, requeijão e vinagrete.</p></div>
+            <p class="item-price">R$ 25</p><p class="item-price" style="min-width:4.5rem;">R$ 25</p>
+          </div>
+          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
+            <div class="item-body"><h3 class="item-name">Caprese</h3><p class="item-desc">Queijo, tomate e manjericão.</p><div class="item-badges"><span class="badge badge-veg">Vegetariano</span></div></div>
+            <p class="item-price">R$ 28</p><p class="item-price" style="min-width:4.5rem;">R$ 26</p>
+          </div>
+          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
+            <div class="item-body"><h3 class="item-name">Sertão</h3><p class="item-desc">Carne de sol e queijo coalho.</p></div>
+            <p class="item-price">R$ 30</p><p class="item-price" style="min-width:4.5rem;">R$ 30</p>
+          </div>
+          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
+            <div class="item-body"><h3 class="item-name">Gostosinho</h3><p class="item-desc">Carne moída, ovos, vinagrete e cheiro verde.</p></div>
+            <p class="item-price">R$ 30</p><p class="item-price" style="min-width:4.5rem;">R$ 30</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Salgados de Forno ─────────────────────────── -->
+    <section class="menu-section" id="salgados" data-cat="salgados">
+      <div class="menu-container">
+        <div class="section-header reveal"><div><p class="section-kicker">Salgados de Forno</p><h2 class="section-title">Forno & <em>crocância</em></h2></div><span class="section-count">05 itens</span></div>
+        <div class="menu-grid">
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Pão de Queijo Mineiro</h3><p class="item-desc">Pão de queijo artesanal.</p></div><div><p class="item-price">R$ 3</p><p class="item-price-sub">Unidade</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Porção de Mini Coxinhas</h3><p class="item-desc">Frango desfiado.</p></div><div><p class="item-price">R$ 20</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Guirlanda Folheada</h3><p class="item-desc">Carne de sol ou frango com recheio cremoso.</p></div><div><p class="item-price">—</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Quiche Especial</h3><p class="item-desc">Alho poró e brie / carne de sol com requeijão.</p></div><div><p class="item-price">R$ 20</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Coxinha Giardini</h3><p class="item-desc">Frango cremoso / carne do sol com requeijão.</p></div><div><p class="item-price">R$ 15</p><p class="item-price-sub">R$ 16 carne</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Sanduíches Gourmet ────────────────────────── -->
+    <section class="menu-section" id="sanduiches" data-cat="sanduiches">
+      <div class="menu-container">
+        <div class="section-header reveal"><div><p class="section-kicker">Sanduíches Gourmet</p><h2 class="section-title">Brioche & <em>sabor</em></h2></div><span class="section-count">04 itens</span></div>
+        <div class="menu-grid">
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Garden Caprese</h3><p class="item-desc">Queijo branco, pesto de manjericão, tomate confit e rúcula no pão brioche.</p><div class="item-badges"><span class="badge badge-veg">Vegetariano</span></div></div><div><p class="item-price">R$ 23</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Lemon Chicken</h3><p class="item-desc">Frango, creme de ricota com limão siciliano e folhas frescas no pão brioche.</p></div><div><p class="item-price">R$ 22</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Brioche Bacon &amp; Egg</h3><p class="item-desc">Ovo cremoso, bacon crocante e mix de queijo no pão brioche.</p></div><div><p class="item-price">R$ 25</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Giardini Burguer</h3><p class="item-desc">Blend artesanal, queijo brie, cebola caramelizada e geleia de pimenta no pão australiano.</p><div class="item-badges"><span class="badge badge-hot">Premium</span></div></div><div><p class="item-price">R$ 27</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Mundo Fit ─────────────────────────────────── -->
+    <section class="menu-section" id="fit" data-cat="fit">
+      <div class="menu-container">
+        <div class="section-header reveal"><div><p class="section-kicker">Mundo Fit</p><h2 class="section-title">Leve & <em>nutritivo</em></h2></div><span class="section-count">06 itens</span></div>
+        <div class="menu-grid">
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Super Fruit Bowl</h3>
+              <p class="item-desc">Bowl de frutas com sementes e whey.</p>
+              <div class="item-badges"><span class="badge badge-veg">Fit</span></div>
+            </div>
+            <div style="text-align:right;">
+              <p class="item-price" style="font-size:0.85rem;">P R$ 18</p>
+              <p class="item-price" style="font-size:0.85rem;">M R$ 22</p>
+              <p class="item-price" style="font-size:0.85rem;">G R$ 40</p>
+            </div>
+          </div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Muffin de Batata Doce</h3><p class="item-desc">Bolo de batata doce com carne de sol.</p></div><div><p class="item-price">R$ 22</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Muffin Giardini</h3><p class="item-desc">Massa de aveia com gotas de chocolate.</p></div><div><p class="item-price">R$ 25</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Quiche de Legumes</h3><p class="item-desc">Massa de grão-de-bico com recheio de legumes.</p><div class="item-badges"><span class="badge badge-veg">Vegano</span></div></div><div><p class="item-price">R$ 22</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Omelete Giardini</h3><p class="item-desc">Mussarela, tomate e molho pesto.</p></div><div><p class="item-price">R$ 18</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Quiche de Salmão</h3><p class="item-desc">Massa de rúcula e recheio de salmão.</p></div><div><p class="item-price">R$ 29</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Confeitaria ────────────────────────────────── -->
+    <section class="menu-section" id="confeitaria" data-cat="confeitaria">
+      <div class="menu-container">
+        <div class="section-header reveal"><div><p class="section-kicker">Confeitaria</p><h2 class="section-title">Doce <em>precisão</em></h2></div><span class="section-count">05 itens</span></div>
+        <div class="menu-grid">
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Brownie Giardini</h3><p class="item-desc">Brownie meio amargo.</p></div><div><p class="item-price">R$ 13</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Tortelete</h3><p class="item-desc">Limão / Chocolate.</p></div><div><p class="item-price">R$ 17</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Sonho</h3><p class="item-desc">Chocolate, creme belga e frutas caramelizadas.</p></div><div><p class="item-price">R$ 22</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Sonho Recheado</h3><p class="item-desc">Creme de avelã + pistache.</p></div><div><p class="item-price">R$ 23</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Bolo Caseiro do Dia</h3><p class="item-desc">Cenoura com chocolate / laranja / mesclado.</p></div><div><p class="item-price">R$ 21</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Big Combos ─────────────────────────────────── -->
+    <section class="menu-section" id="combos" data-cat="combos">
+      <div class="menu-container">
+        <div class="section-header reveal"><div><p class="section-kicker">Big Combos / Experiências</p><h2 class="section-title">Momentos <em>completos</em></h2></div><span class="section-count">06 itens</span></div>
+        <div class="menu-grid">
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Start do Dia</h3><p class="item-desc">Pão na chapa com requeijão + café espresso.</p></div><div><p class="item-price">R$ 22</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">O Parisiense</h3><p class="item-desc">Croissant com geleia + cappuccino italiano.</p></div><div><p class="item-price">R$ 33</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Nordestino Arretado</h3><p class="item-desc">Cuscuz + tapioca com recheio + café + suco.</p><div class="item-badges"><span class="badge badge-new">Regional</span></div></div><div><p class="item-price">R$ 44</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Brunch Solo</h3><p class="item-desc">Toast ou croissant + ovos + couve + bowl de frutas pequeno + café ou suco.</p></div><div><p class="item-price">R$ 66</p><p class="item-price-sub">1 pessoa</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Double Morning</h3><p class="item-desc">Toast + croissant + bowl de frutas + bolo do dia + 2 cafés.</p><div class="item-badges"><span class="badge badge-hot">Premium</span></div></div><div><p class="item-price">R$ 89</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Royal Brunch</h3><p class="item-desc">Toast ou croissant + 2 ovos + bowl de frutas + 2 sucos ou 2 cafés.</p><div class="item-badges"><span class="badge badge-hot">Premium</span></div></div><div><p class="item-price">R$ 132</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Adicionais ─────────────────────────────────── -->
+    <section class="menu-section" id="adicionais" data-cat="adicionais">
+      <div class="menu-container">
+        <div class="section-header reveal"><div><p class="section-kicker">Adicionais</p><h2 class="section-title">A seu <em>gosto</em></h2></div><span class="section-count">06 itens</span></div>
+        <div class="menu-grid">
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Ovo</h3></div><div><p class="item-price">R$ 6</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Bacon</h3></div><div><p class="item-price">R$ 8</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Frango</h3></div><div><p class="item-price">R$ 14</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Mussarela / Coalho</h3></div><div><p class="item-price">R$ 6</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Abacate</h3></div><div><p class="item-price">R$ 7</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Granola</h3></div><div><p class="item-price">—</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Barista ────────────────────────────────────── -->
+    <section class="menu-section" id="barista" data-cat="barista">
+      <div class="menu-container">
+        <div class="section-header reveal"><div><p class="section-kicker">Barista</p><h2 class="section-title">A arte do <em>espresso</em></h2></div><span class="section-count">17 itens</span></div>
+        <div class="menu-grid">
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Café Coado</h3></div><div><p class="item-price">R$ 9</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Espresso</h3></div><div><p class="item-price">R$ 9</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Café Coado com Leite</h3></div><div><p class="item-price">R$ 14</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Espresso Duplo</h3></div><div><p class="item-price">R$ 16</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Macchiato</h3><p class="item-desc">Espresso com espuma de leite.</p></div><div><p class="item-price">R$ 14</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Americano</h3></div><div><p class="item-price">R$ 10</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Cappuccino</h3></div><div><p class="item-price">R$ 15</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Cappuccino Gelado</h3></div><div><p class="item-price">R$ 19</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Latte Garden</h3><p class="item-desc">Mais leite e cremosidade.</p><div class="item-badges"><span class="badge badge-new">Favorito</span></div></div><div><p class="item-price">R$ 20</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Mocha</h3><p class="item-desc">Calda de chocolate belga, café e leite.</p></div><div><p class="item-price">R$ 25</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Chocolate Cremoso</h3></div><div><p class="item-price">R$ 20</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Cold Brew</h3><p class="item-desc">Clássico café com gelo.</p></div><div><p class="item-price">R$ 20</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Caramel Macchiato Iced</h3><p class="item-desc">Café gelado com caramelo.</p></div><div><p class="item-price">R$ 25</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Cappuccino Italiano</h3><p class="item-desc">Espresso, leite vaporizado, cacau e canela em pó.</p></div><div><p class="item-price">R$ 20</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Iced Vanilla</h3></div><div><p class="item-price">R$ 26</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Chá Mate</h3></div><div><p class="item-price">R$ 22</p></div></div>
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Soda Italiana</h3>
+              <p class="item-desc">Maçã Verde · Morango · Limão Siciliano · Pêssego · Tangerina</p>
+            </div>
+            <div><p class="item-price">R$ 22</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Drinks ─────────────────────────────────────── -->
+    <section class="menu-section" id="drinks" data-cat="drinks">
+      <div class="menu-container">
+        <div class="section-header reveal"><div><p class="section-kicker">Drinks</p><h2 class="section-title">Para <em>celebrar</em></h2></div><span class="section-count">02 itens</span></div>
+        <div class="menu-grid">
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Cerveja Long Neck</h3></div><div><p class="item-price">R$ 18</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Taça de Vinho</h3></div><div><p class="item-price">R$ 17</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Soft Drinks ──────────────────────────────── -->
+    <section class="menu-section" id="softdrinks" data-cat="softdrinks">
+      <div class="menu-container">
+        <div class="section-header reveal"><div><p class="section-kicker">Soft Drinks</p><h2 class="section-title">Refrescante & <em>gelado</em></h2></div><span class="section-count">06 itens</span></div>
+        <div class="menu-grid">
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Água Mineral</h3><p class="item-desc">Sem gás.</p></div><div><p class="item-price">R$ 8</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Água com Gás</h3></div><div><p class="item-price">R$ 9</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Refrigerante</h3><p class="item-desc">Normal / Zero.</p></div><div><p class="item-price">R$ 10</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Água Tônica</h3></div><div><p class="item-price">R$ 10</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Chá da Casa</h3><p class="item-desc">Sachê.</p></div><div><p class="item-price">R$ 12</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Energético</h3></div><div><p class="item-price">R$ 17</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Sucos ──────────────────────────────────────── -->
+    <section class="menu-section" id="sucos" data-cat="sucos">
+      <div class="menu-container">
+        <div class="section-header reveal"><div><p class="section-kicker">Sucos</p><h2 class="section-title">Natureza <em>gelada</em></h2></div><span class="section-count">06 itens</span></div>
+        <div class="menu-grid">
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Jade Tropical</h3><p class="item-desc">Kiwi com abacaxi.</p></div><div><p class="item-price">R$ 17</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Golden Hour</h3><p class="item-desc">Abacaxi, laranja e canela.</p></div><div><p class="item-price">R$ 17</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Zen Garden</h3><p class="item-desc">Maracujá com capim santo.</p></div><div><p class="item-price">R$ 17</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Summer Vibes</h3><p class="item-desc">Melancia, limão e hortelã.</p></div><div><p class="item-price">R$ 17</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Santo Gengibre</h3><p class="item-desc">Limão, gengibre e capim santo.</p></div><div><p class="item-price">R$ 17</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Tropical Giardini</h3><p class="item-desc">Manga com morango.</p><div class="item-badges"><span class="badge badge-new">Especial</span></div></div><div><p class="item-price">R$ 22</p></div></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ════ PDF SECTION ════════════════════════════════════════════════ -->
+  <section id="pdf-section">
+      <div class="menu-container">
+        <div class="section-header reveal">
+          <div>
+            <p class="section-kicker">Croissants</p>
+            <h2 class="section-title">Massa <em>folhada</em></h2>
+          </div>
+          <span class="section-count">08 itens</span>
+        </div>
+        <div class="menu-grid">
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Croissant Sertaneja</h3>
+              <p class="item-desc">Carne de sol desfiada, purê de jerimum cremoso e picles de cebola roxa artesanal.</p>
+              <div class="item-badges"><span class="badge badge-hot">Especial</span></div>
+            </div>
+            <div><p class="item-price">R$ 28</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Croissant Caprese</h3>
+              <p class="item-desc">Mussarela de búfala fresca, tomate‑cereja confitado, pesto de manjericão e azeite extravirgem.</p>
+              <div class="item-badges"><span class="badge badge-veg">Vegetariano</span></div>
+            </div>
+            <div><p class="item-price">R$ 26</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Croissant Galega</h3>
+              <p class="item-desc">Frango galinha caipira desfiado ao molho de azeitonas verdes e ervas frescas.</p>
+            </div>
+            <div><p class="item-price">R$ 27</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Croissant Coq au Vin</h3>
+              <p class="item-desc">Ragù de frango ao vinho, cogumelos shiitake salteados e tomilho fresco.</p>
+              <div class="item-badges"><span class="badge badge-new">Novo</span></div>
+            </div>
+            <div><p class="item-price">R$ 30</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Croissant Capricciosa</h3>
+              <p class="item-desc">Presunto artesanal, mussarela defumada, azeitonas e orégano fresco.</p>
+            </div>
+            <div><p class="item-price">R$ 26</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Croissant Califórnia</h3>
+              <p class="item-desc">Atum premium, abacate cremoso, pepino em conserva e molho sriracha‑limão.</p>
+            </div>
+            <div><p class="item-price">R$ 29</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Croissant Natural</h3>
+              <p class="item-desc">Cream cheese, peito de peru defumado, tomate‑cereja, rúcula e mel de abelha nativa.</p>
+              <div class="item-badges"><span class="badge badge-veg">Leve</span></div>
+            </div>
+            <div><p class="item-price">R$ 24</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Croissant Doce de Leite</h3>
+              <p class="item-desc">Doce de leite artesanal nordestino com cobertura de açúcar de cana caramelizado.</p>
+            </div>
+            <div><p class="item-price">R$ 18</p></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 2. Bruschettas ──────────────────────────────────────── -->
+    <section class="menu-section" id="bruschettas" data-cat="bruschettas">
+      <div class="menu-container">
+        <div class="section-header reveal">
+          <div>
+            <p class="section-kicker">Bruschettas</p>
+            <h2 class="section-title">Pão & <em>tradição</em></h2>
+          </div>
+          <span class="section-count">04 itens</span>
+        </div>
+        <div class="menu-grid">
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Brusqueta Sertaneja</h3>
+              <p class="item-desc">Pão rústico grelhado, carne de sol, queijo coalho grelhado e vinagrete nordestino.</p>
+            </div>
+            <div><p class="item-price">R$ 26</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Brusqueta Caprese</h3>
+              <p class="item-desc">Tomate confit, mussarela de búfala, pesto de manjericão e flor de sal sobre pão ciabatta.</p>
+              <div class="item-badges"><span class="badge badge-veg">Vegetariano</span></div>
+            </div>
+            <div><p class="item-price">R$ 24</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Brusqueta Galega</h3>
+              <p class="item-desc">Frango desfiado ao molho rústico de alho negro, cebolinha e queijo feta esfarelado.</p>
+            </div>
+            <div><p class="item-price">R$ 25</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Brusqueta Coq au Vin</h3>
+              <p class="item-desc">Ragù de frango ao vinho tinto, cogumelos salteados e ervas da Provença sobre pão grelhado.</p>
+            </div>
+            <div><p class="item-price">R$ 28</p></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 3. Combos / Brunch ─────────────────────────────────── -->
+    <section class="menu-section" id="combos" data-cat="combos">
+      <div class="menu-container">
+        <div class="section-header reveal">
+          <div>
+            <p class="section-kicker">Combos &amp; Brunch</p>
+            <h2 class="section-title">Momentos <em>completos</em></h2>
+          </div>
+          <span class="section-count">03 itens</span>
+        </div>
+        <div class="menu-grid">
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Combo Manhã</h3>
+              <p class="item-desc">Croissant à escolha + café espresso duplo ou latte. A dupla perfeita para começar bem o dia.</p>
+              <div class="item-badges"><span class="badge badge-new">Mais pedido</span></div>
+            </div>
+            <div>
+              <p class="item-price">R$ 38</p>
+              <p class="item-price-sub">Economize R$ 5</p>
+            </div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Combo Vegano</h3>
+              <p class="item-desc">Brusqueta Caprese + suco natural da fruta do dia + sobremesa de confeitaria vegana da casa.</p>
+              <div class="item-badges"><span class="badge badge-veg">Vegano</span></div>
+            </div>
+            <div>
+              <p class="item-price">R$ 44</p>
+              <p class="item-price-sub">Economize R$ 6</p>
+            </div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Brunch Giardini</h3>
+              <p class="item-desc">Seleção de 2 croissants + ovo pochê + salada verde + bebida quente + torrada artesanal com geleia da casa.</p>
+              <div class="item-badges"><span class="badge badge-hot">Premium</span></div>
+            </div>
+            <div>
+              <p class="item-price">R$ 72</p>
+              <p class="item-price-sub">Para 1 pessoa</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 4. Barista / Cafés ──────────────────────────────────── -->
+    <section class="menu-section" id="barista" data-cat="barista">
+      <div class="menu-container">
+        <div class="section-header reveal">
+          <div>
+            <p class="section-kicker">Café &amp; Barista</p>
+            <h2 class="section-title">A arte do <em>espresso</em></h2>
+          </div>
+          <span class="section-count">09 itens</span>
+        </div>
+        <div class="menu-grid">
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Espresso</h3>
+              <p class="item-desc">Concentrado puro de grãos selecionados, extraído no ponto ideal de pressão e temperatura.</p>
+            </div>
+            <div><p class="item-price">R$ 8</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Espresso Duplo</h3>
+              <p class="item-desc">Duas doses para quem não abre mão da intensidade plena.</p>
+            </div>
+            <div><p class="item-price">R$ 12</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Americano</h3>
+              <p class="item-desc">Espresso diluído em água a alta temperatura, mantendo o corpo e reduzindo a concentração.</p>
+            </div>
+            <div><p class="item-price">R$ 10</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Cappuccino Italiano</h3>
+              <p class="item-desc">Espresso, leite vaporizado texturizado e microespuma cremosa. Clássico e equilibrado.</p>
+              <div class="item-badges"><span class="badge badge-new">Favorito</span></div>
+            </div>
+            <div><p class="item-price">R$ 16</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Macchiato</h3>
+              <p class="item-desc">Espresso "manchado" com uma nuvem leve de leite vaporizado. Intenso e delicado.</p>
+            </div>
+            <div><p class="item-price">R$ 13</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Latte</h3>
+              <p class="item-desc">Espresso com leite vaporizado em proporção generosa, finalizado com latte art da casa.</p>
+            </div>
+            <div><p class="item-price">R$ 17</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Mocha</h3>
+              <p class="item-desc">Espresso, chocolate meio amargo belga, leite vaporizado e chantilly de baunilha.</p>
+            </div>
+            <div><p class="item-price">R$ 19</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Flat White</h3>
+              <p class="item-desc">Espresso duplo concentrado com leite microespumado e menos volume — o preferido dos especialistas.</p>
+            </div>
+            <div><p class="item-price">R$ 18</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Frapê da Casa</h3>
+              <p class="item-desc">Espresso gelado batido com leite condensado, gelo e calda de caramelo salgado. Servido com canudo de bambu.</p>
+            </div>
+            <div><p class="item-price">R$ 22</p></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5. Pratos ──────────────────────────────────────────── -->
+    <section class="menu-section" id="pratos" data-cat="pratos">
+      <div class="menu-container">
+        <div class="section-header reveal">
+          <div>
+            <p class="section-kicker">Pratos</p>
+            <h2 class="section-title">Refeições <em>completas</em></h2>
+          </div>
+          <span class="section-count">04 itens</span>
+        </div>
+        <div class="menu-grid">
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Nhoque ao Funghi</h3>
+              <p class="item-desc">Nhoque artesanal de batata ao molho de funghi porcini seco, manteiga de ervas e parmesão ralado na hora.</p>
+              <div class="item-badges"><span class="badge badge-veg">Vegetariano</span></div>
+            </div>
+            <div><p class="item-price">R$ 46</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Rigatoni Vigneto</h3>
+              <p class="item-desc">Massa rigatoni ao molho de tomate San Marzano, linguiça artesanal toscana, uvas assadas e mel.</p>
+            </div>
+            <div><p class="item-price">R$ 48</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Frango Grelhado</h3>
+              <p class="item-desc">Peito de frango caipira grelhado ao limão‑siciliano, acompanhado de risoto de aspargos e farofa de ervas.</p>
+            </div>
+            <div><p class="item-price">R$ 52</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Salmão ao Molho de Alcaparras</h3>
+              <p class="item-desc">Filé de salmão grelhado com molho de manteiga, alcaparras, dill e acompanhamento de purê de couve-flor.</p>
+              <div class="item-badges"><span class="badge badge-hot">Premium</span></div>
+            </div>
+            <div><p class="item-price">R$ 62</p></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 6. Confeitaria ─────────────────────────────────────── -->
+    <section class="menu-section" id="confeitaria" data-cat="confeitaria">
+      <div class="menu-container">
+        <div class="section-header reveal">
+          <div>
+            <p class="section-kicker">Confeitaria</p>
+            <h2 class="section-title">Doce <em>precisão</em></h2>
+          </div>
+          <span class="section-count">04 itens</span>
+        </div>
+        <div class="menu-grid">
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Croissant Puro</h3>
+              <p class="item-desc">Massa folhada com manteiga francesa, assada diariamente. Crocante por fora, macio e aerado por dentro.</p>
+            </div>
+            <div><p class="item-price">R$ 14</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Pão de Mel Artesanal</h3>
+              <p class="item-desc">Pão de mel caseiro com recheio de brigadeiro premium, coberto em chocolate belga ao leite temperado.</p>
+            </div>
+            <div><p class="item-price">R$ 16</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Brownie de Chocolate</h3>
+              <p class="item-desc">Brownie denso de chocolate 70% cacau, crocante na borda e cremoso no centro. Servido morno com sorvete.</p>
+              <div class="item-badges"><span class="badge badge-new">Favorito</span></div>
+            </div>
+            <div><p class="item-price">R$ 18</p></div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Cookie da Casa</h3>
+              <p class="item-desc">Cookie de baunilha e gotas de chocolate amargo, com flor de sal e nozes caramelizadas.</p>
+            </div>
+            <div><p class="item-price">R$ 12</p></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 7. Bebidas ──────────────────────────────────────────── -->
+    <section class="menu-section" id="bebidas" data-cat="bebidas">
+      <div class="menu-container">
+        <div class="section-header reveal">
+          <div>
+            <p class="section-kicker">Bebidas</p>
+            <h2 class="section-title">Para <em>acompanhar</em></h2>
+          </div>
+          <span class="section-count">03 itens</span>
+        </div>
+        <div class="menu-grid">
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Água</h3>
+              <p class="item-desc">Mineral natural ou com gás, garrafa 500ml.</p>
+            </div>
+            <div>
+              <p class="item-price">R$ 6</p>
+              <p class="item-price-sub">Natural ou com gás</p>
+            </div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Suco Natural</h3>
+              <p class="item-desc">Laranja, acerola, maracujá ou caju — fruta fresca extraída na hora. Sem açúcar adicionado.</p>
+            </div>
+            <div>
+              <p class="item-price">R$ 14</p>
+              <p class="item-price-sub">400ml</p>
+            </div>
+          </div>
+
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Limonada Siciliana</h3>
+              <p class="item-desc">Limão siciliano, água com gás, mel de abelha jandaíra e muita hortelã fresca. Refrescante e elegante.</p>
+            </div>
+            <div>
+              <p class="item-price">R$ 16</p>
+              <p class="item-price-sub">400ml</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ════ PDF SECTION ════════════════════════════════════════════════ -->
+  <section id="pdf-section">
+    <p class="pdf-label reveal">Menu Impresso</p>
+    <h2 class="pdf-heading reveal reveal-delay-1">Prefere o cardápio<br><em>completo em PDF?</em></h2>
+    <p class="pdf-sub reveal reveal-delay-2">Leve o Giardini Café com você. Disponível para impressão ou visualização offline.</p>
+    <a href="#" class="pdf-btn reveal reveal-delay-2">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Baixar PDF
+    </a>
+  </section>
+
+  <!-- ════ FOOTER ══════════════════════════════════════════════════════ -->
+  <footer>
+    <a href="./hero_premium.html" class="footer-logo">Giardini Café</a>
+
+    <p class="footer-copy">© 2026 Giardini Café — Fortaleza · CE</p>
+
+    <div class="footer-links">
+      <a href="#" class="footer-link" aria-label="Instagram">
+        <iconify-icon icon="lucide:instagram" style="font-size:1.1rem"></iconify-icon>
+      </a>
+      <a href="https://wa.me/5585994452724" target="_blank" class="footer-link" aria-label="WhatsApp">
+        <iconify-icon icon="lucide:message-circle" style="font-size:1.1rem"></iconify-icon>
+      </a>
+      <a href="https://www.google.com/maps?q=Rua+Tavares+Coutinho,+580,+Fortaleza" target="_blank" class="footer-link" aria-label="Ver no mapa">
+        <iconify-icon icon="lucide:map-pin" style="font-size:1.1rem"></iconify-icon>
+      </a>
+    </div>
+  </footer>
+
+  <!-- ════ SCRIPTS ════════════════════════════════════════════════════ -->
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ── Lenis smooth scroll ── */
+    const lenis = new Lenis({
+      duration: 1.35,
+      easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      smoothTouch: false,
+    });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+
+    /* ── Preloader ── */
+    const loaderBar = document.getElementById('loader-bar');
+    const loader = document.getElementById('loader');
+    const loadTl = gsap.timeline({
+      onComplete: () => {
+        document.body.style.opacity = 1;
+        loader.style.display = 'none';
+        initPage();
+      }
+    });
+    loadTl
+      .to(loaderBar, { width: '100%', duration: 1.4, ease: 'power3.inOut' })
+      .to(loader, { yPercent: -105, duration: 1, ease: 'power4.inOut' }, '-=0.2');
+
+    function initPage() {
+      /* Navbar state */
+      ScrollTrigger.create({
+        start: 'top -60',
+        end: 99999,
+        onUpdate: self => {
+          const nav = document.getElementById('navbar');
+          if (self.progress > 0) {
+            nav.classList.remove('nav-light');
+            nav.classList.add('nav-scrolled');
+          } else {
+            nav.classList.add('nav-light');
+            nav.classList.remove('nav-scrolled');
+          }
+        }
+      });
+
+      /* Cat nav shadow */
+      const catNav = document.getElementById('cat-nav');
+      ScrollTrigger.create({
+        trigger: catNav,
+        start: 'top top',
+        end: 99999,
+        scrub: false,
+        onEnter: () => catNav.classList.add('shadowed'),
+        onLeaveBack: () => catNav.classList.remove('shadowed'),
+      });
+
+      /* Reveal on scroll */
+      document.querySelectorAll('.reveal').forEach(el => {
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 88%',
+          onEnter: () => el.classList.add('is-visible'),
+        });
+      });
+
+      /* Category nav — click & smooth scroll */
+      document.querySelectorAll('.cat-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.target;
+          const target = document.getElementById(id);
+          if (target) {
+            const catNavH = catNav.getBoundingClientRect().height;
+            const top = target.getBoundingClientRect().top + window.scrollY - catNavH - 20;
+            lenis.scrollTo(top, { duration: 1.2 });
+          }
+        });
+      });
+
+      /* Highlight active category on scroll */
+      const sections = document.querySelectorAll('[data-cat]');
+      const catBtns  = document.querySelectorAll('.cat-btn');
+      const catNavInner = document.getElementById('cat-nav-inner');
+
+      function setActive(id) {
+        catBtns.forEach(b => {
+          b.classList.toggle('active', b.dataset.target === id);
+        });
+        /* Auto-scroll nav to keep active btn visible */
+        const activeBtn = catNavInner.querySelector('.cat-btn.active');
+        if (activeBtn) {
+          const btnLeft = activeBtn.offsetLeft;
+          const btnW    = activeBtn.offsetWidth;
+          const navW    = catNavInner.parentElement.offsetWidth;
+          catNavInner.scrollTo({ left: btnLeft - navW / 2 + btnW / 2, behavior: 'smooth' });
+        }
+      }
+
+      sections.forEach(sec => {
+        ScrollTrigger.create({
+          trigger: sec,
+          start: 'top 55%',
+          end: 'bottom 55%',
+          onEnter:      () => setActive(sec.dataset.cat),
+          onEnterBack:  () => setActive(sec.dataset.cat),
+        });
+      });
+    }
+
+    /* ── Mobile menu ── */
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileClose = document.getElementById('mobile-close');
+    hamburger.addEventListener('click',   () => mobileMenu.classList.add('open'));
+    mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  </script>
+</body>
+</html>
