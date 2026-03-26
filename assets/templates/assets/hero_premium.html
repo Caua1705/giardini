@@ -349,6 +349,28 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
     opacity: 0.3 !important;
     transform: scale(0.5) !important;
   }
+
+  /* 5) Refinamento Clube do Livro no Mobile */
+  #clube-wm {
+    display: none !important; /* Remove texto gigante 'LIVROS' de fundo que causa poluição e briga com hierarquia */
+  }
+
+  /* Distância entre título principal e o primeiro card (Um café e um livro) reduzida aprox. 30% p/ evitar gap desconectado */
+  .clube-reveal__title {
+    margin-bottom: 4.5rem !important; /* Default desktop é 6.5rem */
+  }
+
+  /* Orbs Específicos do Clube: Afastar da poluição visual */
+  .clube-orb-2 {
+    opacity: 0.05 !important; /* Extremamente sutil, atenuado para não competir com texto */
+    transform: scale(0.3) !important;
+    filter: blur(40px) !important;
+  }
+  
+  #clube-livro div[style*="radial-gradient(circle,rgba(43,74,59"],
+  #clube-livro div[style*="radial-gradient(circle, rgba(43,74,59"] {
+    opacity: 0.05 !important; /* Deixa verde quase imperceptível focando apenas na atmosfera quente original (livros) */
+  }
 }
 /* ── EXPLORE INDICATOR BNC ────────────────────────────────────────── */
 @keyframes explore-line-drop {
