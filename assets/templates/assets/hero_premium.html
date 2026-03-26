@@ -78,27 +78,98 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
 }
 /* ── CLUBE STEP: hover bar transition already inline ─────────── */
 /* ══ RESPONSIVE HERO FIXES (User Requested) ═════════════════════ */
-/* Notebook / Desktop menor: Ajustes exclusivos para 768px até 1279px */
-@media (max-width: 1279px) and (min-width: 768px) {
+
+/* ══ RESPONSIVE HERO FIXES (User Requested) ═════════════════════ */
+
+/* 1. Ajuste fino: 1280px - 1400px (Espaçamento do Explore e respiro marginal lateral) */
+@media (max-width: 1400px) and (min-width: 1025px) {
+  .hero-scroll-wrapper {
+    left: 41% !important; /* Cria a margem segura entre Explore e o Vídeo */
+  }
+}
+
+/* 2. O PROBLEMA PRINCIPAL: 1024px (Notebook / iPad Pro) */
+@media (max-width: 1024px) and (min-width: 768px) {
   #hero-viewport {
-    height: 100% !important;
+    align-items: center !important; /* Libera o esmagamento de 100vh forçado p/ os filhos */
     min-height: 100vh !important;
-    align-items: stretch !important;
   }
   
   #hero-left {
-    width: clamp(380px, 50%, 550px) !important;
-    padding: clamp(4.5rem, 10vh, 6rem) 2.5rem clamp(3rem, 8vh, 4rem) 3rem !important;
+    width: 53% !important; /* Mais proporção p/ o texto em telas densas */
+    padding: 0 1.5rem 0 3.5rem !important; 
+    height: auto !important;
   }
   
   #hero-right {
-    width: auto !important;
-    flex: 1 !important;
-    padding: clamp(4.5rem, 10vh, 7rem) 2.5rem clamp(2rem, 5vh, 3rem) 1rem !important;
+    width: 47% !important; /* Container do vídeo perde espaço horizontal p/ não quebrar lado a lado */
+    height: 65vh !important; /* Força estrutura vertical p/ impedir quebra do vídeo nas bordas pelo object-fit */
+    min-height: 450px !important;
+    align-self: center !important;
+    padding: 0 !important; /* Retira o padding violento, GSAP desenha em proporção exata baseada na grid enxuta */
   }
   
   .hero-body {
-    max-width: clamp(340px, 90%, 450px) !important;
+    max-width: 100% !important;
+    font-size: 0.95rem !important;
+    margin-bottom: 2.5rem !important;
+  }
+
+  /* Reposicionando o 'Explore' para não flutuar solto perto do vídeo */
+  .hero-scroll-wrapper {
+    left: 3.5rem !important; /* Exatamente alinhado à caixa de texto esquerda */
+    bottom: 3rem !important;
+    transform: none !important;
+    flex-direction: row !important; /* Transforma linha vertical em horizontal e integra ao visual */
+    align-items: center !important;
+    gap: 1.25rem !important;
+  }
+  
+  .hero-scroll-wrapper > div:last-child {
+    width: 60px !important;
+    height: 1px !important;
+  }
+  .hero-scroll-wrapper > div:last-child > div {
+    width: 50% !important;
+    height: 100% !important;
+    animation: explore-horiz-sweep 2s ease-in-out infinite !important;
+  }
+}
+
+/* 3. Refinamento 900px (Quase mobile) */
+@media (max-width: 900px) and (min-width: 768px) {
+  #hero-left {
+    width: 55% !important;
+    padding: 0 1.5rem 0 2rem !important;
+  }
+  #hero-right {
+    width: 45% !important;
+    height: 55vh !important; /* Adapta-se pro respiro */
+  }
+  /* Oculta adornos porque 900px não tem luxo de margem limpa */
+  .hero-scroll-wrapper, #hero-clock {
+    display: none !important; 
+  }
+}
+
+@keyframes explore-horiz-sweep {
+  0%, 100% { left: 0%; }
+  50% { left: 50%; }
+}
+
+/* 4. CLUBE DO LIVRO: Equilíbrio Visivo (1024) */
+@media (max-width: 1024px) {
+  .clube-mosaic {
+    grid-template-columns: 1fr !important; /* Desempilha a imagem lateral deformada */
+    gap: 3.5rem !important;
+  }
+  .clube-reveal__right {
+    width: 90% !important;
+    max-width: 600px !important;
+    margin: 0 auto !important; /* Centraliza de forma premium */
+  }
+  .clube-img-main {
+    aspect-ratio: 4/5 !important; /* Retorna a proporção de porta-retrato super editorial e vertical */
   }
 }
 
