@@ -350,6 +350,19 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
     transform: scale(0.5) !important;
   }
 
+  /* 6) Refinamento Localização no Mobile */
+  #loc-dk-wm {
+    display: none !important; /* Remove o texto de fundo Giardini que polui a seção */
+  }
+
+  /* Aproximar o Mapa do botão Como Chegar reduzindo o gap e a margem de topo no mobile */
+  #location .gap-24 {
+    gap: 3rem !important; /* Reduz o espaçamento entre o bloco de texto/botão e o mapa */
+  }
+  #location .lg\:col-span-7 {
+    margin-top: 1rem !important; /* Aproxima fisicamente o widget de mapa do botão acima */
+  }
+  
   /* 5) Refinamento Clube do Livro no Mobile */
   #clube-wm {
     display: none !important; /* Remove texto gigante 'LIVROS' de fundo que causa poluição e briga com hierarquia */
