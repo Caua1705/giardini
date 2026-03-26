@@ -141,6 +141,30 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
   #location h2 {
     font-size: 5rem !important; /* Reduz escala de titulo pra n transbordar */
   }
+
+  /* Problema Adicional: Sessão 2 (Experience) bugada em 1024px */
+  #experience .lg\:grid-cols-12 {
+    grid-template-columns: 1fr !important; /* Desempilha o layout */
+    gap: 4.5rem !important;
+  }
+  #experience .exp-left {
+    height: 60vh !important; /* Aumentado de 45vh p/ 60vh p/ evitar corte agressivo do piano */
+    grid-column: span 12 / span 12 !important;
+  }
+  #experience .flex-col.justify-center {
+    grid-column: span 12 / span 12 !important;
+    align-items: flex-start !important; /* Retorna ao alinhamento à esquerda p/ os 3 pilares */
+    text-align: left !important;
+    padding: 0 2rem !important;
+  }
+  #experience p {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  /* Oculta o watermark "TEMPO" que polui o layout empilhado */
+  #parallax-text {
+    display: none !important;
+  }
 }
 
 
