@@ -274,6 +274,13 @@
     .menu-section {
       padding: 6rem 0;
       border-bottom: 1px solid rgba(26,26,26,0.06);
+      display: none; /* Hide by default for tab system */
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .menu-section.is-active {
+      display: block;
+      opacity: 1;
     }
     .menu-section:last-of-type { border-bottom: none; }
     .menu-container {
@@ -553,20 +560,12 @@
   <!-- ════ CATEGORY NAV ═══════════════════════════════════════════════ -->
   <nav id="cat-nav" aria-label="Categorias do cardápio">
     <div class="cat-nav-inner" id="cat-nav-inner">
-      <button class="cat-btn active" data-target="croissants">Croissants</button>
-      <button class="cat-btn" data-target="bruschettas">Bruschettas</button>
-      <button class="cat-btn" data-target="paes">Pães &amp; Chapa</button>
-      <button class="cat-btn" data-target="tapioca">Tapioca &amp; Cuscuz</button>
-      <button class="cat-btn" data-target="salgados">Salgados</button>
-      <button class="cat-btn" data-target="sanduiches">Sanduíches</button>
-      <button class="cat-btn" data-target="fit">Mundo Fit</button>
-      <button class="cat-btn" data-target="confeitaria">Confeitaria</button>
-      <button class="cat-btn" data-target="combos">Big Combos</button>
-      <button class="cat-btn" data-target="adicionais">Adicionais</button>
-      <button class="cat-btn" data-target="barista">Barista</button>
-      <button class="cat-btn" data-target="drinks">Drinks</button>
-      <button class="cat-btn" data-target="softdrinks">Soft Drinks</button>
-      <button class="cat-btn" data-target="sucos">Sucos</button>
+      <button class="cat-btn active" data-target="manha">Manhã</button>
+      <button class="cat-btn" data-target="comidas">Comidas</button>
+      <button class="cat-btn" data-target="cafebebidas">Café &amp; Bebidas</button>
+      <button class="cat-btn" data-target="saudavel">Saudável</button>
+      <button class="cat-btn" data-target="doces">Doces</button>
+      <button class="cat-btn" data-target="extras">Extras</button>
     </div>
   </nav>
 
@@ -574,7 +573,7 @@
   <main id="menu-body">
 
     <!-- ── Croissants ──────────────────────────────── -->
-    <section class="menu-section" id="croissants" data-cat="croissants">
+    <section class="menu-section" id="croissants" data-parent="manha">
       <div class="menu-container">
         <div class="section-header reveal"><div><p class="section-kicker">Croissants</p><h2 class="section-title">Massa <em>folhada</em></h2></div><span class="section-count">06 itens</span></div>
         <div class="menu-grid">
@@ -589,7 +588,7 @@
     </section>
 
     <!-- ── Bruschettas ──────────────────────────────── -->
-    <section class="menu-section" id="bruschettas" data-cat="bruschettas">
+    <section class="menu-section" id="bruschettas" data-parent="comidas">
       <div class="menu-container">
         <div class="section-header reveal"><div><p class="section-kicker">Bruschettas</p><h2 class="section-title">Pão & <em>tradição</em></h2></div><span class="section-count">03 itens</span></div>
         <div class="menu-grid">
@@ -601,7 +600,7 @@
     </section>
 
     <!-- ── Pães & Chapa ──────────────────────────────── -->
-    <section class="menu-section" id="paes" data-cat="paes">
+    <section class="menu-section" id="paes" data-parent="manha">
       <div class="menu-container">
         <div class="section-header reveal"><div><p class="section-kicker">Pães &amp; Chapa</p><h2 class="section-title">Simples & <em>irresistível</em></h2></div><span class="section-count">06 itens</span></div>
         <div class="menu-grid">
@@ -616,7 +615,7 @@
     </section>
 
     <!-- ── Tapioca & Cuscuz ──────────────────────────── -->
-    <section class="menu-section" id="tapioca" data-cat="tapioca">
+    <section class="menu-section" id="tapioca" data-parent="comidas">
       <div class="menu-container">
         <div class="section-header reveal"><div><p class="section-kicker">Tapioca &amp; Cuscuz</p><h2 class="section-title">Raízes <em>nordestinas</em></h2></div><span class="section-count">07 itens</span></div>
         <!-- dual-price header -->
@@ -660,7 +659,7 @@
     </section>
 
     <!-- ── Salgados de Forno ─────────────────────────── -->
-    <section class="menu-section" id="salgados" data-cat="salgados">
+    <section class="menu-section" id="salgados" data-parent="comidas">
       <div class="menu-container">
         <div class="section-header reveal"><div><p class="section-kicker">Salgados de Forno</p><h2 class="section-title">Forno & <em>crocância</em></h2></div><span class="section-count">05 itens</span></div>
         <div class="menu-grid">
@@ -674,7 +673,7 @@
     </section>
 
     <!-- ── Sanduíches Gourmet ────────────────────────── -->
-    <section class="menu-section" id="sanduiches" data-cat="sanduiches">
+    <section class="menu-section" id="sanduiches" data-parent="comidas">
       <div class="menu-container">
         <div class="section-header reveal"><div><p class="section-kicker">Sanduíches Gourmet</p><h2 class="section-title">Brioche & <em>sabor</em></h2></div><span class="section-count">04 itens</span></div>
         <div class="menu-grid">
@@ -687,7 +686,7 @@
     </section>
 
     <!-- ── Mundo Fit ─────────────────────────────────── -->
-    <section class="menu-section" id="fit" data-cat="fit">
+    <section class="menu-section" id="fit" data-parent="saudavel">
       <div class="menu-container">
         <div class="section-header reveal"><div><p class="section-kicker">Mundo Fit</p><h2 class="section-title">Leve & <em>nutritivo</em></h2></div><span class="section-count">06 itens</span></div>
         <div class="menu-grid">
@@ -713,7 +712,7 @@
     </section>
 
     <!-- ── Confeitaria ────────────────────────────────── -->
-    <section class="menu-section" id="confeitaria" data-cat="confeitaria">
+    <section class="menu-section" id="confeitaria" data-parent="doces">
       <div class="menu-container">
         <div class="section-header reveal"><div><p class="section-kicker">Confeitaria</p><h2 class="section-title">Doce <em>precisão</em></h2></div><span class="section-count">05 itens</span></div>
         <div class="menu-grid">
@@ -727,7 +726,7 @@
     </section>
 
     <!-- ── Big Combos ─────────────────────────────────── -->
-    <section class="menu-section" id="combos" data-cat="combos">
+    <section class="menu-section" id="combos" data-parent="manha">
       <div class="menu-container">
         <div class="section-header reveal"><div><p class="section-kicker">Big Combos / Experiências</p><h2 class="section-title">Momentos <em>completos</em></h2></div><span class="section-count">06 itens</span></div>
         <div class="menu-grid">
@@ -742,7 +741,7 @@
     </section>
 
     <!-- ── Adicionais ─────────────────────────────────── -->
-    <section class="menu-section" id="adicionais" data-cat="adicionais">
+    <section class="menu-section" id="adicionais" data-parent="extras">
       <div class="menu-container">
         <div class="section-header reveal"><div><p class="section-kicker">Adicionais</p><h2 class="section-title">A seu <em>gosto</em></h2></div><span class="section-count">06 itens</span></div>
         <div class="menu-grid">
@@ -751,13 +750,13 @@
           <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Frango</h3></div><div><p class="item-price">R$ 14</p></div></div>
           <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Mussarela / Coalho</h3></div><div><p class="item-price">R$ 6</p></div></div>
           <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Abacate</h3></div><div><p class="item-price">R$ 7</p></div></div>
-          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Granola</h3></div><div><p class="item-price">—</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Granola</h3></div><div><p class="item-price">R$ 6</p></div></div>
         </div>
       </div>
     </section>
 
     <!-- ── Barista ────────────────────────────────────── -->
-    <section class="menu-section" id="barista" data-cat="barista">
+    <section class="menu-section" id="barista" data-parent="cafebebidas">
       <div class="menu-container">
         <div class="section-header reveal"><div><p class="section-kicker">Barista</p><h2 class="section-title">A arte do <em>espresso</em></h2></div><span class="section-count">17 itens</span></div>
         <div class="menu-grid">
@@ -789,7 +788,7 @@
     </section>
 
     <!-- ── Drinks ─────────────────────────────────────── -->
-    <section class="menu-section" id="drinks" data-cat="drinks">
+    <section class="menu-section" id="drinks" data-parent="cafebebidas">
       <div class="menu-container">
         <div class="section-header reveal"><div><p class="section-kicker">Drinks</p><h2 class="section-title">Para <em>celebrar</em></h2></div><span class="section-count">02 itens</span></div>
         <div class="menu-grid">
@@ -800,7 +799,7 @@
     </section>
 
     <!-- ── Soft Drinks ──────────────────────────────── -->
-    <section class="menu-section" id="softdrinks" data-cat="softdrinks">
+    <section class="menu-section" id="softdrinks" data-parent="cafebebidas">
       <div class="menu-container">
         <div class="section-header reveal"><div><p class="section-kicker">Soft Drinks</p><h2 class="section-title">Refrescante & <em>gelado</em></h2></div><span class="section-count">06 itens</span></div>
         <div class="menu-grid">
@@ -815,7 +814,7 @@
     </section>
 
     <!-- ── Sucos ──────────────────────────────────────── -->
-    <section class="menu-section" id="sucos" data-cat="sucos">
+    <section class="menu-section" id="sucos" data-parent="cafebebidas">
       <div class="menu-container">
         <div class="section-header reveal"><div><p class="section-kicker">Sucos</p><h2 class="section-title">Natureza <em>gelada</em></h2></div><span class="section-count">06 itens</span></div>
         <div class="menu-grid">
@@ -889,7 +888,7 @@
       const catNav = document.getElementById('cat-nav');
       const catNavInner = document.getElementById('cat-nav-inner');
       const catBtns = document.querySelectorAll('.cat-btn');
-      const sections = document.querySelectorAll('[data-cat]');
+      const sections = document.querySelectorAll('.menu-section');
 
       /* Navbar state */
       window.addEventListener('scroll', () => {
@@ -912,24 +911,31 @@
         });
       }, { rootMargin: "0px 0px -12% 0px" });
 
+      // Observe all reveal elements by default
       document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-      /* Category nav — click & smooth scroll */
-      catBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const id = btn.dataset.target;
-          const target = document.getElementById(id);
-          if (target) {
-            const catNavH = catNav.getBoundingClientRect().height;
-            const top = target.getBoundingClientRect().top + window.scrollY - catNavH - 40;
-            window.scrollTo({ top: top, behavior: 'smooth' });
+      /* Category Tab Logic */
+      function setActiveTab(targetId) {
+        // Toggle buttons
+        catBtns.forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.target === targetId);
+        });
+
+        // Toggle sections
+        sections.forEach(sec => {
+          if (sec.dataset.parent === targetId) {
+            sec.classList.add('is-active');
+            // Re-trigger reveals for the now-visible section
+            sec.querySelectorAll('.reveal').forEach(el => {
+              el.classList.remove('is-visible');
+              revealObserver.observe(el);
+            });
+          } else {
+            sec.classList.remove('is-active');
           }
         });
-      });
 
-      /* Native Intersection Observer for active category */
-      function setActive(id) {
-        catBtns.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+        // Auto-scroll nav to keep active btn visible
         const activeBtn = catNavInner.querySelector('.cat-btn.active');
         if (activeBtn) {
           const btnLeft = activeBtn.offsetLeft;
@@ -937,15 +943,24 @@
           const navW = catNavInner.parentElement.offsetWidth;
           catNavInner.scrollTo({ left: btnLeft - navW / 2 + btnW / 2, behavior: 'smooth' });
         }
+
+        // Scroll page to top of menu when tab changes if needed
+        const catNavH = catNav.getBoundingClientRect().height;
+        const menuRect = catNav.getBoundingClientRect();
+        if (menuRect.top < 0) {
+           window.scrollTo({ top: window.scrollY + menuRect.top, behavior: 'smooth' });
+        }
       }
 
-      const sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) setActive(entry.target.dataset.cat);
+      /* Category nav — click & Change Tab */
+      catBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          setActiveTab(btn.dataset.target);
         });
-      }, { rootMargin: "-25% 0px -65% 0px" });
+      });
 
-      sections.forEach(sec => sectionObserver.observe(sec));
+      // Initialize first tab
+      setActiveTab('manha');
     }
 
     /* ── Mobile menu ── */
