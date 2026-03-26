@@ -309,6 +309,46 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
   #featured > div[style*="top:-50px"] {
     top: -40px !important; /* Ajusta a logo para não precisar do overlap agressivo */
   }
+  
+  /* 4) Redução e Afastamento dos Efeitos Verdes (Glow/Blur) no Mobile */
+  .parallax-glow-1 {
+    width: 150px !important;
+    height: 150px !important;
+    top: -2% !important; /* Joga bem para a borda superior */
+    left: auto !important;
+    right: -10% !important; /* Afasta fisicamente para a margem direita, limpando o texto à esquerda */
+    opacity: 0.02 !important; /* Muito mais sutil */
+    filter: blur(30px) !important; /* Menos dispersão */
+  }
+  
+  .parallax-glow-2 {
+    width: 150px !important;
+    height: 150px !important;
+    bottom: -2% !important;
+    left: -15% !important;
+    opacity: 0.03 !important;
+    filter: blur(30px) !important;
+  }
+
+  .h-orb-2 {
+    width: 200px !important;
+    height: 200px !important;
+    opacity: 0.4 !important;
+  }
+
+  /* Target seletivo em todos os glows verdes gerados via inline-styles pelas seções */
+  div[style*="radial-gradient(circle,rgba(43,74,59"],
+  div[style*="radial-gradient(circle, rgba(43,74,59"],
+  div[style*="radial-gradient(ellipse,rgba(43,74,59"] {
+    transform: scale(0.4) !important; /* Encolhe a área de poluição difusa */
+    opacity: 0.25 !important; /* Deixa quase imperceptível, servindo apenas como textura de fundo */
+    filter: blur(15px) !important;
+  }
+  
+  .video-glow {
+    opacity: 0.3 !important;
+    transform: scale(0.5) !important;
+  }
 }
 /* ── EXPLORE INDICATOR BNC ────────────────────────────────────────── */
 @keyframes explore-line-drop {
