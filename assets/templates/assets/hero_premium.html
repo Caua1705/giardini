@@ -2406,40 +2406,38 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
         // Using gsap.to (not fromTo) so that the "from" state is never force-set
         // by GSAP when the ScrollTrigger initializes, which is what caused elements
         // to disappear when the page was reloaded mid-scroll and then scrolled back.
-        /* ── SCROLL-OUT (REMOVED) ──────────────────────────────────
-2409:         gsap.to('#el-kicker', {
-2410:           opacity: 0, y: -40, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
-2411:           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.22}`, scrub: CONFIG.scrub }
-2412:         });
-2413:         gsap.to('#el-h1a', {
-2414:           opacity: 0, y: -60, filter: 'blur(12px)', ease: 'power2.in', immediateRender: false,
-2415:           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.3}`, scrub: CONFIG.scrub }
-2416:         });
-2417:         gsap.to('#el-h1b', {
-2418:           opacity: 0, y: -48, filter: 'blur(10px)', ease: 'power2.in', immediateRender: false,
-2419:           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.36}`, scrub: CONFIG.scrub }
-2420:         });
-2421:         gsap.to('#el-body', {
-2422:           opacity: 0, y: -32, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
-2423:           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.43}`, scrub: CONFIG.scrub }
-2424:         });
-2425:         gsap.to('#el-cta', {
-2426:           opacity: 0, y: -26, filter: 'blur(6px)', ease: 'power2.in', immediateRender: false,
-2427:           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.5}`, scrub: CONFIG.scrub }
-2428:         });
-2429:         gsap.to('#el-meta', {
-2430:           opacity: 0, y: -18, filter: 'blur(6px)', ease: 'power1.in', immediateRender: false,
-2431:           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.35}`, scrub: CONFIG.scrub }
-2432:         });
-2433:         gsap.to('#hero-sep', {
-2434:           opacity: 0, scaleX: 0, transformOrigin: 'left center', ease: 'power2.in', immediateRender: false,
-2435:           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.28}`, scrub: CONFIG.scrub }
-2436:         });
-2437:         gsap.to('#hero-wm', {
-2438:           opacity: 0, ease: 'power1.in', immediateRender: false,
-2439:           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.4}`, scrub: CONFIG.scrub }
-2440:         });
-2441:         */
+        gsap.to('#el-kicker', {
+          opacity: 0, y: -40, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.22}`, scrub: CONFIG.scrub }
+        });
+        gsap.to('#el-h1a', {
+          opacity: 0, y: -60, filter: 'blur(12px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.3}`, scrub: CONFIG.scrub }
+        });
+        gsap.to('#el-h1b', {
+          opacity: 0, y: -48, filter: 'blur(10px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.36}`, scrub: CONFIG.scrub }
+        });
+        gsap.to('#el-body', {
+          opacity: 0, y: -32, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.43}`, scrub: CONFIG.scrub }
+        });
+        gsap.to('#el-cta', {
+          opacity: 0, y: -26, filter: 'blur(6px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.5}`, scrub: CONFIG.scrub }
+        });
+        gsap.to('#el-meta', {
+          opacity: 0, y: -18, filter: 'blur(6px)', ease: 'power1.in', immediateRender: false,
+          scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.35}`, scrub: CONFIG.scrub }
+        });
+        gsap.to('#hero-sep', {
+          opacity: 0, scaleX: 0, transformOrigin: 'left center', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.28}`, scrub: CONFIG.scrub }
+        });
+        gsap.to('#hero-wm', {
+          opacity: 0, ease: 'power1.in', immediateRender: false,
+          scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.4}`, scrub: CONFIG.scrub }
+        });
         /* ── SCROLL PIN ──────────────────────────────────────────── */
         ScrollTrigger.create({
           trigger: wrapper,
@@ -2469,40 +2467,35 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
         });
         /* ── TEXT SCROLL-OUT: per-element parallax exits (see below) ── */
         // Handled by individual gsap.to() blocks in the CREATIVE ANIMATIONS section
-        /* ── EXPLORE SCROLL-OUT (REMOVED) ──────────────────────────
-2471:         gsap.to('#hero-explore-scroll', {
-2472:           opacity: 0, y: -20, filter: 'blur(5px)', ease: 'power2.in', immediateRender: false,
-2473:           scrollTrigger: {
-2474:             trigger: wrapper, start: 'top top',
-2475:             end: () => `+=${scrollPx * 0.25}`, scrub: CONFIG.scrub,
-2476:           }
-2477:         });
-2478:         */
+        /* ── EXPLORE SCROLL-OUT ────────────────────────── */
+        gsap.to('#hero-explore-scroll', {
+          opacity: 0, y: -20, filter: 'blur(5px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: {
+            trigger: wrapper, start: 'top top',
+            end: () => `+=${scrollPx * 0.25}`, scrub: CONFIG.scrub,
+          }
+        });
         /* ── VIDEO-FRAME EXPANSION (split → fullscreen) ──────────── */
-        /* ── VIDEO-FRAME EXPANSION (REMOVED) ───────────────────────
-2479:         gsap.to(frame, {
-2480:           left: 0, top: 0, width: '100vw', height: '100vh',
-2481:           borderRadius: 0, boxShadow: '0 0 0 0 transparent',
-2482:           zIndex: 40,
-2483:           ease: 'power2.inOut',
-2484:           scrollTrigger: {
-2485:             trigger: wrapper, start: 'top top',
-2486:             end: () => `+=${scrollPx}`, scrub: CONFIG.scrub,
-2487:           }
-2488:         });
-2489:         */
+        gsap.to(frame, {
+          left: 0, top: 0, width: '100vw', height: '100vh',
+          borderRadius: 0, boxShadow: '0 0 0 0 transparent',
+          zIndex: 40,
+          ease: 'power2.inOut',
+          scrollTrigger: {
+            trigger: wrapper, start: 'top top',
+            end: () => `+=${scrollPx}`, scrub: CONFIG.scrub,
+          }
+        });
         /* ── CINEMATIC OVERLAY ───────────────────────────────────── */
-        /* ── CINEMATIC OVERLAY (REMOVED) ───────────────────────────
-2490:         gsap.to('#video-overlay', {
-2491:           opacity: 1, ease: 'power1.inOut',
-2492:           scrollTrigger: {
-2493:             trigger: wrapper,
-2494:             start: () => `+=${scrollPx * 0.35}`,
-2495:             end: () => `+=${scrollPx}`,
-2496:             scrub: CONFIG.scrub,
-2497:           }
-2498:         });
-2499:         */
+        gsap.to('#video-overlay', {
+          opacity: 1, ease: 'power1.inOut',
+          scrollTrigger: {
+            trigger: wrapper,
+            start: () => `+=${scrollPx * 0.35}`,
+            end: () => `+=${scrollPx}`,
+            scrub: CONFIG.scrub,
+          }
+        });
         /* Canvas resize on window resize */
         window.addEventListener('resize', () => {
           resizeCanvas();
