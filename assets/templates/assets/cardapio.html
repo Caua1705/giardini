@@ -1142,7 +1142,242 @@
         font-size: 1rem;
       }
     }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       FINAL CREATIVE POLISH
+    ═════════════════════════════════════════════════════════════════════ */
+
+    /* ── 1. Dot-grid texture over entire menu body ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle, rgba(183, 147, 88, 0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.6;
+    }
+
+    /* ── 2. Soft ambient floating orb (animated) ─── */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80vw;
+      height: 80vw;
+      max-width: 900px;
+      max-height: 900px;
+      border-radius: 50%;
+      background: radial-gradient(circle at center,
+        rgba(43, 74, 59, 0.07) 0%,
+        rgba(183, 147, 88, 0.025) 40%,
+        transparent 70%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      animation: ambientFloat 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientFloat {
+      0%   { transform: translateX(-50%) translateY(0) scale(1); }
+      50%  { transform: translateX(-52%) translateY(-5%) scale(1.05); }
+      100% { transform: translateX(-48%) translateY(3%) scale(0.97); }
+    }
+
+    /* ── 3. Section header gold shimmer line ─── */
+    .section-header::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 1px;
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(183, 147, 88, 0.4) 30%,
+        rgba(183, 147, 88, 0.7) 50%,
+        rgba(183, 147, 88, 0.4) 70%,
+        transparent 100%);
+      background-size: 200% 100%;
+      animation: shimmerLine 4s ease-in-out infinite;
+    }
+
+    .section-header {
+      position: relative;
+    }
+
+    @keyframes shimmerLine {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ── 4. Item hover: gold left accent bar ─── */
+    .menu-item {
+      position: relative;
+      transition: padding-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .menu-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%) scaleY(0);
+      width: 2px;
+      height: 60%;
+      background: rgba(183, 147, 88, 0.7);
+      border-radius: 2px;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    .menu-item:hover {
+      padding-left: 12px;
+    }
+
+    .menu-item:hover::before {
+      transform: translateY(-50%) scaleY(1);
+      opacity: 1;
+    }
+
+    /* ── 5. Enhanced reveal animation with stagger ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition:
+        opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Auto-stagger for items inside a visible grid */
+    .menu-grid .reveal:nth-child(1)  { transition-delay: 0.0s; }
+    .menu-grid .reveal:nth-child(2)  { transition-delay: 0.04s; }
+    .menu-grid .reveal:nth-child(3)  { transition-delay: 0.08s; }
+    .menu-grid .reveal:nth-child(4)  { transition-delay: 0.12s; }
+    .menu-grid .reveal:nth-child(5)  { transition-delay: 0.16s; }
+    .menu-grid .reveal:nth-child(6)  { transition-delay: 0.20s; }
+    .menu-grid .reveal:nth-child(7)  { transition-delay: 0.06s; }
+    .menu-grid .reveal:nth-child(8)  { transition-delay: 0.10s; }
+
+    /* ── 6. Cat-nav ink slide animation on active ─── */
+    .cat-btn {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cat-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(183, 147, 88, 0.04);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .cat-btn:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* ── 7. Section bottom ambient warm glow ─── */
+    .menu-section::after {
+      content: '';
+      display: block;
+      height: 1px;
+      background: linear-gradient(to right,
+        transparent,
+        rgba(183, 147, 88, 0.15) 25%,
+        rgba(183, 147, 88, 0.15) 75%,
+        transparent);
+    }
+
+    /* ── 8. Loader dark theme fix ─── */
+    .loader {
+      background: #080f0a !important;
+    }
+
+    .loader-text {
+      color: rgba(183, 147, 88, 0.9) !important;
+    }
+
+    .loader-bar {
+      background: rgba(183, 147, 88, 0.7) !important;
+    }
+
+    /* ── 9. PDF section extra atmospheric detail ─── */
+    #pdf-section .pdf-heading {
+      position: relative;
+    }
+
+    #pdf-section .pdf-heading::before {
+      content: '—';
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      color: rgba(183, 147, 88, 0.4);
+      margin-bottom: 1.2rem;
+      font-weight: 300;
+    }
+
+    /* ── 10. Category title entrance line sweep ─── */
+    .section-title {
+      background: linear-gradient(90deg, #e8e0d0 0%, rgba(183,147,88,0.85) 50%, #e8e0d0 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: titleSweep 6s ease-in-out infinite alternate;
+    }
+
+    .section-title em {
+      -webkit-text-fill-color: transparent;
+    }
+
+    @keyframes titleSweep {
+      0%  { background-position: 200% center; }
+      100%{ background-position: 0% center; }
+    }
+
+    /* ── 11. Nav links dark scroll state ─── */
+    .is-scrolled .nav-link {
+      color: rgba(232, 224, 208, 0.5);
+    }
+    .is-scrolled .nav-link:hover {
+      color: rgba(183, 147, 88, 0.9);
+    }
+    .is-scrolled .nav-cta {
+      border-color: rgba(183, 147, 88, 0.4);
+      color: rgba(183, 147, 88, 0.9);
+    }
+    .is-scrolled .nav-cta:hover {
+      background: rgba(183, 147, 88, 0.1);
+      color: rgba(183, 147, 88, 1);
+    }
+
+    /* ── 12. Menu section fade-in when tab switches ─── */
+    @keyframes sectionFadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .menu-section.is-active {
+      animation: sectionFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
   </style>
+
 </head>
 
 <body class="antialiased">
