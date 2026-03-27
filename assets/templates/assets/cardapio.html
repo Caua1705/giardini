@@ -384,67 +384,66 @@
       position: absolute;
       inset: 0;
       z-index: -2;
-      background: radial-gradient(circle at 50% 45%, #0f1a14 0%, #060907 60%, #030403 100%);
+      /* Deep green to near-black gradient, smooth blend, no washed-out look */
+      background: radial-gradient(ellipse at 50% 55%, #08110a 0%, #030504 60%, #010201 100%);
     }
 
     /* ── CINEMATIC PRODUCT INTEGRATION ── */
     .product-glow {
       position: absolute;
-      top: 55%;
-      left: 50%;
+      top: 55%; /* Keep aligned with product center */
+      left: 50%; /* Re-centered */
       transform: translate(-50%, -50%);
-      width: 60vw;
-      height: 60vw;
-      max-width: 900px;
-      max-height: 900px;
-      /* Triple layered glow for depth */
-      background: 
-        radial-gradient(circle at center, rgba(43, 74, 59, 0.15) 0%, transparent 60%),
-        radial-gradient(circle at center, rgba(183, 147, 88, 0.03) 0%, transparent 40%);
-      filter: blur(60px);
+      width: 45vw;
+      height: 45vw;
+      max-width: 600px;
+      max-height: 600px;
+      /* Soft, diffused, low intensity radial glow */
+      background: radial-gradient(circle at center, rgba(38, 66, 52, 0.08) 0%, transparent 65%);
+      filter: blur(80px);
       pointer-events: none;
       z-index: -1;
     }
 
-    /* Subtle shadow at the base of the product */
+    /* Subtle shadow at the base of the product for grounding */
     .product-shadow {
       position: absolute;
-      bottom: 15%;
-      left: 50%;
+      bottom: 20%;
+      left: 50%; /* Re-centered */
       transform: translateX(-50%);
-      width: 15vw;
-      height: 4vw;
-      max-width: 250px;
-      background: radial-gradient(ellipse at center, rgba(0,0,0,0.6) 0%, transparent 80%);
-      filter: blur(15px);
+      width: 14vw;
+      height: 2.5vw;
+      max-width: 220px;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, transparent 70%);
+      filter: blur(10px);
       z-index: 0;
       pointer-events: none;
     }
 
     #video-frame {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 55%; /* Moved SLIGHTLY DOWN for text readability above */
+      left: 50%; /* Kept centered horizontally */
       transform: translate(-50%, -50%);
-      width: 38vw; /* Slightly smaller for elegant scale */
-      max-width: 600px;
+      width: 25vw; /* Perfectly balanced width, not over-enlarged */
+      max-width: 400px;
       aspect-ratio: 9/16;
       z-index: 1;
       overflow: hidden;
-      /* Radical feathering for seamless integration */
+      /* Extremely soft feathering, zero visible edges */
       mask-image: radial-gradient(ellipse at center, 
         rgba(0, 0, 0, 1) 0%, 
-        rgba(0, 0, 0, 0.95) 40%, 
-        rgba(0, 0, 0, 0.4) 75%, 
-        rgba(0, 0, 0, 0) 92%
+        rgba(0, 0, 0, 0.85) 45%, 
+        rgba(0, 0, 0, 0.05) 75%, 
+        rgba(0, 0, 0, 0) 85%
       );
       -webkit-mask-image: radial-gradient(ellipse at center, 
         rgba(0, 0, 0, 1) 0%, 
-        rgba(0, 0, 0, 0.95) 40%, 
-        rgba(0, 0, 0, 0.4) 75%, 
-        rgba(0, 0, 0, 0) 92%
+        rgba(0, 0, 0, 0.85) 45%, 
+        rgba(0, 0, 0, 0.05) 75%, 
+        rgba(0, 0, 0, 0) 85%
       );
-      opacity: 0.92;
+      opacity: 0.95;
     }
 
     #seq-canvas {
@@ -458,7 +457,7 @@
     }
 
     #seq-canvas.ready {
-      filter: blur(0);
+      filter: blur(0) contrast(1.1) brightness(1.05); /* Highlight & reflection enhancement */
       opacity: 1;
       transform: scale(1);
       transition: filter 2.5s cubic-bezier(0.16, 1, 0.3, 1), 
@@ -471,11 +470,11 @@
       inset: 0;
       z-index: 2;
       pointer-events: none;
-      /* Soft atmospheric gradient falloff */
-      background: radial-gradient(circle at center, 
-        rgba(0, 0, 0, 0) 20%, 
-        rgba(3, 4, 3, 0.2) 50%, 
-        rgba(3, 4, 3, 0.8) 100%
+      /* Completely transparent center to prevent washing out the product, black vignette fade */
+      background: radial-gradient(ellipse at center, 
+        transparent 35%, 
+        rgba(1, 2, 1, 0.4) 65%, 
+        rgba(1, 2, 1, 0.95) 100%
       );
     }
 
