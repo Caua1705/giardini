@@ -622,60 +622,174 @@
     }
     /* ── BASE HERO STRUCTURE ── */
 
-    /* ── Category Nav ────────────────────────────────────────────────── */
+    /* ── Category Nav (Vertical Editorial Sidebar) ───────────────────── */
+    .menu-main-wrapper {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-start;
+      gap: 6rem;
+      padding: 0 4rem;
+      position: relative;
+      z-index: 10;
+    }
+
     #cat-nav {
       position: sticky;
-      top: 0;
-      z-index: 400;
-      background: rgba(8, 15, 10, 0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(183, 147, 88, 0.12);
+      top: 140px;
+      width: 160px;
+      flex-shrink: 0;
+      background: transparent;
+      border-bottom: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      padding-top: 4.5rem; /* Align with first section's top padding */
     }
 
     .cat-nav-inner {
-      max-width: 1160px;
-      margin: 0 auto;
-      padding: 0 4rem;
       display: flex;
-      align-items: center;
-      gap: 0;
-      overflow-x: auto;
-      scrollbar-width: none;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 0;
+      margin: 0;
+      position: relative;
     }
 
-    .cat-nav-inner::-webkit-scrollbar {
-      display: none;
+    /* Vertical tracking line */
+    .cat-nav-inner::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: rgba(183, 147, 88, 0.1);
     }
 
     .cat-btn {
-      flex-shrink: 0;
-      padding: 1.1rem 1.5rem;
-      font-size: 0.58rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(232, 224, 208, 0.35);
-      background: none;
+      background: transparent;
       border: none;
-      border-bottom: 1px solid transparent;
+      color: rgba(232, 224, 208, 0.35);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-align: left;
+      padding: 0.25rem 0 0.25rem 1.5rem; /* Space for the active indicator */
       cursor: pointer;
-      transition: all 0.3s ease;
-      white-space: nowrap;
+      transition: all 0.4s var(--expo);
+      position: relative;
+      overflow: visible;
     }
 
-    .cat-btn:hover {
-      color: rgba(183, 147, 88, 0.8);
+    /* Override any old hover animations */
+    .cat-btn::after {
+      content: none !important;
+    }
+
+    /* Active vertical indicator bar */
+    .cat-btn::before {
+      content: '';
+      position: absolute;
+      left: -0.5px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: rgba(183, 147, 88, 1);
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0;
     }
 
     .cat-btn.active {
       color: rgba(183, 147, 88, 1);
-      border-bottom-color: rgba(183, 147, 88, 0.6);
+      transform: translateX(8px);
+    }
+
+    .cat-btn.active::before {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+
+    .cat-btn:hover:not(.active) {
+      color: rgba(232, 224, 208, 0.8);
+      transform: translateX(4px);
+    }
+
+    /* ── Mobile Fallback: Horizontal Scroll on top ── */
+    @media (max-width: 1024px) {
+      .menu-main-wrapper {
+        flex-direction: column;
+        gap: 0;
+        padding: 0;
+      }
+      
+      #cat-nav {
+        position: sticky;
+        top: 90px;
+        width: 100%;
+        padding: 1rem 0;
+        background: rgba(8, 15, 10, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(183, 147, 88, 0.12);
+        z-index: 400;
+      }
+
+      .cat-nav-inner {
+        flex-direction: row;
+        gap: 1.5rem;
+        padding: 0 2rem;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      
+      .cat-nav-inner::-webkit-scrollbar { display: none; }
+      .cat-nav-inner::before { display: none; }
+      
+      .cat-btn {
+        padding: 0.5rem;
+        white-space: nowrap;
+      }
+      
+      .cat-btn::before {
+        top: auto;
+        bottom: -0.5rem;
+        left: 0;
+        right: 0;
+        height: 1px;
+        width: 100%;
+        transform: scaleX(0);
+        transform-origin: center;
+      }
+      
+      .cat-btn.active {
+        transform: none;
+      }
+      
+      .cat-btn.active::before {
+        transform: scaleX(1);
+      }
+      
+      .cat-btn:hover:not(.active) {
+        transform: none;
+      }
+      
+      .menu-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
     }
 
     /* ── Menu Sections ───────────────────────────────────────────────── */
     #menu-body {
       position: relative;
+      flex-grow: 1;
+      padding-top: 0;
+      padding-bottom: 6rem;
+      min-width: 0; /* Prevents flexbox overflow */
     }
 
     /* Subtle noise texture over the whole menu body */
@@ -709,9 +823,9 @@
     }
 
     .menu-container {
-      max-width: 1160px;
-      margin: 0 auto;
-      padding: 0 4rem;
+      max-width: none;
+      margin: 0;
+      padding: 0;
     }
 
     .section-header {
@@ -1474,20 +1588,22 @@
     </section>
   </div>
 
-  <!-- ════ CATEGORY NAV ═══════════════════════════════════════════════ -->
-  <nav id="cat-nav" aria-label="Categorias do cardápio">
-    <div class="cat-nav-inner" id="cat-nav-inner">
-      <button class="cat-btn active" data-target="manha">Manhã</button>
-      <button class="cat-btn" data-target="comidas">Comidas</button>
-      <button class="cat-btn" data-target="cafebebidas">Café &amp; Bebidas</button>
-      <button class="cat-btn" data-target="saudavel">Saudável</button>
-      <button class="cat-btn" data-target="doces">Doces</button>
-      <button class="cat-btn" data-target="extras">Extras</button>
-    </div>
-  </nav>
+  <!-- ════ NEW WRAPPER ═════════════════════════════════════════════════ -->
+  <div class="menu-main-wrapper">
+    <!-- ════ CATEGORY NAV (Editorial Sidebar) ══════════════════════════ -->
+    <nav id="cat-nav" aria-label="Categorias do cardápio">
+      <div class="cat-nav-inner" id="cat-nav-inner">
+        <button class="cat-btn active" data-target="manha">Manhã</button>
+        <button class="cat-btn" data-target="comidas">Comidas</button>
+        <button class="cat-btn" data-target="cafebebidas">Café &amp; Bebidas</button>
+        <button class="cat-btn" data-target="saudavel">Saudável</button>
+        <button class="cat-btn" data-target="doces">Doces</button>
+        <button class="cat-btn" data-target="extras">Extras</button>
+      </div>
+    </nav>
 
-  <!-- ════ MENU BODY ══════════════════════════════════════════════════ -->
-  <main id="menu-body">
+    <!-- ════ MENU BODY ══════════════════════════════════════════════════ -->
+    <main id="menu-body">
 
     <!-- ── Croissants ──────────────────────────────── -->
     <section class="menu-section" id="croissants" data-parent="manha">
@@ -2452,6 +2568,7 @@
     </section>
 
   </main>
+  </div> <!-- Encerrando menu-main-wrapper -->
 
   <!-- ════ PDF SECTION ════════════════════════════════════════════════ -->
   <section id="pdf-section">
