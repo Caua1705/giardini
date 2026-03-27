@@ -351,16 +351,16 @@
     /* Hero Scroll Indicator */
     .hero-scroll {
       position: absolute;
-      bottom: 2rem;
+      bottom: 3rem;
       left: 50%;
       transform: translateX(-50%);
       z-index: 20;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1.2rem;
-      color: rgba(255, 255, 255, 0.35);
-      font-size: 0.55rem;
+      gap: 0.75rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.65rem;
       font-weight: 700;
       letter-spacing: 0.4em;
       text-transform: uppercase;
@@ -370,7 +370,7 @@
 
     .hero-scroll-line {
       width: 1px;
-      height: 70px;
+      height: 60px;
       background: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), transparent);
       position: relative;
       overflow: hidden;
@@ -543,11 +543,11 @@
 
     .hero-title {
       font-family: 'Instrument Serif', serif;
-      font-size: clamp(3.5rem, 8vw, 6.5rem);
-      line-height: 1.05;
-      letter-spacing: -0.01em;
+      font-size: clamp(3.5rem, 9.5vw, 8.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
       color: #ffffff;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2.5rem;
     }
 
     .hero-title .line-inner {
@@ -565,12 +565,12 @@
     }
 
     .hero-sub {
-      font-size: 1.05rem;
+      font-size: 1.15rem;
       font-weight: 300;
       color: rgba(255, 255, 255, 0.6);
-      max-width: 480px;
+      max-width: 520px;
       line-height: 1.6;
-      margin: 0 auto 3rem;
+      margin: 0 auto 3.5rem;
       opacity: 0;
       transform: translateY(10px);
     }
@@ -587,10 +587,10 @@
     .hero-btn-primary {
       background: var(--c-primary);
       color: #fff;
-      padding: 1.1rem 2.2rem;
-      font-size: 0.6rem;
+      padding: 1.15rem 2.8rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       text-decoration: none;
       border-radius: 99px;
@@ -598,6 +598,25 @@
       position: relative;
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-btn-secondary {
+      background: transparent;
+      color: #fff;
+      padding: 1.15rem 2.8rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 99px;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.4s var(--expo);
+    }
+
+    .hero-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.4);
     }
     /* ── BASE HERO STRUCTURE ── */
 
