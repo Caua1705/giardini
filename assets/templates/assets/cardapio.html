@@ -531,8 +531,7 @@
       color: rgba(183, 147, 88, 0.95);
       margin-bottom: 2.2rem;
       opacity: 0;
-      transform: translateY(15px);
-      filter: blur(8px);
+      transform: translateY(10px);
     }
 
     .kicker-line {
@@ -554,9 +553,8 @@
     .hero-title .line-inner {
       display: inline-block;
       opacity: 0;
-      transform: translateY(115%);
-      will-change: transform;
-      filter: blur(10px);
+      transform: translateY(10px);
+      will-change: transform, opacity;
     }
 
     .hero-title em {
@@ -574,8 +572,7 @@
       line-height: 1.6;
       margin: 0 auto 3rem;
       opacity: 0;
-      transform: translateY(15px);
-      filter: blur(8px);
+      transform: translateY(10px);
     }
 
     .hero-cta-wrap {
@@ -584,8 +581,7 @@
       justify-content: center;
       gap: 1.5rem;
       opacity: 0;
-      transform: translateY(15px);
-      filter: blur(6px);
+      transform: translateY(10px);
     }
 
     .hero-btn-primary {
@@ -2286,16 +2282,14 @@
       
       loadTl.to(loader, { yPercent: -105, duration: 1.2, ease: 'power4.inOut' });
 
-      // ── Cinematic GSAP Reveal (Starts slightly before loader finishes) ──
-      const heroTl = gsap.timeline();
+      // ── Cinematic GSAP Reveal (Starts as the loader lifts, matching index.html logic) ──
+      const heroTl = gsap.timeline({ delay: 0.6 });
       
-      heroTl.to("#el-kicker", { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.0, ease: "expo.out" }, 0.1)
-            .to("#el-h1a", { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.2, ease: "expo.out" }, 0.2)
-            .to("#video-frame", { opacity: 0.95, scale: 1, duration: 2.0, ease: "power2.out" }, 0.2)
-            .to("#el-h1b", { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.2, ease: "expo.out" }, 0.35)
-            .to("#el-body", { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.0, ease: "expo.out" }, 0.5)
-            .to("#el-cta", { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.0, ease: "expo.out" }, 0.65)
-            .to("#el-scroll", { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.2, ease: "expo.out" }, 0.85);
+      heroTl.to("#el-kicker", { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0)
+            .to("#el-h1a", { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.2)
+            .to("#el-h1b", { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.2)
+            .to("#el-body", { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.4)
+            .to("#el-cta", { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.6);
 
       // Initialize canvas
       window.addEventListener('resize', resizeCanvas);
@@ -2327,14 +2321,13 @@
           }
         });
 
-        // Master Parallax Exit Timeline (Linked to Scroll)
-        /* 
+        // Master Parallax Exit Timeline (Refined Cinematic Apple-Style Scroll)
         const exitTl = gsap.timeline({
           scrollTrigger: {
             trigger: wrapper,
             start: 'top top',
-            end: () => `+=${scrollPx * 0.6}`, // Finish exit within ~60% of the pin
-            scrub: CONFIG.scrub,
+            end: () => `+=${scrollPx * 0.85}`, // Gradual exit for smoother transition
+            scrub: 1.2, // Premium smooth scrubbing
             onEnter: () => {
               // If user scrolls before intro finishes, force intro states
               if (heroTl.isActive()) heroTl.progress(1);
@@ -2342,13 +2335,24 @@
           }
         });
 
-        exitTl.to('#el-kicker', { opacity: 0, y: -80, filter: 'blur(10px)', ease: 'none' }, 0)
-              .to('#el-h1a', { opacity: 0, y: -100, filter: 'blur(12px)', ease: 'none' }, 0.05)
-              .to('#el-h1b', { opacity: 0, y: -100, filter: 'blur(12px)', ease: 'none' }, 0.05)
-              .to('#el-body', { opacity: 0, y: -60, filter: 'blur(10px)', ease: 'none' }, 0.1)
-              .to('#el-cta', { opacity: 0, y: -40, filter: 'blur(8px)', ease: 'none' }, 0.15)
-              .to('#el-scroll', { opacity: 0, y: -30, filter: 'blur(6px)', ease: 'none' }, 0);
-        */
+        // 1. Top label fades first with subtle drift
+        exitTl.to('#el-kicker', { opacity: 0, y: -20, filter: 'blur(2px)', duration: 0.4, ease: 'power1.inOut' }, 0);
+
+        // 2. Headline begins fading sequentially
+        exitTl.to('#el-h1a', { opacity: 0, y: -30, filter: 'blur(2px)', duration: 0.5, ease: 'power1.inOut' }, 0.1)
+              .to('#el-h1b', { opacity: 0, y: -30, filter: 'blur(2px)', duration: 0.5, ease: 'power1.inOut' }, 0.15);
+
+        // 3. Paragraph follows
+        exitTl.to('#el-body', { opacity: 0, y: -40, filter: 'blur(2px)', duration: 0.5, ease: 'power1.inOut' }, 0.2);
+
+        // 4. CTA buttons fade out after the text
+        exitTl.to('#el-cta', { opacity: 0, y: -40, filter: 'blur(2px)', duration: 0.5, ease: 'power1.inOut' }, 0.3);
+
+        // 5. Bottom "discover" indicator fades out last or near last
+        exitTl.to('#el-scroll', { opacity: 0, y: -15, filter: 'blur(1px)', duration: 0.4, ease: 'power1.inOut' }, 0.4);
+
+        // 6. Central visual remains stable and becomes dominant with a very subtle scale
+        exitTl.to('#video-frame', { scale: 1.04, duration: 1.0, ease: 'power1.inOut' }, 0);
       }
     });
 
