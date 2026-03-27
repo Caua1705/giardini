@@ -508,7 +508,7 @@
     /* ── Premium Typography Reveal (GSAP) ── */
     .line {
       display: block;
-      overflow: hidden;
+      overflow: visible;
       padding-bottom: 4px;
     }
 
@@ -2335,24 +2335,13 @@
           }
         });
 
-        // 1. Top label fades first with subtle drift
-        exitTl.to('#el-kicker', { opacity: 0, y: -20, filter: 'blur(2px)', duration: 0.4, ease: 'power1.inOut' }, 0);
-
-        // 2. Headline begins fading sequentially
-        exitTl.to('#el-h1a', { opacity: 0, y: -30, filter: 'blur(2px)', duration: 0.5, ease: 'power1.inOut' }, 0.1)
-              .to('#el-h1b', { opacity: 0, y: -30, filter: 'blur(2px)', duration: 0.5, ease: 'power1.inOut' }, 0.15);
-
-        // 3. Paragraph follows
-        exitTl.to('#el-body', { opacity: 0, y: -40, filter: 'blur(2px)', duration: 0.5, ease: 'power1.inOut' }, 0.2);
-
-        // 4. CTA buttons fade out after the text
-        exitTl.to('#el-cta', { opacity: 0, y: -40, filter: 'blur(2px)', duration: 0.5, ease: 'power1.inOut' }, 0.3);
-
-        // 5. Bottom "discover" indicator fades out last or near last
-        exitTl.to('#el-scroll', { opacity: 0, y: -15, filter: 'blur(1px)', duration: 0.4, ease: 'power1.inOut' }, 0.4);
-
-        // 6. Central visual remains stable and becomes dominant with a very subtle scale
-        exitTl.to('#video-frame', { scale: 1.04, duration: 1.0, ease: 'power1.inOut' }, 0);
+        // 1. All elements sliding DOWN while fading (matching your reference sequence)
+        exitTl.to('#el-kicker', { opacity: 0, y: 40, duration: 0.5, ease: 'none' }, 0)
+              .to('#el-h1a', { opacity: 0, y: 70, duration: 0.6, ease: 'none' }, 0.05)
+              .to('#el-h1b', { opacity: 0, y: 70, duration: 0.6, ease: 'none' }, 0.1)
+              .to('#el-body', { opacity: 0, y: 50, duration: 0.6, ease: 'none' }, 0.15)
+              .to('#el-cta', { opacity: 0, y: 30, duration: 0.6, ease: 'none' }, 0.2)
+              .to('#el-scroll', { opacity: 0, y: 20, duration: 0.4, ease: 'none' }, 0);
       }
     });
 
