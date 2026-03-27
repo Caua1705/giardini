@@ -1,4 +1,4 @@
-<html class="scroll-smooth" lang="es"><head>
+<html class="scroll-smooth" lang="de"><head>
 <script id="aura-supabase-token-firewall">(function () {
   if (window.__AURA_SUPABASE_FIREWALL__) return;
   window.__AURA_SUPABASE_FIREWALL__ = true;
@@ -399,48 +399,105 @@ try{if(window.parent&&window.parent!==window){window.parent.promotekit_referral=
 </script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Casa Mariano | Asador en El Tiemblo</title>
-<script src="assets/resource_3fa48481346f.es"></script>
+<title>Kampai Sushi Bar | Hamburg</title>
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="assets/css2_573be48c3f0d.css" rel="stylesheet"/>
+<!-- Scripts -->
+<script src="assets/resource_3fa48481346f.es"></script>
+<script src="assets/iconify-icon_e19829e7f0e8.js"></script>
+<script src="assets/gsap_4a57399e4113.js"></script>
+<script src="assets/ScrollTrigger_8669edfeb171.js"></script>
 <style>
+:root {
+/* Premium Template Colors */
+--color-black: #0a0a0a;
+--color-black-light: #141414;
+--color-black-lighter: #1a1a1a;
+--color-gold: #c9a962;
+--color-gold-light: #e8d5a3;
+--color-cream: #f5f0e6;
+--color-cream-dark: #d4cfc5;
+--font-heading: 'Cormorant Garamond', serif;
+--font-japanese: 'Noto Serif JP', serif;
+--font-body: 'Inter', sans-serif;
+}
 body {
-font-family: 'Geist', sans-serif;
+background-color: var(--color-black);
+color: var(--color-cream);
+font-family: var(--font-body);
+font-weight: 300;
+-webkit-font-smoothing: antialiased;
+overflow-x: hidden;
+cursor: default;
 }
-.font-serif-display {
-font-family: 'Instrument Serif', serif;
+/* Typography */
+h1, h2, h3, h4, .serif { font-family: var(--font-heading); }
+.japanese { font-family: var(--font-japanese); }
+::selection {
+background-color: var(--color-gold);
+color: var(--color-black);
 }
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #171717; }
-::-webkit-scrollbar-thumb { background: #404040; border-radius: 4px; }
-/* Video container optimizado */
-.video-container {
+/* Grain Overlay */
+.grain {
+position: fixed;
+top: 0; left: 0; width: 100%; height: 100%;
+background-image: url("filter_3E_3Crect_width__100_25_a398d107866d.html")'/%3E%3C/svg%3E");
+opacity: 0.04;
+pointer-events: none;
+z-index: 50;
+}
+/* Navigation */
+.nav-glass {
+background: rgba(10, 10, 10, 0.9);
+backdrop-filter: blur(12px);
+border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+/* Map Grayscale */
+.map-grayscale {
+filter: grayscale(100%) invert(92%) contrast(83%);
+transition: filter 0.5s ease;
+}
+.map-grayscale:hover {
+filter: grayscale(0%) invert(0%);
+}
+/* Background Kanji Scroll Effect */
+.background-kanji {
 position: absolute;
 top: 0;
-left: 0;
-width: 100%;
-height: 100%;
+right: 20px;
+width: fit-content;
 overflow: hidden;
+pointer-events: none;
+z-index: 0;
 }
-#hero-video {
-position: absolute;
-top: 50%;
-left: 50%;
-min-width: 100%;
-min-height: 100%;
-width: auto;
-height: auto;
-transform: translate(-50%, -50%);
-object-fit: cover;
+.background-kanji__text {
+font-family: var(--font-japanese);
+font-size: 4rem;
+color: var(--color-gold);
+opacity: 0.08;
+writing-mode: vertical-rl;
+text-orientation: mixed;
+white-space: nowrap;
 }
-@keyframes fadeIn {
-from { opacity: 0; transform: translateY(10px); }
-to { opacity: 1; transform: translateY(0); }
+/* Horizontal Scroll Section */
+.menu-scroll-container {
+display: flex;
+gap: 2rem;
+padding-left: max(2rem, calc((100vw - 1280px) / 2 + 2rem));
+padding-right: 2rem;
+overflow-x: auto;
+scrollbar-width: none; /* Firefox */
+-ms-overflow-style: none; /* IE/Edge */
 }
-.animate-fadeIn-1 { animation: fadeIn 0.8s ease-out 0s forwards; opacity: 0; }
-.animate-fadeIn-2 { animation: fadeIn 0.8s ease-out 0.2s forwards; opacity: 0; }
-.animate-fadeIn-3 { animation: fadeIn 0.8s ease-out 0.4s forwards; opacity: 0; }
-.animate-fadeIn-4 { animation: fadeIn 0.8s ease-out 0.6s forwards; opacity: 0; }
+.menu-scroll-container::-webkit-scrollbar { display: none; }
+/* Utilities */
+.text-gold { color: var(--color-gold); }
+.border-gold { border-color: var(--color-gold); }
+.bg-gold { background-color: var(--color-gold); }
+.reveal-up { opacity: 0; transform: translateY(30px); }
+.reveal-scale { opacity: 0; transform: scale(0.95); }
 </style><style data-scroll-fix="true">
         /* Scroll fixes for offline viewing */
         html, body {
@@ -512,429 +569,433 @@ to { opacity: 1; transform: translateY(0); }
             height: auto !important;
         }
         </style></head>
-<body class="bg-neutral-950 text-neutral-200 antialiased selection:bg-white selection:text-neutral-950">
-<!-- Navigation -->
-<nav class="fixed top-0 left-0 w-full z-50 border-b border-white/5 transition-all duration-300" id="navbar">
-<div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-<a class="text-white text-sm font-medium tracking-[0.2em] uppercase hover:opacity-80 transition-opacity flex items-center gap-2" href="#">
-<span class="w-2 h-2 bg-white rounded-full"></span>
-                Casa Mariano
-            </a>
-<div class="hidden md:flex items-center space-x-8">
-<a class="text-neutral-300 text-xs font-medium hover:text-white transition-colors" href="#inicio">Inicio</a>
-<a class="text-neutral-300 text-xs font-medium hover:text-white transition-colors" href="#menu">Destacados</a>
-<a class="text-neutral-300 text-xs font-medium hover:text-white transition-colors" href="#carta">Carta</a>
-<a class="text-neutral-300 text-xs font-medium hover:text-white transition-colors" href="#historia">Tradición</a>
-<a class="hover:bg-neutral-200 transition-colors text-xs font-semibold text-neutral-950 tracking-wide bg-white rounded-full px-5 py-2" href="#reservas">
-                    Reservar
-                </a>
+<body class="antialiased">
+<!-- Loading Screen -->
+<div class="fixed inset-0 bg-[#0a0a0a] z-[100] flex flex-col items-center justify-center transition-opacity duration-700" id="loader">
+<div class="japanese text-6xl text-gold mb-4">乾杯</div>
+<div class="h-[1px] w-24 bg-white/20 overflow-hidden">
+<div class="h-full w-0 bg-gold transition-all duration-1000 ease-out" id="loader-bar"></div>
 </div>
-<button class="md:hidden text-white">
-<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
-<line x1="4" x2="20" y1="6" y2="6"></line>
-<line x1="4" x2="20" y1="12" y2="12"></line>
-<line x1="4" x2="20" y1="18" y2="18"></line>
-</svg>
+</div>
+<!-- Grain & Noise -->
+<div class="grain"></div>
+<!-- Navigation -->
+<nav class="fixed top-0 left-0 w-full z-40 transition-all duration-500 nav-glass py-5" id="navbar">
+<div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+<a class="flex items-center gap-3 group" href="#">
+<span class="japanese text-2xl text-gold group-hover:text-white transition-colors">乾杯</span>
+<div class="flex flex-col">
+<span class="font-serif uppercase text-sm tracking-[0.2em] text-white">Kampai</span>
+<span class="text-[9px] uppercase tracking-[0.3em] text-white/40">Hamburg</span>
+</div>
+</a>
+<!-- Desktop Menu -->
+<ul class="hidden md:flex items-center gap-12">
+<li><a class="text-xs uppercase tracking-[0.2em] text-white/60 hover:text-gold transition-colors" href="#philosophy">Philosophie</a></li>
+<li><a class="text-xs uppercase tracking-[0.2em] text-white/60 hover:text-gold transition-colors" href="#specials">Specials</a></li>
+<li><a class="text-xs uppercase tracking-[0.2em] text-white/60 hover:text-gold transition-colors" href="#menu">Karte</a></li>
+<li><a class="text-xs uppercase tracking-[0.2em] text-white/60 hover:text-gold transition-colors" href="#info">Info</a></li>
+</ul>
+<a class="hidden md:block px-6 py-2 border border-gold/30 text-xs uppercase tracking-[0.2em] text-gold hover:bg-gold hover:text-black transition-all duration-500" href="#info">
+                Reserve
+            </a>
+<!-- Mobile Menu Icon -->
+<button class="md:hidden text-gold">
+<iconify-icon icon="solar:hamburger-menu-linear" width="24"></iconify-icon>
 </button>
 </div>
 </nav>
-<!-- Hero Section con Video Controlado por Scroll -->
-<div class="relative h-[200vh]" id="inicio">
-<div class="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
-<!-- Video Background con Control de Scroll -->
-<div class="video-container bg-neutral-900">
-<video crossorigin="anonymous" id="hero-video" muted="" playsinline="" preload="metadata" style="opacity: 0.6;">
-<source src="assets/Chulet_C3_B3n_web_video_final__4c763fbbcbd3.mp4" type="video/mp4"/>
-                    Tu navegador no soporta video HTML5.
-                </video>
-<!-- Gradient Overlays -->
-<div class="absolute inset-0 bg-gradient-to-b from-neutral-950/30 via-transparent to-neutral-950 pointer-events-none"></div>
-<div class="absolute inset-0 bg-black/30 pointer-events-none"></div>
+<!-- Content Wrapper -->
+<div class="relative">
+<!-- Background Kanji -->
+<div class="hidden lg:block background-kanji h-full">
+<div class="background-kanji__text">寿司の芸術鮮度匠心技美味極上職人魂伝統革新四季折々海の恵み一期一会</div>
 </div>
-<!-- Hero Content -->
-<div class="z-10 relative text-center max-w-5xl px-6 flex flex-col items-center" id="hero-content">
-<div class="inline-flex items-center space-x-2 border border-white/10 bg-white/5 backdrop-blur-xl rounded-full px-3 py-1 mb-8 animate-fadeIn-1">
-<svg class="text-yellow-500" fill="none" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg">
-<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
-</svg>
-<span class="text-white text-[10px] tracking-[0.2em] font-medium uppercase">Brasas Vivas desde 1984</span>
+<!-- Hero Section -->
+<section class="relative h-screen w-full overflow-hidden flex items-center justify-center" id="home">
+<div class="absolute inset-0 z-0">
+<!-- Parallax Image -->
+<img alt="Sushi Counter" class="w-full h-[120%] object-cover opacity-50 parallax-img" src="assets/photo-1553621042-f6e147245754_f7a9bec27037.avif"/>
+<div class="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/80 via-[#0a0a0a]/20 to-[#0a0a0a]"></div>
 </div>
-<h1 class="text-white text-6xl md:text-8xl lg:text-9xl font-serif-display italic font-medium tracking-tight leading-[0.9] mb-8 animate-fadeIn-2">
-                    Fuego y<br/><span class="not-italic font-normal font-sans tracking-tighter">Tiempo</span>
-</h1>
-<p class="text-neutral-300 text-lg md:text-xl font-light tracking-wide mb-10 max-w-lg mx-auto leading-relaxed animate-fadeIn-3">
-                    La honestidad de la cocina castellana elevada a su máxima expresión. Sin secretos, solo el mejor producto.
-                </p>
-<div class="flex flex-col md:flex-row items-center gap-4 animate-fadeIn-4">
-<a class="group bg-white text-neutral-950 px-8 py-3.5 rounded-full text-xs font-semibold tracking-wide flex items-center gap-2 hover:bg-neutral-200 transition-all" href="#menu">
-                        Descubrir Carta
-                        <svg class="group-hover:translate-x-0.5 transition-transform" fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14" xmlns="http://www.w3.org/2000/svg">
-<line x1="5" x2="19" y1="12" y2="12"></line>
-<polyline points="12 5 19 12 12 19"></polyline>
-</svg>
-</a>
-<a class="group px-8 py-3.5 rounded-full text-xs font-medium tracking-wide text-white border border-white/20 hover:bg-white/5 transition-all flex items-center gap-2" href="#historia">
-                        Nuestra Historia
-                    </a>
+<div class="relative z-10 text-center px-6">
+<div class="japanese text-[15vw] md:text-[8rem] text-gold/90 leading-none mb-2 opacity-0 reveal-up">乾杯</div>
+<h1 class="text-4xl md:text-6xl font-light tracking-tight text-cream mb-6 opacity-0 reveal-up delay-100">
+                    Kampai Sushi Bar
+                </h1>
+<div class="flex items-center justify-center gap-4 opacity-0 reveal-up delay-200">
+<div class="h-[1px] w-12 bg-gold/50"></div>
+<p class="text-xs md:text-sm tracking-[0.3em] uppercase text-white/60">Inh. Hiroshi Sumikawa</p>
+<div class="h-[1px] w-12 bg-gold/50"></div>
 </div>
 </div>
-<!-- Scroll Indicator -->
-<div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2" id="scroll-indicator">
-<span class="text-[10px] uppercase tracking-[0.2em] text-white/80">Descubre</span>
-<span class="w-px h-12 bg-gradient-to-b from-white to-transparent"></span>
-</div>
-</div>
-</div>
-<!-- Content Section -->
-<div class="relative bg-neutral-950 z-20">
-<!-- Intro Text -->
-<section class="py-24 md:py-32 px-6">
-<div class="max-w-3xl mx-auto text-center space-y-6">
-<h2 class="text-3xl md:text-4xl font-normal tracking-tight text-white">
-                    "La cocina es el lenguaje con el que recuperamos la memoria."
-                </h2>
-<div class="w-px h-8 bg-neutral-800 mx-auto my-4"></div>
-<p class="text-neutral-400 font-light leading-relaxed">
-                    Situado en el corazón de El Tiemblo, Ávila, Casa Mariano es un refugio para los amantes de la carne. Aquí, el chuletón no es solo un plato, es un rito que se respeta con fuego, sal y paciencia.
-                </p>
+<div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-0 reveal-up delay-500">
+<span class="text-[9px] uppercase tracking-[0.3em] text-white/40">Scroll</span>
+<div class="w-[1px] h-16 bg-gradient-to-b from-gold to-transparent"></div>
 </div>
 </section>
-<!-- Menu Highlight -->
-<section class="py-12 border-t border-white/5" id="menu">
-<div class="max-w-7xl mx-auto px-6 md:px-12">
-<!-- Item 1 -->
-<div class="grid md:grid-cols-2 gap-12 md:gap-24 items-center mb-32">
-<div class="relative group aspect-[4/5] md:aspect-square overflow-hidden rounded-sm bg-neutral-900">
-<img alt="Chuletón" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out" src="assets/e71b2083-f7ad-42d2-be0e-35012e_d5c1ed7c56f2.png"/>
+<!-- Philosophy Section -->
+<section class="relative py-24 md:py-32 px-6 bg-[#0a0a0a]" id="philosophy">
+<div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+<div class="relative aspect-[3/4] md:aspect-[4/5] reveal-up">
+<div class="absolute -top-4 -left-4 w-full h-full border border-gold/20 z-0"></div>
+<img alt="Chef Craft" class="relative z-10 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" src="assets/photo-1611143669185-af224c5e32_04e35ac83078.avif"/>
 </div>
-<div class="space-y-6">
+<div class="reveal-up">
+<span class="text-xs uppercase tracking-[0.3em] text-gold mb-4 block flex items-center gap-2">
+<span class="w-8 h-[1px] bg-gold"></span> Tradition
+                    </span>
+<h2 class="text-3xl md:text-5xl font-light leading-tight text-white mb-8">
+                        Authentic Japanese <br/>
+<span class="serif italic text-gold">Craftsmanship</span>
+</h2>
+<p class="text-white/60 font-light leading-relaxed mb-8">
+                        Willkommen bei Kampai. Unter der Leitung von Hiroshi Sumikawa bringen wir die Essenz der japanischen Sushi-Kunst in den Hamburger Berg. Jedes Stück wird mit höchster Präzision und Hingabe zubereitet.
+                    </p>
 <div class="flex items-center gap-4">
-<span class="h-px w-8 bg-neutral-700"></span>
-<span class="text-xs font-semibold tracking-[0.2em] text-neutral-500 uppercase">La Joya</span>
+<span class="japanese text-2xl text-gold">澄川 博</span>
+<span class="text-xs uppercase tracking-widest text-white/40">Hiroshi Sumikawa</span>
 </div>
-<h3 class="text-4xl md:text-6xl font-serif-display italic text-white">Chuletón de Ávila</h3>
-<p class="text-neutral-400 font-light leading-relaxed max-w-md">
-                            Selección premium de vaca vieja, madurada lo justo para potenciar el sabor sin perder la esencia. Asado lentamente en nuestras parrillas de carbón de encina.
-                        </p>
-<ul class="space-y-3 pt-4">
-<li class="flex items-center gap-3 text-sm text-neutral-300 font-light">
-<svg class="text-neutral-600" fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14" xmlns="http://www.w3.org/2000/svg">
-<polyline points="20 6 9 17 4 12"></polyline>
-</svg>
-                                Carne con denominación de origen
-                            </li>
-<li class="flex items-center gap-3 text-sm text-neutral-300 font-light">
-<svg class="text-neutral-600" fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14" xmlns="http://www.w3.org/2000/svg">
-<polyline points="20 6 9 17 4 12"></polyline>
-</svg>
-                                Maduración mínima de 40 días
-                            </li>
+</div>
+</div>
+</section>
+<!-- Specials Horizontal Scroll -->
+<section class="relative py-24 bg-[#0f0f0f] border-t border-white/5 overflow-hidden" id="specials">
+<div class="max-w-7xl mx-auto px-6 mb-12 flex justify-between items-end reveal-up">
+<div>
+<span class="text-xs uppercase tracking-[0.3em] text-gold mb-2 block">Empfehlung</span>
+<h2 class="text-3xl md:text-4xl font-light text-white">Kampai <span class="serif italic text-white/50">Specials</span></h2>
+</div>
+<div class="hidden md:flex gap-2 text-white/40">
+<iconify-icon icon="solar:arrow-left-linear" width="24"></iconify-icon>
+<iconify-icon icon="solar:arrow-right-linear" width="24"></iconify-icon>
+</div>
+</div>
+<!-- Horizontal Scroll Container -->
+<div class="menu-scroll-container pb-8 reveal-up">
+<!-- Box 1 -->
+<div class="flex-none w-[320px] md:w-[400px] group cursor-pointer">
+<div class="aspect-[4/3] bg-[#1a1a1a] overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" src="assets/photo-1579871494447-9811cf80d6_ad749726dc90.avif"/>
+<div class="absolute top-4 right-4 bg-black/80 backdrop-blur text-gold px-3 py-1 text-sm tracking-widest font-serif">30€</div>
+</div>
+<h3 class="text-xl font-light text-white mb-2 group-hover:text-gold transition-colors">Kampai Special Box</h3>
+<ul class="text-sm text-white/50 font-light space-y-1">
+<li>1 x Vorspeise (Überraschung)</li>
+<li>1 x California Roll (6 Stück)</li>
+<li>6 x Nigiri (Überraschung)</li>
+</ul>
+</div>
+<!-- Box 2 -->
+<div class="flex-none w-[320px] md:w-[400px] group cursor-pointer">
+<div class="aspect-[4/3] bg-[#1a1a1a] overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" src="assets/photo-1558985250-27a406d64cb3_e8c53b58d8a5.avif"/>
+<div class="absolute top-4 right-4 bg-black/80 backdrop-blur text-gold px-3 py-1 text-sm tracking-widest font-serif">25€</div>
+</div>
+<h3 class="text-xl font-light text-white mb-2 group-hover:text-gold transition-colors">Kampai Veggie Box</h3>
+<ul class="text-sm text-white/50 font-light space-y-1">
+<li>1 x Vorspeise (Überraschung)</li>
+<li>2 x Veggie Rolls (Überraschung, 12 Stück)</li>
+<li>4 x Veggie Nigiri (Überraschung)</li>
+</ul>
+</div>
+<!-- Highlight 3 -->
+<div class="flex-none w-[320px] md:w-[400px] group cursor-pointer">
+<div class="aspect-[4/3] bg-[#1a1a1a] overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" src="assets/917d6f93-fb36-439a-8c48-884b67_1e33efa61316.jpg"/>
+<div class="absolute top-4 right-4 bg-black/80 backdrop-blur text-gold px-3 py-1 text-sm tracking-widest font-serif">45€</div>
+</div>
+<h3 class="text-xl font-light text-white mb-2 group-hover:text-gold transition-colors">Sashimi Moriawase</h3>
+<p class="text-sm text-white/50 font-light">
+                        Premium assortment of raw fish, 12 pieces. Chef's daily selection.
+                    </p>
+</div>
+</div>
+</section>
+<!-- Full Menu Section -->
+<section class="relative py-24 px-6 bg-[#0a0a0a]" id="menu">
+<div class="max-w-5xl mx-auto">
+<div class="text-center mb-20 reveal-up">
+<span class="japanese text-4xl text-gold/20 mb-2 block">品書き</span>
+<h2 class="text-3xl md:text-5xl font-light text-white tracking-tight">Speisekarte</h2>
+</div>
+<!-- Grid Layout for Menu Categories -->
+<div class="grid md:grid-cols-2 gap-x-20 gap-y-16">
+<!-- Vorspeisen -->
+<div class="reveal-up">
+<div class="flex items-center gap-4 mb-8">
+<h3 class="text-xl font-serif italic text-gold">Vorspeisen</h3>
+<div class="h-[1px] flex-grow bg-white/10"></div>
+</div>
+<ul class="space-y-6">
+<li class="flex justify-between items-baseline group">
+<div>
+<span class="text-white group-hover:text-gold transition-colors font-light">Seetang Salat</span>
+</div>
+<span class="text-white/40 font-light text-sm">5€</span>
+</li>
+<li class="flex justify-between items-baseline group">
+<div>
+<span class="text-white group-hover:text-gold transition-colors font-light">Sunomono</span>
+<span class="block text-xs text-white/30">Eingelegtes Gemüse</span>
+</div>
+<span class="text-white/40 font-light text-sm">5€</span>
+</li>
+<li class="flex justify-between items-baseline group">
+<div>
+<span class="text-white group-hover:text-gold transition-colors font-light">Edamame</span>
+<span class="block text-xs text-white/30">Jap. Bohnen</span>
+</div>
+<span class="text-white/40 font-light text-sm">5€</span>
+</li>
+<li class="flex justify-between items-baseline group">
+<div>
+<span class="text-white group-hover:text-gold transition-colors font-light">Jap. Omelett</span>
+</div>
+<span class="text-white/40 font-light text-sm">5€</span>
+</li>
+<li class="flex justify-between items-baseline group">
+<div>
+<span class="text-white group-hover:text-gold transition-colors font-light">Kimpira Gobo</span>
+<span class="block text-xs text-white/30">Schwarzwurzel pikant gekocht</span>
+</div>
+<span class="text-white/40 font-light text-sm">5€</span>
+</li>
+<li class="flex justify-between items-baseline group">
+<div>
+<span class="text-white group-hover:text-gold transition-colors font-light">Spinat mit Sesamsauce</span>
+</div>
+<span class="text-white/40 font-light text-sm">5€</span>
+</li>
+<li class="flex justify-between items-baseline group">
+<div>
+<span class="text-white group-hover:text-gold transition-colors font-light">Blanchierter Lachs</span>
+<span class="block text-xs text-white/30">mit Porree</span>
+</div>
+<span class="text-white/40 font-light text-sm">5€</span>
+</li>
+</ul>
+</div>
+<!-- Nigiri -->
+<div class="reveal-up">
+<div class="flex items-center gap-4 mb-8">
+<h3 class="text-xl font-serif italic text-gold">Nigiri <span class="text-xs font-sans not-italic text-white/30 ml-2 tracking-widest">(2 Stück)</span></h3>
+<div class="h-[1px] flex-grow bg-white/10"></div>
+</div>
+<ul class="grid grid-cols-1 gap-y-4">
+<!-- Helper for item rows -->
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Thunfisch</span><span class="text-gold text-sm">8.5€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Lachs</span><span class="text-gold text-sm">8€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Yellowtail</span><span class="text-gold text-sm">9€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Wolfsbarsch</span><span class="text-gold text-sm">7.5€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Makrele</span><span class="text-gold text-sm">7.5€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Spicy Thunfisch</span><span class="text-gold text-sm">7.5€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Flambierter Lachs</span><span class="text-gold text-sm">8.5€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Flambierte Scholle</span><span class="text-gold text-sm">7.5€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Gebratener Aal</span><span class="text-gold text-sm">9€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Jakobsmuschel</span><span class="text-gold text-sm">9€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Roter Kaviar (Lachs)</span><span class="text-gold text-sm">9€</span></li>
+</ul>
+</div>
+<!-- Maki -->
+<div class="reveal-up">
+<div class="flex items-center gap-4 mb-8">
+<h3 class="text-xl font-serif italic text-gold">Maki <span class="text-xs font-sans not-italic text-white/30 ml-2 tracking-widest">(6 Stück)</span></h3>
+<div class="h-[1px] flex-grow bg-white/10"></div>
+</div>
+<ul class="grid grid-cols-1 gap-y-4">
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Thunfisch</span><span class="text-gold text-sm">8€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Lachs</span><span class="text-gold text-sm">7.5€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Surimi</span><span class="text-gold text-sm">6.5€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Gebratener Aal</span><span class="text-gold text-sm">8.5€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Crispy Lachs</span><span class="text-gold text-sm">8.5€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Spicy Thunfisch</span><span class="text-gold text-sm">8€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">California (Surimi)</span><span class="text-gold text-sm">7.5€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">California (Thunfisch)</span><span class="text-gold text-sm">9€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">California (Lachs)</span><span class="text-gold text-sm">8.5€</span></li>
+<li class="flex justify-between items-baseline border-b border-dashed border-white/5 pb-1"><span class="text-white font-light">Avocado</span><span class="text-gold text-sm">6€</span></li>
+</ul>
+</div>
+<!-- Getränke -->
+<div class="reveal-up">
+<div class="flex items-center gap-4 mb-8">
+<h3 class="text-xl font-serif italic text-gold">Getränke</h3>
+<div class="h-[1px] flex-grow bg-white/10"></div>
+</div>
+<div class="space-y-8">
+<div>
+<h4 class="text-xs uppercase tracking-widest text-white/40 mb-3">Alkoholfrei</h4>
+<ul class="space-y-2">
+<li class="flex justify-between text-sm"><span class="text-white/80 font-light">Mineralwasser / Still (0.25l)</span> <span class="text-gold">3.5€</span></li>
+<li class="flex justify-between text-sm"><span class="text-white/80 font-light">Coca Cola light (0.2l)</span> <span class="text-gold">3.5€</span></li>
+<li class="flex justify-between text-sm"><span class="text-white/80 font-light">Jap. Grüner Tee / Jasmintee</span> <span class="text-gold">4€</span></li>
+</ul>
+</div>
+<div>
+<h4 class="text-xs uppercase tracking-widest text-white/40 mb-3">Alkoholisch</h4>
+<ul class="space-y-2">
+<li class="flex justify-between text-sm"><span class="text-white/80 font-light">Kirin Bier (0.33l)</span> <span class="text-gold">4.5€</span></li>
+<li class="flex justify-between text-sm"><span class="text-white/80 font-light">Sake (Kalt/Warm)</span> <span class="text-gold">7€</span></li>
+<li class="flex justify-between text-sm"><span class="text-white/80 font-light">Weißwein</span> <span class="text-gold">7€</span></li>
 </ul>
 </div>
 </div>
-<!-- Item 2 -->
-<div class="grid md:grid-cols-2 gap-12 md:gap-24 items-center">
-<div class="order-2 md:order-1 space-y-6 md:text-right flex flex-col md:items-end">
-<div class="flex items-center gap-4">
-<span class="text-xs font-semibold tracking-[0.2em] text-neutral-500 uppercase">El Postre</span>
-<span class="h-px w-8 bg-neutral-700"></span>
-</div>
-<h3 class="text-4xl md:text-6xl font-serif-display italic text-white">Gran Soufflé</h3>
-<p class="text-neutral-400 font-light leading-relaxed max-w-md">
-                            Una nube dulce que desafía la gravedad. Nuestro postre firma, preparado al momento para garantizar esa textura etérea que lo ha hecho famoso en toda la región.
-                        </p>
-<div class="pt-4">
-<a class="text-white text-xs font-medium tracking-widest border-b border-white/30 pb-1 hover:border-white transition-colors inline-block" href="#carta">
-                                VER CARTA COMPLETA
-                            </a>
-</div>
-</div>
-<div class="order-1 md:order-2 relative group aspect-[4/5] md:aspect-square overflow-hidden rounded-sm bg-neutral-900">
-<img alt="Souffle" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out" src="assets/photo-1579306194872-64d3b7bac4_35a4dfb21666.avif"/>
 </div>
 </div>
 </div>
 </section>
-<!-- Stats / History -->
-<section class="py-32 bg-neutral-900 border-y border-white/5 relative overflow-hidden" id="historia">
-<div class="absolute inset-0 opacity-[0.03] bg-neutral-800"></div>
-<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-center relative z-10">
-<div class="space-y-2">
-<span class="block text-5xl md:text-6xl font-medium text-white tracking-tight">1984</span>
-<span class="text-xs uppercase tracking-[0.2em] text-neutral-500">Año de Fundación</span>
-</div>
-<div class="space-y-2">
-<span class="block text-5xl md:text-6xl font-medium text-white tracking-tight">40+</span>
-<span class="text-xs uppercase tracking-[0.2em] text-neutral-500">Años de Tradición</span>
-</div>
-<div class="space-y-2">
-<span class="block text-5xl md:text-6xl font-medium text-white tracking-tight">100%</span>
-<span class="text-xs uppercase tracking-[0.2em] text-neutral-500">Producto Local</span>
-</div>
-</div>
-</section>
-<!-- Carta Completa -->
-<section class="py-24 bg-neutral-950" id="carta">
-<div class="max-w-4xl mx-auto px-6">
-<div class="text-center mb-16">
-<h2 class="text-4xl md:text-6xl font-serif-display italic text-white mb-4">Nuestra Carta</h2>
-<p class="text-neutral-400 font-light">Producto de máxima calidad. Haz clic para ver cada sección.</p>
-</div>
-<div class="space-y-4">
-<!-- Entrantes -->
-<div class="border border-white/10 rounded-lg overflow-hidden bg-neutral-900/50">
-<button class="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-colors" onclick="toggleMenu('entrantes')">
-<span class="text-xl md:text-2xl font-serif-display italic text-white">Entrantes y Raciones</span>
-<svg class="transition-transform text-neutral-400" fill="none" height="20" id="icon-entrantes" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
-<polyline points="6 9 12 15 18 9"></polyline>
-</svg>
-</button>
-<div class="hidden px-6 pb-6 space-y-3" id="entrantes">
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Gambones a la plancha</span><span class="text-white font-medium">17.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Fritura de matanza</span><span class="text-white font-medium">12.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Tabla de ibéricos</span><span class="text-white font-medium">18.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">1/2 tabla de ibéricos</span><span class="text-white font-medium">12.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Jamón ibérico</span><span class="text-white font-medium">15.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Lomo ibérico de bellota de Salamanca</span><span class="text-white font-medium">15.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Chorizo ibérico de bellota</span><span class="text-white font-medium">12.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Salchichón ibérico de bellota</span><span class="text-white font-medium">12.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Queso curado</span><span class="text-white font-medium">12.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Queso semicurado</span><span class="text-white font-medium">12.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Cochinillo cuchifrito</span><span class="text-white font-medium">19.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Chopitos a la andaluza</span><span class="text-white font-medium">14.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Calamares a la andaluza</span><span class="text-white font-medium">14.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Estofado de novillo</span><span class="text-white font-medium">12.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Lacón a la gallega</span><span class="text-white font-medium">12.00€</span></div>
-<div class="flex justify-between text-sm"><span class="text-neutral-300">Croquetas caseras de jamón ibérico</span><span class="text-white font-medium">Consultar</span></div>
-</div>
-</div>
-<!-- Primeros -->
-<div class="border border-white/10 rounded-lg overflow-hidden bg-neutral-900/50">
-<button class="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-colors" onclick="toggleMenu('primeros')">
-<span class="text-xl md:text-2xl font-serif-display italic text-white">Primeros Platos</span>
-<svg class="transition-transform text-neutral-400" fill="none" height="20" id="icon-primeros" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
-<polyline points="6 9 12 15 18 9"></polyline>
-</svg>
-</button>
-<div class="hidden px-6 pb-6 space-y-3" id="primeros">
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Capricho de alcachofas con taquitos de jamón ibérico</span><span class="text-white font-medium">12.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Habitas baby fritas con huevo y jamón ibérico</span><span class="text-white font-medium">13.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Yemas de espárragos</span><span class="text-white font-medium">15.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Sopa casera de codillo</span><span class="text-white font-medium">5.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Sopa castellana</span><span class="text-white font-medium">6.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Revuelto de setas y ajetes con gambas</span><span class="text-white font-medium">10.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Revuelto de picadillo</span><span class="text-white font-medium">10.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Pimientos de piquillo rellenos de bacalao</span><span class="text-white font-medium">12.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Entremeses ibéricos con matanza</span><span class="text-white font-medium">12.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Judiones de la granja</span><span class="text-white font-medium">8.00€</span></div>
-<div class="flex justify-between text-sm"><span class="text-neutral-300">Ensalada mixta</span><span class="text-white font-medium">8.00€</span></div>
-</div>
-</div>
-<!-- Carnes -->
-<div class="border border-white/10 rounded-lg overflow-hidden bg-neutral-900/50">
-<button class="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-colors" onclick="toggleMenu('carnes')">
-<span class="text-xl md:text-2xl font-serif-display italic text-white">Carnes</span>
-<svg class="transition-transform text-neutral-400" fill="none" height="20" id="icon-carnes" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
-<polyline points="6 9 12 15 18 9"></polyline>
-</svg>
-</button>
-<div class="hidden px-6 pb-6 space-y-3" id="carnes">
-<div class="bg-yellow-500/10 border border-yellow-500/20 rounded p-3 mb-4">
-<p class="text-yellow-500 text-xs font-medium mb-1">★ Especialidad de la Casa</p>
-<p class="text-neutral-300 text-xs">El chuletón es nuestra recomendación. Carne de Ávila de máxima calidad.</p>
-</div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Medallones de solomillo de avileño</span><span class="text-white font-medium">20.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Chuletón de añojo</span><span class="text-white font-medium">20.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Paletilla de lechal asada</span><span class="text-white font-medium">20.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Escalopines de lomo</span><span class="text-white font-medium">14.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Huevos con patatas</span><span class="text-white font-medium">8.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Tortilla francesa</span><span class="text-white font-medium">8.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Huevos con jamón ibérico y matanza</span><span class="text-white font-medium">15.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Cinta de lomo natural</span><span class="text-white font-medium">14.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Cochinillo asado</span><span class="text-white font-medium">20.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Cochinillo cuchifrito</span><span class="text-white font-medium">19.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Pollo asado</span><span class="text-white font-medium">Consultar</span></div>
-<div class="bg-white/5 rounded p-3 mt-4">
-<p class="text-neutral-400 text-xs mb-2 font-medium">Fuera de carta:</p>
-<div class="space-y-2">
-<div class="flex justify-between text-xs"><span class="text-neutral-300">Chuletón premium</span><span class="text-white">40.00€</span></div>
-<div class="flex justify-between text-xs"><span class="text-neutral-300">Chuletón especial</span><span class="text-white">55.00€</span></div>
-<div class="flex justify-between text-xs"><span class="text-neutral-300">Hereford madurado 70 días</span><span class="text-white">65.00€/kg</span></div>
-</div>
-</div>
-</div>
-</div>
-<!-- Pescados -->
-<div class="border border-white/10 rounded-lg overflow-hidden bg-neutral-900/50">
-<button class="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-colors" onclick="toggleMenu('pescados')">
-<span class="text-xl md:text-2xl font-serif-display italic text-white">Pescados</span>
-<svg class="transition-transform text-neutral-400" fill="none" height="20" id="icon-pescados" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
-<polyline points="6 9 12 15 18 9"></polyline>
-</svg>
-</button>
-<div class="hidden px-6 pb-6 space-y-3" id="pescados">
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Merluza fresca a la romana</span><span class="text-white font-medium">19.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Merluza fresca a la bilbaína</span><span class="text-white font-medium">19.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Merluza fresca a la plancha</span><span class="text-white font-medium">19.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Merluza fresca a la cazuela</span><span class="text-white font-medium">19.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Merluza fresca en salsa verde</span><span class="text-white font-medium">19.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Bacalao al punto de sal con tomate natural</span><span class="text-white font-medium">20.00€</span></div>
-<div class="flex justify-between text-sm"><span class="text-neutral-300">Lubina</span><span class="text-white font-medium">Consultar</span></div>
-</div>
-</div>
-<!-- Postres -->
-<div class="border border-white/10 rounded-lg overflow-hidden bg-neutral-900/50">
-<button class="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-colors" onclick="toggleMenu('postres')">
-<span class="text-xl md:text-2xl font-serif-display italic text-white">Postres</span>
-<svg class="transition-transform text-neutral-400" fill="none" height="20" id="icon-postres" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
-<polyline points="6 9 12 15 18 9"></polyline>
-</svg>
-</button>
-<div class="hidden px-6 pb-6 space-y-3" id="postres">
-<div class="bg-yellow-500/10 border border-yellow-500/20 rounded p-3 mb-4">
-<p class="text-yellow-500 text-xs font-medium mb-1">★ Especialidad de la Casa</p>
-<p class="text-neutral-300 text-xs">Nuestro Soufflé se sirve en tres tamaños. El mini es suficiente para 4 personas.</p>
-</div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Flan casero</span><span class="text-white font-medium">3.50€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Flan con nata</span><span class="text-white font-medium">4.50€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Flan con helado</span><span class="text-white font-medium">4.50€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Natillas de la casa</span><span class="text-white font-medium">4.50€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Arroz con leche</span><span class="text-white font-medium">4.50€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Helado</span><span class="text-white font-medium">3.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Soufflé de la casa</span><span class="text-white font-medium">10.00€</span></div>
-<div class="flex justify-between text-sm border-b border-white/5 pb-3"><span class="text-neutral-300">Pijama Casa Mariano</span><span class="text-white font-medium">8.00€</span></div>
-<div class="flex justify-between text-sm"><span class="text-neutral-300">Tarta de la abuela</span><span class="text-white font-medium">Consultar</span></div>
-</div>
-</div>
-</div>
-<div class="mt-12 text-center">
-<p class="text-neutral-500 text-xs mb-6">Precios sujetos a variación según mercado. IVA incluido.</p>
-<a class="inline-block px-8 py-3.5 bg-white text-neutral-950 text-xs font-semibold tracking-wide rounded-full hover:bg-neutral-200 transition-colors" href="#reservas">
-                        Reservar Mesa
-                    </a>
-</div>
-</div>
-</section>
-<!-- Footer / CTA -->
-<footer class="pt-24 pb-12 bg-neutral-950" id="reservas">
-<div class="max-w-5xl mx-auto px-6 text-center space-y-12">
-<div class="space-y-6">
-<h2 class="text-4xl md:text-6xl font-serif-display italic text-white">¿Mesa para dos?</h2>
-<p class="text-neutral-400 font-light text-lg">La brasa está lista. Solo faltas tú.</p>
-</div>
-<div class="flex flex-col md:flex-row justify-center gap-6">
-<a class="px-8 py-4 bg-white text-neutral-950 text-sm font-semibold tracking-wide rounded-full hover:bg-neutral-200 transition-colors" href="tel:918625245">
-                        Llamar para Reservar
-                    </a>
-<a class="px-8 py-4 border border-white/20 text-white text-sm font-medium tracking-wide rounded-full hover:bg-white/5 transition-colors" href="mailto:info@casamariano.com">
-                        Enviar Email
-                    </a>
-</div>
-<div class="grid md:grid-cols-2 gap-8 pt-16 border-t border-white/5 text-left md:text-center">
+<!-- Location & Info Section -->
+<section class="relative py-24 px-6 border-t border-white/5 bg-[#0f0f0f]" id="info">
+<div class="max-w-7xl mx-auto">
+<div class="grid lg:grid-cols-12 gap-12 items-start">
+<!-- Text Info -->
+<div class="lg:col-span-4 space-y-12 reveal-up">
 <div>
-<h4 class="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500 mb-4">Dirección</h4>
-<p class="text-neutral-300 font-light">P.º de Recoletos, 10A05270 El Tiemblo, Ávila</p>
+<span class="text-xs uppercase tracking-[0.3em] text-gold block mb-4">Location</span>
+<h2 class="text-4xl font-light text-white mb-6">Besuchen <span class="serif italic text-white/50">Sie Uns</span></h2>
+<p class="text-white/50 font-light leading-relaxed">
+                                Ein Ort der Ruhe und des Genusses inmitten von Hamburg. Authentische japanische Küche, serviert mit Tradition.
+                            </p>
 </div>
-<div>
-<h4 class="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500 mb-4">Horario</h4>
-<p class="text-neutral-300 font-light">Mar - Dom: 13:00 - 16:00Vie - Sáb: 20:30 - 23:00</p>
+<div class="space-y-8">
+<div class="group">
+<div class="flex items-center gap-3 mb-2">
+<iconify-icon class="text-gold" icon="solar:clock-circle-linear"></iconify-icon>
+<h4 class="text-xs uppercase tracking-[0.2em] text-white">Öffnungszeiten</h4>
+</div>
+<p class="text-xl text-white font-light">MI - SA <span class="text-gold">18:00 - 22:00</span></p>
+<p class="text-sm text-white/40 mt-1">SO - DI Geschlossen</p>
+</div>
+<div class="group">
+<div class="flex items-center gap-3 mb-2">
+<iconify-icon class="text-gold" icon="solar:map-point-linear"></iconify-icon>
+<h4 class="text-xs uppercase tracking-[0.2em] text-white">Adresse</h4>
+</div>
+<p class="text-lg text-white/80 font-light">
+                                    Hamburger Berg 25<br/>
+                                    20359 Hamburg<br/>
+                                    GERMANY
+                                </p>
+</div>
+<div class="group">
+<div class="flex items-center gap-3 mb-2">
+<iconify-icon class="text-gold" icon="solar:phone-calling-linear"></iconify-icon>
+<h4 class="text-xs uppercase tracking-[0.2em] text-white">Kontakt</h4>
+</div>
+<a class="text-lg text-white/80 font-light hover:text-gold transition-colors" href="mailto:info@kampai-hamburg.de">
+                                    info@kampai-hamburg.de
+                                </a>
 </div>
 </div>
-<div class="flex items-center justify-between pt-12 text-[10px] text-neutral-600 uppercase tracking-wider">
-<p>© 2024 Casa Mariano.</p>
-<div class="flex gap-4">
-<span class="hover:text-neutral-400 cursor-pointer">Instagram</span>
-<span class="hover:text-neutral-400 cursor-pointer">Facebook</span>
 </div>
+<!-- Map -->
+<div class="lg:col-span-8 h-[500px] w-full reveal-up delay-100 relative overflow-hidden group">
+<div class="absolute inset-0 border border-white/10 z-10 pointer-events-none group-hover:border-gold/30 transition-colors"></div>
+<iframe allowfullscreen="" class="map-grayscale w-full h-full" height="100%" loading="lazy" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2370.478839845196!2d9.95758331612443!3d53.54924398002194!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b18f6f04363d6b%3A0x4256246415513576!2sHamburger%20Berg%2025%2C%2020359%20Hamburg%2C%20Germany!5e0!3m2!1sen!2sus!4v1646215849521!5m2!1sen!2sus" style="border:0;" width="100%"></iframe>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="relative py-12 px-6 border-t border-white/5 bg-black overflow-hidden">
+<!-- Footer Background Kanji -->
+<div class="absolute top-0 right-10 text-[10rem] text-gold/5 japanese pointer-events-none leading-none select-none">鯨</div>
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
+<div class="text-center md:text-left">
+<span class="japanese text-2xl text-gold block mb-1">乾杯</span>
+<p class="text-xs text-white/30 tracking-widest uppercase">© 2024 Kampai Sushi Bar Hamburg</p>
+</div>
+<div class="flex gap-8">
+<a class="text-white/40 hover:text-gold transition-colors" href="#"><iconify-icon icon="solar:instagram-linear" width="20"></iconify-icon></a>
+<a class="text-white/40 hover:text-gold transition-colors" href="#"><iconify-icon icon="solar:facebook-linear" width="20"></iconify-icon></a>
+</div>
+<div class="flex gap-6 text-xs text-white/30 uppercase tracking-widest">
+<a class="hover:text-gold transition-colors" href="#">Impressum</a>
+<a class="hover:text-gold transition-colors" href="#">Datenschutz</a>
 </div>
 </div>
 </footer>
 </div>
-<!-- Script de Control de Video por Scroll -->
 <script>
-        // Función para acordeón de menú
-        function toggleMenu(menuId) {
-            const menu = document.getElementById(menuId);
-            const icon = document.getElementById('icon-' + menuId);
-            
-            if (menu.classList.contains('hidden')) {
-                menu.classList.remove('hidden');
-                icon.style.transform = 'rotate(180deg)';
-            } else {
-                menu.classList.add('hidden');
-                icon.style.transform = 'rotate(0deg)';
-            }
-        }
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('hero-video');
-            const heroContainer = document.getElementById('inicio');
-            const heroContent = document.getElementById('hero-content');
-            const scrollIndicator = document.getElementById('scroll-indicator');
-            const navbar = document.getElementById('navbar');
+            // Loader Animation
+            const loader = document.getElementById('loader');
+            const loaderBar = document.getElementById('loader-bar');
             
-            let videoReady = false;
-            
-            // Detectar cuando el video está listo
-            video.addEventListener('loadedmetadata', () => {
-                videoReady = true;
-                console.log('Video cargado - Duración:', video.duration);
-            });
-            
-            // Función para controlar el video con el scroll
-            function updateVideoTime() {
-                if (!videoReady || !video.duration) return;
+            setTimeout(() => {
+                loaderBar.style.width = '100%';
+            }, 100);
+
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    initAnimations();
+                }, 700);
+            }, 1500);
+
+            function initAnimations() {
+                // Parallax Hero
+                gsap.to(".parallax-img", {
+                    yPercent: 20,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#home",
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+
+                // Background Kanji Scroll Logic
+                const kanji = document.querySelector('.background-kanji');
+                const kanjiText = document.querySelector('.background-kanji__text');
                 
-                const scrollY = window.scrollY;
-                const heroHeight = heroContainer.offsetHeight;
-                const windowHeight = window.innerHeight;
-                
-                // Calcular progreso (0 a 1) durante la sección sticky
-                const maxScroll = heroHeight - windowHeight;
-                let progress = scrollY / maxScroll;
-                progress = Math.max(0, Math.min(1, progress));
-                
-                // Actualizar tiempo del video basado en scroll
-                const targetTime = progress * video.duration;
-                
-                // Solo actualizar si hay diferencia significativa (evita jitter)
-                if (Math.abs(video.currentTime - targetTime) > 0.1) {
-                    video.currentTime = targetTime;
-                }
-                
-                // Fade del contenido
-                const fadeEnd = windowHeight * 0.8;
-                let opacity = 1 - (scrollY / fadeEnd);
-                opacity = Math.max(0, Math.min(1, opacity));
-                
-                heroContent.style.opacity = opacity;
-                heroContent.style.transform = `translateY(${scrollY * 0.2}px)`;
-                scrollIndicator.style.opacity = opacity;
-                
-                // Navbar backdrop
-                if (scrollY > 50) {
-                    navbar.classList.add('bg-neutral-950/80', 'backdrop-blur-md', 'border-white/10');
-                    navbar.classList.remove('border-white/5');
-                } else {
-                    navbar.classList.remove('bg-neutral-950/80', 'backdrop-blur-md', 'border-white/10');
-                    navbar.classList.add('border-white/5');
-                }
-            }
-            
-            // Usar requestAnimationFrame para scroll suave
-            let ticking = false;
-            window.addEventListener('scroll', () => {
-                if (!ticking) {
-                    window.requestAnimationFrame(() => {
-                        updateVideoTime();
-                        ticking = false;
+                if(kanji && kanjiText) {
+                     gsap.to(kanji, {
+                        height: "100%",
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: "body",
+                            start: "top top",
+                            end: "bottom bottom",
+                            scrub: 0.5
+                        }
                     });
-                    ticking = true;
                 }
-            });
-            
-            // Inicializar posición
-            updateVideoTime();
+
+                // Reveal Animations
+                const revealElements = document.querySelectorAll(".reveal-up");
+                revealElements.forEach((element) => {
+                    gsap.to(element, {
+                        scrollTrigger: {
+                            trigger: element,
+                            start: "top 85%",
+                            toggleActions: "play none none reverse"
+                        },
+                        y: 0,
+                        opacity: 1,
+                        duration: 1.2,
+                        ease: "power3.out"
+                    });
+                });
+
+                // Navbar Hide/Show
+                let lastScroll = 0;
+                const nav = document.getElementById('navbar');
+                
+                window.addEventListener('scroll', () => {
+                    const currentScroll = window.pageYOffset;
+                    if (currentScroll > 50 && currentScroll > lastScroll) {
+                        nav.style.transform = 'translateY(-100%)';
+                    } else {
+                        nav.style.transform = 'translateY(0)';
+                    }
+                    lastScroll = currentScroll;
+                });
+            }
         });
     </script>
 <script data-img-fallback-handler="">!function(){var f=["https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/917d6f93-fb36-439a-8c48-884b67b35381_1600w.jpg","https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/4734259a-bad7-422f-981e-ce01e79184f2_1600w.jpg","https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/c543a9e1-f226-4ced-80b0-feb8445a75b9_1600w.jpg","https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/5bab247f-35d9-400d-a82b-fd87cfe913d2_1600w.webp","https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/30104e3c-5eea-4b93-93e9-5313698a7156_1600w.webp"],h=new Set;function g(s){for(var x=0,i=0;i<s.length;i++)x=(x<<5)-x+s.charCodeAt(i)|0;return f[Math.abs(x)%f.length]}function r(t){var s=t.src;if(s&&!h.has(s)){h.add(s);t.src=g(s)}}window.addEventListener("error",function(e){var t=e.target;if(t&&t.tagName==="IMG")r(t)},!0);function c(){document.querySelectorAll("img").forEach(function(i){if(i.complete&&!i.naturalWidth&&i.src)r(i)})}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",c);else c()}()</script></body></html>
