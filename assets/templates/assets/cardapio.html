@@ -71,11 +71,8 @@
       overflow-x: hidden;
     }
 
-    /* ── Menu Body Global Background ──────────── */
-    #cat-nav,
-    #menu-body {
-      background: #080f0a;
-    }
+    /* ── Menu Body Global Background Removed ──────────── */
+    /* Allowing natural transparent flow through the grid */
 
     /* ── Noise ─────────────────────────────────────────────────────── */
     .noise-overlay {
@@ -624,63 +621,54 @@
 
     /* ── Category Nav (Vertical Editorial Sidebar) ───────────────────── */
     .menu-main-wrapper {
-      max-width: 1280px;
+      max-width: 1160px;
       margin: 0 auto;
-      display: flex;
-      align-items: flex-start;
-      gap: 6rem;
-      padding: 0 4rem;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 48px;
+      padding: 0 32px;
       position: relative;
       z-index: 10;
     }
 
     #cat-nav {
       position: sticky;
-      top: 140px;
-      width: 160px;
-      flex-shrink: 0;
+      top: 120px;
+      width: 100%;
       background: transparent;
       border-bottom: none;
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
-      padding-top: 4.5rem; /* Align with first section's top padding */
+      padding-top: 0;
     }
 
     .cat-nav-inner {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 16px;
       padding: 0;
       margin: 0;
       position: relative;
     }
 
-    /* Vertical tracking line */
-    .cat-nav-inner::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: rgba(183, 147, 88, 0.1);
-    }
+    /* Vertical tracking line removed for a cleaner look */
 
     .cat-btn {
       background: transparent;
       border: none;
-      color: rgba(232, 224, 208, 0.35);
+      color: rgba(232, 224, 208, 0.45);
       font-family: 'Inter', sans-serif;
       font-size: 0.72rem;
       font-weight: 500;
       letter-spacing: 0.25em;
       text-transform: uppercase;
       text-align: left;
-      padding: 0.25rem 0 0.25rem 1.5rem; /* Space for the active indicator */
+      padding: 8px 0 8px 16px;
       cursor: pointer;
       transition: all 0.4s var(--expo);
       position: relative;
       overflow: visible;
+      opacity: 0.5;
     }
 
     /* Override any old hover animations */
@@ -705,7 +693,8 @@
 
     .cat-btn.active {
       color: rgba(183, 147, 88, 1);
-      transform: translateX(8px);
+      transform: translateX(4px);
+      opacity: 1;
     }
 
     .cat-btn.active::before {
@@ -715,12 +704,14 @@
 
     .cat-btn:hover:not(.active) {
       color: rgba(232, 224, 208, 0.8);
-      transform: translateX(4px);
+      transform: translateX(2px);
+      opacity: 0.8;
     }
 
     /* ── Mobile Fallback: Horizontal Scroll on top ── */
     @media (max-width: 1024px) {
       .menu-main-wrapper {
+        display: flex;
         flex-direction: column;
         gap: 0;
         padding: 0;
@@ -804,7 +795,7 @@
     }
 
     .menu-section {
-      padding: 4.5rem 0;
+      padding: 0 0 64px 0;
       border-bottom: 1px solid rgba(183, 147, 88, 0.08);
       display: none;
       opacity: 0;
