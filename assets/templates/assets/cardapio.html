@@ -116,21 +116,27 @@
       top: 0;
       left: 0;
       width: 100%;
-      padding: 1.5rem 4rem;
+      padding: 2.25rem 5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       z-index: 500;
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      border-bottom: 1px solid transparent;
+      /* Slower, more editorial transition duration (0.8s) */
+      transition: 
+        padding 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        backdrop-filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    #navbar.nav-scrolled {
-      background: rgba(253, 251, 247, 0.96);
+    #navbar.is-scrolled {
+      background-color: rgba(253, 251, 247, 0.94);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      padding-top: 1rem;
-      padding-bottom: 1rem;
+      border-bottom-color: rgba(0, 0, 0, 0.05);
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
     }
 
     .nav-logo {
@@ -138,13 +144,14 @@
       font-size: 1.5rem;
       letter-spacing: -0.01em;
       text-decoration: none;
-      flex: 1; /* Left col */
+      flex: 1;
       display: flex;
       align-items: center;
       color: #fff;
+      transition: color 0.4s var(--expo);
     }
 
-    .nav-scrolled .nav-logo {
+    .is-scrolled .nav-logo {
       color: var(--c-dark);
     }
 
@@ -153,7 +160,7 @@
       gap: 2.5rem;
       align-items: center;
       justify-content: center;
-      flex: 2; /* Center col */
+      flex: 2;
     }
 
     .nav-actions {
@@ -161,93 +168,103 @@
       gap: 1.5rem;
       align-items: center;
       justify-content: flex-end;
-      flex: 1; /* Matching left column */
+      flex: 1;
     }
 
     .nav-link {
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       font-weight: 500;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       text-decoration: none;
-      transition: opacity 0.2s;
+      color: rgba(255, 255, 255, 0.75);
+      position: relative;
+      transition: color 0.3s ease;
     }
 
-    .nav-light .nav-link {
-      color: rgba(255, 255, 255, 0.8);
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: currentColor;
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .nav-light .nav-link:hover {
+    .nav-link:hover::before {
+      width: 100%;
+    }
+
+    .nav-link:hover {
       color: #fff;
     }
 
-    .nav-scrolled .nav-link {
-      color: var(--c-dark);
-      opacity: 0.65;
+    .is-scrolled .nav-link {
+      color: rgba(26, 26, 26, 0.6);
     }
 
-    .nav-scrolled .nav-link:hover {
-      opacity: 1;
+    .is-scrolled .nav-link:hover {
       color: var(--c-primary);
     }
 
-    .nav-btn {
+    /* Primary CTA in Navbar */
+    .nav-cta {
       position: relative;
       overflow: hidden;
-      font-size: 0.62rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 0.65rem 1.7rem;
-      border-radius: 9999px;
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      display: inline-flex;
+      display: flex;
       align-items: center;
       gap: 0.5rem;
-    }
-
-    .nav-light .nav-btn {
-      border: 1px solid rgba(255, 255, 255, 0.35);
+      padding: 0.6rem 1.4rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border-radius: 9999px;
+      text-decoration: none;
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
       color: #fff;
+      transition: all 0.35s var(--expo);
     }
 
-    .nav-light .nav-btn:hover {
+    .nav-cta:hover {
       background: rgba(255, 255, 255, 0.1);
       transform: translateY(-2px);
     }
 
-    .nav-scrolled .nav-btn {
+    .is-scrolled .nav-cta {
+      border: 1.5px solid var(--c-primary);
+      color: var(--c-primary);
+      background: transparent;
+    }
+
+    .is-scrolled .nav-cta:hover {
       background: var(--c-primary);
       color: #FDFBF7;
-      border: 1px solid transparent;
     }
 
-    .nav-scrolled .nav-btn:hover {
-      background: #1e3529;
-      transform: translateY(-2px);
-    }
-
-    /* Shimmer beam sweep */
-    @keyframes s4-shimmer {
-      from {
-        transform: translateX(-110%) skewX(-18deg);
-      }
-
-      to {
-        transform: translateX(220%) skewX(-18deg);
-      }
-    }
-
+    /* Shimmer beam sweep — for the nav-cta and other premium buttons */
     .s4-beam {
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.12) 45%, rgba(255, 255, 255, 0.22) 50%, rgba(255, 255, 255, 0.12) 55%, transparent 100%);
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.15) 45%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.15) 55%, transparent 100%);
       transform: translateX(-110%) skewX(-18deg);
       pointer-events: none;
       z-index: 8;
       opacity: 0;
       transition: opacity 0.1s;
+    }
+
+    .nav-cta:hover .s4-beam,
+    .btn-primary:hover .s4-beam {
+      opacity: 1;
+      animation: s4-shimmer 1.1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes s4-shimmer {
+      from { transform: translateX(-110%) skewX(-18deg); }
+      to { transform: translateX(220%) skewX(-18deg); }
     }
 
     .nav-btn:hover .s4-beam,
@@ -1101,7 +1118,7 @@
   <nav id="navbar" class="nav-light">
     <!-- Left -->
     <a href="./hero_premium.html" class="nav-logo" aria-label="Início Giardini">Giardini</a>
-    
+
     <!-- Center -->
     <div class="nav-menu">
       <a href="./hero_premium.html" class="nav-link">Início</a>
@@ -1111,9 +1128,13 @@
 
     <!-- Right -->
     <div class="nav-actions">
-      <a href="https://wa.me/5585994452724" target="_blank" class="nav-btn">
+      <a href="https://wa.me/5585994452724" target="_blank" class="nav-cta">
+        <!-- Shimmer Beam Effect -->
         <span class="s4-beam"></span>
-        <span style="position:relative; z-index:9;">Reservar →</span>
+        <span style="position: relative; z-index: 2;">Reservar</span>
+        <svg style="position: relative; z-index: 2;" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
       </a>
       <button class="nav-hamburger" id="hamburger" aria-label="Abrir menu">
         <iconify-icon icon="lucide:menu" style="font-size:1.6rem;color:currentColor"></iconify-icon>
@@ -2346,12 +2367,14 @@
       const catBtns = document.querySelectorAll('.cat-btn');
       const sections = document.querySelectorAll('.menu-section');
       
-      /* Navbar state with explicit z-index control */
+      /* Navbar state handle (Matching Hero Premium logic) */
       window.addEventListener('scroll', () => {
-        if (window.scrollY > 60) {
-          nav.classList.add('nav-scrolled');
+        if (window.scrollY > 80) {
+          nav.classList.add('is-scrolled');
+          nav.classList.remove('nav-light');
         } else {
-          nav.classList.remove('nav-scrolled');
+          nav.classList.remove('is-scrolled');
+          nav.classList.add('nav-light');
         }
       }, { passive: true });
 
