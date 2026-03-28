@@ -326,13 +326,21 @@
 
     /* ── Hero ────────────────────────────────────────────────────────── */
     /* ── Hero ────────────────────────────────────────────────────────── */
+    #hero-pin-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
     #hero-viewport {
       position: relative;
       width: 100%;
       height: 100vh;
       overflow: hidden;
+      /* GPU layer promotion — prevents flickering during GSAP pin/unpin */
+      will-change: transform;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
     }
-
     .hero-content {
       position: absolute;
       inset: 0;
@@ -1528,6 +1536,493 @@
       animation: sectionFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
+    /* ══════════════════════════════════════════════════════════════════
+       FINAL CREATIVE POLISH — Giardini Menu v4
+       Textura, movimento, microinterações, atmosfera.
+    ══════════════════════════════════════════════════════════════════ */
+
+    /* ── A. Textura linho/papel no menu body ─────────────────────────
+       A two-layer grain that simulates a fine printed menu paper.
+       Layer 1: macro grain (large cells, very faint)
+       Layer 2: micro grain (tight, standard noise)
+    ─────────────────────────────────────────────────────────────────── */
+    .menu-main-wrapper::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.35' numOctaves='6' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.08'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 512px 512px, 180px 180px;
+      mix-blend-mode: overlay;
+      opacity: 0.7;
+    }
+
+    /* ── B. Orbes de luz âmbar flutuantes ────────────────────────────
+       Two slow-drifting radial glow orbs. They move independently
+       creating a sense of breathing life in the dark space.
+    ─────────────────────────────────────────────────────────────────── */
+    .menu-main-wrapper {
+      isolation: isolate;
+    }
+
+    @keyframes orbDrift1 {
+      0%   { transform: translate(0, 0) scale(1); }
+      33%  { transform: translate(4%, -3%) scale(1.06); }
+      66%  { transform: translate(-3%, 5%) scale(0.96); }
+      100% { transform: translate(0, 0) scale(1); }
+    }
+    @keyframes orbDrift2 {
+      0%   { transform: translate(0, 0) scale(1); }
+      33%  { transform: translate(-5%, 4%) scale(1.08); }
+      66%  { transform: translate(4%, -2%) scale(0.95); }
+      100% { transform: translate(0, 0) scale(1); }
+    }
+
+    #menu-orb-1, #menu-orb-2 {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(90px);
+    }
+    #menu-orb-1 {
+      width: 55vw;
+      height: 55vw;
+      max-width: 700px;
+      max-height: 700px;
+      /* Warm amber — top-left:
+         gives the sense of indirect warm lighting */
+      background: radial-gradient(circle, rgba(183, 147, 88, 0.055) 0%, transparent 70%);
+      top: 8%;
+      left: -12%;
+      animation: orbDrift1 22s ease-in-out infinite;
+    }
+    #menu-orb-2 {
+      width: 50vw;
+      height: 50vw;
+      max-width: 620px;
+      max-height: 620px;
+      /* Cool green-dark — bottom-right:
+         subtle counterpoint to the amber */
+      background: radial-gradient(circle, rgba(43, 74, 59, 0.07) 0%, transparent 70%);
+      bottom: 15%;
+      right: -8%;
+      animation: orbDrift2 28s ease-in-out infinite;
+    }
+
+    /* ── C. Hover: indicador de seleção esquerdo ─────────────────────
+       A thin gold vertical bar grows from 0 to full height
+       on the left edge of each menu-item on hover.
+       Reads as a cursor/selection indicator.
+    ─────────────────────────────────────────────────────────────────── */
+    .menu-item {
+      padding-left: 14px;
+    }
+
+    .menu-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 4px;
+      width: 1.5px;
+      height: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(183, 147, 88, 0.9),
+        rgba(183, 147, 88, 0.3)
+      );
+      border-radius: 1px;
+      transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .menu-item:hover::before {
+      /* Height matches the approx padding-bottom of the item */
+      height: calc(100% - 8px);
+    }
+
+    /* On hover, price also gets a very thin gold glow */
+    .menu-item:hover .item-price {
+      text-shadow: 0 0 18px rgba(183, 147, 88, 0.35);
+      color: rgba(183, 147, 88, 1);
+      transition: color 0.35s ease, text-shadow 0.35s ease;
+    }
+
+    /* Item name gets a very slight lift on hover */
+    .menu-item:hover .item-name {
+      transform: translateX(2px);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .item-name {
+      transition: color 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ── D. Section ghost number ──────────────────────────────────────
+       The section count ("06 itens") is already in the header.
+       We add a large ghost counter behind the header.
+       It fades in with the section, very faintly.
+    ─────────────────────────────────────────────────────────────────── */
+    .section-count {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: -0.03em;
+      color: rgba(183, 147, 88, 0.048);
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    /* ── E. Loader: shimmer sweep na barra de progresso ──────────────
+       The progress bar has a light beam sweeping across it.
+    ─────────────────────────────────────────────────────────────────── */
+    .loader-bar {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loader-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.35),
+        transparent
+      );
+      animation: loaderShimmer 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes loaderShimmer {
+      to { left: 200%; }
+    }
+
+    /* Loader tagline */
+    .loader-tagline {
+      font-size: 0.52rem;
+      font-weight: 500;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: rgba(183, 147, 88, 0.35);
+      margin-top: 1.8rem;
+      animation: loaderTaglinePulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes loaderTaglinePulse {
+      0%, 100% { opacity: 0.35; }
+      50%       { opacity: 0.65; }
+    }
+
+    /* ── F. Tab switch: transição com scale leve ─────────────────────
+       When a menu section becomes active, it scales from 0.985
+       to 1.0 during the fade-in — gives a sense of depth/emergence.
+    ─────────────────────────────────────────────────────────────────── */
+    @keyframes sectionFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.985);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ── G. Footer ambient vinheta superior ─────────────────────────
+       A subtle warm fade at the very top of the footer,
+       so it emerges gently from the PDF section.
+    ─────────────────────────────────────────────────────────────────── */
+    footer {
+      position: relative;
+    }
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(183, 147, 88, 0.14) 30%,
+        rgba(183, 147, 88, 0.22) 50%,
+        rgba(183, 147, 88, 0.14) 70%,
+        transparent
+      );
+    }
+
+    /* The footer logo has a very slow warm shimmer */
+    .footer-logo {
+      background: linear-gradient(
+        90deg,
+        rgba(232, 224, 208, 0.80) 0%,
+        rgba(183, 147, 88, 0.72) 50%,
+        rgba(232, 224, 208, 0.80) 100%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: footerLogoSweep 8s ease-in-out infinite alternate;
+    }
+    @keyframes footerLogoSweep {
+      from { background-position: 0% center; }
+      to   { background-position: 200% center; }
+    }
+
+    /* ── H. Cat-nav: pulse sutil no active dot ───────────────────────
+       The ::after dot on active cat-btn gets a slow pulse ring.
+    ─────────────────────────────────────────────────────────────────── */
+    @keyframes dotPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(183, 147, 88, 0.45); }
+      70%  { box-shadow: 0 0 0 5px rgba(183, 147, 88, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(183, 147, 88, 0); }
+    }
+
+    .cat-btn.active::after {
+      animation: dotPulse 2.2s ease-out infinite;
+    }
+
+    /* ── I. Section-header: line expande ao revelar ──────────────────
+       The bottom gold line of the section-header expands from
+       center outward when the section becomes visible.
+    ─────────────────────────────────────────────────────────────────── */
+    .section-header::after {
+      transition: opacity 0.8s ease;
+    }
+    .section-header:not(.is-visible)::after {
+      opacity: 0;
+    }
+    .section-header.is-visible::after {
+      opacity: 1;
+    }
+
+    /* ── J. Scrollbar styling ────────────────────────────────────────
+       Dark, refined scrollbar for the whole page.
+    ─────────────────────────────────────────────────────────────────── */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #070c08;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(183, 147, 88, 0.28);
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(183, 147, 88, 0.50);
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       POLIMENTO FINAL v5 — Textura, Transições, Atmosfera
+    ══════════════════════════════════════════════════════════════════ */
+
+    /* ── K. Background: linho + crosshatch sutil ─────────────────────
+       Three-layer background system:
+       1. Base dark body (already set)
+       2. Ultra-fine diagonal crosshatch — "linen weave" feel
+       3. Radial warm vignette from center
+    ─────────────────────────────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      /* Layered: dot grid + diagonal crosshatch */
+      background-image:
+        radial-gradient(circle, rgba(183, 147, 88, 0.055) 1px, transparent 1px),
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 18px,
+          rgba(183, 147, 88, 0.018) 18px,
+          rgba(183, 147, 88, 0.018) 19px
+        ),
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 18px,
+          rgba(183, 147, 88, 0.012) 18px,
+          rgba(183, 147, 88, 0.012) 19px
+        );
+      background-size: 28px 28px, 38px 38px, 38px 38px;
+      opacity: 0.75;
+    }
+
+    /* Central radial vignette — warm center, darker edges */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        ellipse at 50% 42%,
+        rgba(43, 74, 59, 0.06) 0%,
+        transparent 55%
+      );
+      /* Second orb: warm amber, lower-right */
+    }
+
+    /* ── L. Menu section transition: clip-path reveal ────────────────
+       On tab switch, the new section slides in with a clip-path
+       reveal from bottom — more directional and purposeful than a
+       simple opacity fade.
+    ─────────────────────────────────────────────────────────────────── */
+    @keyframes sectionReveal {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.982);
+        clip-path: inset(0 0 6% 0 round 4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        clip-path: inset(0 0 0% 0 round 0px);
+      }
+    }
+
+    .menu-section.is-active {
+      animation: sectionReveal 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    /* ── M. Cat-btn: active state refinement ───────────────────────────
+       Keep the existing underline/color active style.
+       Only add a very faint pill ring — no solid background fill.
+    ─────────────────────────────────────────────────────────────────── */
+    .cat-btn {
+      transition:
+        color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        letter-spacing 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      /* NO border-radius here — keeps the original shape */
+    }
+
+    .cat-btn.active {
+      /* Only a very faint inset ring — no background fill */
+      box-shadow: none;
+    }
+
+
+    /* ── N. Menu item: hover highlight refinement ──────────────────────
+       Subtle warm tint on hover. No negative margins (causes overflow).
+       The existing ::before left bar handles the gold indicator.
+    ─────────────────────────────────────────────────────────────────── */
+    .menu-item {
+      transition:
+        background 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: 4px;
+      /* Padding kept from existing rules — no negative margins */
+    }
+
+    .menu-item:hover {
+      background: rgba(183, 147, 88, 0.035);
+    }
+
+    /* Keep the ::before left bar from existing styles (not hidden) */
+    .menu-item::before {
+      display: block; /* restored */
+    }
+
+    /* ── O. Badge: pulse glow on NEW ─────────────────────────────────
+       The NEW badge pulses softly to draw attention.
+    ─────────────────────────────────────────────────────────────────── */
+    @keyframes badgeGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(183, 147, 88, 0.0); }
+      50%       { box-shadow: 0 0 8px 2px rgba(183, 147, 88, 0.12); }
+    }
+    .badge-new {
+      animation: badgeGlow 3s ease-in-out infinite;
+    }
+
+    /* ── P. Section header: entrance line animation ────────────────────
+       overflow:hidden was removed — it clips the ghost section-count number.
+    ─────────────────────────────────────────────────────────────────── */
+
+    /* ── Q. Ambient canvas particles ────────────────────────────────
+       The #particle-canvas sits fixed in the background and renders
+       a handful of slow-drifting golden motes.
+    ─────────────────────────────────────────────────────────────────── */
+    #particle-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.55;
+    }
+
+    /* ── R. PDF section: scan-line grid overlay ──────────────────────
+       The PDF section gets a more refined scanline grid.
+    ─────────────────────────────────────────────────────────────────── */
+    #pdf-section::before {
+      background-image:
+        radial-gradient(circle, rgba(183, 147, 88, 0.06) 1px, transparent 1px),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 44px,
+          rgba(183, 147, 88, 0.025) 44px,
+          rgba(183, 147, 88, 0.025) 45px
+        );
+      background-size: 36px 36px, 100% 45px;
+    }
+
+    /* ── S. Item price: soft entrance ───────────────────────────────
+       Prices fade up slightly with a stagger relative to their item.
+    ─────────────────────────────────────────────────────────────────── */
+    .item-price {
+      transition:
+        color 0.35s ease,
+        text-shadow 0.35s ease,
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .menu-item:hover .item-price {
+      transform: translateX(-2px);
+    }
+
+    /* ── T. Section count: ghost typography ──────────────────────────
+       The ghost count already exists — ensure it's properly layer.
+    ─────────────────────────────────────────────────────────────────── */
+    .section-count {
+      mix-blend-mode: screen;
+    }
+
+    /* ── U. Cat-nav is-pinned: nenhuma sobrescrita necessária ──────────
+       Os estilos principais já existem acima no #cat-nav.is-pinned.
+       Não sobrescrevemos background aqui para preservar o blur.
+    ─────────────────────────────────────────────────────────────────── */
+
+    /* ── V. Loader: a animação de clip-path foi removida pois cortava o texto ── */
+
+    /* ── W. Footer social icons: orbit glow ──────────────────────────
+       Each icon has a slow glow that rotates in opacity.
+    ─────────────────────────────────────────────────────────────────── */
+    @keyframes iconOrbit {
+      0%,100% { box-shadow: 0 0 0 0 rgba(183,147,88,0); }
+      50%      { box-shadow: 0 0 14px 3px rgba(183,147,88,0.08); }
+    }
+    .footer-link {
+      animation: iconOrbit 4s ease-in-out infinite;
+    }
+    .footer-link:nth-child(2) { animation-delay: 1.3s; }
+    .footer-link:nth-child(3) { animation-delay: 2.6s; }
+
   </style>
 
 </head>
@@ -1536,9 +2031,17 @@
   <!-- Noise -->
   <div class="noise-overlay"></div>
 
+  <!-- Ambient canvas: floating golden motes -->
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <!-- Ambient menu orbs: warm atmosphere behind the content -->
+  <div id="menu-orb-1" aria-hidden="true"></div>
+  <div id="menu-orb-2" aria-hidden="true"></div>
+
   <!-- Preloader -->
   <div class="loader" id="loader">
     <div class="loader-text">Giardini</div>
+    <p class="loader-tagline">Cardápio</p>
     <div class="loader-bar" id="loader-bar"></div>
   </div>
 
@@ -2764,6 +3267,8 @@
           pin: viewport,
           pinSpacing: false,
           scrub: CONFIG.scrub,
+          /* anticipatePin: prevents the layout jump/flash when the pin activates */
+          anticipatePin: 1,
           onUpdate: (self) => {
             const idx = Math.min(
               Math.floor(self.progress * CONFIG.TOTAL_FRAMES),
@@ -2773,57 +3278,47 @@
           }
         });
 
-        // ── HERO EXIT TIMELINE — Refined transition (no "lonely cup" problem) ──
+        // ── HERO EXIT TIMELINE — Clean unified fade, no bridge, no blank screen ──
         //
         // Philosophy:
-        //   Phase 1 (0 → 0.42): scroll indicator + kicker exit first (subtle)
-        //   Phase 2 (0.20 → 0.55): headline and body exit (staggered, controlled)
-        //   Phase 3 (0.48 → 0.68): CTA exits + bridge label appears (handoff begins)
-        //   Phase 4 (0.60 → 0.88): cup gracefully scales down + slides toward cat-nav
-        //   Phase 5 (0.72 → 1.00): cup fades and bridge line pulses out
+        //   Phase 1 (0 → 0.35): scroll indicator + kicker exit first
+        //   Phase 2 (0.20 → 0.60): headline and body exit with slide
+        //   Phase 3 (0.45 → 0.70): CTA exits
+        //   Phase 4 (0.55 → 1.00): cup gently fades — stops at 0.12 opacity (never 0)
+        //                          so when the pin releases there is no blank flash
         //
-        // The cup is never «alone» for more than 0.15 of scroll progress.
+        // Bridge removed: the "Cardápio" label with arrow was causing visual confusion.
+        // Cup never goes to opacity:0 while pinned — prevents the blank-screen blink.
 
         const exitTl = gsap.timeline({
           scrollTrigger: {
             trigger: wrapper,
             start: 'top top',
             end: () => `+=${scrollPx * 0.90}`,
-            scrub: 1.4,
+            scrub: 1.2,
             onEnter: () => {
               if (heroTl.isActive()) heroTl.progress(1);
             }
           }
         });
 
-        // Phase 1: Scroll indicator + kicker exit first
-        exitTl.to('#el-scroll',  { opacity: 0, y: -16, duration: 0.3, ease: 'none' }, 0)
-              .to('#el-kicker',  { opacity: 0, y: -22, duration: 0.32, ease: 'none' }, 0.08);
+        // Phase 1: Scroll indicator exits immediately when scrolling starts
+        exitTl.to('#el-scroll',  { opacity: 0, y: -10, duration: 0.25, ease: 'none' }, 0)
+              .to('#el-kicker',  { opacity: 0, y: -18, duration: 0.28, ease: 'none' }, 0.05);
 
-        // Phase 2: Headline exits with elegant vertical slide
-        exitTl.to('#el-h1a',    { opacity: 0, y: -36, duration: 0.45, ease: 'none' }, 0.20)
-              .to('#el-h1b',    { opacity: 0, y: -44, duration: 0.48, ease: 'none' }, 0.24)
-              .to('#el-body',   { opacity: 0, y: -28, duration: 0.42, ease: 'none' }, 0.30);
+        // Phase 2: Headline + body exit with a clean upward slide
+        exitTl.to('#el-h1a',  { opacity: 0, y: -30, duration: 0.40, ease: 'none' }, 0.18)
+              .to('#el-h1b',  { opacity: 0, y: -38, duration: 0.42, ease: 'none' }, 0.22)
+              .to('#el-body', { opacity: 0, y: -22, duration: 0.38, ease: 'none' }, 0.28);
 
-        // Phase 3: CTA exits, bridge label fades in simultaneously
-        exitTl.to('#el-cta',      { opacity: 0, y: -20, duration: 0.38, ease: 'none' }, 0.48)
-              .to('#hero-bridge', { opacity: 1, duration: 0.28, ease: 'none' }, 0.52);
+        // Phase 3: CTA exits cleanly
+        exitTl.to('#el-cta', { opacity: 0, y: -14, duration: 0.34, ease: 'none' }, 0.44);
 
-        // Phase 4: Cup gracefully compresses toward bottom (toward cat-nav territory)
-        // It scales down so it feels intentional, not abandoned
-        exitTl.to('#video-frame', {
-                opacity: 0.45,
-                scale: 0.82,
-                y: '8vh',
-                duration: 0.55,
-                ease: 'none'
-              }, 0.60)
-              .to('.product-glow', { opacity: 0, duration: 0.35, ease: 'none' }, 0.62);
-
-        // Phase 5: Cup + bridge fully exit → clean handoff to cat-nav
-        exitTl.to('#video-frame', { opacity: 0, duration: 0.28, ease: 'none' }, 0.72)
-              .to('#hero-bridge', { opacity: 0, y: 12, duration: 0.24, ease: 'none' }, 0.76)
-              .to('.hero-bg',     { opacity: 0, duration: 0.28, ease: 'none' }, 0.78);
+        // Phase 4: Cup and glow fade gently — cup ends at 0.12 opacity, NOT zero.
+        // This ensures that when ScrollTrigger releases the pin there is always
+        // something visible on screen — no blank flash.
+        exitTl.to('.product-glow', { opacity: 0, duration: 0.35, ease: 'none' }, 0.52)
+              .to('#video-frame',  { opacity: 0.12, duration: 0.55, ease: 'none' }, 0.55);
 
       }
     });
@@ -2940,6 +3435,76 @@
     const mobileClose = document.getElementById('mobile-close');
     hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
     mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+
+    /* ══════════════════════════════════════════════════════════════════
+       AMBIENT PARTICLE SYSTEM — floating golden motes
+    ══════════════════════════════════════════════════════════════════ */
+    (function initParticles() {
+      const canvas = document.getElementById('particle-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      let W, H;
+      const PARTICLES = [];
+      const COUNT = 28;
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      function rand(min, max) { return Math.random() * (max - min) + min; }
+
+      function createParticle() {
+        return {
+          x:     rand(0, W),
+          y:     rand(0, H),
+          r:     rand(0.6, 2.2),
+          alpha: rand(0.04, 0.22),
+          vx:    rand(-0.12, 0.12),
+          vy:    rand(-0.22, -0.06),   // always drift upward, slowly
+          life:  rand(0.4, 1),         // phase offset for pulse
+          speed: rand(0.003, 0.009),   // pulse speed
+        };
+      }
+
+      for (let i = 0; i < COUNT; i++) PARTICLES.push(createParticle());
+
+      let raf;
+      function tick(t) {
+        ctx.clearRect(0, 0, W, H);
+
+        PARTICLES.forEach(p => {
+          p.life += p.speed;
+          const pulse = 0.55 + 0.45 * Math.sin(p.life * Math.PI * 2);
+          const a = p.alpha * pulse;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(183, 147, 88, ${a.toFixed(3)})`;
+          ctx.fill();
+
+          p.x += p.vx;
+          p.y += p.vy;
+
+          // Wrap around edges
+          if (p.y < -10) { p.y = H + 5; p.x = rand(0, W); }
+          if (p.x < -10) { p.x = W + 5; }
+          if (p.x > W + 10) { p.x = -5; }
+        });
+
+        raf = requestAnimationFrame(tick);
+      }
+      raf = requestAnimationFrame(tick);
+
+      // Pause when tab is hidden to save CPU
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) cancelAnimationFrame(raf);
+        else raf = requestAnimationFrame(tick);
+      });
+    })();
   </script>
 </body>
 
