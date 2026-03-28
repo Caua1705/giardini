@@ -1829,14 +1829,36 @@
     }
 
     /* ══════════════════════════════════════════════════════════════════
-       POLIMENTO FINAL v5 — Textura, Transições, Atmosfera
+       GIARDINI MENU — BRAND HARMONIZATION v6
+       Reference: hero_premium.html editorial clarity + restraint
+       Goal: darker Giardini face — controlled, premium, immersive
     ══════════════════════════════════════════════════════════════════ */
 
-    /* ── K. Background: linho + crosshatch sutil ─────────────────────
-       Three-layer background system:
-       1. Base dark body (already set)
-       2. Ultra-fine diagonal crosshatch — "linen weave" feel
-       3. Radial warm vignette from center
+    /* ── 1. BODY FOUNDATION ────────────────────────────────────────────
+       Remove the green-dominant base. Use a warmer, more neutral dark
+       that reads as "warm charcoal" not "green cave".
+       Green is reserved for accent moments only.
+    ─────────────────────────────────────────────────────────────────── */
+    :root {
+      --menu-bg:    #090b09;      /* near-black, barely warm */
+      --menu-ink:   #e4ddd0;      /* warm parchment — primary text */
+      --menu-dim:   rgba(228, 221, 208, 0.42);  /* secondary text */
+      --menu-ghost: rgba(228, 221, 208, 0.18);  /* placeholder / dividers */
+      --menu-gold:  #b79358;      /* gold accent — price + active */
+      --menu-green: #2B4A3B;      /* brand green — used sparingly */
+      --expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body {
+      background: var(--menu-bg);
+      color: var(--menu-ink);
+    }
+
+    /* ── 2. BACKGROUND TEXTURE ─────────────────────────────────────────
+       Fine linen-paper pattern: dot-grid only (no noisy crosshatch).
+       Subtle enough to give depth without visual noise.
+       The body-after block adds a centered warm amber pool — like
+       a soft table lamp illuminating the menu from above.
     ─────────────────────────────────────────────────────────────────── */
     body::before {
       content: '';
@@ -1844,188 +1866,677 @@
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      /* Layered: dot grid + diagonal crosshatch */
       background-image:
-        radial-gradient(circle, rgba(183, 147, 88, 0.055) 1px, transparent 1px),
-        repeating-linear-gradient(
-          45deg,
-          transparent,
-          transparent 18px,
-          rgba(183, 147, 88, 0.018) 18px,
-          rgba(183, 147, 88, 0.018) 19px
-        ),
-        repeating-linear-gradient(
-          -45deg,
-          transparent,
-          transparent 18px,
-          rgba(183, 147, 88, 0.012) 18px,
-          rgba(183, 147, 88, 0.012) 19px
-        );
-      background-size: 28px 28px, 38px 38px, 38px 38px;
-      opacity: 0.75;
+        radial-gradient(circle, rgba(183, 147, 88, 0.042) 1px, transparent 1px);
+      background-size: 32px 32px;
+      opacity: 0.65;
     }
 
-    /* Central radial vignette — warm center, darker edges */
     body::after {
       content: '';
       position: fixed;
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      background: radial-gradient(
-        ellipse at 50% 42%,
-        rgba(43, 74, 59, 0.06) 0%,
-        transparent 55%
-      );
-      /* Second orb: warm amber, lower-right */
+      /* Centered amber pool — simulates warm editorial lighting */
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 18%,
+          rgba(183, 147, 88, 0.05) 0%, transparent 65%),
+        radial-gradient(ellipse 55% 45% at 15% 75%,
+          rgba(43, 74, 59, 0.04) 0%, transparent 60%);
     }
 
-    /* ── L. Menu section transition: clip-path reveal ────────────────
-       On tab switch, the new section slides in with a clip-path
-       reveal from bottom — more directional and purposeful than a
-       simple opacity fade.
+    /* ── 3. ITEM NAME HIERARCHY FIX ────────────────────────────────────
+       Names should be the primary read. Elevate to near-white.
+       Descriptions stay dim — clear reading hierarchy.
+    ─────────────────────────────────────────────────────────────────── */
+    .item-name {
+      color: rgba(236, 230, 218, 0.95);
+      font-size: 1.15rem;
+      letter-spacing: -0.005em;
+      line-height: 1.25;
+      transition: color 0.4s var(--expo), transform 0.35s var(--expo);
+    }
+
+    .item-desc {
+      color: rgba(228, 221, 208, 0.40);
+      font-size: 0.78rem;
+      line-height: 1.45;
+      transition: color 0.4s var(--expo);
+    }
+
+    .item-price {
+      color: rgba(183, 147, 88, 0.88);
+      font-size: 1.15rem;
+      transition: color 0.3s ease, transform 0.35s var(--expo);
+    }
+
+    /* Hover: name brightens, desc lifts slightly, price brightens */
+    .menu-item:hover .item-name {
+      color: #ffffff;
+      transform: translateX(3px);
+    }
+    .menu-item:hover .item-desc {
+      color: rgba(228, 221, 208, 0.65);
+    }
+    .menu-item:hover .item-price {
+      color: rgba(183, 147, 88, 1);
+      transform: translateX(-2px);
+    }
+
+    /* ── 4. MENU ITEM HOVER — clean warm tint, no overflow ─────────────
+       Replaced box-shadow approach with a simpler left-border + fill.
+    ─────────────────────────────────────────────────────────────────── */
+    .menu-item {
+      transition:
+        background 0.38s var(--expo),
+        border-left-color 0.38s var(--expo);
+      border-radius: 3px;
+      border-left: 1.5px solid transparent;
+    }
+
+    .menu-item:hover {
+      background: rgba(183, 147, 88, 0.032);
+      border-left-color: rgba(183, 147, 88, 0.5);
+    }
+
+    .menu-item::before { display: none; } /* remove old pseudo left-bar */
+
+    /* ── 5. SECTION HEADER — more editorial, homepage-aligned ──────────
+       Kicker: smaller, gold, disciplined tracking.
+       Title: warmer near-white, clean.
+       Divider: sharper gold line with a clean shimmer loop.
+    ─────────────────────────────────────────────────────────────────── */
+    .section-kicker {
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: rgba(183, 147, 88, 0.55);
+      margin-bottom: 0.4rem;
+    }
+
+    .section-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.65rem, 2.8vw, 2.4rem);
+      letter-spacing: -0.025em;
+      line-height: 1;
+      color: rgba(236, 230, 218, 0.95);
+      /* Remove the sweeping gradient animation — too much motion in body */
+      background: none;
+      -webkit-text-fill-color: initial;
+      animation: none;
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: rgba(183, 147, 88, 0.78);
+      -webkit-text-fill-color: initial;
+    }
+
+    .section-header {
+      position: relative;
+      padding-bottom: 1.25rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(183, 147, 88, 0.10);
+    }
+
+    /* Refined shimmer on the divider — slower, more editorial */
+    @keyframes shimmerLine {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .section-header::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 1px;
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(183, 147, 88, 0.28) 25%,
+        rgba(183, 147, 88, 0.55) 50%,
+        rgba(183, 147, 88, 0.28) 75%,
+        transparent 100%);
+      background-size: 200% 100%;
+      animation: shimmerLine 6s ease-in-out infinite;
+      transition: opacity 0.8s ease;
+    }
+
+    .section-header:not(.is-visible)::after { opacity: 0; }
+    .section-header.is-visible::after       { opacity: 1; }
+
+    /* Ghost count: editorial watermark, perfectly layered */
+    .section-count {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: -0.03em;
+      color: rgba(183, 147, 88, 0.038);
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+      white-space: nowrap;
+      mix-blend-mode: screen;
+    }
+
+    /* ── 6. CAT-NAV — premium editorial rail ───────────────────────────
+       Cleaner, more integrated. The rail sits above the content with
+       transparent atmosphere. Pinned state uses blur + very dark surface.
+       Active state: gold color + underline only — no pill, no rectangle.
+    ─────────────────────────────────────────────────────────────────── */
+    #cat-nav {
+      background: transparent;
+      padding: 0;
+      margin-bottom: 4rem;
+      position: sticky;
+      top: 76px;
+      z-index: 400;
+      transition:
+        background 0.55s var(--expo),
+        box-shadow 0.55s var(--expo);
+    }
+
+    #cat-nav.is-pinned {
+      background: rgba(7, 10, 7, 0.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow:
+        0 1px 0 rgba(183, 147, 88, 0.10),
+        0 8px 24px -4px rgba(0, 0, 0, 0.5);
+    }
+
+    .cat-nav-inner {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+      padding: 1rem 2rem;
+      position: relative;
+    }
+
+    /* Bottom axis line */
+    .cat-nav-inner::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 8%;
+      right: 8%;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(183, 147, 88, 0.12) 20%,
+        rgba(183, 147, 88, 0.18) 50%,
+        rgba(183, 147, 88, 0.12) 80%,
+        transparent
+      );
+    }
+
+    .cat-btn {
+      background: transparent;
+      border: none;
+      color: rgba(228, 221, 208, 0.30);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.6rem;
+      cursor: pointer;
+      position: relative;
+      overflow: visible;
+      border-radius: 0;
+      transition:
+        color 0.38s var(--expo),
+        letter-spacing 0.38s var(--expo);
+    }
+
+    .cat-btn:hover {
+      color: rgba(228, 221, 208, 0.72);
+      letter-spacing: 0.28em;
+    }
+
+    .cat-btn.active {
+      color: rgba(183, 147, 88, 0.95);
+      letter-spacing: 0.28em;
+    }
+
+    /* Centered-grow underline for active */
+    .cat-btn::before {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent,
+        rgba(183, 147, 88, 0.9) 25%,
+        rgba(183, 147, 88, 1) 50%,
+        rgba(183, 147, 88, 0.9) 75%,
+        transparent
+      );
+      transition: width 0.42s var(--expo);
+    }
+
+    .cat-btn.active::before {
+      width: calc(100% - 3.2rem);
+    }
+
+    .cat-btn:hover::before {
+      width: calc(55% - 1.6rem);
+    }
+
+    /* Active pip — pulsing dot above label */
+    .cat-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(183, 147, 88, 0.85);
+      opacity: 0;
+      transition: opacity 0.38s ease;
+    }
+
+    .cat-btn.active::after {
+      opacity: 1;
+      animation: dotPulse 2.4s ease-out infinite;
+    }
+
+    /* ── 7. SECTION TRANSITION — refined clip-path reveal ──────────────
     ─────────────────────────────────────────────────────────────────── */
     @keyframes sectionReveal {
       from {
         opacity: 0;
-        transform: translateY(18px) scale(0.982);
-        clip-path: inset(0 0 6% 0 round 4px);
+        transform: translateY(16px) scale(0.984);
+        clip-path: inset(0 0 5% 0);
       }
       to {
         opacity: 1;
         transform: translateY(0) scale(1);
-        clip-path: inset(0 0 0% 0 round 0px);
+        clip-path: inset(0 0 0% 0);
       }
     }
 
     .menu-section.is-active {
-      animation: sectionReveal 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation: sectionReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
-    /* ── M. Cat-btn: active state refinement ───────────────────────────
-       Keep the existing underline/color active style.
-       Only add a very faint pill ring — no solid background fill.
+    /* ── 8. REVEAL STAGGER — homepage-aligned rhythm ───────────────────
     ─────────────────────────────────────────────────────────────────── */
-    .cat-btn {
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
       transition:
-        color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        letter-spacing 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      /* NO border-radius here — keeps the original shape */
+        opacity 0.6s var(--expo),
+        transform 0.6s var(--expo);
+      will-change: opacity, transform;
     }
 
-    .cat-btn.active {
-      /* Only a very faint inset ring — no background fill */
-      box-shadow: none;
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
+    .menu-grid .reveal:nth-child(1) { transition-delay: 0.00s; }
+    .menu-grid .reveal:nth-child(2) { transition-delay: 0.04s; }
+    .menu-grid .reveal:nth-child(3) { transition-delay: 0.08s; }
+    .menu-grid .reveal:nth-child(4) { transition-delay: 0.12s; }
+    .menu-grid .reveal:nth-child(5) { transition-delay: 0.16s; }
+    .menu-grid .reveal:nth-child(6) { transition-delay: 0.20s; }
+    .menu-grid .reveal:nth-child(7) { transition-delay: 0.07s; }
+    .menu-grid .reveal:nth-child(8) { transition-delay: 0.11s; }
 
-    /* ── N. Menu item: hover highlight refinement ──────────────────────
-       Subtle warm tint on hover. No negative margins (causes overflow).
-       The existing ::before left bar handles the gold indicator.
+    /* ── 9. PDF SECTION — structured service block ─────────────────────
+       Redesigned as a composed premium tier:
+       - Tight centering with max-width frame
+       - Left-aligned editorial pair (label + heading)
+       - CTA row at bottom with clear hierarchy
+       - No more floating void atmosphere
     ─────────────────────────────────────────────────────────────────── */
-    .menu-item {
-      transition:
-        background 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      border-radius: 4px;
-      /* Padding kept from existing rules — no negative margins */
+    #pdf-section {
+      padding: 5rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(8, 15, 10, 0) 0%, rgba(6, 10, 7, 0.85) 30%, rgba(4, 8, 5, 0.95) 100%),
+        #080f0a;
+      border-top: 1px solid rgba(183, 147, 88, 0.10);
     }
 
-    .menu-item:hover {
-      background: rgba(183, 147, 88, 0.035);
+    /* Refined dot-grid — finer, more restrained */
+    #pdf-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle, rgba(183, 147, 88, 0.045) 1px, transparent 1px);
+      background-size: 40px 40px;
+
     }
 
-    /* Keep the ::before left bar from existing styles (not hidden) */
-    .menu-item::before {
-      display: block; /* restored */
+    /* Centered editorial frame */
+    #pdf-section > * {
+      position: relative;
+      z-index: 1;
     }
 
-    /* ── O. Badge: pulse glow on NEW ─────────────────────────────────
-       The NEW badge pulses softly to draw attention.
+    .pdf-label {
+      font-size: 0.52rem;
+      font-weight: 700;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: rgba(183, 147, 88, 0.45);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    /* Editorial rule flanking the label — like homepage kicker-line */
+    .pdf-label::before,
+    .pdf-label::after {
+      content: '';
+      height: 1px;
+      width: 28px;
+      background: rgba(183, 147, 88, 0.30);
+      flex-shrink: 0;
+    }
+
+    .pdf-heading {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.9rem, 4vw, 3.2rem);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: rgba(236, 230, 218, 0.95);
+      margin-bottom: 1rem;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .pdf-heading em {
+      font-style: italic;
+      color: rgba(183, 147, 88, 0.78);
+    }
+
+    .pdf-sub {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: rgba(228, 221, 208, 0.32);
+      margin-bottom: 2.75rem;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .pdf-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2.5rem;
+      background: transparent;
+      border: 1px solid rgba(183, 147, 88, 0.35);
+      color: rgba(183, 147, 88, 0.85);
+      font-size: 0.60rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 9999px;
+      transition: all 0.38s var(--expo);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pdf-btn:hover {
+      background: rgba(183, 147, 88, 0.08);
+      border-color: rgba(183, 147, 88, 0.62);
+      color: rgba(183, 147, 88, 1);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px -6px rgba(183, 147, 88, 0.12);
+    }
+
+    /* ── 10. FOOTER — structured closure ───────────────────────────────
+       More deliberate ending. Three-zone layout with clear structure.
+       Less atmospheric fog, more architectural finality.
     ─────────────────────────────────────────────────────────────────── */
-    @keyframes badgeGlow {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(183, 147, 88, 0.0); }
-      50%       { box-shadow: 0 0 8px 2px rgba(183, 147, 88, 0.12); }
-    }
-    .badge-new {
-      animation: badgeGlow 3s ease-in-out infinite;
+    footer {
+      padding: 2.75rem 4rem;
+      background: #040804;
+      border-top: 1px solid rgba(183, 147, 88, 0.10);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      position: relative;
     }
 
-    /* ── P. Section header: entrance line animation ────────────────────
-       overflow:hidden was removed — it clips the ghost section-count number.
+    /* Thin gold top-edge rule — clean editorial closure */
+    footer::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(183, 147, 88, 0.18) 25%,
+        rgba(183, 147, 88, 0.30) 50%,
+        rgba(183, 147, 88, 0.18) 75%,
+        transparent
+      );
+    }
+
+    /* Footer logo: steady warm tone — no animation */
+    .footer-logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.5rem;
+      letter-spacing: -0.01em;
+      color: rgba(228, 221, 208, 0.72);
+      text-decoration: none;
+      background: none;
+      -webkit-background-clip: initial;
+      background-clip: initial;
+      -webkit-text-fill-color: initial;
+      animation: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-logo:hover {
+      color: rgba(228, 221, 208, 0.92);
+    }
+
+    .footer-copy {
+      font-size: 0.52rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(228, 221, 208, 0.18);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .footer-link {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      background: rgba(183, 147, 88, 0.06);
+      border: 1px solid rgba(183, 147, 88, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(183, 147, 88, 0.52);
+      text-decoration: none;
+      transition: all 0.32s var(--expo);
+      animation: none; /* remove orbit glow animation */
+    }
+
+    .footer-link:hover {
+      background: rgba(183, 147, 88, 0.12);
+      border-color: rgba(183, 147, 88, 0.28);
+      color: rgba(183, 147, 88, 0.88);
+      transform: translateY(-2px);
+    }
+
+    /* ── 11. SCROLLBAR — homepage style (more refined) ─────────────────
     ─────────────────────────────────────────────────────────────────── */
+    ::-webkit-scrollbar       { width: 4px; }
+    ::-webkit-scrollbar-track { background: #050a06; }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(183, 147, 88, 0.22);
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(183, 147, 88, 0.42);
+    }
 
-    /* ── Q. Ambient canvas particles ────────────────────────────────
-       The #particle-canvas sits fixed in the background and renders
-       a handful of slow-drifting golden motes.
+    /* ── 12. LOADER — warm dark theme ──────────────────────────────────
+    ─────────────────────────────────────────────────────────────────── */
+    .loader {
+      background: #060a06 !important;
+    }
+
+    .loader-text {
+      color: rgba(183, 147, 88, 0.88) !important;
+    }
+
+    .loader-bar {
+      background: rgba(183, 147, 88, 0.65) !important;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loader-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: loaderShimmer 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes loaderShimmer { to { left: 200%; } }
+
+    .loader-tagline {
+      font-size: 0.50rem;
+      font-weight: 500;
+      letter-spacing: 0.40em;
+      text-transform: uppercase;
+      color: rgba(183, 147, 88, 0.30);
+      margin-top: 1.5rem;
+    }
+
+    /* ── 13. AMBIENT ORBS — more restrained, less green saturated ──────
+    ─────────────────────────────────────────────────────────────────── */
+    #menu-orb-1 {
+      background: radial-gradient(circle, rgba(183, 147, 88, 0.042) 0%, transparent 70%);
+    }
+    #menu-orb-2 {
+      background: radial-gradient(circle, rgba(43, 74, 59, 0.048) 0%, transparent 70%);
+    }
+
+    /* ── 14. PARTICLE CANVAS — refined subtle motes ────────────────────
     ─────────────────────────────────────────────────────────────────── */
     #particle-canvas {
       position: fixed;
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      opacity: 0.55;
+      opacity: 0.45;
     }
 
-    /* ── R. PDF section: scan-line grid overlay ──────────────────────
-       The PDF section gets a more refined scanline grid.
+    /* ── 15. BADGE REFINEMENT ──────────────────────────────────────────
     ─────────────────────────────────────────────────────────────────── */
-    #pdf-section::before {
-      background-image:
-        radial-gradient(circle, rgba(183, 147, 88, 0.06) 1px, transparent 1px),
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 44px,
-          rgba(183, 147, 88, 0.025) 44px,
-          rgba(183, 147, 88, 0.025) 45px
-        );
-      background-size: 36px 36px, 100% 45px;
+    .badge {
+      font-size: 0.40rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 0.12rem 0.5rem;
+      border-radius: 9999px;
     }
 
-    /* ── S. Item price: soft entrance ───────────────────────────────
-       Prices fade up slightly with a stagger relative to their item.
+    .badge-new {
+      background: rgba(183, 147, 88, 0.10);
+      color: rgba(183, 147, 88, 0.75);
+    }
+
+    .badge-veg {
+      background: rgba(80, 155, 100, 0.10);
+      color: rgba(100, 190, 115, 0.70);
+    }
+
+    .badge-hot {
+      background: rgba(200, 80, 40, 0.10);
+      color: rgba(220, 115, 80, 0.75);
+    }
+
+    /* ── 16. MOBILE NAV — dark-themed scrollbar ────────────────────────
     ─────────────────────────────────────────────────────────────────── */
-    .item-price {
-      transition:
-        color 0.35s ease,
-        text-shadow 0.35s ease,
-        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .menu-item:hover .item-price {
-      transform: translateX(-2px);
+    @media (max-width: 1024px) {
+      .cat-nav-inner {
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        padding: 0.8rem 0;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-left: 24px;
+        padding-right: 24px;
+        margin: 0 -24px;
+      }
+      .cat-nav-inner::-webkit-scrollbar { display: none; }
+      .cat-btn {
+        white-space: nowrap;
+        font-size: 0.62rem;
+        padding: 0.45rem 1.2rem;
+      }
     }
 
-    /* ── T. Section count: ghost typography ──────────────────────────
-       The ghost count already exists — ensure it's properly layer.
-    ─────────────────────────────────────────────────────────────────── */
-    .section-count {
-      mix-blend-mode: screen;
+    @media (max-width: 767px) {
+      footer {
+        padding: 2.5rem 1.5rem 2rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+      }
+      #pdf-section {
+        padding: 4.5rem 1.5rem;
+      }
     }
-
-    /* ── U. Cat-nav is-pinned: nenhuma sobrescrita necessária ──────────
-       Os estilos principais já existem acima no #cat-nav.is-pinned.
-       Não sobrescrevemos background aqui para preservar o blur.
-    ─────────────────────────────────────────────────────────────────── */
-
-    /* ── V. Loader: a animação de clip-path foi removida pois cortava o texto ── */
-
-    /* ── W. Footer social icons: orbit glow ──────────────────────────
-       Each icon has a slow glow that rotates in opacity.
-    ─────────────────────────────────────────────────────────────────── */
-    @keyframes iconOrbit {
-      0%,100% { box-shadow: 0 0 0 0 rgba(183,147,88,0); }
-      50%      { box-shadow: 0 0 14px 3px rgba(183,147,88,0.08); }
-    }
-    .footer-link {
-      animation: iconOrbit 4s ease-in-out infinite;
-    }
-    .footer-link:nth-child(2) { animation-delay: 1.3s; }
-    .footer-link:nth-child(3) { animation-delay: 2.6s; }
 
   </style>
 
-</head>
+
+
 
 <body class="antialiased">
   <!-- Noise -->
