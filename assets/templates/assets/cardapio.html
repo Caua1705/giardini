@@ -632,15 +632,16 @@
     /* ── Horizontal Category Nav ───────────────────── */
     #cat-nav {
       width: 100%;
-      background: transparent;
-      padding-top: 2rem;
+      background: rgba(8, 15, 10, 0.75);
+      padding-top: 1.5rem;
       margin-bottom: 4rem;
-      border-bottom: 1px solid rgba(183, 147, 88, 0.1);
+      border-bottom: 1px solid rgba(183, 147, 88, 0.05);
       position: sticky;
       top: 100px;
       z-index: 400;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: background 0.4s ease, border-color 0.4s ease;
     }
 
     .cat-nav-inner {
@@ -700,7 +701,9 @@
         position: sticky;
         top: 90px;
         padding-top: 1rem;
-        background: rgba(8, 15, 10, 0.95);
+        background: rgba(8, 15, 10, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         margin-bottom: 3rem;
         margin-top: 1rem;
       }
@@ -751,7 +754,7 @@
 
     .menu-section {
       padding: 0 0 64px 0;
-      border-bottom: 1px solid rgba(183, 147, 88, 0.08);
+      border-bottom: none;
       display: none;
       opacity: 0;
       transition: opacity 0.35s ease;
@@ -828,9 +831,24 @@
       grid-template-columns: 1fr auto;
       align-items: start;
       gap: 0.25rem 1rem;
-      padding: 0;
-      border-bottom: none;
+      padding: 0 0 1.25rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(183, 147, 88, 0.05);
       cursor: default;
+    }
+
+    .menu-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    
+    /* When 2 items are on the last row of the grid, remove their borders */
+    .menu-grid .menu-item:nth-last-child(-n+2):nth-child(even),
+    .menu-grid .menu-item:nth-last-child(-n+1) {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
     }
 
     /* Dotted fill line gracefully removed */
@@ -1302,16 +1320,16 @@
       color: #fff;
     }
 
-    /* ── 7. Section bottom ambient warm glow ─── */
+    /* ── 7. Section bottom ambient warm glow removed for a cleaner editorial look ─── */
     .menu-section::after {
-      content: '';
-      display: block;
-      height: 1px;
-      background: linear-gradient(to right,
-        transparent,
-        rgba(183, 147, 88, 0.15) 25%,
-        rgba(183, 147, 88, 0.15) 75%,
-        transparent);
+      display: none;
+    }
+
+    /* Remove the global section divider for the last section to ensure a clean ending */
+    .menu-section:last-of-type,
+    .menu-section:last-of-type::after {
+      border-bottom: none !important;
+      background: none !important;
     }
 
     /* ── 8. Loader dark theme fix ─── */
