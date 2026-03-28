@@ -842,6 +842,10 @@
       color: rgba(183, 147, 88, 1);
     }
 
+    .menu-item:hover .item-desc {
+      color: rgba(232, 224, 208, 0.85);
+    }
+
     .item-body {
       display: flex;
       flex-direction: column;
@@ -856,7 +860,8 @@
       color: #e8e0d0;
       margin: 0;
       line-height: 1.2;
-      transition: color 0.3s ease;
+      /* Perfectly synced premium transition */
+      transition: color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       white-space: normal;
     }
 
@@ -866,6 +871,7 @@
       color: rgba(232, 224, 208, 0.5);
       line-height: 1.4;
       white-space: normal;
+      transition: color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .item-badges {
@@ -1251,34 +1257,12 @@
       100% { background-position: -200% 0; }
     }
 
-    /* ── 4. Item hover: gold left accent bar ─── */
+    /* ── 4. Item hover: aesthetic clean look ─── */
     .menu-item {
       position: relative;
-      transition: padding-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .menu-item::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%) scaleY(0);
-      width: 2px;
-      height: 60%;
-      background: rgba(183, 147, 88, 0.7);
-      border-radius: 2px;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
-      opacity: 0;
-    }
-
-    .menu-item:hover {
-      padding-left: 12px;
-    }
-
-    .menu-item:hover::before {
-      transform: translateY(-50%) scaleY(1);
-      opacity: 1;
-    }
+    /* Transitions for menu items handled in .item-name and .item-desc */
 
     /* ── 5. Enhanced reveal animation with stagger ─── */
     .reveal {
