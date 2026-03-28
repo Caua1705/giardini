@@ -1292,6 +1292,337 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
    END SECTION 3 ELEVATION v1
    ══════════════════════════════════════════════════════════════════ */
 </style>
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   GIARDINI HOMEPAGE — BRAND HARMONIZATION PASS v3
+   Goal : Absorb the menu page's premium identity vocabulary into the
+          light editorial homepage — without darkening it.
+   Method: Introduce gold token, unify section labels, warm dividers,
+           improve CTAs, add brand marquee, improve section rhythm.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── 1. TOKEN: Gold enters the light system ──────────────────────
+   The menu page uses --c-gold: #B79358 throughout — in kickers,
+   prices, dividers, badges. Registering it here makes it a proper
+   token accessible to all CSS in this file.                       */
+:root {
+  --c-gold:       #B79358;
+  --c-gold-soft:  rgba(183,147,88,0.60);
+  --c-gold-faint: rgba(183,147,88,0.10);
+}
+
+/* ── 2. NAVBAR: Contextual refinement ────────────────────────────
+   Scrolled state gets a barely-there gold border — mirrors the
+   menu page's is-scrolled treatment. Keeps page identity on scroll. */
+#navbar.is-scrolled {
+  border-bottom: 1px solid rgba(183,147,88,0.09) !important;
+}
+.nav-cta:hover {
+  box-shadow: 0 8px 24px -4px rgba(43,74,59,0.32) !important;
+}
+
+/* ── 3. PRELOADER: Gold gradient on loading bar ──────────────────*/
+.preloader-bar {
+  background: linear-gradient(90deg, var(--c-primary) 0%, var(--c-gold) 100%) !important;
+}
+
+/* ── 4. KICKER SYSTEM: Green-to-gold dual line + gold diamond ─────
+   The kicker line now fades from brand green into warm gold.
+   The diamond separator becomes gold — same accent logic the menu 
+   uses for its gold kicker-lines.                                 */
+.kicker-line {
+  background: linear-gradient(90deg, var(--c-primary) 0%, rgba(183,147,88,0.70) 100%) !important;
+  width: 26px !important;
+}
+.kicker-diamond {
+  background: var(--c-gold) !important;
+  opacity: 0.65 !important;
+}
+
+/* ── 5. HERO SEPARATOR BEAM: Green → warm gold shimmer ───────────
+   The beam now reads as warm gold rather than cold white — more
+   connected to the menu page's gold shimmer vocabulary.           */
+#hero-sep::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(183,147,88,0.18) 18%,
+    rgba(255,255,255,0.80) 50%,
+    rgba(183,147,88,0.18) 82%,
+    transparent
+  ) !important;
+}
+
+/* ── 6. HERO META ROW: Gold border accent ────────────────────────
+   The top border of the meta row picks up gold warmth — same
+   accent as the menu's section-header border treatment.           */
+.hero-meta {
+  border-top-color: rgba(183,147,88,0.12) !important;
+}
+
+/* ── 7. SECTION 2 — LABEL LINE: green → gold gradient ───────────*/
+.s2-label-line {
+  background: linear-gradient(90deg, var(--c-primary) 0%, rgba(183,147,88,0.65) 100%) !important;
+  width: 20px !important;
+  opacity: 0.70;
+}
+
+/* ── 8. SECTION 2 — DIVIDER: gold center beam ────────────────────
+   The animated divider separating body copy from pillars now has
+   a warm gold centre — more premium, more Giardini.               */
+.s2-divider-track::before {
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(43,74,59,0.07) 8%,
+    rgba(43,74,59,0.35) 38%,
+    rgba(183,147,88,0.42) 50%,
+    rgba(43,74,59,0.35) 62%,
+    rgba(43,74,59,0.07) 92%,
+    transparent
+  ) !important;
+}
+.s2-divider-beam {
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(43,74,59,0.25),
+    rgba(183,147,88,0.62),
+    rgba(255,255,255,0.75),
+    rgba(183,147,88,0.62),
+    rgba(43,74,59,0.25),
+    transparent
+  ) !important;
+}
+
+/* ── 9. SECTION 2 — PILLARS: gold shimmer on hover ──────────────*/
+.exp-pillar:hover {
+  border-left-color: rgba(43,74,59,0.62) !important;
+  background: rgba(255,255,255,0.80) !important;
+  box-shadow:
+    0 8px 28px rgba(0,0,0,0.05),
+    0 2px 8px rgba(43,74,59,0.07),
+    0 0 0 1px rgba(183,147,88,0.04) !important;
+}
+.exp-pillar:hover .exp-pillar-vline {
+  background: linear-gradient(to bottom, rgba(43,74,59,0.55), rgba(183,147,88,0.35)) !important;
+}
+
+/* ── 10. SECTION 3 — LABEL DOT: gold (matches menu's gold kickers) */
+.s3-label-dot {
+  background: var(--c-gold) !important;
+  box-shadow: 0 0 8px rgba(183,147,88,0.40) !important;
+  animation: none !important;
+}
+
+/* ── 11. SECTION 3 — EXTENDING LINE: green → gold soft ──────────*/
+.s3-label-line {
+  background: linear-gradient(
+    to right,
+    rgba(43,74,59,0.20),
+    rgba(183,147,88,0.18),
+    transparent
+  ) !important;
+}
+
+/* ── 12. SECTION 3 — ANNOTATION: gold-warm system ───────────────
+   The annotation panel border and label pick up warm gold —
+   stronger editorial identity, like the menu's section-header.   */
+.s3-annotation {
+  border-top: 1px solid rgba(183,147,88,0.18) !important;
+}
+.s3-annotation-label {
+  color: var(--c-gold) !important;
+  opacity: 0.72 !important;
+}
+.s3-annotation-line {
+  background: linear-gradient(to right, var(--c-gold), rgba(43,74,59,0.28)) !important;
+  opacity: 0.62 !important;
+}
+.s3-annotation-count strong {
+  color: var(--c-gold) !important;
+}
+
+/* ── 13. SECTION 3 — CARD LABELS: gold system ────────────────────
+   Card label tags shift from faint green to warm gold —
+   mirrors the menu page's .item-price gold treatment.             */
+.s3-card-label-tag {
+  color: var(--c-gold) !important;
+  opacity: 0.78 !important;
+}
+.s3-card-label-tag::after {
+  background: rgba(183,147,88,0.30) !important;
+}
+.s3-card-label-line {
+  background: linear-gradient(to right, rgba(183,147,88,0.18), transparent) !important;
+}
+
+/* ── 14. SECTION 3 — MAIN DIVIDER: gold peak ────────────────────*/
+.s3-divider::before {
+  background: linear-gradient(
+    to right,
+    rgba(26,26,26,0.04),
+    rgba(43,74,59,0.10) 16%,
+    rgba(183,147,88,0.30) 44%,
+    rgba(183,147,88,0.42) 50%,
+    rgba(183,147,88,0.30) 56%,
+    rgba(43,74,59,0.10) 84%,
+    rgba(26,26,26,0.04)
+  ) !important;
+}
+
+/* ── 15. SECTION 3 — CTA AREA: gold divider vocabulary ──────────
+   The "Cardápio completo" divider lines mirror the menu's gold
+   section-header shimmer line system.                             */
+.s3-cta-divider-line-l {
+  background: linear-gradient(to right, transparent, rgba(183,147,88,0.40)) !important;
+}
+.s3-cta-divider-line-r {
+  background: linear-gradient(to left, transparent, rgba(183,147,88,0.40)) !important;
+}
+.s3-cta-divider-label {
+  color: rgba(26,26,26,0.56) !important;
+  letter-spacing: 0.015em !important;
+}
+.s3-cta-sub {
+  border-top-color: rgba(183,147,88,0.10) !important;
+  letter-spacing: 0.30em !important;
+}
+
+/* ── 16. TRANSITION BRIDGE: stronger gold diamond + dual line ────
+   Bridge between Section 3 and Clube do Livro. The diamond now
+   reads as intentionally branded — same vocabulary as the menu's
+   section-header gold shimmer.                                    */
+.s3-transition-bridge {
+  height: 2px !important;
+  background: linear-gradient(
+    to right,
+    transparent  0%,
+    rgba(43,74,59,0.07) 10%,
+    rgba(183,147,88,0.30) 38%,
+    rgba(43,74,59,0.26) 50%,
+    rgba(183,147,88,0.30) 62%,
+    rgba(43,74,59,0.07) 90%,
+    transparent  100%
+  ) !important;
+}
+.s3-bridge-diamond {
+  width: 8px !important;
+  height: 8px !important;
+  background: rgba(183,147,88,0.75) !important;
+  box-shadow:
+    0 0 14px rgba(183,147,88,0.50),
+    0 0  4px rgba(183,147,88,0.90) !important;
+}
+
+/* ── 17. BRAND MARQUEE: consistent editorial band ────────────────
+   This is the most visible structural addition — a slow horizontal
+   ticker of brand words running between S3 and Clube do Livro.
+   Mirrors the menu page's continuous identity presence, adapted
+   for the light editorial tone of the homepage.                   */
+.gi-brand-marquee {
+  position: relative;
+  overflow: hidden;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  z-index: 61;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(43,74,59,0.030) 0%,
+    rgba(183,147,88,0.020) 50%,
+    rgba(43,74,59,0.030) 100%
+  );
+  border-top:    1px solid rgba(43,74,59,0.055);
+  border-bottom: 1px solid rgba(183,147,88,0.055);
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+.gi-brand-marquee-track {
+  display: flex;
+  white-space: nowrap;
+  animation: gi-marquee 40s linear infinite;
+  will-change: transform;
+}
+.gi-brand-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 0 2.5rem;
+  font-size: 0.50rem;
+  font-weight: 600;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: rgba(26,26,26,0.20);
+  flex-shrink: 0;
+}
+.gi-brand-marquee-sep {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(183,147,88,0.42);
+  flex-shrink: 0;
+  transform: rotate(45deg);
+}
+@keyframes gi-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── 18. CLUBE DO LIVRO: gold reinforcement ──────────────────────
+   The quote block and step bars pick up gold — consistent with
+   the brand warmth established in the section 3 card system.     */
+#clube-quote-block {
+  border-top-color:    rgba(183,147,88,0.09) !important;
+  border-bottom-color: rgba(183,147,88,0.09) !important;
+}
+.clube-step {
+  border-top-color: rgba(183,147,88,0.11) !important;
+}
+.clube-step:last-of-type {
+  border-bottom-color: rgba(183,147,88,0.11) !important;
+}
+.clube-step-bar {
+  background: linear-gradient(
+    to right,
+    rgba(43,74,59,0.38),
+    rgba(183,147,88,0.55)
+  ) !important;
+}
+
+/* ── 19. SECTION 5 (DARK): Gold separator beam ───────────────────
+   The s5-sep separator line picks up the gold vocabulary —
+   connecting even the dark cinematic section to the brand system. */
+.s5-sep::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(183,147,88,0.25) 22%,
+    rgba(255,255,255,0.32) 50%,
+    rgba(183,147,88,0.25) 78%,
+    transparent
+  ) !important;
+  box-shadow: 0 0 18px rgba(183,147,88,0.18) !important;
+}
+
+/* ── 20. FOOTER: Top line uses gold-white-gold (already good) ────
+   Reinforce the footer bar's gold accent for maximum coherence    */
+.ft-top-line {
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(183,147,88,0.45) 22%,
+    rgba(255,255,255,0.14) 50%,
+    rgba(183,147,88,0.45) 78%,
+    transparent
+  ) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   END HARMONIZATION PASS v3
+   ══════════════════════════════════════════════════════════════════ */
+</style>
 </head>
 <body>
   <div id="global-grain" aria-hidden="true"></div>
@@ -1394,11 +1725,11 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
           <!-- Tertiary ghost link -->
           <a href="./cardapio.html" class="link-ghost">Ver cardápio</a>
         </div>
-        <div class="hero-meta hidden md:flex" id="el-meta" style="gap:1rem;margin-top:2rem;padding-top:1.25rem;border-top:1px solid rgba(43,74,59,0.10);">
+        <div class="hero-meta hidden md:flex" id="el-meta" style="gap:1rem;margin-top:2rem;padding-top:1.25rem;border-top:1px solid rgba(183,147,88,0.12);">
           <span class="live-badge" style="font-size:0.56rem;letter-spacing:0.18em;"><span class="live-pulse" style="background:var(--c-primary);"></span>Ambiente para leitura</span>
-          <span style="color:rgba(43,74,59,0.25);font-size:0.5rem;font-weight:300;">◆</span>
+          <span style="color:rgba(183,147,88,0.45);font-size:0.42rem;font-weight:400;">◆</span>
           <span class="live-badge" style="font-size:0.56rem;letter-spacing:0.18em;"><span class="live-pulse" style="animation-delay:0.8s;background:rgba(43,74,59,0.45);"></span>Café especial</span>
-          <span style="color:rgba(43,74,59,0.25);font-size:0.5rem;font-weight:300;">◆</span>
+          <span style="color:rgba(183,147,88,0.45);font-size:0.42rem;font-weight:400;">◆</span>
           <span class="live-badge" style="font-size:0.56rem;letter-spacing:0.18em;"><span class="live-pulse" style="animation-delay:1.6s;background:rgba(43,74,59,0.45);"></span>Troca de Livros</span>
         </div>
       </div>
@@ -1785,6 +2116,38 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
   <div aria-hidden="true" class="s3-transition-bridge">
     <div class="s3-bridge-diamond"></div>
   </div>
+
+  <!-- ══ BRAND MARQUEE STRIP — editorial identity band ═══════════════════════
+       Runs between Section 3 and Clube do Livro. A slow horizontal ticker of
+       brand words that reinforces the Giardini identity continuously —
+       inspired by the menu page's category nav / continuous brand presence.
+       Light editorial version: muted text + warm gold diamond separators.   -->
+  <div class="gi-brand-marquee" aria-hidden="true">
+    <div class="gi-brand-marquee-track">
+      <span class="gi-brand-marquee-item">Giardini Caf&eacute;<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Leitura &amp; Caf&eacute;<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Origem<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Ritual<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Especialidade<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Varjota &middot; Fortaleza<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Quiet Luxury<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Caf&eacute; de Origem<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Slow Life<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Clube do Livro<span class="gi-brand-marquee-sep"></span></span>
+      <!-- Duplicate for seamless infinite loop -->
+      <span class="gi-brand-marquee-item">Giardini Caf&eacute;<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Leitura &amp; Caf&eacute;<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Origem<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Ritual<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Especialidade<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Varjota &middot; Fortaleza<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Quiet Luxury<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Caf&eacute; de Origem<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Slow Life<span class="gi-brand-marquee-sep"></span></span>
+      <span class="gi-brand-marquee-item">Clube do Livro<span class="gi-brand-marquee-sep"></span></span>
+    </div>
+  </div>
+
   <!-- ══ SECTION: CLUBE DO LIVRO ══════════════════════════════════════ -->
   <section id="clube-livro" class="relative z-[60] overflow-hidden"
     style="background:linear-gradient(175deg,#fdfbf7 0%,#f5eedf 55%,#ece2cc 100%);padding:8rem 0 6rem;">
