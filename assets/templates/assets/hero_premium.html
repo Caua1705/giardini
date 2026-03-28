@@ -1559,15 +1559,32 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
 /* ── 15. SECTION 3 — CTA AREA: gold divider vocabulary ──────────
    The "Cardápio completo" divider lines mirror the menu's gold
    section-header shimmer line system.                             */
+.s3-cta-divider-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 2.25rem;
+}
+.s3-cta-divider-line {
+  flex: 1;
+  height: 1px;
+}
 .s3-cta-divider-line-l {
-  background: linear-gradient(to right, transparent, rgba(183,147,88,0.40)) !important;
+  background: linear-gradient(to right, transparent, rgba(183,147,88,0.45)) !important;
 }
 .s3-cta-divider-line-r {
-  background: linear-gradient(to left, transparent, rgba(183,147,88,0.40)) !important;
+  background: linear-gradient(to left, transparent, rgba(183,147,88,0.45)) !important;
 }
 .s3-cta-divider-label {
-  color: rgba(26,26,26,0.56) !important;
-  letter-spacing: 0.015em !important;
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: rgba(26,26,26,0.45) !important;
+  letter-spacing: 0.02em !important;
+  white-space: nowrap;
 }
 .s3-cta-sub {
   border-top-color: rgba(183,147,88,0.10) !important;
@@ -2004,7 +2021,6 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
 
         <!-- Card 1: Croissant Sertaneja -->
         <div class="feat-card" style="opacity:0;transform:translateY(60px);margin-top:2.5rem;">
-          <span class="s3-card-index" aria-hidden="true">01</span>
           <div class="feat-card-inner"
             style="position:relative;width:100%;aspect-ratio:3/4.2;border-radius:20px;overflow:hidden;background:#ede8e0;
               transition:box-shadow 0.6s ease,transform 0.6s cubic-bezier(0.16,1,0.3,1);"
@@ -2036,7 +2052,6 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
 
         <!-- Card 2: Cappuccino Italiano -->
         <div class="feat-card" style="opacity:0;transform:translateY(60px);margin-top:0;">
-          <span class="s3-card-index" aria-hidden="true">02</span>
           <div class="feat-card-inner"
             style="position:relative;width:100%;aspect-ratio:3/4.2;border-radius:20px;overflow:hidden;background:#e8e2d6;
               transition:box-shadow 0.6s ease,transform 0.6s cubic-bezier(0.16,1,0.3,1);"
@@ -2067,7 +2082,6 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
 
         <!-- Card 3: Brusqueta Vigneto -->
         <div class="feat-card" style="opacity:0;transform:translateY(60px);margin-top:5rem;">
-          <span class="s3-card-index" aria-hidden="true">03</span>
           <div class="feat-card-inner"
             style="position:relative;width:100%;aspect-ratio:3/4.2;border-radius:20px;overflow:hidden;background:#ece5d8;
               transition:box-shadow 0.6s ease,transform 0.6s cubic-bezier(0.16,1,0.3,1);"
@@ -2102,10 +2116,10 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       <div class="feat-reveal opacity-0 s3-cta-wrap">
 
         <!-- Divider with label above button -->
-        <div class="s3-cta-divider-row" style="margin-bottom: 2.25rem;">
-          <div class="s3-cta-divider-line s3-cta-divider-line-l" aria-hidden="true" style="opacity: 0.25;"></div>
-          <span class="s3-cta-divider-label" style="opacity: 0.7;">Cardápio completo</span>
-          <div class="s3-cta-divider-line s3-cta-divider-line-r" aria-hidden="true" style="opacity: 0.25;"></div>
+        <div class="s3-cta-divider-row">
+          <div class="s3-cta-divider-line s3-cta-divider-line-l" aria-hidden="true"></div>
+          <span class="s3-cta-divider-label">Cardápio completo</span>
+          <div class="s3-cta-divider-line s3-cta-divider-line-r" aria-hidden="true"></div>
         </div>
 
         <!-- Primary CTA button — beam container, mechanics unchanged -->
