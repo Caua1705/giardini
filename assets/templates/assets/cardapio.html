@@ -383,17 +383,44 @@
       width: 100%;
     }
 
-    /* Gradient fade from hero bottom into the dark menu body */
+    /* Gradient fade from hero bottom into the dark menu body — stronger and taller */
     #hero-pin-wrapper::after {
       content: '';
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 30vh;
-      background: linear-gradient(to top, #080f0a 0%, rgba(8, 15, 10, 0.8) 40%, transparent 100%);
+      height: 45vh;
+      background: linear-gradient(to top, #080f0a 0%, rgba(8, 15, 10, 0.92) 30%, rgba(8, 15, 10, 0.55) 60%, transparent 100%);
       z-index: 5;
       pointer-events: none;
+    }
+
+    /* Bridge element — appears as text exits, bridges hero to cat-nav */
+    #hero-bridge {
+      position: absolute;
+      bottom: 14%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 15;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.85rem;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .hero-bridge-label {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: rgba(183, 147, 88, 0.6);
+    }
+    .hero-bridge-line {
+      width: 1px;
+      height: 56px;
+      background: linear-gradient(to bottom, rgba(183, 147, 88, 0.55), transparent);
     }
 
     .hero-bg {
@@ -1500,6 +1527,12 @@
       <div class="hero-scroll" id="el-scroll">
         <span>Descubra</span>
         <div class="hero-scroll-line"></div>
+      </div>
+
+      <!-- Bridge element: appears during transition to guide user into the menu -->
+      <div id="hero-bridge" aria-hidden="true">
+        <span class="hero-bridge-label">Cardápio</span>
+        <div class="hero-bridge-line"></div>
       </div>
     </section>
   </div>
@@ -2645,27 +2678,58 @@
           }
         });
 
-        // Master Parallax Exit Timeline (Refined Cinematic Apple-Style Scroll)
+        // ── HERO EXIT TIMELINE — Refined transition (no "lonely cup" problem) ──
+        //
+        // Philosophy:
+        //   Phase 1 (0 → 0.42): scroll indicator + kicker exit first (subtle)
+        //   Phase 2 (0.20 → 0.55): headline and body exit (staggered, controlled)
+        //   Phase 3 (0.48 → 0.68): CTA exits + bridge label appears (handoff begins)
+        //   Phase 4 (0.60 → 0.88): cup gracefully scales down + slides toward cat-nav
+        //   Phase 5 (0.72 → 1.00): cup fades and bridge line pulses out
+        //
+        // The cup is never «alone» for more than 0.15 of scroll progress.
+
         const exitTl = gsap.timeline({
           scrollTrigger: {
             trigger: wrapper,
             start: 'top top',
-            end: () => `+=${scrollPx * 0.85}`, // Gradual exit for smoother transition
-            scrub: 1.2, // Premium smooth scrubbing
+            end: () => `+=${scrollPx * 0.90}`,
+            scrub: 1.4,
             onEnter: () => {
-              // If user scrolls before intro finishes, force intro states
               if (heroTl.isActive()) heroTl.progress(1);
             }
           }
         });
 
-        // 1. All elements sliding DOWN while fading (matching your reference sequence)
-        exitTl.to('#el-kicker', { opacity: 0, y: 40, duration: 0.5, ease: 'none' }, 0)
-              .to('#el-h1a', { opacity: 0, y: 70, duration: 0.6, ease: 'none' }, 0.05)
-              .to('#el-h1b', { opacity: 0, y: 70, duration: 0.6, ease: 'none' }, 0.1)
-              .to('#el-body', { opacity: 0, y: 50, duration: 0.6, ease: 'none' }, 0.15)
-              .to('#el-cta', { opacity: 0, y: 30, duration: 0.6, ease: 'none' }, 0.2)
-              .to('#el-scroll', { opacity: 0, y: 20, duration: 0.4, ease: 'none' }, 0);
+        // Phase 1: Scroll indicator + kicker exit first
+        exitTl.to('#el-scroll',  { opacity: 0, y: -16, duration: 0.3, ease: 'none' }, 0)
+              .to('#el-kicker',  { opacity: 0, y: -22, duration: 0.32, ease: 'none' }, 0.08);
+
+        // Phase 2: Headline exits with elegant vertical slide
+        exitTl.to('#el-h1a',    { opacity: 0, y: -36, duration: 0.45, ease: 'none' }, 0.20)
+              .to('#el-h1b',    { opacity: 0, y: -44, duration: 0.48, ease: 'none' }, 0.24)
+              .to('#el-body',   { opacity: 0, y: -28, duration: 0.42, ease: 'none' }, 0.30);
+
+        // Phase 3: CTA exits, bridge label fades in simultaneously
+        exitTl.to('#el-cta',      { opacity: 0, y: -20, duration: 0.38, ease: 'none' }, 0.48)
+              .to('#hero-bridge', { opacity: 1, duration: 0.28, ease: 'none' }, 0.52);
+
+        // Phase 4: Cup gracefully compresses toward bottom (toward cat-nav territory)
+        // It scales down so it feels intentional, not abandoned
+        exitTl.to('#video-frame', {
+                opacity: 0.45,
+                scale: 0.82,
+                y: '8vh',
+                duration: 0.55,
+                ease: 'none'
+              }, 0.60)
+              .to('.product-glow', { opacity: 0, duration: 0.35, ease: 'none' }, 0.62);
+
+        // Phase 5: Cup + bridge fully exit → clean handoff to cat-nav
+        exitTl.to('#video-frame', { opacity: 0, duration: 0.28, ease: 'none' }, 0.72)
+              .to('#hero-bridge', { opacity: 0, y: 12, duration: 0.24, ease: 'none' }, 0.76)
+              .to('.hero-bg',     { opacity: 0, duration: 0.28, ease: 'none' }, 0.78);
+
       }
     });
 
