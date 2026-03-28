@@ -1133,11 +1133,13 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
    The CTA block becomes a full editorial close for the section.
    Stronger eyebrow, intentional divider logic, premium button feel. */
 .s3-cta-wrap {
-  margin-top: 3rem;  /* ↓ from 5rem — closes excess gap between cards and CTA block */
+  margin-top: 2rem;      /* Pulls block into the final rhythm of the section */
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0;
+  position: relative;
+  z-index: 10;
 }
 /* Eyebrow above CTA — section payoff line */
 .s3-cta-eyebrow {
@@ -1551,7 +1553,7 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
   </section>
   <!-- ══ SECTION 3: SABORES & OBRAS — EDITORIAL MENU PREVIEW ══════════════ -->
   <section id="featured" class="relative z-[60] overflow-visible rounded-t-[40px] -mt-16"
-    style="background:linear-gradient(160deg,#faf7f2 0%,#f5f0e8 40%,#ede5d8 100%);padding:8rem 0 0;box-shadow:0 -30px 80px rgba(26,26,26,0.06);">
+    style="background:linear-gradient(160deg,#faf7f2 0%,#f5f0e8 40%,#ede5d8 100%);padding:8rem 0 7rem;box-shadow:0 -30px 80px rgba(26,26,26,0.06);">
     <!-- Clip interno para grain/glows não vazarem -->
     <div style="position:absolute;inset:0;border-radius:40px 40px 0 0;overflow:hidden;pointer-events:none;z-index:0;">
       <!-- Grain overlay for warmth -->
@@ -1744,10 +1746,10 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       <div class="feat-reveal opacity-0 s3-cta-wrap">
 
         <!-- Divider with label above button -->
-        <div class="s3-cta-divider-row" style="margin-bottom: 2.5rem;">
-          <div class="s3-cta-divider-line s3-cta-divider-line-l" aria-hidden="true"></div>
-          <span class="s3-cta-divider-label">Cardápio completo</span>
-          <div class="s3-cta-divider-line s3-cta-divider-line-r" aria-hidden="true"></div>
+        <div class="s3-cta-divider-row" style="margin-bottom: 2.25rem;">
+          <div class="s3-cta-divider-line s3-cta-divider-line-l" aria-hidden="true" style="opacity: 0.25;"></div>
+          <span class="s3-cta-divider-label" style="opacity: 0.7;">Cardápio completo</span>
+          <div class="s3-cta-divider-line s3-cta-divider-line-r" aria-hidden="true" style="opacity: 0.25;"></div>
         </div>
 
         <!-- Primary CTA button — beam container, mechanics unchanged -->
