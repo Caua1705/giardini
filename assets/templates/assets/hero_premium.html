@@ -599,32 +599,142 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
   ) !important;
 }
 
-/* ── 9. VIDEO FRAME: premium frame + glow system ─────────────────
-   The frame now has:
-   - a refined border with green tint
-   - a multi-layer shadow (dark base + green ambient)
-   - a visible green atmospheric halo behind the frame
-   - CSS corner marks for editorial / branded feel               */
+/* ── 9. VIDEO FRAME: premium editorial frame refinement ───────────
+   Refinements applied:
+   a) Radius reduced 20px → 14px: more architectural, less generic.
+   b) Border: single-color → gradient ring (green top/left, gold
+      bottom/right) — reads as a designed object, not a div.
+   c) Shadow: 5-layer system — dark base + green ambient +
+      warm amber depth layer + bright specular catch + inset highlight.
+   d) Inset top-edge highlight: simulates a physical light strike,
+      reads as premium surface quality (think: matte metal finish).
+   e) Outer halo wrapper: applied via #video-frame parent styling —
+      the 1px air-gap ring that luxury products use.
+   f) Corner marks: gold-tinted, slightly larger, more authority.     */
+
+/* Outer halo ring — the luxury 'air gap' */
 #video-frame {
-  border-radius: 20px !important;
-  border: 1px solid rgba(43,74,59,0.14) !important;
+  border-radius: 14px !important;
+
+  /* Gradient border: green-dominant top-left, warm gold bottom-right */
+  border: none !important;
+  outline: none !important;
+
+  /* Layer 0: outer ring (air gap — the luxury offset halo) */
+  /* Layer 1: green atmospheric glow (brand depth) */
+  /* Layer 2: warm amber ambient lift */
+  /* Layer 3: dark base shadow (architectural weight) */
+  /* Layer 4: surface specular catch (top-edge light) */
   box-shadow:
-    0  0  0   1px rgba(255,255,255,0.06),
-    0 30px 80px -10px rgba(0,0,0,0.14),
-    0 12px 32px -6px  rgba(43,74,59,0.12),
-    0  4px  8px       rgba(0,0,0,0.06) !important;
+    0  0  0  1px  rgba(255,255,255,0.055),
+    0  0  0  1.5px rgba(43,74,59,0.18),
+    0 38px 90px -10px rgba(0,0,0,0.16),
+    0 18px 40px  -6px rgba(43,74,59,0.14),
+    0  8px 20px  -4px rgba(183,147,88,0.08),
+    0  2px  4px       rgba(0,0,0,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.10),
+    inset 0 0 0 1px rgba(255,255,255,0.03) !important;
+
   background: #0c0d0b !important;
   overflow: hidden !important;
+
+  /* Painted border — gradient ring using background-clip trick */
+  /* We use a pseudo-element on the parent instead (see below) */
+}
+
+/* Gradient border ring — rendered via a pseudo-sibling technique:
+   We apply a background gradient to the frame itself using
+   an ::after overlay that acts as a pure border ring.             */
+#video-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 30;
+  /* Green top-left → gold bottom-right gradient ring */
+  background: linear-gradient(
+    135deg,
+    rgba(43,74,59,0.32)  0%,
+    rgba(43,74,59,0.18) 35%,
+    rgba(183,147,88,0.16) 65%,
+    rgba(183,147,88,0.28) 100%
+  );
+  /* Mask to only show the border ring, not the fill */
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  padding: 1px;
+}
+
+/* Top-edge inset light catch — simulates physical surface quality */
+#video-frame::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.18) 20%,
+    rgba(255,255,255,0.38) 50%,
+    rgba(255,255,255,0.18) 80%,
+    transparent 100%
+  );
+  z-index: 25;
+  pointer-events: none;
+  border-radius: inherit;
 }
 
 #video-frame:hover {
-  border-color: rgba(43,74,59,0.22) !important;
   box-shadow:
-    0  0  0   1px rgba(255,255,255,0.08),
-    0 40px 100px -12px rgba(0,0,0,0.18),
-    0 16px 40px  -6px  rgba(43,74,59,0.18),
-    0  5px 10px        rgba(0,0,0,0.08) !important;
+    0  0  0  1px  rgba(255,255,255,0.07),
+    0  0  0  1.5px rgba(43,74,59,0.26),
+    0 48px 110px -12px rgba(0,0,0,0.20),
+    0 22px 50px   -6px rgba(43,74,59,0.20),
+    0 10px 24px   -4px rgba(183,147,88,0.12),
+    0  3px  6px        rgba(0,0,0,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.14),
+    inset 0 0 0 1px rgba(255,255,255,0.04) !important;
   transform: scale(1.008) !important;
+}
+
+/* ── Corner marks — now rendered inside a wrapper div (see HTML):
+   TL: green-tinted (brand anchor)
+   BR: gold-tinted (warm finish)
+   These are inside #video-frame so they clip correctly.           */
+.vf-corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  z-index: 20;
+  pointer-events: none;
+  transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.vf-corner-tl {
+  top: 14px; left: 14px;
+  border-top:  1.5px solid rgba(255,255,255,0.42);
+  border-left: 1.5px solid rgba(255,255,255,0.42);
+  border-radius: 4px 0 0 0;
+}
+.vf-corner-br {
+  bottom: 14px; right: 14px;
+  border-bottom: 1.5px solid rgba(183,147,88,0.45);
+  border-right:  1.5px solid rgba(183,147,88,0.45);
+  border-radius: 0 0 4px 0;
+}
+/* On frame hover — corners expand slightly for premium microinteraction */
+#video-frame:hover .vf-corner-tl,
+#video-frame:hover .vf-corner-br {
+  width: 28px;
+  height: 28px;
 }
 
 /* Glow behind the entire right column / media area */
@@ -661,31 +771,6 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
 #hero-explore-scroll > span:first-child {
   color: var(--c-primary) !important;
   opacity: 0.8;
-}
-
-/* ── 12. Corner frame marks on video-frame ────────────────────── */
-#video-frame::before,
-#video-frame::after {
-  content: '';
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  z-index: 20;
-  pointer-events: none;
-}
-#video-frame::before {
-  top: 12px;
-  left: 12px;
-  border-top: 1.5px solid rgba(255,255,255,0.35);
-  border-left: 1.5px solid rgba(255,255,255,0.35);
-  border-radius: 3px 0 0 0;
-}
-#video-frame::after {
-  bottom: 12px;
-  right: 12px;
-  border-bottom: 1.5px solid rgba(255,255,255,0.22);
-  border-right: 1.5px solid rgba(255,255,255,0.22);
-  border-radius: 0 0 3px 0;
 }
 
 /* ── 13. GRID LINES: green tint for brand coherence ──────────── */
@@ -1693,6 +1778,9 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
         <div id="video-overlay" aria-hidden="true"></div>
         <!-- sequence canvas -->
         <canvas id="seq-canvas" aria-hidden="true"></canvas>
+        <!-- Editorial corner marks: TL = white (brand anchor), BR = gold (warm finish) -->
+        <div class="vf-corner vf-corner-tl" aria-hidden="true"></div>
+        <div class="vf-corner vf-corner-br" aria-hidden="true"></div>
       </div>
     </div><!-- /hero-viewport -->
   </div><!-- /hero-pin-wrapper -->
