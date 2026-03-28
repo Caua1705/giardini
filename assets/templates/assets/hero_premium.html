@@ -1073,7 +1073,7 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
   font-family: 'Instrument Serif', serif;
   font-size: 2.2rem;
   line-height: 1;
-  color: rgba(43,74,59,0.09);
+  color: rgba(43,74,59,0.22);       /* ↑ from 0.09 — visible but still restrained */
   letter-spacing: -0.04em;
   margin-bottom: 0.65rem;
   display: block;
@@ -1133,7 +1133,7 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
    The CTA block becomes a full editorial close for the section.
    Stronger eyebrow, intentional divider logic, premium button feel. */
 .s3-cta-wrap {
-  margin-top: 5rem;
+  margin-top: 3rem;  /* ↓ from 5rem — closes excess gap between cards and CTA block */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1144,48 +1144,54 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.85rem;
-  margin-bottom: 2.25rem;
+  gap: 1.1rem;               /* ↑ from 0.85rem — more intentional breathing between the two lines */
+  margin-bottom: 2.75rem;    /* ↑ from 2.25rem — closer connection to CTA button without crowding */
 }
 .s3-cta-eyebrow-label {
-  font-size: 0.52rem;
-  font-weight: 700;
-  letter-spacing: 0.35em;
+  font-size: 0.54rem;        /* ↑ slightly — more legible at this weight */
+  font-weight: 500;          /* ↓ from 700 — let the divider label carry authority instead */
+  letter-spacing: 0.38em;
   text-transform: uppercase;
-  color: rgba(26,26,26,0.35);
+  color: rgba(26,26,26,0.32); /* ↓ slightly — makes it feel like a quiet preamble, not a shout */
 }
 .s3-cta-divider-row {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1.5rem;               /* ↑ from 1.25rem — more air between lines and label */
   width: 100%;
-  max-width: 480px;
+  max-width: 520px;          /* ↑ from 480px — slightly wider, feels less cramped */
 }
 .s3-cta-divider-line {
   flex: 1;
   height: 1px;
 }
 .s3-cta-divider-line-l {
-  background: linear-gradient(to right, transparent, rgba(43,74,59,0.45));
+  background: linear-gradient(to right, transparent, rgba(43,74,59,0.38));
 }
 .s3-cta-divider-line-r {
-  background: linear-gradient(to left, transparent, rgba(43,74,59,0.45));
+  background: linear-gradient(to left, transparent, rgba(43,74,59,0.38));
 }
 .s3-cta-divider-label {
-  font-size: 0.58rem;
-  font-weight: 600;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: rgba(26,26,26,0.68);
+  font-family: 'Instrument Serif', serif; /* serif for the key label — gives editorial weight */
+  font-size: 0.95rem;        /* ↑ — this is the hierarchy anchor, it should read clearly */
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: none;      /* remove uppercase on the serif — keep it literary */
+  color: rgba(26,26,26,0.62);
   white-space: nowrap;
 }
 /* Sub-caption below CTA */
 .s3-cta-sub {
-  margin-top: 1.5rem;
+  margin-top: 2.25rem;       /* ↑ from 1.5rem — clearly separated from the button */
+  padding-top: 1.5rem;       /* adds visual gap above the text from its baseline */
+  border-top: 1px solid rgba(43,74,59,0.07); /* hairline above — anchors the text to the divider rhythm */
+  width: 100%;
+  max-width: 520px;
   font-size: 0.52rem;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: rgba(26,26,26,0.28);
+  color: rgba(26,26,26,0.30); /* ↑ slightly — readable but clearly tertiary */
   text-align: center;
 }
 
@@ -1737,14 +1743,11 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
       <!-- ── CTA PAYOFF — editorial section close + menu invitation ──────── -->
       <div class="feat-reveal opacity-0 s3-cta-wrap">
 
-        <!-- Eyebrow: editorial framing above the button -->
-        <div class="s3-cta-eyebrow">
-          <span class="s3-cta-eyebrow-label">Isso é só o começo</span>
-          <div class="s3-cta-divider-row">
-            <div class="s3-cta-divider-line s3-cta-divider-line-l" aria-hidden="true"></div>
-            <span class="s3-cta-divider-label">Cardápio completo</span>
-            <div class="s3-cta-divider-line s3-cta-divider-line-r" aria-hidden="true"></div>
-          </div>
+        <!-- Divider with label above button -->
+        <div class="s3-cta-divider-row" style="margin-bottom: 2.5rem;">
+          <div class="s3-cta-divider-line s3-cta-divider-line-l" aria-hidden="true"></div>
+          <span class="s3-cta-divider-label">Cardápio completo</span>
+          <div class="s3-cta-divider-line s3-cta-divider-line-r" aria-hidden="true"></div>
         </div>
 
         <!-- Primary CTA button — beam container, mechanics unchanged -->
@@ -1766,9 +1769,6 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
             </span>
           </div>
         </a>
-
-        <!-- Sub-caption: what the button leads to -->
-        <p class="s3-cta-sub">Cafés, salgados, doces e pratos — cardápio&nbsp;completo no site</p>
 
       </div><!-- /cta -->
 
