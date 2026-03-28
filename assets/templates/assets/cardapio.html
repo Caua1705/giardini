@@ -671,32 +671,23 @@
       overflow: visible;
     }
 
-    /* Subtle Animated Underline for Premium Aesthetic */
+    /* Underline animation matching .nav-link aesthetic */
     .cat-btn::before {
       content: '';
       position: absolute;
       left: 0;
-      bottom: -1px;
+      bottom: -4px;
+      width: 0;
       height: 1.5px;
-      width: 100%;
       background: rgba(183, 147, 88, 0.9);
-      transform: scaleX(0);
-      transform-origin: center;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .cat-btn.active {
-      color: #e8e0d0;
+    .cat-btn.active::before,
+    .cat-btn:hover::before {
+      width: 100%;
     }
 
-    .cat-btn.active::before {
-      transform: scaleX(1);
-    }
-
-    /* Keep subtle text variation on hover without bar */
-    .cat-btn:hover:not(.active) {
-      color: rgba(232, 224, 208, 0.85);
-    }
 
     /* ── Mobile Fallback: Horizontal Scroll on top ── */
     @media (max-width: 1024px) {
@@ -1314,24 +1305,17 @@
     .menu-grid .reveal:nth-child(7)  { transition-delay: 0.06s; }
     .menu-grid .reveal:nth-child(8)  { transition-delay: 0.10s; }
 
-    /* ── 6. Cat-nav ink slide animation on active ─── */
+    /* ── 6. Cat-nav simple highlight ─── */
     .cat-btn {
       position: relative;
-      overflow: hidden;
     }
 
-    .cat-btn::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(183, 147, 88, 0.04);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    .cat-btn.active {
+      color: #e8e0d0;
     }
-
-    .cat-btn:hover::after {
-      transform: scaleX(1);
+    
+    .cat-btn:hover {
+      color: #fff;
     }
 
     /* ── 7. Section bottom ambient warm glow ─── */
