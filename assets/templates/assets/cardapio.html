@@ -656,103 +656,198 @@
       z-index: 20;
     }
 
-    /* ── Horizontal Category Nav ───────────────────── */
+    /* ── Horizontal Category Nav — Premium Editorial Rail ───────────── */
     #cat-nav {
       width: 100%;
-      background: rgba(8, 15, 10, 0.75);
-      padding-top: 1.5rem;
-      margin-bottom: 4rem;
-      border-bottom: 1px solid rgba(183, 147, 88, 0.05);
+      /* Initial state: sits flush below hero — dark, atmospheric */
+      background: rgba(6, 12, 8, 0.0);
+      padding: 0;
+      margin-bottom: 4.5rem;
       position: sticky;
-      top: 100px;
+      top: 76px;
       z-index: 400;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      transition: background 0.4s ease, border-color 0.4s ease;
+      /* No backdrop-filter in initial state — added when sticky */
+      transition:
+        background 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+        padding 0.65s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
+    /* Sticky state: applied via JS when scrolled — feels like a refined docking */
+    #cat-nav.is-pinned {
+      background: rgba(6, 11, 7, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      /* Top border: fine gold line — editorial section indicator */
+      border-top: 1px solid rgba(183, 147, 88, 0.14);
+      /* Bottom shadow: dark pool that grounds the nav onto the page */
+      box-shadow:
+        0 1px 0 rgba(183, 147, 88, 0.06),  /* bottom gold trace */
+        0 12px 32px -4px rgba(0, 0, 0, 0.55),
+        0 4px 12px -2px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.025); /* top surface catch */
+      padding: 0.25rem 0;
+    }
+
+    /* Inner track — contains buttons and the gold separator line */
     .cat-nav-inner {
       display: flex;
       flex-direction: row;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 2.5rem;
-      padding: 0 0 1rem;
+      gap: 0;
+      padding: 1.1rem 2rem;
       margin: 0;
       position: relative;
+      /* Subtle centerline separator below labels */
+    }
+
+    /* Gold axis line below the entire nav — reads as editorial chapter marker */
+    .cat-nav-inner::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(183, 147, 88, 0.14) 20%,
+        rgba(183, 147, 88, 0.22) 50%,
+        rgba(183, 147, 88, 0.14) 80%,
+        transparent
+      );
     }
 
     .cat-btn {
       background: transparent;
       border: none;
-      color: rgba(232, 224, 208, 0.45);
+      color: rgba(232, 224, 208, 0.35);
       font-family: 'Inter', sans-serif;
-      font-size: 0.75rem;
+      font-size: 0.68rem;
       font-weight: 500;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
       text-align: center;
-      padding: 0 0 0.5rem;
+      /* Breathing padding — generous horizontal, measured vertical */
+      padding: 0.55rem 1.75rem;
       cursor: pointer;
-      transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
       overflow: visible;
+      transition:
+        color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        letter-spacing 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Underline animation matching .nav-link aesthetic */
+    /* Hover state: label brightens, tracking opens slightly */
+    .cat-btn:hover {
+      color: rgba(232, 224, 208, 0.70);
+      letter-spacing: 0.30em;
+    }
+
+    /* Active state treatment:
+       1. Full gold color — clear hierarchy
+       2. Slightly wider tracking — editorial weight
+       3. Gold underline — grows from center (premium) */
+    .cat-btn.active {
+      color: rgba(183, 147, 88, 0.95);
+      letter-spacing: 0.30em;
+    }
+
+    /* Underline: grows from center toward edges (more editorial than left-to-right) */
     .cat-btn::before {
       content: '';
       position: absolute;
-      left: 0;
-      bottom: -4px;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
       width: 0;
-      height: 1.5px;
-      background: rgba(183, 147, 88, 0.9);
-      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(183, 147, 88, 0.9) 20%,
+        rgba(183, 147, 88, 1.0) 50%,
+        rgba(183, 147, 88, 0.9) 80%,
+        transparent
+      );
+      transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .cat-btn.active::before,
+    .cat-btn.active::before {
+      width: calc(100% - 3.5rem); /* matches the horizontal padding */
+    }
+
     .cat-btn:hover::before {
-      width: 100%;
+      width: calc(60% - 1.75rem);
+    }
+
+    /* Active indicator dot above label — gold pip for premium clarity */
+    .cat-btn::after {
+      content: '';
+      position: absolute;
+      top: 0px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(183, 147, 88, 0.85);
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .cat-btn.active::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
 
-    /* ── Mobile Fallback: Horizontal Scroll on top ── */
+
+    /* ── Mobile: horizontal scroll rail ─────────────── */
     @media (max-width: 1024px) {
       .menu-main-wrapper {
         margin-top: 0;
         padding: 0 24px;
       }
-      
+
       #cat-nav {
         position: sticky;
-        top: 90px;
-        padding-top: 1rem;
-        background: rgba(8, 15, 10, 0.85);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        top: 72px;
         margin-bottom: 3rem;
-        margin-top: 1rem;
+      }
+
+      #cat-nav.is-pinned {
+        padding: 0.15rem 0;
       }
 
       .cat-nav-inner {
         justify-content: flex-start;
         flex-wrap: nowrap;
-        gap: 1.5rem;
-        padding: 0 24px 0.5rem;
+        gap: 0;
+        padding: 0.9rem 0 0.9rem 0;
         overflow-x: auto;
         scrollbar-width: none;
+        padding-left: 24px;
+        padding-right: 24px;
         margin: 0 -24px;
       }
-      
+
+      .cat-nav-inner::after {
+        left: 24px;
+        right: 24px;
+      }
+
       .cat-nav-inner::-webkit-scrollbar { display: none; }
-      
+
       .cat-btn {
         white-space: nowrap;
-        padding-bottom: 0.4rem;
-        font-size: 0.7rem;
+        font-size: 0.65rem;
+        padding: 0.45rem 1.25rem;
       }
-      
+
       .menu-grid {
         grid-template-columns: 1fr;
         gap: 0;
@@ -2750,7 +2845,23 @@
       const catBtns = document.querySelectorAll('.cat-btn');
       const sections = document.querySelectorAll('.menu-section');
       
-      /* Navbar state handle (Matching Hero Premium logic) */
+      /* ── Sticky state observer for #cat-nav ──────────────────
+         A sentinel element sits just above the cat-nav.
+         When it leaves the viewport (scrolled past), we add
+         .is-pinned to the nav — triggering the premium sticky style.
+      */
+      const sentinel = document.createElement('div');
+      sentinel.style.cssText = 'position:absolute;top:0;height:1px;width:100%;pointer-events:none;';
+      catNav.parentElement.insertBefore(sentinel, catNav);
+
+      const pinObserver = new IntersectionObserver(
+        ([entry]) => {
+          catNav.classList.toggle('is-pinned', !entry.isIntersecting);
+        },
+        { rootMargin: `-${76 + 1}px 0px 0px 0px`, threshold: 0 }
+      );
+      pinObserver.observe(sentinel);
+
       window.addEventListener('scroll', () => {
         if (window.scrollY > 80) {
           nav.classList.add('is-scrolled');
