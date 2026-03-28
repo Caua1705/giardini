@@ -1515,61 +1515,6 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
     0 0  4px rgba(183,147,88,0.90) !important;
 }
 
-/* ── 17. BRAND MARQUEE: consistent editorial band ────────────────
-   This is the most visible structural addition — a slow horizontal
-   ticker of brand words running between S3 and Clube do Livro.
-   Mirrors the menu page's continuous identity presence, adapted
-   for the light editorial tone of the homepage.                   */
-.gi-brand-marquee {
-  position: relative;
-  overflow: hidden;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  z-index: 61;
-  pointer-events: none;
-  background: linear-gradient(
-    90deg,
-    rgba(43,74,59,0.030) 0%,
-    rgba(183,147,88,0.020) 50%,
-    rgba(43,74,59,0.030) 100%
-  );
-  border-top:    1px solid rgba(43,74,59,0.055);
-  border-bottom: 1px solid rgba(183,147,88,0.055);
-  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
-}
-.gi-brand-marquee-track {
-  display: flex;
-  white-space: nowrap;
-  animation: gi-marquee 40s linear infinite;
-  will-change: transform;
-}
-.gi-brand-marquee-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 1.2rem;
-  padding: 0 2.5rem;
-  font-size: 0.50rem;
-  font-weight: 600;
-  letter-spacing: 0.38em;
-  text-transform: uppercase;
-  color: rgba(26,26,26,0.20);
-  flex-shrink: 0;
-}
-.gi-brand-marquee-sep {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: rgba(183,147,88,0.42);
-  flex-shrink: 0;
-  transform: rotate(45deg);
-}
-@keyframes gi-marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
 /* ── 18. CLUBE DO LIVRO: gold reinforcement ──────────────────────
    The quote block and step bars pick up gold — consistent with
    the brand warmth established in the section 3 card system.     */
@@ -2115,37 +2060,6 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
   <!-- ══ TRANSITION BRIDGE: Sabores → Clube do Livro — designed ═══════════ -->
   <div aria-hidden="true" class="s3-transition-bridge">
     <div class="s3-bridge-diamond"></div>
-  </div>
-
-  <!-- ══ BRAND MARQUEE STRIP — editorial identity band ═══════════════════════
-       Runs between Section 3 and Clube do Livro. A slow horizontal ticker of
-       brand words that reinforces the Giardini identity continuously —
-       inspired by the menu page's category nav / continuous brand presence.
-       Light editorial version: muted text + warm gold diamond separators.   -->
-  <div class="gi-brand-marquee" aria-hidden="true">
-    <div class="gi-brand-marquee-track">
-      <span class="gi-brand-marquee-item">Giardini Caf&eacute;<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Leitura &amp; Caf&eacute;<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Origem<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Ritual<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Especialidade<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Varjota &middot; Fortaleza<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Quiet Luxury<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Caf&eacute; de Origem<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Slow Life<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Clube do Livro<span class="gi-brand-marquee-sep"></span></span>
-      <!-- Duplicate for seamless infinite loop -->
-      <span class="gi-brand-marquee-item">Giardini Caf&eacute;<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Leitura &amp; Caf&eacute;<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Origem<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Ritual<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Especialidade<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Varjota &middot; Fortaleza<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Quiet Luxury<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Caf&eacute; de Origem<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Slow Life<span class="gi-brand-marquee-sep"></span></span>
-      <span class="gi-brand-marquee-item">Clube do Livro<span class="gi-brand-marquee-sep"></span></span>
-    </div>
   </div>
 
   <!-- ══ SECTION: CLUBE DO LIVRO ══════════════════════════════════════ -->
