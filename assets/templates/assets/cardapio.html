@@ -553,35 +553,51 @@
       opacity: 0;
     }
 
+    /* ── HERO KICKER: editorial label with flanking lines ─────────────
+       The classic hospitality label: no bullet, just measured lines
+       flanking the brand descriptor. Gold — restrained at 0.72 alpha.
+    ─────────────────────────────────────────────────────────────────── */
     .hero-kicker {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.75rem;
-      font-size: 0.62rem;
-      font-weight: 700;
-      letter-spacing: 0.3em;
+      gap: 1rem;
+      font-size: 0.52rem;
+      font-weight: 600;
+      letter-spacing: 0.50em;
       text-transform: uppercase;
-      color: rgba(183, 147, 88, 0.95);
-      margin-bottom: 2.2rem;
+      color: rgba(183, 147, 88, 0.72);
+      margin-bottom: 2.75rem;
       opacity: 0;
       transform: translateY(10px);
     }
 
+    /* Flanking lines instead of a bullet */
     .kicker-line {
-      width: 20px;
+      width: 28px;
       height: 1px;
-      background: rgba(183, 147, 88, 0.8);
+      background: linear-gradient(to right, transparent, rgba(183, 147, 88, 0.55));
       flex-shrink: 0;
     }
 
+    .kicker-line:last-of-type,
+    .kicker-line + .kicker-line {
+      background: linear-gradient(to left, transparent, rgba(183, 147, 88, 0.55));
+    }
+
+    /* ── HERO TITLE ────────────────────────────────────────────────────
+       Scale: controlled editorial range. Not max at 8.5rem — that reads
+       as oversized at mid-viewport. 7rem cap gives the composition more
+       air and authority.
+       Line-height: 0.96 instead of 0.95 — opens the counter shapes.
+    ─────────────────────────────────────────────────────────────────── */
     .hero-title {
       font-family: 'Instrument Serif', serif;
-      font-size: clamp(3.5rem, 9.5vw, 8.5rem);
-      line-height: 0.95;
-      letter-spacing: -0.02em;
-      color: #ffffff;
-      margin-bottom: 2.5rem;
+      font-size: clamp(3.2rem, 8.5vw, 7rem);
+      line-height: 0.96;
+      letter-spacing: -0.025em;
+      color: rgba(244, 242, 237, 0.97);
+      margin-bottom: 0;
     }
 
     .hero-title .line-inner {
@@ -591,66 +607,129 @@
       will-change: transform, opacity;
     }
 
+    /* em: warm amber-gold — the single emotional accent, not cold gray */
     .hero-title em {
       font-style: italic;
-      color: #d4cfc4;
+      color: rgba(193, 162, 105, 0.90);
       font-weight: 400;
-      opacity: 0.95;
+      -webkit-text-fill-color: rgba(193, 162, 105, 0.90);
     }
 
+    /* ── HERO SUBTITLE ─────────────────────────────────────────────────
+       Smaller + lighter than before. Hospitality brand subtitles should
+       guide the mood, not explain the concept. Shorter, more atmospheric.
+       Warm parchment tone — not flat white. Letter-spacing very slightly
+       open for legality at the thin weight.
+    ─────────────────────────────────────────────────────────────────── */
     .hero-sub {
-      font-size: 1.15rem;
+      font-size: 0.95rem;
       font-weight: 300;
-      color: rgba(255, 255, 255, 0.6);
-      max-width: 520px;
-      line-height: 1.6;
-      margin: 0 auto 3.5rem;
+      color: rgba(210, 202, 185, 0.52);
+      letter-spacing: 0.015em;
+      max-width: 400px;
+      line-height: 1.75;
+      margin: 2rem auto 3.25rem;
       opacity: 0;
       transform: translateY(10px);
     }
 
+    /* ── CTA WRAP ───────────────────────────────────────────────────────
+       Row layout. Generous gap. Aligned center under the text block.
+    ─────────────────────────────────────────────────────────────────── */
     .hero-cta-wrap {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 1.5rem;
+      gap: 2rem;
       opacity: 0;
       transform: translateY(10px);
     }
 
+    /* ── PRIMARY CTA ────────────────────────────────────────────────────
+       Dark charcoal surface + gold border.
+       This reads as an object of quality: solid, dark, warm-edged.
+       Not the aggressive green — that color is for brand, not buttons.
+       The border is a refined gold line — brand DNA without being loud.
+       Inset top highlight: simulates a physical premium surface catch.
+    ─────────────────────────────────────────────────────────────────── */
     .hero-btn-primary {
-      background: var(--c-primary);
-      color: #fff;
-      padding: 1.15rem 2.8rem;
-      font-size: 0.75rem;
+      background: rgba(18, 22, 18, 0.92);
+      color: rgba(228, 221, 208, 0.95);
+      padding: 1.05rem 2.6rem;
+      font-size: 0.62rem;
       font-weight: 600;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       text-decoration: none;
       border-radius: 99px;
-      transition: all 0.4s var(--expo);
+      transition:
+        background 0.42s var(--expo),
+        border-color 0.42s var(--expo),
+        box-shadow 0.42s var(--expo),
+        transform 0.38s var(--expo);
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(183, 147, 88, 0.42);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.055),   /* top surface catch */
+        0 6px 24px rgba(0, 0, 0, 0.40),             /* shadow pool */
+        0 1px 4px rgba(0, 0, 0, 0.25);
     }
 
+    .hero-btn-primary:hover {
+      background: rgba(26, 32, 26, 0.98);
+      border-color: rgba(183, 147, 88, 0.68);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.07),
+        0 10px 32px rgba(0, 0, 0, 0.50),
+        0 2px 6px rgba(0, 0, 0, 0.30),
+        0 0 0 1px rgba(183, 147, 88, 0.12);
+      transform: translateY(-1px);
+    }
+
+    /* ── SECONDARY CTA ──────────────────────────────────────────────────
+       Pure ghost: no border, no fill. Just type + underline.
+       In luxury hospitality hierarchy, the secondary choice should be
+       understated — it earns attention through restraint.
+       An animated center-grow underline signals interactivity tastefully.
+    ─────────────────────────────────────────────────────────────────── */
     .hero-btn-secondary {
       background: transparent;
-      color: #fff;
-      padding: 1.15rem 2.8rem;
-      font-size: 0.75rem;
+      color: rgba(210, 202, 185, 0.50);
+      padding: 1.05rem 0.25rem;
+      font-size: 0.60rem;
       font-weight: 500;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       text-decoration: none;
-      border-radius: 99px;
-      border: 1.5px solid rgba(255, 255, 255, 0.2);
-      transition: all 0.4s var(--expo);
+      border: none;
+      border-radius: 0;
+      position: relative;
+      transition: color 0.38s var(--expo);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    /* Center-growing underline — the tactile signal */
+    .hero-btn-secondary::after {
+      content: '';
+      position: absolute;
+      bottom: 0.65rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 1px;
+      background: rgba(183, 147, 88, 0.55);
+      transition: width 0.45s var(--expo);
     }
 
     .hero-btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: rgba(255, 255, 255, 0.4);
+      color: rgba(228, 221, 208, 0.85);
+    }
+
+    .hero-btn-secondary:hover::after {
+      width: 100%;
     }
     /* ── BASE HERO STRUCTURE ── */
 
@@ -2612,22 +2691,24 @@
 
       <div class="hero-content">
         <div class="hero-kicker" id="el-kicker">
-          &bull; EXPERIÊNCIA GIARDINI
+          <span class="kicker-line"></span>
+          Experiência Giardini
+          <span class="kicker-line"></span>
         </div>
         <h1 class="hero-title">
           <span class="line"><span class="line-inner" id="el-h1a">Sabores com</span></span>
           <span class="line"><span class="line-inner" id="el-h1b"><em>Intenção.</em></span></span>
         </h1>
         <p class="hero-sub" id="el-body">
-          Cada preparo é pensado para transformar momentos simples em experiências que ficam.
+          Café de especialidade e cozinha cuidadosa.
+          Para quem sabe apreciar a diferença.
         </p>
         <div class="hero-cta-wrap" id="el-cta">
           <a href="#manha" class="hero-btn-primary" onclick="setActiveTab('manha')">
             <span class="s4-beam"></span>
-            <span style="position:relative; z-index:9;">Ver Cardápio &rarr;</span>
+            <span style="position:relative; z-index:9;">Ver Cardápio</span>
           </a>
           <a href="https://wa.me/5585994452724" target="_blank" class="hero-btn-secondary">
-            <span class="s4-beam" style="display:none;"></span>
             <span style="position:relative; z-index:9;">Reservar Mesa</span>
           </a>
         </div>
