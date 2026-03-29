@@ -2707,7 +2707,7 @@
       <iconify-icon icon="lucide:x"></iconify-icon>
     </button>
     <a class="mobile-link" href="./hero_premium.html">Início</a>
-    <a class="mobile-link" href="./cardapio.html" style="color:var(--c-primary)">Cardápio</a>
+    <a class="mobile-link" href="#manha" style="color:var(--c-primary)">Cardápio</a>
     <a class="mobile-link" href="./hero_premium.html#location">Localização</a>
     <a class="mobile-link" href="https://wa.me/5585994452724" target="_blank">Reservar</a>
   </div>
@@ -2719,7 +2719,7 @@
     <!-- Center -->
     <div class="nav-menu">
       <a href="./hero_premium.html" class="nav-link">Início</a>
-      <a href="./hero_premium.html" class="nav-link">Sabores</a>
+      <a href="#manha" class="nav-link">Sabores</a>
       <a href="./hero_premium.html#location" class="nav-link">Visite-nos</a>
     </div>
 
@@ -2772,7 +2772,7 @@
           Para quem sabe apreciar a diferença.
         </p>
         <div class="hero-cta-wrap" id="el-cta">
-          <a href="#manha" class="loc-beam-container group" onclick="setActiveTab('manha')" 
+          <a href="#manha" class="loc-beam-container group" 
              style="padding: 2px; background: linear-gradient(135deg, rgba(183,147,88,0.4) 0%, rgba(183,147,88,0.1) 100%);">
             <div class="loc-beam-border"></div>
             <div class="hero-btn-primary">
@@ -4143,22 +4143,32 @@
       setActiveTab('manha');
 
       /* ── Intercept Hero CTA & Scroll Indicator for smooth GSAP-friendly scroll ── */
+      const scrollToMenu = (e) => {
+        e.preventDefault(); // Prevent native jump
+        const targetY = catNav.getBoundingClientRect().top + window.scrollY - 76; // Accommodate sticky nav height & GSAP scrub
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+        setActiveTab('manha');
+
+        if (mobileMenu && mobileMenu.classList.contains('open')) {
+          mobileMenu.classList.remove('open');
+        }
+      };
+
       const heroCta = document.querySelector('.loc-beam-container[href="#manha"]');
-      if (heroCta) {
-        heroCta.addEventListener('click', (e) => {
-          e.preventDefault(); // Prevent native jump
-          const targetY = catNav.offsetTop - 76; // Accommodate the sticky nav height
-          window.scrollTo({ top: targetY, behavior: 'smooth' });
-          setActiveTab('manha');
-        });
-      }
+      if (heroCta) heroCta.addEventListener('click', scrollToMenu);
+
+      const navSabores = document.querySelector('.nav-link[href="#manha"]');
+      if (navSabores) navSabores.addEventListener('click', scrollToMenu);
+
+      const mobileCardapio = document.querySelector('.mobile-link[href="#manha"]');
+      if (mobileCardapio) mobileCardapio.addEventListener('click', scrollToMenu);
 
       const scrollIndicator = document.getElementById('el-scroll');
       if (scrollIndicator) {
         scrollIndicator.style.pointerEvents = 'auto';
         scrollIndicator.style.cursor = 'pointer';
         scrollIndicator.addEventListener('click', () => {
-          const targetY = catNav.offsetTop - 76;
+          const targetY = catNav.getBoundingClientRect().top + window.scrollY - 76;
           window.scrollTo({ top: targetY, behavior: 'smooth' });
         });
       }
