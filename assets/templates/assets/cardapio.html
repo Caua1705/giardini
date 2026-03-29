@@ -5094,7 +5094,7 @@
        *  scrolling high enough that the cat-nav bar clears the visible area. */
       function getStickyOffset() {
         const navH = nav ? nav.getBoundingClientRect().height : 60;
-        return navH + 8; // 8px breathing room — no cat-nav height included
+        return navH + 120; // Increased offset to scroll 'up' (stopping higher in the document)
       }
 
       /** Centers the active cat-btn inside the horizontally scrollable rail. */
