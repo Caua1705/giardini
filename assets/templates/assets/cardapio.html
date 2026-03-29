@@ -1462,9 +1462,9 @@
       #navbar {
         padding: 1rem 1.25rem;
         /* Always slightly frosted on mobile — user can't afford to lose context */
-        background-color: rgba(8, 15, 10, 0.85);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
+        background-color: rgba(5, 9, 6, 0.94);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         border-bottom: 1px solid rgba(183, 147, 88, 0.08);
       }
 
@@ -1774,9 +1774,9 @@
       }
 
       .cat-nav-inner {
-        padding: 0.65rem 20px;
+        padding: 0.8rem 20px;
         margin: 0 -20px;
-        gap: 0;
+        gap: 0.25rem;
         justify-content: flex-start;
         flex-wrap: nowrap;
         overflow-x: auto;
@@ -1785,40 +1785,40 @@
         mask-image: linear-gradient(
           to right,
           transparent 0%,
-          black 5%,
-          black 90%,
+          black 6%,
+          black 94%,
           transparent 100%
         );
         -webkit-mask-image: linear-gradient(
           to right,
           transparent 0%,
-          black 5%,
-          black 90%,
+          black 6%,
+          black 94%,
           transparent 100%
         );
       }
       .cat-nav-inner::-webkit-scrollbar { display: none; }
 
       .cat-btn {
-        padding: 0.6rem 1.1rem;
-        font-size: 0.6rem;
-        letter-spacing: 0.22em;
+        padding: 0.75rem 1.4rem;
+        font-size: 0.65rem;
+        letter-spacing: 0.25em;
         white-space: nowrap;
-        min-height: 44px;   /* Finger-friendly tap target */
+        min-height: 46px;   /* Finger-friendly tap target */
         display: inline-flex;
         align-items: center;
       }
 
       /* Active underline shorter on mobile */
       .cat-btn.active::before {
-        width: calc(100% - 2.2rem);
+        width: calc(100% - 2.8rem);
       }
 
       /* ── M6. MENU SECTIONS ──────────────────────────────────────
          Single column. Generous but controlled vertical space.
       ────────────────────────────────────────────────────────── */
       .menu-section {
-        padding: 0 0 3rem 0;
+        padding: 0 0 3.5rem 0;
       }
 
       .menu-grid {
@@ -1837,8 +1837,9 @@
         justify-content: flex-start;
         gap: 0;
         flex-wrap: wrap;
-        margin-bottom: 1.5rem;
-        padding-bottom: 1rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1.2rem;
+        border-bottom: 1px solid rgba(183, 147, 88, 0.12); /* Clean subtle border */
       }
 
       .section-header > div { flex: 1; }
@@ -1850,9 +1851,9 @@
       .section-count { display: none; }
 
       .section-kicker {
-        font-size: 0.5rem;
-        letter-spacing: 0.35em;
-        margin-bottom: 0.3rem;
+        font-size: 0.48rem;
+        letter-spacing: 0.38em;
+        margin-bottom: 0.4rem;
         /* Disable kicker expand animation — starts with opacity 0 and
            the animation is nice desktop only; on mobile just show it */
         animation: kickerExpand 0.7s var(--expo) 0.1s both;
@@ -1866,7 +1867,7 @@
       }
 
       .section-title {
-        font-size: clamp(1.5rem, 6vw, 2rem);
+        font-size: clamp(1.4rem, 5.5vw, 1.8rem);
         line-height: 1.05;
         letter-spacing: -0.025em;
       }
@@ -1878,11 +1879,12 @@
          Clip-path reveal kept — works well on touch.
       ────────────────────────────────────────────────────────── */
       .menu-item {
-        padding: 1.1rem 0;
+        padding: 1.4rem 0;
         padding-left: 0;
         margin-bottom: 0;
-        border-bottom: 1px solid rgba(183, 147, 88, 0.07);
+        border-bottom: 1px solid rgba(183, 147, 88, 0.08); /* More subtle item line */
         border-radius: 0;
+        align-items: flex-start; /* Ensure name and price align at top edge */
       }
 
       /* Remove last-child border — cleaner end of section */
@@ -1898,21 +1900,22 @@
 
       /* Item name: comfortable reading size */
       .item-name {
-        font-size: 1.05rem;
+        font-size: 1.15rem;
         line-height: 1.25;
-        letter-spacing: -0.01em;
+        letter-spacing: -0.015em;
       }
       /* Item description: tighter */
       .item-desc {
-        font-size: 0.76rem;
-        line-height: 1.4;
-        margin-top: 0.2rem;
+        font-size: 0.8rem;
+        line-height: 1.5;
+        margin-top: 0.25rem;
+        color: rgba(210, 202, 185, 0.65);
       }
 
       /* Price: clear and readable */
       .item-price {
-        font-size: 1.05rem;
-        padding-top: 0.15rem; /* Slight top offset for visual alignment with name */
+        font-size: 1.15rem;
+        padding-top: 0; /* Direct alignment due to flex-start */
       }
 
       /* Badge: visible and compact */
@@ -1927,86 +1930,99 @@
 
       /* ── M9. PDF SECTION ────────────────────────────────────────
          Full-width centered block.
-         Comfortable padding, no excess.
+         Comfortable padding, perfectly scaled for mobile readability.
       ────────────────────────────────────────────────────────── */
       #pdf-section {
-        padding: 4rem 1.5rem 4.5rem;
+        padding: 5rem 1.5rem 6rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
       }
 
       .pdf-label {
-        font-size: 0.5rem;
-        letter-spacing: 0.38em;
-        margin-bottom: 1.25rem;
-        gap: 0.65rem;
+        font-size: 0.48rem;
+        letter-spacing: 0.40em;
+        margin-bottom: 1.5rem;
+        gap: 0.8rem;
       }
       .pdf-label::before,
       .pdf-label::after {
-        width: 24px;
+        width: 20px;
       }
 
       .pdf-heading {
-        font-size: clamp(2rem, 9vw, 2.8rem);
+        font-size: clamp(1.65rem, 7.5vw, 2.2rem);
         line-height: 1.05;
-        letter-spacing: -0.03em;
-        margin-bottom: 1rem;
+        letter-spacing: -0.035em;
+        margin-bottom: 1.25rem;
       }
 
       .pdf-sub {
-        font-size: 0.85rem;
+        font-size: 0.82rem;
         line-height: 1.6;
-        margin-bottom: 2.25rem;
+        margin-bottom: 2.75rem;
         max-width: 280px;
         margin-left: auto;
         margin-right: auto;
+        color: rgba(210, 202, 185, 0.75);
       }
 
-      /* PDF button: full-width pill for easy tap */
+      /* PDF button: elegant pill shape, not stretched 100% horizontally */
       .pdf-btn {
-        width: 100%;
-        max-width: 280px;
+        width: auto;
+        display: inline-flex;
         justify-content: center;
-        padding: 1.15rem 2rem;
+        padding: 1rem 3rem;
         font-size: 0.6rem;
-        letter-spacing: 0.22em;
+        letter-spacing: 0.25em;
       }
 
       /* ── M10. FOOTER ────────────────────────────────────────────
          Stacked: logo → social icons → copyright.
-         Centered alignment. Generous padding.
+         Centered alignment. Generous padding to close page softly.
       ────────────────────────────────────────────────────────── */
       footer {
-        padding: 2.5rem 1.5rem 2.5rem;
+        padding: 3.5rem 1.5rem 3.5rem;
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 1.5rem;
+        gap: 1.75rem;
+        border-top: 1px solid rgba(183, 147, 88, 0.08); /* Finer border */
       }
 
       .footer-logo {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
+        margin-bottom: 0.5rem; /* Breaks rhythm nicely before icons */
       }
 
       .footer-links {
-        gap: 1rem;
+        gap: 1.25rem;
       }
 
       .footer-link {
-        width: 2.75rem;  /* Larger tap target */
-        height: 2.75rem;
+        width: 3rem;  /* Larger tap target */
+        height: 3rem;
       }
 
       .footer-copy {
-        font-size: 0.5rem;
-        letter-spacing: 0.12em;
-        color: rgba(228, 221, 208, 0.15);
+        font-size: 0.52rem;
+        letter-spacing: 0.15em;
+        color: rgba(228, 221, 208, 0.25);
+        margin-top: 0.5rem;
       }
 
-      /* ── M11. BODY TEXTURE ──────────────────────────────────────
-         Reduce grain on mobile — less processing, cleaner screen.
+      /* ── M11. BODY TEXTURE & GLOW OVERRIDES ─────────────────────
+         Reduce grain & atmospheric glows on mobile to prioritize
+         text clarity and absolute contrast.
       ────────────────────────────────────────────────────────── */
       body::before {
-        opacity: 0.45; /* Reduce dot-grid density on mobile */
+        opacity: 0.35; /* Reduce dot-grid density on mobile significantly */
         animation: none; /* Disable moving texture — saves battery */
+      }
+      
+      .ambient-glow {
+        opacity: 0.3; /* Ensure gradients don't dilute the dark background locally */
       }
 
       /* ── M12. REVEAL ANIMATIONS — faster on mobile ──────────────
@@ -2087,26 +2103,18 @@
       }
 
       /* Item sizes: comfortable minimum */
-      .item-name  { font-size: 1rem; }
-      .item-price { font-size: 1rem; }
-      .item-desc  { font-size: 0.74rem; }
+      .item-name  { font-size: 1.05rem; }
+      .item-price { font-size: 1.05rem; }
+      .item-desc  { font-size: 0.78rem; }
 
       /* Section title: tightly clipped */
       .section-title {
-        font-size: clamp(1.4rem, 5.5vw, 1.8rem);
-      }
-
-      /* PDF heading */
-      .pdf-heading {
-        font-size: clamp(1.75rem, 8vw, 2.4rem);
-      }
-      .pdf-btn {
-        max-width: 100%;
+        font-size: clamp(1.3rem, 5.5vw, 1.6rem);
       }
 
       /* Footer: tighter */
       footer {
-        padding: 2rem 1.25rem 2rem;
+        padding: 2.5rem 1.25rem 2.5rem;
         gap: 1.25rem;
       }
 
