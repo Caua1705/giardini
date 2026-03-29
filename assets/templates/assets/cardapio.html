@@ -1874,17 +1874,18 @@
 
       /* ── M8. MENU ITEMS ─────────────────────────────────────────
          Clean two-column grid: name+desc left, price right.
-         Remove left padding-left hack from v7 CSS.
          Better vertical rhythm with consistent bottom border.
-         Clip-path reveal kept — works well on touch.
+         Protected right edge so italic prices don't clip.
       ────────────────────────────────────────────────────────── */
       .menu-item {
-        padding: 1.4rem 0;
-        padding-left: 0;
+        /* Redefine grid specifically for mobile to balance left/right strongly */
+        grid-template-columns: 1fr auto;
+        gap: 0.5rem 1.5rem; /* Wider horizontal gap pushes price safely */
+        padding: 1.5rem 0.25rem 1.5rem 0; /* Right padding protects the edge */
         margin-bottom: 0;
-        border-bottom: 1px solid rgba(183, 147, 88, 0.08); /* More subtle item line */
+        border-bottom: 1px solid rgba(183, 147, 88, 0.08);
         border-radius: 0;
-        align-items: flex-start; /* Ensure name and price align at top edge */
+        align-items: flex-start;
       }
 
       /* Remove last-child border — cleaner end of section */
@@ -1912,10 +1913,11 @@
         color: rgba(210, 202, 185, 0.65);
       }
 
-      /* Price: clear and readable */
+      /* Price: clear, readable, clip-safe */
       .item-price {
         font-size: 1.15rem;
-        padding-top: 0; /* Direct alignment due to flex-start */
+        padding-top: 0; /* Perfect alignment with title baseline */
+        padding-right: 0.15rem; /* Buffer to prevent right-leaning italics from trimming */
       }
 
       /* Badge: visible and compact */
