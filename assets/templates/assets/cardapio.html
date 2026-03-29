@@ -1532,131 +1532,168 @@
         justify-content: center;
       }
 
-      /* ── M3. HERO — mobile composition ─────────────────────────
-         Stack: kicker → title → subtitle → CTAs (vertical).
-         The glass image stays as atmospheric BG, not foreground.
-         Reduce height slightly so content is not below fold.
-         Disable the 3D parallax on touch — use CSS for stability.
+
+      /* ── M3. HERO — mobile composition «Poster de Luxo» ────────
+         Estratégia: composição centrada como um poster editorial.
+         A imagem do copo é o âncora visual no centro.
+         Headline cresce para cima; subtítulo e CTA descem.
+         Nada empurrado para baixo — tudo equilibrado ao redor
+         do produto central. Zero espaço vazio no topo.
       ────────────────────────────────────────────────────────── */
       #hero-viewport {
-        height: 100svh; /* Use svh on mobile — no browser chrome issues */
-        min-height: 560px;
-        max-height: 900px;
+        height: 100svh;
+        min-height: 580px;
+        max-height: 860px;
       }
 
+      /* Conteúdo: centralizado verticalmente, padding lateral gerenciado */
       .hero-content {
-        padding: 0 1.5rem 5rem;
+        padding: 0 1.5rem;
         gap: 0;
-        justify-content: flex-end; /* Push content toward bottom */
-        padding-bottom: 4.5rem;
-        align-items: flex-start;  /* Left-align for editorial feel */
-        text-align: left;
+        justify-content: center;   /* Centralizar verticalmente — não bottom-push */
+        align-items: center;       /* Centralizar horizontalmente */
+        text-align: center;        /* Leitura centrada, mais poster-like */
+        /* Offset leve para cima: dá espaço ao CTA sem tocar a navbar */
+        padding-top: 6rem;
+        padding-bottom: 4rem;
       }
 
-      /* Kicker: smaller, aligned left */
+      /* Kicker: reduzido e centralizado */
       .hero-kicker {
-        font-size: 0.5rem;
-        letter-spacing: 0.42em;
-        gap: 0.75rem;
-        margin-bottom: 1.5rem;
-        justify-content: flex-start;
-        color: rgba(183, 147, 88, 0.75);
+        font-size: 0.46rem;
+        letter-spacing: 0.38em;
+        gap: 0.6rem;
+        margin-bottom: 1.4rem;
+        justify-content: center;
+        color: rgba(183, 147, 88, 0.65);
+        opacity: 1;
       }
       .kicker-line {
-        width: 20px;
-        /* Kicker grow animation already fires in JS — no change needed */
+        width: 16px;
       }
 
-      /* Title: commanding without being huge */
+      /* Título: dominante mas controlado — lê-se em 2 linhas naturais */
       .hero-title {
-        font-size: clamp(3.2rem, 12vw, 4.8rem);
-        line-height: 0.94;
+        font-size: clamp(3rem, 11.5vw, 4.4rem);
+        line-height: 0.93;
         letter-spacing: -0.03em;
+        text-align: center;
         margin-bottom: 0;
-        text-align: left;
       }
 
-      /* Subtitle: tighter max-width, left aligned */
+      /* Subtítulo: compacto, centrado, fora do olho da composição */
       .hero-sub {
-        font-size: 0.88rem;
+        font-size: 0.82rem;
         font-weight: 300;
-        line-height: 1.65;
-        max-width: 320px;
-        text-align: left;
-        margin: 1.5rem 0 2rem 0;
-        color: rgba(210, 202, 185, 0.70);
+        line-height: 1.6;
+        max-width: 260px;
+        text-align: center;
+        margin: 1.25rem auto 1.75rem;
+        color: rgba(210, 202, 185, 0.60);
         letter-spacing: 0.01em;
       }
 
-      /* CTA wrap: stacked vertically, full width primary */
+      /* CTA: apenas o botão primário — clean, centrado, proporcional */
       .hero-cta-wrap {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
-        width: 100%;
+        flex-direction: row;
+        gap: 0;
+        align-items: center;
+        justify-content: center;
+        width: auto;
       }
 
-      /* Primary CTA: full-width pill */
+      /* Primary CTA: auto-width, centrado, não esmagado */
       .loc-beam-container {
-        width: 100%;
-        max-width: 280px;
+        width: auto;
+        max-width: none;
       }
       .hero-btn-primary {
-        padding: 1rem 2rem;
-        font-size: 0.6rem;
-        letter-spacing: 0.2em;
+        padding: 0.9rem 2.2rem;
+        font-size: 0.58rem;
+        letter-spacing: 0.22em;
         justify-content: center;
+        white-space: nowrap;
       }
 
-      /* Secondary CTA: visible but with margin from primary */
+      /* Secondary CTA: escondida no mobile — o CTA único é mais forte */
       .hero-btn-secondary {
-        font-size: 0.55rem;
-        letter-spacing: 0.2em;
-        padding: 0.75rem 0;
-        color: rgba(210, 202, 185, 0.45);
-      }
-      .hero-btn-secondary::after {
-        bottom: 0.5rem;
+        display: none;
       }
 
-      /* Scroll indicator: centered at bottom */
-      .hero-scroll {
-        /* Override the "right: 1.5rem" from old CSS */
-        right: auto;
-        left: 50%;
-        bottom: 1.5rem;
-      }
-
-      /* Product frame: smaller, more atmospheric on mobile */
+      /* Imagem do produto: maior, mais central, âncora visual do hero */
       #video-frame {
-        width: 38vw;
-        max-width: 180px;
-        top: 52%;
-        opacity: 0.75;
-        /* Disable 3D transform on mobile (parallax JS sets this inline) */
+        width: 58vw;           /* Muito mais presente — âncora visual */
+        max-width: 240px;
+        top: 50%;              /* Verdadeiramente centralizado */
+        left: 50%;
+        opacity: 0.82;         /* Legível mas não competindo com o texto */
         will-change: auto;
+        /* Feathering mais suave nas bordas para integrar melhor */
+        mask-image: radial-gradient(ellipse at center,
+          rgba(0,0,0,1)   0%,
+          rgba(0,0,0,0.9) 40%,
+          rgba(0,0,0,0.3) 72%,
+          rgba(0,0,0,0)   88%
+        );
+        -webkit-mask-image: radial-gradient(ellipse at center,
+          rgba(0,0,0,1)   0%,
+          rgba(0,0,0,0.9) 40%,
+          rgba(0,0,0,0.3) 72%,
+          rgba(0,0,0,0)   88%
+        );
       }
 
-      /* Bridge hidden on mobile */
+      /* Glow do produto: maior para acompanhar o frame expandido */
+      .product-glow {
+        width: 80vw;
+        max-width: 360px;
+        height: 80vw;
+        max-height: 360px;
+        background: radial-gradient(circle at center, rgba(38, 66, 52, 0.12) 0%, transparent 60%);
+      }
+
+      /* Scroll indicator: escondido no mobile — limpa a composição */
+      .hero-scroll { display: none; }
+
+      /* Bridge: não existe no mobile */
       #hero-bridge { display: none; }
 
-      /* Gradient overlay stronger on mobile */
+      /* Scrim de baixo: garante transição para o menu */
       #hero-pin-wrapper::after {
-        height: 55vh;
+        height: 48vh;
         background: linear-gradient(
           to top,
           #080f0a 0%,
-          rgba(8,15,10,0.95) 25%,
-          rgba(8,15,10,0.65) 55%,
+          rgba(8,15,10,0.96) 20%,
+          rgba(8,15,10,0.55) 55%,
           transparent 100%
         );
       }
 
-      /* Lateral vignette removed on mobile — wastes visible width */
+      /* Scrim de cima: garante que navbar flutue limpa sobre o hero */
+      #hero-viewport::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 90px;
+        background: linear-gradient(
+          to bottom,
+          rgba(8,15,10,0.75) 0%,
+          rgba(8,15,10,0.35) 60%,
+          transparent 100%
+        );
+        z-index: 4;
+        pointer-events: none;
+      }
+
+      /* Lateral vignette: desativada no mobile */
       #lateral-vignette { display: none; }
 
-      /* Custom cursor hidden — touch device */
+      /* Custom cursor: desativado no touch */
       #custom-cursor, #custom-cursor-ring { display: none; }
+
 
       /* ── M4. MENU WRAPPER & BODY ────────────────────────────────
          Clean horizontal margins, no overlap.
@@ -1947,27 +1984,38 @@
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     @media (max-width: 430px) {
 
-      /* Title: slightly reduced for very narrow screens */
+      /* Título: levemente menor para telas muito estreitas */
       .hero-title {
-        font-size: clamp(2.8rem, 11vw, 3.8rem);
+        font-size: clamp(2.6rem, 10.5vw, 3.4rem);
         line-height: 0.92;
       }
 
-      /* Subtitle: tighter max */
+      /* Subtítulo: max-width ainda mais compacto */
       .hero-sub {
-        font-size: 0.82rem;
-        max-width: 260px;
-        margin-bottom: 1.75rem;
+        font-size: 0.78rem;
+        max-width: 230px;
+        margin: 1rem auto 1.5rem;
       }
 
-      /* Primary CTA: max-width full on small phone */
-      .loc-beam-container {
-        max-width: 100%;
+      /* PAdding do hero-content ajustado para SE */
+      .hero-content {
+        padding-top: 5rem;
+        padding-bottom: 3rem;
       }
+
+      /* CTA: padding interno menor */
       .hero-btn-primary {
-        font-size: 0.58rem;
-        padding: 1rem 1.5rem;
+        padding: 0.85rem 1.8rem;
+        font-size: 0.55rem;
+        letter-spacing: 0.2em;
       }
+
+      /* Imagem: ligeiramente menor para não dominar demais */
+      #video-frame {
+        width: 52vw;
+        max-width: 200px;
+      }
+
 
       /* Navbar logo even smaller */
       .nav-logo { font-size: 1.2rem; }
