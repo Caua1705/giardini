@@ -1713,6 +1713,7 @@
        creating a sense of breathing life in the dark space.
     ─────────────────────────────────────────────────────────────────── */
     .menu-main-wrapper {
+      position: relative;
       isolation: isolate;
     }
 
@@ -4064,9 +4065,13 @@
 
       const pinObserver = new IntersectionObserver(
         ([entry]) => {
-          catNav.classList.toggle('is-pinned', !entry.isIntersecting);
+          // Only pin if it's NOT intersecting (past the margin)
+          // AND it's at the top of the viewport (not below it).
+          // 77px matches the total negative margin including one extra pixel for safety.
+          const isAboveThreshold = entry.boundingClientRect.top <= 77;
+          catNav.classList.toggle('is-pinned', !entry.isIntersecting && isAboveThreshold);
         },
-        { rootMargin: `-${76 + 1}px 0px 0px 0px`, threshold: 0 }
+        { rootMargin: `-77px 0px 0px 0px`, threshold: 0 }
       );
       pinObserver.observe(sentinel);
 
