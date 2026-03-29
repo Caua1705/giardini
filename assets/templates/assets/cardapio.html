@@ -3759,7 +3759,7 @@
     <h2 class="pdf-heading reveal reveal-delay-1">Prefere o cardápio<br><em>completo em PDF?</em></h2>
     <p class="pdf-sub reveal reveal-delay-2">Leve o Giardini Café com você. Disponível para impressão ou visualização
       offline.</p>
-    <a href="#" class="pdf-btn reveal reveal-delay-2">
+    <a href="../../raw_files/Cardapio%20Giardini%20-%2006.pdf" download="Cardapio Giardini - 06.pdf" class="pdf-btn reveal reveal-delay-2">
       <span class="s4-beam"></span>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
         stroke-linecap="round" stroke-linejoin="round" style="position:relative; z-index:9;">
@@ -3872,21 +3872,53 @@
       
       loadTl.to(loader, { yPercent: -105, duration: 1.2, ease: 'power4.inOut' });
 
-      // ── Cinematic GSAP Reveal (Starts as the loader lifts, matching index.html logic) ──
-      const heroTl = gsap.timeline({ delay: 0.6 });
-      
-      heroTl.to("#el-kicker", { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0)
-            .to("#el-h1a", { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.2)
-            .to("#el-h1b", { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.2)
-            .to("#el-body", { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.4)
-            .to("#el-cta", { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.6)
-            .to("#el-scroll", { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.8);
+      // ── Cinematic GSAP Reveal ──────────────────────────────────────────
+      // Detect mid-scroll reload BEFORE setting up animations.
+      // If the browser has restored a scrolled position, we must:
+      //   1. Kill heroTl (prevents conflict with exitTl scrub controls)
+      //   2. Snap all hero elements to their fully-visible state
+      //   3. Force canvas to opacity:1 WITHOUT its CSS 2s-transition
+      //      (the transition causes 2 seconds of "glass missing" even
+      //       though #video-frame is already visible via exitTl fromTo)
+      const isAlreadyScrolled = (window.scrollY || window.pageYOffset) > 10;
+
+      const heroTl = gsap.timeline({ delay: isAlreadyScrolled ? 9999 : 0.6 });
+
+      if (isAlreadyScrolled) {
+        // Page reloaded mid-scroll: freeze heroTl (never play it)
+        heroTl.pause(0);
+        // Force all text elements to fully-visible state RIGHT NOW
+        gsap.set('#el-kicker', { opacity: 1, y: 0, clearProps: 'filter' });
+        gsap.set('#el-h1a',    { opacity: 1, y: 0, clearProps: 'filter' });
+        gsap.set('#el-h1b',    { opacity: 1, y: 0, clearProps: 'filter' });
+        gsap.set('#el-body',   { opacity: 1, y: 0, clearProps: 'filter' });
+        gsap.set('#el-cta',    { opacity: 1, y: 0, clearProps: 'filter' });
+        gsap.set('#el-scroll', { opacity: 1, y: 0 });
+        // Canvas: remove the CSS 2s transition so it snaps to opacity:1 instantly
+        // without this, the glass is invisible for 2 seconds after reload
+        if (canvas) {
+          canvas.style.transition = 'none';
+          canvas.style.opacity    = '1';
+          canvas.style.filter     = 'blur(0) contrast(1.1) brightness(1.05)';
+          canvas.style.transform  = 'scale(1)';
+        }
+      } else {
+        // Normal load from top: run entrance animation as usual
+        heroTl.to("#el-kicker", { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0)
+              .to("#el-h1a",    { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.2)
+              .to("#el-h1b",    { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.2)
+              .to("#el-body",   { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.4)
+              .to("#el-cta",    { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.6)
+              .to("#el-scroll", { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.8);
+      }
 
       // Initialize canvas
       window.addEventListener('resize', resizeCanvas);
       resizeCanvas();
       if (frames[0]?.complete) drawFrame(0);
+      // Add .ready class for the CSS styling — transition is suppressed above if mid-scroll
       if (canvas) canvas.classList.add('ready');
+
 
       // ── ScrollTrigger Scrub Animation ──
       const wrapper = document.getElementById('hero-pin-wrapper');
@@ -3914,17 +3946,14 @@
           }
         });
 
-        // ── HERO EXIT TIMELINE — Clean unified fade, no bridge, no blank screen ──
+        // ── HERO EXIT TIMELINE — fromTo() with EXPLICIT from-state ──────
         //
-        // Philosophy:
-        //   Phase 1 (0 → 0.35): scroll indicator + kicker exit first
-        //   Phase 2 (0.20 → 0.60): headline and body exit with slide
-        //   Phase 3 (0.45 → 0.70): CTA exits
-        //   Phase 4 (0.55 → 1.00): cup gently fades — stops at 0.12 opacity (never 0)
-        //                          so when the pin releases there is no blank flash
-        //
-        // Bridge removed: the "Cardápio" label with arrow was causing visual confusion.
-        // Cup never goes to opacity:0 while pinned — prevents the blank-screen blink.
+        // WHY fromTo() instead of to():
+        //   gsap.to() captures its FROM state at first render. If heroTl
+        //   hasn't completed yet (it has a delay), the captured FROM is
+        //   opacity:0 — causing elements to vanish when scrolling back up.
+        //   gsap.fromTo() defines BOTH endpoints explicitly, so progress=0
+        //   ALWAYS means "fully visible" regardless of when the tween runs.
 
         const exitTl = gsap.timeline({
           scrollTrigger: {
@@ -3933,28 +3962,45 @@
             end: () => `+=${scrollPx * 0.90}`,
             scrub: 1.2,
             onEnter: () => {
-              if (heroTl.isActive()) heroTl.progress(1);
+              // Failsafe: if entrance animation is still running, jump to end
+              if (heroTl.isActive()) heroTl.progress(1, false);
             }
           }
         });
 
-        // Phase 1: Scroll indicator exits immediately when scrolling starts
-        exitTl.to('#el-scroll',  { opacity: 0, y: -10, duration: 0.25, ease: 'none' }, 0)
-              .to('#el-kicker',  { opacity: 0, y: -18, duration: 0.28, ease: 'none' }, 0.05);
+        // Phase 1: Scroll indicator and kicker
+        exitTl.fromTo('#el-scroll',
+          { opacity: 1, y:  0 },
+          { opacity: 0, y: -10, duration: 0.25, ease: 'none' }, 0)
+              .fromTo('#el-kicker',
+          { opacity: 1, y:  0 },
+          { opacity: 0, y: -18, duration: 0.28, ease: 'none' }, 0.05);
 
-        // Phase 2: Headline + body exit with a clean upward slide
-        exitTl.to('#el-h1a',  { opacity: 0, y: -30, duration: 0.40, ease: 'none' }, 0.18)
-              .to('#el-h1b',  { opacity: 0, y: -38, duration: 0.42, ease: 'none' }, 0.22)
-              .to('#el-body', { opacity: 0, y: -22, duration: 0.38, ease: 'none' }, 0.28);
+        // Phase 2: Headline + body
+        exitTl.fromTo('#el-h1a',
+          { opacity: 1, y:   0 },
+          { opacity: 0, y: -30, duration: 0.40, ease: 'none' }, 0.18)
+              .fromTo('#el-h1b',
+          { opacity: 1, y:   0 },
+          { opacity: 0, y: -38, duration: 0.42, ease: 'none' }, 0.22)
+              .fromTo('#el-body',
+          { opacity: 1, y:   0 },
+          { opacity: 0, y: -22, duration: 0.38, ease: 'none' }, 0.28);
 
-        // Phase 3: CTA exits cleanly
-        exitTl.to('#el-cta', { opacity: 0, y: -14, duration: 0.34, ease: 'none' }, 0.44);
+        // Phase 3: CTA
+        exitTl.fromTo('#el-cta',
+          { opacity: 1, y:  0 },
+          { opacity: 0, y: -14, duration: 0.34, ease: 'none' }, 0.44);
 
-        // Phase 4: Cup and glow fade gently — cup ends at 0.12 opacity, NOT zero.
-        // This ensures that when ScrollTrigger releases the pin there is always
-        // something visible on screen — no blank flash.
-        exitTl.to('.product-glow', { opacity: 0, duration: 0.35, ease: 'none' }, 0.52)
-              .to('#video-frame',  { opacity: 0.12, duration: 0.55, ease: 'none' }, 0.55);
+        // Phase 4: Cup — ends at 0.12 opacity (never reaches 0) to prevent
+        // blank flash when ScrollTrigger releases the pin.
+        exitTl.fromTo('.product-glow',
+          { opacity: 1 },
+          { opacity: 0,    duration: 0.35, ease: 'none' }, 0.52)
+              .fromTo('#video-frame',
+          { opacity: 0.95 },
+          { opacity: 0.12, duration: 0.55, ease: 'none' }, 0.55);
+
 
       }
     });

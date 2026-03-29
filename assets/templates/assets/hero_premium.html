@@ -1664,6 +1664,26 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
 </style>
 </head>
 <body>
+  <!-- ══ MID-SCROLL RELOAD FIX ═════════════════════════════════════════
+       If the browser restores scroll position > 0 on reload, the body
+       starts with opacity:0 (CSS) and the preloader runs — but the user
+       is already past the hero. We detect this immediately and remove the
+       opacity lock so the page is visible while assets load.
+       This must run SYNCHRONOUSLY before any other script.
+  ══════════════════════════════════════════════════════════════════════ -->
+  <script>
+    (function() {
+      // Browser restores scroll BEFORE DOMContentLoaded.
+      // If we are already scrolled, reveal body immediately.
+      if ((window.scrollY || window.pageYOffset) > 10) {
+        document.documentElement.style.cssText += ';opacity:1!important';
+        // Will be applied to body once it exists (next paint)
+        requestAnimationFrame(function() {
+          if (document.body) document.body.style.opacity = '1';
+        });
+      }
+    }());
+  </script>
   <div id="global-grain" aria-hidden="true"></div>
 
   <!-- ══ PRELOADER ═══════════════════════════════════════════════════ -->
@@ -3595,15 +3615,19 @@ body { scroll-behavior: auto; overflow-x: hidden; overflow-y: auto !important; b
           document.getElementById('hero-left').style.pointerEvents = 'auto';
           gsap.set('#navbar', { opacity: 1 });
           gsap.set('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)' });
-          gsap.set('#el-h1a', { y: '0%', filter: 'blur(0px)' });
-          gsap.set('#el-h1b', { y: '0%', filter: 'blur(0px)' });
+          gsap.set('#el-h1a', { opacity: 1, y: 0, filter: 'blur(0px)' });
+          gsap.set('#el-h1b', { opacity: 1, y: 0, filter: 'blur(0px)' });
           gsap.set('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)' });
           gsap.set('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)' });
           gsap.set('#el-meta', { opacity: 1, y: 0, filter: 'blur(0px)' });
+          gsap.set('#el-badge', { opacity: 1, y: 0 });
           gsap.set('#hero-explore-scroll', { opacity: 1, y: 0, filter: 'blur(0px)' });
           gsap.set('#hero-sep', { opacity: 1, scaleX: 1, transformOrigin: 'left center' });
           gsap.set('#hero-wm', { opacity: 1 });
+          // frame: set opacity 1 — never leave the frame in opacity:0 state
           gsap.set(frame, { opacity: 1, scale: 1, borderRadius: 22 });
+          // Activate bg columns immediately (skip stagger entrance)
+          document.querySelectorAll('#hero-bg-cols .hero-col').forEach(col => col.classList.add('active'));
           // Initialize Flashlight tracking
           const viewportElemScroll = document.getElementById('hero-viewport');
           viewportElemScroll.addEventListener('mousemove', (e) => {
