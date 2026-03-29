@@ -602,6 +602,39 @@
       background: linear-gradient(to left, transparent, rgba(183, 147, 88, 0.55));
     }
 
+    /* ── SHIMMER BEAM BUTTON (conic-gradient advanced) ──────────────── */
+    .loc-beam-container {
+      position: relative;
+      display: inline-flex;
+      border-radius: 9999px;
+      overflow: hidden;
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 10;
+    }
+
+    .loc-beam-container:hover {
+      transform: scale(1.03) translateY(-2px);
+    }
+
+    .loc-beam-border {
+      position: absolute;
+      width: 400%;
+      height: 400%;
+      top: -150%;
+      left: -150%;
+      background: conic-gradient(from 0deg at 50% 50%, transparent 20%, rgba(183,147,88,0.3) 45%, rgba(255,255,255,0.85) 60%, rgba(183,147,88,0.3) 75%, transparent 100%);
+      filter: blur(1.5px);
+      opacity: 1;
+      animation: rotate-beam 4s linear infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes rotate-beam {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
     /* ── HERO TITLE ────────────────────────────────────────────────────
        Scale: controlled editorial range. Not max at 8.5rem — that reads
        as oversized at mid-viewport. 7rem cap gives the composition more
@@ -671,38 +704,32 @@
        Inset top highlight: simulates a physical premium surface catch.
     ─────────────────────────────────────────────────────────────────── */
     .hero-btn-primary {
-      background: rgba(18, 22, 18, 0.92);
-      color: rgba(228, 221, 208, 0.95);
+      background: rgba(18, 22, 18, 0.95);
+      color: rgba(228, 221, 208, 0.98);
       padding: 1.05rem 2.6rem;
       font-size: 0.62rem;
       font-weight: 600;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.625rem;
       border-radius: 99px;
-      transition:
-        background 0.42s var(--expo),
-        border-color 0.42s var(--expo),
-        box-shadow 0.42s var(--expo),
-        transform 0.38s var(--expo);
+      transition: all 0.42s var(--expo);
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(183, 147, 88, 0.42);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.055),   /* top surface catch */
-        0 6px 24px rgba(0, 0, 0, 0.40),             /* shadow pool */
-        0 1px 4px rgba(0, 0, 0, 0.25);
+      /* Inset shadow for tactile depth */
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        inset 0 0 20px rgba(255, 255, 255, 0.02);
+      width: 100%;
+      height: 100%;
     }
 
-    .hero-btn-primary:hover {
-      background: rgba(26, 32, 26, 0.98);
-      border-color: rgba(183, 147, 88, 0.68);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.07),
-        0 10px 32px rgba(0, 0, 0, 0.50),
-        0 2px 6px rgba(0, 0, 0, 0.30),
-        0 0 0 1px rgba(183, 147, 88, 0.12);
-      transform: translateY(-1px);
+    .hero-btn-primary:active {
+      transform: scale(0.98);
     }
 
     /* ── SECONDARY CTA ──────────────────────────────────────────────────
@@ -2748,9 +2775,13 @@
           Para quem sabe apreciar a diferença.
         </p>
         <div class="hero-cta-wrap" id="el-cta">
-          <a href="#manha" class="hero-btn-primary" onclick="setActiveTab('manha')">
-            <span class="s4-beam"></span>
-            <span style="position:relative; z-index:9;">Ver Cardápio</span>
+          <a href="#manha" class="loc-beam-container group" onclick="setActiveTab('manha')" 
+             style="padding: 2px; background: linear-gradient(135deg, rgba(183,147,88,0.4) 0%, rgba(183,147,88,0.1) 100%);">
+            <div class="loc-beam-border"></div>
+            <div class="hero-btn-primary">
+              <span class="s4-beam"></span>
+              <span style="position:relative; z-index:9;">Ver Cardápio</span>
+            </div>
           </a>
           <a href="https://wa.me/5585994452724" target="_blank" class="hero-btn-secondary">
             <span style="position:relative; z-index:9;">Reservar Mesa</span>
