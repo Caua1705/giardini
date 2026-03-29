@@ -3874,30 +3874,17 @@
       
       loadTl.to(loader, { yPercent: -105, duration: 1.2, ease: 'power4.inOut' });
 
-      // ── Cinematic GSAP Reveal ──────────────────────────────────────────
-      // Detect mid-scroll reload BEFORE setting up animations.
-      // If the browser has restored a scrolled position, we must:
-      //   1. Kill heroTl (prevents conflict with exitTl scrub controls)
-      //   2. Snap all hero elements to their fully-visible state
-      //   3. Force canvas to opacity:1 WITHOUT its CSS 2s-transition
-      //      (the transition causes 2 seconds of "glass missing" even
-      //       though #video-frame is already visible via exitTl fromTo)
+      // ── Detect mid-scroll reload ──────────────────────────────────────
       const isAlreadyScrolled = (window.scrollY || window.pageYOffset) > 10;
 
-      const heroTl = gsap.timeline({ delay: isAlreadyScrolled ? 9999 : 0.6 });
-
       if (isAlreadyScrolled) {
-        // Page reloaded mid-scroll: freeze heroTl (never play it)
-        heroTl.pause(0);
-        // Force all text elements to fully-visible state RIGHT NOW
-        gsap.set('#el-kicker', { opacity: 1, y: 0, clearProps: 'filter' });
-        gsap.set('#el-h1a',    { opacity: 1, y: 0, clearProps: 'filter' });
-        gsap.set('#el-h1b',    { opacity: 1, y: 0, clearProps: 'filter' });
-        gsap.set('#el-body',   { opacity: 1, y: 0, clearProps: 'filter' });
-        gsap.set('#el-cta',    { opacity: 1, y: 0, clearProps: 'filter' });
-        gsap.set('#el-scroll', { opacity: 1, y: 0 });
-        // Canvas: remove the CSS 2s transition so it snaps to opacity:1 instantly
-        // without this, the glass is invisible for 2 seconds after reload
+        // Mid-scroll reload: set ALL hero elements to fully visible immediately.
+        // The scroll-out tweens (gsap.to with immediateRender:false) will then
+        // scrub correctly based on current scroll position when user scrolls up.
+        document.body.style.opacity = '1';
+        gsap.set(['#el-kicker', '#el-body', '#el-cta', '#el-scroll'], { opacity: 1, y: 0, filter: 'blur(0px)' });
+        gsap.set(['#el-h1a', '#el-h1b'], { opacity: 1, y: 0, filter: 'blur(0px)' });
+        gsap.set('#video-frame', { opacity: 1, scale: 1 });
         if (canvas) {
           canvas.style.transition = 'none';
           canvas.style.opacity    = '1';
@@ -3905,13 +3892,20 @@
           canvas.style.transform  = 'scale(1)';
         }
       } else {
-        // Normal load from top: run entrance animation as usual
-        heroTl.to("#el-kicker", { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0)
-              .to("#el-h1a",    { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.2)
-              .to("#el-h1b",    { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.2)
-              .to("#el-body",   { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.4)
-              .to("#el-cta",    { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.6)
-              .to("#el-scroll", { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" }, 0.8);
+        // Normal load from top: hide everything first, then animate in.
+        gsap.set(['#el-kicker', '#el-body', '#el-cta', '#el-scroll'], { opacity: 0, y: 20, filter: 'blur(8px)' });
+        gsap.set(['#el-h1a', '#el-h1b'], { opacity: 0, y: 30, filter: 'blur(10px)' });
+        gsap.set('#video-frame', { opacity: 0, scale: 0.94 });
+
+        const heroTl = gsap.timeline({ delay: 0.6 });
+        heroTl
+          .to('#el-kicker',   { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8, ease: 'power1.out' }, 0)
+          .to('#el-h1a',      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power1.out' }, 0.15)
+          .to('#el-h1b',      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power1.out' }, 0.25)
+          .to('#video-frame', { opacity: 1, scale: 1,                  duration: 1.2, ease: 'power1.out' }, 0.2)
+          .to('#el-body',     { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8, ease: 'power1.out' }, 0.45)
+          .to('#el-cta',      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8, ease: 'power1.out' }, 0.6)
+          .to('#el-scroll',   { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8, ease: 'power1.out' }, 0.75);
       }
 
       // Initialize canvas
