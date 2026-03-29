@@ -1534,231 +1534,206 @@
 
 
       /* ════════════════════════════════════════════════════════
-         M3 — HERO MOBILE: «Edição Definitiva»
+         M3 — HERO MOBILE: «Cartaz Central Premium»
          ────────────────────────────────────────────────────────
-         Conceito: DUAS ZONAS separadas pelo copo.
+         Conceito: COMPOSIÇÃO ÚNICA CENTRALIZADA
 
-         ZONA SUPERIOR: Kicker + Título + Subtítulo + CTA
-           → Ancora em justify-content: flex-start
-           → padding-top controlado abaixo da navbar
-           → align-items: flex-start (left-aligned, editorial)
-
-         ZONA INFERIOR: Imagem (silhueta dominante)
-           → Grande, posicionada no centro-baixo (top: 54%)
-           → Fica "atrás" do texto que escorrega para cima
-           → Dissolve nas bordas via radial mask
-
-         TRANSIÇÃO: scrim multi-stop que cria sobreposição
-           tonal suave entre texto e imagem, sem linha dura.
-
-         "DESCUBRA": closing mark absoluto no rodapé.
-           → Centralizado, tipografia pequena, linha curta
+         → Tudo alinhado ao centro (kicker, título, subtítulo, CTA)
+         → O copo atua como o coração da composição (maior, mais alto)
+         → Espaçamentos justos, sem áreas mortas
+         → "Descubra" fecha a seção com elegância no rodapé.
          ════════════════════════════════════════════════════════ */
 
-      /* ── Viewport: altura total da tela, excluindo chrome mobile ── */
+      /* ── Viewport: altura total da tela, min-height polido ── */
       #hero-viewport {
         height: 100svh;
-        min-height: 620px;
-        max-height: 920px;
+        min-height: 640px;
+        max-height: 940px;
       }
 
-      /* ── ZONA SUPERIOR: âncora no topo com espaço para navbar ── */
+      /* ── ZONA DE CONTEÚDO: totalmente centralizada ── */
       .hero-content {
-        justify-content: flex-start;  /* ancora no topo */
-        align-items: flex-start;      /* left-align editorial */
-        text-align: left;
-        padding-top: 6.5rem;         /* navbar (58px) + gutter premium */
+        justify-content: flex-start;  /* Prende no topo, mas empurra para baixo */
+        align-items: center;          /* CENTRALIZA O EIXO X */
+        text-align: center;
+        padding-top: 7rem;            /* Espaço seguro e elegante abaixo da navbar */
         padding-bottom: 0;
         padding-left: 1.5rem;
         padding-right: 1.5rem;
         gap: 0;
       }
 
-      /* ── Kicker: apenas linha esquerda — mais limpo no mobile ── */
+      /* ── Kicker: simétrico, centralizado ── */
       .hero-kicker {
         font-size: 0.44rem;
-        letter-spacing: 0.42em;
-        gap: 0.7rem;
-        margin-bottom: 1.4rem;
-        justify-content: flex-start;
-        color: rgba(183, 147, 88, 0.68);
+        letter-spacing: 0.45em;
+        gap: 0.8rem;
+        margin-bottom: 1.25rem;
+        justify-content: center;      /* Kicker no centro */
+        color: rgba(183, 147, 88, 0.70);
         opacity: 1;
       }
-      /* Remove a linha direita do kicker no mobile */
-      .kicker-line:last-of-type { display: none; }
+      /* Restaura a simetria (as duas linhas aparecem) */
+      .kicker-line:last-of-type { display: block; }
 
-      /* ── Headline: dominante, tight, dramático ── */
+      /* ── Headline: dramático, apertado, centralizado ── */
       .hero-title {
-        font-size: clamp(3.6rem, 13.5vw, 5.2rem);
-        line-height: 0.93;
-        letter-spacing: -0.038em;
-        text-align: left;
+        font-size: clamp(3.4rem, 13vw, 5rem);
+        line-height: 0.94;
+        letter-spacing: -0.03em;
+        text-align: center;
         margin-bottom: 0;
       }
 
-      /* Divisória áurea pós-headline — separa área de leitura
-         da área de suporte textual com elegância editorial */
+      /* Divisória central: separa visualmente título de subtítulo */
       .hero-title::after {
         content: '';
         display: block;
-        width: 24px;
+        width: 32px;
         height: 1px;
-        background: rgba(183, 147, 88, 0.40);
-        margin-top: 1.2rem;
-        margin-bottom: 1.2rem;
+        background: rgba(183, 147, 88, 0.45);
+        margin: 1.4rem auto;          /* margin auto para centralizar a linha */
       }
 
-      /* ── Subtítulo: presente, legível, left-aligned ── */
+      /* ── Subtítulo: mais presente, centrado, limitando viúvas ── */
       .hero-sub {
-        font-size: 0.78rem;
+        font-size: 0.8rem;
         font-weight: 300;
-        line-height: 1.7;
-        max-width: 230px;
-        text-align: left;
-        margin: 0 0 2.25rem 0;
-        color: rgba(210, 202, 185, 0.65);
+        line-height: 1.65;
+        max-width: 260px;
+        text-align: center;
+        margin: 0 auto 2.4rem auto;   /* margin auto para bloco centrado */
+        color: rgba(210, 202, 185, 0.75);
         letter-spacing: 0.015em;
       }
 
-      /* ── CTA: único, preciso, proporcional — não full-width ── */
+      /* ── CTA: único, premium, centralizado ── */
       .hero-cta-wrap {
         flex-direction: row;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;      /* Botão perfeitamente centralizado */
         gap: 0;
-        width: auto;
+        width: 100%;
       }
 
-      /* Wrapper do botão: auto-width, sem stretch */
       .loc-beam-container {
         width: auto;
         max-width: none;
         flex-shrink: 0;
       }
 
-      /* Botão primário: pill elegante, finger-friendly */
       .hero-btn-primary {
-        padding: 1rem 2.5rem;
+        padding: 1rem 2.8rem;
         font-size: 0.58rem;
-        letter-spacing: 0.24em;
+        letter-spacing: 0.25em;
         justify-content: center;
         white-space: nowrap;
       }
 
-      /* Secundário: completamente removido do hero mobile.
-         A ação "Reservar" já está acessível no mobile menu (hamburger)
-         — não há necessidade de repetir no hero e criar competição. */
+      /* Repetimos: CTA secundário removido no mobile = mais limpo */
       .hero-btn-secondary { display: none; }
 
-      /* ── ZONA INFERIOR: Copo — silhueta dominante ── */
+      /* ── IMAGEM: O coração da hero. Maior, mais conectada ── */
       #video-frame {
-        width: 75vw;             /* Grande o suficiente para ser protagonista */
-        max-width: 300px;
-        top: 54%;                /* Centro-baixo — zona inferior da composição */
+        width: 82vw;             /* Mais imponente */
+        max-width: 340px;
+        top: 52%;                /* Levemente mais alto, abraçando o título/CTA */
         left: 50%;
-        opacity: 0.70;           /* Back suficiente para o texto ter primazia */
+        opacity: 0.65;           /* Um pouco mais fantasma para não brigar com o CTA centrado */
         will-change: auto;
-        /* Dissolução radial elíptica — mais suave horizontalmente,
-           mais agressiva verticalmente (integra com scrim) */
-        mask-image: radial-gradient(ellipse 80% 88% at center,
-          rgba(0,0,0,0.98) 0%,
-          rgba(0,0,0,0.88) 35%,
-          rgba(0,0,0,0.42) 60%,
-          rgba(0,0,0,0.10) 78%,
-          rgba(0,0,0,0)    90%
+        /* Mask refinada para dissolver perfeitamente no fundo escuro */
+        mask-image: radial-gradient(ellipse 75% 85% at center,
+          rgba(0,0,0,0.95) 0%,
+          rgba(0,0,0,0.85) 30%,
+          rgba(0,0,0,0.40) 55%,
+          rgba(0,0,0,0.05) 80%,
+          rgba(0,0,0,0)    95%
         );
-        -webkit-mask-image: radial-gradient(ellipse 80% 88% at center,
-          rgba(0,0,0,0.98) 0%,
-          rgba(0,0,0,0.88) 35%,
-          rgba(0,0,0,0.42) 60%,
-          rgba(0,0,0,0.10) 78%,
-          rgba(0,0,0,0)    90%
+        -webkit-mask-image: radial-gradient(ellipse 75% 85% at center,
+          rgba(0,0,0,0.95) 0%,
+          rgba(0,0,0,0.85) 30%,
+          rgba(0,0,0,0.40) 55%,
+          rgba(0,0,0,0.05) 80%,
+          rgba(0,0,0,0)    95%
         );
       }
 
-      /* Glow atmosférico: alinha com a imagem */
+      /* Glow imersivo, acompanha a imagem */
       .product-glow {
-        top: 60%;
+        top: 52%;
         left: 50%;
-        width: 100vw;
-        max-width: 420px;
-        height: 100vw;
-        max-height: 420px;
+        width: 110vw;
+        max-width: 460px;
+        height: 110vw;
+        max-height: 460px;
         background: radial-gradient(circle at center,
-          rgba(38, 66, 52, 0.10) 0%,
-          rgba(183, 147, 88, 0.025) 50%,
-          transparent 68%
+          rgba(38, 66, 52, 0.12) 0%,
+          rgba(183, 147, 88, 0.03) 45%,
+          transparent 70%
         );
         filter: blur(55px);
       }
 
-      /* ── SCRIM INFERIOR: dissolução ao fundo ── */
+      /* ── SCRIM INFERIOR: ponte tonal até a próxima seção ── */
       #hero-pin-wrapper::after {
-        height: 55vh;
+        height: 45vh;                 /* Controlado, evita esmagar a composição */
         background: linear-gradient(
           to top,
           #080f0a            0%,
-          rgba(8,15,10,0.97) 12%,
-          rgba(8,15,10,0.80) 35%,
-          rgba(8,15,10,0.35) 55%,
-          rgba(8,15,10,0.08) 75%,
+          rgba(8,15,10,0.95) 15%,
+          rgba(8,15,10,0.60) 45%,
+          rgba(8,15,10,0.15) 75%,
           transparent        100%
         );
       }
 
-      /* ── SCRIM SUPERIOR: legibilidade sob a navbar ── */
+      /* ── SCRIM SUPERIOR: proteção de contraste p/ a navbar ── */
       #hero-viewport::before {
         content: '';
         position: absolute;
         top: 0; left: 0; right: 0;
-        height: 140px;
+        height: 160px;
         background: linear-gradient(
           to bottom,
-          rgba(5, 9, 6, 0.90) 0%,
-          rgba(5, 9, 6, 0.50) 50%,
+          rgba(5, 9, 6, 0.88) 0%,
+          rgba(5, 9, 6, 0.40) 45%,
           transparent         100%
         );
         z-index: 4;
         pointer-events: none;
       }
 
-      /* ── "DESCUBRA": closing mark refinado ── */
+      /* ── "DESCUBRA": Fechamento seguro ── */
       .hero-scroll {
         display: flex;
         position: absolute;
-        bottom: 2rem;
+        bottom: 2.2rem;               /* Levanta um pouco mais, foge da zona morta */
         left: 50%;
         right: auto;
-        /* O JS seta opacity via GSAP — mas forçamos visibilidade
-           no mobile porque o GSAP pode não disparar sem scroll */
-        opacity: 1 !important;
-        color: rgba(255, 255, 255, 0.28);
-        font-size: 0.37rem;
-        letter-spacing: 0.40em;
-        gap: 0.35rem;
-        /* Sem animação de float no mobile — mais clean */
-        animation: none;
+        opacity: 1 !important;        /* Força a visibilidade inicial */
+        color: rgba(255, 255, 255, 0.32);
+        font-size: 0.38rem;
+        letter-spacing: 0.42em;
+        gap: 0.4rem;
         transform: translateX(-50%);
+        animation: none;              /* Sem sobressaltos, design sólido */
       }
 
-      /* Linha do "Descubra": delicada, mais curta */
+      /* Linha ainda mais delicada */
       .hero-scroll-line {
-        height: 22px;
+        height: 20px;
         background: linear-gradient(
           to bottom,
-          rgba(183, 147, 88, 0.30),
+          rgba(183, 147, 88, 0.40),
           transparent
         );
       }
 
-      /* ── Bridge: escondido no mobile ── */
+      /* ── Ocultos no mobile ── */
       #hero-bridge { display: none; }
-
-      /* ── Lateral vignette: remove no mobile (desperdiça width) ── */
       #lateral-vignette { display: none; }
-
-      /* ── Custom cursor: tela touch não usa cursor ── */
       #custom-cursor, #custom-cursor-ring { display: none; }
+
 
 
 
@@ -2063,38 +2038,37 @@
 
       /* Divisória pós-headline: mesma aparência, margem menor */
       .hero-title::after {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-        width: 20px;
+        margin: 1rem auto;
+        width: 24px;
       }
 
       /* Subtítulo: mais compacto no SE */
       .hero-sub {
         font-size: 0.73rem;
-        max-width: 195px;
-        margin: 0 0 1.75rem 0;
+        max-width: 220px;
+        margin: 0 auto 1.8rem auto;
         line-height: 1.65;
       }
 
-      /* Hero content: padding menor no SE (navbar mesma altura) */
+      /* Hero content: padding menor no SE */
       .hero-content {
-        padding-top: 5.5rem;
+        padding-top: 6rem;
         padding-left: 1.25rem;
         padding-right: 1.25rem;
       }
 
       /* CTA: mais compacto no SE */
       .hero-btn-primary {
-        padding: 0.85rem 2rem;
+        padding: 0.9rem 2.2rem;
         font-size: 0.55rem;
         letter-spacing: 0.22em;
       }
 
-      /* Imagem: ligeiramente menor para caber bem no SE */
+      /* Imagem: ligeiramente menor para não esmagar textos no SE */
       #video-frame {
-        width: 66vw;
-        max-width: 240px;
-        top: 56%;
+        width: 74vw;
+        max-width: 260px;
+        top: 50%;
       }
 
 
@@ -5102,18 +5076,47 @@
       // Observe all reveal elements by default
       document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-      /* Category Tab Logic */
-      function setActiveTab(targetId) {
-        // Toggle buttons
+      /* ══════════════════════════════════════════════════════════
+         CATEGORY TAB LOGIC — Anchor Navigation with Scroll
+         ══════════════════════════════════════════════════════════ */
+
+      /** Returns the scroll offset so content positions just below the main navbar,
+       *  scrolling high enough that the cat-nav bar clears the visible area. */
+      function getStickyOffset() {
+        const navH = nav ? nav.getBoundingClientRect().height : 60;
+        return navH + 8; // 8px breathing room — no cat-nav height included
+      }
+
+      /** Centers the active cat-btn inside the horizontally scrollable rail. */
+      function syncCatNavRail() {
+        const activeBtn = catNavInner.querySelector('.cat-btn.active');
+        if (!activeBtn) return;
+        const btnLeft  = activeBtn.offsetLeft;
+        const btnWidth = activeBtn.offsetWidth;
+        const railW    = catNavInner.parentElement.offsetWidth;
+        catNavInner.scrollTo({
+          left: btnLeft - railW / 2 + btnWidth / 2,
+          behavior: 'smooth'
+        });
+      }
+
+      /**
+       * setActiveTab(targetId, shouldScroll)
+       * @param {string}  targetId    - the data-target / data-parent value
+       * @param {boolean} shouldScroll - true = navigate page to top of category
+       */
+      function setActiveTab(targetId, shouldScroll = false) {
+        /* 1. Update button active states */
         catBtns.forEach(btn => {
           btn.classList.toggle('active', btn.dataset.target === targetId);
         });
 
-        // Toggle sections
+        /* 2. Show/hide sections & re-arm reveal observers */
+        let firstSection = null;
         sections.forEach(sec => {
           if (sec.dataset.parent === targetId) {
             sec.classList.add('is-active');
-            // Re-trigger reveals for the now-visible section
+            if (!firstSection) firstSection = sec;
             sec.querySelectorAll('.reveal').forEach(el => {
               el.classList.remove('is-visible');
               revealObserver.observe(el);
@@ -5123,32 +5126,29 @@
           }
         });
 
-        // Auto-scroll nav to keep active btn visible
-        const activeBtn = catNavInner.querySelector('.cat-btn.active');
-        if (activeBtn) {
-          const btnLeft = activeBtn.offsetLeft;
-          const btnW = activeBtn.offsetWidth;
-          const navW = catNavInner.parentElement.offsetWidth;
-          catNavInner.scrollTo({ left: btnLeft - navW / 2 + btnW / 2, behavior: 'smooth' });
-        }
+        /* 3. Keep active button visible inside the cat-nav rail */
+        syncCatNavRail();
 
-        // Scroll page to top of menu when tab changes if needed
-        const catNavH = catNav.getBoundingClientRect().height;
-        const menuRect = catNav.getBoundingClientRect();
-        if (menuRect.top < 0) {
-          window.scrollTo({ top: window.scrollY + menuRect.top, behavior: 'smooth' });
+        /* 4. Scroll page to the VERY TOP of the selected category.
+              We always do this on user click (shouldScroll=true).
+              Precise offset = navbar height + cat-nav height + breathing room. */
+        if (shouldScroll && firstSection) {
+          const offset     = getStickyOffset();
+          const sectionTop = firstSection.getBoundingClientRect().top;
+          const target     = window.scrollY + sectionTop - offset;
+          window.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
         }
       }
 
-      /* Category nav — click & Change Tab */
+      /* Attach click handlers — always scroll when user picks a category */
       catBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          setActiveTab(btn.dataset.target);
-        });
+        btn.addEventListener('click', () => setActiveTab(btn.dataset.target, true));
       });
 
-      // Initialize first tab
-      setActiveTab('manha');
+      // Initialize first tab (no scroll on page load)
+      setActiveTab('manha', false);
+
+
 
       /* ── Intercept Hero CTA & Scroll Indicator for smooth GSAP-friendly scroll ── */
       const scrollToMenu = (e) => {
