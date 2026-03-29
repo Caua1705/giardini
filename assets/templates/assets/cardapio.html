@@ -2652,12 +2652,396 @@
       }
     }
 
+    /* ══════════════════════════════════════════════════════════════
+       REFINAMENTO FINAL — v7 "Textura, Profundidade & Vida"
+       Adicionado em: 2026-03
+    ══════════════════════════════════════════════════════════════ */
+
+    /* ── 1. TEXTURA DE FUNDO: Linho Premium ──────────────────────
+       Três camadas sobrepostas:
+       A) Microruído fractal (simula fibra de linho/papel premium)
+       B) Grade de pontos dourados em diagonal (R$ 45° offset)
+       C) Vinhetas laterais em gradiente radial para dar
+          "moldura" editorial ao conteúdo central.
+    ──────────────────────────────────────────────────────────── */
+    body::before {
+      /* Layer A: linho fractal + dots dourados sobrepostos */
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cfilter id='linho'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.62 0.68' numOctaves='5' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.055'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23linho)'/%3E%3C/svg%3E"),
+        radial-gradient(circle, rgba(183,147,88,0.038) 1px, transparent 1px);
+      background-size: 600px 600px, 32px 32px;
+      opacity: 0.9;
+      animation: textureShift 80s linear infinite;
+    }
+    @keyframes textureShift {
+      from { background-position: 0 0, 0 0; }
+      to   { background-position: 600px 300px, 32px 32px; }
+    }
+
+    /* ── 2. VINHETAS LATERAIS ANIMADAS ───────────────────────────
+       Duas faixas verticais nas laterais que respiram suavemente,
+       reforçando o enquadramento editorial da coluna de conteúdo.
+    ──────────────────────────────────────────────────────────── */
+    #lateral-vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(to right,
+          rgba(4, 7, 4, 0.55) 0%,
+          rgba(4, 7, 4, 0.18) 8%,
+          transparent 22%,
+          transparent 78%,
+          rgba(4, 7, 4, 0.18) 92%,
+          rgba(4, 7, 4, 0.55) 100%
+        );
+      animation: vignetteBreath 12s ease-in-out infinite alternate;
+    }
+    @keyframes vignetteBreath {
+      from { opacity: 0.7; }
+      to   { opacity: 1.0; }
+    }
+
+    /* ── 3. CUSTOM CURSOR ──────────────────────────────────────── */
+    html { cursor: none; }
+    @media (pointer: coarse) { html { cursor: auto; } }
+
+    #custom-cursor {
+      position: fixed;
+      top: 0; left: 0;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: rgba(183, 147, 88, 0.85);
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease, width 0.25s ease, height 0.25s ease, background 0.25s ease, opacity 0.25s ease;
+      mix-blend-mode: screen;
+    }
+    #custom-cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(183, 147, 88, 0.28);
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                  width 0.3s ease, height 0.3s ease,
+                  border-color 0.3s ease, opacity 0.3s ease;
+    }
+    body:has(a:hover) #custom-cursor,
+    body:has(button:hover) #custom-cursor {
+      width: 16px; height: 16px;
+      background: rgba(183, 147, 88, 1);
+    }
+    body:has(a:hover) #custom-cursor-ring,
+    body:has(button:hover) #custom-cursor-ring {
+      width: 52px; height: 52px;
+      border-color: rgba(183, 147, 88, 0.55);
+    }
+    @media (pointer: coarse) {
+      #custom-cursor, #custom-cursor-ring { display: none; }
+    }
+
+    /* ── 4. MENU ITEM: CLIP-PATH REVEAL ─────────────────────────
+       Items surgem com clip-path de baixo para cima ao revelar,
+       criando uma sensação de conteúdo "emergindo" da page.
+    ──────────────────────────────────────────────────────────── */
+    .menu-item.reveal {
+      clip-path: inset(0 0 100% 0);
+      transition:
+        opacity 0.55s var(--expo),
+        transform 0.55s var(--expo),
+        clip-path 0.6s var(--expo);
+    }
+    .menu-item.reveal.is-visible {
+      clip-path: inset(0 0 0% 0);
+    }
+
+    /* ── 5. ITEM HOVER: GLOW HALO NO PREÇO ────────────────────── */
+    .item-price {
+      position: relative;
+    }
+    .item-price::after {
+      content: '';
+      position: absolute;
+      inset: -4px -8px;
+      border-radius: 4px;
+      background: radial-gradient(ellipse at center, rgba(183,147,88,0.10) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    .menu-item:hover .item-price::after {
+      opacity: 1;
+    }
+
+    /* ── 6. MENU ITEM: LINHA DE SEPARAÇÃO ANIMADA ───────────────
+       O border-bottom do item se ilumina ao hover.
+    ──────────────────────────────────────────────────────────── */
+    .menu-item {
+      transition:
+        border-color 0.4s ease,
+        background 0.4s ease;
+    }
+    .menu-item:hover {
+      border-bottom-color: rgba(183, 147, 88, 0.18) !important;
+    }
+
+    /* ── 7. SECTION HEADER: WATERMARK LETRA GIGANTE ─────────────
+       Cada seção tem uma letra inicial gigante, fantasma,
+       que se revela atrás do título como marca d'água editorial.
+    ──────────────────────────────────────────────────────────── */
+    .section-header .section-watermark {
+      position: absolute;
+      left: -0.05em;
+      top: 50%;
+      transform: translateY(-55%);
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(6rem, 16vw, 14rem);
+      font-style: italic;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(183, 147, 88, 0.04);
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -0.04em;
+      white-space: nowrap;
+      overflow: hidden;
+      animation: watermarkPulse 8s ease-in-out infinite alternate;
+    }
+    @keyframes watermarkPulse {
+      from { -webkit-text-stroke-color: rgba(183,147,88,0.04); }
+      to   { -webkit-text-stroke-color: rgba(183,147,88,0.09); }
+    }
+
+    /* ── 8. CAT-NAV: SHIMMER ATIVO ANIMADO ─────────────────────
+       A linha inferior do cat-btn ativo tem um brilho deslizante.
+    ──────────────────────────────────────────────────────────── */
+    .cat-btn.active::before {
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(183,147,88,0.5) 20%,
+        rgba(255, 230, 150, 1) 50%,
+        rgba(183,147,88,0.5) 80%,
+        transparent 100%);
+      background-size: 200% 100%;
+      animation: catActiveShimmer 2.8s ease-in-out infinite;
+    }
+    @keyframes catActiveShimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ── 9. SCROLL INDICATOR: FLOAT ANIMATION ───────────────────
+       O "Descubra" do hero flutua suavemente para baixo e para cima.
+    ──────────────────────────────────────────────────────────── */
+    .hero-scroll {
+      animation: heroScrollFloat 3.5s ease-in-out infinite;
+    }
+    @keyframes heroScrollFloat {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ── 10. HERO-SCROLL-LINE: RUNNING DOT ──────────────────────
+       Uma bolinha desce pela linha do scroll indicator.
+    ──────────────────────────────────────────────────────────── */
+    .hero-scroll-line {
+      position: relative;
+    }
+    .hero-scroll-line::after {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 3px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50%;
+      animation: dotSlide 2.2s ease-in-out infinite;
+    }
+    @keyframes dotSlide {
+      0%   { top: -4px; opacity: 1; }
+      80%  { top: 46px;  opacity: 0; }
+      100% { top: 46px;  opacity: 0; }
+    }
+
+    /* ── 11. NOISE OVERLAY: SLOW DRIFT ──────────────────────────
+       O ruído se desloca lentamente para dar a sensação de
+       textura viva, como fibras de papel em movimento.
+    ──────────────────────────────────────────────────────────── */
+    .noise-overlay {
+      animation: noiseDrift 12s steps(2) infinite;
+    }
+    @keyframes noiseDrift {
+      0%   { transform: translate(0,    0);    }
+      25%  { transform: translate(-1%,  1%);   }
+      50%  { transform: translate(1%,  -1%);   }
+      75%  { transform: translate(-1%, -1%);   }
+      100% { transform: translate(0,    0);    }
+    }
+
+    /* ── 12. FOOTER SOCIAL ICONS: GLOW HOVER ────────────────────
+       Cada ícone do footer emite um halo dourado ao hover.
+    ──────────────────────────────────────────────────────────── */
+    .footer-link:hover {
+      box-shadow:
+        0 0 14px rgba(183, 147, 88, 0.22),
+        0 0  6px rgba(183, 147, 88, 0.30);
+    }
+
+    /* ── 13. PDF BUTTON: GLOW PULSE ON HOVER ────────────────────
+       O botão de download tem uma aura pulsante ao hover.
+    ──────────────────────────────────────────────────────────── */
+    .pdf-btn:hover {
+      box-shadow:
+        0 0 32px rgba(183, 147, 88, 0.18),
+        0 0  8px rgba(183, 147, 88, 0.25),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    /* ── 14. SEÇÃO: FADE IN COM BLUR ──────────────────────────── */
+    @keyframes sectionRevealBlur {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.984);
+        filter: blur(4px);
+        clip-path: inset(2% 0 2% 0);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+        clip-path: inset(0% 0 0% 0);
+      }
+    }
+    .menu-section.is-active {
+      animation: sectionRevealBlur 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    /* ── 15. NAV LOGO: BREATHING GLOW ───────────────────────────
+       O logo da nav tem um brilho suave pulsante, como
+       uma vela iluminando o nome do estabelecimento.
+    ──────────────────────────────────────────────────────────── */
+    .nav-logo {
+      text-shadow:
+        0 0 24px rgba(183, 147, 88, 0),
+        0 0  0px rgba(183, 147, 88, 0);
+      animation: logoGlow 6s ease-in-out infinite alternate;
+    }
+    @keyframes logoGlow {
+      from {
+        text-shadow:
+          0 0 20px rgba(183,147,88,0.0),
+          0 0  8px rgba(183,147,88,0.0);
+      }
+      to {
+        text-shadow:
+          0 0 28px rgba(183,147,88,0.18),
+          0 0 10px rgba(183,147,88,0.08);
+      }
+    }
+
+    /* ── 16. KICKER LABEL: LETTER TRACKING ANIMATION ─────────── */
+    .section-kicker {
+      animation: kickerExpand 0.8s var(--expo) both;
+    }
+    @keyframes kickerExpand {
+      from { letter-spacing: 0.1em; opacity: 0; }
+      to   { letter-spacing: 0.42em; opacity: 1; }
+    }
+    /* Só ativa quando o header está visível */
+    .section-header:not(.is-visible) .section-kicker {
+      animation: none;
+      opacity: 0;
+    }
+    .section-header.is-visible .section-kicker {
+      animation: kickerExpand 0.8s var(--expo) 0.15s both;
+    }
+
+    /* ── 17. ORB: INTENSIDADE DINÂMICA COM SCROLL ───────────────
+       Os orbs ficam levemente mais visíveis quando o usuário
+       rola a página (controlado via CSS class no body, adicionado em JS).
+    ──────────────────────────────────────────────────────────── */
+    body.is-scrolled-deep #menu-orb-1 {
+      opacity: 1.3;
+      filter: blur(80px);
+    }
+    body.is-scrolled-deep #menu-orb-2 {
+      opacity: 1.3;
+    }
+
+    /* ── 18. MENU BODY: LINHA DECORATIVA VERTICAL ESQUERDA ──────
+       Uma linha áurea à esquerda do menu body — como a margem
+       de um diário premium ou de um menu impresso encadernado.
+    ──────────────────────────────────────────────────────────── */
+    #menu-body::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -20px;
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(to bottom,
+        transparent 0%,
+        rgba(183,147,88,0.10) 15%,
+        rgba(183,147,88,0.18) 50%,
+        rgba(183,147,88,0.10) 85%,
+        transparent 100%
+      );
+      pointer-events: none;
+    }
+
+    /* ── 19. ITEM BODY: SLIGHT TRANSLATE ON REVEAL ───────────── */
+    .menu-item.reveal.is-visible .item-body {
+      animation: itemBodySlide 0.5s var(--expo) both;
+    }
+    @keyframes itemBodySlide {
+      from { transform: translateX(-6px); opacity: 0.5; }
+      to   { transform: translateX(0);    opacity: 1;   }
+    }
+
+    /* ── 20. HERO KICKER: FLANKING LINES GROW ANIMATION ─────── */
+    .kicker-line {
+      animation: kickerLineGrow 1.2s var(--expo) 0.8s both;
+    }
+    .kicker-line:last-of-type {
+      animation: kickerLineGrow 1.2s var(--expo) 1.0s both;
+    }
+    @keyframes kickerLineGrow {
+      from { width: 0; opacity: 0; }
+      to   { width: 28px; opacity: 1; }
+    }
+
+    /* ── A11Y: Reduz animações para quem prefere ─────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      #lateral-vignette { animation: none; opacity: 0.85; }
+    }
+
   </style>
 
 
 
 
 <body class="antialiased">
+  <!-- Custom Cursor (desktop only) -->
+  <div id="custom-cursor" aria-hidden="true"></div>
+  <div id="custom-cursor-ring" aria-hidden="true"></div>
+
+  <!-- Lateral Vignette: editorial framing of content column -->
+  <div id="lateral-vignette" aria-hidden="true"></div>
+
   <!-- Noise -->
   <div class="noise-overlay"></div>
 
@@ -4218,7 +4602,125 @@
         else raf = requestAnimationFrame(tick);
       });
     })();
+
+
+    /* ══════════════════════════════════════════════════════════════════
+       CUSTOM CURSOR — Magnetic golden dot with lagging ring
+    ══════════════════════════════════════════════════════════════════ */
+    (function initCursor() {
+      // Only on pointer:fine devices (desktop)
+      if (!window.matchMedia('(pointer: fine)').matches) return;
+
+      const dot  = document.getElementById('custom-cursor');
+      const ring = document.getElementById('custom-cursor-ring');
+      if (!dot || !ring) return;
+
+      let mx = window.innerWidth / 2;
+      let my = window.innerHeight / 2;
+      let rx = mx, ry = my;   // ring position (lagged)
+
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX;
+        my = e.clientY;
+      });
+
+      document.addEventListener('mouseleave', () => {
+        dot.style.opacity  = '0';
+        ring.style.opacity = '0';
+      });
+      document.addEventListener('mouseenter', () => {
+        dot.style.opacity  = '1';
+        ring.style.opacity = '1';
+      });
+
+      function animCursor() {
+        // Dot: instant
+        dot.style.left = mx + 'px';
+        dot.style.top  = my + 'px';
+
+        // Ring: lerp for magnetic lag
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.left = rx + 'px';
+        ring.style.top  = ry + 'px';
+
+        requestAnimationFrame(animCursor);
+      }
+      requestAnimationFrame(animCursor);
+    })();
+
+
+    /* ══════════════════════════════════════════════════════════════════
+       WATERMARK LETTERS — inject phantom letter behind each section header
+    ══════════════════════════════════════════════════════════════════ */
+    (function injectWatermarks() {
+      const headers = document.querySelectorAll('.section-header');
+      headers.forEach(header => {
+        const kicker = header.querySelector('.section-kicker');
+        if (!kicker) return;
+        const letter = kicker.textContent.trim().charAt(0).toUpperCase();
+        const wm = document.createElement('span');
+        wm.className = 'section-watermark';
+        wm.textContent = letter;
+        wm.setAttribute('aria-hidden', 'true');
+        header.appendChild(wm);
+      });
+    })();
+
+
+    /* ══════════════════════════════════════════════════════════════════
+       SCROLL DEPTH — add body class for orb intensity boost
+    ══════════════════════════════════════════════════════════════════ */
+    (function trackScrollDepth() {
+      const threshold = window.innerHeight * 1.5;
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            document.body.classList.toggle('is-scrolled-deep', window.scrollY > threshold);
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+    })();
+
+
+    /* ══════════════════════════════════════════════════════════════════
+       HERO MOUSE PARALLAX — subtle tilt on the product frame
+    ══════════════════════════════════════════════════════════════════ */
+    (function initHeroParallax() {
+      const frame = document.getElementById('video-frame');
+      const glow  = document.querySelector('.product-glow');
+      if (!frame) return;
+
+      let targetRX = 0, targetRY = 0;
+      let currentRX = 0, currentRY = 0;
+      const MAX_TILT = 6; // degrees
+
+      document.addEventListener('mousemove', e => {
+        const cx = window.innerWidth  / 2;
+        const cy = window.innerHeight / 2;
+        targetRX = ((e.clientY - cy) / cy) * -MAX_TILT;
+        targetRY = ((e.clientX - cx) / cx) *  MAX_TILT;
+      });
+
+      function animParallax() {
+        currentRX += (targetRX - currentRX) * 0.06;
+        currentRY += (targetRY - currentRY) * 0.06;
+        frame.style.transform = `translate(-50%, -50%) rotateX(${currentRX}deg) rotateY(${currentRY}deg)`;
+        if (glow) {
+          const shiftX = currentRY *  2.5;
+          const shiftY = currentRX * -2.5;
+          glow.style.transform = `translate(calc(-50% + ${shiftX}px), calc(-50% + ${shiftY}px))`;
+        }
+        requestAnimationFrame(animParallax);
+      }
+      requestAnimationFrame(animParallax);
+    })();
+
   </script>
+
 </body>
 
 </html>
