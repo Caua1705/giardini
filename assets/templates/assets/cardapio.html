@@ -2062,33 +2062,24 @@
       transition: color 0.3s ease, transform 0.35s var(--expo);
     }
 
-    /* Hover: name brightens, desc lifts slightly, price brightens */
+    /* Hover: pure typographic refinement, no blocks or backgrounds */
     .menu-item:hover .item-name {
-      color: #ffffff;
-      transform: translateX(3px);
+      color: rgba(183, 147, 88, 0.95); /* turns premium gold */
+      transform: translateX(4px); /* slight indented nudge */
     }
     .menu-item:hover .item-desc {
-      color: rgba(228, 221, 208, 0.65);
+      color: rgba(228, 221, 208, 0.60);
+      transform: translateX(4px);
     }
     .menu-item:hover .item-price {
       color: rgba(183, 147, 88, 1);
-      transform: translateX(-2px);
     }
 
-    /* ── 4. MENU ITEM HOVER — clean warm tint, no overflow ─────────────
-       Replaced box-shadow approach with a simpler left-border + fill.
+    /* ── 4. MENU ITEM HOVER — Minimalist Typography ────────────────────
+       Removed the boxy background/border. Hover is purely on the text.
     ─────────────────────────────────────────────────────────────────── */
     .menu-item {
-      transition:
-        background 0.38s var(--expo),
-        border-left-color 0.38s var(--expo);
       border-radius: 3px;
-      border-left: 1.5px solid transparent;
-    }
-
-    .menu-item:hover {
-      background: rgba(183, 147, 88, 0.032);
-      border-left-color: rgba(183, 147, 88, 0.5);
     }
 
     .menu-item::before { display: none; } /* remove old pseudo left-bar */
