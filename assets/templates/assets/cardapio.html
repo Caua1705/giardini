@@ -1004,7 +1004,7 @@
       position: relative;
       flex-grow: 1;
       padding-top: 0;
-      padding-bottom: 6rem;
+      padding-bottom: 2rem;
       min-width: 0; /* Prevents flexbox overflow */
     }
 
@@ -1020,7 +1020,7 @@
     }
 
     .menu-section {
-      padding: 0 0 64px 0;
+      padding: 0 0 2rem 0;
       border-bottom: none;
       display: none;
       opacity: 0;
@@ -1110,12 +1110,13 @@
       padding-bottom: 0;
     }
     
-    /* When 2 items are on the last row of the grid, remove their borders */
-    .menu-grid .menu-item:nth-last-child(-n+2):nth-child(even),
-    .menu-grid .menu-item:nth-last-child(-n+1) {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
+    /* Desktop (2 columns): If the second-to-last item is on the left (odd), it forms the last row alongside the last item, so remove its border too. */
+    @media (min-width: 1025px) {
+      .menu-grid .menu-item:nth-last-child(2):nth-child(odd) {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
     }
 
     /* Dotted fill line gracefully removed */
@@ -1198,6 +1199,8 @@
       color: rgba(183, 147, 88, 0.95);
       white-space: nowrap;
       text-align: right;
+      padding-right: 0.35rem; /* Prevent italic font bounding box cutoff */
+      line-height: 1.1;
     }
 
     .item-price-sub {
@@ -1232,10 +1235,10 @@
 
     /* ── PDF Section ─────────────────────────────────────────────────── */
     #pdf-section {
-      padding: 6rem 2rem;
+      padding: 4rem 2rem;
       text-align: center;
       background: linear-gradient(160deg, #0c1710 0%, #080f0a 100%);
-      border-top: 1px solid rgba(183, 147, 88, 0.12);
+      border-top: none; /* Removed blank line/border */
       position: relative;
       overflow: hidden;
     }
@@ -1818,7 +1821,7 @@
          Single column. Generous but controlled vertical space.
       ────────────────────────────────────────────────────────── */
       .menu-section {
-        padding: 0 0 3.5rem 0;
+        padding: 0 0 1.5rem 0;
       }
 
       .menu-grid {
