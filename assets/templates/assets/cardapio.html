@@ -2065,11 +2065,9 @@
     /* Hover: pure typographic refinement, no blocks or backgrounds */
     .menu-item:hover .item-name {
       color: rgba(183, 147, 88, 0.95); /* turns premium gold */
-      transform: translateX(4px); /* slight indented nudge */
     }
     .menu-item:hover .item-desc {
       color: rgba(228, 221, 208, 0.60);
-      transform: translateX(4px);
     }
     .menu-item:hover .item-price {
       color: rgba(183, 147, 88, 1);
@@ -4138,6 +4136,27 @@
 
       // Initialize first tab
       setActiveTab('manha');
+
+      /* ── Intercept Hero CTA & Scroll Indicator for smooth GSAP-friendly scroll ── */
+      const heroCta = document.querySelector('.loc-beam-container[href="#manha"]');
+      if (heroCta) {
+        heroCta.addEventListener('click', (e) => {
+          e.preventDefault(); // Prevent native jump
+          const targetY = catNav.offsetTop - 76; // Accommodate the sticky nav height
+          window.scrollTo({ top: targetY, behavior: 'smooth' });
+          setActiveTab('manha');
+        });
+      }
+
+      const scrollIndicator = document.getElementById('el-scroll');
+      if (scrollIndicator) {
+        scrollIndicator.style.pointerEvents = 'auto';
+        scrollIndicator.style.cursor = 'pointer';
+        scrollIndicator.addEventListener('click', () => {
+          const targetY = catNav.offsetTop - 76;
+          window.scrollTo({ top: targetY, behavior: 'smooth' });
+        });
+      }
     }
 
     /* ── Mobile menu ── */
