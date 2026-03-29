@@ -521,12 +521,29 @@
       inset: 0;
       z-index: 2;
       pointer-events: none;
-      /* Completely transparent center to prevent washing out the product, black vignette fade */
-      background: radial-gradient(ellipse at center, 
-        transparent 35%, 
-        rgba(1, 2, 1, 0.4) 65%, 
-        rgba(1, 2, 1, 0.95) 100%
-      );
+      /*
+        The overlay serves two purposes:
+        1. Vignette the cup edges (radial, keeps the cup vivid at center)
+        2. Darken the upper zone where the text lives (linear, top-to-mid)
+        The two gradients stack multiplicatively — each reinforcing the
+        area where it needs to act without fighting the other zone.
+      */
+      background:
+        /* Upper text zone: progressive dark curtain from top */
+        linear-gradient(
+          to bottom,
+          rgba(4, 7, 4, 0.72) 0%,
+          rgba(4, 7, 4, 0.55) 18%,
+          rgba(4, 7, 4, 0.30) 36%,
+          rgba(4, 7, 4, 0.05) 52%,
+          transparent 64%
+        ),
+        /* Radial edge vignette — frames the cup, keeps it cinematic */
+        radial-gradient(ellipse at 50% 62%,
+          transparent 28%,
+          rgba(1, 2, 1, 0.35) 60%,
+          rgba(1, 2, 1, 0.90) 100%
+        );
     }
 
     .hero-grain {
@@ -607,25 +624,26 @@
       will-change: transform, opacity;
     }
 
-    /* em: warm amber-gold — the single emotional accent, not cold gray */
+    /* em: warm amber-gold lifted to high-value cream-gold so it reads
+       above the warm image tones. Golden but bright — not orange-brown. */
     .hero-title em {
       font-style: italic;
-      color: rgba(193, 162, 105, 0.90);
+      color: rgba(230, 210, 160, 0.96);
       font-weight: 400;
-      -webkit-text-fill-color: rgba(193, 162, 105, 0.90);
+      -webkit-text-fill-color: rgba(230, 210, 160, 0.96);
     }
 
     /* ── HERO SUBTITLE ─────────────────────────────────────────────────
-       Smaller + lighter than before. Hospitality brand subtitles should
-       guide the mood, not explain the concept. Shorter, more atmospheric.
-       Warm parchment tone — not flat white. Letter-spacing very slightly
-       open for legality at the thin weight.
+       Raised from 0.52 → 0.72 opacity: still clearly subordinate to
+       the headline but no longer invisible.
+       Letter-spacing slightly increased: thinner weight reads better
+       with more air between letters.
     ─────────────────────────────────────────────────────────────────── */
     .hero-sub {
       font-size: 0.95rem;
       font-weight: 300;
-      color: rgba(210, 202, 185, 0.52);
-      letter-spacing: 0.015em;
+      color: rgba(210, 202, 185, 0.72);
+      letter-spacing: 0.025em;
       max-width: 400px;
       line-height: 1.75;
       margin: 2rem auto 3.25rem;
@@ -893,7 +911,31 @@
 
 
 
-    /* ── Mobile: horizontal scroll rail ─────────────── */
+    /* ── HERO TEXT SCRIM ────────────────────────────────────────────────
+       A dedicated backing layer sits directly behind the hero content
+       block. It provides the dark substrate that the text strictly needs
+       without touching the cup below.
+       Technique: feathered vertical gradient, centered upper-half only.
+       z-index 9 (below text at z 10, above cup at z 1).
+    ─────────────────────────────────────────────────────────────────── */
+    .hero-text-scrim {
+      position: absolute;
+      inset: 0;
+      z-index: 9;
+      pointer-events: none;
+      background:
+        radial-gradient(
+          ellipse 80% 65% at 50% 38%,
+          rgba(4, 8, 5, 0.48) 0%,
+          rgba(4, 8, 5, 0.22) 48%,
+          transparent 72%
+        );
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       The kicker-line inside the hero uses the cardápio dark bg token,
+       not the homepage light token — gradient goes dark side first.
+    ───────────────────────────────────────────────────────────────── */
     @media (max-width: 1024px) {
       .menu-main-wrapper {
         margin-top: 0;
@@ -2688,6 +2730,8 @@
 
       <div class="hero-video-overlay"></div>
       <div class="hero-grain"></div>
+      <!-- Text scrim: dedicated dark backdrop behind copy only — z9, above cup, below content -->
+      <div class="hero-text-scrim" aria-hidden="true"></div>
 
       <div class="hero-content">
         <div class="hero-kicker" id="el-kicker">
