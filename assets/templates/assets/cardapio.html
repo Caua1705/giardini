@@ -968,23 +968,16 @@
       }
 
       .cat-nav-inner {
-        justify-content: flex-start;
-        flex-wrap: nowrap;
+        justify-content: center;
+        flex-wrap: wrap;
         gap: 0;
-        padding: 0.9rem 0 0.9rem 0;
-        overflow-x: auto;
-        scrollbar-width: none;
-        padding-left: 24px;
-        padding-right: 24px;
-        margin: 0 -24px;
+        padding: 0.9rem 24px;
+        margin: 0;
       }
 
       .cat-nav-inner::after {
-        left: 24px;
-        right: 24px;
+        display: none;
       }
-
-      .cat-nav-inner::-webkit-scrollbar { display: none; }
 
       .cat-btn {
         white-space: nowrap;
@@ -1425,14 +1418,11 @@
         padding: 0.15rem 0;
       }
       .cat-nav-inner {
-        justify-content: flex-start;
-        flex-wrap: nowrap;
+        justify-content: center;
+        flex-wrap: wrap;
         padding: 0.85rem 24px;
-        margin: 0 -24px;
-        overflow-x: auto;
-        scrollbar-width: none;
+        margin: 0;
       }
-      .cat-nav-inner::-webkit-scrollbar { display: none; }
       .cat-btn {
         white-space: nowrap;
         font-size: 0.65rem;
@@ -3261,16 +3251,11 @@
     ─────────────────────────────────────────────────────────────────── */
     @media (max-width: 1024px) {
       .cat-nav-inner {
-        justify-content: flex-start;
-        flex-wrap: nowrap;
-        padding: 0.8rem 0;
-        overflow-x: auto;
-        scrollbar-width: none;
-        padding-left: 24px;
-        padding-right: 24px;
-        margin: 0 -24px;
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 0.8rem 24px;
+        margin: 0;
       }
-      .cat-nav-inner::-webkit-scrollbar { display: none; }
       .cat-btn {
         white-space: nowrap;
         font-size: 0.62rem;
