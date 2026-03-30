@@ -486,6 +486,10 @@
       );
       opacity: 0.95;
     }
+    
+    #video-frame:hover {
+      transform: translate(-50%, -50%) !important;
+    }
 
     #seq-canvas {
       width: 100%;
