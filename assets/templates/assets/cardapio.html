@@ -586,7 +586,8 @@
       background-size: 180px 180px;
     }
 
-    /* ── Premium Typography Reveal (GSAP) ── */
+    .hero-title-sep { display: none; }
+    
     .line {
       display: block;
       overflow: visible;
@@ -1604,14 +1605,13 @@
         margin-bottom: 0;
       }
 
-      /* Divisória central: separa visualmente título de subtítulo */
-      .hero-title::after {
-        content: '';
-        display: block;
+      /* Divisória central: separada em elemento real para animação GSAP */
+      .hero-title-sep {
+        display: block !important;
         width: 32px;
         height: 1px;
         background: rgba(183, 147, 88, 0.45);
-        margin: 1.4rem auto;          /* margin auto para centralizar a linha */
+        margin: 1.4rem auto;
       }
 
       /* ── Subtítulo: mais presente, centrado, limitando viúvas ── */
@@ -3900,6 +3900,7 @@
           <span class="line"><span class="line-inner" id="el-h1a">Sabores com</span></span>
           <span class="line"><span class="line-inner" id="el-h1b"><em>Intenção.</em></span></span>
         </h1>
+        <div class="hero-title-sep" id="el-h1-sep"></div>
         <p class="hero-sub" id="el-body">
           Café de especialidade e cozinha cuidadosa.
           Para quem sabe apreciar a diferença.
@@ -5145,6 +5146,11 @@
         gsap.to('#el-h1b', {
           opacity: 0, y: -48, filter: 'blur(10px)', ease: 'power2.in', immediateRender: false,
           scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.36}` }
+        });
+
+        gsap.to('#el-h1-sep', {
+          opacity: 0, y: -30, filter: 'blur(5px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.38}` }
         });
 
         gsap.to('#el-scroll', {
