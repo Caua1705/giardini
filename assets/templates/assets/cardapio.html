@@ -3733,14 +3733,38 @@
 
     /* 4. 430 x 932 (iPhone Pro Max Tall Viewport) */
     @media screen and (max-width: 430px) and (min-height: 900px) {
+      .hero-kicker {
+        font-size: 0.55rem;
+        letter-spacing: 0.48em;
+      }
+      .hero-title {
+        font-size: clamp(3.8rem, 16vw, 4.6rem);
+        letter-spacing: -0.04em;
+      }
+      .hero-title::after {
+        width: 36px;
+        margin: 1.5rem auto;
+      }
+      .hero-sub {
+        font-size: 0.88rem;
+        max-width: 340px;
+        margin-bottom: 2.8rem;
+      }
+      .hero-btn-primary {
+        padding: 1.25rem 3.4rem;
+        font-size: 0.72rem;
+      }
       .hero-content {
-        padding-top: 25vh;
+        padding-top: 18vh; /* Reduced from 25vh because the elements are much taller now */
       }
       #video-frame {
-        top: 42%;
+        width: 95vw;
+        max-width: 380px;
+        top: 42%; /* Adjusted to tightly overlap the new larger text block */
       }
       .hero-scroll {
-        bottom: 12vh;
+        bottom: 8vh;
+        font-size: 0.42rem;
       }
     }
 
