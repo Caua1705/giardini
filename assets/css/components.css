@@ -2664,14 +2664,13 @@
       background: rgba(6, 11, 7, 0.94);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      /* Top border: fine gold line — editorial section indicator */
-      border-top: 1px solid rgba(183, 147, 88, 0.14);
+      /* Top border removed as requested */
+      border-top: none;
       /* Bottom shadow: dark pool that grounds the nav onto the page */
       box-shadow:
         0 1px 0 rgba(183, 147, 88, 0.06),  /* bottom gold trace */
         0 12px 32px -4px rgba(0, 0, 0, 0.55),
-        0 4px 12px -2px rgba(0, 0, 0, 0.35),
-        inset 0 1px 0 rgba(255, 255, 255, 0.025); /* top surface catch */
+        0 4px 12px -2px rgba(0, 0, 0, 0.35);
       padding: 0.25rem 0;
     }
 
@@ -4219,8 +4218,13 @@
       isolation: isolate;
     }
 
-    
-    
+    #cat-nav.is-pinned {
+      background: rgba(7, 10, 7, 0.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow:
+        0 8px 24px -4px rgba(0, 0, 0, 0.5);
+    }
 
     #menu-orb-1, #menu-orb-2 {
       position: fixed;
@@ -4533,7 +4537,7 @@
       color: rgba(183, 147, 88, 1);
     }
 
-    /* ── 4. MENU ITEM HOVER — Minimalist Typography ────────────────────
+    /* ── 4. MENU ITEM — Minimalist Typography ────────────────────
        Removed the boxy background/border. Hover is purely on the text.
     ─────────────────────────────────────────────────────────────────── */
     .menu-item {
@@ -5492,3 +5496,5 @@
         bottom: 8vh;
         font-size: 0.42rem;
       }
+    }
+}
