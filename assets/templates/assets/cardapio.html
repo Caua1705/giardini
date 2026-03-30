@@ -5347,8 +5347,13 @@
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
     const mobileClose = document.getElementById('mobile-close');
-    hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+    hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
     mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    
+    // Closer menu when a link is clicked
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    });
 
     /* ══════════════════════════════════════════════════════════════════
        AMBIENT PARTICLE SYSTEM — floating golden motes
