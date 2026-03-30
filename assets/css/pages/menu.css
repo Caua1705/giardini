@@ -326,6 +326,11 @@
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
     }
+    
+    /* Remove white gradient fade from components.css for the dark menu page */
+    #hero-viewport::after {
+      display: none !important;
+    }
     .hero-content {
       position: absolute;
       inset: 0;
@@ -797,14 +802,13 @@
       background: rgba(6, 11, 7, 0.94);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      /* Top border: fine gold line — editorial section indicator */
-      border-top: 1px solid rgba(183, 147, 88, 0.14);
+      /* Top border removed as requested */
+      border-top: none;
       /* Bottom shadow: dark pool that grounds the nav onto the page */
       box-shadow:
         0 1px 0 rgba(183, 147, 88, 0.06),  /* bottom gold trace */
         0 12px 32px -4px rgba(0, 0, 0, 0.55),
-        0 4px 12px -2px rgba(0, 0, 0, 0.35),
-        inset 0 1px 0 rgba(255, 255, 255, 0.025); /* top surface catch */
+        0 4px 12px -2px rgba(0, 0, 0, 0.35);
       padding: 0.25rem 0;
     }
 
@@ -1742,8 +1746,6 @@
 
       #cat-nav.is-pinned {
         background: rgba(6, 10, 7, 0.95);
-        border-bottom: 1px solid rgba(183, 147, 88, 0.10);
-        box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.45);
         padding: 0;
       }
 
@@ -2837,8 +2839,8 @@
       background: rgba(7, 10, 7, 0.92);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
+      /* Shadows removed to eliminate white line artifacts */
       box-shadow:
-        0 1px 0 rgba(183, 147, 88, 0.10),
         0 8px 24px -4px rgba(0, 0, 0, 0.5);
     }
 
