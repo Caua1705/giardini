@@ -2091,9 +2091,47 @@
       .menu-main-wrapper {
         padding: 0 16px;
       }
+
+      /* ── CATEGORY NAV: Premium Horizontal Rail ── */
+      #cat-nav {
+        top: 58px; /* Safely nested under sticky navbar */
+        margin-bottom: 2.5rem;
+      }
+      
+      #cat-nav.is-pinned {
+        background: rgba(6, 10, 7, 0.98);
+        backdrop-filter: blur(16px);
+      }
+
       .cat-nav-inner {
-        padding: 0.6rem 16px;
-        margin: 0 -16px;
+        padding: 0.8rem 24px;   /* Extra touch padding */
+        margin: 0 -16px;        /* Bleeds slightly to edges */
+        justify-content: flex-start !important; /* Overrides accidental wrapping */
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        gap: 0.5rem;
+        /* Cinematic left/right edge fade mask for scrolling hint */
+        mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+      }
+      
+      .cat-nav-inner::-webkit-scrollbar {
+        display: none;
+      }
+      
+      .cat-btn {
+        flex-shrink: 0;         /* Prevent text squishing */
+        white-space: nowrap;    /* Keep label on one elegant line */
+        font-size: 0.65rem;
+        padding: 0.6rem 1.4rem;
+        color: rgba(228, 221, 208, 0.35); /* Tonal inactive state */
+      }
+      
+      .cat-btn.active {
+        color: rgba(183, 147, 88, 1);    /* Dominant contrast */
+        letter-spacing: 0.28em;
       }
 
       /* Item sizes: comfortable minimum */
@@ -3696,13 +3734,13 @@
     /* 4. 430 x 932 (iPhone Pro Max Tall Viewport) */
     @media screen and (max-width: 430px) and (min-height: 900px) {
       .hero-content {
-        padding-top: 23vh;
+        padding-top: 25vh;
       }
       #video-frame {
-        top: 52%;
+        top: 42%;
       }
       .hero-scroll {
-        bottom: 7.5vh;
+        bottom: 12vh;
       }
     }
 
