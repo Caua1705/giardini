@@ -1,0 +1,51 @@
+::-webkit-scrollbar { width: 12px; height: 12px; }
+
+::-webkit-scrollbar-track { background: transparent; }
+
+::-webkit-scrollbar-thumb { background-color: rgba(26, 26, 26, 0.2); border-radius: 10px; border: 4px solid transparent; background-clip: padding-box; }
+
+::-webkit-scrollbar-thumb:hover { background-color: rgba(26, 26, 26, 0.35); border: 4px solid transparent; background-clip: padding-box; }
+
+::-webkit-scrollbar { width: 10px; }
+
+::-webkit-scrollbar-track { background: rgba(26, 26, 26, 0.03); }
+
+::-webkit-scrollbar-thumb { background: rgba(43, 74, 59, 0.2); /* Tom verde sutil */ border-radius: 10px; border: 2px solid transparent; background-clip: content-box; }
+
+::-webkit-scrollbar-thumb:hover { background: rgba(43, 74, 59, 0.4); }
+
+::-webkit-scrollbar { display: none; }
+
+::-webkit-scrollbar {
+        display: none;
+      }
+
+::-webkit-scrollbar {
+      width: 4px;
+    }
+
+::-webkit-scrollbar-track {
+      background: #070c08;
+    }
+
+::-webkit-scrollbar-thumb {
+      background: rgba(183, 147, 88, 0.28);
+      border-radius: 2px;
+    }
+
+::-webkit-scrollbar-thumb:hover {
+      background: rgba(183, 147, 88, 0.50);
+    }
+
+::-webkit-scrollbar       { width: 4px; }
+
+::-webkit-scrollbar-track { background: #050a06; }
+
+::-webkit-scrollbar-thumb {
+      background: rgba(183, 147, 88, 0.22);
+      border-radius: 2px;
+    }
+
+::-webkit-scrollbar-thumb:hover {
+      background: rgba(183, 147, 88, 0.42);
+    }

@@ -1,0 +1,172 @@
+.loader {
+      position: fixed;
+      inset: 0;
+      background: var(--c-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+
+    .loader-text {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      color: var(--c-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .loader-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: var(--c-primary);
+    }
+
+    /* ── Navbar ─────────────────────────────────────────────────────── */
+    #navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 2.25rem 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 500;
+      border-bottom: 1px solid transparent;
+      /* Slower, more editorial transition duration (0.8s) */
+      transition: 
+        padding 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        backdrop-filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #navbar.is-scrolled {
+      background-color: rgba(8, 15, 10, 0.96);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom-color: rgba(183, 147, 88, 0.12);
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
+    }
+
+    .nav-logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.5rem;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      color: #fff;
+      transition: color 0.4s var(--expo);
+    }
+
+    .is-scrolled .nav-logo {
+      color: rgba(232, 224, 208, 0.9);
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+      justify-content: center;
+      flex: 2;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      justify-content: flex-end;
+      flex: 1;
+    }
+
+    .nav-link {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.75);
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: currentColor;
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-link:hover::before {
+      width: 100%;
+    }
+
+    .nav-link:hover {
+      color: #fff;
+    }
+
+    .is-scrolled .nav-link {
+      color: rgba(26, 26, 26, 0.6);
+    }
+
+    .is-scrolled .nav-link:hover {
+      color: var(--c-primary);
+    }
+
+    /* Primary CTA in Navbar */
+    .nav-cta {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border-radius: 9999px;
+      text-decoration: none;
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      color: #fff;
+      transition: all 0.35s var(--expo);
+    }
+
+    .nav-cta:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .is-scrolled .nav-cta {
+      border: 1.5px solid var(--c-primary);
+      color: var(--c-primary);
+      background: transparent;
+    }
+
+    .is-scrolled .nav-cta:hover {
+      background: var(--c-primary);
+      color: #FDFBF7;
+    }
+
+    /* Shimmer beam sweep — for the nav-cta and other premium buttons */
+    .s4-beam {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.15) 45%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.15) 55%, transparent 100%);
+      transform: translateX(-110%) skewX(-18deg);
+      pointer-events: none;
+      z-index: 8;
+      opacity: 0;
+      transition: opacity 0.1s;
+    }
