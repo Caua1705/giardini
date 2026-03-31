@@ -363,8 +363,8 @@
         let mm = gsap.matchMedia();
 
         mm.add({
-          isDesktop: "(min-width: 768px)",
-          isMobile: "(max-width: 767px)"
+          isDesktop: "(min-width: 1025px)",
+          isMobile: "(max-width: 1024px)"
         }, (context) => {
           let { isDesktop, isMobile } = context.conditions;
 
@@ -373,13 +373,14 @@
           if (isMobile) {
             gsap.set(frame, {
               position: 'absolute',
-              left: initRect.left,
-              top: initRect.top,
+              left: "50%",
+              xPercent: -50,
+              top: initRect.top + 120, // Deslocamento forçado p/ garantir que fique embaixo do botão
               width: initRect.width,
               height: initRect.height,
               borderRadius: 16,
               zIndex: 15,
-              clearProps: "transform,x,y"
+              transformOrigin: 'center center',
             });
           } else {
             gsap.set(frame, {
@@ -580,32 +581,69 @@
         });
         /* ── VIDEO-FRAME EXPANSION (split → fullscreen) ──────────── */
         mm.add({
-          isDesktop: "(min-width: 768px)",
-          isMobile: "(max-width: 767px)"
+          isDesktop: "(min-width: 1025px)",
+          isMobile: "(max-width: 1024px)"
         }, (context) => {
           let { isDesktop, isMobile } = context.conditions;
 
-          gsap.to(frame, {
-            left: 0, top: 0, width: '100vw', height: '100vh',
-            borderRadius: 0, boxShadow: '0 0 0 0 transparent',
-            zIndex: 40,
-            ease: 'power2.inOut',
-            scrollTrigger: {
-              trigger: wrapper, start: 'top top',
-              end: () => `+=${scrollPx}`, scrub: CONFIG.scrub,
-            }
-          });
-        });
-        /* ── CINEMATIC OVERLAY ───────────────────────────────────── */
-        gsap.to('#video-overlay', {
-          opacity: 1, ease: 'power1.inOut',
-          scrollTrigger: {
-            trigger: wrapper,
-            start: () => `+=${scrollPx * 0.35}`,
-            end: () => `+=${scrollPx}`,
-            scrub: CONFIG.scrub,
+          if (isMobile) {
+            // Estratégia de Âncora Central: mantém fixo no meio e apenas expande a largura.
+            // Isso anula qualquer drift (desvio) lateral matemático.
+            gsap.to(frame, {
+              width: '100vw', 
+              height: '100vh',
+              left: '50%',
+              xPercent: -50,
+              top: '50%',
+              yPercent: -50,
+              maxHeight: 'none',
+              maxWidth: 'none',
+              borderRadius: 0, 
+              boxShadow: '0 0 0 0 transparent',
+              zIndex: 40,
+              ease: 'power2.inOut',
+              clearProps: 'maxWidth,maxHeight', // Limpa propriedades após a animação se necessário
+              scrollTrigger: {
+                trigger: wrapper, 
+                start: 'top top',
+                end: () => `+=${scrollPx}`, 
+                scrub: CONFIG.scrub,
+              }
+            });
+          } else {
+            // Desktop: comportamento padrão de preenchimento de viewport
+            gsap.to(frame, {
+              left: 0, 
+              top: 0, 
+              xPercent: 0,
+              yPercent: 0,
+              width: '100vw', 
+              height: '100vh',
+              borderRadius: 0, 
+              boxShadow: '0 0 0 0 transparent',
+              zIndex: 40,
+              ease: 'power2.inOut',
+              scrollTrigger: {
+                trigger: wrapper, 
+                start: 'top top',
+                end: () => `+=${scrollPx}`, 
+                scrub: CONFIG.scrub,
+              }
+            });
           }
         });
+        /* ── CINEMATIC OVERLAY (Disable on Mobile/Tablet) ─────────── */
+        if (window.innerWidth > 1024) {
+          gsap.to('#video-overlay', {
+            opacity: 1, ease: 'power1.inOut',
+            scrollTrigger: {
+              trigger: wrapper,
+              start: () => `+=${scrollPx * 0.35}`,
+              end: () => `+=${scrollPx}`,
+              scrub: CONFIG.scrub,
+            }
+          });
+        }
         /* Canvas resize on window resize */
         window.addEventListener('resize', () => {
           resizeCanvas();
@@ -993,7 +1031,7 @@
     if(!vp) return;
     const w = window.innerWidth;
     vp.classList.remove('is-notebook-pad', 'is-mobile-stack');
-    if (w <= 767) {
+    if (w <= 1024) {
       vp.classList.add('is-mobile-stack');
     } else if (w <= 1279) {
       vp.classList.add('is-notebook-pad');

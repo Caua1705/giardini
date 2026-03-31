@@ -184,21 +184,24 @@
 }
 
 /* Mobile: Layout em coluna, video antes do texto e tudo centralizado */
-@media (max-width: 767px) {
+@media (max-width: 1024px) {
   #hero-viewport {
     flex-direction: column !important;
-    height: auto !important; /* Remover altura fixa que espreme elementos */
+    height: auto !important; 
     min-height: 100vh !important;
     overflow: visible !important;
+    background: #fdfbf7 !important; /* Fundo sólido p/ remover orbs q/ clareiam o vídeo */
   }
   
   #hero-left {
-    order: 2 !important;
+    order: 1 !important;
     width: 100% !important;
     height: auto !important;
-    padding: 2rem 1.5rem 5rem !important;
+    padding: 3.5rem 1.5rem 10rem !important; /* Aumentado para 10rem */
     align-items: center !important;
     text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
   
   #hero-left::after {
@@ -206,16 +209,25 @@
   }
   
   #hero-right {
-    order: 1 !important;
-    width: 100% !important;
-    height: 45vh !important; /* Garante que o video iframe calcule sua espessura corretamente no GSAP */
-    padding: 1.5rem !important;
+    order: 2 !important;
+    width: 82% !important;
+    max-width: 310px !important; 
+    aspect-ratio: 1 / 1.1 !important; 
+    height: auto !important;
+    padding: 0 !important;
+    margin: 12rem auto 0 !important; /* Aumentado para 12rem */
+    display: flex !important;
+    justify-content: center !important;
   }
 
   /* Centralizar alinhamentos Flex que possam estar esmagados à esquerda */
   .kicker, .hero-cta, .hero-meta {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
     justify-content: center !important;
     width: 100% !important;
+    gap: 1.5rem !important;
   }
   
   /* Garantir que o paragraph centralize dentro do text-align central */
@@ -224,8 +236,27 @@
     margin-right: auto !important;
   }
 
-  /* Ajustar linha vertical de progresso para a lateral direita no mobile */
-  .scroll-indicator-wrap, .frame-corner, #hero-bg-cols, .hero-grid-bg, #hero-clock {
+  /* 1) Limpeza Visual: Remover vinhetas, overlays e colunas q/ pesam no mobile */
+  #hero-vig, #video-overlay, .video-glow, #hero-bg-cols, .hero-col, .hero-grid-bg, #hero-clock {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+  
+  /* Retirar sombras excessivas e "fading" ao redor do vídeo */
+  #video-frame {
+    box-shadow: 0 15px 35px rgba(0,0,0,0.12) !important;
+    border: 1px solid rgba(43,74,59,0.12) !important; /* Borda nítida de separação */
+    opacity: 1 !important;
+    filter: none !important;
+    background: #000 !important;
+  }
+  
+  #video-frame::after, #video-frame::before {
+    display: none !important; /* Remove glow e catchlights q/ causam 'névoa' branca */
+  }
+
+  .scroll-indicator-wrap, .frame-corner {
     display: none !important;
   }
 
@@ -354,8 +385,8 @@
 @media (max-width: 1280px) {
   .hero-scroll-wrapper { left: 47%; }
 }
-@media (max-width: 767px) {
-  .hero-scroll-wrapper { left: 50%; transform: translateX(-50%); bottom: 2vh; }
+@media (max-width: 1024px) {
+  .hero-scroll-wrapper { left: 50%; transform: translateX(-50%); bottom: 10vh !important; }
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -1996,9 +2027,12 @@
 #hero-viewport.is-mobile-stack {
   display: flex !important;
   flex-direction: column !important;
+  width: 100vw !important; /* Forçar largura total do visor */
+  max-width: 100% !important;
   height: auto !important;
   min-height: 100vh !important;
-  overflow: visible !important;
+  overflow-x: hidden !important; /* Impedir qualquer deslize lateral sub-pixel */
+  overflow-y: visible !important;
   justify-content: flex-start !important;
 }
 
@@ -2057,10 +2091,10 @@
   pointer-events: none !important;
 }
 
-/* 4. VIDEO FRAME: Limpeza de conflitos com GSAP */
+/* 4. VIDEO FRAME: Permite transformações do GSAP para expansão centralizada */
 #hero-viewport.is-mobile-stack #video-frame {
-  transform: none !important;
   margin: 0 !important;
+  will-change: transform, left, top, width, height !important;
 }
 
 /* 5. EXPLORE: Centralizado abaixo do placeholder de vídeo */
@@ -3936,7 +3970,7 @@
       }
 
       .product-glow {
-        top: 61.5%;
+        top: 65.5%;
       }
 
       /* Indicador Descubra: elevado para preencher a base conectando a cena */
@@ -5430,77 +5464,6 @@
       #lateral-vignette { animation: none; opacity: 0.85; }
     }
 
-    /* ══════════════════════════════════════════════════════════════
-       PRECISION ALIGNMENT: BREAKPOINT REFINEMENTS
-    ══════════════════════════════════════════════════════════════ */
-    
-    /* 1. 1280 x 800 (13" Landscape Laptop) */
-    @media screen and (max-width: 1280px) and (max-height: 800px) {
-      .hero-scroll {
-        bottom: 2rem;
-      }
+   /* Consolidated 1024px mobile layout now handles all small viewports. */
     }
-
-    /* 2. 1024 x 768 (Landscape Tablet) */
-    @media screen and (max-width: 1024px) and (max-height: 768px) {
-      .hero-kicker {
-        position: relative;
-        top: 1.5rem;
-      }
-      .hero-scroll {
-        bottom: 1.25rem;
-      }
-    }
-
-    /* 3. 900 x 700 (Small Landscape Tablet/Netbook) */
-    @media screen and (max-width: 900px) and (max-height: 700px) {
-      .hero-kicker {
-        position: relative;
-        top: 2.25rem;
-      }
-      .hero-scroll {
-        bottom: 0.5rem;
-      }
-      .hero-cta-wrap {
-        position: relative;
-        top: 0.5rem;
-      }
-    }
-
-    /* 4. 430 x 932 (iPhone Pro Max Tall Viewport) */
-    @media screen and (max-width: 430px) and (min-height: 900px) {
-      .hero-kicker {
-        font-size: 0.55rem;
-        letter-spacing: 0.48em;
-      }
-      .hero-title {
-        font-size: clamp(3.8rem, 16vw, 4.6rem);
-        letter-spacing: -0.04em;
-      }
-      .hero-title::after {
-        width: 36px;
-        margin: 1.5rem auto;
-      }
-      .hero-sub {
-        font-size: 0.88rem;
-        max-width: 340px;
-        margin-bottom: 2.8rem;
-      }
-      .hero-btn-primary {
-        padding: 1.25rem 3.4rem;
-        font-size: 0.72rem;
-      }
-      .hero-content {
-        padding-top: 18vh; /* Reduced from 25vh because the elements are much taller now */
-      }
-      #video-frame {
-        width: 95vw;
-        max-width: 380px;
-        top: 42%; /* Adjusted to tightly overlap the new larger text block */
-      }
-      .hero-scroll {
-        bottom: 8vh;
-        font-size: 0.42rem;
-      }
-    }
-}
+
