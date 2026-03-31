@@ -81,44 +81,24 @@
       // ── Detect mid-scroll reload ──────────────────────────────────────
       const isAlreadyScrolled = (window.scrollY || window.pageYOffset) > 10;
 
-      let heroTl = null;
+      // Track whether hero entrance has been played and exit animations created
+      let heroEntranceDone = false;
+      let exitAnimsCreated = false;
 
-      if (isAlreadyScrolled) {
-        // Page loaded mid-scroll: commit all hero elements to their
-        // fully-visible final state immediately, then let scroll-out handle it.
-        document.body.style.opacity = '1';
-        gsap.set(['#navbar', '#el-kicker', '#el-h1a', '#el-h1b', '#el-body', '#el-cta', '#el-scroll'], { 
-          opacity: 1, y: 0, filter: 'blur(0px)' 
-        });
-        
-        // frame: set opacity 1 — never leave the frame in opacity:0 state
-        gsap.set('#video-frame', { opacity: 1, scale: 1 });
-        
-        if (canvas) {
-          canvas.style.transition = 'none';
-          canvas.style.opacity    = '1';
-          canvas.style.filter     = 'blur(0) contrast(1.1) brightness(1.05)';
-          canvas.style.transform  = 'scale(1)';
-        }
-      } else {
-        // Normal page load at top: run cinematic entrance animation
-        gsap.set('#el-kicker', { opacity: 0, y: 35, filter: 'blur(14px)' });
-        gsap.set('#el-h1a', { opacity: 0, y: 45, filter: 'blur(16px)' });
-        gsap.set('#el-h1b', { opacity: 0, y: -45, filter: 'blur(16px)' });
-        gsap.set('#el-body', { opacity: 0, y: 30, filter: 'blur(12px)' });
-        gsap.set('#el-cta', { opacity: 0, y: 25, filter: 'blur(10px)' });
-        gsap.set('#el-scroll', { opacity: 0, y: 15, filter: 'blur(8px)' });
-        gsap.set('#navbar', { opacity: 0 });
-        gsap.set('#video-frame', { opacity: 0, scale: 0.94 });
+      // ── Always initialize hero elements in their hidden state ──
+      gsap.set('#el-kicker', { opacity: 0, y: 35, filter: 'blur(14px)' });
+      gsap.set('#el-h1a',    { opacity: 0, y: 45, filter: 'blur(16px)' });
+      gsap.set('#el-h1b',    { opacity: 0, y: -45, filter: 'blur(16px)' });
+      gsap.set('#el-body',   { opacity: 0, y: 30, filter: 'blur(12px)' });
+      gsap.set('#el-cta',    { opacity: 0, y: 25, filter: 'blur(10px)' });
+      gsap.set('#el-scroll', { opacity: 0, y: 15, filter: 'blur(8px)' });
+      gsap.set('#navbar',    { opacity: 0 });
+      gsap.set('#video-frame', { opacity: 0, scale: 0.94 });
 
-        heroTl = gsap.timeline({ 
-          delay: 0.1,
-          onStart: () => {
-            document.body.style.opacity = '1';
-          }
-        });
-        
-        heroTl
+      // ── Reusable entrance timeline builder ──
+      function buildEntranceTl(opts) {
+        const tl = gsap.timeline(opts);
+        tl
           .to('#navbar', { opacity: 1, duration: 0.8, ease: 'power2.out' })
           .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.25, ease: 'expo.out' }, '-=0.5')
           .add('titleShow', '-=0.8')
@@ -128,20 +108,78 @@
           .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' }, 'titleShow+=0.55')
           .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, 'titleShow+=0.75')
           .to('#el-scroll', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power2.out' }, 'titleShow+=1.05');
+        return tl;
       }
 
       // Initialize canvas
       window.addEventListener('resize', resizeCanvas);
       resizeCanvas();
       if (frames[0]?.complete) drawFrame(0);
-      // Add .ready class for the CSS styling — transition is suppressed above if mid-scroll
       if (canvas) canvas.classList.add('ready');
-
 
       // ── ScrollTrigger Scrub Animation ──
       const wrapper = document.getElementById('hero-pin-wrapper');
       const viewport = document.getElementById('hero-viewport');
       const scrollPx = window.innerHeight * (CONFIG.scrollVH / 100);
+
+      // ── Function to create exit scrub animations ──
+      // Called AFTER entrance completes so GSAP captures start values = opacity:1
+      function createExitAnimations() {
+        if (exitAnimsCreated) return;
+        exitAnimsCreated = true;
+
+        function snapHeroVisible() {
+          gsap.set(['#el-kicker', '#el-h1a', '#el-h1b', '#el-h1-sep', '#el-body', '#el-cta', '#el-scroll'], {
+            opacity: 1, y: 0, filter: 'blur(0px)'
+          });
+          gsap.set('#video-frame', { opacity: 1 });
+          gsap.set('.product-glow', { opacity: 1 });
+        }
+
+        const scrollSettings = {
+          trigger: wrapper,
+          start: 'top top',
+          scrub: 1.2,
+          onLeaveBack: () => { snapHeroVisible(); }
+        };
+
+        gsap.to('#el-kicker', {
+          opacity: 0, y: -40, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.22}` }
+        });
+        gsap.to('#el-h1a', {
+          opacity: 0, y: -60, filter: 'blur(12px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.3}` }
+        });
+        gsap.to('#el-h1b', {
+          opacity: 0, y: -48, filter: 'blur(10px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.36}` }
+        });
+        gsap.to('#el-h1-sep', {
+          opacity: 0, y: -30, filter: 'blur(5px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.38}` }
+        });
+        gsap.to('#el-scroll', {
+          opacity: 0, y: -20, filter: 'blur(5px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.25}` }
+        });
+        gsap.to('#el-body', {
+          opacity: 0, y: -32, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.43}` }
+        });
+        gsap.to('#el-cta', {
+          opacity: 0, y: -26, filter: 'blur(6px)', ease: 'power2.in', immediateRender: false,
+          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.5}` }
+        });
+        gsap.to('.product-glow', {
+          opacity: 0, ease: 'none', immediateRender: false,
+          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.35}` }
+        });
+        gsap.to('#video-frame', {
+          opacity: 0.12, duration: 0.55, ease: 'none', immediateRender: false,
+          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.55}` }
+        });
+      }
 
       if (wrapper && viewport && canvas) {
         wrapper.style.height = `${window.innerHeight + scrollPx}px`;
@@ -153,7 +191,6 @@
           pin: viewport,
           pinSpacing: false,
           scrub: CONFIG.scrub,
-          /* anticipatePin: prevents the layout jump/flash when the pin activates */
           anticipatePin: 1,
           onUpdate: (self) => {
             const idx = Math.min(
@@ -164,64 +201,44 @@
           }
         });
 
-        // ── HERO EXIT: cinematic staggered parallax transitions ─────────────
-        // Individual gsap.to() blocks with immediateRender: false match the
-        // robust architecture of hero_premium.html.
-        
-        const scrollSettings = {
-          trigger: wrapper, 
-          start: 'top top', 
-          scrub: 1.2,
-          onEnter: () => {
-            if (heroTl && heroTl.isActive()) heroTl.progress(1, false);
+        if (isAlreadyScrolled) {
+          // ── Mid-scroll reload path ──
+          // Body visible immediately, navbar visible, canvas ready
+          document.body.style.opacity = '1';
+          gsap.set('#navbar', { opacity: 1 });
+          gsap.set('#video-frame', { opacity: 1, scale: 1 });
+          if (canvas) {
+            canvas.style.transition = 'none';
+            canvas.style.opacity    = '1';
+            canvas.style.filter     = 'blur(0) contrast(1.1) brightness(1.05)';
+            canvas.style.transform  = 'scale(1)';
           }
-        };
 
-        gsap.to('#el-kicker', {
-          opacity: 0, y: -40, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.22}` }
-        });
+          // Hero text elements stay hidden (set above).
+          // Watch for the hero to come into view when user scrolls up.
+          // Use a generous threshold so the entrance plays as soon as
+          // the hero area begins entering the viewport from the bottom.
+          ScrollTrigger.create({
+            trigger: wrapper,
+            start: 'top 90%',
+            onEnterBack: () => {
+              if (!heroEntranceDone) {
+                heroEntranceDone = true;
+                const entranceTl = buildEntranceTl({
+                  onComplete: () => { createExitAnimations(); }
+                });
+              }
+            }
+          });
 
-        gsap.to('#el-h1a', {
-          opacity: 0, y: -60, filter: 'blur(12px)', ease: 'power2.in', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.3}` }
-        });
-
-        gsap.to('#el-h1b', {
-          opacity: 0, y: -48, filter: 'blur(10px)', ease: 'power2.in', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.36}` }
-        });
-
-        gsap.to('#el-h1-sep', {
-          opacity: 0, y: -30, filter: 'blur(5px)', ease: 'power2.in', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.38}` }
-        });
-
-        gsap.to('#el-scroll', {
-          opacity: 0, y: -20, filter: 'blur(5px)', ease: 'power2.in', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.25}` }
-        });
-
-        gsap.to('#el-body', {
-          opacity: 0, y: -32, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.43}` }
-        });
-
-        gsap.to('#el-cta', {
-          opacity: 0, y: -26, filter: 'blur(6px)', ease: 'power2.in', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.5}` }
-        });
-
-        gsap.to('.product-glow', {
-          opacity: 0, ease: 'none', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.35}` }
-        });
-
-        gsap.to('#video-frame', {
-          opacity: 0.12, duration: 0.55, ease: 'none', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.55}` }
-        });
-
+        } else {
+          // ── Normal top-load path ──
+          document.body.style.opacity = '1';
+          const heroTl = buildEntranceTl({
+            delay: 0.1,
+            onComplete: () => { createExitAnimations(); }
+          });
+        }
 
       }
     });
