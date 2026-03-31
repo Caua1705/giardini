@@ -1983,97 +1983,98 @@
   
 
 
-/* Regras 100% isoladas. Nunca aplicarão no desktop pois o script não coloca a classe neles. */
-.is-notebook-pad #hero-left {
+/* ══ HERO RESPONSIVE (Unified Mobile Stack) ══ */
+#hero-viewport.is-notebook-pad #hero-left {
   width: 50% !important;
   padding: 0 2rem 0 3rem !important;
 }
-.is-notebook-pad #hero-right {
+#hero-viewport.is-notebook-pad #hero-right {
   width: 50% !important;
   padding: 6rem 2.5rem 3rem 1rem !important;
 }
 
-.is-mobile-stack #hero-viewport {
+#hero-viewport.is-mobile-stack {
+  display: flex !important;
   flex-direction: column !important;
   height: auto !important;
-  min-height: auto !important; /* Removido force 100vh para cortar o vazio no fundo */
+  min-height: 100vh !important;
   overflow: visible !important;
+  justify-content: flex-start !important;
 }
 
 /* 1. TEXTO PRIMEIRO (KICKER, H1, CTA) */
-.is-mobile-stack #hero-left {
+#hero-viewport.is-mobile-stack #hero-left {
   order: 1 !important; 
   width: 100% !important;
   height: auto !important;
-  padding: 7rem 1.5rem 1rem !important; /* LEVE AUMENTO NO TOPO para descolar do navbar */
+  padding: 7rem 1.5rem 1rem !important;
+  display: flex !important;
+  flex-direction: column !important;
   align-items: center !important;
   text-align: center !important;
 }
-.is-mobile-stack #hero-left::after { display: none !important; }
+#hero-viewport.is-mobile-stack #hero-left::after { display: none !important; }
 
-/* 2. ESPAÇAMENTOS, TIPOGRAFIA E ELEMENTOS OCULTOS */
-.is-mobile-stack .kicker {
+/* 2. ESPAÇAMENTOS E TIPOGRAFIA */
+#hero-viewport.is-mobile-stack .kicker {
   justify-content: center !important;
   width: 100% !important;
   margin-bottom: 1.5rem !important;
 }
-.is-mobile-stack #hero-headline {
+#hero-viewport.is-mobile-stack #hero-headline {
   text-align: center !important;
   width: 100% !important;
   margin-bottom: 1.5rem !important;
-  font-size: clamp(2.8rem, 10vw, 3.5rem) !important; /* Tamanho controlado para não ficar gigante */
+  font-size: clamp(2.8rem, 10vw, 3.5rem) !important;
   line-height: 1 !important;
 }
 
-/* Esconder descrição, divisória e meta no mobile estilo Apple Clean */
-.is-mobile-stack .hero-body,
-.is-mobile-stack #hero-sep,
-.is-mobile-stack .hero-meta {
+/* Ocultar elementos secundários no mobile (Apple Clean) */
+#hero-viewport.is-mobile-stack .hero-body,
+#hero-viewport.is-mobile-stack #hero-sep,
+#hero-viewport.is-mobile-stack .hero-meta {
   display: none !important;
 }
-
-/* 3. BOTÃO COM RESPIRO */
-.is-mobile-stack .hero-cta {
+#hero-viewport.is-mobile-stack .hero-cta {
   justify-content: center !important;
   width: 100% !important;
   margin-top: 1rem !important;
 }
 
-/* 4. HERO-RIGHT Oculto (Apenas Glow) */
-.is-mobile-stack #hero-right {
-  display: none !important;
-}
-
-/* 5. VIDEO-FRAME: O COMPORTAMENTO NATURAL (EMBAIXO DA CTA)
-   Como o GSAP limpa as propriedades absolutas, essa regra ganha força.
-   order 2 garante ficar abaixo de hero-left (1) e acima de explore (3) */
-.is-mobile-stack #video-frame {
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-  transform: none !important;
-  width: calc(100% - 3rem) !important;
-  height: auto !important;
-  aspect-ratio: 16/10 !important;
-  border-radius: 16px !important;
-  margin: 1.5rem auto !important;
+/* 3. HERO-RIGHT: O Placeholder Funcional.
+   Garante as dimensões/área exata para o JS medir e posicionar o Canvas/Video */
+#hero-viewport.is-mobile-stack #hero-right {
   display: block !important;
-  order: 2 !important; /* VÍDEO FICA ABAIXO DO BOTÃO */
-  box-shadow: 0 16px 45px rgba(0,0,0,0.14) !important;
+  order: 2 !important;
+  width: 82% !important; /* Diminuído ligeiramente visando elegância */
+  max-width: 340px !important; 
+  aspect-ratio: 16/10 !important;
+  margin: 2.5rem auto 2rem auto !important; /* Mais respiro entre o CTA e o vídeo, centralizado perfeitamente */
+  padding: 0 !important;
+  position: relative !important;
+  background: transparent !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
-/* 6. EXPLORE: centralizado abaixo do vídeo no modo mobile stack */
-.is-mobile-stack .hero-scroll-wrapper {
+/* 4. VIDEO FRAME: Limpeza de conflitos com GSAP */
+#hero-viewport.is-mobile-stack #video-frame {
+  transform: none !important;
+  margin: 0 !important;
+}
+
+/* 5. EXPLORE: Centralizado abaixo do placeholder de vídeo */
+#hero-viewport.is-mobile-stack .hero-scroll-wrapper {
   position: relative !important;
   bottom: auto !important;
   left: auto !important;
   transform: none !important;
-  order: 3 !important; /* ABAIXO DO VÍDEO */
+  order: 3 !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
   width: 100% !important;
-  padding: 0.75rem 0 1.25rem !important;
+  padding: 0.75rem 0 2rem !important;
   pointer-events: none;
 }
 
@@ -2273,18 +2274,7 @@
       width: 100%;
     }
 
-    /* Gradient fade from hero bottom into the dark menu body — stronger and taller */
-    #hero-pin-wrapper::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 45vh;
-      background: linear-gradient(to top, #080f0a 0%, rgba(8, 15, 10, 0.92) 30%, rgba(8, 15, 10, 0.55) 60%, transparent 100%);
-      z-index: 5;
-      pointer-events: none;
-    }
+    /* Gradient fade from hero bottom into the dark menu body moved to menu.css or inline where needed */
 
     /* Bridge element — appears as text exits, bridges hero to cat-nav */
     #hero-bridge {
@@ -3541,18 +3531,7 @@
         filter: blur(55px);
       }
 
-      /* ── SCRIM INFERIOR: ponte tonal até a próxima seção ── */
-      #hero-pin-wrapper::after {
-        height: 45vh;                 /* Controlado, evita esmagar a composição */
-        background: linear-gradient(
-          to top,
-          #080f0a            0%,
-          rgba(8,15,10,0.95) 15%,
-          rgba(8,15,10,0.60) 45%,
-          rgba(8,15,10,0.15) 75%,
-          transparent        100%
-        );
-      }
+      /* ── SCRIM INFERIOR: ponte tonal até a próxima seção (removido p/ evitar sombra no mobile) ── */
 
       /* ── SCRIM SUPERIOR: proteção de contraste p/ a navbar ── */
       #hero-viewport::before {

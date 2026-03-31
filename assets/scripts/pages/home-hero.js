@@ -368,11 +368,20 @@
         }, (context) => {
           let { isDesktop, isMobile } = context.conditions;
 
+          const initRect = getInitialFrameRect();
+
           if (isMobile) {
-            // Em mobile, deixamos o CSS puro (flex column) lidar com o layout e removemos inline styles de layout
-            gsap.set(frame, { clearProps: 'left,top,width,height,transform,position,x,y' });
+            gsap.set(frame, {
+              position: 'absolute',
+              left: initRect.left,
+              top: initRect.top,
+              width: initRect.width,
+              height: initRect.height,
+              borderRadius: 16,
+              zIndex: 15,
+              clearProps: "transform,x,y"
+            });
           } else {
-            const initRect = getInitialFrameRect();
             gsap.set(frame, {
               position: 'absolute',
               left: initRect.left,
@@ -576,22 +585,16 @@
         }, (context) => {
           let { isDesktop, isMobile } = context.conditions;
 
-          if (isDesktop) {
-            gsap.to(frame, {
-              left: 0, top: 0, width: '100vw', height: '100vh',
-              borderRadius: 0, boxShadow: '0 0 0 0 transparent',
-              zIndex: 40,
-              ease: 'power2.inOut',
-              scrollTrigger: {
-                trigger: wrapper, start: 'top top',
-                end: () => `+=${scrollPx}`, scrub: CONFIG.scrub,
-              }
-            });
-          } else {
-            // Em mobile, como o frame flui pelo CSS relativo com flex order, não expandimos ou 
-            // alteramos larguras pra não quebrar a ordem vertical. 
-            // A animação dos frames (canvas) por sí só já rola naturalmente com o scroll global do observer.
-          }
+          gsap.to(frame, {
+            left: 0, top: 0, width: '100vw', height: '100vh',
+            borderRadius: 0, boxShadow: '0 0 0 0 transparent',
+            zIndex: 40,
+            ease: 'power2.inOut',
+            scrollTrigger: {
+              trigger: wrapper, start: 'top top',
+              end: () => `+=${scrollPx}`, scrub: CONFIG.scrub,
+            }
+          });
         });
         /* ── CINEMATIC OVERLAY ───────────────────────────────────── */
         gsap.to('#video-overlay', {
