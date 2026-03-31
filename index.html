@@ -44,12 +44,12 @@
 
 
   
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/layout.css">
-  <link rel="stylesheet" href="assets/css/components.css">
-  <link rel="stylesheet" href="assets/css/animations.css">
+  <link rel="stylesheet" href="assets/styles/base.css">
+  <link rel="stylesheet" href="assets/styles/layout.css">
+  <link rel="stylesheet" href="assets/styles/components.css">
+  <link rel="stylesheet" href="assets/styles/animations.css">
 
-  <link rel="stylesheet" href="assets/css/pages/home.css">
+  <link rel="stylesheet" href="assets/styles/pages/home.css">
 </head>
 <body>
   <!-- ══ MID-SCROLL RELOAD FIX ═════════════════════════════════════════
@@ -79,7 +79,7 @@
     <a href="#" class="nav-logo" style="letter-spacing:0.01em;font-size:1.35rem;">Giardini Café</a>
     <div class="nav-menu">
       <a href="#experience" class="nav-link">Experiência</a>
-      <a href="./cardapio.html" class="nav-link">Cardápio</a>
+      <a href="./menu.html" class="nav-link">Cardápio</a>
       <a href="#clube-livro" class="nav-link">Livros</a>
       <a href="#location" class="nav-link">Visite-nos</a>
     </div>
@@ -160,7 +160,7 @@
             </div>
           </a>
           <!-- Tertiary ghost link -->
-          <a href="./cardapio.html" class="link-ghost">Ver cardápio</a>
+          <a href="./menu.html" class="link-ghost">Ver cardápio</a>
         </div>
         <div class="hero-meta hidden md:flex" id="el-meta" style="gap:1rem;margin-top:2rem;padding-top:1.25rem;border-top:1px solid rgba(183,147,88,0.12);">
           <span class="live-badge" style="font-size:0.56rem;letter-spacing:0.18em;"><span class="live-pulse" style="background:var(--c-primary);"></span>Ambiente para leitura</span>
@@ -220,7 +220,7 @@
         <!-- Warm tonal gradient over image -->
         <div class="absolute inset-0 pointer-events-none z-10" style="background:linear-gradient(to bottom,rgba(43,74,59,0.03) 0%,transparent 35%,rgba(15,10,5,0.14) 100%);"></div>
         <!-- Image -->
-        <img src="assets/images/experiencia-1.webp" alt="Pessoa lendo em nossa sala"
+        <img src="assets/images/experience-1.webp" alt="Pessoa lendo em nossa sala"
           class="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.03] exp-left-img scale-[1.08]"
           loading="lazy">
         <!-- Premium corner accent top-left -->
@@ -355,7 +355,7 @@
         style="width:112px;height:112px;border-radius:50%;overflow:hidden;border:4px solid #fdfbf7;
           box-shadow:0 0 0 1px rgba(43,74,59,0.10),0 16px 48px rgba(43,74,59,0.20),0 6px 16px rgba(43,74,59,0.12),inset 0 1px 0 rgba(255,255,255,0.85);
           animation:logoBadgeBreathe 5s ease-in-out infinite;">
-        <img src="assets/images/logo-giardini.webp" alt="Giardini Café"
+        <img src="assets/images/giardini-logo.webp" alt="Giardini Café"
           style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
     </div>
@@ -485,7 +485,7 @@
               transition:box-shadow 0.6s ease,transform 0.6s cubic-bezier(0.16,1,0.3,1);"
             onmouseenter="this.style.transform='translateY(-5px)';this.style.boxShadow='0 22px 56px rgba(26,26,26,0.11),0 5px 14px rgba(26,26,26,0.06),inset 0 0 0 1px rgba(255,255,255,0.10)';var img=this.querySelector('.feat-img');if(img)img.style.transform='scale(1.04)';var line=this.querySelector('.feat-card-line');if(line){line.style.transform='scaleX(1)';line.style.opacity='1';}"
             onmouseleave="this.style.transform='translateY(0)';this.style.boxShadow='';var img=this.querySelector('.feat-img');if(img)img.style.transform='scale(1.0)';var line=this.querySelector('.feat-card-line');if(line){line.style.transform='scaleX(0)';line.style.opacity='0';}">
-            <img src="assets/images/brusqueta.webp" alt="Brusqueta Vigneto Cremoso" class="feat-img"
+            <img src="assets/images/bruschetta.webp" alt="Brusqueta Vigneto Cremoso" class="feat-img"
               style="position:absolute;top:-5%;left:0;width:100%;height:110%;object-fit:cover;
                 filter:saturate(0.88) brightness(1.04);
                 transition:transform 0.85s cubic-bezier(0.22,1,0.36,1),filter 0.4s ease;transform:scale(1.0);"
@@ -521,7 +521,7 @@
         </div>
 
         <!-- Primary CTA button — beam container, mechanics unchanged -->
-        <a href="./cardapio.html"
+        <a href="./menu.html"
           class="loc-beam-container group relative hover:-translate-y-1.5"
           aria-label="Explorar o cardápio completo do Giardini Café"
           style="background:#B79358;padding:1.5px;will-change:transform;transition:all 0.55s cubic-bezier(0.16,1,0.3,1);">
@@ -735,7 +735,7 @@
               background:linear-gradient(to bottom,transparent 45%,rgba(20,12,4,0.68) 100%);"></div>
             <!-- Shimmer beam sweep -->
             <div class="s4-beam"></div>
-            <img src="assets/images/clube-livro.webp" alt="Clube do Livro — Giardini Café"
+            <img src="assets/images/book-club.webp" alt="Clube do Livro — Giardini Café"
               style="width:100%;height:100%;object-fit:cover;
                 filter:saturate(0.78) brightness(0.88) contrast(1.08);
                 transition:transform 1.4s cubic-bezier(0.22,1,0.36,1);
@@ -773,7 +773,7 @@
       autoplay muted loop playsinline
       style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"
       aria-hidden="true">
-      <source src="assets/videos/video_footer.mp4" type="video/mp4">
+      <source src="assets/videos/footer-video.mp4" type="video/mp4">
     </video>
 
     <!-- ── LAYER 1: Main dark overlay ──────────────────────────────── -->
@@ -1147,7 +1147,7 @@
           <p style="font-size:0.58rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(183,147,88,0.6);margin-bottom:2rem;">Navega&ccedil;&atilde;o</p>
           <nav style="display:flex;flex-direction:column;gap:1.1rem;">
             <a href="#experience" class="ft-nav-link">A Experi&ecirc;ncia</a>
-            <a href="./cardapio.html" class="ft-nav-link">Card&aacute;pio</a>
+            <a href="./menu.html" class="ft-nav-link">Card&aacute;pio</a>
             <a href="#clube-livro" class="ft-nav-link">Clube do Livro</a>
             <a href="#location" class="ft-nav-link">Visite-nos</a>
             <a href="https://wa.me/5585994452724?text=Olá,%20gostaria%20de%20fazer%20uma%20reserva%20no%20Giardini%20Café" class="ft-nav-link" style="color:rgba(183,147,88,0.55);margin-top:0.5rem;">Reservar Mesa &rarr;</a>
@@ -1218,6 +1218,6 @@
   
 
 
-  <script src="assets/js/pages/home-hero.js"></script>
+  <script src="assets/scripts/pages/home-hero.js"></script>
 </body>
 </html>
