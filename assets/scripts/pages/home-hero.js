@@ -359,16 +359,30 @@
         /* Altura virtual do scroll */
         const scrollPx = window.innerHeight * (CONFIG.scrollVH / 100);
         wrapper.style.height = `${window.innerHeight + scrollPx}px`;
-        /* Posiciona video-frame no rect do hero-right */
-        const initRect = getInitialFrameRect();
-        gsap.set(frame, {
-          position: 'absolute',
-          left: initRect.left,
-          top: initRect.top + 14,
-          width: initRect.width,
-          height: initRect.height,
-          borderRadius: 20,
-          zIndex: 15,
+        /* Registra matchMedia para layouts responsivos */
+        let mm = gsap.matchMedia();
+
+        mm.add({
+          isDesktop: "(min-width: 768px)",
+          isMobile: "(max-width: 767px)"
+        }, (context) => {
+          let { isDesktop, isMobile } = context.conditions;
+
+          if (isMobile) {
+            // Em mobile, deixamos o CSS puro (flex column) lidar com o layout e removemos inline styles de layout
+            gsap.set(frame, { clearProps: 'left,top,width,height,transform,position,x,y' });
+          } else {
+            const initRect = getInitialFrameRect();
+            gsap.set(frame, {
+              position: 'absolute',
+              left: initRect.left,
+              top: initRect.top + 14,
+              width: initRect.width,
+              height: initRect.height,
+              borderRadius: 20,
+              zIndex: 15,
+            });
+          }
         });
         /* Dimensiona canvas para o frame */
         resizeCanvas();
@@ -556,14 +570,27 @@
           }
         });
         /* ── VIDEO-FRAME EXPANSION (split → fullscreen) ──────────── */
-        gsap.to(frame, {
-          left: 0, top: 0, width: '100vw', height: '100vh',
-          borderRadius: 0, boxShadow: '0 0 0 0 transparent',
-          zIndex: 40,
-          ease: 'power2.inOut',
-          scrollTrigger: {
-            trigger: wrapper, start: 'top top',
-            end: () => `+=${scrollPx}`, scrub: CONFIG.scrub,
+        mm.add({
+          isDesktop: "(min-width: 768px)",
+          isMobile: "(max-width: 767px)"
+        }, (context) => {
+          let { isDesktop, isMobile } = context.conditions;
+
+          if (isDesktop) {
+            gsap.to(frame, {
+              left: 0, top: 0, width: '100vw', height: '100vh',
+              borderRadius: 0, boxShadow: '0 0 0 0 transparent',
+              zIndex: 40,
+              ease: 'power2.inOut',
+              scrollTrigger: {
+                trigger: wrapper, start: 'top top',
+                end: () => `+=${scrollPx}`, scrub: CONFIG.scrub,
+              }
+            });
+          } else {
+            // Em mobile, como o frame flui pelo CSS relativo com flex order, não expandimos ou 
+            // alteramos larguras pra não quebrar a ordem vertical. 
+            // A animação dos frames (canvas) por sí só já rola naturalmente com o scroll global do observer.
           }
         });
         /* ── CINEMATIC OVERLAY ───────────────────────────────────── */

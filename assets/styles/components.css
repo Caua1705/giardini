@@ -2039,15 +2039,42 @@
   margin-top: 1rem !important;
 }
 
-/* 4. VÍDEO COMPORTAMENTO NATURAL (EMBAIXO DA CTA NA TELA PRINCIPAL) */
+/* 4. HERO-RIGHT Oculto (Apenas Glow) */
 .is-mobile-stack #hero-right {
-  order: 2 !important; /* VÍDEO FICA ABAIXO DO GRUPO ESQUERDO */
-  width: 100% !important;
+  display: none !important;
+}
+
+/* 5. VIDEO-FRAME: O COMPORTAMENTO NATURAL (EMBAIXO DA CTA)
+   Como o GSAP limpa as propriedades absolutas, essa regra ganha força.
+   order 2 garante ficar abaixo de hero-left (1) e acima de explore (3) */
+.is-mobile-stack #video-frame {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  transform: none !important;
+  width: calc(100% - 3rem) !important;
   height: auto !important;
-  aspect-ratio: 4/3 !important; /* Largura x Altura equilibrados para não empurrar tela inteira (horizontal focado) */
-  padding: 0.5rem 1.5rem 0rem !important; /* Removido padding excessivo do bottom */
-  margin-bottom: 0rem !important; /* Garante que o container encoste perto das seções de baixo */
-  margin-top: 1rem !important; /* Afastamento clean entre o botão e o vídeo */
+  aspect-ratio: 16/10 !important;
+  border-radius: 16px !important;
+  margin: 1.5rem auto !important;
+  display: block !important;
+  order: 2 !important; /* VÍDEO FICA ABAIXO DO BOTÃO */
+  box-shadow: 0 16px 45px rgba(0,0,0,0.14) !important;
+}
+
+/* 6. EXPLORE: centralizado abaixo do vídeo no modo mobile stack */
+.is-mobile-stack .hero-scroll-wrapper {
+  position: relative !important;
+  bottom: auto !important;
+  left: auto !important;
+  transform: none !important;
+  order: 3 !important; /* ABAIXO DO VÍDEO */
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  padding: 0.75rem 0 1.25rem !important;
+  pointer-events: none;
 }
 
 /* ══ SECTION 2 (A EXPERIÊNCIA) - RESPONSIVO MOBILE ══ */
