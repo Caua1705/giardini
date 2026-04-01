@@ -260,26 +260,63 @@
       const catBtns = document.querySelectorAll('.cat-btn');
       const sections = document.querySelectorAll('.menu-section');
       
-      /* ── Sticky state observer for #cat-nav ──────────────────
-         A sentinel element sits just above the cat-nav.
-         When it leaves the viewport (scrolled past), we add
-         .is-pinned to the nav — triggering the premium sticky style.
-      */
-      const sentinel = document.createElement('div');
-      sentinel.style.cssText = 'position:absolute;top:0;height:1px;width:100%;pointer-events:none;';
-      catNav.parentElement.insertBefore(sentinel, catNav);
+      /* ── Fixed-pin observer for #cat-nav ─────────────────────────────
+         overflow-x:hidden on html/body breaks position:sticky, so we
+         use position:fixed instead. We detect when the cat-nav's natural
+         document position would scroll above the navbar height, then
+         switch to fixed, and compensate the layout gap with padding.
+      ──────────────────────────────────────────────────────────────── */
+      const menuBody = document.getElementById('menu-body');
+      const NAVBAR_H = 72; // px: collapsed navbar height
+      let catNavH = catNav.offsetHeight;
+      let isPinned = false;
 
-      const pinObserver = new IntersectionObserver(
-        ([entry]) => {
-          // Only pin if it's NOT intersecting (past the margin)
-          // AND it's at the top of the viewport (not below it).
-          // 77px matches the total negative margin including one extra pixel for safety.
-          const isAboveThreshold = entry.boundingClientRect.top <= 77;
-          catNav.classList.toggle('is-pinned', !entry.isIntersecting && isAboveThreshold);
-        },
-        { rootMargin: `-77px 0px 0px 0px`, threshold: 0 }
-      );
-      pinObserver.observe(sentinel);
+      // Measure cat-nav natural top position once per resize
+      function getCatNavTop() {
+        // When already fixed, temporarily revert to get its natural position
+        if (isPinned) {
+          catNav.classList.remove('is-pinned');
+          if (menuBody) menuBody.style.paddingTop = '0';
+        }
+        const rect = catNav.getBoundingClientRect();
+        const top = rect.top + window.scrollY;
+        if (isPinned) {
+          catNav.classList.add('is-pinned');
+          if (menuBody) menuBody.style.paddingTop = catNavH + 'px';
+        }
+        return top;
+      }
+
+      let catNavNaturalTop = 0;
+
+      function updatePin() {
+        catNavH = catNav.offsetHeight;
+        const triggerAt = catNavNaturalTop - NAVBAR_H;
+
+        if (window.scrollY >= triggerAt && !isPinned) {
+          isPinned = true;
+          catNav.classList.add('is-pinned');
+          // Add padding so menu-body doesn't jump up
+          if (menuBody) menuBody.style.paddingTop = catNavH + 'px';
+        } else if (window.scrollY < triggerAt && isPinned) {
+          isPinned = false;
+          catNav.classList.remove('is-pinned');
+          if (menuBody) menuBody.style.paddingTop = '0';
+        }
+      }
+
+      // Measure on load (after layout settles)
+      requestAnimationFrame(() => {
+        catNavNaturalTop = catNav.getBoundingClientRect().top + window.scrollY;
+        updatePin();
+      });
+
+      window.addEventListener('scroll', updatePin, { passive: true });
+      window.addEventListener('resize', () => {
+        catNavNaturalTop = getCatNavTop();
+        catNavH = catNav.offsetHeight;
+        updatePin();
+      }, { passive: true });
 
       window.addEventListener('scroll', () => {
         if (window.scrollY > 80) {

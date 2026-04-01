@@ -2817,20 +2817,7 @@
         padding 0.65s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Sticky state: applied via JS when scrolled — feels like a refined docking */
-    #cat-nav.is-pinned {
-      background: rgba(6, 11, 7, 0.94);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      /* Top border removed as requested */
-      border-top: none;
-      /* Bottom shadow: dark pool that grounds the nav onto the page */
-      box-shadow:
-        0 1px 0 rgba(183, 147, 88, 0.06),  /* bottom gold trace */
-        0 12px 32px -4px rgba(0, 0, 0, 0.55),
-        0 4px 12px -2px rgba(0, 0, 0, 0.35);
-      padding: 0.25rem 0;
-    }
+    /* is-pinned background: handled by .cat-nav-inner pill in menu.css */
 
     /* Inner track — contains buttons and the gold separator line */
     .cat-nav-inner {
@@ -3385,9 +3372,7 @@
         top: 68px;
         margin-bottom: 3rem;
       }
-      #cat-nav.is-pinned {
-        padding: 0.15rem 0;
-      }
+      /* is-pinned background: handled by .cat-nav-inner pill in menu.css */
       .cat-nav-inner {
         justify-content: center;
         flex-wrap: wrap;
@@ -3998,10 +3983,7 @@
         margin-bottom: 2.5rem;
       }
       
-      #cat-nav.is-pinned {
-        background: rgba(6, 10, 7, 0.98);
-        backdrop-filter: blur(16px);
-      }
+      /* is-pinned background: handled by .cat-nav-inner pill in menu.css */
 
       .cat-nav-inner {
         padding: 0.8rem 24px;   /* Extra touch padding */
@@ -4261,13 +4243,7 @@
       isolation: isolate;
     }
 
-    #cat-nav.is-pinned {
-      background: rgba(7, 10, 7, 0.92);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      box-shadow:
-        0 8px 24px -4px rgba(0, 0, 0, 0.5);
-    }
+    /* is-pinned background: handled by .cat-nav-inner pill in menu.css */
 
     #menu-orb-1, #menu-orb-2 {
       position: fixed;
@@ -4689,14 +4665,7 @@
         box-shadow 0.55s var(--expo);
     }
 
-    #cat-nav.is-pinned {
-      background: rgba(7, 10, 7, 0.92);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      box-shadow:
-        0 1px 0 rgba(183, 147, 88, 0.10),
-        0 8px 24px -4px rgba(0, 0, 0, 0.5);
-    }
+    /* is-pinned background: handled by .cat-nav-inner pill in menu.css */
 
     .cat-nav-inner {
       display: flex;

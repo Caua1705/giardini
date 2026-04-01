@@ -783,38 +783,47 @@
       z-index: 20;
     }
 
-    /* ── Cat-nav entrance animation: plays when inner bar docks at top ── */
+    /* ── Cat-nav entrance animation: plays when pill docks below navbar ── */
     @keyframes cat-nav-inner-reveal {
       from {
         opacity: 0;
-        transform: translateY(-8px) scaleX(0.96);
-        box-shadow: 0 0 0 rgba(0,0,0,0);
+        transform: translateY(-10px) scaleX(0.95);
       }
       to {
         opacity: 1;
         transform: translateY(0) scaleX(1);
-        box-shadow:
-          0 1px 0 rgba(183, 147, 88, 0.08),
-          0 10px 28px -4px rgba(0, 0, 0, 0.5),
-          0 4px 10px -2px rgba(0, 0, 0, 0.3);
       }
     }
 
-    /* ── Horizontal Category Nav — sticky wrapper, always transparent ── */
+    /* ── Category Nav wrapper — sits in normal flow, always transparent ── */
     #cat-nav {
       width: 100%;
-      background: transparent;   /* wrapper is ALWAYS transparent */
-      padding: 0.75rem 0;
-      margin-bottom: 4.5rem;
-      position: sticky;
-      top: 76px;
+      background: transparent;
+      padding: 0.5rem 0;
+      margin-bottom: 4rem;
+      /* Not sticky — fixed when pinned via .is-pinned class below */
+      position: relative;
       z-index: 400;
       display: flex;
-      justify-content: center;  /* centers the inner pill */
-      pointer-events: none;     /* clicks pass through transparent area */
+      justify-content: center;
+      pointer-events: none;
     }
 
-    /* Sticky state: ONLY the inner track gets the dark pill */
+    /* ── PINNED: truly fixed below the navbar ──────────────────────────
+       overflow-x:hidden on html/body breaks position:sticky, so we use
+       position:fixed instead. The wrapper becomes full-viewport-width,
+       the pill (.cat-nav-inner) stays centered inside it.
+    ───────────────────────────────────────────────────────────────── */
+    #cat-nav.is-pinned {
+      position: fixed;
+      top: 72px;          /* height of scrolled navbar */
+      left: 0;
+      width: 100vw;
+      padding: 0.6rem 0;
+      background: transparent;
+    }
+
+    /* Pill: only the inner track shows the dark background */
     #cat-nav.is-pinned .cat-nav-inner {
       background: rgba(6, 11, 7, 0.92);
       backdrop-filter: blur(18px);
@@ -825,7 +834,7 @@
         0 10px 28px -4px rgba(0, 0, 0, 0.50),
         0 4px 10px -2px rgba(0, 0, 0, 0.30);
       /* Entrance animation: slide-down + fade + scale-in */
-      animation: cat-nav-inner-reveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: cat-nav-inner-reveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     /* Inner track — the pill container for buttons */
@@ -833,21 +842,20 @@
       display: flex;
       flex-direction: row;
       justify-content: center;
-      flex-wrap: nowrap;        /* single row — prevents pill from going full-width */
+      flex-wrap: nowrap;
       width: fit-content;       /* pill is exactly as wide as the buttons */
       gap: 0;
       padding: 0.85rem 2rem;
       margin: 0;
       position: relative;
-      pointer-events: auto;     /* re-enable clicks on the inner pill */
-      /* Smooth background/shadow when un-pinning */
+      pointer-events: auto;
       transition:
-        background 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-        border-radius 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        background 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        border-radius 0.45s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Gold axis line below the entire nav removed as requested */
+    /* Gold axis line removed */
     .cat-nav-inner::after {
       display: none;
     }
