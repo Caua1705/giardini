@@ -183,84 +183,139 @@
   }
 }
 
-/* Mobile: Layout em coluna, video antes do texto e tudo centralizado */
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE HERO — CLEAN PROFESSIONAL LAYOUT
+   Breakpoint: ≤ 1024px (tablets + all mobile devices)
+   Strategy: Remove ALL atmospheric effects (glows, orbs, vignettes,
+   spotlights, depth overlays) and present a clean editorial hero.
+   ══════════════════════════════════════════════════════════════════ */
 @media (max-width: 1024px) {
+
+  /* ── HERO VIEWPORT: clean solid background ──────────────────────── */
   #hero-viewport {
     flex-direction: column !important;
-    height: auto !important; 
+    height: auto !important;
     min-height: 100vh !important;
     overflow: visible !important;
-    background: #fdfbf7 !important; /* Fundo sólido p/ remover orbs q/ clareiam o vídeo */
+    /* Clean solid background — no gradients, no warmth pools */
+    background: #fdfbf7 !important;
   }
-  
+
+  /* ── SECTION 2 CORRECTION (Mobile/Tablet) ───────────────────────── */
+  /* Remove section 2 top rounding so the dark hero video doesn't peek through */
+  #experience {
+    border-radius: 0 !important;
+  }
+
+  /* ── HERO LEFT: text column ─────────────────────────────────────── */
   #hero-left {
     order: 1 !important;
     width: 100% !important;
     height: auto !important;
-    padding: 3.5rem 1.5rem 10rem !important; /* Aumentado para 10rem */
+    padding: 5.5rem 1.5rem 2.5rem !important;
     align-items: center !important;
     text-align: center !important;
     display: flex !important;
     flex-direction: column !important;
   }
-  
+
   #hero-left::after {
     display: none !important;
   }
-  
+
+  /* ── HERO RIGHT: video container ────────────────────────────────── */
   #hero-right {
     order: 2 !important;
-    width: 82% !important;
-    max-width: 310px !important; 
-    aspect-ratio: 1 / 1.1 !important; 
+    width: 88% !important;
+    max-width: 340px !important;
+    aspect-ratio: 3 / 3.6 !important;
     height: auto !important;
     padding: 0 !important;
-    margin: 12rem auto 0 !important; /* Aumentado para 12rem */
+    margin: 1.5rem auto 3rem !important;
     display: flex !important;
     justify-content: center !important;
   }
 
-  /* Centralizar alinhamentos Flex que possam estar esmagados à esquerda */
+  /* ── CENTERING: kicker, cta, meta ───────────────────────────────── */
   .kicker, .hero-cta, .hero-meta {
     display: flex !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
     align-items: center !important;
     justify-content: center !important;
     width: 100% !important;
-    gap: 1.5rem !important;
+    gap: 1rem !important;
   }
-  
-  /* Garantir que o paragraph centralize dentro do text-align central */
+
+  .hero-cta {
+    flex-direction: column !important;
+    gap: 1.25rem !important;
+  }
+
   .hero-body {
     margin-left: auto !important;
     margin-right: auto !important;
+    font-size: 0.92rem !important;
+    max-width: 360px !important;
   }
 
-  /* 1) Limpeza Visual: Remover vinhetas, overlays e colunas q/ pesam no mobile */
-  #hero-vig, #video-overlay, .video-glow, #hero-bg-cols, .hero-col, .hero-grid-bg, #hero-clock {
+  /* ── REMOVAL OF BRIGHTNESS/GLOW EFFECTS ONLY ──────── 
+     Keep the grid, vignette, and structural background elements,
+     but remove all bright halos and floating orbs on mobile. */
+  #hero-spotlight,
+  #hero-warm,
+  #hero-image-glow,
+  .video-glow,
+  .h-orb,
+  .h-orb-1,
+  .h-orb-2 {
     display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
-  }
-  
-  /* Retirar sombras excessivas e "fading" ao redor do vídeo */
-  #video-frame {
-    box-shadow: 0 15px 35px rgba(0,0,0,0.12) !important;
-    border: 1px solid rgba(43,74,59,0.12) !important; /* Borda nítida de separação */
-    opacity: 1 !important;
-    filter: none !important;
-    background: #000 !important;
-  }
-  
-  #video-frame::after, #video-frame::before {
-    display: none !important; /* Remove glow e catchlights q/ causam 'névoa' branca */
+    pointer-events: none !important;
   }
 
-  .scroll-indicator-wrap, .frame-corner {
+  /* Structural elements like the grid, columns, and vignette remain active */
+
+  /* video-overlay: starts hidden (opacity:0 in base CSS), GSAP fades it in during scroll */
+  #video-overlay {
+    display: block !important;
+    visibility: visible !important;
+    pointer-events: none !important;
+  }
+
+  /* ── VIDEO FRAME: clean premium border, no glow artifacts ──────── */
+  #video-frame {
+    box-shadow: 0 8px 28px rgba(0,0,0,0.10),
+                0 2px 8px rgba(0,0,0,0.06) !important;
+    border: 1px solid rgba(43,74,59,0.10) !important;
+    border-radius: 16px !important;
+    opacity: 1 !important;
+    filter: none !important;
+    background: #0a0a0a !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+
+  /* Remove gradient border ring and top-edge light catch */
+  #video-frame::after,
+  #video-frame::before {
     display: none !important;
   }
 
-  /* 2) Correção Imagens: Remover aparência "pressionada" / comprimida */
+  /* Remove hover scale on mobile — unintentional taps shouldn't scale */
+  #video-frame:hover {
+    transform: none !important;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.10),
+                0 2px 8px rgba(0,0,0,0.06) !important;
+  }
+
+  /* ── SCROLL INDICATORS: hide the right-side vertical bar ────────── */
+  .scroll-indicator-wrap,
+  .frame-corner {
+    display: none !important;
+  }
+
+  /* ── SECTION 2: fix compressed images ───────────────────────────── */
   .exp-left {
     transform: none !important;
     scale: 1 !important;
@@ -270,101 +325,104 @@
   .exp-left-img {
     scale: 1 !important;
   }
-  
-  /* Resetar escalas de entrada em outras seções p/ mobile */
+
   .feat-card, .clube-reveal__images {
     transform: none !important;
     scale: 1 !important;
   }
-  
-  
+
   .mobile-destaque-hide {
     display: none !important;
   }
 
-  /* 3) Correção Bug Elementos Pretos na Logo da Section 3 */
+  /* ── SECTION 3: fix black border artifacts ──────────────────────── */
   #featured {
-    margin-top: 0 !important; /* Remove o pull-up negativo que causava vazamento do fundo */
-    border-radius: 0 !important; /* Nivela a borda no mobile p/ evitar artefatos nos cantos */
+    margin-top: 0 !important;
+    border-radius: 0 !important;
   }
-  
+
   #featured > div[style*="top:-50px"] {
-    top: -40px !important; /* Ajusta a logo para não precisar do overlap agressivo */
+    top: -40px !important;
   }
-  
-  /* 4) Redução e Afastamento dos Efeitos Verdes (Glow/Blur) no Mobile */
+
+  /* ── GLOW REDUCTION (sections 2+) ──────────────────────────────── */
   .parallax-glow-1 {
-    width: 150px !important;
-    height: 150px !important;
-    top: -2% !important; /* Joga bem para a borda superior */
-    left: auto !important;
-    right: -10% !important; /* Afasta fisicamente para a margem direita, limpando o texto à esquerda */
-    opacity: 0.02 !important; /* Muito mais sutil */
-    filter: blur(30px) !important; /* Menos dispersão */
-  }
-  
-  .parallax-glow-2 {
-    width: 150px !important;
-    height: 150px !important;
-    bottom: -2% !important;
-    left: -15% !important;
-    opacity: 0.03 !important;
-    filter: blur(30px) !important;
-  }
-
-  .h-orb-2 {
-    width: 200px !important;
-    height: 200px !important;
-    opacity: 0.4 !important;
-  }
-
-  /* Target seletivo em todos os glows verdes gerados via inline-styles pelas seções */
-  div[style*="radial-gradient(circle,rgba(43,74,59"],
-  div[style*="radial-gradient(circle, rgba(43,74,59"],
-  div[style*="radial-gradient(ellipse,rgba(43,74,59"] {
-    transform: scale(0.4) !important; /* Encolhe a área de poluição difusa */
-    opacity: 0.25 !important; /* Deixa quase imperceptível, servindo apenas como textura de fundo */
-    filter: blur(15px) !important;
-  }
-  
-  .video-glow {
-    opacity: 0.3 !important;
-    transform: scale(0.5) !important;
-  }
-
-  /* 6) Refinamento Localização no Mobile */
-  #loc-dk-wm {
-    display: none !important; /* Remove o texto de fundo Giardini que polui a seção */
-  }
-
-  /* Aproximar o Mapa do botão Como Chegar reduzindo o gap e a margem de topo no mobile */
-  #location .gap-24 {
-    gap: 3rem !important; /* Reduz o espaçamento entre o bloco de texto/botão e o mapa */
-  }
-  #location .lg\:col-span-7 {
-    margin-top: 1rem !important; /* Aproxima fisicamente o widget de mapa do botão acima */
-  }
-  
-  /* 5) Refinamento Clube do Livro no Mobile */
-  #clube-wm {
-    display: none !important; /* Remove texto gigante 'LIVROS' de fundo que causa poluição e briga com hierarquia */
-  }
-
-  /* Distância entre título principal e o primeiro card (Um café e um livro) reduzida aprox. 30% p/ evitar gap desconectado */
-  .clube-reveal__title {
-    margin-bottom: 4.5rem !important; /* Default desktop é 6.5rem */
-  }
-
-  /* Orbs Específicos do Clube: Afastar da poluição visual */
-  .clube-orb-2 {
-    opacity: 0.05 !important; /* Extremamente sutil, atenuado para não competir com texto */
-    transform: scale(0.3) !important;
+    width: 120px !important;
+    height: 120px !important;
+    opacity: 0.015 !important;
     filter: blur(40px) !important;
   }
-  
+
+  .parallax-glow-2 {
+    width: 120px !important;
+    height: 120px !important;
+    opacity: 0.02 !important;
+    filter: blur(40px) !important;
+  }
+
+  /* Kill ALL inline-style radial-gradient green glows on mobile */
+  div[style*="radial-gradient(circle,rgba(43,74,59"],
+  div[style*="radial-gradient(circle, rgba(43,74,59"],
+  div[style*="radial-gradient(ellipse,rgba(43,74,59"],
+  div[style*="radial-gradient(ellipse at"],
+  div[style*="radial-gradient(circle at 70%"] {
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
+  /* Kill warm ambient inline gradient divs */
+  div[style*="rgba(200,170,120"],
+  div[style*="rgba(218,198,158"],
+  div[style*="rgba(183,147,88,0.0"] {
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
+  .video-glow {
+    display: none !important;
+  }
+
+  /* ── LOCATION: mobile refinements ──────────────────────────────── */
+  #loc-dk-wm {
+    display: none !important;
+  }
+
+  #location .gap-24 {
+    gap: 3rem !important;
+  }
+  #location .lg\:col-span-7 {
+    margin-top: 1rem !important;
+  }
+
+  /* ── CLUBE DO LIVRO: mobile refinements ────────────────────────── */
+  #clube-wm {
+    display: none !important;
+  }
+
+  .clube-reveal__title {
+    margin-bottom: 4.5rem !important;
+  }
+
+  .clube-orb-2 {
+    opacity: 0.03 !important;
+    transform: scale(0.25) !important;
+    filter: blur(50px) !important;
+  }
+
   #clube-livro div[style*="radial-gradient(circle,rgba(43,74,59"],
   #clube-livro div[style*="radial-gradient(circle, rgba(43,74,59"] {
-    opacity: 0.05 !important; /* Deixa verde quase imperceptível focando apenas na atmosfera quente original (livros) */
+    opacity: 0.03 !important;
+  }
+
+  /* ── NAVBAR: ensure readability on mobile ──────────────────────── */
+  #navbar {
+    background: rgba(253, 251, 247, 0.96) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+  }
+
+  #navbar .nav-logo {
+    color: var(--c-dark) !important;
   }
 }
 /* ── EXPLORE INDICATOR BNC ────────────────────────────────────────── */
@@ -2117,10 +2175,11 @@
   /* 1. Ocultar o texto gigante "TEMPO" no fundo */
   #experience #parallax-text { display: none !important; }
   
-  /* 2. Reduzir espaços vazios da seção como um todo */
+  /* 2. Reduzir espaços vazios da seção como um todo e remover bordas arredondadas que evidenciam o fundo do vídeo no mobile */
   #experience {
     padding-top: 4.5rem !important;
     padding-bottom: 8.5rem !important; /* Aumentado para dar espaço ao logo da próxima seção no mobile */
+    border-radius: 0 !important;
   }
   
   /* 3. Conectar a imagem ao conteúdo (altura menor e gap reduzido) */

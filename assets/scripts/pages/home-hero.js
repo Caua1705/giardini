@@ -280,21 +280,52 @@
       /* Redimensiona o canvas para o tamanho do #video-frame */
       function resizeCanvas() {
         const frame = document.getElementById('video-frame');
-        canvas.width = frame.offsetWidth;
-        canvas.height = frame.offsetHeight;
+        const w = frame.offsetWidth;
+        const h = frame.offsetHeight;
+        // Usa devicePixelRatio para nitidez em telas retina/mobile
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         // Repinta frame atual após resize
         if (frames.length > 0 && currentFrameIndex >= 0) {
-          drawFrame(currentFrameIndex);
+          const savedIdx = currentFrameIndex;
+          currentFrameIndex = -1; // força repaint
+          drawFrame(savedIdx);
         }
+      }
+      /* Sincroniza canvas com o tamanho atual do #video-frame durante scroll */
+      function syncCanvasSize() {
+        const frame = document.getElementById('video-frame');
+        const w = frame.offsetWidth;
+        const h = frame.offsetHeight;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const targetW = w * dpr;
+        const targetH = h * dpr;
+        // Só redimensionar se mudou significativamente (>5px) para evitar repaint contínuo
+        if (Math.abs(canvas.width - targetW) > 5 || Math.abs(canvas.height - targetH) > 5) {
+          canvas.width = targetW;
+          canvas.height = targetH;
+          canvas.style.width = w + 'px';
+          canvas.style.height = h + 'px';
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          return true; // canvas foi redimensionado
+        }
+        return false;
       }
       /* Desenha um frame no canvas preservando aspect ratio (object-fit: cover) */
       function drawFrame(index) {
-        if (index === currentFrameIndex) return; // sem redraw desnecessário
+        // Sincroniza canvas com tamanho atual do frame (crucial durante expansão via scroll)
+        const resized = syncCanvasSize();
+        if (index === currentFrameIndex && !resized) return; // sem redraw desnecessário
         const img = frames[index];
         if (!img || !img.complete || img.naturalWidth === 0) return;
         currentFrameIndex = index;
-        const cw = canvas.width;
-        const ch = canvas.height;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const cw = canvas.width / dpr;
+        const ch = canvas.height / dpr;
         const iw = img.naturalWidth;
         const ih = img.naturalHeight;
         // Cover: escala para preencher mantendo proporção, centraliza
@@ -375,7 +406,7 @@
               position: 'absolute',
               left: "50%",
               xPercent: -50,
-              top: initRect.top + 120, // Deslocamento forçado p/ garantir que fique embaixo do botão
+              top: initRect.top,
               width: initRect.width,
               height: initRect.height,
               borderRadius: 16,
@@ -586,60 +617,87 @@
         }, (context) => {
           let { isDesktop, isMobile } = context.conditions;
 
+          // Fullscreen end-state properties
+          const fullscreenProps = {
+            width: '100vw',
+            height: '100vh',
+            borderRadius: 0,
+            boxShadow: '0 0 0 0 transparent',
+            zIndex: 40,
+          };
+
           if (isMobile) {
-            // Estratégia de Âncora Central: mantém fixo no meio e apenas expande a largura.
-            // Isso anula qualquer drift (desvio) lateral matemático.
-            gsap.to(frame, {
-              width: '100vw', 
-              height: '100vh',
+            const mobileFullscreen = {
+              ...fullscreenProps,
               left: '50%',
               xPercent: -50,
               top: '50%',
               yPercent: -50,
               maxHeight: 'none',
               maxWidth: 'none',
-              borderRadius: 0, 
-              boxShadow: '0 0 0 0 transparent',
-              zIndex: 40,
+            };
+            gsap.to(frame, {
+              ...mobileFullscreen,
               ease: 'power2.inOut',
-              clearProps: 'maxWidth,maxHeight', // Limpa propriedades após a animação se necessário
               scrollTrigger: {
-                trigger: wrapper, 
+                trigger: wrapper,
                 start: 'top top',
-                end: () => `+=${scrollPx}`, 
+                end: () => `+=${scrollPx}`,
                 scrub: CONFIG.scrub,
+                onLeave: () => {
+                  // Lock fullscreen when scroll passes the pin zone
+                  gsap.set(frame, mobileFullscreen);
+                },
+                onEnterBack: () => {
+                  // ScrollTrigger scrub handles it when scrolling back
+                }
               }
             });
           } else {
-            // Desktop: comportamento padrão de preenchimento de viewport
-            gsap.to(frame, {
-              left: 0, 
-              top: 0, 
+            const desktopFullscreen = {
+              ...fullscreenProps,
+              left: 0,
+              top: 0,
               xPercent: 0,
               yPercent: 0,
-              width: '100vw', 
-              height: '100vh',
-              borderRadius: 0, 
-              boxShadow: '0 0 0 0 transparent',
-              zIndex: 40,
+            };
+            gsap.to(frame, {
+              ...desktopFullscreen,
               ease: 'power2.inOut',
               scrollTrigger: {
-                trigger: wrapper, 
+                trigger: wrapper,
                 start: 'top top',
-                end: () => `+=${scrollPx}`, 
+                end: () => `+=${scrollPx}`,
                 scrub: CONFIG.scrub,
+                onLeave: () => {
+                  gsap.set(frame, desktopFullscreen);
+                },
+                onEnterBack: () => {
+                  // ScrollTrigger scrub handles it
+                }
               }
             });
           }
         });
-        /* ── CINEMATIC OVERLAY (Disable on Mobile/Tablet) ─────────── */
-        if (window.innerWidth > 1024) {
-          gsap.to('#video-overlay', {
-            opacity: 1, ease: 'power1.inOut',
+        /* ── CINEMATIC OVERLAY — enabled on all devices ─────────── */
+        gsap.to('#video-overlay', {
+          opacity: 1, ease: 'power1.inOut',
+          scrollTrigger: {
+            trigger: wrapper,
+            start: () => `+=${scrollPx * 0.35}`,
+            end: () => `+=${scrollPx}`,
+            scrub: CONFIG.scrub,
+          }
+        });
+        /* ── MOBILE: darken hero-viewport background during scroll ── */
+        if (window.innerWidth <= 1024) {
+          gsap.to('#hero-viewport', {
+            backgroundColor: '#0a0a0a',
+            ease: 'power1.inOut',
             scrollTrigger: {
               trigger: wrapper,
-              start: () => `+=${scrollPx * 0.35}`,
-              end: () => `+=${scrollPx}`,
+              start: () => `+=${scrollPx * 0.15}`,
+              end: () => `+=${scrollPx * 0.55}`,
               scrub: CONFIG.scrub,
             }
           });
