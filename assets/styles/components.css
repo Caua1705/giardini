@@ -3453,20 +3453,9 @@
 
       /* ── SCRIM INFERIOR: ponte tonal até a próxima seção (removido p/ evitar sombra no mobile) ── */
 
-      /* ── SCRIM SUPERIOR: proteção de contraste p/ a navbar ── */
+      /* ── SCRIM SUPERIOR: proteção de contraste p/ a navbar (removido a pedido p/ limpar topo) ── */
       #hero-viewport::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 160px;
-        background: linear-gradient(
-          to bottom,
-          rgba(5, 9, 6, 0.88) 0%,
-          rgba(5, 9, 6, 0.40) 45%,
-          transparent         100%
-        );
-        z-index: 4;
-        pointer-events: none;
+        display: none !important;
       }
 
       /* ── "DESCUBRA": Fechamento seguro ── */
