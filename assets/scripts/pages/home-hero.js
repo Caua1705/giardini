@@ -302,13 +302,16 @@
         const w = frame.offsetWidth;
         const h = frame.offsetHeight;
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        const targetW = w * dpr;
-        const targetH = h * dpr;
-        // Só redimensionar se mudou significativamente (>5px) para evitar repaint contínuo
-        if (Math.abs(canvas.width - targetW) > 5 || Math.abs(canvas.height - targetH) > 5) {
+        
+        // Math.ceil + 1px reserva garante que o canvas mate qualquer frestinha na lateral direita
+        const targetW = Math.ceil(w * dpr) + 1; 
+        const targetH = Math.ceil(h * dpr);
+        
+        // Threshold reduzido para 0.1 para precisão absoluta durante a expansão (mata tremedeira)
+        if (Math.abs(canvas.width - targetW) > 0.1 || Math.abs(canvas.height - targetH) > 0.1) {
           canvas.width = targetW;
           canvas.height = targetH;
-          canvas.style.width = w + 'px';
+          canvas.style.width = (w + 1) + 'px'; // Estica 1px a mais pra garantir cobertura total
           canvas.style.height = h + 'px';
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
           return true; // canvas foi redimensionado
