@@ -783,50 +783,68 @@
       z-index: 20;
     }
 
-    /* ── Horizontal Category Nav — Premium Editorial Rail ───────────── */
+    /* ── Cat-nav entrance animation: plays when inner bar docks at top ── */
+    @keyframes cat-nav-inner-reveal {
+      from {
+        opacity: 0;
+        transform: translateY(-8px) scaleX(0.96);
+        box-shadow: 0 0 0 rgba(0,0,0,0);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scaleX(1);
+        box-shadow:
+          0 1px 0 rgba(183, 147, 88, 0.08),
+          0 10px 28px -4px rgba(0, 0, 0, 0.5),
+          0 4px 10px -2px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    /* ── Horizontal Category Nav — sticky wrapper, always transparent ── */
     #cat-nav {
       width: 100%;
-      /* Initial state: sits flush below hero — dark, atmospheric */
-      background: rgba(6, 12, 8, 0.0);
-      padding: 0;
+      background: transparent;   /* wrapper is ALWAYS transparent */
+      padding: 0.75rem 0;
       margin-bottom: 4.5rem;
       position: sticky;
       top: 76px;
       z-index: 400;
-      /* No backdrop-filter in initial state — added when sticky */
-      transition:
-        background 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-        border-color 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-        padding 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      justify-content: center;  /* centers the inner pill */
+      pointer-events: none;     /* clicks pass through transparent area */
     }
 
-    /* Sticky state: applied via JS when scrolled — feels like a refined docking */
-    #cat-nav.is-pinned {
-      background: rgba(6, 11, 7, 0.94);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      /* Top border removed as requested */
-      border-top: none;
-      /* Bottom shadow: dark pool that grounds the nav onto the page */
+    /* Sticky state: ONLY the inner track gets the dark pill */
+    #cat-nav.is-pinned .cat-nav-inner {
+      background: rgba(6, 11, 7, 0.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: 9999px;
       box-shadow:
-        0 1px 0 rgba(183, 147, 88, 0.06),  /* bottom gold trace */
-        0 12px 32px -4px rgba(0, 0, 0, 0.55),
-        0 4px 12px -2px rgba(0, 0, 0, 0.35);
-      padding: 0.25rem 0;
+        0 1px 0 rgba(183, 147, 88, 0.08),
+        0 10px 28px -4px rgba(0, 0, 0, 0.50),
+        0 4px 10px -2px rgba(0, 0, 0, 0.30);
+      /* Entrance animation: slide-down + fade + scale-in */
+      animation: cat-nav-inner-reveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    /* Inner track — contains buttons and the gold separator line */
+    /* Inner track — the pill container for buttons */
     .cat-nav-inner {
       display: flex;
       flex-direction: row;
       justify-content: center;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;        /* single row — prevents pill from going full-width */
+      width: fit-content;       /* pill is exactly as wide as the buttons */
       gap: 0;
-      padding: 1.1rem 2rem;
+      padding: 0.85rem 2rem;
       margin: 0;
       position: relative;
-      /* Subtle centerline separator below labels */
+      pointer-events: auto;     /* re-enable clicks on the inner pill */
+      /* Smooth background/shadow when un-pinning */
+      transition:
+        background 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        border-radius 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     /* Gold axis line below the entire nav removed as requested */
@@ -956,16 +974,24 @@
         margin-bottom: 3rem;
       }
 
-      #cat-nav.is-pinned {
-        padding: 0.15rem 0;
+      #cat-nav.is-pinned .cat-nav-inner {
+        border-radius: 9999px;
+        padding: 0.65rem 1.5rem;
       }
 
       .cat-nav-inner {
-        justify-content: center;
-        flex-wrap: wrap;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
         gap: 0;
-        padding: 0.9rem 24px;
+        padding: 0.75rem 1.5rem;
         margin: 0;
+      }
+
+      .cat-nav-inner::-webkit-scrollbar {
+        display: none;
       }
 
       .cat-nav-inner::after {
@@ -1407,9 +1433,7 @@
         top: 68px;
         margin-bottom: 3rem;
       }
-      #cat-nav.is-pinned {
-        padding: 0.15rem 0;
-      }
+      /* is-pinned backgound: handled by .cat-nav-inner pill — no override here */
       .cat-nav-inner {
         justify-content: center;
         flex-wrap: wrap;
@@ -1748,10 +1772,7 @@
         background: transparent;
       }
 
-      #cat-nav.is-pinned {
-        background: rgba(6, 10, 7, 0.95);
-        padding: 0;
-      }
+      /* is-pinned background: handled by .cat-nav-inner pill — no override here */
 
       .cat-nav-inner {
         padding: 0.8rem 20px;
@@ -2095,10 +2116,7 @@
         margin-bottom: 2.5rem;
       }
       
-      #cat-nav.is-pinned {
-        background: rgba(6, 10, 7, 0.98);
-        backdrop-filter: blur(16px);
-      }
+      /* is-pinned background: handled by .cat-nav-inner pill — no override here */
 
       .cat-nav-inner {
         padding: 0.8rem 24px;   /* Extra touch padding */
@@ -2839,14 +2857,7 @@
         box-shadow 0.55s var(--expo);
     }
 
-    #cat-nav.is-pinned {
-      background: rgba(7, 10, 7, 0.92);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      /* Shadows removed to eliminate white line artifacts */
-      box-shadow:
-        0 8px 24px -4px rgba(0, 0, 0, 0.5);
-    }
+    /* is-pinned background: handled by .cat-nav-inner pill at the top of this file */
 
     .cat-nav-inner {
       display: flex;
