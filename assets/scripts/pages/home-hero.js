@@ -420,8 +420,11 @@
             const vpRect = document.getElementById('hero-viewport').getBoundingClientRect();
             const ctaBottom = cta ? (cta.getBoundingClientRect().bottom - vpRect.top) : 280;
 
+            const isTallMobile = window.innerWidth <= 395 && window.innerHeight >= 840;
+            
             // Stable top: position below CTA with a comfortable gap
-            const stableTop = ctaBottom + 32;
+            // Ajuste fino: sobe um pouco (48px em vez de 64px) no breakpoint 390x844
+            const stableTop = ctaBottom + (isTallMobile ? 48 : 32);
 
             gsap.set(frame, {
               position: 'absolute',
@@ -435,7 +438,8 @@
               maxWidth: 340,
               // Let aspect-ratio from CSS determine height (don't force a px value)
               height: 'auto',
-              aspectRatio: '16 / 10',
+              // Aumenta a altura mais um pouco (5/4) apenas no breakpoint 390x844
+              aspectRatio: isTallMobile ? '5 / 4' : '16 / 10',
               borderRadius: 16,
               zIndex: 15,
               transformOrigin: 'top center',
