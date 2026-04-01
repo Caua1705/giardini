@@ -415,13 +415,6 @@
 
             // Calculate precise safe zone
             const availableSpace = exploreTop - ctaBottom;
-            const targetGap = 24;
-            
-            // Fit height safely within gaps bounds
-            let safeHeight = availableSpace - (targetGap * 2);
-            // Cap it at initRect.height so video doesn't get weirdly stretched vertically on tall screens
-            safeHeight = Math.min(initRect.height, safeHeight);
-            if (safeHeight < 150) safeHeight = 150; 
             
             // We'll set top to the exact vertical center of the available space
             const safeTop = ctaBottom + (availableSpace / 2);
@@ -433,7 +426,7 @@
               top: safeTop,
               yPercent: -50, // CRITICAL: explicitly handle Y center translation inherited from CSS
               width: initRect.width,
-              height: safeHeight,
+              height: initRect.height, // Mantenha a altura original, não encolha o canvas!
               borderRadius: 16,
               zIndex: 15,
               transformOrigin: 'center center',
