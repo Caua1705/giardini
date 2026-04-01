@@ -341,12 +341,9 @@
         ctx.drawImage(img, dx, dy, dw, dh);
       }
       /* ══ PRELOAD DE FRAMES ═════════════════════════════════════════
-         Carrega todos os frames em paralelo (Image objects) antes de
-         iniciar a hero. Mostra barra de progresso no preloader.
+         Carrega todos os frames em paralelo (Image objects) em segundo 
+         plano para garantir fluidez na hero ao rolar a página.
       ══════════════════════════════════════════════════════════════ */
-      const preloaderBar = document.getElementById('preloader-bar');
-      const preloaderLabel = document.getElementById('preloader-label');
-      const preloaderEl = document.getElementById('preloader');
       function preloadFrames() {
         return new Promise((resolve) => {
           let loaded = 0;
@@ -354,14 +351,10 @@
           frames = new Array(total);
           for (let i = 0; i < total; i++) {
             const img = new Image();
-            // Nomes: frame_0000.webp, frame_0001.webp, ...
             img.src = `${CONFIG.FRAMES_DIR}/frame_${String(i).padStart(4, '0')}.webp`;
             frames[i] = img;
             img.onload = img.onerror = () => {
               loaded++;
-              const pct = Math.round((loaded / total) * 100);
-              preloaderBar.style.width = `${pct}%`;
-              preloaderLabel.textContent = `${pct}%`;
               if (loaded === total) resolve();
             };
           }
@@ -1156,18 +1149,11 @@
       }
 
       document.fonts.ready.then(() => {
-        preloadFrames().then(() => {
-          /* Preload concluído — remove o preloader */
-          gsap.to(preloaderEl, {
-            yPercent: -100,
-            duration: 1.0,
-            ease: 'power4.inOut',
-            onComplete: () => {
-              preloaderEl.style.display = 'none';
-              requestAnimationFrame(() => requestAnimationFrame(init));
-            }
-          });
-        });
+        // Revela a página imediatamente após as fontes estarem prontas
+        requestAnimationFrame(() => requestAnimationFrame(init));
+        
+        // Continua o carregamento dos frames em segundo plano para suavidade total
+        preloadFrames();
       });
     }());
   

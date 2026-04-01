@@ -1,3 +1,14 @@
+/* ── NAV HAMBURGER (Global Hide for PC) ────────────────────────── */
+.nav-hamburger {
+  display: none !important;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: var(--c-dark);
+  transition: color 0.4s var(--expo);
+}
+
 .btn-primary { background-color: var(--c-primary); color: var(--c-bg); position: relative; overflow: hidden; transition: all 0.4s var(--expo); } .btn-primary::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255, 255, 255, 0.13) 0%, transparent 60%); opacity: 0; transform: scale(0.5); transition: all 0.5s ease; pointer-events: none; } .btn-primary:hover::after { opacity: 1; transform: scale(1); } .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 32px -8px rgba(43, 74, 59, 0.45); } .word-wrap { display: inline-block; overflow: hidden; vertical-align: bottom; } .word-inner { display: block; transform: translateY(110%); will-change: transform; } /* ══ NAVBAR ══════════════════════════════════════════════════════ */ #navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 2.25rem 5rem; display: flex; justify-content: space-between; align-items: center; transition: padding 0.5s ease, background 0.5s ease; opacity: 0; } @media (max-width: 768px) { #navbar { padding: 1.5rem 2rem; } } #navbar.is-scrolled { background: rgba(253, 251, 247, 0.94); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(0, 0, 0, 0.05); padding-top: 1.25rem !important; padding-bottom: 1.25rem !important; } .nav-logo { font-family: 'Instrument Serif', serif; font-size: 1.5rem; color: var(--c-dark); text-decoration: none; } .nav-links { display: flex; gap: 2.5rem; } @media (max-width: 768px) { .nav-links { display: none; } } .nav-link { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(26, 26, 26, 0.6); text-decoration: none; transition: color 0.3s ease; } .nav-link:hover { color: var(--c-primary); } .nav-cta { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.4rem; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; border-radius: 9999px; text-decoration: none; border: 1.5px solid var(--c-primary); color: var(--c-primary); transition: all 0.35s var(--expo); } .nav-cta:hover { background: var(--c-primary); color: var(--c-bg); } /* ══ PREMIUM ANIMATION UTILITIES ═════════════════════════════════ */ /* Personalização básica do scrollbar para ser visível e premium */     .hero-grid-bg { position: absolute; inset: 0; pointer-events: none; z-index: 1; background-image: linear-gradient(to right, rgba(26, 26, 26, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(26, 26, 26, 0.05) 1px, transparent 1px), linear-gradient(to right, rgba(26, 26, 26, 0.018) 1px, transparent 1px), linear-gradient(to bottom, rgba(26, 26, 26, 0.018) 1px, transparent 1px); background-size: 80px 80px, 80px 80px, 20px 20px, 20px 20px; /* Grid is stronger near text (left) and fades toward the image area (right), creating depth */ mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 45%, transparent 72%); -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 45%, transparent 72%); } /* ── GRAIN NOISE TEXTURE ────────────────────────────────────────── */ #hero-grain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.028; pointer-events: none; z-index: 9998; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); background-repeat: repeat; background-size: 200px 200px; } /* ── MOUSE SPOTLIGHT (enhanced warm) ─────────────────────────── */ #hero-spotlight { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(43, 74, 59, 0.055), transparent 60%); opacity: 0; transition: opacity 0.6s ease; } #hero-viewport:hover #hero-spotlight { opacity: 1; } /* ── SHIMMER BEAM BUTTON (conic-gradient advanced) ──────────────── */ .btn-beam-container { position: relative; display: inline-flex; } .beam-border { position: absolute; inset: -1.5px; border-radius: 9999px; pointer-events: none; z-index: 0; opacity: 0; background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, var(--c-accent) 45deg, var(--c-dark) 90deg, transparent 135deg, var(--c-accent) 225deg, transparent 360deg); animation: rotate-beam 4s linear infinite; transition: opacity 0.5s var(--expo); } .btn-beam-container:hover .beam-border { opacity: 1; } /* ── FLASHLIGHT CARD (Map Refined) ───────────────────────────── */ .flashlight-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.05), transparent 40%); opacity: 0; transition: opacity 0.6s; pointer-events: none; z-index: 5; } .flashlight-card:hover::before { opacity: 1; } .flashlight-border { position: absolute; inset: 0; border-radius: inherit; padding: 1px; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; opacity: 0; transition: opacity 0.6s; pointer-events: none; z-index: 6; } .flashlight-card:hover .flashlight-border { opacity: 1; }  /* ── BG COLUMN REVEAL ────────────────────────────────────────── */ #hero-bg-cols { position: absolute; inset: 0; display: flex; z-index: 0; pointer-events: none; } .hero-col { flex: 1; height: 100%; border-right: 1px solid rgba(26, 26, 26, 0.045); clip-path: inset(100% 0 0 0); transition: clip-path 1.6s cubic-bezier(0.65, 0, 0.35, 1); } .hero-col.active { clip-path: inset(0 0 0 0); } .hero-col:last-child { border-right: none; } /* ── CUSTOM MINIMALIST SCROLL INDICATOR ────────────────────────── */ .scroll-indicator-wrap { position: fixed; right: 3rem; /* Slightly further in to avoid cluttering with standard scrollbar */ top: 50%; transform: translateY(-50%); z-index: 9999; pointer-events: none; } #scroll-progress-line { width: 2px; height: 100px; background: rgba(26, 26, 26, 0.15); position: relative; border-radius: 2px; overflow: hidden; } .live-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(26, 26, 26, 0.4); pointer-events: none; } .live-pulse { width: 5px; height: 5px; border-radius: 50%; background: var(--c-primary); flex-shrink: 0; animation: live-glow 2s ease-in-out infinite; }  /* Clock */ #hero-clock { position: absolute; bottom: 2rem; left: 5rem; font-size: 0.6rem; font-family: var(--f-mono); letter-spacing: 0.12em; color: rgba(26, 26, 26, 0.25); pointer-events: none; z-index: 20; } @media (max-width: 767px) { #hero-clock { display: none; } } /* ══ HERO LAYOUT ════════════════════════════════════════════════ */ #hero-pin-wrapper { position: relative; } #hero-viewport { position: relative; width: 100%; height: 100vh; overflow: hidden; background: var(--c-bg); display: flex; flex-direction: row; } @media (max-width: 767px) { #hero-viewport { flex-direction: column; } } /* LEFT column */ #hero-left { position: relative; z-index: 20; display: flex; flex-direction: column; justify-content: center; width: 48%; padding: 0 4rem 0 5rem; flex-shrink: 0; pointer-events: none; } @media (max-width: 1280px) { #hero-left { padding: 0 2.5rem 0 3.5rem; } } @media (max-width: 767px) { #hero-left { width: 100%; padding: 5.5rem 2rem 2rem; height: 50%; } } #hero-left::after { content: ''; display: block; position: absolute; right: 0; top: 22%; bottom: 22%; width: 1px; background: linear-gradient(to bottom, transparent, rgba(26, 26, 26, 0.07) 30%, rgba(26, 26, 26, 0.07) 70%, transparent); } @media (max-width: 767px) { #hero-left::after { display: none; } } .kicker { display: flex; align-items: center; gap: 0.75rem; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--c-primary); margin-bottom: 2.5rem; } .kicker-line { width: 20px; height: 1px; background: var(--c-primary); flex-shrink: 0; } #hero-headline { font-family: 'Instrument Serif', serif; font-size: clamp(3rem, 6.5vw, 7.5rem); line-height: 1.1; letter-spacing: -0.03em; color: var(--c-dark); margin-bottom: 0.75rem; margin-top: 0.75rem; } #hero-headline .line { display: block; overflow: hidden; } #hero-headline .line-inner { display: block; will-change: transform; } .hero-body { font-size: 1rem; font-weight: 300; line-height: 1.8; color: rgba(26, 26, 26, 0.68); max-width: 480px; margin-top: 1.75rem; margin-bottom: 2.75rem; } @media (min-width: 768px) { .hero-body { font-size: 1.0625rem; } } .hero-cta { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; } .btn-order { display: inline-flex; align-items: center; gap: 0.625rem; padding: 1rem 2.25rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; border-radius: 9999px; text-decoration: none; cursor: pointer; transition: all 0.3s ease; transform: scale(1); } .btn-order svg { width: 13px; height: 13px; transition: transform 0.35s var(--expo); } .btn-order:hover { transform: scale(1.03); } .btn-order:hover svg { transform: translateX(5px); } /* Secondary outlined CTA */ .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.95rem 1.8rem; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 9999px; text-decoration: none; cursor: pointer; border: 1.5px solid rgba(26, 26, 26, 0.18); color: rgba(26, 26, 26, 0.6); background: transparent; transition: all 0.3s ease; transform: scale(1); } .btn-secondary:hover { border-color: var(--c-primary); color: var(--c-primary); transform: scale(1.03); } .link-ghost { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(26, 26, 26, 0.36); text-decoration: none; position: relative; padding-bottom: 2px; transition: color 0.3s ease; } /* Animated underline — grows from left on hover */ .link-ghost::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background: var(--c-primary); transition: width 0.35s var(--expo); } .link-ghost:hover { color: var(--c-primary); } .link-ghost:hover::after { width: 100%; } .hero-meta { display: flex; align-items: center; gap: 0.875rem; margin-top: 2.5rem; } .meta-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(26, 26, 26, 0.25); } .meta-text { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(26, 26, 26, 0.32); } /* RIGHT column */ #hero-right { position: relative; z-index: 10; display: flex; align-items: center; justify-content: center; width: 52%; height: 100%; padding: 9rem 3.5rem 3.5rem 2rem; flex-shrink: 0; } @media (max-width: 1280px) { #hero-right { padding: 7rem 2.5rem 4rem 1rem; } } @media (max-width: 767px) { #hero-right { width: 100%; height: 50%; padding: 1rem 1.5rem 1.5rem; } } .video-glow { position: absolute; inset: 8%; border-radius: 50%; background: radial-gradient(ellipse at 55% 45%, rgba(43, 74, 59, 0.09) 0%, rgba(183, 147, 88, 0.04) 40%, transparent 70%); pointer-events: none; } /* Premium Cards for Section 2 */ .glass-card { background: rgba(255, 255, 255, 0.35); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(26, 26, 26, 0.04); transition: all 0.5s var(--expo); } .glass-card:hover { background: rgba(255, 255, 255, 0.7); box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05); transform: translateY(-4px); border-color: rgba(26, 26, 26, 0.08); } .flashlight-effect { position: relative; overflow: hidden; } .flashlight-effect::before { content: ""; position: absolute; inset: 0px; background: radial-gradient(350px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(43, 74, 59, 0.04), transparent 50%); opacity: 0; transition: opacity 0.5s; pointer-events: none; z-index: 1; } .flashlight-effect:hover::before { opacity: 1; } /* Floating Animations */  .animate-float { animation: float 8s ease-in-out infinite; } /* ══ VIDEO FRAME (expande via GSAP) ═════════════════════════════ */ #video-frame { position: absolute; overflow: hidden; background: #0a0a0a; border-radius: 20px; border: 1px solid rgba(0, 0, 0, 0.06); /* Soft, wide shadow — image breathes naturally in the space */ box-shadow: 0 30px 80px rgba(0, 0, 0, 0.08), 0 10px 30px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.04); will-change: border-radius, box-shadow; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease; } #video-frame:hover { transform: scale(1.01); box-shadow: 0 40px 100px rgba(0, 0, 0, 0.1), 0 14px 40px rgba(0, 0, 0, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.06); } #video-overlay { position: absolute; inset: 0; z-index: 5; background: linear-gradient(135deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.45) 100%); opacity: 0; pointer-events: none; } .video-badge { position: absolute; top: 1.1rem; right: 1.1rem; z-index: 15; display: flex; align-items: center; gap: 0.5rem; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255, 255, 255, 0.75); } .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--c-primary); box-shadow: 0 0 8px rgba(43, 74, 59, 0.9); animation: dotPulse 2.2s ease-in-out infinite; }  /* * ══ CANVAS — substitui o <video> ════════════════════════════════ * O canvas ocupa 100% do #video-frame e exibe os frames desenhados * via drawImage(). É instantâneo, sem lag de decodificação. */ #seq-canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; /* via CSS — o JS mantém proporção no drawImage */ display: block; /* blur */ image-rendering: -webkit-optimize-contrast; backface-visibility: hidden; transform: translateZ(0); }
     /* Kicker standard style */
     .loc-kicker {
@@ -188,23 +199,13 @@
   }
 
   /* ── MOBILE MENU SYSTEM ────────────────────────────────────────── */
-  .nav-hamburger {
-    display: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.25rem;
-    color: var(--c-dark);
-    transition: color 0.4s var(--expo);
-    z-index: 501;
-  }
 
   #navbar.is-scrolled .nav-hamburger {
     color: var(--c-primary);
   }
 
-  /* Breakpoint activation for home page navbar */
-  @media (max-width: 1024px) {
+  /* Breakpoint activation for home page navbar — Mobile only (<= 860px) */
+  @media (max-width: 860px) {
     .nav-menu { display: none !important; }
     .nav-hamburger { display: flex !important; }
     .nav-actions { flex: 1; justify-content: flex-end; }
@@ -3434,46 +3435,7 @@
       }
 
       /* Remove desktop padding transitions — not needed on mobile */
-      #navbar.is-scrolled {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-      }
-
-      /* Logo: slightly smaller but still authoritative */
-      .nav-logo {
-        font-size: 1.3rem;
-        flex: unset;
-        /* Remove the breathing glow on mobile — saves CPU & clarity */
-        animation: none;
-        text-shadow: none;
-      }
-
-      /* Hide desktop center nav — hamburger takes over */
-      .nav-menu { display: none; }
-
-      /* Actions: only hamburger on mobile (CTA hidden to reduce noise) */
-      .nav-actions {
-        gap: 0.85rem;
-        flex: unset;
-      }
-
-      /* Hide the "Reservar" CTA from navbar on mobile
-         (there is a CTA in hero and a WhatsApp in footer) */
-      .nav-cta { display: none; }
-
-      /* Hamburger: elegante, minimalista e sem bordas pesadas */
-      .nav-hamburger {
-        display: flex;
-        width: 48px;
-        height: 48px;
-        align-items: center;
-        justify-content: flex-end; /* Aligns icon closely to the right edge */
-        background: transparent;
-        border: none;
-        color: rgba(236, 230, 218, 0.95);
-        outline: none;
-        cursor: pointer;
-      }
+      /* Navbar visibility adjustments are now handled globally in the 860px mobile block at the top */
 
       /* ── M2. MOBILE MENU (fullscreen overlay) ──────────────────
          Full screen takeover with larger serif links
