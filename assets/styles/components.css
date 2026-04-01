@@ -400,6 +400,152 @@
       bottom: -8rem !important; /* Desce o Explore de forma extrema para muito abaixo do vídeo */
     }
   }
+
+  /* ── BREAKPOINT 900x700 (Desktop Layout Mirroring) ── */
+  @media (max-width: 950px) and (min-width: 850px) and (max-height: 750px) {
+    #hero-viewport {
+      flex-direction: row !important;
+      justify-content: flex-start !important;
+      height: 100vh !important; /* Obrigatório para a coluna interna saber calcular sua altura (%) */
+      min-height: 100vh !important;
+    }
+    #hero-left {
+      width: 45% !important; /* Cede um pouco de espaço para a direita esticar */
+      padding: 0 1rem 0 3.5rem !important;
+      height: 100vh !important; /* Ocupa 100vh firme */
+      justify-content: center !important;
+      align-items: flex-start !important; /* Retorna o alinhamento desktop */
+      text-align: left !important; /* Tira do centro (padrão mobile) */
+    }
+    #hero-headline, .hero-body {
+      text-align: left !important; /* Override direto sobre as tags que o mobile centraliza isoladamente */
+      width: 100% !important;
+    }
+    .kicker {
+      justify-content: flex-start !important; /* Puxa para a esquerda */
+    }
+    .hero-cta {
+      flex-direction: column !important; /* Mantém um abaixo do outro caso não caiba lado a lado com vídeo */
+      align-items: flex-start !important; /* Escora perfeitamente no limite esquerdo */
+      justify-content: flex-start !important;
+      gap: 1.25rem !important;
+    }
+    .hero-cta-primary-wrap {
+      margin: 0 !important; /* Remove qualquer 'auto' margin-left que centralize o botão acidentalmente */
+      margin-left: -14px !important; /* Empurrão pesado (-14px) para alinhar visualmente as letras R e V */
+    }
+    #hero-right {
+      position: relative !important;
+      display: flex !important;
+      width: 55% !important; /* Fica BEM largo agora */
+      height: 100vh !important; /* Trava totalmente na base do monitor */
+      margin: 0 !important; /* Sobrecrescreve o margin auto do mobile */
+      max-width: none !important; /* Derruba os 340px nativos da regra tablet */
+      aspect-ratio: auto !important; /* Libera pra ele preencher a coluna */
+      padding: 10rem 2rem 4rem 1.5rem !important; /* Empurra pra baixo pesadamente (10rem) para nivelar com a leitura */
+    }
+    #navbar {
+      padding: 1.5rem 1.5rem !important;
+    }
+    .nav-links {
+      gap: 1.5rem !important; 
+    }
+    .nav-link {
+      white-space: nowrap !important;
+      font-size: 0.65rem !important;
+    }
+    .hero-btn-secondary {
+      display: flex !important; /* Volta a exibir o botao Ver cardapio auxiliar ao lado do mestre */
+    }
+    .hero-scroll-wrapper {
+      position: absolute !important; /* Quebra qualquer força da linha flexbox horizontal */
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      bottom: -1rem !important; /* Desce para as entranhas negativas abaixo da linha de corte */
+      left: 38vw !important; /* Arrastado profundamente para o lado do texto (38%) */
+      transform: translateX(-50%) !important; /* Acerta o eixo mecânico perfeitamente */
+      z-index: 9999 !important;
+      margin: 0 !important;
+    }
+    #video-frame {
+      transform: none !important;
+      max-width: none !important;
+    }
+  }
+
+  /* ── BREAKPOINT 1024x768 (Desktop Layout Mirroring - iPad Landscape) ── */
+  @media (max-width: 1024px) and (min-width: 951px) and (max-height: 800px) {
+    #hero-viewport {
+      flex-direction: row !important; /* TEXTO ESQUERDA IMAGE DIREITA */
+      justify-content: flex-start !important;
+      height: 100vh !important;
+      min-height: 100vh !important;
+    }
+    #hero-left {
+      width: 45% !important;
+      padding: 0 1rem 0 3.5rem !important;
+      height: 100vh !important;
+      justify-content: center !important;
+      align-items: flex-start !important; /* FORÇA BOTOES/LETRAS ESQUERDA */
+      text-align: left !important;
+    }
+    #hero-headline, .hero-body {
+      text-align: left !important;
+      width: 100% !important;
+    }
+    .kicker {
+      justify-content: flex-start !important;
+    }
+    .hero-cta {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      justify-content: flex-start !important;
+      gap: 1.25rem !important;
+    }
+    .hero-cta-primary-wrap {
+      margin: 0 !important;
+      margin-left: -14px !important; /* Mantém alinhamento ótico do R no V */
+    }
+    #hero-right {
+      position: relative !important;
+      display: flex !important; /* IMAGEM DIREITA */
+      width: 55% !important;
+      height: 100vh !important;
+      margin: 0 !important;
+      max-width: none !important;
+      aspect-ratio: auto !important;
+      padding: 10rem 2rem 4rem 1.5rem !important;
+    }
+    #navbar {
+      padding: 1.5rem 1.5rem !important;
+    }
+    .nav-links {
+      gap: 1.5rem !important; 
+    }
+    .nav-link {
+      white-space: nowrap !important;
+      font-size: 0.65rem !important;
+    }
+    .hero-btn-secondary {
+      display: flex !important;
+    }
+    #video-frame {
+      transform: none !important;
+      max-width: none !important;
+    }
+    .hero-scroll-wrapper {
+      position: absolute !important;
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      bottom: -1rem !important;
+      left: 38vw !important;
+      transform: translateX(-50%) !important;
+      z-index: 9999 !important;
+      margin: 0 !important;
+    }
+  }
 }
 /* ── EXPLORE INDICATOR BNC ────────────────────────────────────────── */
 

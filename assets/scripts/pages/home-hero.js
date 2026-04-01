@@ -393,11 +393,18 @@
         /* Registra matchMedia para layouts responsivos */
         let mm = gsap.matchMedia();
 
+        const wideTabletMQ = "(max-width: 1024px) and (min-width: 850px) and (max-height: 800px)";
+        
         mm.add({
-          isDesktop: "(min-width: 1025px)",
+          isDesktop: `(min-width: 1025px), ${wideTabletMQ}`,
           isMobile: "(max-width: 1024px)"
         }, (context) => {
           let { isDesktop, isMobile } = context.conditions;
+
+          // Override local para forçar que o 900x700 aja exatamente como o Desktop (1280x800 style)
+          if (isDesktop && window.innerWidth <= 1024) {
+            isMobile = false;
+          }
 
           const initRect = getInitialFrameRect();
 
@@ -640,11 +647,17 @@
           }
         });
         /* ── VIDEO-FRAME EXPANSION (split → fullscreen) ──────────── */
+        const wideTabletMQFull = "(max-width: 1024px) and (min-width: 850px) and (max-height: 800px)";
         mm.add({
-          isDesktop: "(min-width: 1025px)",
+          isDesktop: `(min-width: 1025px), ${wideTabletMQFull}`,
           isMobile: "(max-width: 1024px)"
         }, (context) => {
           let { isDesktop, isMobile } = context.conditions;
+
+          // Mesma trava explícita: force o formato tablet baixo a usar Desktop script
+          if (isDesktop && window.innerWidth <= 1024) {
+            isMobile = false; 
+          }
 
           // Fullscreen end-state properties
           const fullscreenProps = {
@@ -665,6 +678,7 @@
               maxHeight: 'none',
               maxWidth: 'none',
             };
+
             gsap.to(frame, {
               ...mobileFullscreen,
               ease: 'power2.inOut',
@@ -674,12 +688,9 @@
                 end: () => `+=${scrollPx}`,
                 scrub: CONFIG.scrub,
                 onLeave: () => {
-                  // Lock fullscreen when scroll passes the pin zone
                   gsap.set(frame, mobileFullscreen);
                 },
-                onEnterBack: () => {
-                  // ScrollTrigger scrub handles it when scrolling back
-                }
+                onEnterBack: () => {}
               }
             });
           } else {
