@@ -402,13 +402,38 @@
           const initRect = getInitialFrameRect();
 
           if (isMobile) {
+            const cta = document.getElementById('el-cta');
+            const explore = document.getElementById('hero-explore-scroll') || document.querySelector('.hero-scroll-wrapper');
+            const vpRect = document.getElementById('hero-viewport').getBoundingClientRect();
+            
+            const ctaBottom = cta.getBoundingClientRect().bottom - vpRect.top;
+            
+            let exploreTop = vpRect.height - 80;
+            if (explore) {
+               exploreTop = explore.getBoundingClientRect().top - vpRect.top;
+            }
+
+            // Calculate precise safe zone
+            const availableSpace = exploreTop - ctaBottom;
+            const targetGap = 24;
+            
+            // Fit height safely within gaps bounds
+            let safeHeight = availableSpace - (targetGap * 2);
+            // Cap it at initRect.height so video doesn't get weirdly stretched vertically on tall screens
+            safeHeight = Math.min(initRect.height, safeHeight);
+            if (safeHeight < 150) safeHeight = 150; 
+            
+            // We'll set top to the exact vertical center of the available space
+            const safeTop = ctaBottom + (availableSpace / 2);
+
             gsap.set(frame, {
               position: 'absolute',
               left: "50%",
               xPercent: -50,
-              top: initRect.top,
+              top: safeTop,
+              yPercent: -50, // CRITICAL: explicitly handle Y center translation inherited from CSS
               width: initRect.width,
-              height: initRect.height,
+              height: safeHeight,
               borderRadius: 16,
               zIndex: 15,
               transformOrigin: 'center center',
