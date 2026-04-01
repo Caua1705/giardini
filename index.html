@@ -61,6 +61,18 @@
   ══════════════════════════════════════════════════════════════════════ -->
   
   <div id="global-grain" aria-hidden="true"></div>
+  
+  <!-- ══ MOBILE MENU ══════════════════════════════════════════════════ -->
+  <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Navegação">
+    <button class="mobile-close" id="mobile-close" aria-label="Fechar menu">
+      <iconify-icon icon="lucide:x"></iconify-icon>
+    </button>
+    <a class="mobile-link" href="#">Início</a>
+    <a class="mobile-link" href="#experience">Experiência</a>
+    <a class="mobile-link" href="./menu.html">Cardápio</a>
+    <a class="mobile-link" href="#clube-livro">Livros</a>
+    <a class="mobile-link" href="#location">Visite-nos</a>
+  </div>
 
   <!-- ══ PRELOADER ═══════════════════════════════════════════════════ -->
   <div id="preloader" aria-live="polite" aria-label="Carregando">
@@ -95,6 +107,9 @@
         <path d="M5 12h14M12 5l7 7-7 7" />
       </svg>
       </a>
+      <button class="nav-hamburger" id="hamburger" aria-label="Abrir menu">
+        <iconify-icon icon="lucide:menu" style="font-size:2rem;color:currentColor;--iconify-stroke-width:1.2px; stroke-width: 1.2px;"></iconify-icon>
+      </button>
     </div>
   </nav>
   <!-- ══ HERO WRAPPER (dá a altura de scroll ao ScrollTrigger) ════════ -->
