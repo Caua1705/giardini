@@ -421,10 +421,10 @@
             const ctaBottom = cta ? (cta.getBoundingClientRect().bottom - vpRect.top) : 280;
 
             const isTallMobile = window.innerWidth <= 395 && window.innerHeight >= 840;
+            const isProMaxMobile = window.innerWidth >= 428 && window.innerWidth <= 430 && window.innerHeight >= 900;
             
             // Stable top: position below CTA with a comfortable gap
-            // Ajuste fino: sobe um pouco (48px em vez de 64px) no breakpoint 390x844
-            const stableTop = ctaBottom + (isTallMobile ? 48 : 32);
+            const stableTop = ctaBottom + (isProMaxMobile ? 36 : (isTallMobile ? 48 : 32));
 
             gsap.set(frame, {
               position: 'absolute',
@@ -432,14 +432,12 @@
               xPercent: -50,
               top: stableTop,
               yPercent: 0,
-              // Use CSS percentage width — resolves correctly at any viewport size
-              // and matches the @media (max-width:1024px) #video-frame rule exactly
-              width: '82%',
-              maxWidth: 340,
-              // Let aspect-ratio from CSS determine height (don't force a px value)
+              // No Pro Max diminui a largura (76% em vez de 82%) a pedido
+              width: isProMaxMobile ? '76%' : '82%',
+              maxWidth: 360,
               height: 'auto',
-              // Aumenta a altura mais um pouco (5/4) apenas no breakpoint 390x844
-              aspectRatio: isTallMobile ? '5 / 4' : '16 / 10',
+              // Aumenta a altura ainda mais (1/1, quadrado) no breakpoint 430x932
+              aspectRatio: isProMaxMobile ? '1 / 1' : (isTallMobile ? '5 / 4' : '16 / 10'),
               borderRadius: 16,
               zIndex: 15,
               transformOrigin: 'top center',
