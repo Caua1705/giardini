@@ -1,2 +1,12 @@
 /* Home-specific adjustments */
 /* (Core home layout presently handled by components.css) */
+
+/* ── BREAKPOINT 390x844: Deslocar EXPLORE um pouco mais para baixo ── */
+/* Focado especificamente no iPhone 12/13/14/15 Pro (390px wide, high resolution) */
+@media (max-width: 390px) and (min-height: 840px) {
+  #hero-viewport.is-mobile-stack .hero-scroll-wrapper {
+    margin-top: 3.5rem !important; /* Aumenta o respiro abaixo do vídeo significativamente */
+    padding-top: 1.5rem !important; /* Descer a palavra EXPLORE em relação ao topo do container */
+    padding-bottom: 5rem !important; /* Empurra o conteúdo final mais para baixo na área segura lateral */
+  }
+}
