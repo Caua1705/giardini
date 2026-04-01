@@ -139,6 +139,7 @@
    spotlights, depth overlays) and present a clean editorial hero.
    ══════════════════════════════════════════════════════════════════ */
 @media (max-width: 1024px) {
+  .nav-cta { display: none !important; }
 
   /* ── HERO VIEWPORT: unified mobile layout ──────────────────────── */
   #hero-viewport {
