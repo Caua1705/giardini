@@ -413,23 +413,17 @@
                exploreTop = explore.getBoundingClientRect().top - vpRect.top;
             }
 
-            // Calculate precise safe zone
-            const availableSpace = exploreTop - ctaBottom;
-            
-            // We'll set top to the exact vertical center of the available space
-            const safeTop = ctaBottom + (availableSpace / 2);
-
             gsap.set(frame, {
               position: 'absolute',
               left: "50%",
               xPercent: -50,
-              top: safeTop,
-              yPercent: -50, // CRITICAL: explicitly handle Y center translation inherited from CSS
-              width: initRect.width,
-              height: initRect.height, // Mantenha a altura original, não encolha o canvas!
+              top: initRect.top,
+              yPercent: 0, // PREVINE QUE O CSS DEKTOP (translate-y -50%) PUXE ELE PARA CIMA!
+              width: initRect.width, 
+              height: initRect.height > 200 ? initRect.height : 250,
               borderRadius: 16,
               zIndex: 15,
-              transformOrigin: 'center center',
+              transformOrigin: 'top center',
             });
           } else {
             gsap.set(frame, {
@@ -477,7 +471,7 @@
           gsap.set('#hero-sep', { opacity: 1, scaleX: 1, transformOrigin: 'left center' });
           gsap.set('#hero-wm', { opacity: 1 });
           // frame: set opacity 1 — never leave the frame in opacity:0 state
-          gsap.set(frame, { opacity: 1, scale: 1, borderRadius: 22 });
+          gsap.set(frame, { opacity: 1, scale: 1 });
           // Activate bg columns immediately (skip stagger entrance)
           document.querySelectorAll('#hero-bg-cols .hero-col').forEach(col => col.classList.add('active'));
           // Initialize Flashlight tracking
@@ -519,7 +513,7 @@
             .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.25, ease: 'expo.out' }, '-=0.5')
             .add('titleShow', '-=0.8')
             .to('#el-h1a', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'expo.out' }, 'titleShow')
-            .to(frame, { opacity: 1, scale: 1, borderRadius: 22, duration: 1.8, ease: 'power4.out' }, 'titleShow')
+            .to(frame, { opacity: 1, scale: 1, duration: 1.8, ease: 'power4.out' }, 'titleShow')
             .to('#el-h1b', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'expo.out' }, 'titleShow+=0.18')
             .to('#hero-sep', { opacity: 1, scaleX: 1, duration: 1.2, ease: 'power3.out' }, 'titleShow+=0.45')
             .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' }, 'titleShow+=0.55')
