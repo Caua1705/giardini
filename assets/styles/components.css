@@ -52,41 +52,7 @@
 
 /* ── 2) 1024px: Reparo Principal (Sem quebrar desktop) ── */
 @media (max-width: 1024px) and (min-width: 901px) {
-  /* Problema 1 & 3: Hero layout e proporção garantida do vídeo/texto */
-  #hero-viewport {
-    align-items: center !important;
-    min-height: 100vh !important;
-  }
-  
-  #hero-left {
-    width: 54% !important;
-    padding: 0 1.5rem 0 3rem !important;
-    height: auto !important;
-  }
-  
-  /* Ajustar texto p/ não quebrar feio */
-  #hero-headline {
-    font-size: clamp(3.2rem, 5.5vw, 4.5rem) !important;
-  }
-  
-  .hero-body {
-    max-width: 98% !important;
-    font-size: 0.95rem !important;
-  }
-
-  #hero-right {
-    width: 46% !important;
-    height: 60vh !important; /* Garante proporção vertical sem forçar 100% que cortaria o topo */
-    min-height: 480px !important;
-    padding: 0 2rem 0 0 !important;
-  }
-
-  /* Restore: Botão Explore elegante, vertical e centralizado */
-  .hero-scroll-wrapper {
-    left: 50% !important;
-    bottom: 3vh !important;
-    transform: translateX(-50%) !important;
-  }
+  /* Hero components functionally overridden by the primary <=1024px stack below */
 
   /* Problema 4: Visite Nossa Casa cortado na Section Location */
   #location h2 {
@@ -122,44 +88,16 @@
 
 /* ── 3) 900px: Refinamento e Kicker ── */
 @media (max-width: 900px) and (min-width: 768px) {
-  #hero-viewport {
-    align-items: center !important;
-    min-height: 100vh !important;
-  }
-
-  #hero-left {
-    width: 55% !important;
-    padding: 0 1rem 0 2rem !important;
-    height: auto !important;
-  }
+  /* Hero components functionally overridden by the primary <=1024px stack below */
 
   /* Kicker (Leitura & Café) muito alto -> desce levemente aplicando margin-top */
   .kicker {
     margin-top: 1.5rem !important;
-    margin-bottom: 2rem !important;
-  }
-  
-  #hero-headline {
-    font-size: clamp(3rem, 5vw, 4rem) !important;
   }
 
-  #hero-right {
-    width: 45% !important;
-    height: 55vh !important; /* Proporção ideal pra 900x700 */
-    padding: 0 1.5rem 0 0 !important;
-  }
-
-  /* Ocultar apenas o relógio. Reintroduzir Explore compactado e perfeitamente alinhado */
+  /* Ocultar apenas o relógio. */
   #hero-clock {
     display: none !important;
-  }
-  
-  /* Explore ressurge fino, centralizado e vertical no inferior da tela */
-  .hero-scroll-wrapper {
-    display: flex !important;
-    left: 50% !important; 
-    bottom: 2vh !important; 
-    transform: translateX(-50%) !important;
   }
   
   #location h2 {
@@ -191,12 +129,17 @@
    ══════════════════════════════════════════════════════════════════ */
 @media (max-width: 1024px) {
 
-  /* ── HERO VIEWPORT: clean solid background ──────────────────────── */
+  /* ── HERO VIEWPORT: unified mobile layout ──────────────────────── */
   #hero-viewport {
-    flex-direction: column !important;
-    height: auto !important;
-    min-height: 100vh !important;
-    overflow: visible !important;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    width: 100vw;
+    max-width: 100%;
+    overflow-x: hidden; 
+    overflow-y: visible;
+    justify-content: flex-start;
     /* Clean solid background — no gradients, no warmth pools */
     background: #fdfbf7 !important;
   }
@@ -209,72 +152,60 @@
 
   /* ── HERO LEFT: text column ─────────────────────────────────────── */
   #hero-left {
-    order: 1 !important;
-    width: 100% !important;
-    height: auto !important;
-    padding: 5.5rem 1.5rem 2.5rem !important;
-    align-items: center !important;
-    text-align: center !important;
-    display: flex !important;
-    flex-direction: column !important;
+    order: 1;
+    width: 100%;
+    height: auto;
+    padding: 7rem 1.5rem 1rem;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
   }
 
-  #hero-left::after {
-    display: none !important;
-  }
-
-  /* ── HERO RIGHT: video container ────────────────────────────────── */
+  /* ── HERO RIGHT: video container placeholder ────────────────────── */
   #hero-right {
-    order: 2 !important;
-    width: 88% !important;
-    max-width: 340px !important;
-    aspect-ratio: 3 / 3.6 !important;
-    height: auto !important;
-    padding: 0 !important;
-    margin: 1.5rem auto 3rem !important;
-    display: flex !important;
-    justify-content: center !important;
+    display: block;
+    order: 2;
+    width: 82%;
+    max-width: 340px;
+    aspect-ratio: 16 / 10;
+    height: auto;
+    padding: 0;
+    margin: 2.5rem auto 2rem auto;
+    position: relative;
+    background: transparent !important;
+    opacity: 0; /* Placeholder for GSAP targeting */
+    pointer-events: none;
   }
 
   /* ── CENTERING: kicker, cta, meta ───────────────────────────────── */
-  .kicker, .hero-cta, .hero-meta {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
+  .kicker {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 1.5rem !important;
     gap: 1rem !important;
   }
 
   .hero-cta {
-    flex-direction: column !important;
-    gap: 1.25rem !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 1.25rem;
+    margin-top: 1rem;
   }
 
-  .hero-body {
-    margin-left: auto !important;
-    margin-right: auto !important;
-    font-size: 0.92rem !important;
-    max-width: 360px !important;
+  #hero-headline {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    font-size: clamp(2.8rem, 10vw, 3.5rem);
+    line-height: 1;
   }
-
-  /* ── REMOVAL OF BRIGHTNESS/GLOW EFFECTS ONLY ──────── 
-     Keep the grid, vignette, and structural background elements,
-     but remove all bright halos and floating orbs on mobile. */
-  #hero-spotlight,
-  #hero-warm,
-  #hero-image-glow,
-  .video-glow,
-  .h-orb,
-  .h-orb-1,
-  .h-orb-2 {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-  }
-
-  /* Structural elements like the grid, columns, and vignette remain active */
 
   /* video-overlay: starts hidden (opacity:0 in base CSS), GSAP fades it in during scroll */
   #video-overlay {
@@ -283,7 +214,7 @@
     pointer-events: none !important;
   }
 
-  /* ── VIDEO FRAME: clean premium border, no glow artifacts ──────── */
+  /* ── VIDEO FRAME: clean premium border, predictive layout ──────── */
   #video-frame {
     box-shadow: 0 8px 28px rgba(0,0,0,0.10),
                 0 2px 8px rgba(0,0,0,0.06) !important;
@@ -292,25 +223,56 @@
     background: #0a0a0a !important;
     mask-image: none !important;
     -webkit-mask-image: none !important;
+
+    /* Native structural lock to prevent layout shift before JS loads */
+    margin: 0;
+    /* will-change: transform only on mobile — left/top/width/height cause
+       excessive layer promotion on mobile GPUs when composited by GSAP */
+    will-change: transform;
+    top: 62%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 82%;
+    max-width: 340px;
+    aspect-ratio: 16 / 10;
   }
 
-  /* Remove gradient border ring and top-edge light catch */
-  #video-frame::after,
-  #video-frame::before {
-    display: none !important;
+  /* Suppress expensive mask-composite gradient border ring on mobile.
+     The solid border: 1px solid above already provides the frame edge.
+     The ::after pseudo-element uses mask-composite: exclude which triggers
+     an additional compositing layer with no visual benefit under the solid border. */
+  #video-frame::after {
+    display: none;
+  }
+
+  /* Suppress corner expand on touch hover — touch fires :hover on tap,
+     causing a layout shift with no intentional interaction benefit. */
+  #video-frame:hover .vf-corner-tl,
+  #video-frame:hover .vf-corner-br {
+    width: 22px;
+    height: 22px;
   }
 
   /* Remove hover scale on mobile — unintentional taps shouldn't scale */
   #video-frame:hover {
-    transform: none !important;
+    transform: translate(-50%, -50%) !important;
     box-shadow: 0 8px 28px rgba(0,0,0,0.10),
                 0 2px 8px rgba(0,0,0,0.06) !important;
   }
 
-  /* ── SCROLL INDICATORS: hide the right-side vertical bar ────────── */
-  .scroll-indicator-wrap,
-  .frame-corner {
-    display: none !important;
+  /* ── EXPLORE INDICATOR ────────────────────────────────────────── */
+  .hero-scroll-wrapper {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    order: 3 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 0.75rem 0 2rem !important;
+    pointer-events: none;
   }
 
   /* ── SECTION 2: fix compressed images ───────────────────────────── */
@@ -329,10 +291,6 @@
     scale: 1 !important;
   }
 
-  .mobile-destaque-hide {
-    display: none !important;
-  }
-
   /* ── SECTION 3: fix black border artifacts ──────────────────────── */
   #featured {
     margin-top: 0 !important;
@@ -343,32 +301,12 @@
     top: -40px !important;
   }
 
-  /* ── GLOW REDUCTION (sections 2+) ──────────────────────────────── */
-  .parallax-glow-1 {
-    width: 120px !important;
-    height: 120px !important;
-    opacity: 0.015 !important;
-    filter: blur(40px) !important;
-  }
-
-  .parallax-glow-2 {
-    width: 120px !important;
-    height: 120px !important;
-    opacity: 0.02 !important;
-    filter: blur(40px) !important;
-  }
-
-  /* Kill ALL inline-style radial-gradient green glows on mobile */
+  /* ── KILL INLINE AMBIENT GLOW DIVS (Both Green and Warm) ──────── */
   div[style*="radial-gradient(circle,rgba(43,74,59"],
   div[style*="radial-gradient(circle, rgba(43,74,59"],
   div[style*="radial-gradient(ellipse,rgba(43,74,59"],
   div[style*="radial-gradient(ellipse at"],
-  div[style*="radial-gradient(circle at 70%"] {
-    opacity: 0 !important;
-    visibility: hidden !important;
-  }
-
-  /* Kill warm ambient inline gradient divs */
+  div[style*="radial-gradient(circle at 70%"],
   div[style*="rgba(200,170,120"],
   div[style*="rgba(218,198,158"],
   div[style*="rgba(183,147,88,0.0"] {
@@ -376,15 +314,7 @@
     visibility: hidden !important;
   }
 
-  .video-glow {
-    display: none !important;
-  }
-
   /* ── LOCATION: mobile refinements ──────────────────────────────── */
-  #loc-dk-wm {
-    display: none !important;
-  }
-
   #location .gap-24 {
     gap: 3rem !important;
   }
@@ -393,30 +323,63 @@
   }
 
   /* ── CLUBE DO LIVRO: mobile refinements ────────────────────────── */
-  #clube-wm {
-    display: none !important;
-  }
-
   .clube-reveal__title {
     margin-bottom: 4.5rem !important;
   }
 
-  .clube-orb-2 {
-    opacity: 0.03 !important;
-    transform: scale(0.25) !important;
-    filter: blur(50px) !important;
-  }
-
-  #clube-livro div[style*="radial-gradient(circle,rgba(43,74,59"],
-  #clube-livro div[style*="radial-gradient(circle, rgba(43,74,59"] {
-    opacity: 0.03 !important;
-  }
-
   /* ── NAVBAR: ensure readability on mobile ──────────────────────── */
   #navbar {
-    background: rgba(253, 251, 247, 0.96) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
+    background: #fdfbf7 !important; /* solid instead of 0.96 to avoid expensive backdrop-filter */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  #cat-nav.is-pinned {
+    background: #060b07 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* ── HIDDEN ON MOBILE: Desktop decorations & heavy GPU effects ── */
+  #hero-left::after,
+  .hero-body, 
+  #hero-sep, 
+  .hero-meta,
+  #hero-spotlight,
+  #hero-warm,
+  #hero-image-glow,
+  .video-glow,
+  .h-orb,
+  .h-orb-1,
+  .h-orb-2,
+  #video-frame::after,
+  #video-frame::before,
+  .scroll-indicator-wrap,
+  .frame-corner,
+  .mobile-destaque-hide,
+  #hero-vig,
+  #hero-wm,
+  #hero-bg-cols,
+  .mobile-destaque-hide,
+  .parallax-glow-1,
+  .parallax-glow-2,
+  .s5-glow-light,
+  .clube-orb-1,
+  .clube-orb-2,
+  #loc-dk-wm,
+  #clube-wm,
+  #global-grain,
+  .hero-grid-bg,
+  .flashlight-card::before,
+  .flashlight-border,
+  .s4-flashlight::before,
+  .btn-beam-container .beam-border {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    animation: none !important;
+    filter: none !important;
   }
 
   #navbar .nav-logo {
@@ -438,12 +401,7 @@
   gap: 0.85rem;
   pointer-events: none;
 }
-@media (max-width: 1280px) {
-  .hero-scroll-wrapper { left: 47%; }
-}
-@media (max-width: 1024px) {
-  .hero-scroll-wrapper { left: 50%; transform: translateX(-50%); bottom: 10vh !important; }
-}
+/* Overridden inline via the primary desktop block and mobile root stack above */
 
 /* ══════════════════════════════════════════════════════════════════
    GIARDINI HERO — BRAND ELEVATION v2
@@ -631,7 +589,7 @@
     rgba(43,74,59,0.14) 25%,
     rgba(43,74,59,0.14) 75%,
     transparent
-  ) !important;
+  );
 }
 
 /* ── 9. VIDEO FRAME: premium editorial frame refinement ───────────
@@ -649,33 +607,35 @@
 
 /* Outer halo ring — the luxury 'air gap' */
 #video-frame {
-  border-radius: 14px !important;
+  border-radius: 14px;
 
   /* Gradient border: green-dominant top-left, warm gold bottom-right */
-  border: none !important;
-  outline: none !important;
+  border: none;
+  outline: none;
 
-  /* Layer 0: outer ring (air gap — the luxury offset halo) */
-  /* Layer 1: green atmospheric glow (brand depth) */
-  /* Layer 2: warm amber ambient lift */
-  /* Layer 3: dark base shadow (architectural weight) */
-  /* Layer 4: surface specular catch (top-edge light) */
+  /* 4-layer shadow system — merged halo rings (were two × 1px rings),
+     green ambient, dark base, inset highlight.
+     Reduced from 8 layers: amber mid-layer merged into green ambient;
+     inner inset ring merged into outer inset. Visually equivalent. */
   box-shadow:
-    0  0  0  1px  rgba(255,255,255,0.055),
-    0  0  0  1.5px rgba(43,74,59,0.18),
-    0 38px 90px -10px rgba(0,0,0,0.16),
-    0 18px 40px  -6px rgba(43,74,59,0.14),
-    0  8px 20px  -4px rgba(183,147,88,0.08),
-    0  2px  4px       rgba(0,0,0,0.08),
-    inset 0 1px 0 rgba(255,255,255,0.10),
-    inset 0 0 0 1px rgba(255,255,255,0.03) !important;
+    0  0  0  1.5px rgba(43,74,59,0.16),
+    0 36px 80px -10px rgba(0,0,0,0.15),
+    0 14px 36px  -6px rgba(43,74,59,0.13),
+    inset 0 1px 0 rgba(255,255,255,0.10);
 
-  background: #0c0d0b !important;
-  overflow: hidden !important;
+  background: #0c0d0b;
+  overflow: hidden;
 
-  /* Painted border — gradient ring using background-clip trick */
-  /* We use a pseudo-element on the parent instead (see below) */
+  /* will-change locked to compositor-only properties */
+  will-change: transform;
+
+  /* Override base transition — remove box-shadow from animated properties.
+     box-shadow animation triggers a full per-frame repaint (not GPU-composited).
+     The transform scale on hover is compositor-only and provides the premium feel.
+     The box-shadow swap becomes instant, which is imperceptible given the simultaneous scale. */
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 
 /* Gradient border ring — rendered via a pseudo-sibling technique:
    We apply a background gradient to the frame itself using
@@ -729,17 +689,17 @@
 }
 
 #video-frame:hover {
+  /* 4-layer hover shadow — matches the base system approach.
+     Elevated values vs. rest state; amber layer merged into green ambient.
+     The scale() is GPU-composited via will-change: transform — no repaint cost. */
   box-shadow:
-    0  0  0  1px  rgba(255,255,255,0.07),
-    0  0  0  1.5px rgba(43,74,59,0.26),
-    0 48px 110px -12px rgba(0,0,0,0.20),
-    0 22px 50px   -6px rgba(43,74,59,0.20),
-    0 10px 24px   -4px rgba(183,147,88,0.12),
-    0  3px  6px        rgba(0,0,0,0.10),
-    inset 0 1px 0 rgba(255,255,255,0.14),
-    inset 0 0 0 1px rgba(255,255,255,0.04) !important;
-  transform: scale(1.008) !important;
+    0  0  0  1.5px rgba(43,74,59,0.24),
+    0 46px 100px -12px rgba(0,0,0,0.18),
+    0 20px 44px   -6px rgba(43,74,59,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.14);
+  transform: scale(1.008);
 }
+
 
 /* ── Corner marks — now rendered inside a wrapper div (see HTML):
    TL: green-tinted (brand anchor)
@@ -779,8 +739,8 @@
     rgba(43,74,59,0.14) 0%,
     rgba(183,147,88,0.07) 40%,
     transparent 70%
-  ) !important;
-  inset: -5% !important;
+  );
+  inset: -5%;
 }
 
 #hero-image-glow {
@@ -789,17 +749,17 @@
     rgba(43,74,59,0.10) 0%,
     rgba(218,198,158,0.06) 45%,
     transparent 70%
-  ) !important;
-  width: 50vw !important;
-  height: 90% !important;
-  right: 2% !important;
+  );
+  width: 50vw;
+  height: 90%;
+  right: 2%;
 }
 
 /* ── 10. AMBIENT WARM LIGHT: visibly richer ───────────────────── */
 #hero-warm {
   background:
     radial-gradient(ellipse 60% 55% at 12% 18%, rgba(210,180,130,0.12) 0%, transparent 58%),
-    radial-gradient(ellipse 45% 40% at 78% 68%, rgba(43,74,59,0.07)   0%, transparent 58%) !important;
+    radial-gradient(ellipse 45% 40% at 78% 68%, rgba(43,74,59,0.07)   0%, transparent 58%);
 }
 
 /* ── 11. EXPLORE indicator: green confidence ──────────────────── */
@@ -2070,105 +2030,8 @@
   
 
 
-/* ══ HERO RESPONSIVE (Unified Mobile Stack) ══ */
-#hero-viewport.is-notebook-pad #hero-left {
-  width: 50% !important;
-  padding: 0 2rem 0 3rem !important;
-}
-#hero-viewport.is-notebook-pad #hero-right {
-  width: 50% !important;
-  padding: 6rem 2.5rem 3rem 1rem !important;
-}
+/* ══ REMOVED HERO RESPONSIVE DUPLICATES (Unified Mobile Stack natively merged above) ══ */
 
-#hero-viewport.is-mobile-stack {
-  display: flex !important;
-  flex-direction: column !important;
-  width: 100vw !important; /* Forçar largura total do visor */
-  max-width: 100% !important;
-  height: auto !important;
-  min-height: 100vh !important;
-  overflow-x: hidden !important; /* Impedir qualquer deslize lateral sub-pixel */
-  overflow-y: visible !important;
-  justify-content: flex-start !important;
-}
-
-/* 1. TEXTO PRIMEIRO (KICKER, H1, CTA) */
-#hero-viewport.is-mobile-stack #hero-left {
-  order: 1 !important; 
-  width: 100% !important;
-  height: auto !important;
-  padding: 7rem 1.5rem 1rem !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  text-align: center !important;
-}
-#hero-viewport.is-mobile-stack #hero-left::after { display: none !important; }
-
-/* 2. ESPAÇAMENTOS E TIPOGRAFIA */
-#hero-viewport.is-mobile-stack .kicker {
-  justify-content: center !important;
-  width: 100% !important;
-  margin-bottom: 1.5rem !important;
-}
-#hero-viewport.is-mobile-stack #hero-headline {
-  text-align: center !important;
-  width: 100% !important;
-  margin-bottom: 1.5rem !important;
-  font-size: clamp(2.8rem, 10vw, 3.5rem) !important;
-  line-height: 1 !important;
-}
-
-/* Ocultar elementos secundários no mobile (Apple Clean) */
-#hero-viewport.is-mobile-stack .hero-body,
-#hero-viewport.is-mobile-stack #hero-sep,
-#hero-viewport.is-mobile-stack .hero-meta {
-  display: none !important;
-}
-#hero-viewport.is-mobile-stack .hero-cta {
-  justify-content: center !important;
-  width: 100% !important;
-  margin-top: 1rem !important;
-}
-
-/* 3. HERO-RIGHT: O Placeholder Funcional.
-   Garante as dimensões/área exata para o JS medir e posicionar o Canvas/Video */
-#hero-viewport.is-mobile-stack #hero-right {
-  display: block !important;
-  order: 2 !important;
-  width: 82% !important; /* Diminuído ligeiramente visando elegância */
-  max-width: 340px !important; 
-  aspect-ratio: 16/10 !important;
-  margin: 2.5rem auto 2rem auto !important; /* Mais respiro entre o CTA e o vídeo, centralizado perfeitamente */
-  padding: 0 !important;
-  position: relative !important;
-  background: transparent !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-/* 4. VIDEO FRAME: Permite transformações do GSAP para expansão centralizada */
-#hero-viewport.is-mobile-stack #video-frame {
-  margin: 0 !important;
-  will-change: transform, left, top, width, height !important;
-}
-
-/* 5. EXPLORE: Centralizado abaixo do placeholder de vídeo */
-#hero-viewport.is-mobile-stack .hero-scroll-wrapper {
-  position: relative !important;
-  bottom: auto !important;
-  left: auto !important;
-  transform: none !important;
-  order: 3 !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  width: 100% !important;
-  padding: 0.75rem 0 2rem !important;
-  pointer-events: none;
-}
-
-/* ══ SECTION 2 (A EXPERIÊNCIA) - RESPONSIVO MOBILE ══ */
 @media (max-width: 767px) {
   /* 1. Ocultar o texto gigante "TEMPO" no fundo */
   #experience #parallax-text { display: none !important; }
@@ -2910,45 +2773,7 @@
        The kicker-line inside the hero uses the cardápio dark bg token,
        not the homepage light token — gradient goes dark side first.
     ───────────────────────────────────────────────────────────────── */
-    @media (max-width: 1024px) {
-      .menu-main-wrapper {
-        margin-top: 0;
-        padding: 0 24px;
-      }
-
-      #cat-nav {
-        position: sticky;
-        top: 72px;
-        margin-bottom: 3rem;
-      }
-
-      #cat-nav.is-pinned {
-        padding: 0.15rem 0;
-      }
-
-      .cat-nav-inner {
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 0;
-        padding: 0.9rem 24px;
-        margin: 0;
-      }
-
-      .cat-nav-inner::after {
-        display: none;
-      }
-
-      .cat-btn {
-        white-space: nowrap;
-        font-size: 0.65rem;
-        padding: 0.45rem 1.25rem;
-      }
-
-      .menu-grid {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
-    }
+    /* Tablet 1024px rules consolidated into the block below */
 
     /* ── Menu Sections ───────────────────────────────────────────────── */
     #menu-body {
@@ -3350,7 +3175,8 @@
     ════════════════════════════════════════════════════════════════════════ */
 
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       TABLET (max-width: 1024px)
+       TABLET (max-width: 1024px) — Consolidated
+       Merges: hero tablet overrides + cat-nav + menu-grid
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     @media (max-width: 1024px) {
       /* Hero */
@@ -3359,7 +3185,6 @@
         gap: 1.75rem;
       }
       .hero-right { display: none; }
-
 
       /* Menu wrapper */
       .menu-main-wrapper {
@@ -3379,13 +3204,17 @@
       .cat-nav-inner {
         justify-content: center;
         flex-wrap: wrap;
-        padding: 0.85rem 24px;
+        gap: 0;
+        padding: 0.8rem 24px;
         margin: 0;
+      }
+      .cat-nav-inner::after {
+        display: none;
       }
       .cat-btn {
         white-space: nowrap;
-        font-size: 0.65rem;
-        padding: 0.5rem 1.25rem;
+        font-size: 0.62rem;
+        padding: 0.45rem 1.2rem;
       }
 
       /* Menu grid: single column on tablet */
@@ -5176,19 +5005,7 @@
 
     /* ── 16. MOBILE NAV — dark-themed scrollbar ────────────────────────
     ─────────────────────────────────────────────────────────────────── */
-    @media (max-width: 1024px) {
-      .cat-nav-inner {
-        justify-content: center;
-        flex-wrap: wrap;
-        padding: 0.8rem 24px;
-        margin: 0;
-      }
-      .cat-btn {
-        white-space: nowrap;
-        font-size: 0.62rem;
-        padding: 0.45rem 1.2rem;
-      }
-    }
+    /* @media (max-width: 1024px) cat-nav rules merged into tablet block above */
 
     @media (max-width: 767px) {
       footer {

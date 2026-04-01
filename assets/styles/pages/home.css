@@ -10,3 +10,25 @@
     padding-bottom: 5rem !important; /* Empurra o conteúdo final mais para baixo na área segura lateral */
   }
 }
+
+/* ── MOBILE: Remover sombras e efeitos pretos no topo (Vignettes/Warmth) ── */
+@media (max-width: 1024px) {
+  /* Remove os overlays de vinheta e luz ambiente que obscurecem o topo (Leitura & Café) */
+  #hero-vig, 
+  #hero-warm, 
+  #hero-spotlight,
+  #hero-bg-cols,
+  #global-grain {
+    display: none !important;
+  }
+
+  /* Garante que o separador vertical não apareça no layout empilhado de mobile */
+  #hero-left::after {
+    display: none !important;
+  }
+
+  /* Garante que o fundo do viewport seja limpo e sem gradientes residuais */
+  #hero-viewport.is-mobile-stack {
+    background: #fdfbf7 !important;
+  }
+}

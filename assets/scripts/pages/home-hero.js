@@ -402,25 +402,40 @@
           const initRect = getInitialFrameRect();
 
           if (isMobile) {
+            // ──────────────────────────────────────────────────────────
+            // FIX: Use CSS-declared values (82%, max-width 340px) directly
+            // instead of reading initRect.width from the DOM.
+            //
+            // Why: On mobile reload, #hero-right is a placeholder with
+            // opacity:0 and aspect-ratio:16/10. The flexbox column layout
+            // hasn't finished computing its width before this code runs,
+            // so initRect.width returns a compressed (incorrect) value.
+            // GSAP then locks that compressed width as an inline style,
+            // which only corrects itself when the scroll expansion begins.
+            //
+            // By using percentage-based width matching the CSS, the frame
+            // is always correctly sized on load — no compressed state.
+            // ──────────────────────────────────────────────────────────
             const cta = document.getElementById('el-cta');
-            const explore = document.getElementById('hero-explore-scroll') || document.querySelector('.hero-scroll-wrapper');
             const vpRect = document.getElementById('hero-viewport').getBoundingClientRect();
-            
-            const ctaBottom = cta.getBoundingClientRect().bottom - vpRect.top;
-            
-            let exploreTop = vpRect.height - 80;
-            if (explore) {
-               exploreTop = explore.getBoundingClientRect().top - vpRect.top;
-            }
+            const ctaBottom = cta ? (cta.getBoundingClientRect().bottom - vpRect.top) : 280;
+
+            // Stable top: position below CTA with a comfortable gap
+            const stableTop = ctaBottom + 32;
 
             gsap.set(frame, {
               position: 'absolute',
               left: "50%",
               xPercent: -50,
-              top: initRect.top,
-              yPercent: 0, // PREVINE QUE O CSS DEKTOP (translate-y -50%) PUXE ELE PARA CIMA!
-              width: initRect.width, 
-              height: initRect.height > 200 ? initRect.height : 250,
+              top: stableTop,
+              yPercent: 0,
+              // Use CSS percentage width — resolves correctly at any viewport size
+              // and matches the @media (max-width:1024px) #video-frame rule exactly
+              width: '82%',
+              maxWidth: 340,
+              // Let aspect-ratio from CSS determine height (don't force a px value)
+              height: 'auto',
+              aspectRatio: '16 / 10',
               borderRadius: 16,
               zIndex: 15,
               transformOrigin: 'top center',
