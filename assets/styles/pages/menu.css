@@ -1493,7 +1493,14 @@
         flex: unset;
         animation: none;
         text-shadow: none;
-        color: #ffffff !important; /* Branco garantido (sobrescreve regras de tablet devido à especificidade) */
+      }
+      
+      /* Mantém logo e menu hamburguer na cor sólida branca mesmo ao rolar a página */
+      #navbar .nav-logo,
+      #navbar.is-scrolled .nav-logo,
+      #navbar .nav-hamburger,
+      #navbar.is-scrolled .nav-hamburger {
+        color: #ffffff !important;
       }
 
       /* Hide desktop center nav — hamburger takes over */
@@ -3824,7 +3831,7 @@
     /* 4. 430 x 932 (iPhone Pro Max Tall Viewport) */
     @media screen and (max-width: 430px) and (min-height: 900px) {
       .hero-content {
-        padding-top: 18vh;
+        padding-top: 24vh; /* Desce todos os elementos mais um pouco conforme pedido */
         align-items: center !important;
         text-align: center !important;
       }
@@ -3864,8 +3871,8 @@
       }
       #video-frame {
         width: 98vw;
-        max-width: 400px;
-        top: 45%; /* Slightly adjusted since content got taller */
+        max-width: 420px;
+        top: 52%; /* Acompanha a descida do texto e CTAs */
       }
       .hero-scroll {
         bottom: 8vh;
@@ -3886,9 +3893,17 @@
         display: none !important;
       }
 
-      /* 2. Simplify overlay without blur or heavy radial steps */
+      /* 2. Simplify overlay without blur or heavy radial steps, but fading top AND bottom gracefully */
       .hero-video-overlay {
-        background: linear-gradient(to bottom, rgba(4, 7, 4, 0.8) 0%, transparent 60%) !important;
+        background: linear-gradient(
+          to bottom, 
+          #010201 0%, 
+          rgba(1, 2, 1, 0.95) 12%, 
+          transparent 35%, 
+          transparent 65%, 
+          rgba(1, 2, 1, 0.95) 88%, 
+          #010201 100%
+        ) !important;
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
       }
@@ -3898,11 +3913,11 @@
         mask-image: none !important;
         -webkit-mask-image: none !important;
         mix-blend-mode: normal !important;
-        background: #08110a !important; /* solid fallback match to .hero-bg origin color */
+        background: transparent !important; /* Igualar o fundo perfeitamente ao do site */
         box-shadow: none !important;
         will-change: auto !important; /* Remove heavy layer hint */
         border: none !important;
-        border-radius: 24px !important; /* Simple boundary instead of expensive float mask */
+        border-radius: 0 !important;
       }
 
       /* 4. Suppress hover scale trap (mobile repaints heavily on tap) */
