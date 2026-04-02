@@ -356,6 +356,15 @@
             img.onload = img.onerror = () => {
               loaded++;
               if (loaded === total) resolve();
+              
+              // FIX: Draw the first frame immediately upon load so it's not black before scrolling
+              if (i === 0 && currentFrameIndex === -1 && typeof drawFrame === 'function') {
+                requestAnimationFrame(() => {
+                  drawFrame(0);
+                  const cvs = document.getElementById('seq-canvas');
+                  if (cvs) cvs.classList.add('ready');
+                });
+              }
             };
           }
         });
