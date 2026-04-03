@@ -24,9 +24,25 @@
   display: none !important;
 }
 
-/* ── TRUE MOBILE: 767px Scope (Isolates 430, 390, 375. Protects 900 & 1024) ── */
+/* ══════════════════════════════════════════════════════════════════════
+   TRUE MOBILE: 767px Scope
+   ══════════════════════════════════════════════════════════════════════
+   Fluid responsive system:
+     320–374 px = small mobile
+     375–429 px = standard mobile
+     430–767 px = large mobile
+
+   Strategy: base styles apply to 320–767px range.
+   clamp() handles fluid scaling across all tiers.
+   Only critical sub-breakpoints used for edge cases.
+   ══════════════════════════════════════════════════════════════════════ */
 @media (max-width: 767px) {
-  /* 1. Hero Performance Strip-down (Removes off-screen GPU cost) */
+
+  /* ═════════════════════════════════════════════════════════════════
+     A. PERFORMANCE — Eliminate GPU-costly layers
+     ═════════════════════════════════════════════════════════════════ */
+
+  /* 1. Hero atmospheric layers — strip all */
   #hero-vig, #hero-warm, #hero-spotlight, #hero-bg-cols, #global-grain,
   #hero-depth, #hero-image-glow, .h-orb, .h-orb-1, .h-orb-2, .video-glow,
   .clube-orb-1, .clube-orb-2 {
@@ -41,84 +57,51 @@
 
   #hero-viewport {
     background: #fdfbf7 !important;
-    overflow: hidden !important; /* Clip content during scroll-driven frame expansion */
-    height: 100vh !important;    /* Override height:auto from ≤1024px — must be exactly 100vh for pin */
+    overflow: hidden !important;
+    height: 100vh !important;
   }
 
-  /* Wrapper background matches viewport — prevents any dark gap below pinned viewport */
   #hero-pin-wrapper {
     background: #fdfbf7 !important;
   }
 
-  /* Suppress desktop placeholder on mobile.
-     #hero-left remains visible — mobile layout is styled by ≤1024px rules in components.css.
-     #hero-right is a measurement placeholder only — hidden on mobile. */
   #hero-right {
     display: none !important;
   }
 
-  /* Canvas must fill the expanding frame at all times.
-     resizeCanvas() sets inline pixel values (e.g. width:307px) that freeze
-     the canvas at its initial size. !important overrides inline styles so
-     the canvas stretches to 100% of #video-frame during GSAP expansion. */
+  /* Canvas: override inline sizing to fill expanding frame */
   #seq-canvas {
     width: 100% !important;
     height: 100% !important;
   }
 
-  /* 4. SECT 3 BUG FIX: Absolute guarantee the "Sabores" text and layout block is visible */
+  /* 2. Section 3 guaranteed visibility */
   .sect3-line-inner, .feat-reveal {
     transform: none !important;
     opacity: 1 !important;
     filter: none !important;
   }
 
-  /* 2. Premium Swipe Carousel for Featured Menu */
-  .s3-gallery-grid {
-    display: flex !important;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 1.25rem !important;
-    padding-bottom: 2.5rem;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; 
-    margin: 0 -2.5rem !important; 
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-  }
-  .s3-gallery-grid::-webkit-scrollbar { display: none; }
-  
-  .feat-card {
-    flex: 0 0 88%;
-    scroll-snap-align: center;
-    margin-top: 0 !important; 
-  }
-
-  /* 3. Clube do Livro fluid stack */
-  .clube-mosaic {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 3.5rem !important;
-  }
-  .clube-reveal__left { padding-top: 0 !important; }
-  .feat-reveal { margin-bottom: 3.5rem !important; }
-
-  /* ── PERFORMANCE: Stop expensive background animations on mobile ── */
-  /* body::before textureShift animates background-position every frame */
+  /* 3. Suppress expensive background animations */
   body::before { animation: none !important; }
-  /* #lateral-vignette vignetteBreath is a fixed full-screen repaint */
   #lateral-vignette { animation: none !important; }
 
-  /* ── DECORATIVE ELEMENTS: Hide GPU-costly decorations on mobile ── */
-  /* 8 animated floating particles in section 5 */
+  /* 4. Hide GPU-costly decorations */
   #s5-particles { display: none !important; }
-  /* 4 corner frame elements with animated reveal */
   .s5-corner { display: none !important; }
-  /* Giant hero watermark — saves one ScrollTrigger on mobile */
   #hero-wm { display: none !important; }
 
-  /* ── NAVBAR: Remove expensive backdrop-filter on mobile ── */
-  /* backdrop-filter: blur() is GPU-heavy on iOS/Android WebKit */
+  /* 5. Remove rotating beam animation on mobile CTAs — saves continuous GPU usage */
+  .loc-beam-container .loc-beam-border {
+    animation: none !important;
+  }
+
+  /* 6. Hide S4 shimmer beams that animate infinitely */
+  .s4-beam {
+    display: none !important;
+  }
+
+  /* 7. Navbar: solid bg instead of backdrop-filter */
   #navbar {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
@@ -128,5 +111,657 @@
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     background: rgba(253, 251, 247, 0.97) !important;
+  }
+
+  /* 8. Kill unnecessary ambient glow divs in Clube do Livro bg */
+  #clube-livro > div[style*="radial-gradient"] {
+    opacity: 0 !important;
+  }
+
+  /* ═════════════════════════════════════════════════════════════════
+     B. HERO SECTION — Premium Mobile Layout
+     ═════════════════════════════════════════════════════════════════ */
+
+  /* Hero left column: fluid padding */
+  #hero-left {
+    padding-left: clamp(1.25rem, 5vw, 2rem) !important;
+    padding-right: clamp(1.25rem, 5vw, 2rem) !important;
+    padding-top: clamp(5.5rem, 16vw, 8rem) !important;
+    padding-bottom: 1rem !important;
+  }
+
+  /* Hero headline: fluid sizing across all phones */
+  #hero-headline {
+    font-size: clamp(2.4rem, 9vw, 3.3rem) !important;
+    line-height: 1.05 !important;
+    margin-bottom: 1.25rem !important;
+    letter-spacing: -0.025em !important;
+  }
+
+  /* Kicker: slightly more prominent on mobile */
+  .kicker {
+    margin-bottom: 1.25rem !important;
+    gap: 0.65rem !important;
+    font-size: 0.58rem !important;
+  }
+
+  /* CTA buttons: better touch targets */
+  .hero-cta {
+    gap: 1rem !important;
+    margin-top: 0.75rem !important;
+  }
+
+  .btn-primary.btn-order {
+    padding: clamp(0.9rem, 2.5vw, 1.1rem) clamp(1.8rem, 6vw, 2.5rem) !important;
+    font-size: clamp(0.64rem, 1.8vw, 0.72rem) !important;
+    min-height: 48px !important; /* Minimum touch target */
+  }
+
+  /* Ghost link: better touch area */
+  .link-ghost {
+    padding: 0.5rem 0.75rem !important;
+    font-size: clamp(0.64rem, 1.8vw, 0.72rem) !important;
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+
+  /* Explore indicator: clean spacing */
+  .hero-scroll-wrapper {
+    padding: 0.5rem 0 1.5rem !important;
+  }
+
+  /* ═════════════════════════════════════════════════════════════════
+     C. SECTION 2 — A EXPERIÊNCIA (Mobile Polish)
+     ═════════════════════════════════════════════════════════════════ */
+
+  #experience {
+    padding-top: clamp(3.5rem, 10vw, 5rem) !important;
+    padding-bottom: clamp(6rem, 16vw, 9rem) !important;
+    padding-left: clamp(1.25rem, 5vw, 2rem) !important;
+    padding-right: clamp(1.25rem, 5vw, 2rem) !important;
+    border-radius: 0 !important;
+  }
+
+  /* Grid gap tighter on mobile */
+  #experience .grid {
+    gap: clamp(1.5rem, 5vw, 2.5rem) !important;
+  }
+
+  /* Image: fluid height */
+  #experience .exp-left {
+    height: clamp(35vh, 50vw, 45vh) !important;
+    border-radius: 20px !important;
+  }
+
+  /* Section title: fluid */
+  #experience h2 {
+    font-size: clamp(2.2rem, 8vw, 3rem) !important;
+    line-height: 1.05 !important;
+  }
+
+  /* Body copy: tighter */
+  #experience p.mb-10,
+  #experience .text-\[1\.05rem\] {
+    font-size: clamp(0.9rem, 2.5vw, 1rem) !important;
+    line-height: 1.65 !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  /* Divider spacing */
+  #experience .s2-divider-track {
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Section label */
+  #experience .flex.items-center.gap-3 {
+    margin-bottom: clamp(1rem, 3vw, 1.5rem) !important;
+  }
+
+  /* Title wrapper */
+  #experience .word-wrap.mb-8 {
+    margin-bottom: 0.5rem !important;
+  }
+
+  /* Pillars: optimized for mobile reading */
+  .exp-pillar {
+    padding: 1rem 0.75rem 1rem 1rem !important;
+  }
+
+  .exp-pillar h4 {
+    font-size: clamp(1.1rem, 3.5vw, 1.3rem) !important;
+    margin-bottom: 0.2rem !important;
+  }
+
+  .exp-pillar p {
+    font-size: clamp(0.8rem, 2.3vw, 0.9rem) !important;
+    line-height: 1.55 !important;
+  }
+
+  /* Pillar number compact */
+  .exp-pillar-num {
+    font-size: 0.54rem !important;
+  }
+
+  /* Vertical line shorter */
+  .exp-pillar-vline {
+    min-height: 28px !important;
+  }
+
+  /* Inner flex gap */
+  .exp-pillar .flex.items-start {
+    gap: clamp(0.75rem, 3vw, 1.25rem) !important;
+  }
+
+  /* ═════════════════════════════════════════════════════════════════
+     D. SECTION 3 — SABORES & OBRAS (Carousel + Polish)
+     ═════════════════════════════════════════════════════════════════ */
+
+  /* Section container: fluid padding */
+  #featured {
+    padding: clamp(5rem, 14vw, 7rem) 0 clamp(3rem, 8vw, 4rem) !important;
+    border-radius: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  /* Main container: fluid padding */
+  #featured > div[style*="max-width:1440px"] {
+    padding-left: clamp(1.25rem, 5vw, 2rem) !important;
+    padding-right: clamp(1.25rem, 5vw, 2rem) !important;
+  }
+
+  /* Section header spacing */
+  #featured .feat-reveal[style*="margin-bottom:5.5rem"] {
+    margin-bottom: clamp(2.5rem, 8vw, 4rem) !important;
+  }
+
+  /* Section title: fluid mobile sizing */
+  #featured-title {
+    font-size: clamp(2.2rem, 8vw, 3rem) !important;
+    line-height: 1.02 !important;
+  }
+
+  /* Logo badge: adjust position for mobile */
+  #s3-logo-badge {
+    top: -42px !important;
+  }
+  #s3-logo-badge-ring {
+    width: 84px !important;
+    height: 84px !important;
+  }
+
+  /* Swipe carousel */
+  .s3-gallery-grid {
+    display: flex !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem !important;
+    padding-bottom: 2rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 calc(-1 * clamp(1.25rem, 5vw, 2rem)) !important;
+    padding-left: clamp(1.25rem, 5vw, 2rem);
+    padding-right: clamp(1.25rem, 5vw, 2rem);
+  }
+  .s3-gallery-grid::-webkit-scrollbar { display: none; }
+
+  .feat-card {
+    flex: 0 0 clamp(80%, 82vw, 88%);
+    scroll-snap-align: center;
+    margin-top: 0 !important;
+  }
+
+  /* Card aspect ratio: slightly taller on mobile for impact */
+  .feat-card-inner {
+    aspect-ratio: 3 / 4 !important;
+  }
+
+  /* Card labels: more readable */
+  .s3-card-label {
+    padding: 0.75rem 0 0 !important;
+    gap: 0.65rem !important;
+  }
+
+  .s3-card-label-tag {
+    font-size: 0.52rem !important;
+  }
+
+  .s3-card-label-name {
+    font-size: 0.78rem !important;
+  }
+
+  /* CTA area */
+  .s3-cta-wrap {
+    margin-top: 1rem !important;
+  }
+
+  .s3-cta-divider-row {
+    gap: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .s3-cta-divider-label {
+    font-size: clamp(0.85rem, 2.5vw, 1rem) !important;
+  }
+
+  /* CTA button: better touch target */
+  .s3-cta-wrap .loc-beam-container {
+    min-height: 52px !important;
+  }
+
+  .s3-cta-wrap .loc-beam-container > div:last-child {
+    padding: 0.85rem clamp(1.5rem, 5vw, 2.25rem) !important;
+  }
+
+  /* Section editorial vertical lines: hide on mobile */
+  #featured > div[style*="padding:0 4rem"] {
+    display: none !important;
+  }
+
+  /* Fade out + transition bridge */
+  .s3-fade-out {
+    height: 3rem !important;
+  }
+
+  .feat-reveal {
+    margin-bottom: 2.5rem !important;
+  }
+
+  /* ═════════════════════════════════════════════════════════════════
+     E. CLUBE DO LIVRO (Mobile Optimized)
+     ═════════════════════════════════════════════════════════════════ */
+
+  #clube-livro {
+    padding: clamp(5rem, 14vw, 7rem) 0 clamp(4rem, 10vw, 5rem) !important;
+  }
+
+  /* Container: fluid padding */
+  #clube-livro > .max-w-\[1480px\] {
+    padding-left: clamp(1.25rem, 5vw, 2rem) !important;
+    padding-right: clamp(1.25rem, 5vw, 2rem) !important;
+  }
+
+  /* Section header */
+  .clube-reveal__header {
+    margin-bottom: clamp(2rem, 6vw, 3.5rem) !important;
+  }
+
+  /* Title: fluid */
+  .clube-reveal__title {
+    margin-bottom: clamp(2.5rem, 8vw, 4.5rem) !important;
+  }
+
+  .clube-reveal__title h2 {
+    font-size: clamp(2.2rem, 8vw, 3rem) !important;
+    line-height: 0.98 !important;
+  }
+
+  /* Mosaic: vertical stack */
+  .clube-mosaic {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: clamp(2rem, 6vw, 3.5rem) !important;
+  }
+
+  .clube-reveal__left {
+    padding-top: 0 !important;
+    gap: 2rem !important;
+  }
+
+  /* Quote block: tighter */
+  #clube-quote-block {
+    padding: 1.15rem 1.4rem !important;
+    border-radius: 0 14px 14px 0 !important;
+  }
+
+  #clube-quote-block blockquote {
+    font-size: clamp(0.95rem, 2.8vw, 1.1rem) !important;
+    line-height: 1.75 !important;
+  }
+
+  /* Steps: optimized spacing */
+  .clube-step {
+    padding: 1.25rem 0 !important;
+    gap: 1rem !important;
+  }
+
+  .clube-step > span:first-child {
+    font-size: 1.5rem !important;
+  }
+
+  .clube-step p {
+    font-size: clamp(0.82rem, 2.3vw, 0.9rem) !important;
+  }
+
+  /* Right column image: portrait on mobile for impact */
+  .clube-reveal__right {
+    margin-top: 0 !important;
+  }
+
+  .clube-img-main {
+    aspect-ratio: 4 / 5 !important;
+    border-radius: 16px !important;
+  }
+
+  /* Pill badge on image: scale down */
+  .clube-img-main > div[style*="pill"] {
+    padding: 0.3rem 0.75rem !important;
+  }
+
+  /* Bottom caption: readable */
+  .clube-img-main > div[style*="position:absolute;bottom:0"] {
+    padding: 1.5rem 1.25rem 1.25rem !important;
+  }
+
+  .clube-img-main > div[style*="position:absolute;bottom:0"] h3 {
+    font-size: 1.25rem !important;
+  }
+
+  /* Background textures: reduce opacity on mobile */
+  #clube-livro > div[style*="background-image:radial-gradient"] {
+    opacity: 0.06 !important;
+  }
+
+  /* Watermark: smaller on mobile */
+  #clube-wm span {
+    font-size: clamp(5rem, 16vw, 10rem) !important;
+  }
+
+  /* ═════════════════════════════════════════════════════════════════
+     F. SECTION 4 — EXPERIENCE VIDEO (Mobile Polish)
+     ═════════════════════════════════════════════════════════════════ */
+
+  #experience-video {
+    min-height: 85vh !important;
+  }
+
+  /* Content container: fluid padding */
+  #experience-video > div[style*="z-index:10"] {
+    padding: 0 clamp(1.25rem, 5vw, 2rem) !important;
+    min-height: 85vh !important;
+  }
+
+  /* Headline: fluid sizing that stays impactful but doesn't overflow */
+  #experience-video h2 {
+    font-size: clamp(2.6rem, 9vw, 4rem) !important;
+    line-height: 0.92 !important;
+    letter-spacing: -0.035em !important;
+  }
+
+  /* Subline: tighter */
+  #experience-video p[style*="max-width:400px"] {
+    font-size: clamp(0.82rem, 2.3vw, 0.92rem) !important;
+    max-width: 320px !important;
+    line-height: 1.7 !important;
+    margin-bottom: 2rem !important;
+  }
+
+  /* Section label: fluid gap */
+  #experience-video .s5-reveal-up:first-child {
+    margin-bottom: 2rem !important;
+  }
+
+  /* CTA button: better touch target */
+  #s5-cta {
+    padding: 1rem clamp(2rem, 7vw, 3rem) !important;
+    font-size: clamp(0.9rem, 2.5vw, 1.05rem) !important;
+    min-height: 52px !important;
+  }
+
+  /* Sub-caption below CTA */
+  #experience-video p[style*="margin-top:1.75rem"] {
+    margin-top: 1.25rem !important;
+    font-size: 0.52rem !important;
+  }
+
+  /* Bottom scroll hint: move up for thumb zone */
+  #experience-video .s5-reveal-up[style*="position:absolute;bottom:2.5rem"] {
+    bottom: 1.5rem !important;
+  }
+
+  /* Separator */
+  .s5-sep {
+    max-width: 280px !important;
+    margin-bottom: 2.5rem !important;
+  }
+
+  /* ═════════════════════════════════════════════════════════════════
+     G. LOCATION SECTION (Mobile-First Redesign)
+     ═════════════════════════════════════════════════════════════════ */
+
+  /* Section padding: fluid */
+  #location {
+    padding-top: clamp(4rem, 12vw, 6rem) !important;
+    padding-bottom: clamp(4rem, 12vw, 6rem) !important;
+  }
+
+  /* Grid: stack vertically with tighter gap */
+  #location .grid {
+    gap: clamp(2rem, 6vw, 3.5rem) !important;
+    padding-left: clamp(1.25rem, 5vw, 2rem) !important;
+    padding-right: clamp(1.25rem, 5vw, 2rem) !important;
+  }
+
+  /* CRITICAL: Heading scale-down for mobile */
+  #location h2 {
+    font-size: clamp(2.8rem, 12vw, 4rem) !important;
+    line-height: 0.88 !important;
+    margin-bottom: clamp(1.5rem, 4vw, 2.5rem) !important;
+    padding-bottom: 0.25rem !important;
+  }
+
+  /* Description: tighter */
+  #location p[style*="max-width:400px"] {
+    font-size: clamp(0.88rem, 2.5vw, 1rem) !important;
+    max-width: 100% !important;
+    line-height: 1.7 !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Section badge */
+  .loc-dk-badge {
+    padding: 0.25rem 0.75rem !important;
+  }
+
+  /* Badge row */
+  #location .loc-dr.d1 {
+    margin-bottom: 2rem !important;
+  }
+
+  /* Data rows: tighter gap */
+  #location div[style*="gap:3.5rem;margin-bottom:3.5rem"] {
+    gap: 2.5rem !important;
+    margin-bottom: 2.5rem !important;
+  }
+
+  /* Address text: fluid */
+  #location .loc-dk-row p[style*="font-size:1.55rem"] {
+    font-size: clamp(1.2rem, 4vw, 1.4rem) !important;
+  }
+
+  /* Hours text: fluid */
+  #location .loc-dk-row p[style*="font-size:2rem"] {
+    font-size: clamp(1.5rem, 5vw, 1.8rem) !important;
+  }
+
+  #location .loc-dk-row p[style*="font-size:1.3rem"] {
+    font-size: clamp(1rem, 3.5vw, 1.2rem) !important;
+  }
+
+  /* Divider */
+  .loc-dk-divider {
+    max-width: 100% !important;
+    margin-bottom: 2rem !important;
+  }
+
+  /* CTA button: proper touch target */
+  .loc-btn-shimmer {
+    min-height: 48px !important;
+    padding: 0.9rem 1.8rem !important;
+  }
+
+  /* Map container: portrait aspect on mobile */
+  .ed-map-container {
+    aspect-ratio: 3 / 4 !important;
+    width: 100% !important;
+  }
+
+  /* Map: right column top margin */
+  #location .lg\:col-span-7 {
+    margin-top: 0.5rem !important;
+  }
+
+  /* Map bottom bar */
+  .loc-map-bar {
+    padding: 1.25rem 1.25rem 1rem !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    align-items: flex-start !important;
+  }
+
+  .loc-map-bar p[style*="font-size:1.1rem"] {
+    font-size: 0.95rem !important;
+  }
+
+  /* Dark watermark: smaller/hidden on mobile */
+  #loc-dk-wm {
+    display: none !important;
+  }
+
+  /* Cinematic bleed transition */
+  div[style*="height:240px;margin-top:-240px"] {
+    height: 160px !important;
+    margin-top: -160px !important;
+  }
+
+  /* ═════════════════════════════════════════════════════════════════
+     H. FOOTER (Mobile Compact)
+     ═════════════════════════════════════════════════════════════════ */
+
+  #site-footer > div[style*="max-width:1340px"] {
+    padding: 3.5rem clamp(1.25rem, 5vw, 2rem) 0 !important;
+  }
+
+  /* Footer grid: single column */
+  .ft-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+    padding-bottom: 3rem !important;
+  }
+
+  /* Brand tagline: shorter line */
+  .ft-grid > div:first-child p[style*="max-width:320px"] {
+    max-width: 100% !important;
+    font-size: 0.82rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Footer nav links: larger touch targets */
+  .ft-nav-link {
+    min-height: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    font-size: 0.68rem !important;
+  }
+
+  /* Bottom bar: stack on very small screens */
+  #site-footer div[style*="justify-content:space-between"][style*="padding:1.75rem"] {
+    padding: 1.25rem 0 2rem !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    text-align: center !important;
+  }
+
+  /* Social icons: adequate sizing */
+  .ft-social {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  /* Footer orbs: hide on mobile */
+  .ft-orb-1, .ft-orb-2 {
+    display: none !important;
+  }
+
+  /* ═════════════════════════════════════════════════════════════════
+     I. GLOBAL MOBILE TYPOGRAPHY & SPACING
+     ═════════════════════════════════════════════════════════════════ */
+
+  /* Sections using px-8 → fluid */
+  .px-8 {
+    padding-left: clamp(1.25rem, 5vw, 2rem) !important;
+    padding-right: clamp(1.25rem, 5vw, 2rem) !important;
+  }
+
+  /* Consistent section vertical rhythm */
+  .py-32 {
+    padding-top: clamp(4rem, 12vw, 6rem) !important;
+    padding-bottom: clamp(4rem, 12vw, 6rem) !important;
+  }
+
+  /* Hero grid background: top-down fade for mobile */
+  .hero-grid-bg {
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 40%, transparent 65%) !important;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 40%, transparent 65%) !important;
+    opacity: 0.6 !important;
+  }
+
+  /* ═════════════════════════════════════════════════════════════════
+     J. SMALL MOBILE ADJUSTMENTS (320–374px)
+     ═════════════════════════════════════════════════════════════════ */
+  @media (max-width: 374px) {
+    /* Tighter headline */
+    #hero-headline {
+      font-size: 2.2rem !important;
+    }
+
+    /* Carousel card slightly wider for visibility */
+    .feat-card {
+      flex: 0 0 88% !important;
+    }
+
+    /* Location heading even smaller */
+    #location h2 {
+      font-size: 2.6rem !important;
+    }
+
+    /* Reduce section label text */
+    .s3-section-label,
+    .clube-reveal__header span[style*="letter-spacing"] {
+      font-size: 0.5rem !important;
+      letter-spacing: 0.18em !important;
+    }
+
+    /* Navbar tighter */
+    #navbar {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
+  }
+
+  /* ═════════════════════════════════════════════════════════════════
+     K. LARGE MOBILE ADJUSTMENTS (430–767px)
+     ═════════════════════════════════════════════════════════════════ */
+  @media (min-width: 430px) {
+    /* More breathing room on bigger phones */
+    #hero-left {
+      padding-top: clamp(7rem, 18vw, 9rem) !important;
+    }
+
+    /* Carousel: slightly smaller proportion for larger screens */
+    .feat-card {
+      flex: 0 0 75% !important;
+    }
+
+    /* Image height can be taller */
+    #experience .exp-left {
+      height: clamp(42vh, 55vw, 50vh) !important;
+    }
+
+    /* Wider CTA */
+    .btn-primary.btn-order {
+      padding: 1.05rem 2.5rem !important;
+    }
   }
 }
