@@ -42,6 +42,12 @@
   #hero-viewport {
     background: #fdfbf7 !important;
     overflow: hidden !important; /* Clip content during scroll-driven frame expansion */
+    height: 100vh !important;    /* Override height:auto from ≤1024px — must be exactly 100vh for pin */
+  }
+
+  /* Wrapper background matches viewport — prevents any dark gap below pinned viewport */
+  #hero-pin-wrapper {
+    background: #fdfbf7 !important;
   }
 
   /* Suppress desktop placeholder on mobile.

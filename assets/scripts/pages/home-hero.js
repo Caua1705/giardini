@@ -727,22 +727,11 @@
             scrub: CONFIG.scrub,
           }
         });
-        /* ── MOBILE: darken hero-viewport background during scroll ─────
-           Synced with frame expansion so no cream/black mismatch appears.
-           Starts at 15% and finishes by 45% — by which point the frame
-           covers the viewport and the dark bg is invisible behind it.   */
-        if (IS_MOBILE) {
-          gsap.to('#hero-viewport', {
-            backgroundColor: '#0a0a0a',
-            ease: 'power2.in',
-            scrollTrigger: {
-              trigger: wrapper,
-              start: () => `+=${scrollPx * 0.15}`,
-              end: () => `+=${scrollPx * 0.45}`,
-              scrub: 0.3,
-            }
-          });
-        }
+        /* ── MOBILE: viewport background stays cream (#fdfbf7) ──────────
+           The expanding dark video frame (#0a0a0a bg) naturally covers
+           the viewport as it grows to fullscreen. No explicit background
+           darkening needed — it was causing a visible "black gap" because
+           the viewport turned dark before the frame covered it fully.   */
         /* Canvas resize on window resize — debounced (120ms) to avoid
            triggering full GSAP recalculation on every resize pixel.    */
         let _resizeTimer;
