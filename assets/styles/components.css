@@ -324,21 +324,16 @@
   /* ── VIDEO FRAME: clean premium border, predictive layout ──────── */
   #video-frame {
     box-shadow: 0 8px 28px rgba(0,0,0,0.10),
-                0 2px 8px rgba(0,0,0,0.06) !important;
+                0 2px 8px rgba(0,0,0,0.06);
     border: 1px solid rgba(43,74,59,0.10) !important;
     border-radius: 16px !important;
     background: #0a0a0a !important;
     mask-image: none !important;
     -webkit-mask-image: none !important;
-    overflow: hidden !important; /* Essencial para clipar o canvas com overshoot */
+    overflow: hidden !important;
 
-    /* Native structural lock to prevent layout shift before JS loads */
     margin: 0;
-    /* will-change: transform only on mobile — left/top/width/height cause
-       excessive layer promotion on mobile GPUs when composited by GSAP */
     will-change: transform;
-    transform-style: preserve-3d !important;
-    backface-visibility: hidden !important;
     
     top: 62%;
     left: 50%;

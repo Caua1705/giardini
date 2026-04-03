@@ -402,14 +402,15 @@
         const frame = document.getElementById('video-frame');
         const viewport = document.getElementById('hero-viewport');
         const wrapper = document.getElementById('hero-pin-wrapper');
-        /* Altura virtual do scroll */
-        const scrollPx = window.innerHeight * (CONFIG.scrollVH / 100);
+        /* Altura virtual do scroll — shorter on mobile for immediate responsiveness */
+        const mobileScrollVH = 250;
+        const scrollVH = IS_MOBILE ? mobileScrollVH : CONFIG.scrollVH;
+        const scrollPx = window.innerHeight * (scrollVH / 100);
         wrapper.style.height = `${window.innerHeight + scrollPx}px`;
         /* Registra matchMedia para layouts responsivos */
         let mm = gsap.matchMedia();
 
         // Correct split: true phones ≤767px, everything else (tablets, notebooks) = desktop.
-        // Previously used 1024px which wrongly classified 900x700 laptops as mobile.
         mm.add({
           isDesktop: '(min-width: 768px)',
           isMobile:  '(max-width: 767px)'
@@ -420,44 +421,28 @@
 
           if (isMobile) {
             // ──────────────────────────────────────────────────────────
-            // FIX: Use CSS-declared values (82%, max-width 340px) directly
-            // instead of reading initRect.width from the DOM.
+            // MOBILE FRAME POSITIONING — stable, no per-device hacks.
             //
-            // Why: On mobile reload, #hero-right is a placeholder with
-            // opacity:0 and aspect-ratio:16/10. The flexbox column layout
-            // hasn't finished computing its width before this code runs,
-            // so initRect.width returns a compressed (incorrect) value.
-            // GSAP then locks that compressed width as an inline style,
-            // which only corrects itself when the scroll expansion begins.
-            //
-            // By using percentage-based width matching the CSS, the frame
-            // is always correctly sized on load — no compressed state.
+            // Use percentage-based top/left with center transform so
+            // GSAP can interpolate smoothly from initial → fullscreen.
+            // The frame sits at ~62% from top (visually below text/CTA)
+            // and centered horizontally. This eliminates the dead zone
+            // on first scroll because GSAP interpolates percentages
+            // (62%→50% top, 82%→100vw width) in a single smooth motion.
             // ──────────────────────────────────────────────────────────
-            const cta = document.getElementById('el-cta');
-            const vpRect = document.getElementById('hero-viewport').getBoundingClientRect();
-            const ctaBottom = cta ? (cta.getBoundingClientRect().bottom - vpRect.top) : 280;
-
-            const isTallMobile = window.innerWidth <= 395 && window.innerHeight >= 840;
-            const isProMaxMobile = window.innerWidth >= 428 && window.innerWidth <= 430 && window.innerHeight >= 900;
-            
-            // Stable top: position below CTA with a comfortable gap
-            const stableTop = ctaBottom + (isProMaxMobile ? 36 : (isTallMobile ? 48 : 32));
-
             gsap.set(frame, {
               position: 'absolute',
-              left: "50%",
+              left: '50%',
               xPercent: -50,
-              top: stableTop,
-              yPercent: 0,
-              // No Pro Max diminui a largura (76% em vez de 82%) a pedido
-              width: isProMaxMobile ? '76%' : '82%',
-              maxWidth: 360,
+              top: '62%',
+              yPercent: -50,
+              width: '82%',
+              maxWidth: 340,
               height: 'auto',
-              // Aumenta a altura ainda mais (1/1, quadrado) no breakpoint 430x932
-              aspectRatio: isProMaxMobile ? '1 / 1' : (isTallMobile ? '5 / 4' : '16 / 10'),
+              aspectRatio: '16 / 10',
               borderRadius: 16,
               zIndex: 15,
-              transformOrigin: 'top center',
+              boxShadow: 'none',
             });
           } else {
             gsap.set(frame, {
@@ -632,7 +617,7 @@
           end: () => `+=${scrollPx}`,
           pin: viewport,
           pinSpacing: false,
-          anticipatePin: 1,
+          anticipatePin: IS_MOBILE ? 0 : 1,
         });
         /* ── IMAGE SEQUENCE SCRUB ────────────────────────────────────
            OnUpdate dispara a cada tick de scroll.
@@ -663,58 +648,57 @@
           }
         });
         /* ── VIDEO-FRAME EXPANSION (split → fullscreen) ──────────── */
-        // Second matchMedia — corrected to 767px split (same as first block)
         mm.add({
           isDesktop: '(min-width: 768px)',
           isMobile:  '(max-width: 767px)'
         }, (context) => {
           let { isDesktop, isMobile } = context.conditions;
 
-          // Fullscreen end-state properties
-          const fullscreenProps = {
-            width: '100vw',
-            height: '100vh',
-            borderRadius: 0,
-            boxShadow: '0 0 0 0 transparent',
-            zIndex: 40,
-          };
-
           if (isMobile) {
-            const isTruePhone = window.innerWidth <= 767;
-
+            // ──────────────────────────────────────────────────────────
+            // MOBILE EXPANSION — immediate response, zero dead zone.
+            //
+            // Initial state: top:62%, yPercent:-50, width:82%, centered
+            // Final state:   top:50%, yPercent:-50, width:100vw, height:100vh
+            //
+            // Because both start and end use percentage-based top with
+            // the same yPercent, GSAP interpolates a smooth 62%→50%
+            // movement. Combined with width 82%→100vw and height
+            // auto→100vh, the frame visibly grows from scroll pixel 0.
+            // No dead zone or delayed activation.
+            // ──────────────────────────────────────────────────────────
             const mobileFullscreen = {
-              ...fullscreenProps,
-              left: '50%',
-              xPercent: -50,
+              width: '100vw',
+              height: '100vh',
               top: '50%',
               yPercent: -50,
-              maxHeight: 'none',
+              left: '50%',
+              xPercent: -50,
               maxWidth: 'none',
-              // Force box-shadow to be totally removed to prevent GPU lag during expansion interpolation
-              boxShadow: isTruePhone ? 'none' : '0 0 0 0 transparent' 
+              maxHeight: 'none',
+              borderRadius: 0,
+              boxShadow: 'none',
+              zIndex: 40,
             };
-
-            // Prevent JS from attempting to animate heavy corner radiuses and shadows
-            if (isTruePhone) {
-              gsap.set(frame, { boxShadow: 'none' });
-            }
 
             gsap.to(frame, {
               ...mobileFullscreen,
-              ease: 'power2.inOut',
+              ease: 'none',
               scrollTrigger: {
                 trigger: wrapper,
                 start: 'top top',
-                end: () => `+=${scrollPx}`,
-                scrub: CONFIG.scrub,
-                onLeave: () => {
-                  gsap.set(frame, mobileFullscreen);
-                }
+                end: () => `+=${scrollPx * 0.7}`,
+                scrub: 0.3,
+                onLeave: () => gsap.set(frame, mobileFullscreen),
               }
             });
           } else {
             const desktopFullscreen = {
-              ...fullscreenProps,
+              width: '100vw',
+              height: '100vh',
+              borderRadius: 0,
+              boxShadow: '0 0 0 0 transparent',
+              zIndex: 40,
               left: 0,
               top: 0,
               xPercent: 0,
@@ -728,12 +712,7 @@
                 start: 'top top',
                 end: () => `+=${scrollPx}`,
                 scrub: CONFIG.scrub,
-                onLeave: () => {
-                  gsap.set(frame, desktopFullscreen);
-                },
-                onEnterBack: () => {
-                  // ScrollTrigger scrub handles it
-                }
+                onLeave: () => gsap.set(frame, desktopFullscreen),
               }
             });
           }
@@ -749,17 +728,18 @@
           }
         });
         /* ── MOBILE: darken hero-viewport background during scroll ─────
-           Only fires on true phones (IS_MOBILE). Previously used <=1024
-           which incorrectly darkened 900x700 and 1024x768 laptops.    */
+           Synced with frame expansion so no cream/black mismatch appears.
+           Starts at 15% and finishes by 45% — by which point the frame
+           covers the viewport and the dark bg is invisible behind it.   */
         if (IS_MOBILE) {
           gsap.to('#hero-viewport', {
             backgroundColor: '#0a0a0a',
-            ease: 'power1.inOut',
+            ease: 'power2.in',
             scrollTrigger: {
               trigger: wrapper,
-              start: () => `+=${scrollPx * 0.5}`,
-              end: () => `+=${scrollPx * 0.85}`,
-              scrub: CONFIG.scrub,
+              start: () => `+=${scrollPx * 0.15}`,
+              end: () => `+=${scrollPx * 0.45}`,
+              scrub: 0.3,
             }
           });
         }
