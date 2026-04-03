@@ -40,6 +40,20 @@
     background: #fdfbf7 !important;
   }
 
+  /* 5. Mobile Content-Density Reduction */
+  .exp-left-img {
+    display: none !important; /* Remove secondary overlapping image, keep one strong primary */
+  }
+  .hero-btn-secondary {
+    display: none !important;  /* Isolate completely on the primary CTA */
+  }
+  .hero-scroll-wrapper {
+    display: none !important; /* Prevents crowding with iOS/Android bottom sheets */
+  }
+  .parallax-glow-1, .parallax-glow-2, .s5-glow-light {
+    display: none !important; /* Cut more invisible GPU blurs deeper in the page */
+  }
+
   /* 2. Premium Swipe Carousel for Featured Menu */
   .s3-gallery-grid {
     display: flex !important;

@@ -674,28 +674,17 @@
           };
 
           if (isMobile) {
-            const mobileFullscreen = {
-              ...fullscreenProps,
-              left: '50%',
-              xPercent: -50,
-              top: '50%',
-              yPercent: -50,
-              maxHeight: 'none',
-              maxWidth: 'none',
-            };
-
+            // MOBILE PERFORMANCE FIX: 
+            // Do not animate width/height/left/top to avoid catastrophic mobile layout thrashing.
+            // Keep the elegant 82% frame intact, scrub the canvas, and add a subtle parallax.
             gsap.to(frame, {
-              ...mobileFullscreen,
+              y: 60, // Light, lag-free hardware parallax
               ease: 'power2.inOut',
               scrollTrigger: {
                 trigger: wrapper,
                 start: 'top top',
                 end: () => `+=${scrollPx}`,
-                scrub: CONFIG.scrub,
-                onLeave: () => {
-                  gsap.set(frame, mobileFullscreen);
-                },
-                onEnterBack: () => {}
+                scrub: CONFIG.scrub
               }
             });
           } else {
