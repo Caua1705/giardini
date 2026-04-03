@@ -757,8 +757,8 @@
             ease: 'power1.inOut',
             scrollTrigger: {
               trigger: wrapper,
-              start: () => `+=${scrollPx * 0.15}`,
-              end: () => `+=${scrollPx * 0.55}`,
+              start: () => `+=${scrollPx * 0.5}`,
+              end: () => `+=${scrollPx * 0.85}`,
               scrub: CONFIG.scrub,
             }
           });

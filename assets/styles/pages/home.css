@@ -41,11 +41,12 @@
 
   #hero-viewport {
     background: #fdfbf7 !important;
+    overflow: hidden !important; /* Clip content during scroll-driven frame expansion */
   }
 
-  /* Suppress legacy desktop split-column ghost elements on mobile.
-     The cinematic mobile hero uses .hero-content, not #hero-left/#hero-right. */
-  #hero-left,
+  /* Suppress desktop placeholder on mobile.
+     #hero-left remains visible — mobile layout is styled by ≤1024px rules in components.css.
+     #hero-right is a measurement placeholder only — hidden on mobile. */
   #hero-right {
     display: none !important;
   }
