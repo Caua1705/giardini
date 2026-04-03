@@ -11,15 +11,23 @@
   }
 }
 
-/* ── MOBILE: Remover sombras e efeitos pretos no topo (Vignettes/Warmth) ── */
+/* ── INLINE GRID FIXES & PREMIUM MOBILE CAROUSELS ── */
+.s3-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+}
+
+/* ── MOBILE: Remover sombras pesadas, Grid fixes e Layouts premium ── */
 @media (max-width: 1024px) {
-  /* Remove os overlays de vinheta e luz ambiente que obscurecem o topo (Leitura & Café) */
-  #hero-vig, 
-  #hero-warm, 
-  #hero-spotlight,
-  #hero-bg-cols,
-  #global-grain {
+  /* 1. Hero Performance Strip-down (Removes GPU intensive effects) */
+  #hero-vig, #hero-warm, #hero-spotlight, #hero-bg-cols, #global-grain,
+  #hero-depth, #hero-image-glow, .h-orb, .h-orb-1, .h-orb-2, .video-glow,
+  .clube-orb-1, .clube-orb-2 {
     display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
   }
 
   /* Garante que o separador vertical não apareça no layout empilhado de mobile */
@@ -31,4 +39,39 @@
   #hero-viewport.is-mobile-stack {
     background: #fdfbf7 !important;
   }
+
+  /* 2. Premium Swipe Carousel for Featured Menu */
+  .s3-gallery-grid {
+    display: flex !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1.25rem !important;
+    padding-bottom: 2.5rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    margin: 0 -2.5rem !important; /* Bleed to screen edges */
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+  .s3-gallery-grid::-webkit-scrollbar { 
+    display: none; 
+  }
+  .feat-card {
+    flex: 0 0 88%;
+    scroll-snap-align: center;
+    margin-top: 0 !important; /* Kill the staggered masonry offset */
+  }
+
+  /* 3. Clube do Livro clean stack */
+  .clube-mosaic {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3.5rem !important;
+  }
+
+  /* 4. Fix layout crowding & rhythm */
+  .clube-reveal__left {
+    padding-top: 0 !important;
+  }
+  .feat-reveal { margin-bottom: 3.5rem !important; }
 }
