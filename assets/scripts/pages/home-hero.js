@@ -674,17 +674,36 @@
           };
 
           if (isMobile) {
-            // MOBILE PERFORMANCE FIX: 
-            // Do not animate width/height/left/top to avoid catastrophic mobile layout thrashing.
-            // Keep the elegant 82% frame intact, scrub the canvas, and add a subtle parallax.
+            const isTruePhone = window.innerWidth <= 767;
+
+            const mobileFullscreen = {
+              ...fullscreenProps,
+              left: '50%',
+              xPercent: -50,
+              top: '50%',
+              yPercent: -50,
+              maxHeight: 'none',
+              maxWidth: 'none',
+              // Force box-shadow to be totally removed to prevent GPU lag during expansion interpolation
+              boxShadow: isTruePhone ? 'none' : '0 0 0 0 transparent' 
+            };
+
+            // Prevent JS from attempting to animate heavy corner radiuses and shadows
+            if (isTruePhone) {
+              gsap.set(frame, { boxShadow: 'none' });
+            }
+
             gsap.to(frame, {
-              y: 60, // Light, lag-free hardware parallax
+              ...mobileFullscreen,
               ease: 'power2.inOut',
               scrollTrigger: {
                 trigger: wrapper,
                 start: 'top top',
                 end: () => `+=${scrollPx}`,
-                scrub: CONFIG.scrub
+                scrub: CONFIG.scrub,
+                onLeave: () => {
+                  gsap.set(frame, mobileFullscreen);
+                }
               }
             });
           } else {
