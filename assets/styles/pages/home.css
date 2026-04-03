@@ -57,6 +57,15 @@
     display: none !important;
   }
 
+  /* Canvas must fill the expanding frame at all times.
+     resizeCanvas() sets inline pixel values (e.g. width:307px) that freeze
+     the canvas at its initial size. !important overrides inline styles so
+     the canvas stretches to 100% of #video-frame during GSAP expansion. */
+  #seq-canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
   /* 4. SECT 3 BUG FIX: Absolute guarantee the "Sabores" text and layout block is visible */
   .sect3-line-inner, .feat-reveal {
     transform: none !important;
