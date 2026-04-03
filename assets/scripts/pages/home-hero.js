@@ -628,11 +628,12 @@
           trigger: wrapper,
           start: 'top top',
           end: () => `+=${scrollPx}`,
-          scrub: CONFIG.scrub,
+          scrub: IS_MOBILE ? 0.3 : CONFIG.scrub,
           onUpdate: (self) => {
+            const totalLoaded = frames.length;
             const idx = Math.min(
-              Math.floor(self.progress * CONFIG.TOTAL_FRAMES),
-              CONFIG.TOTAL_FRAMES - 1
+              Math.floor(self.progress * totalLoaded),
+              totalLoaded - 1
             );
             drawFrame(idx);
           }
