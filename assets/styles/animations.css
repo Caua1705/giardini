@@ -38,7 +38,7 @@
 
 @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-25%); } }
 
-@keyframes rotate-beam { 0% { --beam-angle: 0deg; transform: rotate(0deg); } 100% { --beam-angle: 360deg; transform: rotate(360deg); } }
+/* @keyframes rotate-beam — canonical version at line 1 */
 
 @keyframes clube-scroll-left { from { transform: translateX(0); } to   { transform: translateX(-50%); } }
 
@@ -46,7 +46,7 @@
 
 @keyframes clube-float-2 { 0%, 100% { transform: translate(0, 0);        } 50%       { transform: translate(-25px, 20px); } }
 
-@keyframes animationIn { 0% { opacity: 0; transform: translateY(30px); filter: blur(10px); } 100% { opacity: 1; transform: translateY(0); filter: blur(0px); } }
+/* @keyframes animationIn — canonical version at line 13 */
 
 @keyframes clube-cursor {
   0%, 100% { opacity: 1; }
@@ -128,15 +128,8 @@
       100% { transform: translateY(0); opacity: 1; filter: blur(0px) skewY(0deg); }
     }
 
-@keyframes s4-shimmer {
-      from { transform: translateX(-110%) skewX(-18deg); }
-      to { transform: translateX(220%) skewX(-18deg); }
-    }
-
-@keyframes rotate-beam {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
+/* @keyframes s4-shimmer — canonical at line 33 */
+/* @keyframes rotate-beam — canonical at line 1 */
 
 @keyframes ambientFloat {
       0%   { transform: translateX(-50%) translateY(0) scale(1); }
@@ -154,10 +147,7 @@
       100%{ background-position: 0% center; }
     }
 
-@keyframes sectionFadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+/* @keyframes sectionFadeIn — canonical version below */
 
 @keyframes orbDrift1 {
       0%   { transform: translate(0, 0) scale(1); }
@@ -217,7 +207,7 @@
       }
     }
 
-@keyframes loaderShimmer { to { left: 200%; } }
+/* @keyframes loaderShimmer — canonical at line 176 */
 
 @keyframes textureShift {
       from { background-position: 0 0, 0 0; }

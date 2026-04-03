@@ -19,6 +19,11 @@
   align-items: start;
 }
 
+/* ── MOBILE-DESTAQUE-HIDE: used in HTML but had no CSS definition ── */
+.mobile-destaque-hide {
+  display: none !important;
+}
+
 /* ── TRUE MOBILE: 767px Scope (Isolates 430, 390, 375. Protects 900 & 1024) ── */
 @media (max-width: 767px) {
   /* 1. Hero Performance Strip-down (Removes off-screen GPU cost) */
@@ -81,4 +86,31 @@
   }
   .clube-reveal__left { padding-top: 0 !important; }
   .feat-reveal { margin-bottom: 3.5rem !important; }
+
+  /* ── PERFORMANCE: Stop expensive background animations on mobile ── */
+  /* body::before textureShift animates background-position every frame */
+  body::before { animation: none !important; }
+  /* #lateral-vignette vignetteBreath is a fixed full-screen repaint */
+  #lateral-vignette { animation: none !important; }
+
+  /* ── DECORATIVE ELEMENTS: Hide GPU-costly decorations on mobile ── */
+  /* 8 animated floating particles in section 5 */
+  #s5-particles { display: none !important; }
+  /* 4 corner frame elements with animated reveal */
+  .s5-corner { display: none !important; }
+  /* Giant hero watermark — saves one ScrollTrigger on mobile */
+  #hero-wm { display: none !important; }
+
+  /* ── NAVBAR: Remove expensive backdrop-filter on mobile ── */
+  /* backdrop-filter: blur() is GPU-heavy on iOS/Android WebKit */
+  #navbar {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: rgba(5, 9, 6, 0.97) !important;
+  }
+  #navbar.is-scrolled {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(253, 251, 247, 0.97) !important;
+  }
 }

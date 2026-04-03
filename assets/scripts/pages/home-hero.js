@@ -111,59 +111,64 @@
       var el = document.querySelector(sel);
       if (el) { el.dataset.clubeReveal = tags[sel]; io.observe(el); }
     });
-    /* Image hover effects */
-    document.querySelectorAll('.clube-img-main, .clube-img-accent').forEach(function (wrap) {
-      var caption = wrap.querySelector('.clube-img-caption');
-      var img = wrap.querySelector('img');
-      var shimmer = wrap.querySelector('.clube-img-shimmer');
-      wrap.addEventListener('mouseenter', function () {
-        if (caption) { caption.style.opacity = '1'; caption.style.transform = 'translateY(0)'; }
-        if (img) img.style.transform = 'scale(1.09)';
-        if (shimmer) shimmer.style.opacity = '1';
-        wrap.style.boxShadow = '0 36px 80px rgba(0,0,0,0.15),0 10px 28px rgba(0,0,0,0.08)';
+    /* Image/card hover effects — skip on touch devices.
+       On phones, simulated mouseenter/mouseleave on tap causes hover
+       state to flash on briefly then reset. No UX value on touch.    */
+    if (!('ontouchstart' in window)) {
+      /* Image hover effects */
+      document.querySelectorAll('.clube-img-main, .clube-img-accent').forEach(function (wrap) {
+        var caption = wrap.querySelector('.clube-img-caption');
+        var img = wrap.querySelector('img');
+        var shimmer = wrap.querySelector('.clube-img-shimmer');
+        wrap.addEventListener('mouseenter', function () {
+          if (caption) { caption.style.opacity = '1'; caption.style.transform = 'translateY(0)'; }
+          if (img) img.style.transform = 'scale(1.09)';
+          if (shimmer) shimmer.style.opacity = '1';
+          wrap.style.boxShadow = '0 36px 80px rgba(0,0,0,0.15),0 10px 28px rgba(0,0,0,0.08)';
+        });
+        wrap.addEventListener('mouseleave', function () {
+          if (caption) { caption.style.opacity = '0'; caption.style.transform = 'translateY(6px)'; }
+          if (img) img.style.transform = img.dataset.initScale || 'scale(1.05)';
+          if (shimmer) shimmer.style.opacity = '0';
+          wrap.style.boxShadow = '';
+        });
       });
-      wrap.addEventListener('mouseleave', function () {
-        if (caption) { caption.style.opacity = '0'; caption.style.transform = 'translateY(6px)'; }
-        if (img) img.style.transform = img.dataset.initScale || 'scale(1.05)';
-        if (shimmer) shimmer.style.opacity = '0';
-        wrap.style.boxShadow = '';
+      /* Stat cards shimmer on hover */
+      document.querySelectorAll('.clube-stat-card').forEach(function (card) {
+        var s = card.querySelector('.clube-stat-shimmer');
+        card.addEventListener('mouseenter', function(){
+          card.style.transform = 'translateY(-3px)';
+          card.style.boxShadow = '0 16px 48px rgba(0,0,0,0.08),inset 0 1px 0 rgba(255,255,255,0.9)';
+          if(s) s.style.left = '140%';
+        });
+        card.addEventListener('mouseleave', function(){
+          card.style.transform = '';
+          card.style.boxShadow = '';
+          if(s) { s.style.transition='none'; s.style.left='-100%'; setTimeout(function(){s.style.transition='';},50); }
+        });
       });
-    });
-    /* Stat cards shimmer on hover */
-    document.querySelectorAll('.clube-stat-card').forEach(function (card) {
-      var s = card.querySelector('.clube-stat-shimmer');
-      card.addEventListener('mouseenter', function(){
-        card.style.transform = 'translateY(-3px)';
-        card.style.boxShadow = '0 16px 48px rgba(0,0,0,0.08),inset 0 1px 0 rgba(255,255,255,0.9)';
-        if(s) s.style.left = '140%';
-      });
-      card.addEventListener('mouseleave', function(){
-        card.style.transform = '';
-        card.style.boxShadow = '';
-        if(s) { s.style.transition='none'; s.style.left='-100%'; setTimeout(function(){s.style.transition='';},50); }
-      });
-    });
-    /* CTA button hover */
-    var cta = document.querySelector('.clube-cta-btn');
-    if (cta) {
-      var shimEl = cta.querySelector('.clube-shimmer');
-      cta.addEventListener('mouseenter', function () {
-        cta.style.background = 'var(--c-primary)';
-        cta.style.color = '#fdfbf7';
-        cta.style.borderColor = 'var(--c-primary)';
-        cta.style.transform = 'translateY(-2px)';
-        cta.style.boxShadow = '0 12px 32px rgba(43,74,59,0.35)';
-        if (shimEl) { shimEl.style.transition='left 0.6s ease'; shimEl.style.left='140%'; }
-      });
-      cta.addEventListener('mouseleave', function () {
-        cta.style.background = '';
-        cta.style.color = '';
-        cta.style.borderColor = '';
-        cta.style.transform = '';
-        cta.style.boxShadow = '';
-        if (shimEl) { shimEl.style.transition='none'; shimEl.style.left='-100%'; setTimeout(function(){shimEl.style.transition='';},50); }
-      });
-    }
+      /* CTA button hover */
+      var cta = document.querySelector('.clube-cta-btn');
+      if (cta) {
+        var shimEl = cta.querySelector('.clube-shimmer');
+        cta.addEventListener('mouseenter', function () {
+          cta.style.background = 'var(--c-primary)';
+          cta.style.color = '#fdfbf7';
+          cta.style.borderColor = 'var(--c-primary)';
+          cta.style.transform = 'translateY(-2px)';
+          cta.style.boxShadow = '0 12px 32px rgba(43,74,59,0.35)';
+          if (shimEl) { shimEl.style.transition='left 0.6s ease'; shimEl.style.left='140%'; }
+        });
+        cta.addEventListener('mouseleave', function () {
+          cta.style.background = '';
+          cta.style.color = '';
+          cta.style.borderColor = '';
+          cta.style.transform = '';
+          cta.style.boxShadow = '';
+          if (shimEl) { shimEl.style.transition='none'; shimEl.style.left='-100%'; setTimeout(function(){shimEl.style.transition='';},50); }
+        });
+      }
+    } // end !touchDevice
   })();
   
 
@@ -212,6 +217,11 @@
 
     (function () {
       'use strict';
+      /* ══ MOBILE DETECTION ══════════════════════════════════════════
+         IS_MOBILE = true only for real phones (≤767px).
+         900×700/1024×768 laptops are NEVER flagged mobile here.
+      ══════════════════════════════════════════════════════════════ */
+      const IS_MOBILE = window.innerWidth <= 767;
       /* ── PRELOAD HIDING ─────────────────────────────────────────── */
       gsap.set(['#el-kicker', '#el-body', '#el-cta', '#el-meta', '#hero-explore-scroll', '#el-badge'], { opacity: 0, y: 15, filter: 'blur(8px)' });
       gsap.set(['#el-h1a', '#el-h1b'], { y: '108%', filter: 'blur(10px)' });
@@ -320,9 +330,8 @@
       }
       /* Desenha um frame no canvas preservando aspect ratio (object-fit: cover) */
       function drawFrame(index) {
-        // Sincroniza canvas com tamanho atual do frame (crucial durante expansão via scroll)
-        const resized = syncCanvasSize();
-        if (index === currentFrameIndex && !resized) return; // sem redraw desnecessário
+        // Skip repaint if same frame (syncCanvasSize moved to resize handler only)
+        if (index === currentFrameIndex) return;
         const img = frames[index];
         if (!img || !img.complete || img.naturalWidth === 0) return;
         currentFrameIndex = index;
@@ -347,7 +356,8 @@
       function preloadFrames() {
         return new Promise((resolve) => {
           let loaded = 0;
-          const total = CONFIG.TOTAL_FRAMES;
+          // On mobile: preload only 80 frames (~50% less memory). Desktop gets all 150.
+          const total = IS_MOBILE ? Math.min(80, CONFIG.TOTAL_FRAMES) : CONFIG.TOTAL_FRAMES;
           frames = new Array(total);
           for (let i = 0; i < total; i++) {
             const img = new Image();
@@ -398,18 +408,13 @@
         /* Registra matchMedia para layouts responsivos */
         let mm = gsap.matchMedia();
 
-        const wideTabletMQ = "(max-width: 1024px) and (min-width: 850px) and (max-height: 800px)";
-        
+        // Correct split: true phones ≤767px, everything else (tablets, notebooks) = desktop.
+        // Previously used 1024px which wrongly classified 900x700 laptops as mobile.
         mm.add({
-          isDesktop: `(min-width: 1025px), ${wideTabletMQ}`,
-          isMobile: "(max-width: 1024px)"
+          isDesktop: '(min-width: 768px)',
+          isMobile:  '(max-width: 767px)'
         }, (context) => {
           let { isDesktop, isMobile } = context.conditions;
-
-          // Override local para forçar que o 900x700 aja exatamente como o Desktop (1280x800 style)
-          if (isDesktop && window.innerWidth <= 1024) {
-            isMobile = false;
-          }
 
           const initRect = getInitialFrameRect();
 
@@ -582,38 +587,44 @@
         // Using gsap.to (not fromTo) so that the "from" state is never force-set
         // by GSAP when the ScrollTrigger initializes, which is what caused elements
         // to disappear when the page was reloaded mid-scroll and then scrolled back.
+        /* Scroll-out exits — on mobile, skip filter:blur (paint op, not compositor-only).
+           Using opacity + y only ensures compositor-layer-only animation on phones.     */
+        const _f = (b) => IS_MOBILE ? {} : { filter: `blur(${b})` };
         gsap.to('#el-kicker', {
-          opacity: 0, y: -40, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
+          opacity: 0, y: -40, ..._f('8px'), ease: 'power2.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.22}`, scrub: CONFIG.scrub }
         });
         gsap.to('#el-h1a', {
-          opacity: 0, y: -60, filter: 'blur(12px)', ease: 'power2.in', immediateRender: false,
+          opacity: 0, y: -60, ..._f('12px'), ease: 'power2.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.3}`, scrub: CONFIG.scrub }
         });
         gsap.to('#el-h1b', {
-          opacity: 0, y: -48, filter: 'blur(10px)', ease: 'power2.in', immediateRender: false,
+          opacity: 0, y: -48, ..._f('10px'), ease: 'power2.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.36}`, scrub: CONFIG.scrub }
         });
         gsap.to('#el-body', {
-          opacity: 0, y: -32, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
+          opacity: 0, y: -32, ..._f('8px'), ease: 'power2.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.43}`, scrub: CONFIG.scrub }
         });
         gsap.to('#el-cta', {
-          opacity: 0, y: -26, filter: 'blur(6px)', ease: 'power2.in', immediateRender: false,
+          opacity: 0, y: -26, ..._f('6px'), ease: 'power2.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.5}`, scrub: CONFIG.scrub }
         });
         gsap.to('#el-meta', {
-          opacity: 0, y: -18, filter: 'blur(6px)', ease: 'power1.in', immediateRender: false,
+          opacity: 0, y: -18, ..._f('6px'), ease: 'power1.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.35}`, scrub: CONFIG.scrub }
         });
         gsap.to('#hero-sep', {
           opacity: 0, scaleX: 0, transformOrigin: 'left center', ease: 'power2.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.28}`, scrub: CONFIG.scrub }
         });
-        gsap.to('#hero-wm', {
-          opacity: 0, ease: 'power1.in', immediateRender: false,
-          scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.4}`, scrub: CONFIG.scrub }
-        });
+        // #hero-wm is hidden on mobile via CSS (home.css) — skip its ScrollTrigger on mobile
+        if (!IS_MOBILE) {
+          gsap.to('#hero-wm', {
+            opacity: 0, ease: 'power1.in', immediateRender: false,
+            scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.4}`, scrub: CONFIG.scrub }
+          });
+        }
         /* ── SCROLL PIN ──────────────────────────────────────────── */
         ScrollTrigger.create({
           trigger: wrapper,
@@ -652,17 +663,12 @@
           }
         });
         /* ── VIDEO-FRAME EXPANSION (split → fullscreen) ──────────── */
-        const wideTabletMQFull = "(max-width: 1024px) and (min-width: 850px) and (max-height: 800px)";
+        // Second matchMedia — corrected to 767px split (same as first block)
         mm.add({
-          isDesktop: `(min-width: 1025px), ${wideTabletMQFull}`,
-          isMobile: "(max-width: 1024px)"
+          isDesktop: '(min-width: 768px)',
+          isMobile:  '(max-width: 767px)'
         }, (context) => {
           let { isDesktop, isMobile } = context.conditions;
-
-          // Mesma trava explícita: force o formato tablet baixo a usar Desktop script
-          if (isDesktop && window.innerWidth <= 1024) {
-            isMobile = false; 
-          }
 
           // Fullscreen end-state properties
           const fullscreenProps = {
@@ -742,8 +748,10 @@
             scrub: CONFIG.scrub,
           }
         });
-        /* ── MOBILE: darken hero-viewport background during scroll ── */
-        if (window.innerWidth <= 1024) {
+        /* ── MOBILE: darken hero-viewport background during scroll ─────
+           Only fires on true phones (IS_MOBILE). Previously used <=1024
+           which incorrectly darkened 900x700 and 1024x768 laptops.    */
+        if (IS_MOBILE) {
           gsap.to('#hero-viewport', {
             backgroundColor: '#0a0a0a',
             ease: 'power1.inOut',
@@ -755,35 +763,45 @@
             }
           });
         }
-        /* Canvas resize on window resize */
+        /* Canvas resize on window resize — debounced (120ms) to avoid
+           triggering full GSAP recalculation on every resize pixel.    */
+        let _resizeTimer;
         window.addEventListener('resize', () => {
-          resizeCanvas();
-          ScrollTrigger.refresh();
+          clearTimeout(_resizeTimer);
+          _resizeTimer = setTimeout(() => {
+            resizeCanvas();
+            ScrollTrigger.refresh();
+          }, 120);
         });
         /* ── SECTION 2 ANIMATION (2-Col Layout Polished) ─────────── */
         // Set initial states for word mask
         gsap.set('.word-inner', { y: '110%' });
         // Parallax background text and glows
-        gsap.to('#parallax-text span', {
-          x: '-30%',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '#experience',
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true
-          }
-        });
-        gsap.to('.parallax-glow-1', {
-          yPercent: -40,
-          ease: 'none',
-          scrollTrigger: { trigger: '#experience', start: 'top bottom', end: 'bottom top', scrub: true }
-        });
-        gsap.to('.parallax-glow-2', {
-          yPercent: 40,
-          ease: 'none',
-          scrollTrigger: { trigger: '#experience', start: 'top bottom', end: 'bottom top', scrub: true }
-        });
+        // Parallax background text and glows — skip on mobile.
+        // These elements are display:none on mobile (home.css) but
+        // the ScrollTriggers would still run, burning CPU unnecessarily.
+        if (!IS_MOBILE) {
+          gsap.to('#parallax-text span', {
+            x: '-30%',
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '#experience',
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true
+            }
+          });
+          gsap.to('.parallax-glow-1', {
+            yPercent: -40,
+            ease: 'none',
+            scrollTrigger: { trigger: '#experience', start: 'top bottom', end: 'bottom top', scrub: true }
+          });
+          gsap.to('.parallax-glow-2', {
+            yPercent: 40,
+            ease: 'none',
+            scrollTrigger: { trigger: '#experience', start: 'top bottom', end: 'bottom top', scrub: true }
+          });
+        }
         ScrollTrigger.create({
           trigger: '#experience',
           start: 'top 80%',
@@ -904,34 +922,39 @@
           });
         });
         // 3. Section 3 Dark Mode (Improved Transitions)
-        ScrollTrigger.create({
-          trigger: '#featured',
-          start: 'top 35%', // Começa a escurecer a seção um pouco mais tarde
-          end: 'bottom 45%',
-          onEnter: () => {
-             gsap.to('#featured', { backgroundColor: 'var(--c-dark)', duration: 1.2, ease: 'power2.out' });
-             // Body só escurece quando o topo encostar quase no topo, pra não vazar pelas bordas arredondadas
-             gsap.to('body', { backgroundColor: 'var(--c-dark)', duration: 1.0, delay: 0.1 });
-             gsap.to('.feat-text-dark', { color: '#ffffff', duration: 1.2 });
-             gsap.to('.feat-text-muted', { color: 'rgba(255,255,255,0.6)', duration: 1.2 });
-             gsap.to('.glow-orb', { opacity: 0.25, duration: 2, ease: 'power2.inOut', stagger: 0.2 });
-             gsap.to('.feat-grid', { opacity: 1, duration: 2 });
-          },
-          onLeave: () => {
-             gsap.to('body', { backgroundColor: 'var(--c-bg)', duration: 1.0 });
-          },
-          onEnterBack: () => {
-             gsap.to('body', { backgroundColor: 'var(--c-dark)', duration: 1.0 });
-          },
-          onLeaveBack: () => {
-             gsap.to('#featured', { backgroundColor: 'var(--c-bg)', duration: 1.2, ease: 'power2.out' });
-             gsap.to('body', { backgroundColor: 'var(--c-bg)', duration: 1.2, ease: 'power2.out' });
-             gsap.to('.feat-text-dark', { color: 'var(--c-dark)', duration: 1.2 });
-             gsap.to('.feat-text-muted', { color: 'rgba(26,26,26,0.5)', duration: 1.2 });
-             gsap.to('.glow-orb', { opacity: 0, duration: 1.2 });
-             gsap.to('.feat-grid', { opacity: 0, duration: 1.2 });
-          }
-        });
+        // On mobile: skip body/section background color GSAP transition.
+        // Reason: fast scroll on phones causes jarring color flash between
+        // the pastel Section 3 CSS background and the GSAP dark override.
+        // The static CSS background is sufficient on mobile.
+        if (!IS_MOBILE) {
+          ScrollTrigger.create({
+            trigger: '#featured',
+            start: 'top 35%',
+            end: 'bottom 45%',
+            onEnter: () => {
+               gsap.to('#featured', { backgroundColor: 'var(--c-dark)', duration: 1.2, ease: 'power2.out' });
+               gsap.to('body', { backgroundColor: 'var(--c-dark)', duration: 1.0, delay: 0.1 });
+               gsap.to('.feat-text-dark', { color: '#ffffff', duration: 1.2 });
+               gsap.to('.feat-text-muted', { color: 'rgba(255,255,255,0.6)', duration: 1.2 });
+               gsap.to('.glow-orb', { opacity: 0.25, duration: 2, ease: 'power2.inOut', stagger: 0.2 });
+               gsap.to('.feat-grid', { opacity: 1, duration: 2 });
+            },
+            onLeave: () => {
+               gsap.to('body', { backgroundColor: 'var(--c-bg)', duration: 1.0 });
+            },
+            onEnterBack: () => {
+               gsap.to('body', { backgroundColor: 'var(--c-dark)', duration: 1.0 });
+            },
+            onLeaveBack: () => {
+               gsap.to('#featured', { backgroundColor: 'var(--c-bg)', duration: 1.2, ease: 'power2.out' });
+               gsap.to('body', { backgroundColor: 'var(--c-bg)', duration: 1.2, ease: 'power2.out' });
+               gsap.to('.feat-text-dark', { color: 'var(--c-dark)', duration: 1.2 });
+               gsap.to('.feat-text-muted', { color: 'rgba(26,26,26,0.5)', duration: 1.2 });
+               gsap.to('.glow-orb', { opacity: 0, duration: 1.2 });
+               gsap.to('.feat-grid', { opacity: 0, duration: 1.2 });
+            }
+          });
+        }
         // 3b. Clube do Livro Animation
         const clubeElements = gsap.utils.toArray('.blur-reveal, .split-animate');
         ScrollTrigger.create({
@@ -958,16 +981,20 @@
             if (wm) wm.style.opacity = '1';
           }
         });
-        gsap.to('.clube-parallax-img', {
-          yPercent: 20,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '#clube-livro',
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true
-          }
-        });
+        // .clube-parallax-img: element does not exist in current markup.
+        // Guard added to prevent a silent no-op ScrollTrigger on mobile.
+        if (!IS_MOBILE) {
+          gsap.to('.clube-parallax-img', {
+            yPercent: 20,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '#clube-livro',
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true
+            }
+          });
+        }
         // 4. Section 4 Location Animation (Gemini Fade-In Style)
         const locElements = gsap.utils.toArray('.anim-fade-blur');
         ScrollTrigger.create({
@@ -982,32 +1009,25 @@
             });
           }
         });
-        // Giant Background Text Parallax
-        gsap.to('#giant-text', {
-          y: -150,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '#featured',
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true
-          }
-        });
-        // 4. Parallax scroll for cards images
-        document.querySelectorAll('.feat-img').forEach((img, i) => {
-          const card = img.closest('.feat-card');
-          const direction = i % 2 === 0 ? -8 : 8;
-          gsap.to(img, {
-            yPercent: direction,
+        // #giant-text does not exist in current HTML (confirmed) — skip entirely.
+        // .feat-img parallax: disabled on mobile. Running yPercent scrub on images
+        // inside the swipeable carousel causes visible jank during horizontal swipe.
+        if (!IS_MOBILE) {
+          gsap.to('#giant-text', {
+            y: -150,
             ease: 'none',
-            scrollTrigger: {
-              trigger: card,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true
-            }
+            scrollTrigger: { trigger: '#featured', start: 'top bottom', end: 'bottom top', scrub: true }
           });
-        });
+          document.querySelectorAll('.feat-img').forEach((img, i) => {
+            const card = img.closest('.feat-card');
+            const direction = i % 2 === 0 ? -8 : 8;
+            gsap.to(img, {
+              yPercent: direction,
+              ease: 'none',
+              scrollTrigger: { trigger: card, start: 'top bottom', end: 'bottom top', scrub: true }
+            });
+          });
+        }
       }
       /* ══ LOCATION MODAL LOGIC ═════════════════════════════════════ */
       window.openLocationModal = function () {
@@ -1041,7 +1061,8 @@
       /* ══ HERO BG COLUMNS REVEAL ════════════════════════════════════ */
       (function () {
         const bgCols = document.getElementById('hero-bg-cols');
-        if (!bgCols) return;
+        // On mobile: hero-bg-cols is display:none (home.css). Skip DOM work.
+        if (!bgCols || IS_MOBILE) return;
         const NUM_COLS = 9;
         for (let i = 0; i < NUM_COLS; i++) {
           const col = document.createElement('div');
@@ -1057,6 +1078,8 @@
       })();
       /* ══ HERO MOUSE SPOTLIGHT ══════════════════════════════════════ */
       (function () {
+        // mousemove/enter/leave never fire on touch — skip entire RAF loop on mobile
+        if (IS_MOBILE) return;
         const viewport = document.getElementById('hero-viewport');
         const spotlight = document.getElementById('hero-spotlight');
         if (!viewport || !spotlight) return;
