@@ -5,10 +5,11 @@
     document.documentElement.style.scrollBehavior = 'smooth';
 
     /* ── CANVAS FRAME VARS ── */
+    const isMobileDevice = window.innerWidth <= 767;
     const CONFIG = {
-      TOTAL_FRAMES: 150,
+      TOTAL_FRAMES: isMobileDevice ? 80 : 150,
       FRAMES_DIR: 'references/image-frames/menu',
-      scrollVH: 120, // Reduced from 250 to 120 for faster scrub
+      scrollVH: isMobileDevice ? 80 : 120,
       scrub: 1.0,
     };
     const canvas = document.getElementById('seq-canvas');
@@ -463,6 +464,7 @@
        AMBIENT PARTICLE SYSTEM — floating golden motes
     ══════════════════════════════════════════════════════════════════ */
     (function initParticles() {
+      if (window.innerWidth <= 767) return; // Skip on mobile — no GPU budget for particles
       const canvas = document.getElementById('particle-canvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');

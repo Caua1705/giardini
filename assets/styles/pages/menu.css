@@ -3937,4 +3937,360 @@
         transform: scale(1) !important;
         transition: opacity 0.5s linear !important;
       }
+    }
+
+    /* ══════════════════════════════════════════════════════════════════════
+       MOBILE UX & PERFORMANCE REFINEMENT — Giardini Menu Page
+       ══════════════════════════════════════════════════════════════════════
+       Fluid responsive system:
+         320–374 px = small mobile
+         375–429 px = standard mobile
+         430–767 px = large mobile
+
+       This block sits at the END of the file to override all earlier
+       global "creative polish" rules that accidentally override mobile
+       optimizations due to CSS cascade order.
+       ══════════════════════════════════════════════════════════════════════ */
+    @media (max-width: 767px) {
+
+      /* ═════════════════════════════════════════════════════════════════
+         A. PERFORMANCE — Strip ALL GPU-costly layers on mobile
+         ═════════════════════════════════════════════════════════════════ */
+
+      /* 1. Particle canvas — kill entirely (JS also gated) */
+      #particle-canvas {
+        display: none !important;
+      }
+
+      /* 2. Ambient floating orbs — GPU blur compositing @ 90px blur */
+      #menu-orb-1,
+      #menu-orb-2 {
+        display: none !important;
+      }
+
+      /* 3. Noise overlay — stop drift animation, reduce intensity */
+      .noise-overlay {
+        animation: none !important;
+        opacity: 0.10 !important;
+      }
+
+      /* 4. Body texture — kill fractal-noise SVG + 80s shift animation.
+            Replace with simple dot-grid only (zero-cost) */
+      body::before {
+        animation: none !important;
+        opacity: 0.35 !important;
+        background-image:
+          radial-gradient(circle, rgba(183,147,88,0.035) 1px, transparent 1px) !important;
+        background-size: 32px 32px !important;
+      }
+
+      /* 5. Body::after ambient lighting (radial gradients) */
+      body::after {
+        display: none !important;
+      }
+
+      /* 6. Linen paper texture overlay (2 heavy SVG filters stacked) */
+      .menu-main-wrapper::before {
+        display: none !important;
+      }
+
+      /* 7. Section header shimmer line — make static */
+      .section-header::after {
+        animation: none !important;
+        background-size: 100% 100% !important;
+      }
+
+      /* 8. Cat-btn active shimmer line — make static */
+      .cat-btn.active::before {
+        animation: none !important;
+        background-size: 100% 100% !important;
+      }
+
+      /* 9. Cat-btn active dot pulse — stop animation */
+      .cat-btn.active::after {
+        animation: none !important;
+      }
+
+      /* 10. Menu item clip-path reveal — expensive compositing */
+      .menu-item.reveal {
+        clip-path: none !important;
+      }
+      .menu-item.reveal.is-visible {
+        clip-path: none !important;
+      }
+
+      /* 11. Section tab switch — no blur filter, simple fade */
+      .menu-section.is-active {
+        animation: mobileMenuSectionFade 0.35s ease both !important;
+      }
+
+      /* 12. Nav logo glow breathing — 6s infinite */
+      .nav-logo {
+        animation: none !important;
+        text-shadow: none !important;
+      }
+
+      /* 13. Hero scroll float — overrides global rule that cascades
+             over the earlier mobile media query */
+      .hero-scroll {
+        animation: none !important;
+      }
+
+      /* 14. Hero scroll line dot slide — 2.2s infinite */
+      .hero-scroll-line::after {
+        display: none !important;
+      }
+
+      /* 15. Menu item body slide on reveal */
+      .menu-item.reveal.is-visible .item-body {
+        animation: none !important;
+      }
+
+      /* 16. Kicker flanking line grow animation */
+      .kicker-line {
+        animation: none !important;
+        opacity: 1 !important;
+      }
+
+      /* 17. Section kicker expand tracking — overrides global */
+      .section-kicker {
+        animation: none !important;
+        opacity: 1 !important;
+      }
+      .section-header.is-visible .section-kicker {
+        animation: none !important;
+        opacity: 1 !important;
+      }
+
+      /* 18. Pinned cat-nav: solid bg, no backdrop-filter */
+      #cat-nav.is-pinned .cat-nav-inner {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: rgba(6, 11, 7, 0.97) !important;
+      }
+
+      /* 19. Hero entrance GSAP blur filters — strip on mobile.
+             Opacity + translateY still fire; blur is skipped. */
+      #el-kicker, #el-h1a, #el-h1b, #el-h1-sep,
+      #el-body, #el-cta, #el-scroll {
+        filter: none !important;
+        -webkit-filter: none !important;
+      }
+
+      /* 20. Desktop hover effects — disable on touch */
+      .menu-item::before {
+        display: none !important;
+      }
+      .menu-item:hover .item-name {
+        transform: none !important;
+      }
+      .menu-item:hover .item-price::after {
+        opacity: 0 !important;
+      }
+      .menu-item:hover {
+        border-bottom-color: rgba(183, 147, 88, 0.08) !important;
+      }
+
+      /* 21. Lateral vignette breathing — kill on mobile */
+      #lateral-vignette {
+        animation: none !important;
+      }
+
+      /* 22. Reveal: simpler, faster — overrides global rules */
+      .reveal {
+        transform: translateY(10px) !important;
+        transition-duration: 0.35s !important;
+      }
+      .menu-grid .reveal:nth-child(n) {
+        transition-delay: 0s !important;
+      }
+
+
+      /* ═════════════════════════════════════════════════════════════════
+         B. TYPOGRAPHY — Override global sweeping animations
+         ═════════════════════════════════════════════════════════════════ */
+
+      /* Section title: strip gradient sweep, solid color */
+      .section-title {
+        font-size: clamp(1.3rem, 5vw, 1.7rem) !important;
+        line-height: 1.08 !important;
+        background: none !important;
+        -webkit-text-fill-color: rgba(236, 230, 218, 0.95) !important;
+        animation: none !important;
+      }
+      .section-title em {
+        -webkit-text-fill-color: rgba(183, 147, 88, 0.78) !important;
+      }
+
+      /* Section kicker: fluid */
+      .section-kicker {
+        font-size: clamp(0.42rem, 1.3vw, 0.50rem) !important;
+        letter-spacing: 0.34em !important;
+        margin-bottom: 0.35rem !important;
+      }
+
+      /* Item name: fluid across all phones */
+      .item-name {
+        font-size: clamp(1rem, 3vw, 1.15rem) !important;
+        line-height: 1.25 !important;
+      }
+
+      /* Item desc: comfortable reading */
+      .item-desc {
+        font-size: clamp(0.72rem, 2.1vw, 0.82rem) !important;
+        line-height: 1.5 !important;
+      }
+
+      /* Item price: fluid */
+      .item-price {
+        font-size: clamp(1rem, 3vw, 1.15rem) !important;
+      }
+
+
+      /* ═════════════════════════════════════════════════════════════════
+         C. SPACING & RHYTHM — Tighter mobile vertical rhythm
+         ═════════════════════════════════════════════════════════════════ */
+
+      /* Menu wrapper: fluid horizontal padding */
+      .menu-main-wrapper {
+        padding: 0 clamp(1rem, 4.5vw, 1.5rem) !important;
+      }
+
+      /* Menu items: consistent padding, no hover left-pad */
+      .menu-item {
+        padding: clamp(1rem, 3vw, 1.4rem) 0 !important;
+        padding-left: 0 !important;
+        gap: 0.3rem 1rem !important;
+        border-radius: 0 !important;
+      }
+
+      /* Section header: clean spacing */
+      .section-header {
+        margin-bottom: clamp(1.25rem, 4vw, 1.75rem) !important;
+        padding-bottom: 1rem !important;
+      }
+
+
+      /* ═════════════════════════════════════════════════════════════════
+         D. DUAL-PRICE ITEMS (Tapioca/Cuscuz section)
+         ═════════════════════════════════════════════════════════════════ */
+
+      /* Dual-price items: tighter horizontal gap */
+      .menu-item[style*="grid-template-columns:1fr auto auto"] {
+        gap: 0.3rem 0.5rem !important;
+      }
+
+      /* Dual-price column labels: smaller to fit */
+      div[style*="grid-template-columns:1fr auto auto"] span[style*="font-size:0.55rem"] {
+        font-size: 0.45rem !important;
+        letter-spacing: 0.15em !important;
+      }
+
+      /* Dual-price: reduce min-width on 2nd price column */
+      .menu-item[style*="grid-template-columns"] .item-price[style*="min-width:4.5rem"] {
+        min-width: 3.2rem !important;
+      }
+
+
+      /* ═════════════════════════════════════════════════════════════════
+         E. TOUCH TARGETS — 44px minimum
+         ═════════════════════════════════════════════════════════════════ */
+
+      .cat-btn {
+        min-height: 44px !important;
+      }
+
+      .hero-btn-primary {
+        min-height: 48px !important;
+      }
+
+      .hero-btn-secondary {
+        min-height: 44px !important;
+        padding: 0.8rem 0.5rem !important;
+      }
+
+      .pdf-btn {
+        min-height: 48px !important;
+        padding: 1rem clamp(2rem, 6vw, 3rem) !important;
+      }
+
+      .footer-link {
+        width: 2.75rem !important;
+        height: 2.75rem !important;
+      }
+
+
+      /* ═════════════════════════════════════════════════════════════════
+         F. FOOTER — Centered mobile layout
+         ═════════════════════════════════════════════════════════════════
+         Overrides the global footer rule (space-between) and the
+         earlier 767px block that uses align-items: flex-start. */
+
+      footer {
+        align-items: center !important;
+        text-align: center !important;
+      }
+
+
+      /* ═════════════════════════════════════════════════════════════════
+         G. PDF SECTION — Fluid mobile typography
+         ═════════════════════════════════════════════════════════════════ */
+
+      .pdf-heading {
+        font-size: clamp(1.6rem, 6.5vw, 2.2rem) !important;
+      }
+
+      .pdf-sub {
+        font-size: clamp(0.78rem, 2.2vw, 0.88rem) !important;
+        max-width: 280px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+
+      .pdf-label {
+        font-size: 0.48rem !important;
+      }
+
+      .pdf-label::before,
+      .pdf-label::after {
+        width: 20px !important;
+      }
+    }
+
+    /* Simple fade-in for mobile section tab switches (no blur filter) */
+    @keyframes mobileMenuSectionFade {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═════════════════════════════════════════════════════════════════════
+       SMALL MOBILE REFINEMENTS (320–374px)
+       ═════════════════════════════════════════════════════════════════════ */
+    @media (max-width: 374px) {
+      .menu-main-wrapper {
+        padding: 0 0.85rem !important;
+      }
+
+      .cat-nav-inner {
+        padding: 0.7rem 14px !important;
+        margin: 0 -14px !important;
+      }
+
+      .cat-btn {
+        font-size: 0.55rem !important;
+        padding: 0.6rem 0.9rem !important;
+      }
+
+      /* Dual-price: tighter on tiny screens */
+      .menu-item[style*="grid-template-columns:1fr auto auto"] {
+        gap: 0.25rem 0.35rem !important;
+      }
+
+      .menu-item[style*="grid-template-columns"] .item-price[style*="min-width:4.5rem"] {
+        min-width: 2.8rem !important;
+      }
+
+      .section-title {
+        font-size: clamp(1.2rem, 4.5vw, 1.5rem) !important;
+      }
     }
