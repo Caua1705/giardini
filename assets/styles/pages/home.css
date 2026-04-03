@@ -101,16 +101,42 @@
     display: none !important;
   }
 
-  /* 7. Navbar: solid bg instead of backdrop-filter */
-  #navbar {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    background-color: rgba(5, 9, 6, 0.97) !important;
-  }
+  /* 7. Navbar: always light on mobile (hero is cream, never dark) */
+  #navbar,
   #navbar.is-scrolled {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     background: rgba(253, 251, 247, 0.97) !important;
+    border-bottom-color: rgba(0, 0, 0, 0.05) !important;
+  }
+
+  /* Force dark text on mobile navbar — layout.css defaults are white for dark desktop hero */
+  #navbar .nav-logo,
+  #navbar.is-scrolled .nav-logo {
+    color: var(--c-dark) !important;
+  }
+
+  #navbar .nav-link,
+  #navbar.is-scrolled .nav-link {
+    color: rgba(26, 26, 26, 0.6) !important;
+  }
+
+  #navbar .nav-link:hover,
+  #navbar.is-scrolled .nav-link:hover {
+    color: var(--c-primary) !important;
+  }
+
+  #navbar .nav-cta,
+  #navbar.is-scrolled .nav-cta {
+    border-color: var(--c-primary) !important;
+    color: var(--c-primary) !important;
+    background: transparent !important;
+  }
+
+  #navbar .nav-cta:hover,
+  #navbar.is-scrolled .nav-cta:hover {
+    background: var(--c-primary) !important;
+    color: #FDFBF7 !important;
   }
 
   /* 8. Kill unnecessary ambient glow divs in Clube do Livro bg */
