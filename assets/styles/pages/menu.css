@@ -1558,28 +1558,29 @@
       /* ════════════════════════════════════════════════════════
          M3 — HERO MOBILE: «Cartaz Central Premium»
          ────────────────────────────────────────────────────────
-         Conceito: COMPOSIÇÃO ÚNICA CENTRALIZADA
+         Conceito: Composição vertical centralizada com o vídeo
+         posicionado de forma proeminente abaixo do texto.
 
-         → Tudo alinhado ao centro (kicker, título, subtítulo, CTA)
-         → O copo atua como o coração da composição (maior, mais alto)
-         → Espaçamentos justos, sem áreas mortas
-         → "Descubra" fecha a seção com elegância no rodapé.
+         → Layout: Kicker → Título → Sep → Sub → CTA → Video
+         → Video grande e visível, centralizado abaixo dos CTAs
+         → Sem zonas mortas ou overlap confuso
+         → "Descubra" fecha a seção com elegância
          ════════════════════════════════════════════════════════ */
 
-      /* ── Viewport: altura total da tela, min-height polido ── */
+      /* ── Viewport: altura total da tela ── */
       #hero-viewport {
         height: 100svh;
         min-height: 640px;
-        max-height: 940px;
+        max-height: 960px;
       }
 
-      /* ── ZONA DE CONTEÚDO: totalmente centralizada ── */
+      /* ── ZONA DE CONTEÚDO: centralizada vertical e horizontal ── */
       .hero-content {
-        justify-content: flex-start;  /* Prende no topo, mas empurra para baixo */
-        align-items: center;          /* CENTRALIZA O EIXO X */
+        justify-content: center;      /* CENTRALIZA no eixo Y */
+        align-items: center;          /* CENTRALIZA no eixo X */
         text-align: center;
-        padding-top: 7rem;            /* Espaço seguro e elegante abaixo da navbar */
-        padding-bottom: 0;
+        padding-top: 3.5rem;          /* Navbar clearance */
+        padding-bottom: 4rem;         /* Espaço para "Descubra" */
         padding-left: 1.5rem;
         padding-right: 1.5rem;
         gap: 0;
@@ -1590,51 +1591,52 @@
         font-size: 0.44rem;
         letter-spacing: 0.45em;
         gap: 0.8rem;
-        margin-bottom: 1.25rem;
-        justify-content: center;      /* Kicker no centro */
+        margin-bottom: 1rem;
+        justify-content: center;
         color: rgba(183, 147, 88, 0.70);
         opacity: 1;
       }
       /* Restaura a simetria (as duas linhas aparecem) */
       .kicker-line:last-of-type { display: block; }
 
-      /* ── Headline: dramático, apertado, centralizado ── */
+      /* ── Headline: dramático, centralizado ── */
       .hero-title {
-        font-size: clamp(3.4rem, 13vw, 5rem);
+        font-size: clamp(3rem, 12vw, 4.5rem);
         line-height: 0.94;
         letter-spacing: -0.03em;
         text-align: center;
         margin-bottom: 0;
       }
 
-      /* Divisória central: separada em elemento real para animação GSAP */
+      /* Divisória central entre título e subtítulo */
       .hero-title-sep {
         display: block !important;
         width: 32px;
         height: 1px;
         background: rgba(183, 147, 88, 0.45);
-        margin: 1.4rem auto;
+        margin: 1.2rem auto;
       }
 
-      /* ── Subtítulo: mais presente, centrado, limitando viúvas ── */
+      /* ── Subtítulo: conciso, centrado ── */
       .hero-sub {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         font-weight: 300;
         line-height: 1.65;
         max-width: 260px;
         text-align: center;
-        margin: 0 auto 2.4rem auto;   /* margin auto para bloco centrado */
+        margin: 0 auto 1.6rem auto;
         color: rgba(210, 202, 185, 0.75);
         letter-spacing: 0.015em;
       }
 
-      /* ── CTA: único, premium, centralizado ── */
+      /* ── CTA: premium, centralizado ── */
       .hero-cta-wrap {
         flex-direction: column !important;
         align-items: center;
-        justify-content: center;      /* Botão perfeitamente centralizado */
-        gap: 0.85rem !important;
+        justify-content: center;
+        gap: 0.65rem !important;
         width: 100%;
+        margin-bottom: 0;             /* O vídeo fica logo abaixo */
       }
 
       .loc-beam-container {
@@ -1644,63 +1646,64 @@
       }
 
       .hero-btn-primary {
-        padding: 1rem 2.8rem;
-        font-size: 0.58rem;
+        padding: 0.95rem 2.6rem;
+        font-size: 0.56rem;
         letter-spacing: 0.25em;
         justify-content: center;
         white-space: nowrap;
       }
 
-      /* Restaurado: Reserva embaixo de Ver Cardapio */
+      /* Reservar Mesa abaixo do Ver Cardápio */
       .hero-btn-secondary {
         display: inline-flex !important;
-        font-size: 0.58rem !important;
+        font-size: 0.55rem !important;
       }
 
-      /* ── IMAGEM: O coração da hero. Maior, mais conectada ── */
+      /* ── VIDEO FRAME: grande, proeminente, abaixo do texto ── */
       #video-frame {
-        width: 82vw;             /* Mais imponente */
-        max-width: 340px;
-        top: 52%;                /* Levemente mais alto, abraçando o título/CTA */
+        width: 100vw;                /* Ocupa toda a largura */
+        max-width: 460px;
+        top: 58%;                    /* Posicionado na metade inferior */
         left: 50%;
-        opacity: 0.65;           /* Um pouco mais fantasma para não brigar com o CTA centrado */
+        opacity: 0.80;              /* Mais visível, o copo é o herói */
         will-change: auto;
-        /* Mask refinada para dissolver perfeitamente no fundo escuro */
-        mask-image: radial-gradient(ellipse 75% 85% at center,
-          rgba(0,0,0,0.95) 0%,
-          rgba(0,0,0,0.85) 30%,
-          rgba(0,0,0,0.40) 55%,
-          rgba(0,0,0,0.05) 80%,
-          rgba(0,0,0,0)    95%
+        aspect-ratio: 9/16;
+        /* Máscara suave: dissolve as bordas no fundo escuro */
+        mask-image: radial-gradient(ellipse 85% 80% at 50% 45%,
+          rgba(0,0,0,1)    0%,
+          rgba(0,0,0,0.90) 35%,
+          rgba(0,0,0,0.50) 60%,
+          rgba(0,0,0,0.08) 80%,
+          rgba(0,0,0,0)    100%
         );
-        -webkit-mask-image: radial-gradient(ellipse 75% 85% at center,
-          rgba(0,0,0,0.95) 0%,
-          rgba(0,0,0,0.85) 30%,
-          rgba(0,0,0,0.40) 55%,
-          rgba(0,0,0,0.05) 80%,
-          rgba(0,0,0,0)    95%
+        -webkit-mask-image: radial-gradient(ellipse 85% 80% at 50% 45%,
+          rgba(0,0,0,1)    0%,
+          rgba(0,0,0,0.90) 35%,
+          rgba(0,0,0,0.50) 60%,
+          rgba(0,0,0,0.08) 80%,
+          rgba(0,0,0,0)    100%
         );
       }
 
-      /* Glow imersivo, acompanha a imagem */
+      /* Glow acompanhando o vídeo */
       .product-glow {
-        top: 52%;
+        top: 58%;
         left: 50%;
-        width: 110vw;
-        max-width: 460px;
-        height: 110vw;
-        max-height: 460px;
+        width: 120vw;
+        max-width: 500px;
+        height: 120vw;
+        max-height: 500px;
         background: radial-gradient(circle at center,
-          rgba(38, 66, 52, 0.12) 0%,
-          rgba(183, 147, 88, 0.03) 45%,
+          rgba(38, 66, 52, 0.14) 0%,
+          rgba(183, 147, 88, 0.04) 45%,
           transparent 70%
         );
-        filter: blur(55px);
+        filter: blur(60px);
       }
 
       /* ── SCRIM INFERIOR: ponte tonal até a próxima seção ── */
       #hero-pin-wrapper::after {
-        height: 45vh;                 /* Controlado, evita esmagar a composição */
+        height: 40vh;
         background: linear-gradient(
           to top,
           #080f0a            0%,
@@ -1716,34 +1719,34 @@
         content: '';
         position: absolute;
         top: 0; left: 0; right: 0;
-        height: 160px;
+        height: 140px;
         background: linear-gradient(
           to bottom,
           rgba(5, 9, 6, 0.88) 0%,
-          rgba(5, 9, 6, 0.40) 45%,
+          rgba(5, 9, 6, 0.45) 45%,
           transparent         100%
         );
         z-index: 4;
         pointer-events: none;
       }
 
-      /* ── "DESCUBRA": Fechamento seguro ── */
+      /* ── "DESCUBRA": indicador de scroll na base ── */
       .hero-scroll {
         display: flex;
         position: absolute;
-        bottom: 2.2rem;               /* Levanta um pouco mais, foge da zona morta */
+        bottom: 1.8rem;
         left: 50%;
         right: auto;
-        opacity: 1 !important;        /* Força a visibilidade inicial */
+        opacity: 1 !important;
         color: rgba(255, 255, 255, 0.32);
         font-size: 0.38rem;
         letter-spacing: 0.42em;
         gap: 0.4rem;
         transform: translateX(-50%);
-        animation: none;              /* Sem sobressaltos, design sólido */
+        animation: none;
       }
 
-      /* Linha ainda mais delicada */
+      /* Linha delicada */
       .hero-scroll-line {
         height: 20px;
         background: linear-gradient(
@@ -2068,53 +2071,54 @@
 
       /* Título: impactante mesmo no SE */
       .hero-title {
-        font-size: clamp(3.2rem, 14vw, 4.2rem);
-        line-height: 0.91;
+        font-size: clamp(2.8rem, 13vw, 3.8rem);
+        line-height: 0.92;
         letter-spacing: -0.03em;
       }
 
       /* Divisória pós-headline: mesma aparência, margem menor */
-      .hero-title::after {
-        margin: 1.2rem auto;
+      .hero-title-sep {
+        margin: 1rem auto;
         width: 28px;
       }
 
-      /* Subtítulo: mais espaço respirável para separar do CTA */
+      /* Subtítulo: compacto para telas menores */
       .hero-sub {
-        font-size: 0.78rem;
-        max-width: 280px;
-        margin: 0 auto 3.2rem auto;
+        font-size: 0.75rem;
+        max-width: 240px;
+        margin: 0 auto 1.4rem auto;
         line-height: 1.6;
       }
 
-      /* Hero content: rebaixado para centralizar no viewport de 932px */
+      /* Hero content: centralizado, sem padding gigante */
       .hero-content {
-        padding-top: 13.5rem;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
+        padding-top: 3rem;
+        padding-bottom: 3.5rem;
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
       }
 
       /* CTA: mais compacto no SE */
       .hero-btn-primary {
-        padding: 1.05rem 2.6rem;
-        font-size: 0.62rem;
-        letter-spacing: 0.24em;
+        padding: 0.9rem 2.4rem;
+        font-size: 0.55rem;
+        letter-spacing: 0.22em;
       }
 
-      /* Imagem e Glow: rebaixados pacificamente, sem colidir com o botão */
+      /* Vídeo: ajustado para telas compactas */
       #video-frame {
-        width: 76vw;
-        max-width: 280px;
-        top: 61.5%;
+        width: 95vw;
+        max-width: 380px;
+        top: 60%;
       }
 
       .product-glow {
-        top: 61.5%;
+        top: 60%;
       }
 
-      /* Indicador Descubra: elevado para preencher a base conectando a cena */
+      /* Indicador Descubra */
       .hero-scroll {
-        bottom: 5.5rem;
+        bottom: 1.5rem;
       }
 
 
