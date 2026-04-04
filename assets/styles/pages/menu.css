@@ -1659,42 +1659,47 @@
         font-size: 0.55rem !important;
       }
 
-      /* ── VIDEO FRAME: grande, proeminente, abaixo do texto ── */
+      /* ── VIDEO FRAME: grande, proeminente, abaixo do texto ──
+         NOTA: GSAP controla o inline transform, mantendo translate(-50%, -50%)
+         do CSS base. Por isso, o top precisa ser alto o suficiente
+         para compensar o -50% da altura do elemento (≈346px em 390px width).
+         Com top:95%, centro do elemento fica em ~95%*h - 50%*elemH,
+         posicionando o topo visível do copo abaixo dos CTAs.
+      ── */
       #video-frame {
         width: 100vw;                /* Largura total */
         max-width: 460px;
-        top: auto;                   /* Remove top positioning */
-        bottom: -5%;                 /* Ancora na base da hero */
+        top: 105%;                   /* Well below the CTA buttons */
         left: 50%;
-        transform: translateX(-50%); /* Só centra no eixo X, sem -50% no Y */
+        /* transform é controlado por GSAP (inline), não override aqui */
         opacity: 0.90;              /* Bem visível */
         will-change: auto;
         aspect-ratio: 9/16;
-        /* Máscara suave: dissolve as bordas no fundo escuro */
-        mask-image: radial-gradient(ellipse 90% 65% at 50% 25%,
+        /* Máscara: dissolve na parte superior (topo do copo visível) e inferior */
+        mask-image: radial-gradient(ellipse 90% 55% at 50% 20%,
           rgba(0,0,0,1)    0%,
-          rgba(0,0,0,0.92) 25%,
-          rgba(0,0,0,0.55) 48%,
-          rgba(0,0,0,0.10) 70%,
-          rgba(0,0,0,0)    90%
+          rgba(0,0,0,0.92) 20%,
+          rgba(0,0,0,0.55) 40%,
+          rgba(0,0,0,0.10) 60%,
+          rgba(0,0,0,0)    80%
         );
-        -webkit-mask-image: radial-gradient(ellipse 90% 65% at 50% 25%,
+        -webkit-mask-image: radial-gradient(ellipse 90% 55% at 50% 20%,
           rgba(0,0,0,1)    0%,
-          rgba(0,0,0,0.92) 25%,
-          rgba(0,0,0,0.55) 48%,
-          rgba(0,0,0,0.10) 70%,
-          rgba(0,0,0,0)    90%
+          rgba(0,0,0,0.92) 20%,
+          rgba(0,0,0,0.55) 40%,
+          rgba(0,0,0,0.10) 60%,
+          rgba(0,0,0,0)    80%
         );
       }
 
       /* Hover fix for mobile — base CSS has translate(-50%, -50%) on hover */
       #video-frame:hover {
-        transform: translateX(-50%) !important;
+        transform: translate(-50%, -50%) !important;
       }
 
       /* Glow acompanhando o vídeo */
       .product-glow {
-        top: 70%;
+        top: 105%;
         left: 50%;
         width: 120vw;
         max-width: 500px;
@@ -2116,11 +2121,11 @@
       #video-frame {
         width: 95vw;
         max-width: 380px;
-        top: 72%;
+        top: 98%;
       }
 
       .product-glow {
-        top: 72%;
+        top: 98%;
       }
 
       /* Indicador Descubra */
