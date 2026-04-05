@@ -356,8 +356,8 @@
       function preloadFrames() {
         return new Promise((resolve) => {
           let loaded = 0;
-          // On mobile: preload only 80 frames (~50% less memory). Desktop gets all 150.
-          const total = IS_MOBILE ? Math.min(80, CONFIG.TOTAL_FRAMES) : CONFIG.TOTAL_FRAMES;
+          // On mobile: preload 110 frames for complete page-turn animation. Desktop gets all 150.
+          const total = IS_MOBILE ? Math.min(110, CONFIG.TOTAL_FRAMES) : CONFIG.TOTAL_FRAMES;
           frames = new Array(total);
           for (let i = 0; i < total; i++) {
             const img = new Image();
@@ -638,7 +638,7 @@
             const totalLoaded = frames.length;
             // On mobile, skip the first ~10% of frames so the video content
             // starts "further ahead" without delaying the scroll trigger
-            const MOBILE_FRAME_OFFSET = IS_MOBILE ? Math.floor(totalLoaded * 0.25) : 0;
+            const MOBILE_FRAME_OFFSET = IS_MOBILE ? Math.floor(totalLoaded * 0.38) : 0;
             const mappedProgress = MOBILE_FRAME_OFFSET + self.progress * (totalLoaded - MOBILE_FRAME_OFFSET);
             const idx = Math.min(
               Math.floor(mappedProgress),
