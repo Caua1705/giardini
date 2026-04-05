@@ -403,7 +403,7 @@
         const viewport = document.getElementById('hero-viewport');
         const wrapper = document.getElementById('hero-pin-wrapper');
         /* Altura virtual do scroll — shorter on mobile for immediate responsiveness */
-        const mobileScrollVH = 380;
+        const mobileScrollVH = 200;
         const scrollVH = IS_MOBILE ? mobileScrollVH : CONFIG.scrollVH;
         const scrollPx = window.innerHeight * (scrollVH / 100);
         wrapper.style.height = `${window.innerHeight + scrollPx}px`;
