@@ -626,10 +626,15 @@
         ────────────────────────────────────────────────────────────── */
         ScrollTrigger.create({
           trigger: wrapper,
-          start: 'top top',
-          end: () => `+=${scrollPx}`,
+          start: IS_MOBILE ? () => `top+=${scrollPx * 0.12} top` : 'top top',
+          end: () => `+=${IS_MOBILE ? scrollPx * 0.95 : scrollPx}`,
           scrub: IS_MOBILE ? 0.3 : CONFIG.scrub,
           onUpdate: (self) => {
+            // Sync canvas size to the expanding video-frame every tick
+            // so the canvas covers the full frame area (prevents black gap)
+            if (syncCanvasSize()) {
+              currentFrameIndex = -1; // force redraw after resize
+            }
             const totalLoaded = frames.length;
             const idx = Math.min(
               Math.floor(self.progress * totalLoaded),
@@ -687,8 +692,8 @@
               ease: 'none',
               scrollTrigger: {
                 trigger: wrapper,
-                start: 'top top',
-                end: () => `+=${scrollPx * 0.7}`,
+                start: () => `top+=${scrollPx * 0.12} top`,
+                end: () => `+=${scrollPx * 0.95}`,
                 scrub: 0.3,
                 onLeave: () => gsap.set(frame, mobileFullscreen),
               }
