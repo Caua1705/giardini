@@ -24,6 +24,16 @@
   display: none !important;
 }
 
+/* ── SECTION 2 DUAL COPY: desktop/mobile text toggle ── */
+/* Mobile text hidden by default (desktop shows full copy) */
+.s2-mobile-text {
+  display: none;
+}
+@media (max-width: 767px) {
+  .s2-desktop-text { display: none !important; }
+  .s2-mobile-text { display: inline !important; }
+}
+
 /* ══════════════════════════════════════════════════════════════════════
    TRUE MOBILE: 767px Scope
    ══════════════════════════════════════════════════════════════════════
