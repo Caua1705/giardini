@@ -4357,6 +4357,11 @@
         font-size: 1.6rem !important;
       }
 
+      /* Hide "Reservar" CTA on mobile nav */
+      .nav-cta {
+        display: none !important;
+      }
+
       /* ═══════════════════════════════════════════════════════════════════
          3. HERO — Centered cinematic composition
          ═══════════════════════════════════════════════════════════════════
@@ -4371,31 +4376,32 @@
         max-height: 900px !important;
       }
 
-      /* Hero content: true vertical centering */
+      /* Hero content: pushed higher for prominence */
       .hero-content {
-        justify-content: center !important;
+        justify-content: flex-start !important;
         align-items: center !important;
         text-align: center !important;
-        padding: 56px 1.5rem 3rem !important; /* navbar height top, breathing room bottom */
+        padding: 80px 1.5rem 2rem !important; /* push content closer to top */
         gap: 0 !important;
       }
 
-      /* Kicker */
+      /* Kicker — moved higher with more breathing */
       .hero-kicker {
-        font-size: 0.42rem !important;
-        letter-spacing: 0.42em !important;
+        font-size: 0.48rem !important;
+        letter-spacing: 0.38em !important;
         gap: 0.6rem !important;
-        margin-bottom: 0.85rem !important;
-        color: rgba(183, 147, 88, 0.65) !important;
+        margin-bottom: 1rem !important;
+        margin-top: 0.5rem !important;
+        color: rgba(183, 147, 88, 0.72) !important;
       }
 
       .kicker-line {
         width: 22px !important;
       }
 
-      /* Title: dramatic but compact */
+      /* Title: larger for impact */
       .hero-title {
-        font-size: clamp(2.8rem, 11vw, 4rem) !important;
+        font-size: clamp(3.2rem, 12vw, 4.5rem) !important;
         line-height: 0.94 !important;
         letter-spacing: -0.03em !important;
         margin-bottom: 0 !important;
@@ -4410,13 +4416,13 @@
         margin: 1rem auto !important;
       }
 
-      /* Subtitle */
+      /* Subtitle — slightly larger */
       .hero-sub {
-        font-size: 0.78rem !important;
+        font-size: 0.85rem !important;
         line-height: 1.6 !important;
-        max-width: 260px !important;
-        margin: 0 auto 1.4rem auto !important;
-        color: rgba(210, 202, 185, 0.70) !important;
+        max-width: 280px !important;
+        margin: 0 auto 1.6rem auto !important;
+        color: rgba(210, 202, 185, 0.75) !important;
         letter-spacing: 0.01em !important;
       }
 
@@ -4441,33 +4447,35 @@
         color: rgba(210, 202, 185, 0.45) !important;
       }
 
-      /* Video frame: ambient behind text, vertically centered */
+      /* Video frame (cup): more visible, centered below text */
       #video-frame {
-        top: 55% !important;
+        top: 52% !important;
         left: 50% !important;
-        width: 70vw !important;
-        max-width: 320px !important;
-        opacity: 0.35 !important;
+        width: 75vw !important;
+        max-width: 340px !important;
+        opacity: 0.60 !important;
         z-index: 0 !important;
         mask-image: radial-gradient(ellipse at center,
-          rgba(0,0,0,0.8) 0%,
-          rgba(0,0,0,0.4) 40%,
-          transparent 70%
+          rgba(0,0,0,1) 0%,
+          rgba(0,0,0,0.7) 45%,
+          rgba(0,0,0,0.3) 65%,
+          transparent 80%
         ) !important;
         -webkit-mask-image: radial-gradient(ellipse at center,
-          rgba(0,0,0,0.8) 0%,
-          rgba(0,0,0,0.4) 40%,
-          transparent 70%
+          rgba(0,0,0,1) 0%,
+          rgba(0,0,0,0.7) 45%,
+          rgba(0,0,0,0.3) 65%,
+          transparent 80%
         ) !important;
       }
 
-      /* Text scrim: stronger for readability over video */
+      /* Text scrim: softer so cup shows through more */
       .hero-text-scrim {
         background: radial-gradient(
-          ellipse 100% 80% at 50% 50%,
-          rgba(4, 8, 5, 0.65) 0%,
-          rgba(4, 8, 5, 0.35) 50%,
-          transparent 80%
+          ellipse 100% 60% at 50% 35%,
+          rgba(4, 8, 5, 0.55) 0%,
+          rgba(4, 8, 5, 0.25) 50%,
+          transparent 75%
         ) !important;
       }
 
@@ -4960,12 +4968,12 @@
     @media screen and (max-width: 430px) {
 
       .hero-title {
-        font-size: clamp(2.6rem, 12vw, 3.6rem) !important;
+        font-size: clamp(3rem, 13vw, 4rem) !important;
       }
 
       .hero-sub {
-        font-size: 0.74rem !important;
-        max-width: 240px !important;
+        font-size: 0.80rem !important;
+        max-width: 260px !important;
       }
 
       .hero-btn-primary {
@@ -4974,9 +4982,9 @@
       }
 
       #video-frame {
-        width: 65vw !important;
-        max-width: 280px !important;
-        opacity: 0.30 !important;
+        width: 70vw !important;
+        max-width: 300px !important;
+        opacity: 0.55 !important;
       }
 
       .cat-btn {
@@ -5009,11 +5017,11 @@
     /* ═══════ TINY PHONES (320–374px) ═══════ */
     @media screen and (max-width: 374px) {
       .hero-title {
-        font-size: clamp(2.4rem, 13vw, 3.2rem) !important;
+        font-size: clamp(2.8rem, 14vw, 3.5rem) !important;
       }
 
       .hero-kicker {
-        font-size: 0.38rem !important;
+        font-size: 0.42rem !important;
       }
 
       .menu-main-wrapper {
@@ -5053,8 +5061,8 @@
       }
 
       #video-frame {
-        top: 58% !important;
-        opacity: 0.32 !important;
+        top: 55% !important;
+        opacity: 0.52 !important;
       }
 
       .hero-scroll {
