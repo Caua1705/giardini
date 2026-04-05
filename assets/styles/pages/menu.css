@@ -19,6 +19,13 @@
       scroll-behavior: smooth;
     }
 
+    /* On mobile, disable smooth scroll so GSAP pin engages instantly on first swipe */
+    @media screen and (max-width: 767px) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
     body {
       background: #080f0a;
       color: #e8e0d0;

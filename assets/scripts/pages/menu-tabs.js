@@ -1,8 +1,10 @@
 
     gsap.registerPlugin(ScrollTrigger);
 
-    /* ── Native smooth scroll behavior ── */
-    document.documentElement.style.scrollBehavior = 'smooth';
+    /* ── Native smooth scroll behavior (desktop only — interferes with GSAP pin on mobile) ── */
+    if (window.innerWidth > 767) {
+      document.documentElement.style.scrollBehavior = 'smooth';
+    }
 
     /* ── CANVAS FRAME VARS ── */
     const isMobileDevice = window.innerWidth <= 767;
