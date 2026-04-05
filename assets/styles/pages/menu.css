@@ -4309,4 +4309,755 @@
       .section-title {
         font-size: clamp(1.2rem, 4.5vw, 1.5rem) !important;
       }
+    }
+
+    /* ══════════════════════════════════════════════════════════════════════
+       ██████  DEFINITIVE MOBILE POLISH — v8 «Luxury in Hand»  ██████
+       ──────────────────────────────────────────────────────────────────────
+       Scope: 320px → 767px ONLY
+       Desktop / Tablet ≥768px: UNTOUCHED
+       Priority: placed LAST in cascade to override all earlier blocks
+       ══════════════════════════════════════════════════════════════════════ */
+    @media screen and (max-width: 767px) {
+
+      /* ═══════════════════════════════════════════════════════════════════
+         1. LATERAL VIGNETTE — Remove blue glow edges on mobile
+         ═══════════════════════════════════════════════════════════════════ */
+      #lateral-vignette {
+        display: none !important;
+      }
+
+      /* ═══════════════════════════════════════════════════════════════════
+         2. NAVBAR — Balanced, compact, premium
+         ═══════════════════════════════════════════════════════════════════ */
+      #navbar {
+        padding: 0.75rem 1.25rem !important;
+        height: 56px !important;
+        display: flex !important;
+        align-items: center !important;
+        background-color: rgba(8, 15, 10, 0.98) !important;
+        border-bottom: 1px solid rgba(183, 147, 88, 0.08) !important;
+      }
+
+      #navbar.is-scrolled {
+        padding: 0.75rem 1.25rem !important;
+        height: 56px !important;
+      }
+
+      #navbar .nav-logo {
+        font-size: 1.25rem !important;
+      }
+
+      .nav-hamburger {
+        width: 44px !important;
+        height: 44px !important;
+      }
+
+      .nav-hamburger iconify-icon {
+        font-size: 1.6rem !important;
+      }
+
+      /* ═══════════════════════════════════════════════════════════════════
+         3. HERO — Centered cinematic composition
+         ═══════════════════════════════════════════════════════════════════
+         Strategy: vertically center text+CTA in the viewport.
+         Video frame sits behind text as ambient, not pushed offscreen.
+         No dead zones, no awkward gaps.
+      */
+
+      #hero-viewport {
+        height: 100svh !important;
+        min-height: 580px !important;
+        max-height: 900px !important;
+      }
+
+      /* Hero content: true vertical centering */
+      .hero-content {
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        padding: 56px 1.5rem 3rem !important; /* navbar height top, breathing room bottom */
+        gap: 0 !important;
+      }
+
+      /* Kicker */
+      .hero-kicker {
+        font-size: 0.42rem !important;
+        letter-spacing: 0.42em !important;
+        gap: 0.6rem !important;
+        margin-bottom: 0.85rem !important;
+        color: rgba(183, 147, 88, 0.65) !important;
+      }
+
+      .kicker-line {
+        width: 22px !important;
+      }
+
+      /* Title: dramatic but compact */
+      .hero-title {
+        font-size: clamp(2.8rem, 11vw, 4rem) !important;
+        line-height: 0.94 !important;
+        letter-spacing: -0.03em !important;
+        margin-bottom: 0 !important;
+      }
+
+      /* Gold separator */
+      .hero-title-sep {
+        display: block !important;
+        width: 28px !important;
+        height: 1px !important;
+        background: rgba(183, 147, 88, 0.40) !important;
+        margin: 1rem auto !important;
+      }
+
+      /* Subtitle */
+      .hero-sub {
+        font-size: 0.78rem !important;
+        line-height: 1.6 !important;
+        max-width: 260px !important;
+        margin: 0 auto 1.4rem auto !important;
+        color: rgba(210, 202, 185, 0.70) !important;
+        letter-spacing: 0.01em !important;
+      }
+
+      /* CTA stack */
+      .hero-cta-wrap {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 0.6rem !important;
+        width: 100% !important;
+        margin-bottom: 0 !important;
+      }
+
+      .hero-btn-primary {
+        padding: 0.85rem 2.4rem !important;
+        font-size: 0.54rem !important;
+        letter-spacing: 0.22em !important;
+      }
+
+      .hero-btn-secondary {
+        font-size: 0.50rem !important;
+        padding: 0.7rem 0.5rem !important;
+        color: rgba(210, 202, 185, 0.45) !important;
+      }
+
+      /* Video frame: ambient behind text, vertically centered */
+      #video-frame {
+        top: 55% !important;
+        left: 50% !important;
+        width: 70vw !important;
+        max-width: 320px !important;
+        opacity: 0.35 !important;
+        z-index: 0 !important;
+        mask-image: radial-gradient(ellipse at center,
+          rgba(0,0,0,0.8) 0%,
+          rgba(0,0,0,0.4) 40%,
+          transparent 70%
+        ) !important;
+        -webkit-mask-image: radial-gradient(ellipse at center,
+          rgba(0,0,0,0.8) 0%,
+          rgba(0,0,0,0.4) 40%,
+          transparent 70%
+        ) !important;
+      }
+
+      /* Text scrim: stronger for readability over video */
+      .hero-text-scrim {
+        background: radial-gradient(
+          ellipse 100% 80% at 50% 50%,
+          rgba(4, 8, 5, 0.65) 0%,
+          rgba(4, 8, 5, 0.35) 50%,
+          transparent 80%
+        ) !important;
+      }
+
+      /* Video overlay: softer on mobile */
+      .hero-video-overlay {
+        background: linear-gradient(
+          to bottom,
+          rgba(8, 15, 10, 0.90) 0%,
+          rgba(8, 15, 10, 0.50) 25%,
+          transparent 45%,
+          transparent 55%,
+          rgba(8, 15, 10, 0.50) 75%,
+          rgba(8, 15, 10, 0.90) 100%
+        ) !important;
+      }
+
+      /* Scroll indicator: positioned at bottom */
+      .hero-scroll {
+        bottom: 1.5rem !important;
+        font-size: 0.36rem !important;
+        letter-spacing: 0.40em !important;
+        color: rgba(255, 255, 255, 0.28) !important;
+        gap: 0.35rem !important;
+      }
+
+      .hero-scroll-line {
+        height: 18px !important;
+      }
+
+      /* Hero bottom gradient: shorter for tighter transition to menu */
+      #hero-pin-wrapper::after {
+        height: 25vh !important;
+        background: linear-gradient(
+          to top,
+          #080f0a 0%,
+          rgba(8, 15, 10, 0.95) 20%,
+          rgba(8, 15, 10, 0.50) 50%,
+          transparent 100%
+        ) !important;
+      }
+
+      /* Bridge: hidden on mobile */
+      #hero-bridge {
+        display: none !important;
+      }
+
+      /* ═══════════════════════════════════════════════════════════════════
+         4. CATEGORY NAV — Horizontal scroll rail, no wrapping
+         ═══════════════════════════════════════════════════════════════════ */
+      #cat-nav {
+        top: 56px !important;  /* match mobile navbar height */
+        margin-bottom: 1.5rem !important;
+        padding: 0 !important;
+        overflow: visible !important;
+      }
+
+      #cat-nav.is-pinned {
+        top: 56px !important;
+      }
+
+      /* ID selector for maximum specificity */
+      #cat-nav-inner,
+      .cat-nav-inner {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        justify-content: flex-start !important;
+        padding: 0.65rem 1.25rem !important;
+        margin: 0 !important;
+        gap: 0.15rem !important;
+        width: 100% !important;
+        /* Edge fade for scroll hint */
+        mask-image: linear-gradient(
+          to right,
+          transparent 0%,
+          black 4%,
+          black 96%,
+          transparent 100%
+        ) !important;
+        -webkit-mask-image: linear-gradient(
+          to right,
+          transparent 0%,
+          black 4%,
+          black 96%,
+          transparent 100%
+        ) !important;
+      }
+
+      #cat-nav-inner::-webkit-scrollbar,
+      .cat-nav-inner::-webkit-scrollbar {
+        display: none !important;
+      }
+
+      #cat-nav.is-pinned #cat-nav-inner,
+      #cat-nav.is-pinned .cat-nav-inner {
+        background: rgba(8, 15, 10, 0.97) !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border-radius: 0 !important;
+        box-shadow: 0 1px 0 rgba(183, 147, 88, 0.06) !important;
+      }
+
+      .cat-btn {
+        flex-shrink: 0 !important;
+        white-space: nowrap !important;
+        font-size: 0.58rem !important;
+        letter-spacing: 0.20em !important;
+        padding: 0.6rem 1.1rem !important;
+        min-height: 40px !important;
+      }
+
+      .cat-btn.active {
+        color: rgba(183, 147, 88, 0.95) !important;
+        letter-spacing: 0.22em !important;
+      }
+
+      .cat-btn.active::before {
+        background: rgba(183, 147, 88, 0.75) !important;
+        background-size: 100% 100% !important;
+      }
+
+      /* ═══════════════════════════════════════════════════════════════════
+         5. MENU SECTIONS — Refined vertical rhythm
+         ═══════════════════════════════════════════════════════════════════ */
+      .menu-main-wrapper {
+        margin-top: 0 !important;
+        padding: 0 1.25rem !important;
+      }
+
+      #menu-body {
+        padding-bottom: 2.5rem !important;
+      }
+
+      .menu-section {
+        padding: 0 0 1rem 0 !important;
+      }
+
+      /* Section header: tighter, cleaner */
+      .section-header {
+        margin-bottom: 1.25rem !important;
+        padding-bottom: 0.85rem !important;
+        gap: 0 !important;
+      }
+
+      .section-kicker {
+        font-size: 0.44rem !important;
+        letter-spacing: 0.32em !important;
+        margin-bottom: 0.3rem !important;
+        color: rgba(183, 147, 88, 0.55) !important;
+      }
+
+      .section-title {
+        font-size: clamp(1.25rem, 5vw, 1.65rem) !important;
+        line-height: 1.08 !important;
+      }
+
+      /* Ghost count: hidden on mobile */
+      .section-count {
+        display: none !important;
+      }
+
+      /* Section watermark: hidden on mobile */
+      .section-watermark {
+        display: none !important;
+      }
+
+      /* ═══════════════════════════════════════════════════════════════════
+         6. MENU ITEMS — Balanced density, readable, elegant
+         ═══════════════════════════════════════════════════════════════════ */
+      .menu-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0 !important;
+      }
+
+      .menu-item {
+        grid-template-columns: 1fr auto !important;
+        gap: 0.25rem 1rem !important;
+        padding: 1.1rem 0 !important;
+        padding-left: 0 !important;
+        margin-bottom: 0 !important;
+        border-bottom: 1px solid rgba(183, 147, 88, 0.06) !important;
+        border-radius: 0 !important;
+      }
+
+      .menu-item:last-child {
+        border-bottom: none !important;
+        padding-bottom: 0.5rem !important;
+      }
+
+      .item-name {
+        font-size: clamp(1rem, 2.8vw, 1.12rem) !important;
+        line-height: 1.25 !important;
+        letter-spacing: -0.005em !important;
+      }
+
+      .item-desc {
+        font-size: clamp(0.72rem, 2vw, 0.80rem) !important;
+        line-height: 1.45 !important;
+        margin-top: 0.2rem !important;
+        color: rgba(228, 221, 208, 0.40) !important;
+      }
+
+      .item-price {
+        font-size: clamp(1rem, 2.8vw, 1.12rem) !important;
+        padding-right: 0.1rem !important;
+        padding-top: 0 !important;
+        color: rgba(183, 147, 88, 0.88) !important;
+      }
+
+      .item-badges {
+        margin-top: 0.25rem !important;
+        gap: 0.2rem !important;
+      }
+
+      .badge {
+        font-size: 0.36rem !important;
+        padding: 0.1rem 0.4rem !important;
+      }
+
+      /* Disable hover effects on mobile */
+      .menu-item:hover .item-name {
+        transform: none !important;
+        color: rgba(236, 230, 218, 0.95) !important;
+      }
+
+      .menu-item::before {
+        display: none !important;
+      }
+
+      /* ═══════════════════════════════════════════════════════════════════
+         7. DUAL-PRICE ITEMS (Tapioca/Cuscuz)
+         ═══════════════════════════════════════════════════════════════════ */
+      .menu-item[style*="grid-template-columns:1fr auto auto"] {
+        gap: 0.25rem 0.45rem !important;
+      }
+
+      div[style*="grid-template-columns:1fr auto auto"] span[style*="font-size:0.55rem"] {
+        font-size: 0.42rem !important;
+        letter-spacing: 0.12em !important;
+      }
+
+      .menu-item[style*="grid-template-columns"] .item-price[style*="min-width:4.5rem"] {
+        min-width: 3rem !important;
+      }
+
+      /* ═══════════════════════════════════════════════════════════════════
+         8. PDF SECTION — Intentional, compact, premium
+         ═══════════════════════════════════════════════════════════════════ */
+      #pdf-section {
+        padding: 3.5rem 1.5rem 4rem !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+      }
+
+      .pdf-label {
+        font-size: 0.45rem !important;
+        letter-spacing: 0.38em !important;
+        margin-bottom: 1.25rem !important;
+      }
+
+      .pdf-label::before,
+      .pdf-label::after {
+        width: 18px !important;
+      }
+
+      .pdf-heading {
+        font-size: clamp(1.5rem, 6vw, 2rem) !important;
+        line-height: 1.08 !important;
+        letter-spacing: -0.03em !important;
+        margin-bottom: 1rem !important;
+      }
+
+      #pdf-section .pdf-heading::before {
+        font-size: 0.5rem !important;
+        margin-bottom: 0.8rem !important;
+      }
+
+      .pdf-sub {
+        font-size: 0.78rem !important;
+        line-height: 1.55 !important;
+        margin-bottom: 2rem !important;
+        max-width: 260px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        color: rgba(210, 202, 185, 0.55) !important;
+      }
+
+      .pdf-btn {
+        padding: 0.9rem 2.5rem !important;
+        font-size: 0.55rem !important;
+        letter-spacing: 0.20em !important;
+        min-height: 46px !important;
+      }
+
+      /* ═══════════════════════════════════════════════════════════════════
+         9. FOOTER — Centered, complete, restrained
+         ═══════════════════════════════════════════════════════════════════ */
+      footer {
+        padding: 2.5rem 1.5rem 2rem !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 1rem !important;
+      }
+
+      .footer-logo {
+        font-size: 1.45rem !important;
+        margin-bottom: 0.25rem !important;
+        /* Remove sweep animation, solid warm */
+        background: none !important;
+        -webkit-background-clip: initial !important;
+        background-clip: initial !important;
+        -webkit-text-fill-color: rgba(228, 221, 208, 0.75) !important;
+        animation: none !important;
+      }
+
+      .footer-links {
+        gap: 1rem !important;
+      }
+
+      .footer-link {
+        width: 2.75rem !important;
+        height: 2.75rem !important;
+        border: 1px solid rgba(183, 147, 88, 0.12) !important;
+        background: rgba(183, 147, 88, 0.05) !important;
+        color: rgba(183, 147, 88, 0.55) !important;
+      }
+
+      .footer-copy {
+        font-size: 0.48rem !important;
+        letter-spacing: 0.14em !important;
+        color: rgba(228, 221, 208, 0.20) !important;
+        margin-top: 0.25rem !important;
+      }
+
+      /* ═══════════════════════════════════════════════════════════════════
+         10. CONTRAST & VISIBILITY REFINEMENTS
+         ═══════════════════════════════════════════════════════════════════ */
+
+      /* Mobile menu links: warm white for dark bg */
+      .mobile-link {
+        color: rgba(228, 221, 208, 0.85) !important;
+      }
+
+      .mobile-close {
+        color: rgba(228, 221, 208, 0.60) !important;
+      }
+
+      /* Loader: solid dark bg */
+      .loader {
+        background: #060a06 !important;
+      }
+
+      /* ═══════════════════════════════════════════════════════════════════
+         11. PERFORMANCE — Eliminate all GPU-heavy decorations
+         ═══════════════════════════════════════════════════════════════════ */
+
+      /* Noise: static, minimal */
+      .noise-overlay {
+        animation: none !important;
+        opacity: 0.08 !important;
+      }
+
+      /* Body textures: simplified */
+      body::before {
+        animation: none !important;
+        opacity: 0.25 !important;
+      }
+
+      body::after {
+        display: none !important;
+      }
+
+      /* Menu wrapper paper texture */
+      .menu-main-wrapper::before {
+        display: none !important;
+      }
+
+      /* Particles & orbs: killed */
+      #particle-canvas,
+      #menu-orb-1,
+      #menu-orb-2 {
+        display: none !important;
+      }
+
+      /* Custom cursor: not on touch */
+      #custom-cursor,
+      #custom-cursor-ring {
+        display: none !important;
+      }
+
+      /* Simplify reveals */
+      .reveal {
+        transform: translateY(8px) !important;
+        transition-duration: 0.3s !important;
+      }
+
+      .menu-grid .reveal:nth-child(n) {
+        transition-delay: 0s !important;
+      }
+
+      /* Section animation: simple fade only */
+      .menu-section.is-active {
+        animation: mobileMenuSectionFade 0.3s ease both !important;
+      }
+
+      /* Strip clip-path from items */
+      .menu-item.reveal,
+      .menu-item.reveal.is-visible {
+        clip-path: none !important;
+      }
+
+      /* No body slide on item reveal */
+      .menu-item.reveal.is-visible .item-body {
+        animation: none !important;
+      }
+
+      /* Section header shimmer: static */
+      .section-header::after {
+        animation: none !important;
+      }
+
+      /* Cat active shimmer/pulse: static */
+      .cat-btn.active::before {
+        animation: none !important;
+      }
+
+      .cat-btn.active::after {
+        animation: none !important;
+      }
+
+      /* Strip GSAP blur filters */
+      #el-kicker, #el-h1a, #el-h1b, #el-h1-sep,
+      #el-body, #el-cta, #el-scroll {
+        filter: none !important;
+        -webkit-filter: none !important;
+      }
+
+      /* Nav logo: no glow breathing */
+      .nav-logo {
+        animation: none !important;
+        text-shadow: none !important;
+      }
+
+      /* Hero scroll: no float */
+      .hero-scroll {
+        animation: none !important;
+      }
+
+      .hero-scroll-line::after {
+        display: none !important;
+      }
+
+      /* Kicker lines: instant */
+      .kicker-line {
+        animation: none !important;
+        opacity: 1 !important;
+      }
+
+      /* Section kicker: instant */
+      .section-kicker {
+        animation: none !important;
+        opacity: 1 !important;
+      }
+
+      .section-header.is-visible .section-kicker {
+        animation: none !important;
+        opacity: 1 !important;
+      }
+
+      /* Section title: solid color, no sweep */
+      .section-title {
+        background: none !important;
+        -webkit-text-fill-color: rgba(236, 230, 218, 0.95) !important;
+        animation: none !important;
+      }
+
+      .section-title em {
+        -webkit-text-fill-color: rgba(183, 147, 88, 0.78) !important;
+      }
+    }
+
+    /* ═══════ COMPACT PHONES (320–430px) — micro-adjustments ═══════ */
+    @media screen and (max-width: 430px) {
+
+      .hero-title {
+        font-size: clamp(2.6rem, 12vw, 3.6rem) !important;
+      }
+
+      .hero-sub {
+        font-size: 0.74rem !important;
+        max-width: 240px !important;
+      }
+
+      .hero-btn-primary {
+        padding: 0.8rem 2.2rem !important;
+        font-size: 0.52rem !important;
+      }
+
+      #video-frame {
+        width: 65vw !important;
+        max-width: 280px !important;
+        opacity: 0.30 !important;
+      }
+
+      .cat-btn {
+        font-size: 0.54rem !important;
+        letter-spacing: 0.18em !important;
+        padding: 0.55rem 0.9rem !important;
+      }
+
+      .item-name {
+        font-size: clamp(0.95rem, 2.6vw, 1.05rem) !important;
+      }
+
+      .item-price {
+        font-size: clamp(0.95rem, 2.6vw, 1.05rem) !important;
+      }
+
+      .menu-main-wrapper {
+        padding: 0 1rem !important;
+      }
+
+      .section-title {
+        font-size: clamp(1.15rem, 4.5vw, 1.45rem) !important;
+      }
+
+      footer {
+        padding: 2rem 1.25rem 1.5rem !important;
+      }
+    }
+
+    /* ═══════ TINY PHONES (320–374px) ═══════ */
+    @media screen and (max-width: 374px) {
+      .hero-title {
+        font-size: clamp(2.4rem, 13vw, 3.2rem) !important;
+      }
+
+      .hero-kicker {
+        font-size: 0.38rem !important;
+      }
+
+      .menu-main-wrapper {
+        padding: 0 0.85rem !important;
+      }
+
+      .cat-btn {
+        font-size: 0.50rem !important;
+        padding: 0.5rem 0.75rem !important;
+      }
+
+      .item-name {
+        font-size: 0.92rem !important;
+      }
+
+      .item-price {
+        font-size: 0.92rem !important;
+      }
+
+      .item-desc {
+        font-size: 0.70rem !important;
+      }
+
+      .pdf-heading {
+        font-size: clamp(1.35rem, 5.5vw, 1.8rem) !important;
+      }
+
+      .section-title {
+        font-size: clamp(1.1rem, 4.2vw, 1.35rem) !important;
+      }
+    }
+
+    /* ═══════ TALL PHONES (iPhone Pro Max, etc) ═══════ */
+    @media screen and (max-width: 430px) and (min-height: 850px) {
+      .hero-content {
+        padding-top: 80px !important; /* More breathing room on tall phones */
+      }
+
+      #video-frame {
+        top: 58% !important;
+        opacity: 0.32 !important;
+      }
+
+      .hero-scroll {
+        bottom: 2rem !important;
+      }
     }
