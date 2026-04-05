@@ -403,7 +403,7 @@
         const viewport = document.getElementById('hero-viewport');
         const wrapper = document.getElementById('hero-pin-wrapper');
         /* Altura virtual do scroll — shorter on mobile for immediate responsiveness */
-        const mobileScrollVH = 250;
+        const mobileScrollVH = 380;
         const scrollVH = IS_MOBILE ? mobileScrollVH : CONFIG.scrollVH;
         const scrollPx = window.innerHeight * (scrollVH / 100);
         wrapper.style.height = `${window.innerHeight + scrollPx}px`;
@@ -638,7 +638,7 @@
             const totalLoaded = frames.length;
             // On mobile, skip the first ~10% of frames so the video content
             // starts "further ahead" without delaying the scroll trigger
-            const MOBILE_FRAME_OFFSET = IS_MOBILE ? Math.floor(totalLoaded * 0.10) : 0;
+            const MOBILE_FRAME_OFFSET = IS_MOBILE ? Math.floor(totalLoaded * 0.25) : 0;
             const mappedProgress = MOBILE_FRAME_OFFSET + self.progress * (totalLoaded - MOBILE_FRAME_OFFSET);
             const idx = Math.min(
               Math.floor(mappedProgress),
