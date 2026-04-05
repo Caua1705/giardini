@@ -315,6 +315,13 @@
     padding: clamp(4rem, 11vw, 5.5rem) 0 clamp(2.5rem, 7vw, 3.5rem) !important;
     border-radius: 0 !important;
     margin-top: 0 !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+  }
+
+  /* Remove rounded clip container on mobile — it creates a dark gap */
+  #featured > div[style*="border-radius:40px"] {
+    border-radius: 0 !important;
   }
 
   /* Main container: fluid padding */
