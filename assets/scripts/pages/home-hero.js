@@ -434,7 +434,7 @@
               position: 'absolute',
               left: '50%',
               xPercent: -50,
-              top: '62%',
+              top: '66%',
               yPercent: -50,
               width: '82%',
               maxWidth: 340,
