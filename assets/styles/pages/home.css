@@ -203,9 +203,15 @@
     align-items: center !important;
   }
 
-  /* Explore indicator: clean spacing */
+  /* Explore indicator: positioned below the video at viewport bottom */
   .hero-scroll-wrapper {
-    padding: 0.5rem 0 1.5rem !important;
+    position: absolute !important;
+    bottom: 1rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 50 !important;
+    padding: 0 !important;
+    pointer-events: none;
   }
 
   /* ═════════════════════════════════════════════════════════════════
