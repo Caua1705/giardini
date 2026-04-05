@@ -467,7 +467,7 @@
 
   /* Fade out + transition bridge */
   .s3-fade-out {
-    height: 2rem !important;
+    display: none !important;
   }
 
   .feat-reveal {
