@@ -4373,8 +4373,8 @@
          3. HERO — Centered cinematic composition
          ═══════════════════════════════════════════════════════════════════
          Strategy: vertically center text+CTA in the viewport.
-         Video frame sits behind text as ambient, not pushed offscreen.
-         No dead zones, no awkward gaps.
+         Video frame overlaps behind CTA area as the visual anchor.
+         Tight vertical rhythm, no dead zones.
       */
 
       #hero-viewport {
@@ -4383,133 +4383,133 @@
         max-height: 900px !important;
       }
 
-      /* Hero content: pushed higher for prominence */
+      /* Hero content: true vertical centering */
       .hero-content {
-        justify-content: flex-start !important;
+        justify-content: center !important;
         align-items: center !important;
         text-align: center !important;
-        padding: 80px 1.5rem 2rem !important; /* push content closer to top */
+        padding: 48px 1.5rem 60px !important;
         gap: 0 !important;
       }
 
-      /* Kicker — moved higher with more breathing */
+      /* Kicker — refined micro-label */
       .hero-kicker {
-        font-size: 0.48rem !important;
+        font-size: 0.44rem !important;
         letter-spacing: 0.38em !important;
         gap: 0.6rem !important;
-        margin-bottom: 1rem !important;
-        margin-top: 0.5rem !important;
-        color: rgba(183, 147, 88, 0.72) !important;
+        margin-bottom: 0.85rem !important;
+        margin-top: 0 !important;
+        color: rgba(183, 147, 88, 0.68) !important;
       }
 
       .kicker-line {
-        width: 22px !important;
+        width: 20px !important;
       }
 
-      /* Title: larger for impact */
+      /* Title: bold, cinematic, reads at a glance */
       .hero-title {
-        font-size: clamp(3.2rem, 12vw, 4.5rem) !important;
-        line-height: 0.94 !important;
+        font-size: clamp(3rem, 11.5vw, 4.2rem) !important;
+        line-height: 0.95 !important;
         letter-spacing: -0.03em !important;
         margin-bottom: 0 !important;
       }
 
-      /* Gold separator */
+      /* Gold separator — delicate pause */
       .hero-title-sep {
         display: block !important;
-        width: 28px !important;
+        width: 26px !important;
         height: 1px !important;
-        background: rgba(183, 147, 88, 0.40) !important;
-        margin: 1rem auto !important;
+        background: rgba(183, 147, 88, 0.35) !important;
+        margin: 0.75rem auto 0.65rem !important;
       }
 
-      /* Subtitle — slightly larger */
+      /* Subtitle — clean 2-line max */
       .hero-sub {
-        font-size: 0.85rem !important;
-        line-height: 1.6 !important;
-        max-width: 280px !important;
-        margin: 0 auto 1.6rem auto !important;
-        color: rgba(210, 202, 185, 0.75) !important;
-        letter-spacing: 0.01em !important;
+        font-size: 0.82rem !important;
+        line-height: 1.55 !important;
+        max-width: 260px !important;
+        margin: 0 auto 1.3rem auto !important;
+        color: rgba(210, 202, 185, 0.72) !important;
+        letter-spacing: 0.005em !important;
       }
 
-      /* CTA stack */
+      /* CTA stack — tighter vertical rhythm */
       .hero-cta-wrap {
         flex-direction: column !important;
         align-items: center !important;
-        gap: 0.6rem !important;
+        gap: 0.5rem !important;
         width: 100% !important;
         margin-bottom: 0 !important;
       }
 
       .hero-btn-primary {
-        padding: 0.85rem 2.4rem !important;
-        font-size: 0.54rem !important;
+        padding: 0.82rem 2.4rem !important;
+        font-size: 0.52rem !important;
         letter-spacing: 0.22em !important;
       }
 
       .hero-btn-secondary {
-        font-size: 0.50rem !important;
-        padding: 0.7rem 0.5rem !important;
-        color: rgba(210, 202, 185, 0.45) !important;
+        font-size: 0.48rem !important;
+        padding: 0.65rem 0.5rem !important;
+        color: rgba(210, 202, 185, 0.42) !important;
       }
 
-      /* Video frame (cup): more visible, centered below text */
+      /* Video frame (cup): stronger visual presence, overlaps behind CTAs */
       #video-frame {
-        top: 52% !important;
+        top: 50% !important;
         left: 50% !important;
-        width: 75vw !important;
+        width: 78vw !important;
         max-width: 340px !important;
-        opacity: 0.60 !important;
+        opacity: 0.65 !important;
         z-index: 0 !important;
         mask-image: radial-gradient(ellipse at center,
           rgba(0,0,0,1) 0%,
-          rgba(0,0,0,0.7) 45%,
-          rgba(0,0,0,0.3) 65%,
-          transparent 80%
+          rgba(0,0,0,0.75) 40%,
+          rgba(0,0,0,0.35) 62%,
+          transparent 78%
         ) !important;
         -webkit-mask-image: radial-gradient(ellipse at center,
           rgba(0,0,0,1) 0%,
-          rgba(0,0,0,0.7) 45%,
-          rgba(0,0,0,0.3) 65%,
-          transparent 80%
+          rgba(0,0,0,0.75) 40%,
+          rgba(0,0,0,0.35) 62%,
+          transparent 78%
         ) !important;
       }
 
-      /* Text scrim: softer so cup shows through more */
+      /* Text scrim: positioned behind text, lets cup glow through below */
       .hero-text-scrim {
         background: radial-gradient(
-          ellipse 100% 60% at 50% 35%,
-          rgba(4, 8, 5, 0.55) 0%,
-          rgba(4, 8, 5, 0.25) 50%,
-          transparent 75%
+          ellipse 100% 55% at 50% 32%,
+          rgba(4, 8, 5, 0.52) 0%,
+          rgba(4, 8, 5, 0.22) 50%,
+          transparent 72%
         ) !important;
       }
 
-      /* Video overlay: softer on mobile */
+      /* Video overlay: soft cinematic vignette */
       .hero-video-overlay {
         background: linear-gradient(
           to bottom,
-          rgba(8, 15, 10, 0.90) 0%,
-          rgba(8, 15, 10, 0.50) 25%,
-          transparent 45%,
-          transparent 55%,
-          rgba(8, 15, 10, 0.50) 75%,
-          rgba(8, 15, 10, 0.90) 100%
+          rgba(8, 15, 10, 0.88) 0%,
+          rgba(8, 15, 10, 0.45) 22%,
+          transparent 42%,
+          transparent 58%,
+          rgba(8, 15, 10, 0.45) 78%,
+          rgba(8, 15, 10, 0.88) 100%
         ) !important;
       }
 
-      /* Scroll indicator: positioned at bottom */
+      /* Scroll indicator: pulled closer, part of the composition */
       .hero-scroll {
-        bottom: 1.5rem !important;
-        font-size: 0.36rem !important;
-        letter-spacing: 0.40em !important;
-        color: rgba(255, 255, 255, 0.28) !important;
-        gap: 0.35rem !important;
+        bottom: 1.8rem !important;
+        font-size: 0.34rem !important;
+        letter-spacing: 0.38em !important;
+        color: rgba(255, 255, 255, 0.25) !important;
+        gap: 0.3rem !important;
       }
 
       .hero-scroll-line {
-        height: 18px !important;
+        height: 16px !important;
       }
 
       /* Hero bottom gradient: shorter for tighter transition to menu */
@@ -4975,23 +4975,23 @@
     @media screen and (max-width: 430px) {
 
       .hero-title {
-        font-size: clamp(3rem, 13vw, 4rem) !important;
+        font-size: clamp(2.8rem, 12vw, 3.8rem) !important;
       }
 
       .hero-sub {
-        font-size: 0.80rem !important;
-        max-width: 260px !important;
+        font-size: 0.78rem !important;
+        max-width: 245px !important;
       }
 
       .hero-btn-primary {
-        padding: 0.8rem 2.2rem !important;
-        font-size: 0.52rem !important;
+        padding: 0.78rem 2.1rem !important;
+        font-size: 0.50rem !important;
       }
 
       #video-frame {
-        width: 70vw !important;
+        width: 72vw !important;
         max-width: 300px !important;
-        opacity: 0.55 !important;
+        opacity: 0.58 !important;
       }
 
       .cat-btn {
@@ -5024,11 +5024,16 @@
     /* ═══════ TINY PHONES (320–374px) ═══════ */
     @media screen and (max-width: 374px) {
       .hero-title {
-        font-size: clamp(2.8rem, 14vw, 3.5rem) !important;
+        font-size: clamp(2.5rem, 13vw, 3.2rem) !important;
       }
 
       .hero-kicker {
-        font-size: 0.42rem !important;
+        font-size: 0.40rem !important;
+      }
+
+      .hero-sub {
+        font-size: 0.74rem !important;
+        max-width: 230px !important;
       }
 
       .menu-main-wrapper {
@@ -5064,15 +5069,15 @@
     /* ═══════ TALL PHONES (iPhone Pro Max, etc) ═══════ */
     @media screen and (max-width: 430px) and (min-height: 850px) {
       .hero-content {
-        padding-top: 80px !important; /* More breathing room on tall phones */
+        padding: 56px 1.5rem 70px !important;
       }
 
       #video-frame {
-        top: 55% !important;
-        opacity: 0.52 !important;
+        top: 52% !important;
+        opacity: 0.55 !important;
       }
 
       .hero-scroll {
-        bottom: 2rem !important;
+        bottom: 2.2rem !important;
       }
     }
