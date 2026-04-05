@@ -364,7 +364,7 @@
   /* ── EXPLORE INDICATOR ────────────────────────────────────────── */
   .hero-scroll-wrapper {
     position: absolute !important;
-    bottom: 1rem !important;
+    bottom: 2.5rem !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     order: 3 !important;
