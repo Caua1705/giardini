@@ -219,8 +219,8 @@
      ═════════════════════════════════════════════════════════════════ */
 
   #experience {
-    padding-top: clamp(3.5rem, 10vw, 5rem) !important;
-    padding-bottom: clamp(6rem, 16vw, 9rem) !important;
+    padding-top: clamp(3rem, 9vw, 4.5rem) !important;
+    padding-bottom: clamp(4.5rem, 12vw, 7rem) !important;
     padding-left: clamp(1.25rem, 5vw, 2rem) !important;
     padding-right: clamp(1.25rem, 5vw, 2rem) !important;
     border-radius: 0 !important;
@@ -228,13 +228,13 @@
 
   /* Grid gap tighter on mobile */
   #experience .grid {
-    gap: clamp(1.5rem, 5vw, 2.5rem) !important;
+    gap: clamp(1.25rem, 4vw, 2rem) !important;
   }
 
-  /* Image: fluid height */
+  /* Image: tighter height for better proportion */
   #experience .exp-left {
-    height: clamp(35vh, 50vw, 45vh) !important;
-    border-radius: 20px !important;
+    height: clamp(32vh, 46vw, 42vh) !important;
+    border-radius: 18px !important;
   }
 
   /* Section title: fluid */
@@ -243,66 +243,66 @@
     line-height: 1.05 !important;
   }
 
-  /* Body copy: tighter */
+  /* Body copy: tighter line-height for scanning */
   #experience p.mb-10,
   #experience .text-\[1\.05rem\] {
-    font-size: clamp(0.9rem, 2.5vw, 1rem) !important;
-    line-height: 1.65 !important;
-    margin-bottom: 1.25rem !important;
+    font-size: clamp(0.88rem, 2.4vw, 0.98rem) !important;
+    line-height: 1.6 !important;
+    margin-bottom: 1rem !important;
   }
 
   /* Divider spacing */
   #experience .s2-divider-track {
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 1.25rem !important;
   }
 
   /* Section label */
   #experience .flex.items-center.gap-3 {
-    margin-bottom: clamp(1rem, 3vw, 1.5rem) !important;
+    margin-bottom: clamp(0.75rem, 2.5vw, 1.25rem) !important;
   }
 
   /* Title wrapper */
   #experience .word-wrap.mb-8 {
-    margin-bottom: 0.5rem !important;
+    margin-bottom: 0.35rem !important;
   }
 
-  /* Pillars: optimized for mobile reading */
+  /* Pillars: tighter for mobile reading */
   .exp-pillar {
-    padding: 1rem 0.75rem 1rem 1rem !important;
+    padding: 0.85rem 0.75rem 0.85rem 1rem !important;
   }
 
   .exp-pillar h4 {
-    font-size: clamp(1.1rem, 3.5vw, 1.3rem) !important;
-    margin-bottom: 0.2rem !important;
+    font-size: clamp(1.05rem, 3.2vw, 1.25rem) !important;
+    margin-bottom: 0.15rem !important;
   }
 
   .exp-pillar p {
-    font-size: clamp(0.8rem, 2.3vw, 0.9rem) !important;
+    font-size: clamp(0.8rem, 2.2vw, 0.88rem) !important;
     line-height: 1.55 !important;
   }
 
   /* Pillar number compact */
   .exp-pillar-num {
-    font-size: 0.54rem !important;
+    font-size: 0.52rem !important;
   }
 
   /* Vertical line shorter */
   .exp-pillar-vline {
-    min-height: 28px !important;
+    min-height: 24px !important;
   }
 
   /* Inner flex gap */
   .exp-pillar .flex.items-start {
-    gap: clamp(0.75rem, 3vw, 1.25rem) !important;
+    gap: clamp(0.65rem, 2.5vw, 1rem) !important;
   }
 
   /* ═════════════════════════════════════════════════════════════════
      D. SECTION 3 — SABORES & OBRAS (Carousel + Polish)
      ═════════════════════════════════════════════════════════════════ */
 
-  /* Section container: fluid padding */
+  /* Section container: tighter vertical padding */
   #featured {
-    padding: clamp(5rem, 14vw, 7rem) 0 clamp(3rem, 8vw, 4rem) !important;
+    padding: clamp(4rem, 11vw, 5.5rem) 0 clamp(2.5rem, 7vw, 3.5rem) !important;
     border-radius: 0 !important;
     margin-top: 0 !important;
   }
@@ -313,9 +313,9 @@
     padding-right: clamp(1.25rem, 5vw, 2rem) !important;
   }
 
-  /* Section header spacing */
+  /* Section header spacing: tighter */
   #featured .feat-reveal[style*="margin-bottom:5.5rem"] {
-    margin-bottom: clamp(2.5rem, 8vw, 4rem) !important;
+    margin-bottom: clamp(2rem, 6vw, 3rem) !important;
   }
 
   /* Section title: fluid mobile sizing */
@@ -324,13 +324,14 @@
     line-height: 1.02 !important;
   }
 
-  /* Logo badge: adjust position for mobile */
+  /* Logo badge: compact on mobile */
   #s3-logo-badge {
-    top: -42px !important;
+    top: -36px !important;
   }
   #s3-logo-badge-ring {
-    width: 84px !important;
-    height: 84px !important;
+    width: 72px !important;
+    height: 72px !important;
+    border-width: 3px !important;
   }
 
   /* Swipe carousel */
@@ -456,11 +457,16 @@
 
   /* Fade out + transition bridge */
   .s3-fade-out {
-    height: 3rem !important;
+    height: 2rem !important;
   }
 
   .feat-reveal {
-    margin-bottom: 2.5rem !important;
+    margin-bottom: 2rem !important;
+  }
+
+  /* Transition bridge: leaner on mobile */
+  .s3-transition-bridge {
+    height: 2rem !important;
   }
 
   /* ═════════════════════════════════════════════════════════════════
@@ -468,7 +474,7 @@
      ═════════════════════════════════════════════════════════════════ */
 
   #clube-livro {
-    padding: clamp(5rem, 14vw, 7rem) 0 clamp(4rem, 10vw, 5rem) !important;
+    padding: clamp(4rem, 11vw, 5.5rem) 0 clamp(3rem, 8vw, 4rem) !important;
   }
 
   /* Container: fluid padding */
@@ -477,14 +483,21 @@
     padding-right: clamp(1.25rem, 5vw, 2rem) !important;
   }
 
-  /* Section header */
-  .clube-reveal__header {
-    margin-bottom: clamp(2rem, 6vw, 3.5rem) !important;
+  /* Hide GPU-costly background textures on mobile */
+  #clube-livro > div[style*="background-image:radial-gradient"],
+  #clube-livro > div[style*="repeating-linear-gradient"],
+  #clube-livro > div[style*="background-image:url"] {
+    display: none !important;
   }
 
-  /* Title: fluid */
+  /* Section header: tighter */
+  .clube-reveal__header {
+    margin-bottom: clamp(1.5rem, 5vw, 2.5rem) !important;
+  }
+
+  /* Title: fluid, tighter spacing */
   .clube-reveal__title {
-    margin-bottom: clamp(2.5rem, 8vw, 4.5rem) !important;
+    margin-bottom: clamp(2rem, 6vw, 3.5rem) !important;
   }
 
   .clube-reveal__title h2 {
@@ -492,41 +505,53 @@
     line-height: 0.98 !important;
   }
 
-  /* Mosaic: vertical stack */
+  /* Mosaic: vertical stack, tighter */
   .clube-mosaic {
     display: flex !important;
     flex-direction: column !important;
-    gap: clamp(2rem, 6vw, 3.5rem) !important;
+    gap: clamp(1.75rem, 5vw, 2.5rem) !important;
   }
 
   .clube-reveal__left {
     padding-top: 0 !important;
-    gap: 2rem !important;
+    gap: 1.5rem !important;
   }
 
-  /* Quote block: tighter */
+  /* Quote block: compact */
   #clube-quote-block {
-    padding: 1.15rem 1.4rem !important;
-    border-radius: 0 14px 14px 0 !important;
+    padding: 1rem 1.25rem !important;
+    border-radius: 0 12px 12px 0 !important;
+  }
+
+  /* Hide oversized guillemet on mobile — it crowds compact layout */
+  #clube-quote-block > div[style*="font-size:5rem"] {
+    display: none !important;
   }
 
   #clube-quote-block blockquote {
-    font-size: clamp(0.95rem, 2.8vw, 1.1rem) !important;
-    line-height: 1.75 !important;
+    font-size: clamp(0.92rem, 2.6vw, 1.05rem) !important;
+    line-height: 1.7 !important;
+    padding-top: 0.25rem !important;
   }
 
-  /* Steps: optimized spacing */
+  /* Steps: tighter vertical rhythm */
   .clube-step {
-    padding: 1.25rem 0 !important;
-    gap: 1rem !important;
+    padding: 1rem 0 !important;
+    gap: 0.85rem !important;
   }
 
   .clube-step > span:first-child {
-    font-size: 1.5rem !important;
+    font-size: 1.35rem !important;
   }
 
   .clube-step p {
-    font-size: clamp(0.82rem, 2.3vw, 0.9rem) !important;
+    font-size: clamp(0.82rem, 2.3vw, 0.88rem) !important;
+    line-height: 1.55 !important;
+  }
+
+  /* "Como funciona" label: tighter */
+  .clube-reveal__left > div:last-child > div:first-child {
+    margin-bottom: 1.25rem !important;
   }
 
   /* Right column image: portrait on mobile for impact */
@@ -544,23 +569,33 @@
     padding: 0.3rem 0.75rem !important;
   }
 
-  /* Bottom caption: readable */
+  .clube-img-main > div[style*="top:1.25rem"] {
+    top: 0.85rem !important;
+    left: 0.85rem !important;
+  }
+
+  /* Bottom caption: readable, more contrast */
   .clube-img-main > div[style*="position:absolute;bottom:0"] {
-    padding: 1.5rem 1.25rem 1.25rem !important;
+    padding: 1.25rem 1rem 1rem !important;
   }
 
   .clube-img-main > div[style*="position:absolute;bottom:0"] h3 {
-    font-size: 1.25rem !important;
+    font-size: 1.15rem !important;
+  }
+
+  .clube-img-main > div[style*="position:absolute;bottom:0"] p {
+    font-size: 0.7rem !important;
+    color: rgba(255,255,255,0.72) !important;
   }
 
   /* Background textures: reduce opacity on mobile */
   #clube-livro > div[style*="background-image:radial-gradient"] {
-    opacity: 0.06 !important;
+    opacity: 0.04 !important;
   }
 
-  /* Watermark: smaller on mobile */
-  #clube-wm span {
-    font-size: clamp(5rem, 16vw, 10rem) !important;
+  /* Watermark: hidden on mobile — no visual payoff */
+  #clube-wm {
+    display: none !important;
   }
 
   /* ═════════════════════════════════════════════════════════════════
@@ -568,13 +603,13 @@
      ═════════════════════════════════════════════════════════════════ */
 
   #experience-video {
-    min-height: 85vh !important;
+    min-height: 80vh !important;
   }
 
   /* Content container: fluid padding */
   #experience-video > div[style*="z-index:10"] {
     padding: 0 clamp(1.25rem, 5vw, 2rem) !important;
-    min-height: 85vh !important;
+    min-height: 80vh !important;
   }
 
   /* Headline: fluid sizing that stays impactful but doesn't overflow */
@@ -584,17 +619,23 @@
     letter-spacing: -0.035em !important;
   }
 
-  /* Subline: tighter */
+  /* Gold text: ensure readability on mobile screens */
+  .s5-gold-text {
+    text-shadow: 0 2px 16px rgba(183,147,88,0.25) !important;
+  }
+
+  /* Subline: tighter, better contrast */
   #experience-video p[style*="max-width:400px"] {
     font-size: clamp(0.82rem, 2.3vw, 0.92rem) !important;
-    max-width: 320px !important;
-    line-height: 1.7 !important;
-    margin-bottom: 2rem !important;
+    max-width: 300px !important;
+    line-height: 1.65 !important;
+    margin-bottom: 1.75rem !important;
+    color: rgba(255,255,255,0.58) !important;
   }
 
   /* Section label: fluid gap */
   #experience-video .s5-reveal-up:first-child {
-    margin-bottom: 2rem !important;
+    margin-bottom: 1.75rem !important;
   }
 
   /* CTA button: better touch target */
@@ -606,52 +647,58 @@
 
   /* Sub-caption below CTA */
   #experience-video p[style*="margin-top:1.75rem"] {
-    margin-top: 1.25rem !important;
+    margin-top: 1rem !important;
     font-size: 0.52rem !important;
   }
 
   /* Bottom scroll hint: move up for thumb zone */
   #experience-video .s5-reveal-up[style*="position:absolute;bottom:2.5rem"] {
-    bottom: 1.5rem !important;
+    bottom: 1.25rem !important;
   }
 
   /* Separator */
   .s5-sep {
-    max-width: 280px !important;
-    margin-bottom: 2.5rem !important;
+    max-width: 240px !important;
+    margin-bottom: 2rem !important;
   }
 
   /* ═════════════════════════════════════════════════════════════════
      G. LOCATION SECTION (Mobile-First Redesign)
      ═════════════════════════════════════════════════════════════════ */
 
-  /* Section padding: fluid */
+  /* Section padding: tighter */
   #location {
-    padding-top: clamp(4rem, 12vw, 6rem) !important;
-    padding-bottom: clamp(4rem, 12vw, 6rem) !important;
+    padding-top: clamp(3.5rem, 10vw, 5rem) !important;
+    padding-bottom: clamp(3.5rem, 10vw, 5rem) !important;
   }
 
   /* Grid: stack vertically with tighter gap */
   #location .grid {
-    gap: clamp(2rem, 6vw, 3.5rem) !important;
+    gap: clamp(1.5rem, 5vw, 2.5rem) !important;
     padding-left: clamp(1.25rem, 5vw, 2rem) !important;
     padding-right: clamp(1.25rem, 5vw, 2rem) !important;
   }
 
-  /* CRITICAL: Heading scale-down for mobile */
+  /* Heading: scale-down for mobile, better contrast */
   #location h2 {
-    font-size: clamp(2.8rem, 12vw, 4rem) !important;
+    font-size: clamp(2.6rem, 11vw, 3.8rem) !important;
     line-height: 0.88 !important;
-    margin-bottom: clamp(1.5rem, 4vw, 2.5rem) !important;
-    padding-bottom: 0.25rem !important;
+    margin-bottom: clamp(1.25rem, 3.5vw, 2rem) !important;
+    padding-bottom: 0.2rem !important;
   }
 
-  /* Description: tighter */
+  /* "Visite" in white, ensure readability */
+  #location h2 span span {
+    color: rgba(255,255,255,0.95) !important;
+  }
+
+  /* Description: better contrast */
   #location p[style*="max-width:400px"] {
-    font-size: clamp(0.88rem, 2.5vw, 1rem) !important;
+    font-size: clamp(0.86rem, 2.4vw, 0.95rem) !important;
     max-width: 100% !important;
-    line-height: 1.7 !important;
-    margin-bottom: 1.5rem !important;
+    line-height: 1.65 !important;
+    margin-bottom: 1.25rem !important;
+    color: rgba(255,255,255,0.45) !important;
   }
 
   /* Section badge */
@@ -661,73 +708,86 @@
 
   /* Badge row */
   #location .loc-dr.d1 {
-    margin-bottom: 2rem !important;
+    margin-bottom: 1.75rem !important;
   }
 
   /* Data rows: tighter gap */
   #location div[style*="gap:3.5rem;margin-bottom:3.5rem"] {
-    gap: 2.5rem !important;
-    margin-bottom: 2.5rem !important;
+    gap: 2rem !important;
+    margin-bottom: 2rem !important;
   }
 
   /* Address text: fluid */
   #location .loc-dk-row p[style*="font-size:1.55rem"] {
-    font-size: clamp(1.2rem, 4vw, 1.4rem) !important;
+    font-size: clamp(1.15rem, 3.8vw, 1.35rem) !important;
+  }
+
+  /* Row labels: slightly brighter for readability */
+  #location .loc-dk-row h4 {
+    color: rgba(255,255,255,0.28) !important;
   }
 
   /* Hours text: fluid */
   #location .loc-dk-row p[style*="font-size:2rem"] {
-    font-size: clamp(1.5rem, 5vw, 1.8rem) !important;
+    font-size: clamp(1.4rem, 4.5vw, 1.7rem) !important;
   }
 
   #location .loc-dk-row p[style*="font-size:1.3rem"] {
-    font-size: clamp(1rem, 3.5vw, 1.2rem) !important;
+    font-size: clamp(0.95rem, 3.2vw, 1.15rem) !important;
   }
 
   /* Divider */
   .loc-dk-divider {
     max-width: 100% !important;
-    margin-bottom: 2rem !important;
+    margin-bottom: 1.75rem !important;
   }
 
   /* CTA button: proper touch target */
   .loc-btn-shimmer {
     min-height: 48px !important;
     padding: 0.9rem 1.8rem !important;
+    font-size: 0.65rem !important;
   }
 
-  /* Map container: portrait aspect on mobile */
+  /* Map container: tighter aspect on mobile */
   .ed-map-container {
-    aspect-ratio: 3 / 4 !important;
+    aspect-ratio: 4 / 5 !important;
     width: 100% !important;
+    border-radius: 18px !important;
   }
 
   /* Map: right column top margin */
   #location .lg\:col-span-7 {
-    margin-top: 0.5rem !important;
+    margin-top: 0 !important;
   }
 
   /* Map bottom bar */
   .loc-map-bar {
-    padding: 1.25rem 1.25rem 1rem !important;
+    padding: 1rem 1rem 0.85rem !important;
     flex-direction: column !important;
-    gap: 0.75rem !important;
+    gap: 0.65rem !important;
     align-items: flex-start !important;
   }
 
   .loc-map-bar p[style*="font-size:1.1rem"] {
-    font-size: 0.95rem !important;
+    font-size: 0.9rem !important;
   }
 
-  /* Dark watermark: smaller/hidden on mobile */
+  /* Map "Ver no Maps" tag: brighter */
+  .loc-map-bar > span {
+    font-size: 0.48rem !important;
+    padding: 0.4rem 0.85rem !important;
+  }
+
+  /* Dark watermark: hidden on mobile */
   #loc-dk-wm {
     display: none !important;
   }
 
-  /* Cinematic bleed transition */
+  /* Cinematic bleed transition: shorter */
   div[style*="height:240px;margin-top:-240px"] {
-    height: 160px !important;
-    margin-top: -160px !important;
+    height: 120px !important;
+    margin-top: -120px !important;
   }
 
   /* ═════════════════════════════════════════════════════════════════
@@ -735,49 +795,66 @@
      ═════════════════════════════════════════════════════════════════ */
 
   #site-footer > div[style*="max-width:1340px"] {
-    padding: 3.5rem clamp(1.25rem, 5vw, 2rem) 0 !important;
+    padding: 3rem clamp(1.25rem, 5vw, 2rem) 0 !important;
   }
 
-  /* Footer grid: single column */
+  /* Footer grid: single column, tighter */
   .ft-grid {
     grid-template-columns: 1fr !important;
-    gap: 2.5rem !important;
-    padding-bottom: 3rem !important;
+    gap: 2rem !important;
+    padding-bottom: 2.5rem !important;
   }
 
-  /* Brand tagline: shorter line */
+  /* Brand tagline: readable */
   .ft-grid > div:first-child p[style*="max-width:320px"] {
     max-width: 100% !important;
     font-size: 0.82rem !important;
+    margin-bottom: 1.25rem !important;
+    color: rgba(255,255,255,0.42) !important;
+  }
+
+  /* Footer section labels: brighter for readability */
+  .ft-grid p[style*="letter-spacing:0.28em"] {
+    color: rgba(183,147,88,0.7) !important;
     margin-bottom: 1.5rem !important;
   }
 
   /* Footer nav links: larger touch targets */
   .ft-nav-link {
-    min-height: 36px !important;
+    min-height: 38px !important;
     display: inline-flex !important;
     align-items: center !important;
-    font-size: 0.68rem !important;
+    font-size: 0.72rem !important;
+  }
+
+  /* Footer contact text: readable */
+  .ft-grid p[style*="font-weight:300"][style*="color:rgba(255,255,255,0.6)"] {
+    color: rgba(255,255,255,0.55) !important;
   }
 
   /* Bottom bar: stack on very small screens */
   #site-footer div[style*="justify-content:space-between"][style*="padding:1.75rem"] {
-    padding: 1.25rem 0 2rem !important;
+    padding: 1rem 0 2rem !important;
     flex-direction: column !important;
     align-items: center !important;
-    gap: 1rem !important;
+    gap: 0.85rem !important;
     text-align: center !important;
   }
 
   /* Social icons: adequate sizing */
   .ft-social {
-    width: 40px !important;
-    height: 40px !important;
+    width: 42px !important;
+    height: 42px !important;
   }
 
   /* Footer orbs: hide on mobile */
   .ft-orb-1, .ft-orb-2 {
     display: none !important;
+  }
+
+  /* Footer divider: more visible */
+  .ft-divider {
+    opacity: 0.6 !important;
   }
 
   /* ═════════════════════════════════════════════════════════════════
