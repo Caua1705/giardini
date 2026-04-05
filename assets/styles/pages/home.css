@@ -474,9 +474,25 @@
     margin-bottom: 2rem !important;
   }
 
-  /* Transition bridge: leaner on mobile */
+  /* Transition bridge: same premium line as desktop */
   .s3-transition-bridge {
-    height: 2rem !important;
+    height: 2px !important;
+    margin: 1.5rem 2rem !important;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(43,74,59,0.08) 15%,
+      rgba(183,147,88,0.28) 40%,
+      rgba(43,74,59,0.22) 50%,
+      rgba(183,147,88,0.28) 60%,
+      rgba(43,74,59,0.08) 85%,
+      transparent 100%
+    ) !important;
+  }
+  .s3-transition-bridge::before {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 
   /* ═════════════════════════════════════════════════════════════════
