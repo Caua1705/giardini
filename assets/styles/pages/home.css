@@ -316,7 +316,6 @@
     border-radius: 0 !important;
     margin-top: 0 !important;
     box-shadow: none !important;
-    overflow: hidden !important;
   }
 
   /* Remove rounded clip container on mobile — it creates a dark gap */
