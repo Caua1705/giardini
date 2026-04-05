@@ -796,11 +796,13 @@
     padding-bottom: clamp(4rem, 12vw, 6rem) !important;
   }
 
-  /* Hero grid background: top-down fade for mobile */
+  /* Hero grid background: match desktop appearance */
   .hero-grid-bg {
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 40%, transparent 65%) !important;
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 40%, transparent 65%) !important;
-    opacity: 0.6 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 50%, transparent 80%) !important;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 50%, transparent 80%) !important;
   }
 
   /* ═════════════════════════════════════════════════════════════════
