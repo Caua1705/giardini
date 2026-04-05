@@ -626,7 +626,7 @@
         ────────────────────────────────────────────────────────────── */
         ScrollTrigger.create({
           trigger: wrapper,
-          start: IS_MOBILE ? () => `top+=${scrollPx * 0.12} top` : 'top top',
+          start: 'top top',
           end: () => `+=${IS_MOBILE ? scrollPx * 0.95 : scrollPx}`,
           scrub: IS_MOBILE ? 0.3 : CONFIG.scrub,
           onUpdate: (self) => {
@@ -636,8 +636,12 @@
               currentFrameIndex = -1; // force redraw after resize
             }
             const totalLoaded = frames.length;
+            // On mobile, skip the first ~10% of frames so the video content
+            // starts "further ahead" without delaying the scroll trigger
+            const MOBILE_FRAME_OFFSET = IS_MOBILE ? Math.floor(totalLoaded * 0.10) : 0;
+            const mappedProgress = MOBILE_FRAME_OFFSET + self.progress * (totalLoaded - MOBILE_FRAME_OFFSET);
             const idx = Math.min(
-              Math.floor(self.progress * totalLoaded),
+              Math.floor(mappedProgress),
               totalLoaded - 1
             );
             drawFrame(idx);
@@ -692,7 +696,7 @@
               ease: 'none',
               scrollTrigger: {
                 trigger: wrapper,
-                start: () => `top+=${scrollPx * 0.12} top`,
+                start: 'top top',
                 end: () => `+=${scrollPx * 0.95}`,
                 scrub: 0.3,
                 onLeave: () => gsap.set(frame, mobileFullscreen),
