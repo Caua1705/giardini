@@ -1199,3 +1199,63 @@
   // Call once more upon full load to ensure perfect initial GSAP calculations
   window.addEventListener('load', fixHeroResponsive);
 })();
+
+/* ══ MOBILE TOGGLE: Section 3 feat-card hover effects ═════════════════
+   On mobile, mouseenter fires on first tap but mouseleave never fires
+   properly, causing the effect to get "stuck". This script replaces
+   that with a clean tap-toggle: first tap = apply, second tap = remove.
+   Only active on touch devices ≤767px. Desktop is untouched.
+══════════════════════════════════════════════════════════════════════ */
+(function () {
+  if (window.innerWidth > 767 || !('ontouchstart' in window)) return;
+
+  document.querySelectorAll('.feat-card-inner').forEach(function (card) {
+    // Strip inline mouse handlers on mobile — they interfere with toggle
+    card.removeAttribute('onmouseenter');
+    card.removeAttribute('onmouseleave');
+
+    card.addEventListener('click', function (e) {
+      // Don't prevent default — allow links inside to work
+      var isActive = card.classList.toggle('mobile-active');
+      var img = card.querySelector('.feat-img');
+      var veil = card.querySelector('.feat-veil');
+      var panel = card.querySelector('.feat-panel');
+      var line = card.querySelector('.feat-card-line');
+
+      if (isActive) {
+        // Apply effect
+        card.style.transform = 'translateY(-6px)';
+        card.style.boxShadow = '0 28px 72px rgba(26,26,26,0.14),0 6px 18px rgba(26,26,26,0.07)';
+        if (img) img.style.transform = 'scale(1.04)';
+        if (veil) veil.style.opacity = '1';
+        if (panel) { panel.style.opacity = '1'; panel.style.transform = 'translateY(0)'; }
+        if (line) { line.style.transform = 'scaleX(1)'; line.style.opacity = '1'; }
+
+        // Close other active cards
+        document.querySelectorAll('.feat-card-inner.mobile-active').forEach(function (other) {
+          if (other !== card) {
+            other.classList.remove('mobile-active');
+            other.style.transform = 'translateY(0)';
+            other.style.boxShadow = '';
+            var oImg = other.querySelector('.feat-img');
+            var oVeil = other.querySelector('.feat-veil');
+            var oPanel = other.querySelector('.feat-panel');
+            var oLine = other.querySelector('.feat-card-line');
+            if (oImg) oImg.style.transform = 'scale(1.0)';
+            if (oVeil) oVeil.style.opacity = '0';
+            if (oPanel) { oPanel.style.opacity = '0'; oPanel.style.transform = 'translateY(10px)'; }
+            if (oLine) { oLine.style.transform = 'scaleX(0)'; oLine.style.opacity = '0'; }
+          }
+        });
+      } else {
+        // Remove effect
+        card.style.transform = 'translateY(0)';
+        card.style.boxShadow = '';
+        if (img) img.style.transform = 'scale(1.0)';
+        if (veil) veil.style.opacity = '0';
+        if (panel) { panel.style.opacity = '0'; panel.style.transform = 'translateY(10px)'; }
+        if (line) { line.style.transform = 'scaleX(0)'; line.style.opacity = '0'; }
+      }
+    });
+  });
+})();
