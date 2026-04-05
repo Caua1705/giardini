@@ -10,7 +10,7 @@
       TOTAL_FRAMES: isMobileDevice ? 80 : 150,
       FRAMES_DIR: 'references/image-frames/menu',
       scrollVH: isMobileDevice ? 80 : 120,
-      scrub: 1.0,
+      scrub: isMobileDevice ? 0.3 : 1.0,  // Snappier on mobile
     };
     const canvas = document.getElementById('seq-canvas');
     const ctx = canvas ? canvas.getContext('2d') : null;
@@ -78,6 +78,11 @@
       });
       
       loadTl.to(loader, { yPercent: -105, duration: 1.2, ease: 'power4.inOut' });
+
+      // ── Force scroll to top on mobile so pin engages immediately ──
+      if (isMobileDevice) {
+        window.scrollTo(0, 0);
+      }
 
       // ── Detect mid-scroll reload ──────────────────────────────────────
       const isAlreadyScrolled = (window.scrollY || window.pageYOffset) > 10;
@@ -192,7 +197,7 @@
           pin: viewport,
           pinSpacing: false,
           scrub: CONFIG.scrub,
-          anticipatePin: 1,
+          anticipatePin: isMobileDevice ? 1.5 : 1,
           onUpdate: (self) => {
             const idx = Math.min(
               Math.floor(self.progress * CONFIG.TOTAL_FRAMES),
