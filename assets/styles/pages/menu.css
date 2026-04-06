@@ -4449,10 +4449,10 @@
         letter-spacing: 0.22em !important;
       }
 
-      /* Make the shimmer effect continuous on mobile since there is no hover */
-      .hero-btn-primary .s4-beam {
+      /* Trigger shimmer beam only on click (tap) on mobile */
+      .hero-btn-primary:active .s4-beam {
         opacity: 1 !important;
-        animation: s4-shimmer 4s cubic-bezier(0.4, 0, 0.2, 1) infinite !important;
+        animation: s4-shimmer 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
       }
 
       .hero-btn-secondary {
