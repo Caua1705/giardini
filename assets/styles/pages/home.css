@@ -483,7 +483,7 @@
   /* Transition bridge: just the shimmer line, no dark gap */
   .s3-transition-bridge {
     height: 2px !important;
-    margin: 0 2rem !important;
+    margin: 0 !important;
     position: relative !important;
     background: linear-gradient(
       to right,
@@ -495,8 +495,21 @@
       rgba(43,74,59,0.08) 85%,
       transparent 100%
     ) !important;
+    z-index: 61 !important;
   }
   .s3-transition-bridge::before {
+    content: '' !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255,255,255,0.6) 45%,
+      rgba(255,255,255,0.85) 50%,
+      rgba(255,255,255,0.6) 55%,
+      transparent
+    ) !important;
+    animation: featDivider 4.5s ease-in-out infinite 1s !important;
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
@@ -512,105 +525,6 @@
     background: var(--c-bg) !important;
     z-index: -1 !important;
     pointer-events: none !important;
-  }
-
-  /* ═════════════════════════════════════════════════════════════════
-     SHIMMER DIVIDER LINES — Between ALL sections (mobile only)
-     Same premium effect as the s3-transition-bridge on desktop.
-     ═════════════════════════════════════════════════════════════════ */
-
-  /* ─── Shared shimmer line base (light sections) ─────────────────── */
-  #experience::before,
-  #featured::before,
-  #clube-livro::before {
-    content: '' !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 2rem !important;
-    right: 2rem !important;
-    height: 2px !important;
-    z-index: 20 !important;
-    pointer-events: none !important;
-    background: linear-gradient(
-      to right,
-      transparent 0%,
-      rgba(43,74,59,0.08) 15%,
-      rgba(183,147,88,0.28) 40%,
-      rgba(43,74,59,0.22) 50%,
-      rgba(183,147,88,0.28) 60%,
-      rgba(43,74,59,0.08) 85%,
-      transparent 100%
-    ) !important;
-    overflow: hidden !important;
-  }
-
-  /* ─── Shimmer sweep animation on each line ──────────────────────── */
-  #experience::after,
-  #featured::after,
-  #clube-livro::after {
-    content: '' !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: -40% !important;
-    width: 40% !important;
-    height: 2px !important;
-    z-index: 21 !important;
-    pointer-events: none !important;
-    background: linear-gradient(
-      to right,
-      transparent,
-      rgba(255,255,255,0.6) 45%,
-      rgba(255,255,255,0.85) 50%,
-      rgba(255,255,255,0.6) 55%,
-      transparent
-    ) !important;
-    animation: featDivider 4.5s ease-in-out infinite 1s !important;
-  }
-
-  /* Stagger the shimmer animations for visual depth */
-  #experience::after { animation-delay: 0s !important; }
-  #featured::after   { animation-delay: 1.5s !important; }
-  #clube-livro::after { animation-delay: 3s !important; }
-
-  /* ─── Dark section divider: Clube → Video ───────────────────────── */
-  #experience-video::before {
-    content: '' !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 2rem !important;
-    right: 2rem !important;
-    height: 2px !important;
-    z-index: 20 !important;
-    pointer-events: none !important;
-    background: linear-gradient(
-      to right,
-      transparent 0%,
-      rgba(183,147,88,0.15) 15%,
-      rgba(183,147,88,0.40) 40%,
-      rgba(255,255,255,0.18) 50%,
-      rgba(183,147,88,0.40) 60%,
-      rgba(183,147,88,0.15) 85%,
-      transparent 100%
-    ) !important;
-  }
-  #experience-video::after {
-    content: '' !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: -40% !important;
-    width: 40% !important;
-    height: 2px !important;
-    z-index: 21 !important;
-    pointer-events: none !important;
-    background: linear-gradient(
-      to right,
-      transparent,
-      rgba(183,147,88,0.45) 45%,
-      rgba(255,255,255,0.35) 50%,
-      rgba(183,147,88,0.45) 55%,
-      transparent
-    ) !important;
-    animation: featDivider 4.5s ease-in-out infinite 2s !important;
   }
 
   /* ═════════════════════════════════════════════════════════════════
