@@ -4383,23 +4383,23 @@
         max-height: 900px !important;
       }
 
-      /* Hero content: true vertical centering */
+      /* Hero content: true vertical centering, pushed lower */
       .hero-content {
         justify-content: center !important;
         align-items: center !important;
         text-align: center !important;
-        padding: 48px 1.5rem 60px !important;
+        padding: 140px 1.5rem 60px !important; /* Huge top padding to push content down */
         gap: 0 !important;
       }
 
-      /* Kicker — refined micro-label, moved independently */
+      /* Kicker — refined micro-label, moved independently and larger */
       .hero-kicker {
-        font-size: 0.44rem !important;
+        font-size: 0.52rem !important; /* Increased size */
         letter-spacing: 0.38em !important;
         gap: 0.6rem !important;
         margin-bottom: 0.85rem !important;
         margin-top: 0 !important;
-        transform: translateY(-120px) !important; /* Visual offset without layout disruption */
+        transform: translateY(-160px) !important; /* Pushed much higher to create bigger gap */
         color: rgba(183, 147, 88, 0.68) !important;
       }
 
@@ -4407,9 +4407,9 @@
         width: 20px !important;
       }
 
-      /* Title: bold, cinematic, reads at a glance */
+      /* Title: bold, cinematic, larger scale */
       .hero-title {
-        font-size: clamp(3rem, 11.5vw, 4.2rem) !important;
+        font-size: clamp(3.8rem, 14vw, 5rem) !important; /* Much larger */
         line-height: 0.95 !important;
         letter-spacing: -0.03em !important;
         margin-bottom: 0 !important;
@@ -4424,12 +4424,12 @@
         margin: 0.75rem auto 0.65rem !important;
       }
 
-      /* Subtitle — clean 2-line max */
+      /* Subtitle — clean 2-line max, larger */
       .hero-sub {
-        font-size: 0.82rem !important;
+        font-size: 0.95rem !important; /* Increased */
         line-height: 1.55 !important;
-        max-width: 260px !important;
-        margin: 0 auto 1.3rem auto !important;
+        max-width: 320px !important; /* Increased width to handle larger text */
+        margin: 0 auto 1.5rem auto !important;
         color: rgba(210, 202, 185, 0.72) !important;
         letter-spacing: 0.005em !important;
       }
@@ -4444,15 +4444,15 @@
       }
 
       .hero-btn-primary {
-        padding: 0.82rem 2.4rem !important;
-        font-size: 0.52rem !important;
+        padding: 1rem 2.8rem !important; /* Larger hit area */
+        font-size: 0.60rem !important; /* Increased size */
         letter-spacing: 0.22em !important;
       }
 
       .hero-btn-secondary {
-        font-size: 0.48rem !important;
-        padding: 0.65rem 0.5rem !important;
-        color: rgba(210, 202, 185, 0.42) !important;
+        font-size: 0.54rem !important; /* Increased size */
+        padding: 0.7rem 0.5rem !important;
+        color: rgba(210, 202, 185, 0.45) !important;
       }
 
       /* Video frame (cup): stronger visual presence, overlaps behind CTAs */
@@ -4976,17 +4976,17 @@
     @media screen and (max-width: 430px) {
 
       .hero-title {
-        font-size: clamp(2.8rem, 12vw, 3.8rem) !important;
+        font-size: clamp(3.4rem, 13vw, 4.4rem) !important; /* Proportional scale */
       }
 
       .hero-sub {
-        font-size: 0.78rem !important;
-        max-width: 245px !important;
+        font-size: 0.88rem !important;
+        max-width: 290px !important;
       }
 
       .hero-btn-primary {
-        padding: 0.78rem 2.1rem !important;
-        font-size: 0.50rem !important;
+        padding: 0.90rem 2.5rem !important;
+        font-size: 0.55rem !important;
       }
 
       #video-frame {
@@ -5025,16 +5025,17 @@
     /* ═══════ TINY PHONES (320–374px) ═══════ */
     @media screen and (max-width: 374px) {
       .hero-title {
-        font-size: clamp(2.5rem, 13vw, 3.2rem) !important;
+        font-size: clamp(3rem, 13vw, 3.8rem) !important;
       }
 
       .hero-kicker {
-        font-size: 0.40rem !important;
+        font-size: 0.46rem !important;
+        transform: translateY(-130px) !important;
       }
 
       .hero-sub {
-        font-size: 0.74rem !important;
-        max-width: 230px !important;
+        font-size: 0.82rem !important;
+        max-width: 260px !important;
       }
 
       .menu-main-wrapper {
@@ -5070,7 +5071,7 @@
     /* ═══════ TALL PHONES (iPhone Pro Max, etc) ═══════ */
     @media screen and (max-width: 430px) and (min-height: 850px) {
       .hero-content {
-        padding: 56px 1.5rem 70px !important;
+        padding: 160px 1.5rem 70px !important; /* Push down even more on tall screens */
       }
 
       #video-frame {
