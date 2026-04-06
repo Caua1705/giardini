@@ -4671,7 +4671,7 @@
       .menu-item {
         grid-template-columns: 1fr auto !important;
         gap: 0.25rem 1rem !important;
-        padding: 1.1rem 0 !important;
+        padding: 1.4rem 0 !important; /* Increased vertical spacing */
         padding-left: 0 !important;
         margin-bottom: 0 !important;
         border-bottom: 1px solid rgba(183, 147, 88, 0.06) !important;
@@ -4680,37 +4680,38 @@
 
       .menu-item:last-child {
         border-bottom: none !important;
-        padding-bottom: 0.5rem !important;
+        padding-bottom: 0.8rem !important;
       }
 
       .item-name {
-        font-size: clamp(1rem, 2.8vw, 1.12rem) !important;
+        font-size: clamp(1.1rem, 3.2vw, 1.25rem) !important; /* Increased size & hierarchy */
         line-height: 1.25 !important;
         letter-spacing: -0.005em !important;
       }
 
       .item-desc {
-        font-size: clamp(0.72rem, 2vw, 0.80rem) !important;
-        line-height: 1.45 !important;
-        margin-top: 0.2rem !important;
-        color: rgba(228, 221, 208, 0.40) !important;
+        font-size: clamp(0.80rem, 2.4vw, 0.88rem) !important; /* Larger text */
+        line-height: 1.5 !important; /* Better rhythm */
+        margin-top: 0.35rem !important; /* Slightly more space */
+        color: rgba(228, 221, 208, 0.65) !important; /* Much better contrast */
       }
 
       .item-price {
-        font-size: clamp(1rem, 2.8vw, 1.12rem) !important;
+        font-size: clamp(1.1rem, 3.2vw, 1.25rem) !important; /* Matches item-name hierarchy */
         padding-right: 0.1rem !important;
         padding-top: 0 !important;
         color: rgba(183, 147, 88, 0.88) !important;
       }
 
       .item-badges {
-        margin-top: 0.25rem !important;
-        gap: 0.2rem !important;
+        margin-top: 0.4rem !important;
+        gap: 0.35rem !important;
       }
 
       .badge {
-        font-size: 0.36rem !important;
-        padding: 0.1rem 0.4rem !important;
+        font-size: 0.45rem !important; /* Increased */
+        padding: 0.25rem 0.55rem !important; /* Better tap target/visibility */
+        letter-spacing: 0.2em !important;
       }
 
       /* Disable hover effects on mobile */
@@ -5008,11 +5009,11 @@
       }
 
       .item-name {
-        font-size: clamp(0.95rem, 2.6vw, 1.05rem) !important;
+        font-size: clamp(1.05rem, 3vw, 1.15rem) !important;
       }
 
       .item-price {
-        font-size: clamp(0.95rem, 2.6vw, 1.05rem) !important;
+        font-size: clamp(1.05rem, 3vw, 1.15rem) !important;
       }
 
       .menu-main-wrapper {
