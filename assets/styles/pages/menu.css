@@ -4394,7 +4394,7 @@
 
       /* Kicker — refined micro-label, moved independently and larger */
       .hero-kicker {
-        font-size: 0.52rem !important; /* Increased size */
+        font-size: 0.56rem !important; /* Increased size */
         letter-spacing: 0.38em !important;
         gap: 0.6rem !important;
         margin-bottom: 0.85rem !important;
@@ -4409,7 +4409,7 @@
 
       /* Title: bold, cinematic, larger scale */
       .hero-title {
-        font-size: clamp(3.8rem, 14vw, 5rem) !important; /* Much larger */
+        font-size: clamp(4.2rem, 15vw, 5.2rem) !important; /* Slightly larger */
         line-height: 0.95 !important;
         letter-spacing: -0.03em !important;
         margin-bottom: 0 !important;
@@ -4426,9 +4426,9 @@
 
       /* Subtitle — clean 2-line max, larger */
       .hero-sub {
-        font-size: 0.95rem !important; /* Increased */
+        font-size: 1.02rem !important; /* Increased slightly more */
         line-height: 1.55 !important;
-        max-width: 320px !important; /* Increased width to handle larger text */
+        max-width: 340px !important; /* Increased width to handle larger text */
         margin: 0 auto 1.5rem auto !important;
         color: rgba(210, 202, 185, 0.72) !important;
         letter-spacing: 0.005em !important;
@@ -4444,13 +4444,13 @@
       }
 
       .hero-btn-primary {
-        padding: 1rem 2.8rem !important; /* Larger hit area */
-        font-size: 0.60rem !important; /* Increased size */
+        padding: 1.05rem 3.0rem !important; /* Slightly larger hit area */
+        font-size: 0.64rem !important; /* Increased size slightly */
         letter-spacing: 0.22em !important;
       }
 
       .hero-btn-secondary {
-        font-size: 0.54rem !important; /* Increased size */
+        font-size: 0.58rem !important; /* Increased size slightly */
         padding: 0.7rem 0.5rem !important;
         color: rgba(210, 202, 185, 0.45) !important;
       }
@@ -4976,17 +4976,17 @@
     @media screen and (max-width: 430px) {
 
       .hero-title {
-        font-size: clamp(3.4rem, 13vw, 4.4rem) !important; /* Proportional scale */
+        font-size: clamp(3.8rem, 14vw, 4.6rem) !important; /* Proportional scale */
       }
 
       .hero-sub {
-        font-size: 0.88rem !important;
-        max-width: 290px !important;
+        font-size: 0.94rem !important;
+        max-width: 310px !important;
       }
 
       .hero-btn-primary {
-        padding: 0.90rem 2.5rem !important;
-        font-size: 0.55rem !important;
+        padding: 0.95rem 2.8rem !important;
+        font-size: 0.58rem !important;
       }
 
       #video-frame {
@@ -5025,17 +5025,17 @@
     /* ═══════ TINY PHONES (320–374px) ═══════ */
     @media screen and (max-width: 374px) {
       .hero-title {
-        font-size: clamp(3rem, 13vw, 3.8rem) !important;
+        font-size: clamp(3.4rem, 14vw, 4rem) !important;
       }
 
       .hero-kicker {
-        font-size: 0.46rem !important;
+        font-size: 0.50rem !important;
         transform: translateY(-130px) !important;
       }
 
       .hero-sub {
-        font-size: 0.82rem !important;
-        max-width: 260px !important;
+        font-size: 0.88rem !important;
+        max-width: 280px !important;
       }
 
       .menu-main-wrapper {
