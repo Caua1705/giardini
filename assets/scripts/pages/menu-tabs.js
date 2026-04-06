@@ -183,10 +183,6 @@
           opacity: 0, ease: 'none', immediateRender: false,
           scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.35}` }
         });
-        gsap.to('#video-frame', {
-          opacity: 0.12, duration: 0.55, ease: 'none', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.55}` }
-        });
       }
 
       if (wrapper && viewport && canvas) {
