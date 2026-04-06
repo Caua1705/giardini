@@ -480,10 +480,11 @@
     margin-bottom: 2rem !important;
   }
 
-  /* Transition bridge: same premium line as desktop */
+  /* Transition bridge: just the shimmer line, no dark gap */
   .s3-transition-bridge {
     height: 2px !important;
-    margin: 1.5rem 2rem !important;
+    margin: 0 2rem !important;
+    position: relative !important;
     background: linear-gradient(
       to right,
       transparent 0%,
@@ -499,6 +500,18 @@
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
+  }
+  /* Cream backdrop covers any dark gap between sections */
+  .s3-transition-bridge::after {
+    content: '' !important;
+    position: absolute !important;
+    top: -2rem !important;
+    bottom: -2rem !important;
+    left: -2rem !important;
+    right: -2rem !important;
+    background: var(--c-bg) !important;
+    z-index: -1 !important;
+    pointer-events: none !important;
   }
 
   /* ═════════════════════════════════════════════════════════════════
