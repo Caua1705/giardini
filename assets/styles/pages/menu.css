@@ -4727,17 +4727,30 @@
       /* ═══════════════════════════════════════════════════════════════════
          7. DUAL-PRICE ITEMS (Tapioca/Cuscuz)
          ═══════════════════════════════════════════════════════════════════ */
+      /* Restore the 3 column layout since generic menu-item forced it to 2 columns */
+      div[style*="grid-template-columns:1fr auto auto"],
       .menu-item[style*="grid-template-columns:1fr auto auto"] {
-        gap: 0.25rem 0.45rem !important;
+        grid-template-columns: 1fr auto auto !important;
+        gap: 0.25rem 1rem !important;
       }
 
-      div[style*="grid-template-columns:1fr auto auto"] span[style*="font-size:0.55rem"] {
-        font-size: 0.42rem !important;
-        letter-spacing: 0.12em !important;
+      /* Dual-price header row: restore visibility and tighten gap */
+      div[style*="grid-template-columns:1fr auto auto"]:not(.menu-item) {
+        border-bottom: 1px solid rgba(183, 147, 88, 0.15) !important;
+        padding-bottom: 0.6rem !important;
+        margin-bottom: 0.75rem !important;
+      }
+
+      /* Make Cuscuz/Tapioca labels readable (were dark-on-dark) */
+      div[style*="grid-template-columns:1fr auto auto"]:not(.menu-item) span {
+        color: rgba(183, 147, 88, 0.65) !important; /* Premium gold tint */
+        font-size: 0.45rem !important;
+        letter-spacing: 0.2em !important;
       }
 
       .menu-item[style*="grid-template-columns"] .item-price[style*="min-width:4.5rem"] {
-        min-width: 3rem !important;
+        min-width: 3.5rem !important;
+        text-align: right !important;
       }
 
       /* ═══════════════════════════════════════════════════════════════════
