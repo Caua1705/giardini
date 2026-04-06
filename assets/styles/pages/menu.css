@@ -4392,13 +4392,14 @@
         gap: 0 !important;
       }
 
-      /* Kicker — refined micro-label, pulled higher */
+      /* Kicker — refined micro-label, moved independently */
       .hero-kicker {
         font-size: 0.44rem !important;
         letter-spacing: 0.38em !important;
         gap: 0.6rem !important;
-        margin-bottom: 2.5rem !important;
-        margin-top: -14rem !important;
+        margin-bottom: 0.85rem !important;
+        margin-top: 0 !important;
+        transform: translateY(-120px) !important; /* Visual offset without layout disruption */
         color: rgba(183, 147, 88, 0.68) !important;
       }
 
