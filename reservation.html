@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reservas — Giardini Café</title>
+  <meta name="description"
+    content="Reserve sua experiência no Giardini Café. Escolha o ambiente, data e horário para uma pausa especial com café de especialidade e livros." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'c-bg': '#FDFBF7',
+            'c-dark': '#1A1A1A',
+            'c-primary': '#2B4A3B',
+            'c-accent': '#EAE4D9',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Instrument Serif', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Icons -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+  <!-- GSAP + Lenis -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+  <!-- Shared Styles -->
+  <link rel="stylesheet" href="assets/styles/base.css">
+  <link rel="stylesheet" href="assets/styles/layout.css">
+  <link rel="stylesheet" href="assets/styles/components.css">
+  <link rel="stylesheet" href="assets/styles/animations.css">
+
+  <!-- Page Styles -->
+  <link rel="stylesheet" href="assets/styles/pages/reservation.css">
+</head>
+
+<body class="antialiased">
+
+  <!-- Noise -->
+  <div class="noise-overlay"></div>
+
+  <!-- ══ MOBILE MENU ══════════════════════════════════════════════ -->
+  <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Navegação">
+    <button class="mobile-close" id="mobile-close" aria-label="Fechar menu">
+      <iconify-icon icon="lucide:x"></iconify-icon>
+    </button>
+    <a class="mobile-link" href="./index.html">Início</a>
+    <a class="mobile-link" href="./menu.html">Cardápio</a>
+    <a class="mobile-link" href="./index.html#location">Localização</a>
+    <a class="mobile-link" href="./reservation.html" style="color:var(--c-primary)">Reservar</a>
+  </div>
+
+  <!-- ══ PRELOADER ═══════════════════════════════════════════════ -->
+  <div class="loader" id="loader">
+    <div class="loader-text">Giardini</div>
+    <p style="font-size:0.65rem;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:rgba(43,74,59,0.4);margin-top:1rem;animation:loaderTaglinePulse 2s ease-in-out infinite;">Reservas</p>
+    <div class="loader-bar" id="loader-bar" style="position:absolute;bottom:0;left:0;height:3px;width:0%;background:var(--c-primary);"></div>
+  </div>
+
+  <!-- ══ NAVBAR ══════════════════════════════════════════════════ -->
+  <nav id="navbar" aria-label="Navegação principal">
+    <a href="./index.html" class="nav-logo" style="letter-spacing:0.01em;font-size:1.35rem;">Giardini Café</a>
+    <div class="nav-menu">
+      <a href="./index.html" class="nav-link">Início</a>
+      <a href="./menu.html" class="nav-link">Cardápio</a>
+      <a href="./index.html#location" class="nav-link">Visite-nos</a>
+    </div>
+    <div class="nav-actions">
+      <a href="./reservation.html" class="nav-cta is-active group relative overflow-hidden"
+        style="padding:0.5rem 1.2rem;font-size:0.62rem;transition:all 0.3s var(--expo);">
+        <span class="absolute inset-0 overflow-hidden pointer-events-none" style="border-radius: inherit; z-index: 1;">
+          <div class="s4-beam"></div>
+        </span>
+        <span style="position: relative; z-index: 2;">Reservar</span>
+        <svg style="position: relative; z-index: 2;" width="10" height="10" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </a>
+      <button class="nav-hamburger" id="hamburger" aria-label="Abrir menu">
+        <iconify-icon icon="lucide:menu"
+          style="font-size:2rem;color:currentColor;--iconify-stroke-width:1.2px; stroke-width: 1.2px;"></iconify-icon>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       HERO — CINEMATIC RESERVATION HERO
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="res-hero" id="res-hero" aria-label="Hero — Reservas">
+
+    <!-- Background image -->
+    <div class="res-hero-bg">
+      <img src="assets/images/space.webp" alt="Ambiente Giardini Café" loading="eager" />
+    </div>
+
+    <!-- Cinematic overlays -->
+    <div class="res-hero-overlay"></div>
+    <div class="res-hero-vignette"></div>
+    <div class="res-hero-grain"></div>
+
+    <!-- Atmospheric orbs -->
+    <div class="res-hero-orb res-hero-orb-1" aria-hidden="true"></div>
+    <div class="res-hero-orb res-hero-orb-2" aria-hidden="true"></div>
+
+    <!-- Hero content -->
+    <div class="res-hero-content">
+      <!-- Kicker -->
+      <div class="res-hero-kicker res-hero-reveal" data-delay="0">
+        <div class="res-hero-kicker-line"></div>
+        <div class="res-hero-kicker-dot"></div>
+        Reservas · Giardini Café
+        <div class="res-hero-kicker-dot" style="animation-delay:0.8s;"></div>
+        <div class="res-hero-kicker-line"></div>
+      </div>
+
+      <!-- Title -->
+      <h1 class="res-hero-title res-hero-reveal" data-delay="0.15">
+        Reserve sua<br><em>experiência</em>
+      </h1>
+
+      <!-- Separator -->
+      <div class="res-hero-sep"></div>
+
+      <!-- Body -->
+      <p class="res-hero-body res-hero-reveal" data-delay="0.35">
+        Um momento reservado para você. Escolha o ambiente, a data e viva a experiência Giardini.
+      </p>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="res-hero-scroll res-hero-reveal" data-delay="0.5">
+      <span>Reservar</span>
+      <div class="res-hero-scroll-line"></div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       RESERVATION FLOW — GUIDED EDITORIAL STEPS
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="res-section" id="reservation-flow">
+
+    <!-- Grain texture -->
+    <div class="res-section-grain" aria-hidden="true"></div>
+
+    <!-- Ambient orbs -->
+    <div class="res-section-orb-1" aria-hidden="true"></div>
+    <div class="res-section-orb-2" aria-hidden="true"></div>
+
+    <div class="res-container">
+
+      <!-- Section header -->
+      <div class="res-section-header res-reveal">
+        <div class="res-section-label">
+          <span class="res-section-label-dot"></span>
+          <span class="res-section-label-text">Faça sua Reserva</span>
+          <div class="res-section-label-line"></div>
+        </div>
+        <h2 class="res-section-title">
+          Uma experiência<br><em>pensada para você</em>
+        </h2>
+      </div>
+
+      <!-- ── STEP 01: Environment ─────────────────────────────── -->
+      <div class="res-step res-reveal" id="step-environment">
+        <span class="res-step-num">01</span>
+        <div class="res-step-bar"></div>
+        <span class="res-step-label">Escolha o ambiente</span>
+        <span class="res-step-sublabel">Cada espaço tem sua personalidade. Onde você gostaria de estar?</span>
+
+        <div class="res-select-wrap">
+          <select class="res-select" id="res-environment">
+            <option value="" disabled selected>Carregando ambientes...</option>
+          </select>
+          <div class="res-select-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </div>
+        </div>
+        <p id="res-environment-msg" style="display:none; font-size: 0.75rem; margin-top: 0.5rem; font-weight: 500; opacity: 0.85;"></p>
+      </div>
+
+      <!-- ── STEP 02: Party size ──────────────────────────────── -->
+      <div class="res-step res-reveal" id="step-guests">
+        <span class="res-step-num">02</span>
+        <div class="res-step-bar"></div>
+        <span class="res-step-label">Quantas pessoas?</span>
+        <span class="res-step-sublabel" id="res-guests-sublabel">Selecione um ambiente para ver a capacidade disponível.</span>
+
+        <div class="res-pills" id="res-guests"></div>
+      </div>
+
+      <!-- ── STEP 03: Date ────────────────────────────────────── -->
+      <div class="res-step res-reveal" id="step-date">
+        <span class="res-step-num">03</span>
+        <div class="res-step-bar"></div>
+        <span class="res-step-label">Data da reserva</span>
+        <span class="res-step-sublabel" id="res-date-sublabel">Selecione primeiro o ambiente e a quantidade de pessoas.</span>
+
+        <input type="date" class="res-date-input" id="res-date" disabled />
+        <p id="res-date-msg" style="display:none; font-size: 0.75rem; margin-top: 0.5rem; font-weight: 500; opacity: 0.85; color: #ef4444;"></p>
+      </div>
+
+      <!-- ── STEP 04: Time slots ──────────────────────────────── -->
+      <div class="res-step res-reveal" id="step-time">
+        <span class="res-step-num">04</span>
+        <div class="res-step-bar"></div>
+        <span class="res-step-label">Horários disponíveis</span>
+        <span class="res-step-sublabel">Selecione o horário que melhor combina com seu dia.</span>
+
+        <div class="res-times-area" id="res-times-area">
+          <p class="res-times-empty" id="res-times-empty">Selecione uma data para ver os horários disponíveis.</p>
+
+          <!-- Skeleton (hidden by default) -->
+          <div class="res-times-skeleton" id="res-times-skeleton" style="display:none;">
+            <div class="res-skeleton-pill"></div>
+            <div class="res-skeleton-pill"></div>
+            <div class="res-skeleton-pill"></div>
+            <div class="res-skeleton-pill"></div>
+            <div class="res-skeleton-pill"></div>
+            <div class="res-skeleton-pill"></div>
+          </div>
+
+          <!-- Actual time pills (populated by JS) -->
+          <div class="res-pills" id="res-times" style="display:none;"></div>
+        </div>
+      </div>
+
+      <!-- ── STEP 05: Personal info ───────────────────────────── -->
+      <div class="res-step res-reveal" id="step-info">
+        <span class="res-step-num">05</span>
+        <div class="res-step-bar"></div>
+        <span class="res-step-label">Seus dados</span>
+        <span class="res-step-sublabel" id="res-info-sublabel">Preencha seus dados após selecionar o horário da reserva.</span>
+
+        <div class="res-form-grid">
+          <div class="res-form-field">
+            <label class="res-form-label" for="res-name">Nome completo</label>
+            <input type="text" class="res-form-input" id="res-name" placeholder="Seu nome" autocomplete="name" disabled />
+          </div>
+          <div class="res-form-field">
+            <label class="res-form-label" for="res-email">E-mail</label>
+            <input type="email" class="res-form-input" id="res-email" placeholder="seu@email.com"
+              autocomplete="email" disabled />
+          </div>
+          <div class="res-form-field">
+            <label class="res-form-label" for="res-phone">Telefone</label>
+            <input type="tel" class="res-form-input" id="res-phone" placeholder="(85) 99999-0000"
+              autocomplete="tel" disabled />
+          </div>
+          <div class="res-form-field">
+            <label class="res-form-label" for="res-notes">Observações <span
+                style="font-weight:400;letter-spacing:0.1em;opacity:0.6;">(opcional)</span></label>
+            <textarea class="res-form-input" id="res-notes"
+              placeholder="Alguma preferência, alergia ou ocasião especial?" disabled></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CTA AREA ─────────────────────────────────────────── -->
+      <div class="res-cta-area res-reveal">
+        <div class="res-cta-divider">
+          <div class="res-cta-divider-line"></div>
+          <span class="res-cta-divider-label">Confirmar reserva</span>
+          <div class="res-cta-divider-line"></div>
+        </div>
+
+        <button class="res-submit-btn" id="res-submit" type="button">
+          <!-- Shimmer beam -->
+          <span class="absolute inset-0 overflow-hidden pointer-events-none" style="border-radius:inherit;z-index:1;">
+            <div class="s4-beam"></div>
+          </span>
+          <span class="res-spinner"></span>
+          <span class="res-submit-text" style="position:relative;z-index:2;">Confirmar Reserva</span>
+          <svg style="position:relative;z-index:2;" class="res-submit-arrow" width="14" height="14" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </button>
+
+        <!-- Success feedback -->
+        <div class="res-feedback res-feedback-success" id="res-success">
+          <div class="res-feedback-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 6L9 17l-5-5" />
+            </svg>
+          </div>
+          <h3 class="res-feedback-title">Reserva confirmada</h3>
+          <p class="res-feedback-text">
+            Sua mesa está reservada. Enviamos os detalhes para o seu e-mail.<br>
+            <span style="font-size:0.75rem;opacity:0.65;margin-top:0.5rem;display:inline-block;">Até breve no Giardini
+              Café ☕</span>
+          </p>
+        </div>
+
+        <!-- Error feedback -->
+        <div class="res-feedback res-feedback-error" id="res-error">
+          <div class="res-feedback-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="15" y1="9" x2="9" y2="15" />
+              <line x1="9" y1="9" x2="15" y2="15" />
+            </svg>
+          </div>
+          <h3 class="res-feedback-title">Algo deu errado</h3>
+          <p class="res-feedback-text">
+            Não conseguimos processar sua reserva. Tente novamente ou entre em contato pelo
+            <a href="https://wa.me/5585994452724" target="_blank">WhatsApp</a>.
+          </p>
+        </div>
+      </div>
+
+    </div><!-- /res-container -->
+  </section>
+
+  <!-- ══ TRANSITION TO FOOTER ═══════════════════════════════════ -->
+  <div class="res-to-footer" aria-hidden="true"></div>
+
+  <!-- ══ FOOTER ═════════════════════════════════════════════════════ -->
+  <footer id="site-footer">
+
+    <!-- Background texture -->
+    <div class="ft-grain" aria-hidden="true"></div>
+    <div class="ft-orb-1" aria-hidden="true"></div>
+    <div class="ft-orb-2" aria-hidden="true"></div>
+    <div class="ft-top-line" aria-hidden="true"></div>
+
+    <!-- Main footer body -->
+    <div style="position:relative;z-index:10;max-width:1340px;margin:0 auto;padding:5rem 3rem 0;width:100%;">
+
+      <!-- Top grid -->
+      <div
+        style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:5rem 4rem;padding-bottom:5rem;"
+        class="ft-grid">
+
+        <!-- COL 1: Brand -->
+        <div class="ft-reveal ft-reveal-d1">
+          <div style="display:flex;align-items:center;gap:0.85rem;margin-bottom:2rem;">
+            <span style="width:28px;height:1px;background:rgba(183,147,88,0.6);display:block;flex-shrink:0;"></span>
+            <a href="./index.html" class="ft-nav-link"
+              style="font-family:'Instrument Serif',serif;font-size:1.6rem;letter-spacing:-0.01em;color:rgba(255,255,255,0.92);text-decoration:none;line-height:1;">Giardini
+              Caf&eacute;</a>
+          </div>
+          <p
+            style="font-size:0.88rem;font-weight:300;line-height:1.9;color:rgba(255,255,255,0.35);max-width:320px;margin-bottom:2.5rem;">
+            Um lugar onde o tempo desacelera,<br>
+            o caf&eacute; &eacute; bom e a leitura tem espa&ccedil;o.
+          </p>
+          <div style="display:flex;gap:0.75rem;">
+            <a href="https://www.instagram.com/giardinicafe" target="_blank" class="ft-social" aria-label="Instagram">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <circle cx="12" cy="12" r="4"></circle>
+                <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"></circle>
+              </svg>
+            </a>
+            <a href="https://wa.me/5585994452724" class="ft-social" aria-label="WhatsApp">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                </path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- COL 2: Navigation -->
+        <div class="ft-reveal ft-reveal-d2">
+          <p
+            style="font-size:0.58rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(183,147,88,0.6);margin-bottom:2rem;">
+            Navega&ccedil;&atilde;o</p>
+          <nav style="display:flex;flex-direction:column;gap:1.1rem;">
+            <a href="./index.html#experience" class="ft-nav-link">A Experi&ecirc;ncia</a>
+            <a href="./menu.html" class="ft-nav-link">Card&aacute;pio</a>
+            <a href="./index.html#clube-livro" class="ft-nav-link">Clube do Livro</a>
+            <a href="./index.html#location" class="ft-nav-link">Visite-nos</a>
+            <a href="./reservation.html" class="ft-nav-link" style="color:rgba(183,147,88,0.55);margin-top:0.5rem;">Reservar
+              Mesa &rarr;</a>
+          </nav>
+        </div>
+
+        <!-- COL 3: Contact -->
+        <div class="ft-reveal ft-reveal-d3">
+          <p
+            style="font-size:0.58rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(183,147,88,0.6);margin-bottom:2rem;">
+            Onde Estamos</p>
+          <div style="display:flex;flex-direction:column;gap:1.5rem;">
+            <div>
+              <p
+                style="font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:0.4rem;">
+                Endere&ccedil;o</p>
+              <p style="font-size:0.88rem;font-weight:300;color:rgba(255,255,255,0.6);line-height:1.65;">Rua Tavares
+                Coutinho, 580<br><span
+                  style="color:rgba(255,255,255,0.3);font-size:0.78rem;">Varjota &middot; Fortaleza &mdash;
+                  CE</span></p>
+            </div>
+            <div>
+              <p
+                style="font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:0.4rem;">
+                Hor&aacute;rio</p>
+              <p
+                style="font-family:'Instrument Serif',serif;font-size:0.95rem;font-style:italic;color:rgba(255,255,255,0.52);line-height:1.6;">
+                Ter &ndash; S&aacute;b &nbsp;&nbsp;07:00 &ndash; 20:00</p>
+              <p
+                style="font-family:'Instrument Serif',serif;font-size:0.85rem;font-style:italic;color:rgba(255,255,255,0.28);line-height:1.6;">
+                Dom &nbsp;07&ndash;11h &amp; 15&ndash;19h</p>
+            </div>
+            <div>
+              <p
+                style="font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:0.4rem;">
+                Contato</p>
+              <a href="mailto:giardinicafee@gmail.com"
+                style="font-size:0.82rem;font-weight:300;color:rgba(255,255,255,0.35);text-decoration:none;transition:color 0.35s ease;"
+                onmouseenter="this.style.color='rgba(183,147,88,0.8)'"
+                onmouseleave="this.style.color='rgba(255,255,255,0.35)'">giardinicafee@gmail.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="ft-divider ft-reveal ft-reveal-d4"></div>
+
+      <!-- Bottom bar -->
+      <div class="ft-reveal ft-reveal-d5"
+        style="display:flex;justify-content:space-between;align-items:center;padding:1.75rem 0 3rem;flex-wrap:wrap;gap:1rem;">
+        <p style="font-size:0.58rem;font-weight:400;letter-spacing:0.14em;color:rgba(255,255,255,0.16);">
+          &copy; 2026 Giardini Caf&eacute;. Todos os direitos reservados.
+        </p>
+        <div style="display:flex;align-items:center;gap:0.6rem;opacity:0.22;">
+          <div style="width:16px;height:1px;background:rgba(183,147,88,0.7);"></div>
+          <span
+            style="font-family:'Instrument Serif',serif;font-size:0.7rem;font-style:italic;color:rgba(255,255,255,0.7);letter-spacing:0.04em;">feito
+            com calma</span>
+          <div style="width:16px;height:1px;background:rgba(183,147,88,0.7);"></div>
+        </div>
+        <a href="#res-hero" class="ft-nav-link"
+          style="font-size:0.58rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.2);text-decoration:none;display:flex;align-items:center;gap:0.45rem;padding:0;transition:color 0.3s ease;"
+          onmouseenter="this.style.color='rgba(183,147,88,0.7)'"
+          onmouseleave="this.style.color='rgba(255,255,255,0.2)'">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 19V5M5 12l7-7 7 7" />
+          </svg>
+          Topo
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       SCRIPTS
+       ══════════════════════════════════════════════════════════════ -->
+  <script src="assets/scripts/pages/reservation.js"></script>
+
+</body>
+
+</html>
