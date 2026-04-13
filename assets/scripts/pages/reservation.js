@@ -7,12 +7,6 @@
 
 const API_BASE_URL = "http://127.0.0.1:8000";
 
-// TODO: API integration — replace mock with real endpoint
-const MOCK_TIME_SLOTS = [
-  '10:00', '11:00', '12:00', '14:00',
-  '15:00', '16:00', '17:00', '18:00', '19:00'
-];
-
 
 /* ── GSAP & Lenis Setup ───────────────────────────────────────── */
 
@@ -107,6 +101,36 @@ function isMonday(dateStr) {
 }
 
 /**
+ * Resets time slots to their initial empty state and cascades
+ * the reset to personal fields.
+ */
+function resetTimeSlots() {
+  DOM.timesEmpty.style.display     = '';
+  DOM.timesContainer.style.display = 'none';
+  DOM.timesSkeleton.style.display  = 'none';
+  DOM.timesContainer.innerHTML     = '';
+  selectedTime = null;
+  tryEnablePersonalFields();
+}
+
+/**
+ * Attempts to load availability if all three dependencies
+ * (environment, guests, date) are currently selected.
+ * Otherwise resets the time slots to their empty state.
+ */
+function tryLoadAvailability() {
+  const hasEnv   = DOM.environment.value !== '';
+  const hasGuests = selectedGuests !== null;
+  const hasDate  = DOM.dateInput.value !== '';
+
+  if (hasEnv && hasGuests && hasDate) {
+    loadAvailability();
+  } else {
+    resetTimeSlots();
+  }
+}
+
+/**
  * Enables the date input only when both environment and guests
  * have been selected. Updates the sublabel accordingly.
  */
@@ -123,15 +147,7 @@ function tryEnableDateInput() {
     DOM.dateInput.value    = '';
     DOM.dateSublabel.textContent = 'Selecione primeiro o ambiente e a quantidade de pessoas.';
     DOM.dateMsg.style.display = 'none';
-
-    // Reset time slots when date gets locked again
-    DOM.timesEmpty.style.display     = '';
-    DOM.timesContainer.style.display = 'none';
-    DOM.timesSkeleton.style.display  = 'none';
-    selectedTime = null;
-
-    // Cascade: personal fields depend on time
-    tryEnablePersonalFields();
+    resetTimeSlots();
   }
 }
 
@@ -173,10 +189,7 @@ function handleDateChange() {
     DOM.dateMsg.style.display = 'block';
 
     // Reset time slots to initial state
-    DOM.timesEmpty.style.display     = '';
-    DOM.timesContainer.style.display = 'none';
-    DOM.timesSkeleton.style.display  = 'none';
-    selectedTime = null;
+    resetTimeSlots();
 
     // Shake the input for feedback
     gsap.to(DOM.dateInput, {
@@ -188,7 +201,7 @@ function handleDateChange() {
   }
 
   // Valid date — proceed
-  showTimeSlots();
+  loadAvailability();
 }
 
 
@@ -275,6 +288,7 @@ function renderGuestPills(maxCapacity) {
       pill.classList.add('active');
       selectedGuests = pill.dataset.guests;
       tryEnableDateInput();
+      tryLoadAvailability();
     });
 
     container.appendChild(pill);
@@ -312,6 +326,7 @@ function handleEnvironmentChange() {
 
   // Reset downstream: date + time (guests just got cleared)
   tryEnableDateInput();
+  tryLoadAvailability();
 }
 
 /**
@@ -334,33 +349,102 @@ function createTimePill(time) {
 }
 
 /**
- * Shows the time-slot skeleton loader, then populates the slots
- * after a simulated delay.
+ * Fetches available time slots from the backend for the currently
+ * selected environment, party size, and date. Handles loading,
+ * empty, and error states.
  */
-function showTimeSlots() {
+async function loadAvailability() {
+  const environmentId   = DOM.environment.value;
+  const reservationDate = DOM.dateInput.value;
+  const partySize       = selectedGuests;
+
+  // Guard: all three must be set
+  if (!environmentId || !reservationDate || !partySize) return;
+
+  // Show skeleton loader
   DOM.timesEmpty.style.display     = 'none';
   DOM.timesContainer.style.display = 'none';
   DOM.timesSkeleton.style.display  = 'flex';
   selectedTime = null;
+  tryEnablePersonalFields();
 
-  // Simulate API delay
-  // TODO: API integration — fetch available times for the selected date
-  setTimeout(() => {
+  try {
+    const params = new URLSearchParams({
+      environment_id:   environmentId,
+      reservation_date: reservationDate,
+      party_size:       partySize,
+    });
+
+    const response = await fetch(`${API_BASE_URL}/availability?${params}`);
+    if (!response.ok) throw new Error('Network response was not ok');
+
+    const slots = await response.json();
+
     DOM.timesSkeleton.style.display = 'none';
 
+    // Normalize: support both string[] and {time: string}[]
+    const times = slots.map(s => typeof s === 'string' ? s : s.time);
+
+    // Empty state
+    if (!times || times.length === 0) {
+      DOM.timesEmpty.textContent = 'Nenhum horário disponível para esta data. Tente outro dia.';
+      DOM.timesEmpty.style.display = '';
+      return;
+    }
+
+    // Group into morning / afternoon
+    const morning   = times.filter(t => t < '12:00');
+    const afternoon = times.filter(t => t >= '12:00');
+
     DOM.timesContainer.innerHTML = '';
-    MOCK_TIME_SLOTS.forEach(time => {
-      DOM.timesContainer.appendChild(createTimePill(time));
-    });
+
+    if (morning.length > 0) {
+      DOM.timesContainer.appendChild(createPeriodGroup('Manhã', morning));
+    }
+    if (afternoon.length > 0) {
+      DOM.timesContainer.appendChild(createPeriodGroup('Tarde', afternoon));
+    }
 
     // Animate in
     DOM.timesContainer.style.display = 'flex';
-    gsap.fromTo(
-      DOM.timesContainer.children,
-      { opacity: 0, y: 8, scale: 0.95 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'power3.out', stagger: 0.04 }
-    );
-  }, 800);
+    const allPills = DOM.timesContainer.querySelectorAll('.res-time-pill');
+    if (allPills.length) {
+      gsap.fromTo(
+        allPills,
+        { opacity: 0, y: 8, scale: 0.95 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'power3.out', stagger: 0.035 }
+      );
+    }
+
+  } catch (error) {
+    DOM.timesSkeleton.style.display = 'none';
+    DOM.timesEmpty.textContent = 'Não foi possível carregar os horários. Tente novamente.';
+    DOM.timesEmpty.style.display = '';
+    console.error('Falha ao carregar disponibilidade:', error);
+  }
+}
+
+/**
+ * Creates a labeled period group (e.g. "Manhã") containing its time pills.
+ */
+function createPeriodGroup(label, times) {
+  const group = document.createElement('div');
+  group.className = 'res-time-group';
+
+  const heading = document.createElement('span');
+  heading.className = 'res-time-group-label';
+  heading.textContent = label;
+  group.appendChild(heading);
+
+  const pillsWrap = document.createElement('div');
+  pillsWrap.className = 'res-time-group-pills';
+
+  times.forEach(time => {
+    pillsWrap.appendChild(createTimePill(time));
+  });
+
+  group.appendChild(pillsWrap);
+  return group;
 }
 
 /**
