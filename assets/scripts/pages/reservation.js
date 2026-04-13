@@ -448,23 +448,36 @@ function createPeriodGroup(label, times) {
 }
 
 /**
- * Handles main form submission with validation, loading state,
- * and success/error feedback.
+ * Handles main form submission with field-by-field validation,
+ * loading state, and real API integration.
  */
-function handleSubmit() {
+async function handleSubmit() {
   const btn      = DOM.submitBtn;
   const textEl   = btn.querySelector('.res-submit-text');
   const arrowEl  = btn.querySelector('.res-submit-arrow');
+  const valMsg   = document.getElementById('res-validation-msg');
 
-  // Gather values
+  // Hide previous feedback
+  valMsg.style.display = 'none';
+  DOM.successPanel.classList.remove('visible');
+  DOM.errorPanel.classList.remove('visible');
+
+  // ── Field-by-field validation ──────────────────────────────────
   const environment = DOM.environment.value;
   const date        = DOM.dateInput.value;
   const name        = DOM.nameInput.value.trim();
   const email       = DOM.emailInput.value.trim();
   const phone       = DOM.phoneInput.value.trim();
+  const notes       = DOM.notesInput.value.trim();
 
-  // Simple validation
-  if (!environment || !selectedGuests || !date || !selectedTime || !name || !email || !phone) {
+  const validationError = getValidationError({
+    environment, date, name, email, phone
+  });
+
+  if (validationError) {
+    valMsg.textContent   = validationError;
+    valMsg.style.display = 'block';
+
     gsap.to(btn, {
       x: [-8, 8, -6, 6, -3, 3, 0],
       duration: 0.5,
@@ -473,47 +486,152 @@ function handleSubmit() {
     return;
   }
 
-  // Start loading state
+  // ── Build payload ──────────────────────────────────────────────
+  const payload = {
+    name,
+    email,
+    phone,
+    environment_id:   environment,
+    reservation_date: date,
+    reservation_time: selectedTime,
+    party_size:       Number(selectedGuests),
+    notes:            notes || null,
+  };
+
+  // ── Loading state ──────────────────────────────────────────────
   btn.classList.add('loading');
-  textEl.textContent = 'Processando...';
+  btn.disabled         = true;
+  textEl.textContent   = 'Confirmando...';
   arrowEl.style.display = 'none';
 
-  // Hide previous feedback
-  DOM.successPanel.classList.remove('visible');
-  DOM.errorPanel.classList.remove('visible');
+  try {
+    const response = await fetch(`${API_BASE_URL}/reservations`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
 
-  // TODO: API integration — POST reservation data
-  // Simulate API call
-  setTimeout(() => {
     btn.classList.remove('loading');
 
-    // Simulate success (random 85% success for demo)
-    const isSuccess = Math.random() > 0.15;
-
-    if (isSuccess) {
+    if (response.ok) {
+      // ── Success ──────────────────────────────────────────────
       btn.classList.add('success');
       textEl.textContent = 'Reserva Confirmada ✓';
       DOM.successPanel.style.display = 'block';
       requestAnimationFrame(() => DOM.successPanel.classList.add('visible'));
 
-      // Scroll to success message
       setTimeout(() => {
         lenis.scrollTo(DOM.successPanel, { offset: -100, duration: 1.2 });
       }, 300);
+
+      // Reset form after a short delay
+      setTimeout(() => resetForm(), 4000);
+
     } else {
+      // ── Backend error (4xx / 5xx) ────────────────────────────
+      let errorMsg = 'Não foi possível processar sua reserva.';
+      try {
+        const body = await response.json();
+        if (body.detail) {
+          errorMsg = typeof body.detail === 'string'
+            ? body.detail
+            : body.detail.map(e => e.msg).join('. ');
+        }
+      } catch (_) { /* use default msg */ }
+
       btn.classList.add('error');
       textEl.textContent = 'Erro — Tente novamente';
       DOM.errorPanel.style.display = 'block';
       requestAnimationFrame(() => DOM.errorPanel.classList.add('visible'));
 
-      // Reset button after 3s on error so user can retry
+      // Show backend message in validation area
+      valMsg.textContent   = errorMsg;
+      valMsg.style.display = 'block';
+
+      // Allow retry after 3s
       setTimeout(() => {
         btn.classList.remove('error');
+        btn.disabled       = false;
         textEl.textContent = 'Confirmar Reserva';
         arrowEl.style.display = '';
       }, 3000);
     }
-  }, 2000);
+
+  } catch (error) {
+    // ── Network failure ────────────────────────────────────────
+    btn.classList.remove('loading');
+    btn.classList.add('error');
+    textEl.textContent = 'Erro — Tente novamente';
+    DOM.errorPanel.style.display = 'block';
+    requestAnimationFrame(() => DOM.errorPanel.classList.add('visible'));
+
+    valMsg.textContent   = 'Falha na conexão. Verifique sua internet e tente novamente.';
+    valMsg.style.display = 'block';
+    console.error('Falha ao enviar reserva:', error);
+
+    setTimeout(() => {
+      btn.classList.remove('error');
+      btn.disabled       = false;
+      textEl.textContent = 'Confirmar Reserva';
+      arrowEl.style.display = '';
+    }, 3000);
+  }
+}
+
+/**
+ * Returns the first validation error message, or null if all fields are valid.
+ */
+function getValidationError({ environment, date, name, email, phone }) {
+  if (!environment)    return 'Selecione um ambiente para sua reserva.';
+  if (!selectedGuests) return 'Selecione a quantidade de pessoas.';
+  if (!date)           return 'Escolha a data da sua reserva.';
+  if (!selectedTime)   return 'Selecione um horário para sua reserva.';
+  if (!name)           return 'Por favor, informe seu nome.';
+  if (!email)          return 'Por favor, informe seu e-mail.';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return 'Por favor, informe um e-mail válido.';
+  }
+  if (!phone)          return 'Por favor, informe seu telefone.';
+  return null;
+}
+
+/**
+ * Resets the entire form to its initial state after a successful submission.
+ */
+function resetForm() {
+  // Reset state
+  selectedGuests = null;
+  selectedTime   = null;
+
+  // Reset environment select to first option
+  DOM.environment.selectedIndex = 0;
+  DOM.guestsSublabel.textContent = 'Selecione um ambiente para ver a capacidade disponível.';
+  DOM.guestsContainer.innerHTML  = '';
+
+  // Reset date
+  DOM.dateInput.value    = '';
+  DOM.dateInput.disabled = true;
+  DOM.dateSublabel.textContent = 'Selecione primeiro o ambiente e a quantidade de pessoas.';
+  DOM.dateMsg.style.display = 'none';
+
+  // Reset time slots
+  resetTimeSlots();
+
+  // Reset personal fields
+  DOM.nameInput.value  = '';
+  DOM.emailInput.value = '';
+  DOM.phoneInput.value = '';
+  DOM.notesInput.value = '';
+  tryEnablePersonalFields();
+
+  // Reset submit button
+  const btn     = DOM.submitBtn;
+  const textEl  = btn.querySelector('.res-submit-text');
+  const arrowEl = btn.querySelector('.res-submit-arrow');
+  btn.classList.remove('loading', 'success', 'error');
+  btn.disabled       = false;
+  textEl.textContent = 'Confirmar Reserva';
+  arrowEl.style.display = '';
 }
 
 
