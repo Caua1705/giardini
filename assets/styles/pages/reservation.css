@@ -319,10 +319,10 @@
 
 /* Section Header — white text on green */
 .res-section-header{
-  margin-bottom:3rem;
-  max-width:640px;
+  margin-bottom:3.5rem;
+  max-width:700px;
 }
-.res-section-label{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+.res-section-label{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
 .res-section-label-dot{
   width:6px;height:6px;border-radius:50%;
   background:rgba(183,147,88,.75);
@@ -330,7 +330,7 @@
   flex-shrink:0;
 }
 .res-section-label-text{
-  font-size:.52rem;font-weight:700;letter-spacing:.28em;
+  font-size:.65rem;font-weight:700;letter-spacing:.22em;
   text-transform:uppercase;color:rgba(183,147,88,.65);
 }
 .res-section-label-line{
@@ -339,15 +339,15 @@
 }
 .res-section-title{
   font-family:'Instrument Serif',serif;
-  font-size:clamp(2.2rem,3.5vw,3.2rem);
+  font-size:clamp(2.6rem,4vw,3.8rem);
   letter-spacing:-.025em;
   color:rgba(255,255,255,.9);
-  font-weight:400;margin:0 0 .75rem;line-height:1.05;
+  font-weight:400;margin:0 0 1rem;line-height:1.05;
 }
 .res-section-title em{font-style:italic;color:rgba(183,147,88,.85)}
 .res-section-subtitle{
-  font-size:.86rem;font-weight:300;
-  color:rgba(255,255,255,.38);
+  font-size:1rem;font-weight:300;
+  color:rgba(255,255,255,.42);
   line-height:1.8;font-style:italic;
   font-family:'Instrument Serif',serif;
 }
@@ -431,7 +431,7 @@
 .res-step-index{display:flex;flex-direction:column;align-items:center;padding-top:.25rem}
 .res-step-num{
   font-family:'Instrument Serif',serif;
-  font-size:1.35rem;color:rgba(255,255,255,.18);
+  font-size:1.6rem;color:rgba(255,255,255,.18);
   letter-spacing:-.03em;line-height:1;
   transition:color .3s ease;flex-shrink:0;
 }
@@ -444,15 +444,15 @@
 
 .res-step-body{min-width:0;position:relative;z-index:1}
 .res-step-label{
-  display:block;font-size:.5rem;font-weight:700;
-  letter-spacing:.24em;text-transform:uppercase;
-  color:rgba(183,147,88,.7);
-  margin-bottom:.5rem;
+  display:block;font-size:.72rem;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(183,147,88,.75);
+  margin-bottom:.6rem;
 }
 .res-step-sublabel{
-  display:block;font-size:.88rem;font-weight:300;
-  color:rgba(255,255,255,.35);margin-bottom:1.35rem;
-  line-height:1.78;font-style:italic;
+  display:block;font-size:1rem;font-weight:300;
+  color:rgba(255,255,255,.4);margin-bottom:1.5rem;
+  line-height:1.75;font-style:italic;
   font-family:'Instrument Serif',serif;
 }
 .res-step--info{padding-bottom:3rem}
