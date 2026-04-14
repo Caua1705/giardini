@@ -7,6 +7,18 @@
 
 const API_BASE_URL = "http://127.0.0.1:8000";
 
+// Environment name → image path mapping (edit paths here)
+const ENVIRONMENT_IMAGES = {
+  'Jardim Externo':          'assets/images/space.webp',
+  'Salão Principal':         'assets/images/_MG_2011.jpg',
+  'Lounge Reservado':        'assets/images/_MG_2064.jpg',
+  'Sala Privativa Pequena':  'assets/images/_MG_1994.jpg',
+  'Sala Privativa Média':    'assets/images/_MG_2008.jpg',
+  'Sala Privativa Grande':   'assets/images/_MG_2005 (1).jpg',
+};
+
+const DEFAULT_PREVIEW_IMAGE = 'assets/images/space.webp';
+
 
 /* ── GSAP & Lenis Setup ───────────────────────────────────────── */
 
@@ -68,6 +80,20 @@ const DOM = {
   submitBtn:       document.getElementById('res-submit'),
   successPanel:    document.getElementById('res-success'),
   errorPanel:      document.getElementById('res-error'),
+
+  // Mobile environment preview
+  envPreviewImg:   document.getElementById('res-env-preview-img'),
+  envPreviewName:  document.getElementById('res-env-preview-envname'),
+
+  // Desktop showcase
+  envShowcaseImg:  document.getElementById('res-env-showcase-img'),
+  envShowcaseName: document.getElementById('res-env-showcase-name'),
+
+  // Booking summary items
+  summaryEnv:      document.getElementById('summary-env'),
+  summaryGuests:   document.getElementById('summary-guests'),
+  summaryDate:     document.getElementById('summary-date'),
+  summaryTime:     document.getElementById('summary-time'),
 };
 
 
@@ -101,6 +127,17 @@ function isMonday(dateStr) {
 }
 
 /**
+ * Formats a date string (YYYY-MM-DD) for display.
+ */
+function formatDateDisplay(dateStr) {
+  if (!dateStr) return '';
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const d = new Date(year, month - 1, day);
+  const months = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+  return `${day} ${months[d.getMonth()]} ${year}`;
+}
+
+/**
  * Resets time slots to their initial empty state and cascades
  * the reset to personal fields.
  */
@@ -111,6 +148,7 @@ function resetTimeSlots() {
   DOM.timesContainer.innerHTML     = '';
   selectedTime = null;
   tryEnablePersonalFields();
+  updateBookingSummary();
 }
 
 /**
@@ -201,7 +239,65 @@ function handleDateChange() {
   }
 
   // Valid date — proceed
+  updateBookingSummary();
   loadAvailability();
+}
+
+
+/* ── Booking Summary Updates ──────────────────────────────────── */
+
+/**
+ * Updates the live booking summary sidebar with current selections.
+ */
+function updateBookingSummary() {
+  if (!DOM.summaryEnv) return; // Guard for missing elements
+
+  // Environment
+  const envId = DOM.environment.value;
+  const env = getEnvironmentById(envId);
+  const envItem = DOM.summaryEnv;
+  const envSpan = envItem.querySelector('span');
+  if (env) {
+    envSpan.textContent = env.name;
+    envItem.classList.add('is-filled');
+  } else {
+    envSpan.textContent = 'Ambiente não selecionado';
+    envItem.classList.remove('is-filled');
+  }
+
+  // Guests
+  const guestsItem = DOM.summaryGuests;
+  const guestsSpan = guestsItem.querySelector('span');
+  if (selectedGuests) {
+    guestsSpan.textContent = `${selectedGuests} ${selectedGuests === '1' ? 'pessoa' : 'pessoas'}`;
+    guestsItem.classList.add('is-filled');
+  } else {
+    guestsSpan.textContent = '— pessoas';
+    guestsItem.classList.remove('is-filled');
+  }
+
+  // Date
+  const dateItem = DOM.summaryDate;
+  const dateSpan = dateItem.querySelector('span');
+  const dateVal = DOM.dateInput.value;
+  if (dateVal) {
+    dateSpan.textContent = formatDateDisplay(dateVal);
+    dateItem.classList.add('is-filled');
+  } else {
+    dateSpan.textContent = 'Data não selecionada';
+    dateItem.classList.remove('is-filled');
+  }
+
+  // Time
+  const timeItem = DOM.summaryTime;
+  const timeSpan = timeItem.querySelector('span');
+  if (selectedTime) {
+    timeSpan.textContent = selectedTime;
+    timeItem.classList.add('is-filled');
+  } else {
+    timeSpan.textContent = 'Horário não selecionado';
+    timeItem.classList.remove('is-filled');
+  }
 }
 
 
@@ -289,6 +385,7 @@ function renderGuestPills(maxCapacity) {
       selectedGuests = pill.dataset.guests;
       tryEnableDateInput();
       tryLoadAvailability();
+      updateBookingSummary();
     });
 
     container.appendChild(pill);
@@ -312,6 +409,12 @@ function handleEnvironmentChange() {
   const envId = DOM.environment.value;
   const env   = getEnvironmentById(envId);
 
+  // Update visual previews (both mobile & desktop)
+  updateEnvironmentPreview(env);
+
+  // Update booking summary
+  updateBookingSummary();
+
   if (!env || !env.max_capacity || env.max_capacity < 1) {
     // Graceful fallback
     DOM.guestsSublabel.textContent = 'Selecione um ambiente para ver a capacidade disponível.';
@@ -330,6 +433,47 @@ function handleEnvironmentChange() {
 }
 
 /**
+ * Crossfades environment preview images (mobile + desktop) and
+ * updates all captions.
+ */
+function updateEnvironmentPreview(env) {
+  const newName = env ? env.name : 'Selecione um ambiente';
+  const newSrc  = env ? (ENVIRONMENT_IMAGES[env.name] || DEFAULT_PREVIEW_IMAGE) : DEFAULT_PREVIEW_IMAGE;
+
+  // ── Mobile inline preview ──────────────────────────────────────
+  const mobileImg  = DOM.envPreviewImg;
+  const mobileName = DOM.envPreviewName;
+  if (mobileImg && mobileName) {
+    mobileName.textContent = newName;
+    if (!mobileImg.src.endsWith(newSrc)) {
+      mobileImg.classList.add('is-fading');
+      setTimeout(() => {
+        mobileImg.src = newSrc;
+        mobileImg.alt = newName;
+        mobileImg.onload = () => mobileImg.classList.remove('is-fading');
+        setTimeout(() => mobileImg.classList.remove('is-fading'), 50);
+      }, 350);
+    }
+  }
+
+  // ── Desktop showcase ───────────────────────────────────────────
+  const showcaseImg  = DOM.envShowcaseImg;
+  const showcaseName = DOM.envShowcaseName;
+  if (showcaseImg && showcaseName) {
+    showcaseName.textContent = newName;
+    if (!showcaseImg.src.endsWith(newSrc)) {
+      showcaseImg.classList.add('is-fading');
+      setTimeout(() => {
+        showcaseImg.src = newSrc;
+        showcaseImg.alt = newName;
+        showcaseImg.onload = () => showcaseImg.classList.remove('is-fading');
+        setTimeout(() => showcaseImg.classList.remove('is-fading'), 50);
+      }, 350);
+    }
+  }
+}
+
+/**
  * Creates a time-slot pill button and wires its click handler.
  */
 function createTimePill(time) {
@@ -343,6 +487,7 @@ function createTimePill(time) {
     pill.classList.add('active');
     selectedTime = time;
     tryEnablePersonalFields();
+    updateBookingSummary();
   });
 
   return pill;
@@ -367,6 +512,7 @@ async function loadAvailability() {
   DOM.timesSkeleton.style.display  = 'flex';
   selectedTime = null;
   tryEnablePersonalFields();
+  updateBookingSummary();
 
   try {
     const params = new URLSearchParams({
@@ -650,6 +796,12 @@ function resetForm() {
   // Clear validation message
   const valMsg = document.getElementById('res-validation-msg');
   if (valMsg) valMsg.style.display = 'none';
+
+  // Reset environment preview
+  updateEnvironmentPreview(null);
+
+  // Reset booking summary
+  updateBookingSummary();
 }
 
 /**
