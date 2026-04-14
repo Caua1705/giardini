@@ -105,25 +105,31 @@
   </nav>
 
   <!-- ══════════════════════════════════════════════════════════════
-       HERO — CINEMATIC RESERVATION HERO
+       HERO — CINEMATIC FULL-BLEED VIDEO
        ══════════════════════════════════════════════════════════════ -->
   <section class="res-hero" id="res-hero" aria-label="Hero — Reservas">
 
-    <!-- Background image -->
+    <!-- Background video -->
     <div class="res-hero-bg">
-      <img src="assets/images/space.webp" alt="Ambiente Giardini Café" loading="eager" />
+      <video autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="assets/videos/Women_meeting_in_202604141231.mp4" type="video/mp4" />
+      </video>
     </div>
 
-    <!-- Cinematic overlays -->
+    <!-- Layered cinematic overlays -->
     <div class="res-hero-overlay"></div>
     <div class="res-hero-vignette"></div>
     <div class="res-hero-grain"></div>
+    <div class="res-hero-scanlines" aria-hidden="true"></div>
 
     <!-- Atmospheric orbs -->
     <div class="res-hero-orb res-hero-orb-1" aria-hidden="true"></div>
     <div class="res-hero-orb res-hero-orb-2" aria-hidden="true"></div>
 
-    <!-- Hero content -->
+    <!-- Floating particles -->
+    <div class="res-hero-particles" id="res-hero-particles" aria-hidden="true"></div>
+
+    <!-- Hero content — left-aligned editorial -->
     <div class="res-hero-content">
       <!-- Kicker -->
       <div class="res-hero-kicker res-hero-reveal" data-delay="0">
@@ -135,38 +141,132 @@
       </div>
 
       <!-- Title -->
-      <h1 class="res-hero-title res-hero-reveal" data-delay="0.15">
+      <h1 class="res-hero-title res-hero-reveal" data-delay="0.12">
         Reserve sua<br><em>experiência</em>
       </h1>
 
-      <!-- Separator -->
-      <div class="res-hero-sep"></div>
+      <!-- Separator with shimmer -->
+      <div class="res-hero-sep res-hero-reveal" data-delay="0.28"></div>
 
       <!-- Body -->
-      <p class="res-hero-body res-hero-reveal" data-delay="0.35">
-        Um momento reservado para você. Escolha o ambiente, a data e viva a experiência Giardini.
+      <p class="res-hero-body res-hero-reveal" data-delay="0.38">
+        Um momento reservado para você.<br>Escolha o ambiente, a data e viva o Giardini.
       </p>
+
+      <!-- CTA inline arrow -->
+      <a href="#reservation-flow" class="res-hero-cta res-hero-reveal" data-delay="0.5" id="res-hero-cta">
+        <span>Fazer minha reserva</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- Immersive side strip — desktop only -->
+    <div class="res-hero-strip" aria-hidden="true">
+      <div class="res-hero-strip-inner">
+        <span class="res-hero-strip-text">Giardini · Reservas · 2026 · Giardini · Reservas · 2026 · </span>
+        <span class="res-hero-strip-text">Giardini · Reservas · 2026 · Giardini · Reservas · 2026 · </span>
+      </div>
     </div>
 
     <!-- Scroll indicator -->
-    <div class="res-hero-scroll res-hero-reveal" data-delay="0.5">
-      <span>Reservar</span>
-      <div class="res-hero-scroll-line"></div>
+    <div class="res-hero-scroll res-hero-reveal" data-delay="0.6">
+      <span>Scroll</span>
+      <div class="res-hero-scroll-track">
+        <div class="res-hero-scroll-dot"></div>
+      </div>
+    </div>
+
+    <!-- Hero stats bar -->
+    <div class="res-hero-stats res-hero-reveal" data-delay="0.7">
+      <div class="res-hero-stat">
+        <span class="res-hero-stat-num">6</span>
+        <span class="res-hero-stat-label">Ambientes</span>
+      </div>
+      <div class="res-hero-stat-sep"></div>
+      <div class="res-hero-stat">
+        <span class="res-hero-stat-num">+500m²</span>
+        <span class="res-hero-stat-label">de experiência</span>
+      </div>
+      <div class="res-hero-stat-sep"></div>
+      <div class="res-hero-stat">
+        <span class="res-hero-stat-num">Ter–Dom</span>
+        <span class="res-hero-stat-label">aberto</span>
+      </div>
     </div>
 
   </section>
 
   <!-- ══════════════════════════════════════════════════════════════
-       RESERVATION FLOW — SPLIT-SCREEN EDITORIAL BOOKING
+       ENVIRONMENT SELECTION — Visual card picker
        ══════════════════════════════════════════════════════════════ -->
-  <section class="res-section" id="reservation-flow">
+  <section class="res-env-section" id="reservation-flow" aria-label="Escolha o ambiente">
 
-    <!-- Grain texture -->
+    <div class="res-env-section-bg" aria-hidden="true"></div>
+    <div class="res-env-section-grain" aria-hidden="true"></div>
+
+    <div class="res-env-section-inner">
+
+      <!-- Header -->
+      <div class="res-env-section-header res-reveal">
+        <div class="res-section-label">
+          <span class="res-section-label-dot"></span>
+          <span class="res-section-label-text">Passo 01 — Ambiente</span>
+          <div class="res-section-label-line"></div>
+        </div>
+        <div class="res-env-section-hrow">
+          <h2 class="res-env-section-title">
+            Escolha onde<br><em>você quer estar</em>
+          </h2>
+          <p class="res-env-section-hint">Clique em um ambiente para começar sua reserva</p>
+        </div>
+      </div>
+
+      <!-- Hidden native select (source of truth for JS) -->
+      <select class="res-select" id="res-environment" style="display:none;">
+        <option value="" disabled selected>Carregando ambientes...</option>
+      </select>
+      <p id="res-environment-msg" style="display:none; font-size:0.75rem; font-weight:500; opacity:0.75; padding:0 1rem;"></p>
+
+      <!-- Environment visual cards grid — populated by JS -->
+      <div class="res-env-cards" id="res-env-cards" role="listbox" aria-label="Ambientes disponíveis">
+        <!-- Loading skeletons -->
+        <div class="res-env-card-skeleton"></div>
+        <div class="res-env-card-skeleton"></div>
+        <div class="res-env-card-skeleton"></div>
+        <div class="res-env-card-skeleton"></div>
+        <div class="res-env-card-skeleton"></div>
+        <div class="res-env-card-skeleton"></div>
+      </div>
+
+      <!-- Selected environment summary strip — appears after selection -->
+      <div class="res-env-selected-bar" id="res-env-selected-bar" aria-live="polite">
+        <div class="res-env-selected-img-wrap">
+          <img id="res-env-selected-thumb" src="assets/images/space.webp" alt="" />
+        </div>
+        <div class="res-env-selected-info">
+          <span class="res-env-selected-label">Ambiente escolhido</span>
+          <span class="res-env-selected-name" id="res-env-selected-name">—</span>
+        </div>
+        <button class="res-env-selected-change" id="res-env-change-btn" type="button">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Alterar
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       RESERVATION FORM — DARK EDITORIAL BOOKING
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="res-section" id="res-booking-section" aria-label="Formulário de reserva">
+
+    <!-- Ambient textures -->
     <div class="res-section-grain" aria-hidden="true"></div>
-
-    <!-- Ambient orbs -->
-    <div class="res-section-orb-1" aria-hidden="true"></div>
-    <div class="res-section-orb-2" aria-hidden="true"></div>
+    <div class="res-section-ambient-1" aria-hidden="true"></div>
+    <div class="res-section-ambient-2" aria-hidden="true"></div>
+    <div class="res-section-watermark" aria-hidden="true">Giardini</div>
+    <div class="res-section-top-line" aria-hidden="true"></div>
 
     <div class="res-container">
 
@@ -180,164 +280,143 @@
         <h2 class="res-section-title">
           Uma experiência<br><em>pensada para você</em>
         </h2>
+        <p class="res-section-subtitle">Preencha abaixo para garantir sua mesa no Giardini Café</p>
       </div>
 
-      <!-- Decorative interlude — desktop only -->
-      <div class="res-interlude res-reveal" aria-hidden="true">
-        <div class="res-interlude-line"></div>
-        <div class="res-interlude-ornament"></div>
-        <span class="res-interlude-text">preencha abaixo para garantir sua mesa</span>
-        <div class="res-interlude-ornament"></div>
-        <div class="res-interlude-line" style="background: linear-gradient(to left, rgba(43,74,59,0.12), transparent 70%);"></div>
-      </div>
+      <!-- ══ FORM — CENTERED FULL-WIDTH ═══════════════════════════ -->
+      <div class="res-form-wrap">
 
-      <!-- ══ SPLIT-SCREEN LAYOUT ═══════════════════════════════════ -->
-      <div class="res-split-layout">
-
-        <!-- ── LEFT COLUMN: Form Flow ────────────────────────────── -->
-        <div class="res-form-column">
-
-          <!-- ── STEP 01: Environment ─────────────────────────────── -->
-          <div class="res-step res-reveal" id="step-environment">
-            <span class="res-step-num">01</span>
-            <div class="res-step-bar"></div>
-
-            <div class="res-step-env-layout">
-              <!-- Selector -->
-              <div class="res-step-env-left">
-                <span class="res-step-label">Escolha o ambiente</span>
-                <span class="res-step-sublabel">Cada espaço tem sua personalidade. Onde você gostaria de estar?</span>
-
-                <select class="res-select" id="res-environment" style="display:none;">
-                    <option value="" disabled selected>Carregando ambientes...</option>
-                </select>
-
-                <div class="rcs-wrap" id="rcs-environment">
-                  <button type="button" class="rcs-trigger" id="rcs-trigger" aria-haspopup="listbox" aria-expanded="false">
-                    <span class="rcs-value" id="rcs-value">Carregando ambientes...</span>
-                    <svg class="rcs-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                  </button>
-                  <div class="rcs-dropdown" id="rcs-dropdown" role="listbox">
-                    <div class="rcs-options" id="rcs-options"></div>
-                  </div>
-                </div>
-                <p id="res-environment-msg" style="display:none; font-size: 0.75rem; margin-top: 0.5rem; font-weight: 500; opacity: 0.85;"></p>
-              </div>
-
-              <!-- Mobile-only image preview -->
-              <div class="res-env-preview" id="res-env-preview">
-                <div class="res-env-preview-frame">
-                  <img id="res-env-preview-img" src="assets/images/space.webp" alt="Ambiente Giardini" />
-                  <div class="res-env-preview-overlay"></div>
-                </div>
-                <p class="res-env-preview-caption" id="res-env-preview-name">
-                  <span class="res-env-preview-label">Ambiente</span>
-                  <span class="res-env-preview-envname" id="res-env-preview-envname">Selecione um ambiente</span>
-                </p>
-              </div>
-            </div>
+        <!-- ── Inline env summary (replaces the side showcase) ──── -->
+        <div class="res-form-env-summary" id="res-form-env-summary">
+          <div class="res-form-env-thumb-wrap">
+            <img id="res-form-env-thumb" src="assets/images/space.webp" alt="" />
           </div>
+          <div class="res-form-env-text">
+            <span class="res-form-env-kicker">Ambiente selecionado</span>
+            <span class="res-form-env-name" id="res-form-env-name">—</span>
+          </div>
+          <button type="button" class="res-form-env-change" id="res-form-env-change">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Alterar ambiente
+          </button>
+          <!-- Live booking summary pills -->
+          <div class="res-form-summary-pills" id="res-form-summary-pills">
+            <span class="res-form-summary-pill" id="spill-guests"></span>
+            <span class="res-form-summary-pill" id="spill-date"></span>
+            <span class="res-form-summary-pill" id="spill-time"></span>
+          </div>
+        </div>
+
+        <!-- ── Steps column ─────────────────────────────────────── -->
+        <div class="res-form-column">
 
           <!-- ── STEP 02: Party size ──────────────────────────────── -->
           <div class="res-step res-reveal" id="step-guests">
-            <span class="res-step-num">02</span>
-            <div class="res-step-bar"></div>
-            <span class="res-step-label">Quantas pessoas?</span>
-            <span class="res-step-sublabel" id="res-guests-sublabel">Selecione um ambiente para ver a capacidade disponível.</span>
-
-            <div class="res-pills" id="res-guests"></div>
+            <div class="res-step-index">
+              <span class="res-step-num">02</span>
+              <div class="res-step-bar"></div>
+            </div>
+            <div class="res-step-body">
+              <span class="res-step-label">Quantas pessoas?</span>
+              <span class="res-step-sublabel" id="res-guests-sublabel">Selecione um ambiente para ver a capacidade disponível.</span>
+              <div class="res-pills" id="res-guests"></div>
+            </div>
           </div>
 
           <!-- ── STEP 03: Date ────────────────────────────────────── -->
           <div class="res-step res-reveal" id="step-date">
-            <span class="res-step-num">03</span>
-            <div class="res-step-bar"></div>
-            <span class="res-step-label">Data da reserva</span>
-            <span class="res-step-sublabel" id="res-date-sublabel">Selecione primeiro o ambiente e a quantidade de pessoas.</span>
-
-            <input type="hidden" id="res-date" />
-            <div class="rcd-wrap" id="rcd-wrap">
-              <button type="button" class="rcd-trigger" id="rcd-trigger" disabled>
-                <svg class="rcd-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                <span class="rcd-value" id="rcd-value">Selecione uma data</span>
-              </button>
-              <div class="rcd-calendar" id="rcd-calendar">
-                <div class="rcd-header">
-                  <button type="button" class="rcd-nav" id="rcd-prev" aria-label="Mês anterior">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-                  </button>
-                  <span class="rcd-month" id="rcd-month"></span>
-                  <button type="button" class="rcd-nav" id="rcd-next" aria-label="Próximo mês">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-                  </button>
-                </div>
-                <div class="rcd-weekdays">
-                  <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
-                </div>
-                <div class="rcd-days" id="rcd-days"></div>
-              </div>
+            <div class="res-step-index">
+              <span class="res-step-num">03</span>
+              <div class="res-step-bar"></div>
             </div>
-            <p id="res-date-msg" style="display:none; font-size: 0.75rem; margin-top: 0.5rem; font-weight: 500; opacity: 0.85; color: #ef4444;"></p>
+            <div class="res-step-body">
+              <span class="res-step-label">Data da reserva</span>
+              <span class="res-step-sublabel" id="res-date-sublabel">Selecione primeiro o ambiente e a quantidade de pessoas.</span>
+
+              <input type="hidden" id="res-date" />
+              <div class="rcd-wrap" id="rcd-wrap">
+                <button type="button" class="rcd-trigger" id="rcd-trigger" disabled>
+                  <svg class="rcd-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  <span class="rcd-value" id="rcd-value">Selecione uma data</span>
+                </button>
+                <div class="rcd-calendar" id="rcd-calendar">
+                  <div class="rcd-header">
+                    <button type="button" class="rcd-nav" id="rcd-prev" aria-label="Mês anterior">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <span class="rcd-month" id="rcd-month"></span>
+                    <button type="button" class="rcd-nav" id="rcd-next" aria-label="Próximo mês">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                  </div>
+                  <div class="rcd-weekdays">
+                    <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+                  </div>
+                  <div class="rcd-days" id="rcd-days"></div>
+                </div>
+              </div>
+              <p id="res-date-msg" style="display:none; font-size:0.75rem; margin-top:0.5rem; font-weight:500; opacity:0.85; color:#ef4444;"></p>
+            </div>
           </div>
 
           <!-- ── STEP 04: Time slots ──────────────────────────────── -->
           <div class="res-step res-reveal" id="step-time">
-            <span class="res-step-num">04</span>
-            <div class="res-step-bar"></div>
-            <span class="res-step-label">Horários disponíveis</span>
-            <span class="res-step-sublabel">Selecione o horário que melhor combina com seu dia.</span>
+            <div class="res-step-index">
+              <span class="res-step-num">04</span>
+              <div class="res-step-bar"></div>
+            </div>
+            <div class="res-step-body">
+              <span class="res-step-label">Horários disponíveis</span>
+              <span class="res-step-sublabel">Selecione o horário que melhor combina com seu dia.</span>
 
-            <div class="res-times-area" id="res-times-area">
-              <p class="res-times-empty" id="res-times-empty">Selecione uma data para ver os horários disponíveis.</p>
-
-              <!-- Skeleton -->
-              <div class="res-times-skeleton" id="res-times-skeleton" style="display:none;">
-                <div class="res-skeleton-pill"></div>
-                <div class="res-skeleton-pill"></div>
-                <div class="res-skeleton-pill"></div>
-                <div class="res-skeleton-pill"></div>
-                <div class="res-skeleton-pill"></div>
-                <div class="res-skeleton-pill"></div>
+              <div class="res-times-area" id="res-times-area">
+                <p class="res-times-empty" id="res-times-empty">Selecione uma data para ver os horários disponíveis.</p>
+                <div class="res-times-skeleton" id="res-times-skeleton" style="display:none;">
+                  <div class="res-skeleton-pill"></div>
+                  <div class="res-skeleton-pill"></div>
+                  <div class="res-skeleton-pill"></div>
+                  <div class="res-skeleton-pill"></div>
+                  <div class="res-skeleton-pill"></div>
+                  <div class="res-skeleton-pill"></div>
+                </div>
+                <div id="res-times" style="display:none; flex-direction:column; gap:1.5rem; width:100%;"></div>
               </div>
-
-              <!-- Actual time pills -->
-              <div id="res-times" style="display:none; flex-direction:column; gap:1.5rem; width:100%;"></div>
             </div>
           </div>
 
           <!-- ── STEP 05: Personal info ───────────────────────────── -->
           <div class="res-step res-step--info res-reveal" id="step-info">
-            <span class="res-step-num">05</span>
-            <div class="res-step-bar"></div>
-            <span class="res-step-label">Seus dados</span>
-            <span class="res-step-sublabel" id="res-info-sublabel">Preencha seus dados após selecionar o horário da reserva.</span>
+            <div class="res-step-index">
+              <span class="res-step-num">05</span>
+              <div class="res-step-bar"></div>
+            </div>
+            <div class="res-step-body">
+              <span class="res-step-label">Seus dados</span>
+              <span class="res-step-sublabel" id="res-info-sublabel">Preencha seus dados após selecionar o horário da reserva.</span>
 
-            <div class="res-form-grid res-form-grid--info">
-              <div class="res-form-field full-width">
-                <label class="res-form-label" for="res-name">Nome completo</label>
-                <input type="text" class="res-form-input" id="res-name" placeholder="Seu nome completo" autocomplete="name" disabled />
-              </div>
-              <div class="res-form-field">
-                <label class="res-form-label" for="res-email">E-mail</label>
-                <input type="email" class="res-form-input" id="res-email" placeholder="seu@email.com"
-                  autocomplete="email" disabled />
-              </div>
-              <div class="res-form-field">
-                <label class="res-form-label" for="res-phone">Telefone</label>
-                <input type="tel" class="res-form-input" id="res-phone" placeholder="(85) 99999-0000"
-                  autocomplete="tel" disabled />
-              </div>
-              <div class="res-form-field full-width">
-                <label class="res-form-label" for="res-notes">Observações <span
-                    style="font-weight:400;letter-spacing:0.1em;opacity:0.6;">(opcional)</span></label>
-                <textarea class="res-form-input" id="res-notes"
-                  placeholder="Alguma preferência, alergia ou ocasião especial?" disabled></textarea>
+              <div class="res-form-grid res-form-grid--info">
+                <div class="res-form-field full-width">
+                  <label class="res-form-label" for="res-name">Nome completo</label>
+                  <input type="text" class="res-form-input" id="res-name" placeholder="Seu nome completo" autocomplete="name" disabled />
+                </div>
+                <div class="res-form-field">
+                  <label class="res-form-label" for="res-email">E-mail</label>
+                  <input type="email" class="res-form-input" id="res-email" placeholder="seu@email.com" autocomplete="email" disabled />
+                </div>
+                <div class="res-form-field">
+                  <label class="res-form-label" for="res-phone">Telefone</label>
+                  <input type="tel" class="res-form-input" id="res-phone" placeholder="(85) 99999-0000" autocomplete="tel" disabled />
+                </div>
+                <div class="res-form-field full-width">
+                  <label class="res-form-label" for="res-notes">Observações <span style="font-weight:400;letter-spacing:0.1em;opacity:0.6;">(opcional)</span></label>
+                  <textarea class="res-form-input" id="res-notes" placeholder="Alguma preferência, alergia ou ocasião especial?" disabled></textarea>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- ── CTA AREA ─────────────────────────────────────────── -->
-          <div class="res-cta-area res-reveal">
+          <div class="res-cta-area res-reveal" id="res-cta-area">
             <div class="res-cta-divider">
               <div class="res-cta-divider-line"></div>
               <span class="res-cta-divider-ornament"></span>
@@ -372,25 +451,15 @@
               <h3 class="res-feedback-title">Reserva confirmada</h3>
               <p class="res-feedback-text">
                 Sua mesa está reservada. Enviamos os detalhes para o seu e-mail.<br>
-                <span style="font-size:0.75rem;opacity:0.65;margin-top:0.5rem;display:inline-block;">Até breve no Giardini
-                  Café ☕</span>
+                <span style="font-size:0.75rem;opacity:0.65;margin-top:0.5rem;display:inline-block;">Até breve no Giardini Café ☕</span>
               </p>
-
-              <!-- Action buttons -->
               <div class="res-feedback-actions">
                 <button type="button" class="res-feedback-btn res-feedback-btn-primary" id="res-new-reservation">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 5v14M5 12h14" />
-                  </svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14" /></svg>
                   Fazer outra reserva
                 </button>
                 <a href="index.html" class="res-feedback-btn res-feedback-btn-secondary">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                    <polyline points="9 22 9 12 15 12 15 22" />
-                  </svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
                   Voltar ao início
                 </a>
               </div>
@@ -400,12 +469,7 @@
             <!-- Error feedback -->
             <div class="res-feedback res-feedback-error" id="res-error">
               <div class="res-feedback-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="15" y1="9" x2="9" y2="15" />
-                  <line x1="9" y1="9" x2="15" y2="15" />
-                </svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" /></svg>
               </div>
               <h3 class="res-feedback-title">Algo deu errado</h3>
               <p class="res-feedback-text">
@@ -417,56 +481,18 @@
 
         </div><!-- /res-form-column -->
 
-        <!-- ── RIGHT COLUMN: Sticky Environment Showcase ─────────── -->
-        <div class="res-preview-column">
-
-          <!-- Environment showcase card -->
-          <div class="res-env-showcase res-reveal" id="res-env-showcase">
-            <div class="res-env-showcase-image">
-              <img id="res-env-showcase-img" src="assets/images/space.webp" alt="Ambiente Giardini" />
-            </div>
-            <div class="res-env-showcase-caption">
-              <span class="res-env-showcase-label">Ambiente selecionado</span>
-              <span class="res-env-showcase-envname" id="res-env-showcase-name">Selecione um ambiente</span>
-              <span class="res-env-showcase-detail">Giardini Café · Reservas</span>
-            </div>
-          </div>
-
-          <!-- Live booking summary -->
-          <div class="res-booking-summary" id="res-booking-summary">
-            <span class="res-booking-summary-title">Resumo da reserva</span>
-            <div class="res-booking-summary-items">
-              <div class="res-booking-summary-item" id="summary-env">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                <span>Ambiente não selecionado</span>
-              </div>
-              <div class="res-booking-summary-divider"></div>
-              <div class="res-booking-summary-item" id="summary-guests">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                <span>— pessoas</span>
-              </div>
-              <div class="res-booking-summary-divider"></div>
-              <div class="res-booking-summary-item" id="summary-date">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                <span>Data não selecionada</span>
-              </div>
-              <div class="res-booking-summary-divider"></div>
-              <div class="res-booking-summary-item" id="summary-time">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                <span>Horário não selecionado</span>
-              </div>
-            </div>
-          </div>
-
-        </div><!-- /res-preview-column -->
-
-      </div><!-- /res-split-layout -->
+      </div><!-- /res-form-wrap -->
 
     </div><!-- /res-container -->
   </section>
 
-  <!-- ══ TRANSITION TO FOOTER ═══════════════════════════════════ -->
-  <div class="res-to-footer" aria-hidden="true"></div>
+  <!-- ══ TRANSITION TO FOOTER ═════════════════════════════════════ -->
+  <div class="res-to-footer" aria-hidden="true">
+    <div class="res-to-footer-line"></div>
+    <div class="res-to-footer-ornament">
+      <div class="res-to-footer-diamond"></div>
+    </div>
+  </div>
 
   <!-- ══ FOOTER ═════════════════════════════════════════════════════ -->
   <footer id="site-footer">
