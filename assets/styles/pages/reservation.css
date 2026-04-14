@@ -71,7 +71,10 @@
 /* ══════════════════════════════════════════════════════════════════
    HERO
    ══════════════════════════════════════════════════════════════════ */
-.res-hero{position:relative;width:100%;height:100vh;min-height:640px;overflow:hidden;display:flex;align-items:flex-end;justify-content:flex-start}
+.res-hero{
+  position:relative;width:100%;height:100vh;min-height:680px;
+  overflow:hidden;display:flex;flex-direction:column;
+}
 .res-hero-bg{position:absolute;inset:0;z-index:0}
 .res-hero-bg video{width:100%;height:100%;object-fit:cover;filter:saturate(.75) brightness(.5) contrast(1.1)}
 .res-hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(115deg,rgba(4,8,6,.92) 0%,rgba(8,16,11,.7) 45%,rgba(4,8,6,.55) 100%);pointer-events:none}
@@ -83,42 +86,100 @@
 .res-hero-orb-2{bottom:-15%;left:30%;width:35vw;height:35vw;background:radial-gradient(circle,rgba(183,147,88,.08) 0%,transparent 65%);animation:s5-float-orb2 28s ease-in-out infinite 4s}
 .res-hero-particles{position:absolute;inset:0;z-index:4;pointer-events:none}
 
-.res-hero-content{position:relative;z-index:10;padding:0 5vw 5rem;max-width:760px}
-@media(max-width:768px){.res-hero-content{padding:0 1.5rem 4rem}}
+/* ── Hero editorial container — defines the content grid ──────── */
+.res-hero-container{
+  position:relative;z-index:10;
+  width:100%;max-width:1400px;
+  margin:0 auto;
+  padding:0 clamp(2rem, 5vw, 5rem);
+  flex:1;
+  display:flex;
+  align-items:center;
+}
 
-.res-hero-kicker{display:flex;align-items:center;gap:1rem;font-size:.56rem;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.32);margin-bottom:2rem}
+/* ── Hero content block — left-anchored, tight rhythm ──────────── */
+.res-hero-content{
+  max-width:680px;
+  padding:2rem 0;
+}
+
+.res-hero-kicker{
+  display:flex;align-items:center;gap:.85rem;
+  font-size:.56rem;font-weight:700;letter-spacing:.32em;
+  text-transform:uppercase;color:rgba(255,255,255,.32);
+  margin-bottom:1.75rem;
+}
 .res-hero-kicker-line{width:20px;height:1px;background:rgba(255,255,255,.18);animation:resKickerLine 1.2s cubic-bezier(.16,1,.3,1) .6s both}
 @keyframes resKickerLine{from{width:0;opacity:0}to{width:20px;opacity:1}}
 .res-hero-kicker-dot{width:5px;height:5px;border-radius:50%;background:rgba(183,147,88,.8);animation:live-glow 2.2s ease-in-out infinite;flex-shrink:0}
 
-.res-hero-title{font-family:'Instrument Serif',serif;font-size:clamp(3.5rem,9vw,8rem);line-height:.88;letter-spacing:-.04em;color:#fff;font-weight:400;margin:0 0 2rem}
+.res-hero-title{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(3.5rem,8vw,7.5rem);
+  line-height:.88;letter-spacing:-.04em;
+  color:#fff;font-weight:400;
+  margin:0 0 1.75rem;
+}
 .res-hero-title em{font-style:italic;color:rgba(183,147,88,.9);display:block}
 
-.res-hero-sep{width:64px;height:1px;background:linear-gradient(90deg,rgba(183,147,88,.5),transparent);margin-bottom:1.75rem;position:relative;overflow:hidden}
+.res-hero-sep{
+  width:56px;height:1px;
+  background:linear-gradient(90deg,rgba(183,147,88,.5),transparent);
+  margin-bottom:1.5rem;position:relative;overflow:hidden;
+}
 .res-hero-sep::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(183,147,88,.9),transparent);animation:resSepSweep 5s ease-in-out infinite 2s}
 @keyframes resSepSweep{0%{left:-100%;opacity:0}20%{opacity:1}80%{opacity:1}100%{left:200%;opacity:0}}
 
-.res-hero-body{font-size:.98rem;font-weight:300;color:rgba(255,255,255,.45);line-height:1.9;margin-bottom:2.5rem}
+.res-hero-body{
+  font-size:.95rem;font-weight:300;
+  color:rgba(255,255,255,.42);line-height:1.85;
+  margin-bottom:2rem;max-width:440px;
+}
 
-.res-hero-cta{display:inline-flex;align-items:center;gap:.75rem;font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(183,147,88,.9);text-decoration:none;padding:.9rem 2rem;border:1px solid rgba(183,147,88,.25);border-radius:99px;transition:all .4s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}
+.res-hero-cta{
+  display:inline-flex;align-items:center;gap:.75rem;
+  font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(183,147,88,.9);text-decoration:none;
+  padding:.9rem 2.2rem;
+  border:1px solid rgba(183,147,88,.25);
+  border-radius:99px;
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+  position:relative;overflow:hidden;
+}
 .res-hero-cta::before{content:'';position:absolute;inset:0;background:rgba(183,147,88,.06);border-radius:inherit;opacity:0;transition:opacity .3s ease}
 .res-hero-cta:hover{border-color:rgba(183,147,88,.5);transform:translateY(-2px);gap:1.1rem}
 .res-hero-cta:hover::before{opacity:1}
 .res-hero-cta svg{transition:transform .3s ease}
 .res-hero-cta:hover svg{transform:translateX(4px)}
 
+/* ── Legacy strip — kept for compat ────────────────────────────── */
 .res-hero-strip{position:absolute;right:2.5rem;top:0;bottom:0;z-index:8;width:24px;display:flex;align-items:center;justify-content:center;overflow:hidden}
 @media(max-width:1024px){.res-hero-strip{display:none}}
 .res-hero-strip-inner{display:flex;flex-direction:column;animation:resStripScroll 12s linear infinite;white-space:nowrap}
 .res-hero-strip-text{font-size:.45rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.1);writing-mode:vertical-rl;line-height:1}
 @keyframes resStripScroll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
 
-.res-hero-scroll{position:absolute;bottom:2.5rem;right:5vw;display:flex;flex-direction:column;align-items:center;gap:.6rem;z-index:10;pointer-events:none}
-.res-hero-scroll span{font-size:.44rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.18)}
-.res-hero-scroll-track{width:1px;height:40px;background:rgba(255,255,255,.1);position:relative;overflow:hidden}
-.res-hero-scroll-dot{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:3px;height:6px;border-radius:3px;background:rgba(183,147,88,.6);animation:resScrollDot 2.2s ease-in-out infinite}
-@keyframes resScrollDot{0%{top:-6px;opacity:0}20%{opacity:1}80%{opacity:.6}100%{top:44px;opacity:0}}
+/* ── Scroll indicator — bottom center, minimal ─────────────────── */
+.res-hero-scroll{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;
+  z-index:10;pointer-events:none;
+}
+.res-hero-scroll-track{
+  width:1px;height:36px;
+  background:rgba(255,255,255,.08);
+  position:relative;overflow:hidden;
+}
+.res-hero-scroll-dot{
+  position:absolute;top:-6px;left:50%;transform:translateX(-50%);
+  width:3px;height:6px;border-radius:3px;
+  background:rgba(183,147,88,.5);
+  animation:resScrollDot 2.2s ease-in-out infinite;
+}
+@keyframes resScrollDot{0%{top:-6px;opacity:0}20%{opacity:1}80%{opacity:.6}100%{top:40px;opacity:0}}
 
+/* ── Hero stats — kept for compat ──────────────────────────────── */
 .res-hero-stats{position:absolute;bottom:0;left:0;right:0;z-index:10;display:flex;align-items:center;border-top:1px solid rgba(255,255,255,.06);background:rgba(4,8,6,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:1.35rem 5vw}
 @media(max-width:768px){.res-hero-stats{display:none}}
 .res-hero-stat{display:flex;flex-direction:column;gap:.3rem;padding:0 2.5rem 0 0}
@@ -898,7 +959,9 @@ textarea.res-form-input{
 }
 @media(max-width:768px){
   .res-hero{min-height:520px}
+  .res-hero-container{padding:0 1.75rem}
   .res-hero-title{font-size:clamp(2.8rem,11vw,4.5rem)}
+  .res-hero-scroll{bottom:1.5rem}
   .res-section{padding:4rem 0 4.5rem}
   .res-section-header{margin-bottom:2.25rem}
   .res-step{grid-template-columns:40px 1fr;gap:0 1rem;padding:1.75rem 0}
@@ -916,7 +979,8 @@ textarea.res-form-input{
   .res-form-env-thumb-wrap{width:52px;height:52px}
 }
 @media(max-width:480px){
-  .res-hero-content{padding:0 1.25rem 3.5rem}
+  .res-hero-container{padding:0 1.25rem}
+  .res-hero-content{padding:1rem 0}
   .res-hero-kicker{font-size:.5rem}
   .res-hero-body{font-size:.88rem}
   .res-step{grid-template-columns:34px 1fr;padding:1.5rem 0}

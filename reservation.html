@@ -81,9 +81,8 @@
   <nav id="navbar" aria-label="Navegação principal">
     <a href="./index.html" class="nav-logo" style="letter-spacing:0.01em;font-size:1.35rem;">Giardini Café</a>
     <div class="nav-menu">
-      <a href="./index.html#experience" class="nav-link">Experiência</a>
+      <a href="./index.html" class="nav-link">Início</a>
       <a href="./menu.html" class="nav-link">Cardápio</a>
-      <a href="./index.html#clube-livro" class="nav-link">Livros</a>
       <a href="./index.html#location" class="nav-link">Visite-nos</a>
     </div>
     <div class="nav-actions">
@@ -129,39 +128,41 @@
     <!-- Floating particles -->
     <div class="res-hero-particles" id="res-hero-particles" aria-hidden="true"></div>
 
-    <!-- Hero content — left-aligned editorial -->
-    <div class="res-hero-content">
-      <!-- Kicker -->
-      <div class="res-hero-kicker res-hero-reveal" data-delay="0">
-        <div class="res-hero-kicker-line"></div>
-        <div class="res-hero-kicker-dot"></div>
-        Reservas · Giardini Café
-        <div class="res-hero-kicker-dot" style="animation-delay:0.8s;"></div>
-        <div class="res-hero-kicker-line"></div>
+    <!-- Hero content — editorial grid container -->
+    <div class="res-hero-container">
+      <div class="res-hero-content">
+        <!-- Kicker -->
+        <div class="res-hero-kicker res-hero-reveal" data-delay="0">
+          <div class="res-hero-kicker-line"></div>
+          <div class="res-hero-kicker-dot"></div>
+          Reservas · Giardini Café
+          <div class="res-hero-kicker-dot" style="animation-delay:0.8s;"></div>
+          <div class="res-hero-kicker-line"></div>
+        </div>
+
+        <!-- Title -->
+        <h1 class="res-hero-title res-hero-reveal" data-delay="0.12">
+          Reserve sua<br><em>experiência</em>
+        </h1>
+
+        <!-- Separator with shimmer -->
+        <div class="res-hero-sep res-hero-reveal" data-delay="0.28"></div>
+
+        <!-- Body -->
+        <p class="res-hero-body res-hero-reveal" data-delay="0.38">
+          Um momento reservado para você.<br>Escolha o ambiente, a data e viva o Giardini.
+        </p>
+
+        <!-- CTA inline arrow -->
+        <a href="#reservation-flow" class="res-hero-cta res-hero-reveal" data-delay="0.5" id="res-hero-cta">
+          <span>Fazer minha reserva</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
-
-      <!-- Title -->
-      <h1 class="res-hero-title res-hero-reveal" data-delay="0.12">
-        Reserve sua<br><em>experiência</em>
-      </h1>
-
-      <!-- Separator with shimmer -->
-      <div class="res-hero-sep res-hero-reveal" data-delay="0.28"></div>
-
-      <!-- Body -->
-      <p class="res-hero-body res-hero-reveal" data-delay="0.38">
-        Um momento reservado para você.<br>Escolha o ambiente, a data e viva o Giardini.
-      </p>
-
-      <!-- CTA inline arrow -->
-      <a href="#reservation-flow" class="res-hero-cta res-hero-reveal" data-delay="0.5" id="res-hero-cta">
-        <span>Fazer minha reserva</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
     </div>
-    <!-- Scroll indicator -->
+
+    <!-- Scroll indicator — bottom center, subtle -->
     <div class="res-hero-scroll res-hero-reveal" data-delay="0.6">
-      <span>Scroll</span>
       <div class="res-hero-scroll-track">
         <div class="res-hero-scroll-dot"></div>
       </div>
