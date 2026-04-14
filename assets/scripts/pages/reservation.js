@@ -208,34 +208,7 @@ function hideFormSummary() {
 }
 
 function updateSummaryPills() {
-  if (!DOM.spillGuests) return;
-
-  // Guests pill
-  if (selectedGuests) {
-    DOM.spillGuests.textContent = `${selectedGuests} ${selectedGuests === '1' ? 'pessoa' : 'pessoas'}`;
-    DOM.spillGuests.classList.add('is-set');
-  } else {
-    DOM.spillGuests.textContent = '';
-    DOM.spillGuests.classList.remove('is-set');
-  }
-
-  // Date pill
-  if (DOM.dateInput.value) {
-    DOM.spillDate.textContent = formatDateDisplay(DOM.dateInput.value);
-    DOM.spillDate.classList.add('is-set');
-  } else {
-    DOM.spillDate.textContent = '';
-    DOM.spillDate.classList.remove('is-set');
-  }
-
-  // Time pill
-  if (selectedTime) {
-    DOM.spillTime.textContent = selectedTime;
-    DOM.spillTime.classList.add('is-set');
-  } else {
-    DOM.spillTime.textContent = '';
-    DOM.spillTime.classList.remove('is-set');
-  }
+  /* Summary pills removed — no-op kept for call-site safety */
 }
 
 
@@ -718,9 +691,8 @@ function bindEvents() {
   const nb = document.getElementById('res-new-reservation');
   if (nb) nb.addEventListener('click', handleNewReservation);
 
-  // "Alterar" buttons — both the one below cards and the one in form summary
-  if (DOM.envChangeBtn)    DOM.envChangeBtn.addEventListener('click', resetEnvCardSelection);
-  if (DOM.formEnvChange)   DOM.formEnvChange.addEventListener('click', resetEnvCardSelection);
+  // "Alterar" button below cards
+  if (DOM.envChangeBtn) DOM.envChangeBtn.addEventListener('click', resetEnvCardSelection);
 }
 
 

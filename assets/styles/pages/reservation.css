@@ -365,81 +365,43 @@
 }
 .res-form-wrap::before{display:none}
 
-/* ── ENV SUMMARY — glass strip on green ──────────────────────────── */
+/* ── ENV SUMMARY — minimal context strip, no dashboard feel ─────── */
 .res-form-env-summary{
   display:none;
   align-items:center;
-  gap:1.5rem;
-  padding:1.1rem 1.75rem;
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.09);
-  border-left:2px solid rgba(183,147,88,.35);
-  border-radius:14px;
-  margin-bottom:3rem;
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  transition:background .3s ease,border-color .3s ease;
-}
-.res-form-env-summary:hover{
-  background:rgba(255,255,255,.08);
-  border-color:rgba(255,255,255,.14);
+  gap:1.1rem;
+  padding:.85rem 0;
+  margin-bottom:2.5rem;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  transition:opacity .4s ease;
 }
 .res-form-env-summary.is-visible{display:flex}
 
 .res-form-env-thumb-wrap{
-  width:56px;height:56px;border-radius:9px;overflow:hidden;flex-shrink:0;
-  border:1px solid rgba(255,255,255,.14);
+  width:38px;height:38px;border-radius:7px;overflow:hidden;flex-shrink:0;
+  border:1px solid rgba(255,255,255,.12);
+  opacity:.85;
 }
-.res-form-env-thumb-wrap img{width:100%;height:100%;object-fit:cover;filter:saturate(.85) brightness(.9)}
+.res-form-env-thumb-wrap img{width:100%;height:100%;object-fit:cover;filter:saturate(.75) brightness(.85)}
 
 .res-form-env-text{
-  display:flex;flex-direction:column;gap:.28rem;
+  display:flex;flex-direction:column;gap:.18rem;
   flex:1;min-width:0;
 }
 .res-form-env-kicker{
-  font-size:.46rem;font-weight:700;letter-spacing:.26em;
-  text-transform:uppercase;color:rgba(183,147,88,.55);
+  font-size:.44rem;font-weight:700;letter-spacing:.28em;
+  text-transform:uppercase;color:rgba(183,147,88,.48);
 }
 .res-form-env-name{
   font-family:'Instrument Serif',serif;
-  font-size:1.08rem;font-style:italic;
-  color:rgba(255,255,255,.85);line-height:1;
-  transition:opacity .4s ease;
+  font-size:.98rem;font-style:italic;
+  color:rgba(255,255,255,.7);line-height:1;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 
-.res-form-env-change{
-  display:flex;align-items:center;gap:.45rem;
-  flex-shrink:0;margin-left:auto;
-  font-family:'Inter',sans-serif;font-size:.55rem;font-weight:600;
-  letter-spacing:.14em;text-transform:uppercase;
-  color:rgba(255,255,255,.38);
-  background:transparent;
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:8px;padding:.52rem .95rem;
-  cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);
-  white-space:nowrap;
-}
-.res-form-env-change:hover{
-  color:rgba(183,147,88,.85);
-  border-color:rgba(183,147,88,.25);
-  background:rgba(183,147,88,.06);
-  transform:translateY(-1px);
-}
-
-/* Summary pills row */
-.res-form-summary-pills{
-  display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;
-  width:100%;border-top:1px solid rgba(255,255,255,.06);
-  padding-top:.6rem;margin-top:-.1rem;
-}
-.res-form-summary-pill{
-  display:none;
-  font-size:.63rem;font-weight:500;color:rgba(255,255,255,.45);
-  background:rgba(255,255,255,.07);border-radius:99px;
-  padding:.28rem .8rem;letter-spacing:.01em;
-}
-.res-form-summary-pill.is-set{display:inline-block}
+/* Hide the old change button and pills — removed from HTML */
+.res-form-env-change{display:none}
+.res-form-summary-pills{display:none}
 
 /* ── FORM COLUMN — steps ─────────────────────────────────────────── */
 .res-form-column{width:100%}
@@ -496,44 +458,114 @@
 .res-step--info{padding-bottom:3rem}
 
 /* ══════════════════════════════════════════════════════════════════
-   CUSTOM DATEPICKER
+   CUSTOM DATEPICKER — dark premium, integrated with green UI
    ══════════════════════════════════════════════════════════════════ */
-.rcd-wrap{position:relative;width:100%;max-width:300px;z-index:1}
+.rcd-wrap{position:relative;width:100%;max-width:320px;z-index:1}
 .rcd-wrap.is-active{z-index:200}
-.rcd-trigger{display:flex;align-items:center;gap:.85rem;width:100%;padding:.9rem 1.15rem;font-family:'Inter',sans-serif;font-size:.88rem;color:rgba(255,255,255,.75);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:11px;cursor:pointer;transition:all .35s cubic-bezier(.16,1,.3,1);text-align:left;outline:none;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.rcd-trigger:hover:not([disabled]){border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.1)}
-.rcd-trigger:focus:not([disabled]){border-color:rgba(183,147,88,.5);box-shadow:0 0 0 3px rgba(183,147,88,.1)}
-.rcd-trigger[disabled]{opacity:.28;pointer-events:none;background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.05)}
-.rcd-icon{flex-shrink:0;color:rgba(255,255,255,.3)}
-.rcd-value{flex:1;color:rgba(255,255,255,.3)}
+.rcd-icon{flex-shrink:0;color:rgba(255,255,255,.45)}
+.rcd-value{flex:1;color:rgba(255,255,255,.45)}
 .rcd-value.has-date{color:rgba(255,255,255,.88)}
-.rcd-calendar{position:absolute;top:calc(100% + 6px);left:0;z-index:300;width:308px;background:rgba(255,255,255,.99);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(26,26,26,.06);border-radius:18px;box-shadow:0 24px 56px -8px rgba(0,0,0,.14),0 6px 16px rgba(0,0,0,.04);padding:1.25rem;opacity:0;transform:translateY(-8px) scale(.98);pointer-events:none;transition:all .3s cubic-bezier(.16,1,.3,1)}
+
+/* Calendar popup — dark green glass, not white */
+.rcd-calendar{
+  position:absolute;top:calc(100% + 8px);left:0;z-index:300;
+  width:320px;
+  background:rgba(14,22,17,.96);
+  backdrop-filter:blur(32px);
+  -webkit-backdrop-filter:blur(32px);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:16px;
+  box-shadow:
+    0 32px 80px -12px rgba(0,0,0,.8),
+    0 8px 24px rgba(0,0,0,.4),
+    inset 0 1px 0 rgba(255,255,255,.06);
+  padding:1.35rem;
+  opacity:0;transform:translateY(-10px) scale(.97);
+  pointer-events:none;
+  transition:all .35s cubic-bezier(.16,1,.3,1);
+}
 .rcd-calendar.is-open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
-.rcd-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;padding:0 .25rem}
-.rcd-month{font-family:'Instrument Serif',serif;font-size:1.05rem;font-style:italic;color:var(--c-dark);flex:1;text-align:center}
-.rcd-nav{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:none;background:rgba(26,26,26,.04);border-radius:8px;cursor:pointer;color:rgba(26,26,26,.38);transition:all .2s ease}
-.rcd-nav:hover:not([disabled]){background:rgba(43,74,59,.07);color:var(--c-primary)}
-.rcd-nav[disabled]{opacity:.2;cursor:default;pointer-events:none}
-.rcd-weekdays{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:.5rem}
-.rcd-weekdays span{font-size:.5rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(26,26,26,.22);text-align:center;padding:.35rem 0}
+
+.rcd-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1.25rem;padding:0 .15rem;
+}
+.rcd-month{
+  font-family:'Instrument Serif',serif;
+  font-size:1rem;font-style:italic;
+  color:rgba(255,255,255,.82);flex:1;text-align:center;
+}
+.rcd-nav{
+  display:flex;align-items:center;justify-content:center;
+  width:30px;height:30px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.04);
+  border-radius:8px;cursor:pointer;
+  color:rgba(255,255,255,.4);
+  transition:all .2s ease;
+}
+.rcd-nav:hover:not([disabled]){
+  background:rgba(183,147,88,.12);
+  border-color:rgba(183,147,88,.25);
+  color:rgba(183,147,88,.85);
+}
+.rcd-nav[disabled]{opacity:.18;cursor:default;pointer-events:none}
+
+.rcd-weekdays{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:.6rem}
+.rcd-weekdays span{
+  font-size:.46rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.2);
+  text-align:center;padding:.4rem 0;
+}
 .rcd-days{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.rcd-day{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:1;font-size:.82rem;color:rgba(26,26,26,.62);border:none;background:transparent;border-radius:9px;cursor:pointer;transition:all .2s ease;position:relative}
-.rcd-day:hover:not(.is-disabled):not(.is-selected):not(.is-empty){background:rgba(43,74,59,.06);color:var(--c-primary)}
-.rcd-day.is-today:not(.is-selected){font-weight:600;color:var(--c-primary)}
-.rcd-day.is-today:not(.is-selected)::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:2px;border-radius:1px;background:var(--c-primary);opacity:.5}
-.rcd-day.is-selected{background:var(--c-primary);color:#fff;font-weight:600;box-shadow:0 4px 12px rgba(43,74,59,.22)}
-.rcd-day.is-disabled{color:rgba(26,26,26,.15);cursor:not-allowed;text-decoration:line-through;text-decoration-color:rgba(26,26,26,.1)}
+.rcd-day{
+  display:flex;align-items:center;justify-content:center;
+  width:100%;aspect-ratio:1;
+  font-size:.8rem;font-weight:400;
+  color:rgba(255,255,255,.62);
+  border:none;background:transparent;
+  border-radius:8px;cursor:pointer;
+  transition:all .18s ease;
+  position:relative;
+}
+.rcd-day:hover:not(.is-disabled):not(.is-selected):not(.is-empty){
+  background:rgba(255,255,255,.08);
+  color:rgba(255,255,255,.9);
+}
+.rcd-day.is-today:not(.is-selected){
+  font-weight:600;
+  color:rgba(183,147,88,.9);
+}
+.rcd-day.is-today:not(.is-selected)::after{
+  content:'';position:absolute;bottom:3px;left:50%;
+  transform:translateX(-50%);
+  width:4px;height:2px;border-radius:1px;
+  background:rgba(183,147,88,.7);opacity:.8;
+}
+.rcd-day.is-selected{
+  background:var(--c-primary);
+  color:#fff;font-weight:600;
+  box-shadow:0 4px 16px rgba(43,74,59,.5);
+  border:1px solid rgba(255,255,255,.1);
+}
+.rcd-day.is-disabled,
+.rcd-day.is-past{
+  color:rgba(255,255,255,.14);
+  cursor:not-allowed;
+  text-decoration:line-through;
+  text-decoration-color:rgba(255,255,255,.08);
+}
 .rcd-day.is-empty{pointer-events:none}
-.rcd-day.is-past{color:rgba(26,26,26,.16);cursor:not-allowed}
 
 /* ══════════════════════════════════════════════════════════════════
-   PARTY SIZE PILLS — glass on green
+   PARTY SIZE PILLS — premium, less dense
    ══════════════════════════════════════════════════════════════════ */
-.res-pills{display:flex;flex-wrap:wrap;gap:.5rem}
+.res-pills{display:flex;flex-wrap:wrap;gap:.55rem}
 .res-pill{
   display:inline-flex;align-items:center;justify-content:center;
-  min-width:46px;height:42px;padding:0 1rem;
-  font-family:'Inter',sans-serif;font-size:.82rem;font-weight:500;
+  width:48px;height:48px;padding:0;
+  font-family:'Inter',sans-serif;font-size:.88rem;font-weight:500;
   color:rgba(255,255,255,.55);
   background:rgba(255,255,255,.07);
   border:1px solid rgba(255,255,255,.1);
@@ -548,34 +580,36 @@
   border-color:rgba(255,255,255,.2);
   color:rgba(255,255,255,.9);
   transform:translateY(-2px);
+  box-shadow:0 6px 18px -4px rgba(0,0,0,.3);
 }
 .res-pill.active{
-  background:rgba(43,74,59,.75);
+  background:rgba(43,74,59,.8);
   color:#fff;
-  border-color:rgba(43,74,59,.9);
-  box-shadow:0 4px 18px -4px rgba(0,0,0,.35),0 0 0 1px rgba(183,147,88,.2);
+  border-color:rgba(43,74,59,.95);
+  box-shadow:0 4px 20px -4px rgba(0,0,0,.4),0 0 0 1px rgba(183,147,88,.18);
+  font-weight:600;
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   TIME SLOTS — glass on green
+   TIME SLOTS — premium, grouped clearly
    ══════════════════════════════════════════════════════════════════ */
 .res-times-area{min-height:60px;position:relative}
 .res-times-empty{
-  font-size:.88rem;font-weight:300;
+  font-size:.9rem;font-weight:300;
   color:rgba(255,255,255,.3);
   font-style:italic;font-family:'Instrument Serif',serif;padding:.5rem 0;
 }
-.res-times-skeleton{display:flex;flex-wrap:wrap;gap:.5rem}
+.res-times-skeleton{display:flex;flex-wrap:wrap;gap:.55rem}
 .res-skeleton-pill{
-  width:74px;height:42px;border-radius:10px;
+  width:80px;height:44px;border-radius:10px;
   background:linear-gradient(90deg,rgba(255,255,255,.04) 25%,rgba(255,255,255,.09) 50%,rgba(255,255,255,.04) 75%);
   background-size:200% 100%;animation:skeletonShimmer 1.5s ease-in-out infinite;
 }
 .res-time-pill{
   display:inline-flex;align-items:center;justify-content:center;
-  min-width:74px;height:42px;padding:0 1rem;
+  min-width:80px;height:44px;padding:0 1.1rem;
   font-family:'Inter',sans-serif;font-size:.82rem;font-weight:500;letter-spacing:.04em;
-  color:rgba(255,255,255,.55);
+  color:rgba(255,255,255,.6);
   background:rgba(255,255,255,.07);
   border:1px solid rgba(255,255,255,.1);
   border-radius:10px;cursor:pointer;
@@ -587,45 +621,47 @@
 .res-time-pill:hover{
   background:rgba(255,255,255,.13);
   border-color:rgba(255,255,255,.2);
-  color:rgba(255,255,255,.9);
+  color:rgba(255,255,255,.92);
   transform:translateY(-2px);
+  box-shadow:0 6px 18px -4px rgba(0,0,0,.3);
 }
 .res-time-pill.active{
-  background:rgba(43,74,59,.75);
+  background:rgba(43,74,59,.8);
   color:#fff;
-  border-color:rgba(43,74,59,.9);
-  box-shadow:0 4px 18px -4px rgba(0,0,0,.35),0 0 0 1px rgba(183,147,88,.2);
+  border-color:rgba(43,74,59,.95);
+  box-shadow:0 4px 20px -4px rgba(0,0,0,.4),0 0 0 1px rgba(183,147,88,.18);
+  font-weight:600;
 }
-.res-time-group{width:100%}
+.res-time-group{width:100%;margin-bottom:.25rem}
 .res-time-group-label{
   display:flex;align-items:center;gap:.75rem;
-  font-size:.49rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
-  color:rgba(255,255,255,.22);margin-bottom:.8rem;
+  font-size:.47rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(255,255,255,.2);margin-bottom:.9rem;
 }
 .res-time-group-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(255,255,255,.07),transparent)}
-.res-time-group-pills{display:flex;flex-wrap:wrap;gap:.5rem}
+.res-time-group-pills{display:flex;flex-wrap:wrap;gap:.55rem}
 
 /* ══════════════════════════════════════════════════════════════════
    FORM INPUTS — Glass, floating on green background
    ══════════════════════════════════════════════════════════════════ */
-.res-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem 2rem}
+.res-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem 2rem}
 .res-form-field{display:flex;flex-direction:column}
 .res-form-field.full-width{grid-column:1/-1}
 .res-form-label{
-  display:block;font-size:.48rem;font-weight:700;
-  letter-spacing:.24em;text-transform:uppercase;
-  color:rgba(255,255,255,.38);
-  margin-bottom:.55rem;
+  display:block;font-size:.46rem;font-weight:700;
+  letter-spacing:.26em;text-transform:uppercase;
+  color:rgba(255,255,255,.42);
+  margin-bottom:.6rem;
 }
 .res-form-input{
   font-family:'Inter',sans-serif;
-  font-size:.88rem;font-weight:400;
-  color:rgba(255,255,255,.88);
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.1);
+  font-size:.9rem;font-weight:400;
+  color:rgba(255,255,255,.9);
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
   border-radius:10px;
-  padding:1rem 1.15rem;
-  height:52px;
+  padding:1.05rem 1.2rem;
+  height:54px;
   transition:all .35s cubic-bezier(.16,1,.3,1);
   width:100%;
   backdrop-filter:blur(12px);
@@ -633,32 +669,32 @@
   box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
 }
 .res-form-input:hover:not(:disabled){
-  background:rgba(255,255,255,.1);
-  border-color:rgba(255,255,255,.18);
+  background:rgba(255,255,255,.11);
+  border-color:rgba(255,255,255,.2);
 }
 .res-form-input:focus{
   outline:none;
-  background:rgba(255,255,255,.11);
-  border-color:rgba(183,147,88,.5);
-  box-shadow:0 0 0 3px rgba(183,147,88,.1),inset 0 1px 0 rgba(255,255,255,.08);
+  background:rgba(255,255,255,.12);
+  border-color:rgba(183,147,88,.55);
+  box-shadow:0 0 0 3px rgba(183,147,88,.12),inset 0 1px 0 rgba(255,255,255,.08);
 }
 .res-form-input::placeholder{
   color:rgba(255,255,255,.22);
   font-weight:300;
 }
 .res-form-input:disabled{
-  opacity:.28;cursor:not-allowed;
+  opacity:.25;cursor:not-allowed;
   background:rgba(255,255,255,.03);
   border-color:rgba(255,255,255,.05);
 }
 textarea.res-form-input{
   resize:none;
-  min-height:100px;
+  min-height:104px;
   height:auto;
   line-height:1.78;
-  padding:.95rem 1.15rem;
+  padding:1rem 1.2rem;
 }
-.res-form-grid--info{gap:1.15rem 2rem}
+.res-form-grid--info{gap:1.25rem 2rem}
 
 /* ══════════════════════════════════════════════════════════════════
    CTA AREA — Integrated into green background
