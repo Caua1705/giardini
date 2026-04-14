@@ -78,28 +78,29 @@
   </div>
 
   <!-- ══ NAVBAR ══════════════════════════════════════════════════ -->
-  <nav id="navbar" aria-label="Navegação principal">
-    <a href="./index.html" class="nav-logo" style="letter-spacing:0.01em;font-size:1.35rem;">Giardini Café</a>
+  <nav id="navbar" class="nav-light">
+    <!-- Left -->
+    <a href="./index.html" class="nav-logo" aria-label="Início Giardini">Giardini</a>
+
+    <!-- Center -->
     <div class="nav-menu">
       <a href="./index.html" class="nav-link">Início</a>
       <a href="./menu.html" class="nav-link">Cardápio</a>
       <a href="./index.html#location" class="nav-link">Visite-nos</a>
     </div>
+
+    <!-- Right -->
     <div class="nav-actions">
-      <a href="./reservation.html" class="nav-cta is-active group relative overflow-hidden"
-        style="padding:0.5rem 1.2rem;font-size:0.62rem;transition:all 0.3s var(--expo);">
-        <span class="absolute inset-0 overflow-hidden pointer-events-none" style="border-radius: inherit; z-index: 1;">
-          <div class="s4-beam"></div>
-        </span>
+      <a href="./reservation.html" class="nav-cta">
+        <!-- Shimmer Beam Effect -->
+        <span class="s4-beam"></span>
         <span style="position: relative; z-index: 2;">Reservar</span>
-        <svg style="position: relative; z-index: 2;" width="10" height="10" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <svg style="position: relative; z-index: 2;" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M5 12h14M12 5l7 7-7 7" />
         </svg>
       </a>
       <button class="nav-hamburger" id="hamburger" aria-label="Abrir menu">
-        <iconify-icon icon="lucide:menu"
-          style="font-size:2rem;color:currentColor;--iconify-stroke-width:1.2px; stroke-width: 1.2px;"></iconify-icon>
+        <iconify-icon icon="lucide:menu" style="font-size:2rem;color:currentColor;--iconify-stroke-width:1.2px; stroke-width: 1.2px;"></iconify-icon>
       </button>
     </div>
   </nav>
@@ -159,15 +160,6 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </div>
-
-    <!-- Immersive side strip — desktop only -->
-    <div class="res-hero-strip" aria-hidden="true">
-      <div class="res-hero-strip-inner">
-        <span class="res-hero-strip-text">Giardini · Reservas · 2026 · Giardini · Reservas · 2026 · </span>
-        <span class="res-hero-strip-text">Giardini · Reservas · 2026 · Giardini · Reservas · 2026 · </span>
-      </div>
-    </div>
-
     <!-- Scroll indicator -->
     <div class="res-hero-scroll res-hero-reveal" data-delay="0.6">
       <span>Scroll</span>
@@ -175,25 +167,6 @@
         <div class="res-hero-scroll-dot"></div>
       </div>
     </div>
-
-    <!-- Hero stats bar -->
-    <div class="res-hero-stats res-hero-reveal" data-delay="0.7">
-      <div class="res-hero-stat">
-        <span class="res-hero-stat-num">6</span>
-        <span class="res-hero-stat-label">Ambientes</span>
-      </div>
-      <div class="res-hero-stat-sep"></div>
-      <div class="res-hero-stat">
-        <span class="res-hero-stat-num">+500m²</span>
-        <span class="res-hero-stat-label">de experiência</span>
-      </div>
-      <div class="res-hero-stat-sep"></div>
-      <div class="res-hero-stat">
-        <span class="res-hero-stat-num">Ter–Dom</span>
-        <span class="res-hero-stat-label">aberto</span>
-      </div>
-    </div>
-
   </section>
 
   <!-- ══════════════════════════════════════════════════════════════

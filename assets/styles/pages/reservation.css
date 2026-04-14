@@ -3,9 +3,23 @@
    Premium Editorial — Final Refinement
    ══════════════════════════════════════════════════════════════════ */
 
-/* ── NAV ACTIVE STATE ────────────────────────────────────────────── */
-.nav-cta.is-active{background:var(--c-primary)!important;color:var(--c-bg)!important;border-color:var(--c-primary)!important}
-.is-scrolled .nav-cta.is-active{background:var(--c-primary)!important;color:var(--c-bg)!important;border-color:var(--c-primary)!important}
+/* ── NAVBAR SYNC ────────────────────────────────────────────────── */
+#navbar { transition: padding 0.8s var(--expo), background 0.8s var(--expo), border 0.8s var(--expo), backdrop-filter 0.8s var(--expo); }
+#navbar.is-scrolled { background: rgba(13, 26, 18, 0.96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(43, 74, 59, 0.15); padding-top: 1.25rem!important; padding-bottom: 1.25rem!important; }
+.nav-logo { color: #fff!important; transition: color 0.4s var(--expo); flex: 1; display: flex; align-items: center; }
+.is-scrolled .nav-logo { color: rgba(255, 255, 255, 0.95)!important; }
+.nav-menu { display: flex; gap: 2.5rem; align-items: center; justify-content: center; flex: 2; }
+.nav-actions { display: flex; gap: 1.5rem; align-items: center; justify-content: flex-end; flex: 1; }
+.nav-link { color: rgba(255, 255, 255, 0.75)!important; transition: color 0.3s ease; }
+.nav-link:hover { color: #fff!important; }
+.is-scrolled .nav-link { color: rgba(255, 255, 255, 0.65)!important; }
+.is-scrolled .nav-link:hover { color: #fff!important; }
+
+/* CTA in Navbar */
+.nav-cta { border: 1.5px solid rgba(255, 255, 255, 0.35)!important; color: #fff!important; transition: all 0.4s var(--expo)!important; }
+.nav-cta:hover { background: var(--c-primary)!important; border-color: var(--c-primary)!important; color: var(--c-bg)!important; transform: translateY(-2px); }
+.is-scrolled .nav-cta { border-color: var(--c-primary)!important; color: var(--c-primary)!important; background: transparent; }
+.is-scrolled .nav-cta:hover { background: var(--c-primary)!important; color: var(--c-bg)!important; }
 
 /* ══════════════════════════════════════════════════════════════════
    HERO
@@ -737,9 +751,9 @@ textarea.res-form-input{
   padding:1.25rem 3rem;
   font-family:'Inter',sans-serif;font-size:.67rem;font-weight:700;
   letter-spacing:.22em;text-transform:uppercase;
-  color:#fff;
-  background:linear-gradient(135deg,#2b4a3b 0%,#3a6350 100%);
-  border:1px solid rgba(255,255,255,.08);
+  color:var(--c-bg);
+  background:var(--c-primary);
+  border:1.5px solid var(--c-primary);
   border-radius:99px;cursor:pointer;
   position:relative;overflow:hidden;
   transition:all .45s cubic-bezier(.16,1,.3,1);
@@ -758,11 +772,11 @@ textarea.res-form-input{
 .res-submit-btn:hover{
   transform:translateY(-4px);
   box-shadow:
-    0 24px 60px -8px rgba(0,0,0,.6),
-    0 8px 24px rgba(0,0,0,.3),
-    inset 0 1px 0 rgba(255,255,255,.15);
-  background:linear-gradient(135deg,#345e47 0%,#447560 100%);
-  border-color:rgba(255,255,255,.14);
+    0 24px 60px -8px rgba(43, 74, 59, 0.45),
+    0 8px 24px rgba(0,0,0,0.3);
+  background:var(--c-primary);
+  filter:brightness(1.1);
+  border-color:var(--c-primary);
 }
 .res-submit-btn:active{transform:translateY(1px) scale(.98)}
 .res-submit-btn.loading{pointer-events:none;opacity:.85}
