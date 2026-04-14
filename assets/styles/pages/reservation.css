@@ -462,9 +462,26 @@
    ══════════════════════════════════════════════════════════════════ */
 .rcd-wrap{position:relative;width:100%;max-width:320px;z-index:1}
 .rcd-wrap.is-active{z-index:200}
+.rcd-trigger{
+  display:flex;align-items:center;gap:.85rem;
+  width:100%;padding:.95rem 1.2rem;
+  font-family:'Inter',sans-serif;font-size:.88rem;font-weight:400;
+  color:rgba(255,255,255,.88);
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;cursor:pointer;
+  transition:all .35s cubic-bezier(.16,1,.3,1);
+  text-align:left;outline:none;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+}
+.rcd-trigger:hover:not([disabled]){background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.2)}
+.rcd-trigger:focus:not([disabled]){border-color:rgba(183,147,88,.55);box-shadow:0 0 0 3px rgba(183,147,88,.12)}
+.rcd-trigger[disabled]{opacity:.25;pointer-events:none;background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.05)}
 .rcd-icon{flex-shrink:0;color:rgba(255,255,255,.45)}
-.rcd-value{flex:1;color:rgba(255,255,255,.45)}
-.rcd-value.has-date{color:rgba(255,255,255,.88)}
+.rcd-value{flex:1;color:rgba(255,255,255,.45);font-family:'Inter',sans-serif;font-size:.88rem;font-weight:300}
+.rcd-value.has-date{color:rgba(255,255,255,.88);font-weight:400}
 
 /* Calendar popup — dark green glass, not white */
 .rcd-calendar{
