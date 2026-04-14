@@ -7,8 +7,9 @@
 
 const API_BASE_URL = "http://127.0.0.1:8000";
 
-// Environment name → image path mapping (edit paths here)
-const ENVIRONMENT_IMAGES = {
+// Image mapping by environment ID — populated after API returns environments.
+// Fallback: maps by name if ID is not found.
+const ENVIRONMENT_IMAGES_BY_NAME = {
   'Jardim Externo':          'assets/images/space.webp',
   'Salão Principal':         'assets/images/_MG_2011.jpg',
   'Lounge Reservado':        'assets/images/_MG_2064.jpg',
@@ -17,7 +18,13 @@ const ENVIRONMENT_IMAGES = {
   'Sala Privativa Grande':   'assets/images/_MG_2005 (1).jpg',
 };
 
+// Will be built as { envId: imagePath } after loadEnvironments()
+let ENVIRONMENT_IMAGES = {};
+
 const DEFAULT_PREVIEW_IMAGE = 'assets/images/space.webp';
+
+const MONTHS_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const MONTHS_SHORT = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
 
 
 /* ── GSAP & Lenis Setup ───────────────────────────────────────── */
@@ -32,391 +39,455 @@ const lenis = new Lenis({
   smoothTouch: false,
 });
 
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
-}
+function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
 requestAnimationFrame(raf);
 
 
 /* ── DOM References ────────────────────────────────────────────── */
 
 const DOM = {
-  // Preloader
-  loader:          document.getElementById('loader'),
-  loaderBar:       document.getElementById('loader-bar'),
-
-  // Mobile menu
-  hamburger:       document.getElementById('hamburger'),
-  mobileMenu:      document.getElementById('mobile-menu'),
-  mobileClose:     document.getElementById('mobile-close'),
-
-  // Form — Environment
-  environment:     document.getElementById('res-environment'),
-  environmentMsg:  document.getElementById('res-environment-msg'),
-
-  // Form — Guests
+  loader: document.getElementById('loader'),
+  loaderBar: document.getElementById('loader-bar'),
+  hamburger: document.getElementById('hamburger'),
+  mobileMenu: document.getElementById('mobile-menu'),
+  mobileClose: document.getElementById('mobile-close'),
+  environment: document.getElementById('res-environment'),
+  environmentMsg: document.getElementById('res-environment-msg'),
   guestsContainer: document.getElementById('res-guests'),
-  guestsSublabel:  document.getElementById('res-guests-sublabel'),
-
-  // Form — Date
-  dateInput:       document.getElementById('res-date'),
-  dateMsg:         document.getElementById('res-date-msg'),
-  dateSublabel:    document.getElementById('res-date-sublabel'),
-
-  // Form — Time slots
-  timesEmpty:      document.getElementById('res-times-empty'),
-  timesSkeleton:   document.getElementById('res-times-skeleton'),
-  timesContainer:  document.getElementById('res-times'),
-
-  // Form — Personal info
-  nameInput:       document.getElementById('res-name'),
-  emailInput:      document.getElementById('res-email'),
-  phoneInput:      document.getElementById('res-phone'),
-  notesInput:      document.getElementById('res-notes'),
-  infoSublabel:    document.getElementById('res-info-sublabel'),
-
-  // Submit
-  submitBtn:       document.getElementById('res-submit'),
-  successPanel:    document.getElementById('res-success'),
-  errorPanel:      document.getElementById('res-error'),
-
-  // Mobile environment preview
-  envPreviewImg:   document.getElementById('res-env-preview-img'),
-  envPreviewName:  document.getElementById('res-env-preview-envname'),
-
-  // Desktop showcase
-  envShowcaseImg:  document.getElementById('res-env-showcase-img'),
+  guestsSublabel: document.getElementById('res-guests-sublabel'),
+  dateInput: document.getElementById('res-date'),
+  dateMsg: document.getElementById('res-date-msg'),
+  dateSublabel: document.getElementById('res-date-sublabel'),
+  timesEmpty: document.getElementById('res-times-empty'),
+  timesSkeleton: document.getElementById('res-times-skeleton'),
+  timesContainer: document.getElementById('res-times'),
+  nameInput: document.getElementById('res-name'),
+  emailInput: document.getElementById('res-email'),
+  phoneInput: document.getElementById('res-phone'),
+  notesInput: document.getElementById('res-notes'),
+  infoSublabel: document.getElementById('res-info-sublabel'),
+  submitBtn: document.getElementById('res-submit'),
+  successPanel: document.getElementById('res-success'),
+  errorPanel: document.getElementById('res-error'),
+  envPreviewImg: document.getElementById('res-env-preview-img'),
+  envPreviewName: document.getElementById('res-env-preview-envname'),
+  envShowcaseImg: document.getElementById('res-env-showcase-img'),
   envShowcaseName: document.getElementById('res-env-showcase-name'),
-
-  // Booking summary items
-  summaryEnv:      document.getElementById('summary-env'),
-  summaryGuests:   document.getElementById('summary-guests'),
-  summaryDate:     document.getElementById('summary-date'),
-  summaryTime:     document.getElementById('summary-time'),
+  summaryEnv: document.getElementById('summary-env'),
+  summaryGuests: document.getElementById('summary-guests'),
+  summaryDate: document.getElementById('summary-date'),
+  summaryTime: document.getElementById('summary-time'),
+  // Custom select
+  rcsTrigger: document.getElementById('rcs-trigger'),
+  rcsValue: document.getElementById('rcs-value'),
+  rcsDropdown: document.getElementById('rcs-dropdown'),
+  rcsOptions: document.getElementById('rcs-options'),
+  // Custom datepicker
+  rcdTrigger: document.getElementById('rcd-trigger'),
+  rcdValue: document.getElementById('rcd-value'),
+  rcdCalendar: document.getElementById('rcd-calendar'),
+  rcdMonth: document.getElementById('rcd-month'),
+  rcdDays: document.getElementById('rcd-days'),
+  rcdPrev: document.getElementById('rcd-prev'),
+  rcdNext: document.getElementById('rcd-next'),
 };
 
 
 /* ── State ─────────────────────────────────────────────────────── */
 
-let environmentsData = [];   // Cached list from GET /environments
+let environmentsData = [];
 let selectedGuests   = null;
 let selectedTime     = null;
+
+// Datepicker state
+let dpViewYear  = new Date().getFullYear();
+let dpViewMonth = new Date().getMonth();
+
+
+/* ══════════════════════════════════════════════════════════════════
+   CUSTOM SELECT — Environment picker
+   ══════════════════════════════════════════════════════════════════ */
+
+function rcsOpen() {
+  DOM.rcsTrigger.setAttribute('aria-expanded', 'true');
+  DOM.rcsDropdown.classList.add('is-open');
+  DOM.rcsTrigger.closest('.rcs-wrap').classList.add('is-active');
+  const step = DOM.rcsTrigger.closest('.res-step');
+  if (step) step.classList.add('has-open-widget');
+}
+
+function rcsClose() {
+  DOM.rcsTrigger.setAttribute('aria-expanded', 'false');
+  DOM.rcsDropdown.classList.remove('is-open');
+  DOM.rcsTrigger.closest('.rcs-wrap').classList.remove('is-active');
+  const step = DOM.rcsTrigger.closest('.res-step');
+  if (step) step.classList.remove('has-open-widget');
+}
+
+function rcsToggle() {
+  const isOpen = DOM.rcsDropdown.classList.contains('is-open');
+  isOpen ? rcsClose() : rcsOpen();
+}
+
+function rcsSelect(envId, envName) {
+  // Update hidden native select
+  DOM.environment.value = envId;
+  DOM.environment.dispatchEvent(new Event('change'));
+
+  // Update custom trigger text
+  DOM.rcsValue.textContent = envName;
+  DOM.rcsValue.classList.remove('is-placeholder');
+
+  // Update option states
+  DOM.rcsOptions.querySelectorAll('.rcs-option').forEach(opt => {
+    opt.classList.toggle('is-selected', opt.dataset.value === envId);
+  });
+
+  rcsClose();
+}
+
+function rcsPopulate(data) {
+  DOM.rcsOptions.innerHTML = '';
+
+  if (!data || data.length === 0) {
+    DOM.rcsValue.textContent = 'Nenhum ambiente disponível';
+    DOM.rcsValue.classList.add('is-placeholder');
+    DOM.rcsTrigger.disabled = true;
+    return;
+  }
+
+  DOM.rcsValue.textContent = 'Selecione um ambiente';
+  DOM.rcsValue.classList.add('is-placeholder');
+  DOM.rcsTrigger.disabled = false;
+
+  data.forEach(env => {
+    const opt = document.createElement('div');
+    opt.className = 'rcs-option';
+    opt.dataset.value = env.id;
+    opt.textContent = env.name;
+    opt.setAttribute('role', 'option');
+    opt.addEventListener('click', () => rcsSelect(env.id, env.name));
+    DOM.rcsOptions.appendChild(opt);
+  });
+}
+
+function initCustomSelect() {
+  DOM.rcsTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (!DOM.rcsTrigger.disabled) rcsToggle();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.rcs-wrap')) rcsClose();
+  });
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   CUSTOM DATEPICKER
+   ══════════════════════════════════════════════════════════════════ */
+
+function rcdOpen() {
+  DOM.rcdCalendar.classList.add('is-open');
+  DOM.rcdTrigger.closest('.rcd-wrap').classList.add('is-active');
+  const step = DOM.rcdTrigger.closest('.res-step');
+  if (step) step.classList.add('has-open-widget');
+  renderCalendar();
+}
+
+function rcdClose() {
+  DOM.rcdCalendar.classList.remove('is-open');
+  DOM.rcdTrigger.closest('.rcd-wrap').classList.remove('is-active');
+  const step = DOM.rcdTrigger.closest('.res-step');
+  if (step) step.classList.remove('has-open-widget');
+}
+
+function rcdToggle() {
+  DOM.rcdCalendar.classList.contains('is-open') ? rcdClose() : rcdOpen();
+}
+
+function renderCalendar() {
+  DOM.rcdMonth.textContent = `${MONTHS_PT[dpViewMonth]} ${dpViewYear}`;
+  DOM.rcdDays.innerHTML = '';
+
+  // Disable prev-month button if viewing the current month
+  const now = new Date();
+  const isCurrentMonth = dpViewYear === now.getFullYear() && dpViewMonth === now.getMonth();
+  DOM.rcdPrev.disabled = isCurrentMonth;
+  DOM.rcdPrev.style.opacity = isCurrentMonth ? '0.25' : '';
+  DOM.rcdPrev.style.pointerEvents = isCurrentMonth ? 'none' : '';
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  const firstDay = new Date(dpViewYear, dpViewMonth, 1).getDay();
+  const daysInMonth = new Date(dpViewYear, dpViewMonth + 1, 0).getDate();
+  const selectedVal = DOM.dateInput.value;
+
+  // Empty cells before first day
+  for (let i = 0; i < firstDay; i++) {
+    const empty = document.createElement('button');
+    empty.type = 'button';
+    empty.className = 'rcd-day is-empty';
+    DOM.rcdDays.appendChild(empty);
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'rcd-day';
+    btn.textContent = d;
+
+    const cellDate = new Date(dpViewYear, dpViewMonth, d);
+    cellDate.setHours(0,0,0,0);
+    const iso = toISO(dpViewYear, dpViewMonth + 1, d);
+    const isMonday = cellDate.getDay() === 1;
+    const isPast = cellDate < today;
+    const isToday = cellDate.getTime() === today.getTime();
+    const isSelected = selectedVal === iso;
+
+    if (isPast) btn.classList.add('is-past', 'is-disabled');
+    else if (isMonday) btn.classList.add('is-disabled');
+    if (isToday) btn.classList.add('is-today');
+    if (isSelected) btn.classList.add('is-selected');
+
+    if (!isPast && !isMonday) {
+      btn.addEventListener('click', () => {
+        DOM.dateInput.value = iso;
+        DOM.rcdValue.textContent = `${d} ${MONTHS_SHORT[dpViewMonth]} ${dpViewYear}`;
+        DOM.rcdValue.classList.add('has-date');
+        rcdClose();
+        handleDateChange();
+      });
+    }
+
+    DOM.rcdDays.appendChild(btn);
+  }
+}
+
+function toISO(y, m, d) {
+  return `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+}
+
+function initDatepicker() {
+  DOM.rcdTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (!DOM.rcdTrigger.disabled) rcdToggle();
+  });
+
+  DOM.rcdPrev.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const now = new Date();
+    // Block navigation to months before the current month
+    if (dpViewYear === now.getFullYear() && dpViewMonth <= now.getMonth()) return;
+    dpViewMonth--;
+    if (dpViewMonth < 0) { dpViewMonth = 11; dpViewYear--; }
+    renderCalendar();
+  });
+
+  DOM.rcdNext.addEventListener('click', (e) => {
+    e.stopPropagation();
+    dpViewMonth++;
+    if (dpViewMonth > 11) { dpViewMonth = 0; dpViewYear++; }
+    renderCalendar();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.rcd-wrap')) rcdClose();
+  });
+
+  // Prevent closing when clicking inside calendar
+  DOM.rcdCalendar.addEventListener('click', (e) => e.stopPropagation());
+}
 
 
 /* ── Helpers ───────────────────────────────────────────────────── */
 
-/**
- * Returns today's date formatted as YYYY-MM-DD.
- */
 function getTodayISO() {
-  const today = new Date();
-  const yyyy  = today.getFullYear();
-  const mm    = String(today.getMonth() + 1).padStart(2, '0');
-  const dd    = String(today.getDate()).padStart(2, '0');
-  return `${yyyy}-${mm}-${dd}`;
+  const t = new Date();
+  return `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;
 }
 
-/**
- * Checks if a YYYY-MM-DD date string falls on a Monday.
- */
 function isMonday(dateStr) {
-  const [year, month, day] = dateStr.split('-').map(Number);
-  const date = new Date(year, month - 1, day);
-  return date.getDay() === 1;
+  const [y,m,d] = dateStr.split('-').map(Number);
+  return new Date(y,m-1,d).getDay() === 1;
 }
 
-/**
- * Formats a date string (YYYY-MM-DD) for display.
- */
 function formatDateDisplay(dateStr) {
   if (!dateStr) return '';
-  const [year, month, day] = dateStr.split('-').map(Number);
-  const d = new Date(year, month - 1, day);
-  const months = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
-  return `${day} ${months[d.getMonth()]} ${year}`;
+  const [y,m,d] = dateStr.split('-').map(Number);
+  return `${d} ${MONTHS_SHORT[m-1]} ${y}`;
 }
 
-/**
- * Resets time slots to their initial empty state and cascades
- * the reset to personal fields.
- */
 function resetTimeSlots() {
-  DOM.timesEmpty.style.display     = '';
+  DOM.timesEmpty.style.display = '';
   DOM.timesContainer.style.display = 'none';
-  DOM.timesSkeleton.style.display  = 'none';
-  DOM.timesContainer.innerHTML     = '';
+  DOM.timesSkeleton.style.display = 'none';
+  DOM.timesContainer.innerHTML = '';
   selectedTime = null;
   tryEnablePersonalFields();
   updateBookingSummary();
 }
 
-/**
- * Attempts to load availability if all three dependencies
- * (environment, guests, date) are currently selected.
- * Otherwise resets the time slots to their empty state.
- */
 function tryLoadAvailability() {
-  const hasEnv   = DOM.environment.value !== '';
+  const hasEnv = DOM.environment.value !== '';
   const hasGuests = selectedGuests !== null;
-  const hasDate  = DOM.dateInput.value !== '';
-
-  if (hasEnv && hasGuests && hasDate) {
-    loadAvailability();
-  } else {
-    resetTimeSlots();
-  }
+  const hasDate = DOM.dateInput.value !== '';
+  if (hasEnv && hasGuests && hasDate) loadAvailability();
+  else resetTimeSlots();
 }
 
-/**
- * Enables the date input only when both environment and guests
- * have been selected. Updates the sublabel accordingly.
- */
 function tryEnableDateInput() {
-  const hasEnvironment = DOM.environment.value !== '';
-  const hasGuests      = selectedGuests !== null;
-
-  if (hasEnvironment && hasGuests) {
-    DOM.dateInput.disabled = false;
-    DOM.dateInput.setAttribute('min', getTodayISO());
+  const ok = DOM.environment.value !== '' && selectedGuests !== null;
+  DOM.rcdTrigger.disabled = !ok;
+  if (ok) {
     DOM.dateSublabel.textContent = 'Escolha o dia da sua visita.';
   } else {
-    DOM.dateInput.disabled = true;
-    DOM.dateInput.value    = '';
+    DOM.dateInput.value = '';
+    DOM.rcdValue.textContent = 'Selecione uma data';
+    DOM.rcdValue.classList.remove('has-date');
     DOM.dateSublabel.textContent = 'Selecione primeiro o ambiente e a quantidade de pessoas.';
     DOM.dateMsg.style.display = 'none';
     resetTimeSlots();
   }
 }
 
-/**
- * Enables the personal data fields only when environment, guests,
- * date, and time have all been selected. Updates the sublabel.
- */
 function tryEnablePersonalFields() {
-  const allSelected = DOM.environment.value !== ''
-    && selectedGuests !== null
-    && DOM.dateInput.value !== ''
-    && selectedTime !== null;
-
-  const fields = [DOM.nameInput, DOM.emailInput, DOM.phoneInput, DOM.notesInput];
-
-  if (allSelected) {
-    fields.forEach(f => { f.disabled = false; });
-    DOM.infoSublabel.textContent = 'Precisamos de algumas informações para confirmar sua reserva.';
-  } else {
-    fields.forEach(f => { f.disabled = true; });
-    DOM.infoSublabel.textContent = 'Preencha seus dados após selecionar o horário da reserva.';
-  }
+  const ok = DOM.environment.value !== '' && selectedGuests !== null && DOM.dateInput.value !== '' && selectedTime !== null;
+  [DOM.nameInput, DOM.emailInput, DOM.phoneInput, DOM.notesInput].forEach(f => { f.disabled = !ok; });
+  DOM.infoSublabel.textContent = ok
+    ? 'Precisamos de algumas informações para confirmar sua reserva.'
+    : 'Preencha seus dados após selecionar o horário da reserva.';
 }
 
-/**
- * Validates the selected date before loading time slots.
- * Blocks Mondays (café closed) with user feedback.
- */
 function handleDateChange() {
   const value = DOM.dateInput.value;
   DOM.dateMsg.style.display = 'none';
-
   if (!value) return;
 
   if (isMonday(value)) {
-    // Reject the selection
     DOM.dateInput.value = '';
+    DOM.rcdValue.textContent = 'Selecione uma data';
+    DOM.rcdValue.classList.remove('has-date');
     DOM.dateMsg.textContent = 'O Giardini não abre às segundas-feiras. Escolha outro dia.';
     DOM.dateMsg.style.display = 'block';
-
-    // Reset time slots to initial state
     resetTimeSlots();
-
-    // Shake the input for feedback
-    gsap.to(DOM.dateInput, {
-      x: [-6, 6, -4, 4, -2, 2, 0],
-      duration: 0.4,
-      ease: 'power2.out'
-    });
+    gsap.to(DOM.rcdTrigger, { x: [-6,6,-4,4,-2,2,0], duration: 0.4, ease: 'power2.out' });
     return;
   }
 
-  // Valid date — proceed
   updateBookingSummary();
   loadAvailability();
 }
 
 
-/* ── Booking Summary Updates ──────────────────────────────────── */
+/* ── Booking Summary ──────────────────────────────────────────── */
 
-/**
- * Updates the live booking summary sidebar with current selections.
- */
 function updateBookingSummary() {
-  if (!DOM.summaryEnv) return; // Guard for missing elements
+  if (!DOM.summaryEnv) return;
 
-  // Environment
-  const envId = DOM.environment.value;
-  const env = getEnvironmentById(envId);
-  const envItem = DOM.summaryEnv;
-  const envSpan = envItem.querySelector('span');
-  if (env) {
-    envSpan.textContent = env.name;
-    envItem.classList.add('is-filled');
-  } else {
-    envSpan.textContent = 'Ambiente não selecionado';
-    envItem.classList.remove('is-filled');
-  }
+  const env = getEnvironmentById(DOM.environment.value);
+  const eSpan = DOM.summaryEnv.querySelector('span');
+  if (env) { eSpan.textContent = env.name; DOM.summaryEnv.classList.add('is-filled'); }
+  else { eSpan.textContent = 'Ambiente não selecionado'; DOM.summaryEnv.classList.remove('is-filled'); }
 
-  // Guests
-  const guestsItem = DOM.summaryGuests;
-  const guestsSpan = guestsItem.querySelector('span');
-  if (selectedGuests) {
-    guestsSpan.textContent = `${selectedGuests} ${selectedGuests === '1' ? 'pessoa' : 'pessoas'}`;
-    guestsItem.classList.add('is-filled');
-  } else {
-    guestsSpan.textContent = '— pessoas';
-    guestsItem.classList.remove('is-filled');
-  }
+  const gSpan = DOM.summaryGuests.querySelector('span');
+  if (selectedGuests) { gSpan.textContent = `${selectedGuests} ${selectedGuests==='1'?'pessoa':'pessoas'}`; DOM.summaryGuests.classList.add('is-filled'); }
+  else { gSpan.textContent = '— pessoas'; DOM.summaryGuests.classList.remove('is-filled'); }
 
-  // Date
-  const dateItem = DOM.summaryDate;
-  const dateSpan = dateItem.querySelector('span');
-  const dateVal = DOM.dateInput.value;
-  if (dateVal) {
-    dateSpan.textContent = formatDateDisplay(dateVal);
-    dateItem.classList.add('is-filled');
-  } else {
-    dateSpan.textContent = 'Data não selecionada';
-    dateItem.classList.remove('is-filled');
-  }
+  const dSpan = DOM.summaryDate.querySelector('span');
+  if (DOM.dateInput.value) { dSpan.textContent = formatDateDisplay(DOM.dateInput.value); DOM.summaryDate.classList.add('is-filled'); }
+  else { dSpan.textContent = 'Data não selecionada'; DOM.summaryDate.classList.remove('is-filled'); }
 
-  // Time
-  const timeItem = DOM.summaryTime;
-  const timeSpan = timeItem.querySelector('span');
-  if (selectedTime) {
-    timeSpan.textContent = selectedTime;
-    timeItem.classList.add('is-filled');
-  } else {
-    timeSpan.textContent = 'Horário não selecionado';
-    timeItem.classList.remove('is-filled');
-  }
+  const tSpan = DOM.summaryTime.querySelector('span');
+  if (selectedTime) { tSpan.textContent = selectedTime; DOM.summaryTime.classList.add('is-filled'); }
+  else { tSpan.textContent = 'Horário não selecionado'; DOM.summaryTime.classList.remove('is-filled'); }
 }
 
 
-/* ── API Functions ─────────────────────────────────────────────── */
+/* ── API ──────────────────────────────────────────────────────── */
 
-/**
- * Fetches active environments from the backend and populates the
- * environment <select>. Handles loading, empty, and error states.
- */
 async function loadEnvironments() {
-  const select       = DOM.environment;
-  const msgContainer = DOM.environmentMsg;
-
-  // Loading state
-  select.innerHTML  = '<option value="" disabled selected>Carregando ambientes...</option>';
-  select.disabled   = true;
-  msgContainer.style.display = 'none';
+  const select = DOM.environment;
+  const msg = DOM.environmentMsg;
+  select.innerHTML = '<option value="" disabled selected>Carregando ambientes...</option>';
+  select.disabled = true;
+  msg.style.display = 'none';
+  DOM.rcsValue.textContent = 'Carregando ambientes...';
+  DOM.rcsValue.classList.add('is-placeholder');
+  DOM.rcsTrigger.disabled = true;
 
   try {
-    const response = await fetch(`${API_BASE_URL}/environments`);
-    if (!response.ok) throw new Error('Network response was not ok');
+    const r = await fetch(`${API_BASE_URL}/environments`);
+    if (!r.ok) throw new Error('fail');
+    const data = await r.json();
 
-    const data = await response.json();
-
-    // Empty state
     if (!data || data.length === 0) {
-      select.innerHTML = '<option value="" disabled selected>Nenhum ambiente disponível</option>';
-      msgContainer.textContent = 'Não há ambientes disponíveis para reserva no momento.';
-      msgContainer.style.color = 'inherit';
-      msgContainer.style.display = 'block';
+      select.innerHTML = '<option value="" disabled selected>Nenhum ambiente</option>';
+      msg.textContent = 'Não há ambientes disponíveis no momento.';
+      msg.style.color = 'inherit';
+      msg.style.display = 'block';
+      rcsPopulate([]);
       return;
     }
 
-    // Store for later use (guest capacity, etc.)
     environmentsData = data;
 
-    // Populate state
-    select.innerHTML = '<option value="" disabled selected>Selecione um ambiente</option>';
+    // Build ID-based image mapping from stored name map
+    ENVIRONMENT_IMAGES = {};
     data.forEach(env => {
-      const option = document.createElement('option');
-      option.value       = env.id;
-      option.textContent = env.name;
-      select.appendChild(option);
+      ENVIRONMENT_IMAGES[env.id] = ENVIRONMENT_IMAGES_BY_NAME[env.name] || DEFAULT_PREVIEW_IMAGE;
+    });
+
+    select.innerHTML = '<option value="" disabled selected>Selecione</option>';
+    data.forEach(env => {
+      const o = document.createElement('option');
+      o.value = env.id; o.textContent = env.name;
+      select.appendChild(o);
     });
     select.disabled = false;
+    rcsPopulate(data);
 
-  } catch (error) {
-    // Error state
+  } catch (e) {
     select.innerHTML = '<option value="" disabled selected>Indisponível</option>';
-    msgContainer.textContent = 'Não foi possível carregar os ambientes. Tente novamente ou verifique sua conexão.';
-    msgContainer.style.color = '#ef4444';
-    msgContainer.style.display = 'block';
-    console.error('Falha ao carregar ambientes:', error);
+    msg.textContent = 'Não foi possível carregar os ambientes.';
+    msg.style.color = '#ef4444';
+    msg.style.display = 'block';
+    rcsPopulate([]);
+    console.error('Falha:', e);
   }
 }
 
-
-/* ── UI State Functions ────────────────────────────────────────── */
-
-/**
- * Finds an environment object by its id from the cached data.
- */
 function getEnvironmentById(id) {
-  return environmentsData.find(env => env.id === id) || null;
+  return environmentsData.find(e => e.id === id) || null;
 }
 
-/**
- * Renders guest-count pill buttons from 1 to maxCapacity inside
- * the guests container. Resets selectedGuests on every call.
- */
-function renderGuestPills(maxCapacity) {
-  const container = DOM.guestsContainer;
-  container.innerHTML = '';
+function renderGuestPills(max) {
+  const c = DOM.guestsContainer;
+  c.innerHTML = '';
   selectedGuests = null;
-
-  for (let i = 1; i <= maxCapacity; i++) {
-    const pill = document.createElement('button');
-    pill.className    = 'res-pill';
-    pill.textContent  = i;
-    pill.dataset.guests = String(i);
-
-    pill.addEventListener('click', () => {
-      container.querySelectorAll('.res-pill').forEach(b => b.classList.remove('active'));
-      pill.classList.add('active');
-      selectedGuests = pill.dataset.guests;
-      tryEnableDateInput();
-      tryLoadAvailability();
-      updateBookingSummary();
+  for (let i = 1; i <= max; i++) {
+    const p = document.createElement('button');
+    p.className = 'res-pill'; p.textContent = i; p.dataset.guests = String(i);
+    p.addEventListener('click', () => {
+      c.querySelectorAll('.res-pill').forEach(b => b.classList.remove('active'));
+      p.classList.add('active');
+      selectedGuests = p.dataset.guests;
+      tryEnableDateInput(); tryLoadAvailability(); updateBookingSummary();
     });
-
-    container.appendChild(pill);
+    c.appendChild(p);
   }
-
-  // Animate pills in
-  if (container.children.length) {
-    gsap.fromTo(
-      container.children,
-      { opacity: 0, y: 6, scale: 0.95 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out', stagger: 0.03 }
-    );
+  if (c.children.length) {
+    gsap.fromTo(c.children, {opacity:0,y:6,scale:.95}, {opacity:1,y:0,scale:1,duration:.35,ease:'power3.out',stagger:.03});
   }
 }
 
-/**
- * Called when the environment <select> changes. Updates the guest
- * sublabel text, re-renders guest pills, and resets downstream fields.
- */
 function handleEnvironmentChange() {
-  const envId = DOM.environment.value;
-  const env   = getEnvironmentById(envId);
-
-  // Update visual previews (both mobile & desktop)
+  const env = getEnvironmentById(DOM.environment.value);
   updateEnvironmentPreview(env);
-
-  // Update booking summary
   updateBookingSummary();
 
   if (!env || !env.max_capacity || env.max_capacity < 1) {
-    // Graceful fallback
     DOM.guestsSublabel.textContent = 'Selecione um ambiente para ver a capacidade disponível.';
     DOM.guestsContainer.innerHTML = '';
     selectedGuests = null;
@@ -426,538 +497,269 @@ function handleEnvironmentChange() {
 
   DOM.guestsSublabel.textContent = `Este ambiente comporta até ${env.max_capacity} pessoas por reserva.`;
   renderGuestPills(env.max_capacity);
-
-  // Reset downstream: date + time (guests just got cleared)
-  tryEnableDateInput();
-  tryLoadAvailability();
+  tryEnableDateInput(); tryLoadAvailability();
 }
 
-/**
- * Crossfades environment preview images (mobile + desktop) and
- * updates all captions.
- */
 function updateEnvironmentPreview(env) {
-  const newName = env ? env.name : 'Selecione um ambiente';
-  const newSrc  = env ? (ENVIRONMENT_IMAGES[env.name] || DEFAULT_PREVIEW_IMAGE) : DEFAULT_PREVIEW_IMAGE;
+  const name = env ? env.name : 'Selecione um ambiente';
+  const src = env ? (ENVIRONMENT_IMAGES[env.id] || ENVIRONMENT_IMAGES_BY_NAME[env.name] || DEFAULT_PREVIEW_IMAGE) : DEFAULT_PREVIEW_IMAGE;
 
-  // ── Mobile inline preview ──────────────────────────────────────
-  const mobileImg  = DOM.envPreviewImg;
-  const mobileName = DOM.envPreviewName;
-  if (mobileImg && mobileName) {
-    mobileName.textContent = newName;
-    if (!mobileImg.src.endsWith(newSrc)) {
-      mobileImg.classList.add('is-fading');
-      setTimeout(() => {
-        mobileImg.src = newSrc;
-        mobileImg.alt = newName;
-        mobileImg.onload = () => mobileImg.classList.remove('is-fading');
-        setTimeout(() => mobileImg.classList.remove('is-fading'), 50);
-      }, 350);
+  // Mobile
+  if (DOM.envPreviewImg && DOM.envPreviewName) {
+    DOM.envPreviewName.textContent = name;
+    if (!DOM.envPreviewImg.src.endsWith(src)) {
+      DOM.envPreviewImg.classList.add('is-fading');
+      setTimeout(() => { DOM.envPreviewImg.src = src; DOM.envPreviewImg.alt = name; DOM.envPreviewImg.onload = () => DOM.envPreviewImg.classList.remove('is-fading'); setTimeout(() => DOM.envPreviewImg.classList.remove('is-fading'), 50); }, 350);
     }
   }
 
-  // ── Desktop showcase ───────────────────────────────────────────
-  const showcaseImg  = DOM.envShowcaseImg;
-  const showcaseName = DOM.envShowcaseName;
-  if (showcaseImg && showcaseName) {
-    showcaseName.textContent = newName;
-    if (!showcaseImg.src.endsWith(newSrc)) {
-      showcaseImg.classList.add('is-fading');
-      setTimeout(() => {
-        showcaseImg.src = newSrc;
-        showcaseImg.alt = newName;
-        showcaseImg.onload = () => showcaseImg.classList.remove('is-fading');
-        setTimeout(() => showcaseImg.classList.remove('is-fading'), 50);
-      }, 350);
+  // Desktop
+  if (DOM.envShowcaseImg && DOM.envShowcaseName) {
+    DOM.envShowcaseName.textContent = name;
+    if (!DOM.envShowcaseImg.src.endsWith(src)) {
+      DOM.envShowcaseImg.classList.add('is-fading');
+      setTimeout(() => { DOM.envShowcaseImg.src = src; DOM.envShowcaseImg.alt = name; DOM.envShowcaseImg.onload = () => DOM.envShowcaseImg.classList.remove('is-fading'); setTimeout(() => DOM.envShowcaseImg.classList.remove('is-fading'), 50); }, 350);
     }
   }
 }
 
-/**
- * Creates a time-slot pill button and wires its click handler.
- */
 function createTimePill(time) {
-  const pill = document.createElement('button');
-  pill.className   = 'res-time-pill';
-  pill.textContent = time;
-  pill.dataset.time = time;
-
-  pill.addEventListener('click', () => {
-    document.querySelectorAll('.res-time-pill').forEach(p => p.classList.remove('active'));
-    pill.classList.add('active');
+  const p = document.createElement('button');
+  p.className = 'res-time-pill'; p.textContent = time; p.dataset.time = time;
+  p.addEventListener('click', () => {
+    document.querySelectorAll('.res-time-pill').forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
     selectedTime = time;
-    tryEnablePersonalFields();
-    updateBookingSummary();
+    tryEnablePersonalFields(); updateBookingSummary();
   });
-
-  return pill;
+  return p;
 }
 
-/**
- * Fetches available time slots from the backend for the currently
- * selected environment, party size, and date. Handles loading,
- * empty, and error states.
- */
 async function loadAvailability() {
-  const environmentId   = DOM.environment.value;
-  const reservationDate = DOM.dateInput.value;
-  const partySize       = selectedGuests;
+  const envId = DOM.environment.value, date = DOM.dateInput.value, size = selectedGuests;
+  if (!envId || !date || !size) return;
 
-  // Guard: all three must be set
-  if (!environmentId || !reservationDate || !partySize) return;
-
-  // Show skeleton loader
-  DOM.timesEmpty.style.display     = 'none';
+  DOM.timesEmpty.style.display = 'none';
   DOM.timesContainer.style.display = 'none';
-  DOM.timesSkeleton.style.display  = 'flex';
+  DOM.timesSkeleton.style.display = 'flex';
   selectedTime = null;
-  tryEnablePersonalFields();
-  updateBookingSummary();
+  tryEnablePersonalFields(); updateBookingSummary();
 
   try {
-    const params = new URLSearchParams({
-      environment_id:   environmentId,
-      reservation_date: reservationDate,
-      party_size:       partySize,
-    });
-
-    const response = await fetch(`${API_BASE_URL}/availability?${params}`);
-    if (!response.ok) throw new Error('Network response was not ok');
-
-    const slots = await response.json();
-
+    const r = await fetch(`${API_BASE_URL}/availability?${new URLSearchParams({environment_id:envId,reservation_date:date,party_size:size})}`);
+    if (!r.ok) throw new Error('fail');
+    const slots = await r.json();
     DOM.timesSkeleton.style.display = 'none';
+    const times = slots.map(s => typeof s==='string'?s:s.time);
 
-    // Normalize: support both string[] and {time: string}[]
-    const times = slots.map(s => typeof s === 'string' ? s : s.time);
-
-    // Empty state
     if (!times || times.length === 0) {
       DOM.timesEmpty.textContent = 'Nenhum horário disponível para esta data. Tente outro dia.';
       DOM.timesEmpty.style.display = '';
       return;
     }
 
-    // Group into morning / afternoon
-    const morning   = times.filter(t => t < '12:00');
+    const morning = times.filter(t => t < '12:00');
     const afternoon = times.filter(t => t >= '12:00');
-
     DOM.timesContainer.innerHTML = '';
-
-    if (morning.length > 0) {
-      DOM.timesContainer.appendChild(createPeriodGroup('Manhã', morning));
-    }
-    if (afternoon.length > 0) {
-      DOM.timesContainer.appendChild(createPeriodGroup('Tarde', afternoon));
-    }
-
-    // Animate in
+    if (morning.length) DOM.timesContainer.appendChild(createPeriodGroup('Manhã', morning));
+    if (afternoon.length) DOM.timesContainer.appendChild(createPeriodGroup('Tarde', afternoon));
     DOM.timesContainer.style.display = 'flex';
-    const allPills = DOM.timesContainer.querySelectorAll('.res-time-pill');
-    if (allPills.length) {
-      gsap.fromTo(
-        allPills,
-        { opacity: 0, y: 8, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'power3.out', stagger: 0.035 }
-      );
-    }
 
-  } catch (error) {
+    const pills = DOM.timesContainer.querySelectorAll('.res-time-pill');
+    if (pills.length) gsap.fromTo(pills, {opacity:0,y:8,scale:.95}, {opacity:1,y:0,scale:1,duration:.4,ease:'power3.out',stagger:.035});
+  } catch (e) {
     DOM.timesSkeleton.style.display = 'none';
-    DOM.timesEmpty.textContent = 'Não foi possível carregar os horários. Tente novamente.';
+    DOM.timesEmpty.textContent = 'Não foi possível carregar os horários.';
     DOM.timesEmpty.style.display = '';
-    console.error('Falha ao carregar disponibilidade:', error);
+    console.error('Falha:', e);
   }
 }
 
-/**
- * Creates a labeled period group (e.g. "Manhã") containing its time pills.
- */
 function createPeriodGroup(label, times) {
-  const group = document.createElement('div');
-  group.className = 'res-time-group';
-
-  const heading = document.createElement('span');
-  heading.className = 'res-time-group-label';
-  heading.textContent = label;
-  group.appendChild(heading);
-
-  const pillsWrap = document.createElement('div');
-  pillsWrap.className = 'res-time-group-pills';
-
-  times.forEach(time => {
-    pillsWrap.appendChild(createTimePill(time));
-  });
-
-  group.appendChild(pillsWrap);
-  return group;
+  const g = document.createElement('div'); g.className = 'res-time-group';
+  const h = document.createElement('span'); h.className = 'res-time-group-label'; h.textContent = label; g.appendChild(h);
+  const w = document.createElement('div'); w.className = 'res-time-group-pills';
+  times.forEach(t => w.appendChild(createTimePill(t)));
+  g.appendChild(w);
+  return g;
 }
 
-/**
- * Handles main form submission with field-by-field validation,
- * loading state, and real API integration.
- */
-async function handleSubmit() {
-  const btn      = DOM.submitBtn;
-  const textEl   = btn.querySelector('.res-submit-text');
-  const arrowEl  = btn.querySelector('.res-submit-arrow');
-  const valMsg   = document.getElementById('res-validation-msg');
 
-  // Hide previous feedback
+/* ── Submit ───────────────────────────────────────────────────── */
+
+async function handleSubmit() {
+  const btn = DOM.submitBtn, textEl = btn.querySelector('.res-submit-text'), arrowEl = btn.querySelector('.res-submit-arrow');
+  const valMsg = document.getElementById('res-validation-msg');
   valMsg.style.display = 'none';
   DOM.successPanel.classList.remove('visible');
   DOM.errorPanel.classList.remove('visible');
 
-  // ── Field-by-field validation ──────────────────────────────────
-  const environment = DOM.environment.value;
-  const date        = DOM.dateInput.value;
-  const name        = DOM.nameInput.value.trim();
-  const email       = DOM.emailInput.value.trim();
-  const phone       = DOM.phoneInput.value.trim();
-  const notes       = DOM.notesInput.value.trim();
+  const environment = DOM.environment.value, date = DOM.dateInput.value;
+  const name = DOM.nameInput.value.trim(), email = DOM.emailInput.value.trim();
+  const phone = DOM.phoneInput.value.trim(), notes = DOM.notesInput.value.trim();
 
-  const validationError = getValidationError({
-    environment, date, name, email, phone
-  });
-
-  if (validationError) {
-    valMsg.textContent   = validationError;
-    valMsg.style.display = 'block';
-
-    gsap.to(btn, {
-      x: [-8, 8, -6, 6, -3, 3, 0],
-      duration: 0.5,
-      ease: 'power2.out'
-    });
+  const err = getValidationError({environment, date, name, email, phone});
+  if (err) {
+    valMsg.textContent = err; valMsg.style.display = 'block';
+    gsap.to(btn, {x:[-8,8,-6,6,-3,3,0],duration:.5,ease:'power2.out'});
     return;
   }
 
-  // ── Build payload ──────────────────────────────────────────────
-  const payload = {
-    name,
-    email,
-    phone,
-    environment_id:   environment,
-    reservation_date: date,
-    reservation_time: selectedTime,
-    party_size:       Number(selectedGuests),
-    notes:            notes || null,
-  };
-
-  // ── Loading state ──────────────────────────────────────────────
-  btn.classList.add('loading');
-  btn.disabled         = true;
-  textEl.textContent   = 'Confirmando...';
-  arrowEl.style.display = 'none';
+  btn.classList.add('loading'); btn.disabled = true;
+  textEl.textContent = 'Confirmando...'; arrowEl.style.display = 'none';
 
   try {
-    const response = await fetch(`${API_BASE_URL}/reservations`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+    const r = await fetch(`${API_BASE_URL}/reservations`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({name,email,phone,environment_id:environment,reservation_date:date,reservation_time:selectedTime,party_size:Number(selectedGuests),notes:notes||null}),
     });
 
     btn.classList.remove('loading');
-
-    if (response.ok) {
-      // ── Success ──────────────────────────────────────────────
-      btn.classList.add('success');
-      textEl.textContent = 'Reserva Confirmada ✓';
+    if (r.ok) {
+      btn.classList.add('success'); textEl.textContent = 'Reserva Confirmada ✓';
       DOM.successPanel.style.display = 'block';
       requestAnimationFrame(() => DOM.successPanel.classList.add('visible'));
-
-      setTimeout(() => {
-        lenis.scrollTo(DOM.successPanel, { offset: -100, duration: 1.2 });
-      }, 300);
-
+      setTimeout(() => lenis.scrollTo(DOM.successPanel, {offset:-100,duration:1.2}), 300);
     } else {
-      // ── Backend error (4xx / 5xx) ────────────────────────────
-      let errorMsg = 'Não foi possível processar sua reserva.';
-      try {
-        const body = await response.json();
-        if (body.detail) {
-          errorMsg = typeof body.detail === 'string'
-            ? body.detail
-            : body.detail.map(e => e.msg).join('. ');
-        }
-      } catch (_) { /* use default msg */ }
-
-      btn.classList.add('error');
-      textEl.textContent = 'Erro — Tente novamente';
+      let msg = 'Não foi possível processar sua reserva.';
+      try { const b = await r.json(); if(b.detail) msg = typeof b.detail==='string'?b.detail:b.detail.map(e=>e.msg).join('. '); } catch(_){}
+      btn.classList.add('error'); textEl.textContent = 'Erro — Tente novamente';
       DOM.errorPanel.style.display = 'block';
       requestAnimationFrame(() => DOM.errorPanel.classList.add('visible'));
-
-      // Show backend message in validation area
-      valMsg.textContent   = errorMsg;
-      valMsg.style.display = 'block';
-
-      // Allow retry after 3s
-      setTimeout(() => {
-        btn.classList.remove('error');
-        btn.disabled       = false;
-        textEl.textContent = 'Confirmar Reserva';
-        arrowEl.style.display = '';
-      }, 3000);
+      valMsg.textContent = msg; valMsg.style.display = 'block';
+      setTimeout(() => { btn.classList.remove('error'); btn.disabled=false; textEl.textContent='Confirmar Reserva'; arrowEl.style.display=''; }, 3000);
     }
-
-  } catch (error) {
-    // ── Network failure ────────────────────────────────────────
-    btn.classList.remove('loading');
-    btn.classList.add('error');
+  } catch (e) {
+    btn.classList.remove('loading'); btn.classList.add('error');
     textEl.textContent = 'Erro — Tente novamente';
     DOM.errorPanel.style.display = 'block';
     requestAnimationFrame(() => DOM.errorPanel.classList.add('visible'));
-
-    valMsg.textContent   = 'Falha na conexão. Verifique sua internet e tente novamente.';
-    valMsg.style.display = 'block';
-    console.error('Falha ao enviar reserva:', error);
-
-    setTimeout(() => {
-      btn.classList.remove('error');
-      btn.disabled       = false;
-      textEl.textContent = 'Confirmar Reserva';
-      arrowEl.style.display = '';
-    }, 3000);
+    valMsg.textContent = 'Falha na conexão.'; valMsg.style.display = 'block';
+    console.error('Falha:', e);
+    setTimeout(() => { btn.classList.remove('error'); btn.disabled=false; textEl.textContent='Confirmar Reserva'; arrowEl.style.display=''; }, 3000);
   }
 }
 
-/**
- * Returns the first validation error message, or null if all fields are valid.
- */
-function getValidationError({ environment, date, name, email, phone }) {
-  if (!environment)    return 'Selecione um ambiente para sua reserva.';
+function getValidationError({environment, date, name, email, phone}) {
+  if (!environment) return 'Selecione um ambiente para sua reserva.';
   if (!selectedGuests) return 'Selecione a quantidade de pessoas.';
-  if (!date)           return 'Escolha a data da sua reserva.';
-  if (!selectedTime)   return 'Selecione um horário para sua reserva.';
-  if (!name)           return 'Por favor, informe seu nome.';
-  if (!email)          return 'Por favor, informe seu e-mail.';
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return 'Por favor, informe um e-mail válido.';
-  }
-  if (!phone)          return 'Por favor, informe seu telefone.';
-  // Brazilian phone: (XX) XXXXX-XXXX → 11 digits
-  const digits = phone.replace(/\D/g, '');
-  if (digits.length < 11) {
-    return 'Informe o telefone completo com DDD. Ex: (85) 99999-0000';
-  }
+  if (!date) return 'Escolha a data da sua reserva.';
+  if (!selectedTime) return 'Selecione um horário para sua reserva.';
+  if (!name) return 'Por favor, informe seu nome.';
+  if (!email) return 'Por favor, informe seu e-mail.';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Por favor, informe um e-mail válido.';
+  if (!phone) return 'Por favor, informe seu telefone.';
+  if (phone.replace(/\D/g,'').length < 11) return 'Informe o telefone completo com DDD.';
   return null;
 }
 
-/**
- * Formats a string into Brazilian phone pattern: (XX) XXXXX-XXXX.
- * Strips non-digits and applies mask progressively as the user types.
- */
-function formatPhoneBR(value) {
-  const d = value.replace(/\D/g, '').slice(0, 11);
-  if (d.length === 0) return '';
-  if (d.length <= 2)  return `(${d}`;
-  if (d.length <= 7)  return `(${d.slice(0,2)}) ${d.slice(2)}`;
+function formatPhoneBR(v) {
+  const d = v.replace(/\D/g,'').slice(0,11);
+  if (!d.length) return '';
+  if (d.length <= 2) return `(${d}`;
+  if (d.length <= 7) return `(${d.slice(0,2)}) ${d.slice(2)}`;
   return `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;
 }
 
-/**
- * Resets the entire form to its initial state after a successful submission.
- */
 function resetForm() {
-  // Reset state
-  selectedGuests = null;
-  selectedTime   = null;
-
-  // Reset environment select to first option
+  selectedGuests = null; selectedTime = null;
   DOM.environment.selectedIndex = 0;
   DOM.guestsSublabel.textContent = 'Selecione um ambiente para ver a capacidade disponível.';
-  DOM.guestsContainer.innerHTML  = '';
-
-  // Reset date
-  DOM.dateInput.value    = '';
-  DOM.dateInput.disabled = true;
+  DOM.guestsContainer.innerHTML = '';
+  DOM.dateInput.value = '';
+  DOM.rcdTrigger.disabled = true;
+  DOM.rcdValue.textContent = 'Selecione uma data';
+  DOM.rcdValue.classList.remove('has-date');
   DOM.dateSublabel.textContent = 'Selecione primeiro o ambiente e a quantidade de pessoas.';
   DOM.dateMsg.style.display = 'none';
-
-  // Reset time slots
   resetTimeSlots();
-
-  // Reset personal fields
-  DOM.nameInput.value  = '';
-  DOM.emailInput.value = '';
-  DOM.phoneInput.value = '';
-  DOM.notesInput.value = '';
+  DOM.nameInput.value = ''; DOM.emailInput.value = ''; DOM.phoneInput.value = ''; DOM.notesInput.value = '';
   tryEnablePersonalFields();
-
-  // Reset submit button
-  const btn     = DOM.submitBtn;
-  const textEl  = btn.querySelector('.res-submit-text');
-  const arrowEl = btn.querySelector('.res-submit-arrow');
-  btn.classList.remove('loading', 'success', 'error');
-  btn.disabled       = false;
-  textEl.textContent = 'Confirmar Reserva';
-  arrowEl.style.display = '';
-
-  // Clear validation message
-  const valMsg = document.getElementById('res-validation-msg');
-  if (valMsg) valMsg.style.display = 'none';
-
-  // Reset environment preview
+  const btn = DOM.submitBtn, t = btn.querySelector('.res-submit-text'), a = btn.querySelector('.res-submit-arrow');
+  btn.classList.remove('loading','success','error'); btn.disabled = false;
+  t.textContent = 'Confirmar Reserva'; a.style.display = '';
+  const v = document.getElementById('res-validation-msg'); if(v) v.style.display='none';
   updateEnvironmentPreview(null);
-
-  // Reset booking summary
   updateBookingSummary();
+  // Reset custom select
+  DOM.rcsValue.textContent = 'Selecione um ambiente';
+  DOM.rcsValue.classList.add('is-placeholder');
+  DOM.rcsOptions.querySelectorAll('.rcs-option').forEach(o => o.classList.remove('is-selected'));
 }
 
-/**
- * Handles the "Fazer outra reserva" button click.
- * Resets form, hides feedback panels, and scrolls to the form.
- */
 function handleNewReservation() {
-  // Hide feedback panels
-  DOM.successPanel.classList.remove('visible');
-  DOM.successPanel.style.display = 'none';
-  DOM.errorPanel.classList.remove('visible');
-  DOM.errorPanel.style.display = 'none';
-
-  // Full form reset
+  DOM.successPanel.classList.remove('visible'); DOM.successPanel.style.display = 'none';
+  DOM.errorPanel.classList.remove('visible'); DOM.errorPanel.style.display = 'none';
   resetForm();
-
-  // Scroll to the first step
-  setTimeout(() => {
-    const target = document.getElementById('step-environment');
-    if (target) {
-      lenis.scrollTo(target, { offset: -120, duration: 1.4 });
-    }
-  }, 150);
+  setTimeout(() => { const t = document.getElementById('step-environment'); if(t) lenis.scrollTo(t,{offset:-120,duration:1.4}); }, 150);
 }
 
 
 /* ── Event Bindings ────────────────────────────────────────────── */
 
 function bindEvents() {
-  // Mobile menu
   if (DOM.hamburger && DOM.mobileMenu) {
     DOM.hamburger.addEventListener('click', () => DOM.mobileMenu.classList.add('open'));
     DOM.mobileClose.addEventListener('click', () => DOM.mobileMenu.classList.remove('open'));
-    DOM.mobileMenu.querySelectorAll('.mobile-link').forEach(link => {
-      link.addEventListener('click', () => DOM.mobileMenu.classList.remove('open'));
-    });
+    DOM.mobileMenu.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => DOM.mobileMenu.classList.remove('open')));
   }
 
-  // Environment change → update guest pills
   DOM.environment.addEventListener('change', handleEnvironmentChange);
-
-  // Date change → validate & load time slots
-  DOM.dateInput.addEventListener('change', handleDateChange);
-
-  // Phone input mask — blocks letters, auto-formats
   DOM.phoneInput.addEventListener('input', () => {
-    const cursorPos  = DOM.phoneInput.selectionStart;
-    const prevLength = DOM.phoneInput.value.length;
+    const c = DOM.phoneInput.selectionStart, pl = DOM.phoneInput.value.length;
     DOM.phoneInput.value = formatPhoneBR(DOM.phoneInput.value);
-    // Keep cursor position natural
-    const diff = DOM.phoneInput.value.length - prevLength;
-    DOM.phoneInput.setSelectionRange(cursorPos + diff, cursorPos + diff);
+    const d = DOM.phoneInput.value.length - pl;
+    DOM.phoneInput.setSelectionRange(c+d, c+d);
   });
-
-  // Submit button
   DOM.submitBtn.addEventListener('click', handleSubmit);
-
-  // New reservation (from success panel)
-  const newResBtn = document.getElementById('res-new-reservation');
-  if (newResBtn) {
-    newResBtn.addEventListener('click', handleNewReservation);
-  }
+  const nb = document.getElementById('res-new-reservation');
+  if (nb) nb.addEventListener('click', handleNewReservation);
 }
 
 
-/* ── Animation & Scroll Reveals ────────────────────────────────── */
+/* ── Animations ────────────────────────────────────────────────── */
 
 function initAnimations() {
-  /* Navbar scroll state */
-  ScrollTrigger.create({
-    start: 'top -80',
-    end: 99999,
-    toggleClass: { className: 'is-scrolled', targets: '#navbar' }
-  });
-
-  /* Navbar opacity reveal */
-  gsap.to('#navbar', { opacity: 1, duration: 0.8, delay: 0.2 });
-
-  /* Hero content reveal */
+  ScrollTrigger.create({start:'top -80',end:99999,toggleClass:{className:'is-scrolled',targets:'#navbar'}});
+  gsap.to('#navbar', {opacity:1,duration:.8,delay:.2});
   document.querySelectorAll('.res-hero-reveal').forEach(el => {
-    const delay = parseFloat(el.dataset.delay || 0);
-    gsap.to(el, {
-      opacity: 1,
-      y: 0,
-      duration: 1.2,
-      ease: 'power4.out',
-      delay: 0.4 + delay
-    });
+    const d = parseFloat(el.dataset.delay||0);
+    gsap.to(el, {opacity:1,y:0,duration:1.2,ease:'power4.out',delay:.4+d});
     el.classList.add('is-visible');
   });
-
-  /* Scroll reveal for reservation steps */
   document.querySelectorAll('.res-reveal').forEach(el => {
-    ScrollTrigger.create({
-      trigger: el,
-      start: 'top 85%',
-      onEnter: () => el.classList.add('is-visible')
-    });
+    ScrollTrigger.create({trigger:el,start:'top 85%',onEnter:()=>el.classList.add('is-visible')});
   });
-
-  /* Footer reveals */
   document.querySelectorAll('.ft-reveal').forEach(el => {
-    ScrollTrigger.create({
-      trigger: el,
-      start: 'top 92%',
-      onEnter: () => {
-        gsap.to(el, {
-          opacity: 1,
-          y: 0,
-          filter: 'blur(0px)',
-          duration: 0.9,
-          ease: 'power3.out'
-        });
-      }
-    });
+    ScrollTrigger.create({trigger:el,start:'top 92%',onEnter:()=>{ gsap.to(el,{opacity:1,y:0,filter:'blur(0px)',duration:.9,ease:'power3.out'}); }});
   });
 }
 
 
-/* ── Page Initialization ───────────────────────────────────────── */
+/* ── Init ─────────────────────────────────────────────────────── */
 
 function initPage() {
   loadEnvironments();
   initAnimations();
 }
 
-
-/* ── Preloader ─────────────────────────────────────────────────── */
-
 (function runPreloader() {
-  let progress = 0;
-  const interval = setInterval(() => {
-    progress += Math.random() * 15 + 5;
-    if (progress >= 100) {
-      progress = 100;
-      clearInterval(interval);
+  let p = 0;
+  const iv = setInterval(() => {
+    p += Math.random()*15+5;
+    if (p >= 100) {
+      p = 100; clearInterval(iv);
       DOM.loaderBar.style.width = '100%';
       setTimeout(() => {
-        gsap.to(DOM.loader, {
-          yPercent: -100,
-          duration: 1,
-          ease: 'power4.inOut',
-          onComplete: () => {
-            DOM.loader.style.display = 'none';
-            document.body.style.opacity = '1';
-            initPage();
-          }
-        });
+        gsap.to(DOM.loader, {yPercent:-100,duration:1,ease:'power4.inOut',onComplete:() => {
+          DOM.loader.style.display='none'; document.body.style.opacity='1'; initPage();
+        }});
       }, 300);
     }
-    DOM.loaderBar.style.width = progress + '%';
+    DOM.loaderBar.style.width = p+'%';
   }, 80);
 })();
 
-
-/* ── Bootstrap ───────────────────────────────────────────────────── */
-
-// Wire up all event listeners
 bindEvents();
+initCustomSelect();
+initDatepicker();

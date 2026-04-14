@@ -208,15 +208,17 @@
                 <span class="res-step-label">Escolha o ambiente</span>
                 <span class="res-step-sublabel">Cada espaço tem sua personalidade. Onde você gostaria de estar?</span>
 
-                <div class="res-select-wrap">
-                  <select class="res-select" id="res-environment">
+                <select class="res-select" id="res-environment" style="display:none;">
                     <option value="" disabled selected>Carregando ambientes...</option>
-                  </select>
-                  <div class="res-select-arrow">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M6 9l6 6 6-6" />
-                    </svg>
+                </select>
+
+                <div class="rcs-wrap" id="rcs-environment">
+                  <button type="button" class="rcs-trigger" id="rcs-trigger" aria-haspopup="listbox" aria-expanded="false">
+                    <span class="rcs-value" id="rcs-value">Carregando ambientes...</span>
+                    <svg class="rcs-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                  </button>
+                  <div class="rcs-dropdown" id="rcs-dropdown" role="listbox">
+                    <div class="rcs-options" id="rcs-options"></div>
                   </div>
                 </div>
                 <p id="res-environment-msg" style="display:none; font-size: 0.75rem; margin-top: 0.5rem; font-weight: 500; opacity: 0.85;"></p>
@@ -253,7 +255,28 @@
             <span class="res-step-label">Data da reserva</span>
             <span class="res-step-sublabel" id="res-date-sublabel">Selecione primeiro o ambiente e a quantidade de pessoas.</span>
 
-            <input type="date" class="res-date-input" id="res-date" disabled />
+            <input type="hidden" id="res-date" />
+            <div class="rcd-wrap" id="rcd-wrap">
+              <button type="button" class="rcd-trigger" id="rcd-trigger" disabled>
+                <svg class="rcd-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <span class="rcd-value" id="rcd-value">Selecione uma data</span>
+              </button>
+              <div class="rcd-calendar" id="rcd-calendar">
+                <div class="rcd-header">
+                  <button type="button" class="rcd-nav" id="rcd-prev" aria-label="Mês anterior">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                  </button>
+                  <span class="rcd-month" id="rcd-month"></span>
+                  <button type="button" class="rcd-nav" id="rcd-next" aria-label="Próximo mês">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                  </button>
+                </div>
+                <div class="rcd-weekdays">
+                  <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+                </div>
+                <div class="rcd-days" id="rcd-days"></div>
+              </div>
+            </div>
             <p id="res-date-msg" style="display:none; font-size: 0.75rem; margin-top: 0.5rem; font-weight: 500; opacity: 0.85; color: #ef4444;"></p>
           </div>
 
@@ -283,16 +306,16 @@
           </div>
 
           <!-- ── STEP 05: Personal info ───────────────────────────── -->
-          <div class="res-step res-reveal" id="step-info">
+          <div class="res-step res-step--info res-reveal" id="step-info">
             <span class="res-step-num">05</span>
             <div class="res-step-bar"></div>
             <span class="res-step-label">Seus dados</span>
             <span class="res-step-sublabel" id="res-info-sublabel">Preencha seus dados após selecionar o horário da reserva.</span>
 
-            <div class="res-form-grid">
-              <div class="res-form-field">
+            <div class="res-form-grid res-form-grid--info">
+              <div class="res-form-field full-width">
                 <label class="res-form-label" for="res-name">Nome completo</label>
-                <input type="text" class="res-form-input" id="res-name" placeholder="Seu nome" autocomplete="name" disabled />
+                <input type="text" class="res-form-input" id="res-name" placeholder="Seu nome completo" autocomplete="name" disabled />
               </div>
               <div class="res-form-field">
                 <label class="res-form-label" for="res-email">E-mail</label>
@@ -304,7 +327,7 @@
                 <input type="tel" class="res-form-input" id="res-phone" placeholder="(85) 99999-0000"
                   autocomplete="tel" disabled />
               </div>
-              <div class="res-form-field">
+              <div class="res-form-field full-width">
                 <label class="res-form-label" for="res-notes">Observações <span
                     style="font-weight:400;letter-spacing:0.1em;opacity:0.6;">(opcional)</span></label>
                 <textarea class="res-form-input" id="res-notes"
@@ -317,22 +340,23 @@
           <div class="res-cta-area res-reveal">
             <div class="res-cta-divider">
               <div class="res-cta-divider-line"></div>
+              <span class="res-cta-divider-ornament"></span>
               <span class="res-cta-divider-label">Confirmar reserva</span>
+              <span class="res-cta-divider-ornament"></span>
               <div class="res-cta-divider-line"></div>
             </div>
 
-            <button class="res-submit-btn" id="res-submit" type="button">
-              <!-- Shimmer beam -->
-              <span class="absolute inset-0 overflow-hidden pointer-events-none" style="border-radius:inherit;z-index:1;">
-                <div class="s4-beam"></div>
-              </span>
-              <span class="res-spinner"></span>
-              <span class="res-submit-text" style="position:relative;z-index:2;">Confirmar Reserva</span>
-              <svg style="position:relative;z-index:2;" class="res-submit-arrow" width="14" height="14" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </button>
+            <div class="res-cta-center">
+              <button class="res-submit-btn" id="res-submit" type="button">
+                <span class="res-spinner"></span>
+                <span class="res-submit-text" style="position:relative;z-index:2;">Confirmar Reserva</span>
+                <svg style="position:relative;z-index:2;" class="res-submit-arrow" width="14" height="14" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </button>
+              <p class="res-cta-hint">Ao confirmar, você concorda com nossa política de reservas.</p>
+            </div>
 
             <!-- Validation message -->
             <p id="res-validation-msg" style="display:none; font-size:0.78rem; font-weight:500; color:#b45309; text-align:center; margin-top:1.25rem; opacity:0.9; line-height:1.6;"></p>
