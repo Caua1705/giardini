@@ -3,23 +3,70 @@
    Premium Editorial — Final Refinement
    ══════════════════════════════════════════════════════════════════ */
 
-/* ── NAVBAR SYNC ────────────────────────────────────────────────── */
-#navbar { transition: padding 0.8s var(--expo), background 0.8s var(--expo), border 0.8s var(--expo), backdrop-filter 0.8s var(--expo); }
-#navbar.is-scrolled { background: rgba(13, 26, 18, 0.96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(43, 74, 59, 0.15); padding-top: 1.25rem!important; padding-bottom: 1.25rem!important; }
+/* ── NAVBAR — Sync with Index.html (Transparent top, Cream Scrolled) ─ */
+#navbar {
+  background: transparent!important;
+  backdrop-filter: none!important;
+  -webkit-backdrop-filter: none!important;
+  border-bottom: 1px solid transparent!important;
+  transition: all 0.5s var(--expo)!important;
+  padding: 2.25rem 5rem!important;
+  opacity: 1!important; /* Ensure it's visible, the JS might fade it in too */
+}
+#navbar.is-scrolled {
+  background: rgba(253, 251, 247, 0.94)!important;
+  backdrop-filter: blur(14px)!important;
+  -webkit-backdrop-filter: blur(14px)!important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05)!important;
+  padding-top: 1.25rem!important;
+  padding-bottom: 1.25rem!important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05)!important;
+}
+@media (max-width: 768px) {
+  #navbar { padding: 1.5rem 2rem!important; }
+}
+
+/* Logo */
 .nav-logo { color: #fff!important; transition: color 0.4s var(--expo); flex: 1; display: flex; align-items: center; }
-.is-scrolled .nav-logo { color: rgba(255, 255, 255, 0.95)!important; }
+.is-scrolled .nav-logo { color: var(--c-dark)!important; }
+
+/* Menu layout */
 .nav-menu { display: flex; gap: 2.5rem; align-items: center; justify-content: center; flex: 2; }
 .nav-actions { display: flex; gap: 1.5rem; align-items: center; justify-content: flex-end; flex: 1; }
-.nav-link { color: rgba(255, 255, 255, 0.75)!important; transition: color 0.3s ease; }
-.nav-link:hover { color: #fff!important; }
-.is-scrolled .nav-link { color: rgba(255, 255, 255, 0.65)!important; }
-.is-scrolled .nav-link:hover { color: #fff!important; }
 
-/* CTA in Navbar */
-.nav-cta { border: 1.5px solid rgba(255, 255, 255, 0.35)!important; color: #fff!important; transition: all 0.4s var(--expo)!important; }
-.nav-cta:hover { background: var(--c-primary)!important; border-color: var(--c-primary)!important; color: var(--c-bg)!important; transform: translateY(-2px); }
-.is-scrolled .nav-cta { border-color: var(--c-primary)!important; color: var(--c-primary)!important; background: transparent; }
-.is-scrolled .nav-cta:hover { background: var(--c-primary)!important; color: var(--c-bg)!important; }
+/* Links */
+.nav-link { color: rgba(255, 255, 255, 0.8)!important; transition: color 0.3s ease; }
+.nav-link:hover { color: #fff!important; }
+.is-scrolled .nav-link { color: rgba(26, 26, 26, 0.6)!important; }
+.is-scrolled .nav-link:hover { color: var(--c-primary)!important; }
+
+/* CTA Button */
+.nav-cta {
+  background: transparent!important;
+  color: #fff!important;
+  border: 1.5px solid rgba(255, 255, 255, 0.4)!important;
+  border-radius: 999px!important;
+  transition: all 0.4s var(--expo)!important;
+}
+.nav-cta:hover {
+  background: #fff!important;
+  color: var(--c-primary)!important;
+  border-color: #fff!important;
+  transform: translateY(-2px);
+}
+.is-scrolled .nav-cta {
+  background: transparent!important;
+  color: var(--c-primary)!important;
+  border-color: var(--c-primary)!important;
+}
+.is-scrolled .nav-cta:hover {
+  background: var(--c-primary)!important;
+  color: var(--c-bg)!important;
+}
+
+/* Hamburger icon */
+.nav-hamburger { color: #fff!important; }
+.is-scrolled .nav-hamburger { color: var(--c-dark)!important; }
 
 /* ══════════════════════════════════════════════════════════════════
    HERO
@@ -265,10 +312,10 @@
   z-index:60;
   padding:6rem 0 8rem;
   /* Green identity: continues from env section, lightens toward bottom */
-  background:
+  background: 
     radial-gradient(ellipse 75% 60% at 5% 12%, rgba(43,74,59,.25) 0%, transparent 65%),
     radial-gradient(ellipse 65% 55% at 95% 88%, rgba(25,48,36,.2) 0%, transparent 65%),
-    linear-gradient(175deg, #141e16 0%, #182219 30%, #1c2a1e 60%, #1f2f21 100%);
+    linear-gradient(180deg, #141d15 0%, #1a2e24 45%, #0d1a12 100%);
   overflow:visible;
 }
 

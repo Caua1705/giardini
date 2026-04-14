@@ -78,26 +78,25 @@
   </div>
 
   <!-- ══ NAVBAR ══════════════════════════════════════════════════ -->
-  <nav id="navbar" class="nav-light">
-    <!-- Left -->
-    <a href="./index.html" class="nav-logo" aria-label="Início Giardini">Giardini</a>
-
-    <!-- Center -->
+  <nav id="navbar" aria-label="Navegação principal">
+    <a href="./index.html" class="nav-logo" style="letter-spacing:0.01em;font-size:1.35rem;">Giardini Café</a>
     <div class="nav-menu">
-      <a href="./index.html" class="nav-link">Início</a>
+      <a href="./index.html#experience" class="nav-link">Experiência</a>
       <a href="./menu.html" class="nav-link">Cardápio</a>
+      <a href="./index.html#clube-livro" class="nav-link">Livros</a>
       <a href="./index.html#location" class="nav-link">Visite-nos</a>
     </div>
-
-    <!-- Right -->
     <div class="nav-actions">
-      <a href="./reservation.html" class="nav-cta">
-        <!-- Shimmer Beam Effect -->
-        <span class="s4-beam"></span>
-        <span style="position: relative; z-index: 2;">Reservar</span>
-        <svg style="position: relative; z-index: 2;" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M5 12h14M12 5l7 7-7 7" />
-        </svg>
+      <a href="./reservation.html" class="nav-cta group relative overflow-hidden" style="padding:0.5rem 1.2rem;font-size:0.62rem;transition:all 0.3s var(--expo);">
+      <!-- Shimmer Effect -->
+      <span class="absolute inset-0 overflow-hidden pointer-events-none" style="border-radius: inherit; z-index: 1;">
+        <div class="s4-beam"></div>
+      </span>
+      <span style="position: relative; z-index: 2;">Reservar</span>
+      <svg style="position: relative; z-index: 2;" width="10" height="10" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <path d="M5 12h14M12 5l7 7-7 7" />
+      </svg>
       </a>
       <button class="nav-hamburger" id="hamburger" aria-label="Abrir menu">
         <iconify-icon icon="lucide:menu" style="font-size:2rem;color:currentColor;--iconify-stroke-width:1.2px; stroke-width: 1.2px;"></iconify-icon>
