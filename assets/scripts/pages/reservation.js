@@ -702,24 +702,24 @@ function initAnimations() {
   ScrollTrigger.create({start:'top -80',end:99999,toggleClass:{className:'is-scrolled',targets:'#navbar'}});
   gsap.to('#navbar',{opacity:1,duration:.8,delay:.2});
 
-  // Hero reveals
+  // Hero reveals — staggered with blur
   document.querySelectorAll('.res-hero-reveal').forEach(el => {
     const d = parseFloat(el.dataset.delay || 0);
     gsap.fromTo(el,
-      {opacity:0,y:32},
-      {opacity:1,y:0,duration:1.3,ease:'power4.out',delay:.5+d,
+      {opacity:0, y:32, filter:'blur(6px)'},
+      {opacity:1, y:0, filter:'blur(0px)', duration:1.4, ease:'power4.out', delay:.5+d,
         onStart:()=>el.classList.add('is-visible')}
     );
   });
 
-  // Section reveals
+  // Section reveals — with subtle scale and rotation
   document.querySelectorAll('.res-reveal').forEach(el => {
     ScrollTrigger.create({
       trigger: el, start: 'top 87%',
       onEnter: () => {
         el.classList.add('is-visible');
         if (el.classList.contains('res-step')) {
-          gsap.fromTo(el, {scale:.988},{scale:1,duration:.9,ease:'power3.out'});
+          gsap.fromTo(el, {scale:.985, rotateX:1},{scale:1, rotateX:0, duration:1, ease:'power3.out'});
         }
       }
     });
@@ -735,6 +735,9 @@ function initAnimations() {
   // Parallax
   initHeroParallax();
   initHeroParticles();
+  initGoldenDust();
+  initEnvSectionParallax();
+  initSectionDividerReveal();
 
   // Hero CTA
   const heroCta = document.getElementById('res-hero-cta');
@@ -776,6 +779,57 @@ function initHeroParticles() {
   }
 }
 
+/* ── Golden dust particles — form section atmosphere ──────────── */
+function initGoldenDust() {
+  const container = document.getElementById('res-golden-dust');
+  if (!container || window.innerWidth < 768) return;
+  for (let i = 0; i < 12; i++) {
+    const mote = document.createElement('div');
+    mote.className = 'res-dust-mote';
+    mote.style.left              = (Math.random() * 90 + 5) + '%';
+    mote.style.bottom            = (Math.random() * 60 + 10) + '%';
+    mote.style.width             = (1 + Math.random() * 2) + 'px';
+    mote.style.height            = mote.style.width;
+    mote.style.animationDuration = (10 + Math.random() * 15) + 's';
+    mote.style.animationDelay    = (Math.random() * 18) + 's';
+    container.appendChild(mote);
+  }
+}
+
+/* ── Environment section parallax — subtle depth on bg elements ── */
+function initEnvSectionParallax() {
+  const envBg = document.querySelector('.res-env-section-bg');
+  const envWatermark = document.querySelector('.res-env-watermark');
+  if (!envBg) return;
+  ScrollTrigger.create({
+    trigger: '.res-env-section', start: 'top bottom', end: 'bottom top', scrub: true,
+    onUpdate: (self) => {
+      const p = self.progress;
+      gsap.set(envBg, { y: p * 40 - 20 });
+      if (envWatermark) gsap.set(envWatermark, { y: p * -30 });
+    }
+  });
+}
+
+/* ── Section divider reveal — animate lines in from center ─────── */
+function initSectionDividerReveal() {
+  const divider = document.querySelector('.res-section-divider');
+  if (!divider) return;
+  const lines = divider.querySelectorAll('.res-section-divider-line');
+  const diamond = divider.querySelector('.res-section-divider-diamond');
+  
+  gsap.set(lines, { scaleX: 0 });
+  gsap.set(diamond, { scale: 0, rotation: 0 });
+  
+  ScrollTrigger.create({
+    trigger: divider, start: 'top 90%',
+    onEnter: () => {
+      gsap.to(lines, { scaleX: 1, duration: 1.2, ease: 'power3.out', stagger: 0.1 });
+      gsap.to(diamond, { scale: 1, rotation: 45, duration: .8, ease: 'back.out(1.7)', delay: .4 });
+    }
+  });
+}
+
 
 /* ── Init ──────────────────────────────────────────────────────── */
 
@@ -805,3 +859,4 @@ function initPage() {
 
 bindEvents();
 initDatepicker();
+
