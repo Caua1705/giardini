@@ -813,6 +813,74 @@ textarea.res-form-input {
   text-underline-offset: 3px;
 }
 
+/* Action buttons inside feedback panels */
+.res-feedback-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  margin-top: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.res-feedback-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+  line-height: 1;
+}
+
+.res-feedback-btn-primary {
+  background: var(--c-primary);
+  color: #fff;
+}
+
+.res-feedback-btn-primary:hover {
+  background: #345e47;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -6px rgba(43,74,59,0.35);
+}
+
+.res-feedback-btn-secondary {
+  background: transparent;
+  color: var(--c-primary);
+  border: 1px solid rgba(43,74,59,0.2);
+}
+
+.res-feedback-btn-secondary:hover {
+  background: rgba(43,74,59,0.04);
+  border-color: rgba(43,74,59,0.35);
+  transform: translateY(-2px);
+}
+
+.res-feedback-link {
+  display: block;
+  text-align: center;
+  margin-top: 1.15rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(26,26,26,0.38);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.res-feedback-link:hover {
+  color: var(--c-primary);
+}
+
 /* ── REVEAL ANIMATIONS ───────────────────────────────────────────── */
 .res-reveal {
   opacity: 0;

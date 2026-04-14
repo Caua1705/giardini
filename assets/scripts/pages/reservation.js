@@ -524,9 +524,6 @@ async function handleSubmit() {
         lenis.scrollTo(DOM.successPanel, { offset: -100, duration: 1.2 });
       }, 300);
 
-      // Reset form after a short delay
-      setTimeout(() => resetForm(), 4000);
-
     } else {
       // ── Backend error (4xx / 5xx) ────────────────────────────
       let errorMsg = 'Não foi possível processar sua reserva.';
@@ -592,7 +589,24 @@ function getValidationError({ environment, date, name, email, phone }) {
     return 'Por favor, informe um e-mail válido.';
   }
   if (!phone)          return 'Por favor, informe seu telefone.';
+  // Brazilian phone: (XX) XXXXX-XXXX → 11 digits
+  const digits = phone.replace(/\D/g, '');
+  if (digits.length < 11) {
+    return 'Informe o telefone completo com DDD. Ex: (85) 99999-0000';
+  }
   return null;
+}
+
+/**
+ * Formats a string into Brazilian phone pattern: (XX) XXXXX-XXXX.
+ * Strips non-digits and applies mask progressively as the user types.
+ */
+function formatPhoneBR(value) {
+  const d = value.replace(/\D/g, '').slice(0, 11);
+  if (d.length === 0) return '';
+  if (d.length <= 2)  return `(${d}`;
+  if (d.length <= 7)  return `(${d.slice(0,2)}) ${d.slice(2)}`;
+  return `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;
 }
 
 /**
@@ -632,6 +646,33 @@ function resetForm() {
   btn.disabled       = false;
   textEl.textContent = 'Confirmar Reserva';
   arrowEl.style.display = '';
+
+  // Clear validation message
+  const valMsg = document.getElementById('res-validation-msg');
+  if (valMsg) valMsg.style.display = 'none';
+}
+
+/**
+ * Handles the "Fazer outra reserva" button click.
+ * Resets form, hides feedback panels, and scrolls to the form.
+ */
+function handleNewReservation() {
+  // Hide feedback panels
+  DOM.successPanel.classList.remove('visible');
+  DOM.successPanel.style.display = 'none';
+  DOM.errorPanel.classList.remove('visible');
+  DOM.errorPanel.style.display = 'none';
+
+  // Full form reset
+  resetForm();
+
+  // Scroll to the first step
+  setTimeout(() => {
+    const target = document.getElementById('step-environment');
+    if (target) {
+      lenis.scrollTo(target, { offset: -120, duration: 1.4 });
+    }
+  }, 150);
 }
 
 
@@ -653,8 +694,24 @@ function bindEvents() {
   // Date change → validate & load time slots
   DOM.dateInput.addEventListener('change', handleDateChange);
 
+  // Phone input mask — blocks letters, auto-formats
+  DOM.phoneInput.addEventListener('input', () => {
+    const cursorPos  = DOM.phoneInput.selectionStart;
+    const prevLength = DOM.phoneInput.value.length;
+    DOM.phoneInput.value = formatPhoneBR(DOM.phoneInput.value);
+    // Keep cursor position natural
+    const diff = DOM.phoneInput.value.length - prevLength;
+    DOM.phoneInput.setSelectionRange(cursorPos + diff, cursorPos + diff);
+  });
+
   // Submit button
   DOM.submitBtn.addEventListener('click', handleSubmit);
+
+  // New reservation (from success panel)
+  const newResBtn = document.getElementById('res-new-reservation');
+  if (newResBtn) {
+    newResBtn.addEventListener('click', handleNewReservation);
+  }
 }
 
 
