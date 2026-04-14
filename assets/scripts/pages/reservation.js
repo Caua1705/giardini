@@ -747,6 +747,18 @@ function initAnimations() {
       lenis.scrollTo('#reservation-flow', {offset:-60,duration:1.8});
     });
   }
+
+  // Env section header reveal
+  initEnvHeaderReveal();
+
+  // AMBIENTE scroll-driven word (like TEMPO in index)
+  initEnvScrollWord();
+
+  // RESERVAR scroll-driven word — form section
+  initFormScrollWord();
+
+  // Env card parallax + fade-in
+  initEnvCardsParallax();
 }
 
 function initHeroParallax() {
@@ -799,16 +811,131 @@ function initGoldenDust() {
 /* ── Environment section parallax — subtle depth on bg elements ── */
 function initEnvSectionParallax() {
   const envBg = document.querySelector('.res-env-section-bg');
-  const envWatermark = document.querySelector('.res-env-watermark');
   if (!envBg) return;
   ScrollTrigger.create({
     trigger: '.res-env-section', start: 'top bottom', end: 'bottom top', scrub: true,
     onUpdate: (self) => {
       const p = self.progress;
       gsap.set(envBg, { y: p * 40 - 20 });
-      if (envWatermark) gsap.set(envWatermark, { y: p * -30 });
     }
   });
+}
+
+/* ── Env Section Header Reveal — staggered fade-in + blur ─────── */
+function initEnvHeaderReveal() {
+  const headerEls = document.querySelectorAll('.res-env-header-reveal');
+  if (!headerEls.length) return;
+
+  headerEls.forEach(el => {
+    const d = parseFloat(el.dataset.delay || 0);
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 90%',
+      onEnter: () => {
+        gsap.fromTo(el,
+          { opacity: 0, y: 30, filter: 'blur(8px)' },
+          { opacity: 1, y: 0, filter: 'blur(0px)',
+            duration: 1.2, ease: 'power3.out', delay: d,
+            onStart: () => el.classList.add('is-revealed')
+          }
+        );
+      }
+    });
+  });
+}
+
+/* ── AMBIENTE Scroll-Driven Word — mirrors TEMPO from index ────── */
+function initEnvScrollWord() {
+  const wordEl = document.querySelector('.res-env-scroll-word-text');
+  if (!wordEl || window.innerWidth < 768) return;
+
+  ScrollTrigger.create({
+    trigger: '.res-env-section',
+    start: 'top bottom',
+    end: 'bottom top',
+    scrub: 1.5,
+    onUpdate: (self) => {
+      // starts at translateX(30%) → moves left as user scrolls down
+      const x = 30 - self.progress * 70; // 30% → -40%
+      gsap.set(wordEl, { x: `${x}%` });
+    }
+  });
+}
+
+/* ── RESERVAR Scroll-Driven Word — form section (same mechanic) ─── */
+function initFormScrollWord() {
+  const wordEl = document.querySelector('.res-scroll-word-text');
+  if (!wordEl || window.innerWidth < 768) return;
+
+  ScrollTrigger.create({
+    trigger: '.res-section',
+    start: 'top bottom',
+    end: 'bottom top',
+    scrub: 1.5,
+    onUpdate: (self) => {
+      const x = 30 - self.progress * 70; // 30% → -40%
+      gsap.set(wordEl, { x: `${x}%` });
+    }
+  });
+}
+
+/* ── Env Cards Parallax + Fade-In Entrance ───────────────────── */
+function initEnvCardsParallax() {
+  // Called after cards are rendered (see renderEnvCards hook below)
+  // Here we set up a MutationObserver to react when JS populates the cards
+  const grid = document.getElementById('res-env-cards');
+  if (!grid) return;
+
+  const runParallax = () => {
+    const cards = grid.querySelectorAll('.res-env-card');
+    if (!cards.length) return;
+
+    cards.forEach((card, idx) => {
+      // Mark for CSS targeting
+      card.classList.add('parallax-card');
+
+      // Fade-in entrance
+      ScrollTrigger.create({
+        trigger: card,
+        start: 'top 92%',
+        onEnter: () => {
+          gsap.fromTo(card,
+            { opacity: 0, y: 52, scale: 0.96, filter: 'blur(6px)' },
+            { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
+              duration: 0.9, ease: 'power3.out',
+              delay: (idx % 3) * 0.08,
+              onStart: () => card.classList.add('is-revealed')
+            }
+          );
+        }
+      });
+
+      // Parallax image depth — card image moves at slower rate than card
+      const img = card.querySelector('.res-env-card-img');
+      if (img) {
+        ScrollTrigger.create({
+          trigger: card,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true,
+          onUpdate: (self) => {
+            const p = self.progress;
+            gsap.set(img, { y: (p - 0.5) * 30 }); // subtle ±15px parallax
+          }
+        });
+      }
+    });
+  };
+
+  // Watch for children being added (JS populates cards dynamically)
+  const observer = new MutationObserver(() => {
+    const cards = grid.querySelectorAll('.res-env-card');
+    if (cards.length > 0) {
+      observer.disconnect();
+      setTimeout(runParallax, 50); // small delay so GSAP entrance doesn't conflict
+    }
+  });
+  observer.observe(grid, { childList: true });
 }
 
 /* ── Section divider reveal — animate lines in from center ─────── */
