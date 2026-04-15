@@ -606,18 +606,16 @@
   display:grid;grid-template-columns:52px 1fr;gap:0 1.35rem;
   padding:2.25rem 0;
   border-top:1px solid rgba(255,255,255,.055);
-  transition:all .35s cubic-bezier(.16,1,.3,1);
+  transition:background 0.65s cubic-bezier(.22,1,.36,1),
+             border-radius 0.65s cubic-bezier(.22,1,.36,1);
   position:relative;z-index:1;
-  border-radius:0;
+  border-radius:8px;
 }
 .res-step.has-open-widget{z-index:100}
 .res-step:last-of-type{border-bottom:1px solid rgba(255,255,255,.055)}
 .res-step:hover{
-  background:rgba(255,255,255,.025);
-  border-radius:12px;
-  padding-left:1rem;
-  padding-right:.5rem;
-  margin:0 -.5rem;
+  background:rgba(255,255,255,.022);
+  border-radius:10px;
 }
 /* Golden left accent bar on hover */
 .res-step::before{
