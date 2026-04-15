@@ -161,12 +161,9 @@ function renderEnvCards(data) {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectEnvironmentCard(card, env); }
     });
 
+    // Start invisible — entrance handled by initEnvCardsParallax
+    gsap.set(card, { opacity: 0, y: 28, scale: 0.96 });
     c.appendChild(card);
-
-    gsap.fromTo(card,
-      { opacity: 0, y: 18, scale: .97 },
-      { opacity: 1, y: 0, scale: 1, duration: .6, ease: 'power3.out', delay: idx * 0.07 }
-    );
   });
 }
 
@@ -826,21 +823,25 @@ function initEnvHeaderReveal() {
   const headerEls = document.querySelectorAll('.res-env-header-reveal');
   if (!headerEls.length) return;
 
-  headerEls.forEach(el => {
-    const d = parseFloat(el.dataset.delay || 0);
-    ScrollTrigger.create({
-      trigger: el,
-      start: 'top 90%',
-      onEnter: () => {
-        gsap.fromTo(el,
-          { opacity: 0, y: 30, filter: 'blur(8px)' },
-          { opacity: 1, y: 0, filter: 'blur(0px)',
-            duration: 1.2, ease: 'power3.out', delay: d,
-            onStart: () => el.classList.add('is-revealed')
-          }
-        );
-      }
-    });
+  // Set initial hidden state
+  gsap.set(headerEls, { opacity: 0, y: 30, filter: 'blur(8px)' });
+
+  // Single ScrollTrigger on the header block — fires once only
+  ScrollTrigger.create({
+    trigger: '.res-env-section-header',
+    start: 'top 88%',
+    once: true,
+    onEnter: () => {
+      headerEls.forEach(el => {
+        const d = parseFloat(el.dataset.delay || 0);
+        gsap.to(el, {
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 1.2, ease: 'power3.out', delay: d,
+          onStart: () => el.classList.add('is-revealed'),
+          onComplete: () => gsap.set(el, { clearProps: 'filter' })
+        });
+      });
+    }
   });
 }
 
@@ -879,60 +880,65 @@ function initFormScrollWord() {
   });
 }
 
-/* ── Env Cards Parallax + Fade-In Entrance ───────────────────── */
+/* ── Env Cards — single unified entrance + image parallax ─────── */
 function initEnvCardsParallax() {
-  // Called after cards are rendered (see renderEnvCards hook below)
-  // Here we set up a MutationObserver to react when JS populates the cards
   const grid = document.getElementById('res-env-cards');
   if (!grid) return;
 
-  const runParallax = () => {
+  let entranceDone = false;
+
+  const runEntrance = () => {
     const cards = grid.querySelectorAll('.res-env-card');
     if (!cards.length) return;
 
-    cards.forEach((card, idx) => {
-      // Mark for CSS targeting
-      card.classList.add('parallax-card');
+    // Single ScrollTrigger on the grid — all cards animate together with stagger
+    ScrollTrigger.create({
+      trigger: grid,
+      start: 'top 88%',
+      once: true,
+      onEnter: () => {
+        if (entranceDone) return;
+        entranceDone = true;
 
-      // Fade-in entrance
-      ScrollTrigger.create({
-        trigger: card,
-        start: 'top 92%',
-        onEnter: () => {
-          gsap.fromTo(card,
-            { opacity: 0, y: 52, scale: 0.96, filter: 'blur(6px)' },
-            { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
-              duration: 0.9, ease: 'power3.out',
-              delay: (idx % 3) * 0.08,
-              onStart: () => card.classList.add('is-revealed')
-            }
-          );
-        }
-      });
-
-      // Parallax image depth — card image moves at slower rate than card
-      const img = card.querySelector('.res-env-card-img');
-      if (img) {
-        ScrollTrigger.create({
-          trigger: card,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-          onUpdate: (self) => {
-            const p = self.progress;
-            gsap.set(img, { y: (p - 0.5) * 30 }); // subtle ±15px parallax
+        gsap.to(cards, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          filter: 'blur(0px)',
+          duration: 0.75,
+          ease: 'power3.out',
+          stagger: 0.07,
+          onComplete: () => {
+            // Clean up inline filter after animation so hover/CSS works normally
+            cards.forEach(c => gsap.set(c, { clearProps: 'filter' }));
           }
         });
       }
     });
+
+    // Subtle image parallax per card (no conflict with entrance)
+    cards.forEach(card => {
+      const img = card.querySelector('.res-env-card-img');
+      if (!img) return;
+      ScrollTrigger.create({
+        trigger: card,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: true,
+        onUpdate: (self) => {
+          gsap.set(img, { y: (self.progress - 0.5) * 28 });
+        }
+      });
+    });
   };
 
-  // Watch for children being added (JS populates cards dynamically)
+  // Wait for JS to populate cards (API call)
   const observer = new MutationObserver(() => {
     const cards = grid.querySelectorAll('.res-env-card');
     if (cards.length > 0) {
       observer.disconnect();
-      setTimeout(runParallax, 50); // small delay so GSAP entrance doesn't conflict
+      // Small delay ensures gsap.set(opacity:0) from renderEnvCards settled
+      setTimeout(runEntrance, 80);
     }
   });
   observer.observe(grid, { childList: true });
