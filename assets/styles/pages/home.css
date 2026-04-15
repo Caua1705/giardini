@@ -997,4 +997,63 @@
       padding: 1.05rem 2.5rem !important;
     }
   }
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE HERO REFINEMENT (User Request)
+   Focus: Hierarchy, Elegance, Button Weight.
+   Applies only to mobile (<= 768px).
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  #hero-headline {
+    font-size: clamp(2.6rem, 10vw, 3.8rem) !important;
+    line-height: 1.25 !important;
+    /* More breathing room */
+    margin-bottom: 2.25rem !important;
+    /* Increase space headline -> button */
+    letter-spacing: -0.025em !important;
+  }
+
+  .hero-cta {
+    margin-top: 1.5rem !important;
+    gap: 1.5rem !important;
+    /* Consistent space CTA -> secondary link */
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .hero-cta-primary-wrap {
+    display: inline-flex;
+    position: relative;
+    border-radius: 9999px;
+  }
+
+  .btn-primary.btn-order {
+    padding: 0.8rem 1.85rem !important; /* Reduced visual weight */
+    font-size: 0.64rem !important;
+    min-height: 44px !important; /* Elegant, not bulky */
+    border-radius: 9999px !important;
+  }
+
+  /* Ensure secondary link is balanced and doesn't compete */
+  .link-ghost {
+    font-size: 0.64rem !important;
+    opacity: 0.55 !important;
+    padding: 0.4rem 0.8rem !important;
+    min-height: auto !important;
+  }
+
+  /* Layout Spacing & Balance */
+  #hero-right {
+    margin-top: 4rem !important;
+    /* Clear spacing between CTA area and image */
+    width: 85% !important;
+    max-width: 320px !important;
+  }
+
+  #video-frame {
+    border-radius: 12px !important;
+    /* Refined corners */
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.05) !important;
+    /* Softer shadow for supporting element */
+    border: 1px solid rgba(43, 74, 59, 0.06) !important;
+  }
 }
