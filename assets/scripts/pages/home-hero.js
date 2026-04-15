@@ -1200,43 +1200,58 @@
   window.addEventListener('load', fixHeroResponsive);
 })();
 
-/* ══ MOBILE SCROLL REVEAL: Section 3 feat-cards ═══════════════════════
-   Replaces tap-toggle. Cards auto-reveal their overlay and panel when
-   they scroll into view. No user interaction required.
-   Only active on touch devices ≤767px. Desktop is untouched.
+/* ══ MOBILE TAP-TOGGLE: Section 3 feat-card effects ══════════════════
+   On mobile, overlay/panel is hidden by default. Tap to reveal,
+   tap again to hide. Only active on touch devices ≤767px.
+   Desktop is untouched.
 ══════════════════════════════════════════════════════════════════════ */
 (function () {
   if (window.innerWidth > 767 || !('ontouchstart' in window)) return;
 
-  // Strip inline mouse handlers — not applicable on touch
   document.querySelectorAll('.feat-card-inner').forEach(function (card) {
+    // Strip inline mouse handlers — they interfere with tap on mobile
     card.removeAttribute('onmouseenter');
     card.removeAttribute('onmouseleave');
-  });
 
-  // Auto-reveal cards on scroll using IntersectionObserver
-  var cardObserver = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      var card = entry.target.querySelector('.feat-card-inner');
-      if (!card) return;
+    card.addEventListener('click', function () {
+      var isActive = card.classList.toggle('mobile-active');
+      var img   = card.querySelector('.feat-img');
+      var veil  = card.querySelector('.feat-veil');
+      var panel = card.querySelector('.feat-panel');
+      var line  = card.querySelector('.feat-card-line');
 
-      if (entry.isIntersecting) {
-        // Card entered viewport: apply full reveal with a slight delay for elegance
-        setTimeout(function () {
-          card.classList.add('mobile-active');
-        }, 80);
+      if (isActive) {
+        card.style.transform = 'translateY(-6px)';
+        card.style.boxShadow = '0 28px 72px rgba(26,26,26,0.14),0 6px 18px rgba(26,26,26,0.07)';
+        if (img)   img.style.transform = 'scale(1.04)';
+        if (veil)  veil.style.opacity  = '1';
+        if (panel) { panel.style.opacity = '1'; panel.style.transform = 'translateY(0)'; }
+        if (line)  { line.style.transform = 'scaleX(1)'; line.style.opacity = '1'; }
+
+        // Close other active cards
+        document.querySelectorAll('.feat-card-inner.mobile-active').forEach(function (other) {
+          if (other === card) return;
+          other.classList.remove('mobile-active');
+          other.style.transform = 'translateY(0)';
+          other.style.boxShadow = '';
+          var oI = other.querySelector('.feat-img');
+          var oV = other.querySelector('.feat-veil');
+          var oP = other.querySelector('.feat-panel');
+          var oL = other.querySelector('.feat-card-line');
+          if (oI) oI.style.transform = 'scale(1.0)';
+          if (oV) oV.style.opacity   = '0';
+          if (oP) { oP.style.opacity = '0'; oP.style.transform = 'translateY(10px)'; }
+          if (oL) { oL.style.transform = 'scaleX(0)'; oL.style.opacity = '0'; }
+        });
       } else {
-        // Card left viewport: reset to default (CSS handles base visibility)
-        card.classList.remove('mobile-active');
+        card.style.transform = 'translateY(0)';
+        card.style.boxShadow = '';
+        if (img)   img.style.transform = 'scale(1.0)';
+        if (veil)  veil.style.opacity  = '0';
+        if (panel) { panel.style.opacity = '0'; panel.style.transform = 'translateY(10px)'; }
+        if (line)  { line.style.transform = 'scaleX(0)'; line.style.opacity = '0'; }
       }
     });
-  }, {
-    threshold: 0.38,   // trigger when >38% of card is visible
-    rootMargin: '0px'
-  });
-
-  document.querySelectorAll('.feat-card').forEach(function (wrapper) {
-    cardObserver.observe(wrapper);
   });
 })();
 

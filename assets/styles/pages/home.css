@@ -426,31 +426,6 @@
     opacity: 1 !important;
   }
 
-  /* ── MOBILE DEFAULT: cards always reveal content on scroll ── */
-  /* Panel always visible — no tap required */
-  .feat-card-inner .feat-panel {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-  }
-  /* Overlay always slightly visible for depth */
-  .feat-card-inner .feat-veil {
-    opacity: 0.55 !important;
-  }
-  /* Line always visible at reduced intensity */
-  .feat-card-inner .feat-card-line {
-    transform: scaleX(1) !important;
-    opacity: 0.65 !important;
-  }
-  /* Clube do Livro image captions: always visible on mobile */
-  .clube-img-caption {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-  }
-  /* Exp pillars: subtle border always on (no hover) */
-  .exp-pillar {
-    border-left-color: rgba(43, 74, 59, 0.26) !important;
-  }
-
   .feat-card {
     flex: 0 0 clamp(80%, 82vw, 88%);
     scroll-snap-align: center;
