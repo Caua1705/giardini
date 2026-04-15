@@ -697,15 +697,16 @@
   /* Headline: dominant, fluid, tight tracking */
   #experience-video h2 {
     font-size: clamp(2.4rem, 9.5vw, 3.4rem) !important;
-    line-height: 0.95 !important;
+    line-height: 1.1 !important;
     letter-spacing: -0.035em !important;
     text-align: center !important;
     margin-bottom: 0 !important;
   }
 
-  /* Headline wrapper: tight bottom gap */
-  #experience-video div[style*="text-align:center;margin-bottom:1.75rem"] {
-    margin-bottom: 1.25rem !important;
+  /* Headline wrapper: balanced gap */
+  #experience-video div[style*="text-align:center;margin-bottom:1.75rem"],
+  #experience-video div[style*="text-align:center;margin-bottom:2.5rem"] {
+    margin-bottom: 1.5rem !important;
     width: 100% !important;
   }
 
