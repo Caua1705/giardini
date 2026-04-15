@@ -309,10 +309,14 @@ function formatDateDisplay(dateStr) {
 }
 
 function resetTimeSlots() {
+  DOM.timesEmpty.textContent = 'Selecione uma data para ver os horários disponíveis.';
   DOM.timesEmpty.style.display = '';
   DOM.timesContainer.style.display = 'none';
   DOM.timesSkeleton.style.display = 'none';
   DOM.timesContainer.innerHTML = '';
+  // Remove any lingering loading message
+  const existingLoader = document.getElementById('res-times-loading');
+  if (existingLoader) existingLoader.remove();
   selectedTime = null;
   tryEnablePersonalFields();
   updateSummaryPills();
@@ -488,25 +492,83 @@ async function loadAvailability() {
   const envId = DOM.environment.value, date = DOM.dateInput.value, size = selectedGuests;
   if (!envId || !date || !size) return;
 
+  /* ── 1. CLEAR previous results + show loading state ─────────── */
   DOM.timesEmpty.style.display = 'none';
   DOM.timesContainer.style.display = 'none';
-  DOM.timesSkeleton.style.display = 'flex';
+  DOM.timesContainer.innerHTML = '';
+  DOM.timesSkeleton.style.display = 'none';
   selectedTime = null;
   tryEnablePersonalFields(); updateSummaryPills();
 
+  // Disable the time area so stale buttons can't be clicked
+  const timesArea = document.getElementById('res-times-area');
+  if (timesArea) timesArea.style.pointerEvents = 'none';
+
+  // Remove previous loading message if any
+  let loadingEl = document.getElementById('res-times-loading');
+  if (loadingEl) loadingEl.remove();
+
+  // Create premium loading message
+  loadingEl = document.createElement('div');
+  loadingEl.id = 'res-times-loading';
+  loadingEl.style.cssText = `
+    display:flex;align-items:center;gap:1rem;
+    padding:1.35rem 1.5rem;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.07);
+    border-left:2px solid rgba(183,147,88,.35);
+    border-radius:0 14px 14px 0;
+    margin:.25rem 0;
+    opacity:0;transform:translateY(8px);
+    transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1);
+  `;
+  loadingEl.innerHTML = `
+    <span style="
+      display:inline-block;width:18px;height:18px;
+      border:2px solid rgba(183,147,88,.2);
+      border-top-color:rgba(183,147,88,.7);
+      border-radius:50%;
+      animation:resSpin .8s linear infinite;
+      flex-shrink:0;
+    "></span>
+    <span style="
+      font-family:'Instrument Serif',serif;
+      font-size:.95rem;font-weight:300;font-style:italic;
+      color:rgba(255,255,255,.45);
+      letter-spacing:-.005em;
+    ">Consultando horários disponíveis…</span>
+  `;
+  if (timesArea) timesArea.appendChild(loadingEl);
+  // Trigger entrance animation
+  requestAnimationFrame(() => {
+    loadingEl.style.opacity = '1';
+    loadingEl.style.transform = 'translateY(0)';
+  });
+
+  /* ── 2. FETCH availability ─────────────────────────────────── */
   try {
     const r = await fetch(`${API_BASE_URL}/availability?${new URLSearchParams({environment_id:envId,reservation_date:date,party_size:size})}`);
     if (!r.ok) throw new Error('fail');
     const slots = await r.json();
-    DOM.timesSkeleton.style.display = 'none';
+
+    // Remove loading
+    if (loadingEl) {
+      loadingEl.style.opacity = '0';
+      loadingEl.style.transform = 'translateY(-6px)';
+      setTimeout(() => loadingEl.remove(), 350);
+    }
+
     const times = slots.map(s => typeof s === 'string' ? s : s.time);
 
+    /* ── 3a. EMPTY STATE ──────────────────────────────────────── */
     if (!times || times.length === 0) {
-      DOM.timesEmpty.textContent = 'Nenhum horário disponível para esta data. Tente outro dia.';
+      DOM.timesEmpty.textContent = 'Não há horários disponíveis para esta combinação.';
       DOM.timesEmpty.style.display = '';
+      if (timesArea) timesArea.style.pointerEvents = '';
       return;
     }
 
+    /* ── 3b. RENDER SLOTS ─────────────────────────────────────── */
     const morning   = times.filter(t => t < '12:00');
     const afternoon = times.filter(t => t >= '12:00');
     DOM.timesContainer.innerHTML = '';
@@ -518,10 +580,20 @@ async function loadAvailability() {
     if (pills.length) {
       gsap.fromTo(pills, {opacity:0,y:8,scale:.95}, {opacity:1,y:0,scale:1,duration:.4,ease:'power3.out',stagger:.04});
     }
+
+    // Re-enable interaction
+    if (timesArea) timesArea.style.pointerEvents = '';
+
   } catch (e) {
-    DOM.timesSkeleton.style.display = 'none';
-    DOM.timesEmpty.textContent = 'Não foi possível carregar os horários.';
+    /* ── 4. ERROR STATE ────────────────────────────────────────── */
+    if (loadingEl) {
+      loadingEl.style.opacity = '0';
+      loadingEl.style.transform = 'translateY(-6px)';
+      setTimeout(() => loadingEl.remove(), 350);
+    }
+    DOM.timesEmpty.textContent = 'Não foi possível verificar os horários agora. Tente novamente.';
     DOM.timesEmpty.style.display = '';
+    if (timesArea) timesArea.style.pointerEvents = '';
     console.error(e);
   }
 }
