@@ -729,131 +729,166 @@
   }
 
   /* ═════════════════════════════════════════════════════════════════
-     G. LOCATION SECTION (Mobile-First Redesign)
+     G. LOCATION SECTION — Mobile Premium Redesign
      ═════════════════════════════════════════════════════════════════ */
 
-  /* Section padding: tighter */
+  /* Section padding */
   #location {
-    padding-top: clamp(3.5rem, 10vw, 5rem) !important;
-    padding-bottom: clamp(3.5rem, 10vw, 5rem) !important;
+    padding-top: clamp(3rem, 9vw, 4.5rem) !important;
+    padding-bottom: clamp(3rem, 9vw, 4.5rem) !important;
   }
 
-  /* Grid: stack vertically with tighter gap */
+  /* Kill large background glows — too aggressive on small screens */
+  #location > div[style*="radial-gradient"] {
+    opacity: 0 !important;
+  }
+  /* Kill horizontal rhythm lines — visual noise on mobile */
+  .loc-dk-hline {
+    display: none !important;
+  }
+  /* Watermark: hidden on mobile */
+  #loc-dk-wm {
+    display: none !important;
+  }
+  /* Cinematic bleed transition: shorter on mobile */
+  div[style*="height:240px;margin-top:-240px"] {
+    height: 120px !important;
+    margin-top: -120px !important;
+  }
+
+  /* Main grid: single-column, left-aligned, consistent padding */
   #location .grid {
-    gap: clamp(1.5rem, 5vw, 2.5rem) !important;
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
     padding-left: clamp(1.25rem, 5vw, 2rem) !important;
     padding-right: clamp(1.25rem, 5vw, 2rem) !important;
   }
 
-  /* Heading: scale-down for mobile, better contrast */
-  #location h2 {
-    font-size: clamp(2.6rem, 11vw, 3.8rem) !important;
-    line-height: 0.88 !important;
-    margin-bottom: clamp(1.25rem, 3.5vw, 2rem) !important;
-    padding-bottom: 0.2rem !important;
+  /* LEFT column (text content): full-width */
+  #location .lg\:col-span-5 {
+    width: 100% !important;
+    padding-top: 0 !important;
   }
 
-  /* "Visite" in white, ensure readability */
-  #location h2 span span {
-    color: rgba(255,255,255,0.95) !important;
-  }
-
-  /* Description: better contrast */
-  #location p[style*="max-width:400px"] {
-    font-size: clamp(0.86rem, 2.4vw, 0.95rem) !important;
-    max-width: 100% !important;
-    line-height: 1.65 !important;
-    margin-bottom: 1.25rem !important;
-    color: rgba(255,255,255,0.45) !important;
-  }
-
-  /* Section badge */
-  .loc-dk-badge {
-    padding: 0.25rem 0.75rem !important;
-  }
-
-  /* Badge row */
+  /* Section badge row */
   #location .loc-dr.d1 {
+    margin-bottom: 1.5rem !important;
+    align-items: center !important;
+  }
+  .loc-dk-badge {
+    padding: 0.25rem 0.65rem !important;
+  }
+
+  /* Headline: strong but mobile-appropriate size */
+  #location h2 {
+    font-size: clamp(2.8rem, 12vw, 4rem) !important;
+    line-height: 0.9 !important;
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 0.15rem !important;
+    letter-spacing: -0.035em !important;
+  }
+
+  /* Description: readable, not too dim */
+  #location p[style*="max-width:400px"] {
+    font-size: 0.88rem !important;
+    max-width: 100% !important;
+    line-height: 1.7 !important;
+    margin-bottom: 0 !important;
+    color: rgba(255,255,255,0.42) !important;
+    padding-top: 0 !important;
+  }
+  /* Description wrapper: controlled bottom margin */
+  #location .overflow-hidden.mb-10 {
     margin-bottom: 1.75rem !important;
   }
 
-  /* Data rows: tighter gap */
-  #location div[style*="gap:3.5rem;margin-bottom:3.5rem"] {
-    gap: 2rem !important;
-    margin-bottom: 2rem !important;
-  }
-
-  /* Address text: fluid */
-  #location .loc-dk-row p[style*="font-size:1.55rem"] {
-    font-size: clamp(1.15rem, 3.8vw, 1.35rem) !important;
-  }
-
-  /* Row labels: slightly brighter for readability */
-  #location .loc-dk-row h4 {
-    color: rgba(255,255,255,0.28) !important;
-  }
-
-  /* Hours text: fluid */
-  #location .loc-dk-row p[style*="font-size:2rem"] {
-    font-size: clamp(1.4rem, 4.5vw, 1.7rem) !important;
-  }
-
-  #location .loc-dk-row p[style*="font-size:1.3rem"] {
-    font-size: clamp(0.95rem, 3.2vw, 1.15rem) !important;
-  }
-
-  /* Divider */
+  /* Divider: subtle horizontal separator */
   .loc-dk-divider {
     max-width: 100% !important;
     margin-bottom: 1.75rem !important;
   }
 
-  /* CTA button: proper touch target */
+  /* Data rows container: consistent vertical spacing */
+  #location div[style*="gap:3.5rem;margin-bottom:3.5rem"] {
+    gap: 1.75rem !important;
+    margin-bottom: 1.75rem !important;
+  }
+
+  /* Row fine-line accent */
+  .loc-dk-fineline {
+    margin-bottom: 0.6rem !important;
+  }
+
+  /* Row labels (Localização, Rotina) */
+  #location .loc-dk-row h4 {
+    font-size: 0.5rem !important;
+    color: rgba(255,255,255,0.32) !important;
+    margin-bottom: 0.65rem !important;
+    letter-spacing: 0.28em !important;
+  }
+
+  /* Address text: clear, readable */
+  #location .loc-dk-row p[style*="font-size:1.55rem"] {
+    font-size: 1.2rem !important;
+    letter-spacing: -0.01em !important;
+    line-height: 1.2 !important;
+    color: rgba(255,255,255,0.88) !important;
+  }
+  /* Neighborhood sub-label */
+  #location .loc-dk-row p[style*="font-size:0.68rem"] {
+    font-size: 0.6rem !important;
+    color: rgba(255,255,255,0.3) !important;
+    margin-top: 0.25rem !important;
+  }
+
+  /* Hours — primary time */
+  #location .loc-dk-row p[style*="font-size:2rem"] {
+    font-size: 1.55rem !important;
+    letter-spacing: -0.04em !important;
+  }
+  /* Hours — Sunday times */
+  #location .loc-dk-row p[style*="font-size:1.3rem"] {
+    font-size: 1.05rem !important;
+    letter-spacing: -0.025em !important;
+  }
+
+  /* CTA button: medium, not oversized */
   .loc-btn-shimmer {
-    min-height: 48px !important;
-    padding: 0.9rem 1.8rem !important;
-    font-size: 0.65rem !important;
+    min-height: 46px !important;
+    padding: 0.85rem 1.75rem !important;
+    font-size: 0.62rem !important;
+    letter-spacing: 0.14em !important;
   }
 
-  /* Map container: tighter aspect on mobile */
-  .ed-map-container {
-    aspect-ratio: 4 / 5 !important;
-    width: 100% !important;
-    border-radius: 18px !important;
-  }
-
-  /* Map: right column top margin */
+  /* RIGHT column (map): push below all text with clear separation */
   #location .lg\:col-span-7 {
-    margin-top: 0 !important;
+    margin-top: 2.5rem !important;
+    width: 100% !important;
+    perspective: none !important;
   }
 
-  /* Map bottom bar */
+  /* Map container: clean rounded card */
+  .ed-map-container {
+    aspect-ratio: 4 / 3 !important;
+    width: 100% !important;
+    border-radius: 16px !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.35) !important;
+    outline: none !important;
+  }
+
+  /* Map bottom info bar */
   .loc-map-bar {
-    padding: 1rem 1rem 0.85rem !important;
+    padding: 0.9rem 1rem 0.8rem !important;
     flex-direction: column !important;
-    gap: 0.65rem !important;
+    gap: 0.55rem !important;
     align-items: flex-start !important;
   }
-
   .loc-map-bar p[style*="font-size:1.1rem"] {
-    font-size: 0.9rem !important;
+    font-size: 0.85rem !important;
   }
-
-  /* Map "Ver no Maps" tag: brighter */
   .loc-map-bar > span {
-    font-size: 0.48rem !important;
-    padding: 0.4rem 0.85rem !important;
-  }
-
-  /* Dark watermark: hidden on mobile */
-  #loc-dk-wm {
-    display: none !important;
-  }
-
-  /* Cinematic bleed transition: shorter */
-  div[style*="height:240px;margin-top:-240px"] {
-    height: 120px !important;
-    margin-top: -120px !important;
+    font-size: 0.46rem !important;
+    padding: 0.35rem 0.8rem !important;
   }
 
   /* ═════════════════════════════════════════════════════════════════
