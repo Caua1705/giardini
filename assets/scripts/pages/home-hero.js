@@ -636,12 +636,8 @@
               currentFrameIndex = -1; // force redraw after resize
             }
             const totalLoaded = frames.length;
-            // On mobile, skip the first ~10% of frames so the video content
-            // starts "further ahead" without delaying the scroll trigger
-            const MOBILE_FRAME_OFFSET = IS_MOBILE ? Math.floor(totalLoaded * 0.38) : 0;
-            const mappedProgress = MOBILE_FRAME_OFFSET + self.progress * (totalLoaded - MOBILE_FRAME_OFFSET);
             const idx = Math.min(
-              Math.floor(mappedProgress),
+              Math.floor(self.progress * (totalLoaded - 1)),
               totalLoaded - 1
             );
             drawFrame(idx);
