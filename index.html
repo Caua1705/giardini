@@ -652,9 +652,9 @@
       <source src="assets/videos/Women_meeting_in_202604141231.mp4" type="video/mp4">
     </video>
 
-    <!-- ── LAYER 1: Main overlay — softened for clarity ──────────── -->
+    <!-- ── LAYER 1: Main overlay — stronger contrast for text readability ── -->
     <div
-      style="position:absolute;inset:0;z-index:1;background:linear-gradient(160deg,rgba(6,4,2,0.55) 0%,rgba(14,10,4,0.42) 50%,rgba(6,4,2,0.55) 100%);pointer-events:none;">
+      style="position:absolute;inset:0;z-index:1;background:linear-gradient(170deg,rgba(4,3,2,0.68) 0%,rgba(10,7,3,0.55) 50%,rgba(4,3,2,0.68) 100%);pointer-events:none;">
     </div>
 
     <!-- ── LAYER 2: Edge vignette — reduced ──────────────────────── -->
@@ -722,13 +722,13 @@
       justify-content:center;min-height:100vh;padding:0 2rem;">
 
       <!-- Section label -->
-      <div class="s5-reveal-up" style="display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem;">
-        <div style="width:24px;height:1px;background:rgba(255,255,255,0.2);"></div>
-        <span style="width:5px;height:5px;border-radius:50%;background:rgba(43,74,59,0.85);
+      <div class="s5-reveal-up" style="display:flex;align-items:center;gap:1rem;margin-bottom:2rem;">
+        <div style="width:24px;height:1px;background:rgba(255,255,255,0.25);"></div>
+        <span style="width:5px;height:5px;border-radius:50%;background:rgba(43,74,59,0.95);
           animation:live-glow 2.2s ease-in-out infinite;flex-shrink:0;"></span>
         <span style="font-size:0.58rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;
-          color:rgba(255,255,255,0.38);">03 / Reserve uma Mesa</span>
-        <div style="width:24px;height:1px;background:rgba(255,255,255,0.2);"></div>
+          color:rgba(255,255,255,0.62);">03 / Reserve uma Mesa</span>
+        <div style="width:24px;height:1px;background:rgba(255,255,255,0.25);"></div>
       </div>
 
       <!-- Headline -->
@@ -741,14 +741,14 @@
       </div>
 
       <!-- Subline -->
-      <p class="s5-reveal-up" style="font-size:0.95rem;font-weight:300;
-        color:rgba(255,255,255,0.52);text-align:center;max-width:400px;line-height:1.85;margin:0 0 2.5rem;
-        text-shadow:0 1px 12px rgba(0,0,0,0.5);">
+      <p class="s5-reveal-up" style="font-size:0.94rem;font-weight:300;
+        color:rgba(255,255,255,0.72);text-align:center;max-width:400px;line-height:1.8;margin:0 0 2rem;
+        text-shadow:0 1px 16px rgba(0,0,0,0.65);">
         Escolha o ambiente, a data e reserve em segundos. Sem taxas. Confirmação imediata.
       </p>
 
       <!-- Animated separator line -->
-      <div class="s5-sep s5-reveal-up" id="s5-separator" style="margin-bottom:3rem;"></div>
+      <div class="s5-sep s5-reveal-up" id="s5-separator" style="margin-bottom:2rem;"></div>
 
       <!-- ── PREMIUM CTA ──────────────────────────────────────── -->
       <div class="s5-reveal-up" style="text-align:center;">
@@ -756,35 +756,33 @@
         <a href="./reservation.html" id="s5-cta" class="group relative overflow-hidden" style="display:inline-flex;align-items:center;gap:1.2rem;
             padding:1.1rem 3.2rem;
             border-radius:9999px;
-            background:rgba(255,255,255,0.02);
-            backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-            border:1px solid rgba(255,255,255,0.15);
-            box-shadow:0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+            background:rgba(255,255,255,0.08);
+            backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+            border:1px solid rgba(255,255,255,0.30);
+            box-shadow:0 8px 32px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.10);
             font-family:'Instrument Serif',serif;
             font-size:1.05rem;font-weight:400;
             letter-spacing:0.05em;
-            color:rgba(255,255,255,0.95);
+            color:rgba(255,255,255,1);
             text-decoration:none;
             transition:all 0.6s cubic-bezier(0.16,1,0.3,1);"
           onmouseenter="
             this.style.transform='translateY(-2px)';
-            this.style.background='rgba(43,74,59,0.85)';
-            this.style.borderColor='rgba(255,255,255,0.25)';
-            this.style.boxShadow='0 12px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1)';
+            this.style.background='rgba(43,74,59,0.90)';
+            this.style.borderColor='rgba(255,255,255,0.30)';
+            this.style.boxShadow='0 16px 40px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.1)';
             this.querySelector('.s5-arrow').style.transform='translateX(4px)';
             var sep = document.getElementById('s5-separator');
             if(sep) { sep.classList.remove('s5-sep-active'); void sep.offsetWidth; sep.classList.add('s5-sep-active'); }" onmouseleave="
             this.style.transform='translateY(0)';
-            this.style.background='rgba(255,255,255,0.02)';
-            this.style.borderColor='rgba(255,255,255,0.15)';
-            this.style.boxShadow='0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05)';
+            this.style.background='rgba(255,255,255,0.08)';
+            this.style.borderColor='rgba(255,255,255,0.30)';
+            this.style.boxShadow='0 8px 32px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.10)';
             this.querySelector('.s5-arrow').style.transform='translateX(0)';
             var sep = document.getElementById('s5-separator');
             if(sep) { sep.classList.remove('s5-sep-active'); }"
           onmousedown="this.style.transform='translateY(1px) scale(0.98)';"
           onmouseup="this.style.transform='translateY(-2px) scale(1)';">
-
-
 
           <span style="position:relative;z-index:1;text-shadow:0 1px 8px rgba(0,0,0,0.2);">Fazer minha reserva</span>
 
@@ -795,10 +793,11 @@
           </svg>
         </a>
 
-        <!-- Sub-caption -->
-        <p class="s5-reveal-up" style="margin-top:1.75rem;font-size:0.58rem;letter-spacing:0.24em;
-          text-transform:uppercase;color:rgba(255,255,255,0.2);text-align:center;">
-          ✓ Confirmação imediata &middot; ✓ Sem custo de reserva &middot; ✓ Cancelamento flexível
+        <!-- Sub-caption: benefits, more readable -->
+        <p class="s5-reveal-up" style="margin-top:1.5rem;font-size:0.60rem;letter-spacing:0.18em;
+          text-transform:uppercase;color:rgba(255,255,255,0.42);text-align:center;
+          text-shadow:0 1px 8px rgba(0,0,0,0.5);">
+          ✓&nbsp;Confirmação imediata&nbsp;&nbsp;·&nbsp;&nbsp;✓&nbsp;Sem custo de reserva&nbsp;&nbsp;·&nbsp;&nbsp;✓&nbsp;Cancelamento flexível
         </p>
       </div><!-- /CTA -->
 
