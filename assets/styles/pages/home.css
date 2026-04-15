@@ -673,14 +673,15 @@
      F. SECTION VIDEO (Reserve sua mesa) — Mobile Premium Layout
      ═════════════════════════════════════════════════════════════════ */
 
+  /* Section: natural height, no forced 100vh */
   #experience-video {
-    min-height: 100svh !important;
+    min-height: auto !important;
   }
 
-  /* Main content wrapper: center everything cleanly */
+  /* Content wrapper: compact padding, natural stack */
   #experience-video > div[style*="z-index:10"] {
-    padding: clamp(5rem, 14vw, 7rem) clamp(1.25rem, 6vw, 2rem) clamp(4rem, 10vw, 5.5rem) !important;
-    min-height: 100svh !important;
+    padding: clamp(5rem, 14vw, 6.5rem) clamp(1.25rem, 6vw, 2rem) clamp(3.5rem, 9vw, 5rem) !important;
+    min-height: auto !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -721,7 +722,7 @@
   /* Separator: narrower on mobile */
   .s5-sep {
     max-width: 180px !important;
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 1.25rem !important;
   }
 
   /* CTA button: full readable size, gold stays */
@@ -734,12 +735,13 @@
     max-width: 100% !important;
   }
 
-  /* Benefits line: wrap cleanly, centered, readable */
+  /* Benefits line: compact, centered, no excess space below */
   #experience-video p[style*="margin-top:1.5rem"] {
     font-size: 0.54rem !important;
     letter-spacing: 0.12em !important;
     color: rgba(255,255,255,0.38) !important;
-    margin-top: 1rem !important;
+    margin-top: 0.85rem !important;
+    margin-bottom: 0 !important;
     max-width: 90% !important;
     line-height: 1.9 !important;
     text-align: center !important;
