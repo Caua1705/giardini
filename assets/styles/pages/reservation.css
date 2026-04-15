@@ -929,8 +929,7 @@ textarea.res-form-input{
    CTA AREA — Integrated into green background
    ══════════════════════════════════════════════════════════════════ */
 .res-cta-area{
-  margin-top:3.5rem;padding-top:2.5rem;
-  border-top:1px solid rgba(255,255,255,.07);
+  margin-top:3.5rem;padding-top:1.5rem;
 }
 .res-cta-divider{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem}
 .res-cta-divider-line{
