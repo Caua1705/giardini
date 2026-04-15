@@ -717,7 +717,7 @@
 
   /* Second line: pull up to close the gap caused by font em-square metrics */
   #experience-video h2 span:last-child {
-    margin-top: -0.12em !important;
+    margin-top: -0.22em !important;
   }
 
   /* Headline wrapper bottom gap → leads into subline */
