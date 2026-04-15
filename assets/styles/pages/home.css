@@ -182,17 +182,17 @@
 
   /* Hero headline: dominant focal point — clearly larger than CTA */
   #hero-headline {
-    font-size: clamp(2.85rem, 11vw, 3.9rem) !important;
-    line-height: 1.12 !important;
+    font-size: clamp(3.1rem, 12vw, 4.2rem) !important;
+    line-height: 1.10 !important;
     margin-bottom: 1.5rem !important;
     letter-spacing: -0.03em !important;
   }
 
   /* Kicker: slightly more prominent on mobile */
   .kicker {
-    margin-bottom: 1.25rem !important;
-    gap: 0.65rem !important;
-    font-size: 0.58rem !important;
+    margin-bottom: 1.5rem !important;
+    gap: 0.75rem !important;
+    font-size: 0.62rem !important;
   }
 
   /* CTA buttons: medium, not bulky — secondary to headline */
@@ -236,10 +236,10 @@
      ═════════════════════════════════════════════════════════════════ */
 
   #experience {
-    padding-top: clamp(3rem, 9vw, 4.5rem) !important;
-    padding-bottom: clamp(4.5rem, 12vw, 7rem) !important;
-    padding-left: clamp(1.25rem, 5vw, 2rem) !important;
-    padding-right: clamp(1.25rem, 5vw, 2rem) !important;
+    padding-top: clamp(3.5rem, 10vw, 5rem) !important;
+    padding-bottom: clamp(5rem, 13vw, 7.5rem) !important;
+    padding-left: clamp(1.5rem, 5.5vw, 2rem) !important;
+    padding-right: clamp(1.5rem, 5.5vw, 2rem) !important;
     border-radius: 0 !important;
   }
 
@@ -254,18 +254,18 @@
     border-radius: 18px !important;
   }
 
-  /* Section title: one step below hero headline */
+  /* Section title: one step below hero headline (+10%) */
   #experience h2 {
-    font-size: clamp(2.1rem, 7.5vw, 2.8rem) !important;
-    line-height: 1.05 !important;
+    font-size: clamp(2.3rem, 8.5vw, 3.1rem) !important;
+    line-height: 1.08 !important;
   }
 
-  /* Body copy: tighter line-height for scanning */
+  /* Body copy: readable with breathing room (+6%) */
   #experience p.mb-10,
   #experience .text-\[1\.05rem\] {
-    font-size: clamp(0.88rem, 2.4vw, 0.98rem) !important;
-    line-height: 1.6 !important;
-    margin-bottom: 1rem !important;
+    font-size: clamp(0.93rem, 2.6vw, 1.04rem) !important;
+    line-height: 1.72 !important;
+    margin-bottom: 1.25rem !important;
   }
 
   /* Divider spacing: compact flow directly after title on mobile */
@@ -273,44 +273,44 @@
     margin-bottom: 1.75rem !important;
   }
 
-  /* Section label: tighter bottom gap on mobile */
+  /* Section label: balanced gap below */
   #experience .flex.items-center.gap-3 {
-    margin-bottom: 0.85rem !important;
+    margin-bottom: 1rem !important;
   }
 
-  /* Title wrapper: tighter gap to divider (no paragraph below on mobile) */
+  /* Title wrapper: balanced gap to divider */
   #experience .word-wrap.mb-8 {
-    margin-bottom: 1.1rem !important;
+    margin-bottom: 1.25rem !important;
   }
 
-  /* Pillars: tighter for mobile reading */
+  /* Pillars: generous padding for mobile (+12%) */
   .exp-pillar {
-    padding: 0.85rem 0.75rem 0.85rem 1rem !important;
+    padding: 1rem 1rem 1rem 1.15rem !important;
   }
 
   .exp-pillar h4 {
-    font-size: clamp(1.05rem, 3.2vw, 1.25rem) !important;
-    margin-bottom: 0.15rem !important;
+    font-size: clamp(1.12rem, 3.4vw, 1.32rem) !important;
+    margin-bottom: 0.2rem !important;
   }
 
   .exp-pillar p {
-    font-size: clamp(0.8rem, 2.2vw, 0.88rem) !important;
-    line-height: 1.55 !important;
+    font-size: clamp(0.85rem, 2.4vw, 0.94rem) !important;
+    line-height: 1.65 !important;
   }
 
   /* Pillar number compact */
   .exp-pillar-num {
-    font-size: 0.52rem !important;
+    font-size: 0.55rem !important;
   }
 
   /* Vertical line shorter */
   .exp-pillar-vline {
-    min-height: 24px !important;
+    min-height: 28px !important;
   }
 
   /* Inner flex gap */
   .exp-pillar .flex.items-start {
-    gap: clamp(0.65rem, 2.5vw, 1rem) !important;
+    gap: clamp(0.75rem, 2.8vw, 1.1rem) !important;
   }
 
   /* ═════════════════════════════════════════════════════════════════
@@ -341,10 +341,10 @@
     margin-bottom: clamp(2rem, 6vw, 3rem) !important;
   }
 
-  /* Section title: consistent with Experience section */
+  /* Section title: consistent with Experience section (+10%) */
   #featured-title {
-    font-size: clamp(2.1rem, 7.5vw, 2.8rem) !important;
-    line-height: 1.02 !important;
+    font-size: clamp(2.3rem, 8.5vw, 3.1rem) !important;
+    line-height: 1.05 !important;
   }
 
   /* Logo badge: compact on mobile */
@@ -436,32 +436,32 @@
     aspect-ratio: 3 / 4 !important;
   }
 
-  /* Card labels: more readable */
+  /* Card labels: more readable (+8%) */
   .s3-card-label {
-    padding: 0.75rem 0 0 !important;
-    gap: 0.65rem !important;
+    padding: 1rem 0 0 !important;
+    gap: 0.75rem !important;
   }
 
   .s3-card-label-tag {
-    font-size: 0.52rem !important;
+    font-size: 0.55rem !important;
   }
 
   .s3-card-label-name {
-    font-size: 0.78rem !important;
+    font-size: 0.84rem !important;
   }
 
   /* CTA area */
   .s3-cta-wrap {
-    margin-top: 1rem !important;
+    margin-top: 1.5rem !important;
   }
 
   .s3-cta-divider-row {
     gap: 1rem !important;
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 1.75rem !important;
   }
 
   .s3-cta-divider-label {
-    font-size: clamp(0.85rem, 2.5vw, 1rem) !important;
+    font-size: clamp(0.90rem, 2.7vw, 1.05rem) !important;
   }
 
   /* CTA button: medium, consistent with hero CTA weight */
@@ -485,7 +485,7 @@
   }
 
   .feat-reveal {
-    margin-bottom: 2rem !important;
+    margin-bottom: 2.5rem !important;
   }
 
   /* Transition bridge: just the shimmer line, no dark gap */
@@ -540,7 +540,7 @@
      ═════════════════════════════════════════════════════════════════ */
 
   #clube-livro {
-    padding: clamp(4rem, 11vw, 5.5rem) 0 clamp(3rem, 8vw, 4rem) !important;
+    padding: clamp(4.5rem, 12vw, 6rem) 0 clamp(3.5rem, 9vw, 4.5rem) !important;
   }
 
   /* Container: fluid padding */
@@ -567,8 +567,8 @@
   }
 
   .clube-reveal__title h2 {
-    font-size: clamp(2.1rem, 7.5vw, 2.8rem) !important;
-    line-height: 0.98 !important;
+    font-size: clamp(2.3rem, 8.5vw, 3.1rem) !important;
+    line-height: 1.02 !important;
   }
 
   /* Mosaic: vertical stack, tighter */
@@ -583,9 +583,9 @@
     gap: 1.5rem !important;
   }
 
-  /* Quote block: compact */
+  /* Quote block: generous padding */
   #clube-quote-block {
-    padding: 1rem 1.25rem !important;
+    padding: 1.25rem 1.5rem !important;
     border-radius: 0 12px 12px 0 !important;
   }
 
@@ -595,24 +595,24 @@
   }
 
   #clube-quote-block blockquote {
-    font-size: clamp(0.92rem, 2.6vw, 1.05rem) !important;
-    line-height: 1.7 !important;
+    font-size: clamp(0.98rem, 2.8vw, 1.1rem) !important;
+    line-height: 1.75 !important;
     padding-top: 0.25rem !important;
   }
 
-  /* Steps: tighter vertical rhythm */
+  /* Steps: generous vertical rhythm (+20% spacing) */
   .clube-step {
-    padding: 1rem 0 !important;
-    gap: 0.85rem !important;
+    padding: 1.25rem 0 !important;
+    gap: 1rem !important;
   }
 
   .clube-step > span:first-child {
-    font-size: 1.35rem !important;
+    font-size: 1.4rem !important;
   }
 
   .clube-step p {
-    font-size: clamp(0.82rem, 2.3vw, 0.88rem) !important;
-    line-height: 1.55 !important;
+    font-size: clamp(0.88rem, 2.5vw, 0.94rem) !important;
+    line-height: 1.65 !important;
   }
 
   /* "Como funciona" label: tighter */
@@ -646,11 +646,11 @@
   }
 
   .clube-img-main > div[style*="position:absolute;bottom:0"] h3 {
-    font-size: 1.15rem !important;
+    font-size: 1.22rem !important;
   }
 
   .clube-img-main > div[style*="position:absolute;bottom:0"] p {
-    font-size: 0.7rem !important;
+    font-size: 0.75rem !important;
     color: rgba(255,255,255,0.72) !important;
   }
 
@@ -771,10 +771,10 @@
      G. LOCATION SECTION — Mobile Premium Redesign
      ═════════════════════════════════════════════════════════════════ */
 
-  /* Section padding */
+  /* Section padding: generous vertical space */
   #location {
-    padding-top: clamp(3rem, 9vw, 4.5rem) !important;
-    padding-bottom: clamp(3rem, 9vw, 4.5rem) !important;
+    padding-top: clamp(3.5rem, 10vw, 5rem) !important;
+    padding-bottom: clamp(3.5rem, 10vw, 5rem) !important;
   }
 
   /* Kill large background glows — too aggressive on small screens */
@@ -818,22 +818,22 @@
     padding: 0.25rem 0.65rem !important;
   }
 
-  /* Headline: strong but mobile-appropriate size */
+  /* Headline: strong but mobile-appropriate size (+7%) */
   #location h2 {
-    font-size: clamp(2.8rem, 12vw, 4rem) !important;
-    line-height: 0.9 !important;
-    margin-bottom: 1.5rem !important;
+    font-size: clamp(3rem, 12.5vw, 4.2rem) !important;
+    line-height: 0.92 !important;
+    margin-bottom: 1.75rem !important;
     padding-bottom: 0.15rem !important;
     letter-spacing: -0.035em !important;
   }
 
-  /* Description: readable, not too dim */
+  /* Description: readable, better contrast (+6%) */
   #location p[style*="max-width:400px"] {
-    font-size: 0.88rem !important;
+    font-size: 0.93rem !important;
     max-width: 100% !important;
-    line-height: 1.7 !important;
+    line-height: 1.75 !important;
     margin-bottom: 0 !important;
-    color: rgba(255,255,255,0.42) !important;
+    color: rgba(255,255,255,0.45) !important;
     padding-top: 0 !important;
   }
   /* Description wrapper: controlled bottom margin */
@@ -847,10 +847,10 @@
     margin-bottom: 1.75rem !important;
   }
 
-  /* Data rows container: consistent vertical spacing */
+  /* Data rows container: consistent vertical spacing (24px grid) */
   #location div[style*="gap:3.5rem;margin-bottom:3.5rem"] {
-    gap: 1.75rem !important;
-    margin-bottom: 1.75rem !important;
+    gap: 2rem !important;
+    margin-bottom: 2rem !important;
   }
 
   /* Row fine-line accent */
@@ -866,12 +866,12 @@
     letter-spacing: 0.28em !important;
   }
 
-  /* Address text: clear, readable */
+  /* Address text: clear, readable (+8%) */
   #location .loc-dk-row p[style*="font-size:1.55rem"] {
-    font-size: 1.2rem !important;
+    font-size: 1.3rem !important;
     letter-spacing: -0.01em !important;
-    line-height: 1.2 !important;
-    color: rgba(255,255,255,0.88) !important;
+    line-height: 1.25 !important;
+    color: rgba(255,255,255,0.90) !important;
   }
   /* Neighborhood sub-label */
   #location .loc-dk-row p[style*="font-size:0.68rem"] {
@@ -899,9 +899,9 @@
     letter-spacing: 0.14em !important;
   }
 
-  /* RIGHT column (map): push below all text with clear separation */
+  /* RIGHT column (map): push below all text with clear separation (32px) */
   #location .lg\:col-span-7 {
-    margin-top: 2.5rem !important;
+    margin-top: 3rem !important;
     width: 100% !important;
     perspective: none !important;
   }
@@ -936,7 +936,7 @@
 
   /* Section container: consistent side padding, generous vertical space */
   #site-footer > div[style*="max-width:1340px"] {
-    padding: 3rem clamp(1.25rem, 5.5vw, 1.75rem) 0 !important;
+    padding: 3.5rem clamp(1.5rem, 5.5vw, 2rem) 0 !important;
   }
 
   /* ── Grid: collapse to single column, uniform gap between sections */
@@ -946,12 +946,12 @@
     padding-bottom: 0 !important;
   }
 
-  /* Each footer column: consistent bottom spacing + separator line */
+  /* Each footer column: consistent bottom spacing + separator line (24px) */
   .ft-reveal.ft-reveal-d1,
   .ft-reveal.ft-reveal-d2,
   .ft-reveal.ft-reveal-d3 {
-    padding-bottom: 1.75rem !important;
-    margin-bottom: 1.75rem !important;
+    padding-bottom: 2rem !important;
+    margin-bottom: 2rem !important;
     border-bottom: 1px solid rgba(255,255,255,0.06) !important;
   }
 
@@ -967,20 +967,20 @@
     width: 18px !important;
   }
 
-  /* Brand name: strong and clear */
+  /* Brand name: strong and clear (+7%) */
   .ft-grid > div:first-child .ft-nav-link[style*="font-size:1.6rem"] {
-    font-size: 1.35rem !important;
-    line-height: 1.1 !important;
+    font-size: 1.45rem !important;
+    line-height: 1.12 !important;
     min-height: unset !important;
   }
 
-  /* Tagline: readable, not too dim */
+  /* Tagline: readable, not too dim (+6%) */
   .ft-grid > div:first-child p[style*="max-width:320px"] {
     max-width: 100% !important;
-    font-size: 0.80rem !important;
-    line-height: 1.75 !important;
-    margin-bottom: 1.25rem !important;
-    color: rgba(255,255,255,0.38) !important;
+    font-size: 0.85rem !important;
+    line-height: 1.8 !important;
+    margin-bottom: 1.5rem !important;
+    color: rgba(255,255,255,0.40) !important;
   }
 
   /* Social icons: proper touch targets */
@@ -1004,10 +1004,10 @@
     gap: 0 !important;
   }
   .ft-nav-link {
-    min-height: 40px !important;
+    min-height: 44px !important;
     display: flex !important;
     align-items: center !important;
-    font-size: 0.82rem !important;
+    font-size: 0.88rem !important;
     padding: 0 !important;
     border-bottom: 1px solid rgba(255,255,255,0.04) !important;
   }
@@ -1019,37 +1019,37 @@
   /* ── COL 3: Onde Estamos ───────────────────────────────────────── */
   /* Info blocks: consistent internal gap */
   .ft-reveal.ft-reveal-d3 > div[style*="flex-direction:column"] {
-    gap: 1.25rem !important;
+    gap: 1.5rem !important;
   }
 
   /* Sub-labels (Endereço, Horário, Contato) */
   .ft-reveal.ft-reveal-d3 p[style*="letter-spacing:0.12em"] {
-    font-size: 0.5rem !important;
-    color: rgba(255,255,255,0.25) !important;
-    margin-bottom: 0.35rem !important;
+    font-size: 0.54rem !important;
+    color: rgba(255,255,255,0.28) !important;
+    margin-bottom: 0.4rem !important;
   }
 
-  /* Address text */
+  /* Address text (+6%) */
   .ft-reveal.ft-reveal-d3 p[style*="font-size:0.88rem"] {
-    font-size: 0.82rem !important;
-    line-height: 1.6 !important;
-    color: rgba(255,255,255,0.55) !important;
+    font-size: 0.88rem !important;
+    line-height: 1.7 !important;
+    color: rgba(255,255,255,0.58) !important;
   }
 
-  /* Hours text: readable italic */
+  /* Hours text: readable italic (+5%) */
   .ft-reveal.ft-reveal-d3 p[style*="font-size:0.95rem"] {
-    font-size: 0.88rem !important;
-    color: rgba(255,255,255,0.50) !important;
+    font-size: 0.93rem !important;
+    color: rgba(255,255,255,0.52) !important;
   }
   .ft-reveal.ft-reveal-d3 p[style*="font-size:0.85rem"] {
-    font-size: 0.80rem !important;
-    color: rgba(255,255,255,0.28) !important;
+    font-size: 0.85rem !important;
+    color: rgba(255,255,255,0.30) !important;
   }
 
-  /* Email contact link */
+  /* Email contact link (+6%) */
   .ft-reveal.ft-reveal-d3 a[href^="mailto"] {
-    font-size: 0.78rem !important;
-    color: rgba(255,255,255,0.38) !important;
+    font-size: 0.84rem !important;
+    color: rgba(255,255,255,0.40) !important;
   }
 
   /* ── DIVIDER ───────────────────────────────────────────────────── */
@@ -1064,8 +1064,8 @@
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 0.75rem !important;
-    padding: 1.25rem 0 2.5rem !important;
+    gap: 1rem !important;
+    padding: 1.5rem 0 3rem !important;
     text-align: center !important;
   }
 
