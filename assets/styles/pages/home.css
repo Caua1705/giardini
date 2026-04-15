@@ -707,12 +707,17 @@
     padding: 0 !important;
   }
 
-  /* The two spans are display:block — target them to close the gap between lines */
+  /* The two spans are display:block — pull them tight against each other */
   #experience-video h2 span {
     display: block !important;
-    line-height: 0.90 !important;
+    line-height: 0.88 !important;
     margin: 0 !important;
     padding: 0 !important;
+  }
+
+  /* Second line: pull up to close the gap caused by font em-square metrics */
+  #experience-video h2 span:last-child {
+    margin-top: -0.12em !important;
   }
 
   /* Headline wrapper bottom gap → leads into subline */
