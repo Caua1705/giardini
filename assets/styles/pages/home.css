@@ -665,83 +665,92 @@
   }
 
   /* ═════════════════════════════════════════════════════════════════
-     F. SECTION VIDEO (Reserve sua mesa) — Mobile Premium Layout
+     F. SECTION VIDEO (Reserve sua mesa) — Mobile Professional Layout
      ═════════════════════════════════════════════════════════════════ */
 
-  /* Section: taller on mobile, fills more viewport */
+  /* Section occupies the full viewport height on mobile */
   #experience-video {
     min-height: 100svh !important;
   }
 
-  /* Content wrapper: generous bottom padding, centered */
+  /* ── Content wrapper ─────────────────────────────────────────────
+     Single centered column. Top/bottom padding keep content away from
+     the navbar and the section edge while the centred flex fills the
+     viewport gracefully.
+  ────────────────────────────────────────────────────────────────── */
   #experience-video > div[style*="z-index:10"] {
-    padding: clamp(5rem, 14vw, 6.5rem) clamp(1.25rem, 6vw, 2rem) clamp(5rem, 12vw, 7rem) !important;
+    padding-top:    clamp(5.5rem, 15vw, 7rem)  !important;
+    padding-bottom: clamp(4.5rem, 12vw, 6rem)  !important;
+    padding-left:   clamp(1.5rem,  6vw, 2rem)  !important;
+    padding-right:  clamp(1.5rem,  6vw, 2rem)  !important;
     min-height: 100svh !important;
-    display: flex !important;
+    display: flex          !important;
     flex-direction: column !important;
-    align-items: center !important;
+    align-items: center    !important;
     justify-content: center !important;
     gap: 0 !important;
+    box-sizing: border-box !important;
   }
 
-  /* Section label: visible and centered */
+  /* ── 1. Section label  ───────────────────────────────────────── */
   #experience-video .s5-reveal-up:first-child {
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 1.75rem !important;
   }
 
-  /* Headline: tight line-height to eliminate gap between 'Reserve sua mesa' and 'agora mesmo' */
+  /* ── 2. Headline  ────────────────────────────────────────────── */
   #experience-video h2 {
-    font-size: clamp(2.4rem, 9.5vw, 3.4rem) !important;
-    line-height: 1.0 !important;
-    letter-spacing: -0.035em !important;
+    font-size: clamp(2.6rem, 10vw, 3.6rem) !important;
+    line-height: 1.05 !important;           /* tight but descenders not clipped */
+    letter-spacing: -0.03em !important;
     text-align: center !important;
     margin-bottom: 0 !important;
   }
 
-  /* Headline wrapper: tighter gap below */
+  /* Headline wrapper bottom gap → leads into subline */
   #experience-video div[style*="text-align:center;margin-bottom:1.75rem"],
   #experience-video div[style*="text-align:center;margin-bottom:2.5rem"] {
     margin-bottom: 1.25rem !important;
     width: 100% !important;
   }
 
-  /* Subline: full mobile width, readable */
+  /* ── 3. Subline  ─────────────────────────────────────────────── */
   #experience-video p[style*="max-width:400px"] {
-    font-size: 0.88rem !important;
-    max-width: 88% !important;
-    line-height: 1.7 !important;
+    font-size: 0.85rem !important;
+    max-width: 82% !important;
+    line-height: 1.65 !important;
     margin-bottom: 0 !important;
-    color: rgba(255,255,255,0.68) !important;
+    color: rgba(255,255,255,0.65) !important;
     text-align: center !important;
   }
 
-  /* Separator: narrower on mobile */
+  /* ── 4. Separator line  ──────────────────────────────────────── */
   .s5-sep {
-    max-width: 180px !important;
-    margin-bottom: 1.25rem !important;
+    max-width: 160px !important;
+    margin-top:    1.5rem !important;
+    margin-bottom: 1.5rem !important;
   }
 
-  /* CTA button: full readable size, gold stays */
+  /* ── 5. CTA button  ──────────────────────────────────────────── */
   #s5-cta {
-    padding: 0.95rem 2.2rem !important;
-    font-size: 0.95rem !important;
+    padding: 1rem 2.4rem !important;
+    font-size: 1rem !important;
     border-radius: 12px !important;
-    min-height: 50px !important;
+    min-height: 52px !important;
     width: auto !important;
-    max-width: 100% !important;
   }
 
-  /* Benefits line: compact, centered, no excess space below */
+  /* ── 6. Benefits line  ───────────────────────────────────────── */
   #experience-video p[style*="margin-top:1.5rem"] {
-    font-size: 0.54rem !important;
-    letter-spacing: 0.12em !important;
-    color: rgba(255,255,255,0.38) !important;
-    margin-top: 0.85rem !important;
-    margin-bottom: 0 !important;
-    max-width: 90% !important;
-    line-height: 1.9 !important;
+    margin-top:    1.25rem !important;
+    margin-bottom: 0       !important;
+    font-size: 0.52rem !important;
+    letter-spacing: 0.14em !important;
+    color: rgba(255,255,255,0.35) !important;
+    line-height: 2.0 !important;
     text-align: center !important;
+    max-width: 88% !important;
   }
+
 
 
   /* ═════════════════════════════════════════════════════════════════
