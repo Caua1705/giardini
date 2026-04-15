@@ -261,9 +261,9 @@
     margin-bottom: 1rem !important;
   }
 
-  /* Divider spacing */
+  /* Divider spacing: increased to push pillars down as requested */
   #experience .s2-divider-track {
-    margin-bottom: 1.25rem !important;
+    margin-bottom: 2.25rem !important;
   }
 
   /* Section label */
@@ -271,9 +271,9 @@
     margin-bottom: clamp(0.75rem, 2.5vw, 1.25rem) !important;
   }
 
-  /* Title wrapper */
+  /* Title wrapper: increased to push the line down as requested */
   #experience .word-wrap.mb-8 {
-    margin-bottom: 0.35rem !important;
+    margin-bottom: 1.75rem !important;
   }
 
   /* Pillars: tighter for mobile reading */
