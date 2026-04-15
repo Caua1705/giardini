@@ -668,9 +668,9 @@
      F. SECTION VIDEO (Reserve sua mesa) — Mobile Professional Layout
      ═════════════════════════════════════════════════════════════════ */
 
-  /* Section occupies the full viewport height on mobile */
+  /* Section: fills viewport but ends a bit earlier on mobile */
   #experience-video {
-    min-height: 100svh !important;
+    min-height: 85svh !important;
   }
 
   /* ── Content wrapper ─────────────────────────────────────────────
@@ -679,11 +679,11 @@
      viewport gracefully.
   ────────────────────────────────────────────────────────────────── */
   #experience-video > div[style*="z-index:10"] {
-    padding-top:    clamp(5.5rem, 15vw, 7rem)  !important;
-    padding-bottom: clamp(3rem, 8vw, 4rem)     !important;
+    padding-top:    clamp(5rem, 14vw, 6rem)    !important;
+    padding-bottom: clamp(2rem, 6vw, 3rem)     !important;
     padding-left:   clamp(1.5rem,  6vw, 2rem)  !important;
     padding-right:  clamp(1.5rem,  6vw, 2rem)  !important;
-    min-height: 100svh !important;
+    min-height: 85svh !important;
     display: flex          !important;
     flex-direction: column !important;
     align-items: center    !important;
@@ -697,13 +697,22 @@
     margin-bottom: 1.75rem !important;
   }
 
-  /* ── 2. Headline  ────────────────────────────────────────────── */
+  /* ── 2. Headline ────────────────────────────────────────────── */
   #experience-video h2 {
     font-size: clamp(2.6rem, 10vw, 3.6rem) !important;
-    line-height: 0.96 !important;           /* lines kiss each other, no gap */
+    line-height: 1.0 !important;
     letter-spacing: -0.03em !important;
     text-align: center !important;
-    margin-bottom: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* The two spans are display:block — target them to close the gap between lines */
+  #experience-video h2 span {
+    display: block !important;
+    line-height: 0.90 !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   /* Headline wrapper bottom gap → leads into subline */
