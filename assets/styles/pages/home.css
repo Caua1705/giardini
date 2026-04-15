@@ -85,12 +85,7 @@
     height: 100% !important;
   }
 
-  /* 2. Section 3 guaranteed visibility */
-  .sect3-line-inner, .feat-reveal {
-    transform: none !important;
-    opacity: 1 !important;
-    filter: none !important;
-  }
+
 
   /* 3. Suppress expensive background animations */
   body::before { animation: none !important; }
