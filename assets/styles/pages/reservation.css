@@ -999,11 +999,11 @@ textarea.res-form-input{
   background:linear-gradient(to right,transparent,rgba(255,255,255,.1) 30%,rgba(255,255,255,.1) 70%,transparent);
 }
 .res-cta-divider-label{
-  font-size:.5rem;font-weight:600;letter-spacing:.22em;
-  text-transform:uppercase;color:rgba(255,255,255,.38);
-  white-space:nowrap;padding:0 .5rem;
-  font-family:'Instrument Serif',serif;font-style:italic;
-  font-size:.78rem;letter-spacing:.04em;text-transform:none;
+  color:rgba(255,255,255,.55);
+  white-space:nowrap;padding:0 .75rem;
+  font-family:'Instrument Serif',serif;
+  font-style:italic;font-size:.95rem;
+  letter-spacing:-.01em;font-weight:300;
 }
 .res-cta-divider-ornament{
   width:5px;height:5px;border:1px solid rgba(183,147,88,.4);
@@ -1021,16 +1021,15 @@ textarea.res-form-input{
   padding:1.25rem 3rem;
   font-family:'Inter',sans-serif;font-size:.67rem;font-weight:700;
   letter-spacing:.22em;text-transform:uppercase;
-  color:#d4ede1;
-  background:linear-gradient(135deg,#0d2018 0%,#112619 50%,#0a1c14 100%);
-  border:1.5px solid rgba(30,70,50,.7);
+  color:#f0f5f2;
+  background:#0c1a12;
+  border:1px solid rgba(255,255,255,.12);
   border-radius:99px;cursor:pointer;
   position:relative;overflow:hidden;
-  transition:all .45s cubic-bezier(.16,1,.3,1);
-  box-shadow:
-    0 4px 18px -4px rgba(0,0,0,.35),
-    inset 0 1px 0 rgba(255,255,255,.06),
-    0 0 0 1px rgba(30,70,50,.25);
+  transition:all .45s cubic-bezier(.22,1,.36,1);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+  transform:translateZ(0);
+  will-change:transform;
 }
 .res-submit-btn::before{
   content:'';position:absolute;top:0;left:-75%;width:50%;height:100%;
@@ -1040,14 +1039,13 @@ textarea.res-form-input{
 .res-submit-btn:hover::before{animation:resCtaSweep .85s ease-out forwards}
 @keyframes resCtaSweep{0%{left:-75%}100%{left:150%}}
 .res-submit-btn:hover{
-  transform:translateY(-4px);
-  box-shadow:
-    0 8px 28px -6px rgba(10,30,20,.45),
-    0 0 0 1px rgba(30,70,50,.4);
-  background:linear-gradient(135deg,#112619 0%,#163320 50%,#0d2018 100%);
-  border-color:rgba(30,70,50,1);
+  transform:translate3d(0,-2px,0);
+  background:#112017;
+  border-color:rgba(183,147,88,.4);
+  color:#fff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
 }
-.res-submit-btn:active{transform:translateY(1px) scale(.98)}
+.res-submit-btn:active{transform:translate3d(0,0,0) scale(.99)}
 .res-submit-btn.loading{pointer-events:none;opacity:.85}
 .res-submit-btn.success{background:linear-gradient(135deg,#345e47 0%,#3a6350 100%);pointer-events:none}
 .res-submit-btn.error{background:linear-gradient(135deg,#8C3131 0%,#723030 100%);pointer-events:none}
@@ -1087,8 +1085,8 @@ textarea.res-form-input{
 /* ══════════════════════════════════════════════════════════════════
    REVEAL ANIMATIONS
    ══════════════════════════════════════════════════════════════════ */
-.res-reveal{opacity:0;transform:translateY(24px);filter:blur(6px);transition:opacity 1.1s cubic-bezier(.16,1,.3,1),transform 1.1s cubic-bezier(.16,1,.3,1),filter 1s cubic-bezier(.16,1,.3,1)}
-.res-reveal.is-visible{opacity:1;transform:translateY(0);filter:blur(0)}
+.res-reveal{opacity:0;transform:translateY(22px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
+.res-reveal.is-visible{opacity:1;transform:translateY(0)}
 
 /* ══════════════════════════════════════════════════════════════════
    FOOTER TRANSITION

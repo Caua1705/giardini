@@ -735,7 +735,7 @@ function initAnimations() {
       onEnter: () => {
         el.classList.add('is-visible');
         if (el.classList.contains('res-step')) {
-          gsap.fromTo(el, {scale:.985, rotateX:1},{scale:1, rotateX:0, duration:1, ease:'power3.out'});
+          gsap.fromTo(el, { scale:.988 }, { scale:1, duration:1, ease:'power3.out' });
         }
       }
     });
