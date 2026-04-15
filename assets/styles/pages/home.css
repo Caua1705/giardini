@@ -670,68 +670,81 @@
   }
 
   /* ═════════════════════════════════════════════════════════════════
-     F. SECTION 4 — EXPERIENCE VIDEO (Mobile Polish)
+     F. SECTION VIDEO (Reserve sua mesa) — Mobile Premium Layout
      ═════════════════════════════════════════════════════════════════ */
 
   #experience-video {
-    min-height: 80vh !important;
+    min-height: 100svh !important;
   }
 
-  /* Content container: fluid padding */
+  /* Main content wrapper: center everything cleanly */
   #experience-video > div[style*="z-index:10"] {
-    padding: 0 clamp(1.25rem, 5vw, 2rem) !important;
-    min-height: 80vh !important;
+    padding: clamp(5rem, 14vw, 7rem) clamp(1.25rem, 6vw, 2rem) clamp(4rem, 10vw, 5.5rem) !important;
+    min-height: 100svh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0 !important;
   }
 
-  /* Headline: consistent with section title scale */
-  #experience-video h2 {
-    font-size: clamp(2.1rem, 7.5vw, 2.8rem) !important;
-    line-height: 0.95 !important;
-    letter-spacing: -0.03em !important;
-  }
-
-  /* Gold text: ensure readability on mobile screens */
-  .s5-gold-text {
-    text-shadow: 0 2px 16px rgba(183,147,88,0.25) !important;
-  }
-
-  /* Subline: tighter, better contrast */
-  #experience-video p[style*="max-width:400px"] {
-    font-size: clamp(0.82rem, 2.3vw, 0.92rem) !important;
-    max-width: 300px !important;
-    line-height: 1.65 !important;
-    margin-bottom: 1.75rem !important;
-    color: rgba(255,255,255,0.58) !important;
-  }
-
-  /* Section label: fluid gap */
+  /* Section label: visible and centered */
   #experience-video .s5-reveal-up:first-child {
-    margin-bottom: 1.75rem !important;
+    margin-bottom: 1.5rem !important;
   }
 
-  /* CTA button: medium, consistent */
-  #s5-cta {
-    padding: 0.85rem clamp(1.6rem, 5vw, 2.2rem) !important;
-    font-size: clamp(0.82rem, 2.2vw, 0.95rem) !important;
-    min-height: 46px !important;
+  /* Headline: dominant, fluid, tight tracking */
+  #experience-video h2 {
+    font-size: clamp(2.4rem, 9.5vw, 3.4rem) !important;
+    line-height: 0.95 !important;
+    letter-spacing: -0.035em !important;
+    text-align: center !important;
+    margin-bottom: 0 !important;
   }
 
-  /* Sub-caption below CTA */
-  #experience-video p[style*="margin-top:1.75rem"] {
-    margin-top: 1rem !important;
-    font-size: 0.52rem !important;
+  /* Headline wrapper: tight bottom gap */
+  #experience-video div[style*="text-align:center;margin-bottom:1.75rem"] {
+    margin-bottom: 1.25rem !important;
+    width: 100% !important;
   }
 
-  /* Bottom scroll hint: move up for thumb zone */
-  #experience-video .s5-reveal-up[style*="position:absolute;bottom:2.5rem"] {
-    bottom: 1.25rem !important;
+  /* Subline: full mobile width, readable */
+  #experience-video p[style*="max-width:400px"] {
+    font-size: 0.88rem !important;
+    max-width: 88% !important;
+    line-height: 1.7 !important;
+    margin-bottom: 0 !important;
+    color: rgba(255,255,255,0.68) !important;
+    text-align: center !important;
   }
 
-  /* Separator */
+  /* Separator: narrower on mobile */
   .s5-sep {
-    max-width: 240px !important;
-    margin-bottom: 2rem !important;
+    max-width: 180px !important;
+    margin-bottom: 1.5rem !important;
   }
+
+  /* CTA button: full readable size, gold stays */
+  #s5-cta {
+    padding: 0.95rem 2.2rem !important;
+    font-size: 0.95rem !important;
+    border-radius: 12px !important;
+    min-height: 50px !important;
+    width: auto !important;
+    max-width: 100% !important;
+  }
+
+  /* Benefits line: wrap cleanly, centered, readable */
+  #experience-video p[style*="margin-top:1.5rem"] {
+    font-size: 0.54rem !important;
+    letter-spacing: 0.12em !important;
+    color: rgba(255,255,255,0.38) !important;
+    margin-top: 1rem !important;
+    max-width: 90% !important;
+    line-height: 1.9 !important;
+    text-align: center !important;
+  }
+
 
   /* ═════════════════════════════════════════════════════════════════
      G. LOCATION SECTION — Mobile Premium Redesign
