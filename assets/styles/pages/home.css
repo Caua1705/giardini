@@ -180,10 +180,10 @@
     padding-bottom: 1rem !important;
   }
 
-  /* Hero headline: largest text on the page — dominant hierarchy */
+  /* Hero headline: dominant focal point — clearly larger than CTA */
   #hero-headline {
-    font-size: clamp(2.6rem, 10vw, 3.6rem) !important;
-    line-height: 1.08 !important;
+    font-size: clamp(2.85rem, 11vw, 3.9rem) !important;
+    line-height: 1.12 !important;
     margin-bottom: 1.5rem !important;
     letter-spacing: -0.03em !important;
   }
