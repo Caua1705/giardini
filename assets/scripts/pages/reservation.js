@@ -6,8 +6,7 @@
 /* ── Config ────────────────────────────────────────────────────── */
 const API_BASE_URL = 'http://127.0.0.1:8000';
 
-/* Generic fallback — only used when env.imageUrl is missing from the API */
-const DEFAULT_PREVIEW_IMAGE = 'assets/images/jardim-externo.webp';
+/* API logic handles fallbacks */
 
 const MONTHS_PT    = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const MONTHS_SHORT = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
@@ -112,7 +111,10 @@ function renderEnvCards(data) {
   }
 
   data.forEach((env, idx) => {
-    const imgSrc = env.imageUrl || env.image_url || DEFAULT_PREVIEW_IMAGE;
+    let imgSrc = env.imageUrl || env.image_url;
+    if (imgSrc && !imgSrc.startsWith('http')) {
+      imgSrc = `${API_BASE_URL}/${imgSrc.startsWith('/') ? imgSrc.slice(1) : imgSrc}`;
+    }
     const hint   = env.short_description || (env.max_capacity ? `Até ${env.max_capacity} pessoas` : '');
 
     const card   = document.createElement('div');
@@ -454,8 +456,11 @@ function handleEnvironmentChange() {
   }
 
   // Show inline form summary — image comes directly from API
-  const imgSrc = env.imageUrl || env.image_url || DEFAULT_PREVIEW_IMAGE;
-  showFormSummary(env, imgSrc);
+  let currentImgSrc = env.imageUrl || env.image_url;
+  if (currentImgSrc && !currentImgSrc.startsWith('http')) {
+    currentImgSrc = `${API_BASE_URL}/${currentImgSrc.startsWith('/') ? currentImgSrc.slice(1) : currentImgSrc}`;
+  }
+  showFormSummary(env, currentImgSrc);
 
   DOM.guestsSublabel.textContent = `Este ambiente comporta até ${env.max_capacity} pessoas por reserva.`;
   renderGuestPills(env.max_capacity);
