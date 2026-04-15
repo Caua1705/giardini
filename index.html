@@ -753,42 +753,36 @@
       <!-- ── PREMIUM CTA ──────────────────────────────────────── -->
       <div class="s5-reveal-up" style="text-align:center;">
         <!-- Premium Minimalist CTA -->
-        <a href="./reservation.html" id="s5-cta" class="group relative overflow-hidden" style="display:inline-flex;align-items:center;gap:1.2rem;
-            padding:1.1rem 3.2rem;
-            border-radius:9999px;
-            background:rgba(255,255,255,0.08);
-            backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-            border:1px solid rgba(255,255,255,0.30);
-            box-shadow:0 8px 32px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.10);
+        <a href="./reservation.html" id="s5-cta" class="group relative overflow-hidden" style="display:inline-flex;align-items:center;gap:1rem;
+            padding:1.1rem 2.8rem;
+            border-radius:14px;
+            background:rgba(183,147,88,1);
+            border:1px solid rgba(183,147,88,0.4);
+            box-shadow:0 8px 32px rgba(183,147,88,0.30), 0 2px 8px rgba(0,0,0,0.25);
             font-family:'Instrument Serif',serif;
             font-size:1.05rem;font-weight:400;
-            letter-spacing:0.05em;
-            color:rgba(255,255,255,1);
+            letter-spacing:0.04em;
+            color:rgba(26,36,26,0.95);
             text-decoration:none;
-            transition:all 0.6s cubic-bezier(0.16,1,0.3,1);"
+            transition:all 0.5s cubic-bezier(0.16,1,0.3,1);"
           onmouseenter="
-            this.style.transform='translateY(-2px)';
-            this.style.background='rgba(43,74,59,0.90)';
-            this.style.borderColor='rgba(255,255,255,0.30)';
-            this.style.boxShadow='0 16px 40px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.1)';
-            this.querySelector('.s5-arrow').style.transform='translateX(4px)';
-            var sep = document.getElementById('s5-separator');
-            if(sep) { sep.classList.remove('s5-sep-active'); void sep.offsetWidth; sep.classList.add('s5-sep-active'); }" onmouseleave="
+            this.style.transform='translateY(-3px)';
+            this.style.background='rgba(163,128,70,1)';
+            this.style.boxShadow='0 16px 48px rgba(183,147,88,0.40), 0 4px 12px rgba(0,0,0,0.30)';
+            this.querySelector('.s5-arrow').style.transform='translateX(4px)';"
+          onmouseleave="
             this.style.transform='translateY(0)';
-            this.style.background='rgba(255,255,255,0.08)';
-            this.style.borderColor='rgba(255,255,255,0.30)';
-            this.style.boxShadow='0 8px 32px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.10)';
-            this.querySelector('.s5-arrow').style.transform='translateX(0)';
-            var sep = document.getElementById('s5-separator');
-            if(sep) { sep.classList.remove('s5-sep-active'); }"
+            this.style.background='rgba(183,147,88,1)';
+            this.style.boxShadow='0 8px 32px rgba(183,147,88,0.30), 0 2px 8px rgba(0,0,0,0.25)';
+            this.querySelector('.s5-arrow').style.transform='translateX(0)';"
           onmousedown="this.style.transform='translateY(1px) scale(0.98)';"
-          onmouseup="this.style.transform='translateY(-2px) scale(1)';">
+          onmouseup="this.style.transform='translateY(-3px) scale(1)';">
 
-          <span style="position:relative;z-index:1;text-shadow:0 1px 8px rgba(0,0,0,0.2);">Fazer minha reserva</span>
+          <span style="position:relative;z-index:1;">Fazer minha reserva</span>
 
-          <svg style="position:relative;z-index:1;flex-shrink:0;transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);"
-            class="s5-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg style="position:relative;z-index:1;flex-shrink:0;transition:transform 0.45s cubic-bezier(0.16,1,0.3,1);"
+            class="s5-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </a>
@@ -801,14 +795,7 @@
         </p>
       </div><!-- /CTA -->
 
-      <!-- BOTTOM ANCHOR: Aesthetic scroll indicator -->
-      <div class="s5-reveal-up" style="position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
-        display:flex;flex-direction:column;align-items:center;gap:0.85rem;">
-        <span style="font-size:0.48rem;font-weight:700;letter-spacing:0.35em;text-transform:uppercase;
-          color:rgba(255,255,255,0.22);">Ver localização</span>
-        <div style="width:1px;height:32px;background:linear-gradient(to bottom,rgba(255,255,255,0.3),transparent);">
-        </div>
-      </div>
+
 
     </div><!-- /content -->
 
@@ -823,25 +810,17 @@
   <!-- ══ SECTION 5: LOCALIZAÇÃO (DARK EDITORIAL PREMIUM ATMOSPHERE) ════════════════════════════ -->
 
 
-  <!-- Premium soft transition — video section → location section -->
-  <!-- Layer A: long, gentle fade starting high up -->
+  <!-- Soft transition — video section → location section -->
   <div aria-hidden="true"
-    style="position:relative;z-index:58;height:280px;margin-top:-280px;pointer-events:none;
+    style="position:relative;z-index:58;height:260px;margin-top:-260px;pointer-events:none;
     background:linear-gradient(to bottom,
       transparent 0%,
-      rgba(13,22,16,0.04) 20%,
-      rgba(13,22,16,0.12) 40%,
-      rgba(13,22,16,0.30) 60%,
-      rgba(13,22,16,0.58) 80%,
-      #0d1610 100%);">
-  </div>
-  <!-- Layer B: short bottom reinforcement for seamless join -->
-  <div aria-hidden="true"
-    style="position:relative;z-index:59;height:100px;margin-top:-100px;pointer-events:none;
-    background:linear-gradient(to bottom,
-      rgba(13,22,16,0.40) 0%,
-      #0d1610 100%);">
-  </div>
+      rgba(13,22,16,0.02) 25%,
+      rgba(13,22,16,0.07) 50%,
+      rgba(13,22,16,0.18) 70%,
+      rgba(13,22,16,0.38) 88%,
+      rgba(13,22,16,0.65) 100%);"
+  ></div>
 
   <section id="location" class="py-32 md:py-44 w-full relative z-[60] overflow-hidden">
 
