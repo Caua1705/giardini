@@ -6,25 +6,7 @@
 /* ── Config ────────────────────────────────────────────────────── */
 const API_BASE_URL = 'http://127.0.0.1:8000';
 
-const ENVIRONMENT_IMAGES_BY_NAME = {
-  'Jardim Externo':         'assets/images/jardim-externo.webp',
-  'Salão Principal':        'assets/images/salao-principal.webp',
-  'Lounge Reservado':       'assets/images/lounge-reservado.webp',
-  'Sala Privativa Pequena': 'assets/images/sala-privativa-pequena.webp',
-  'Sala Privativa Média':   'assets/images/sala-privativa-media.webp',
-  'Sala Privativa Grande':  'assets/images/sala-privativa-grande.webp',
-};
-
-const ENVIRONMENT_CAPACITY_HINTS = {
-  'Jardim Externo':         'Ao ar livre',
-  'Salão Principal':        'Ambiente amplo',
-  'Lounge Reservado':       'Ambiente intimista',
-  'Sala Privativa Pequena': 'Até 6 pessoas',
-  'Sala Privativa Média':   'Até 10 pessoas',
-  'Sala Privativa Grande':  'Até 20 pessoas',
-};
-
-let ENVIRONMENT_IMAGES = {};
+/* Generic fallback — only used when env.imageUrl is missing from the API */
 const DEFAULT_PREVIEW_IMAGE = 'assets/images/jardim-externo.webp';
 
 const MONTHS_PT    = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
@@ -130,8 +112,8 @@ function renderEnvCards(data) {
   }
 
   data.forEach((env, idx) => {
-    const imgSrc = ENVIRONMENT_IMAGES[env.id] || ENVIRONMENT_IMAGES_BY_NAME[env.name] || DEFAULT_PREVIEW_IMAGE;
-    const hint   = ENVIRONMENT_CAPACITY_HINTS[env.name] || (env.max_capacity ? `Até ${env.max_capacity} pessoas` : '');
+    const imgSrc = env.imageUrl || env.image_url || DEFAULT_PREVIEW_IMAGE;
+    const hint   = env.short_description || (env.max_capacity ? `Até ${env.max_capacity} pessoas` : '');
 
     const card   = document.createElement('div');
     card.className = 'res-env-card';
@@ -196,11 +178,10 @@ function showFormSummary(env, imgSrc) {
   DOM.formEnvThumb.alt = env.name;
   DOM.formEnvName.textContent = env.name;
 
-  // Populate capacity hint
+  // Populate hint — short_description if available, else derive from max_capacity
   const capEl = document.getElementById('res-form-env-cap');
   if (capEl) {
-    const hint = ENVIRONMENT_CAPACITY_HINTS[env.name] || (env.max_capacity ? `Até ${env.max_capacity} pessoas` : '');
-    capEl.textContent = hint;
+    capEl.textContent = env.short_description || (env.max_capacity ? `Até ${env.max_capacity} pessoas` : '');
   }
 
   DOM.formEnvSummary.classList.add('is-visible');
@@ -408,17 +389,20 @@ async function loadEnvironments() {
       return;
     }
 
-    environmentsData = data;
-    ENVIRONMENT_IMAGES = {};
-    data.forEach(env => { ENVIRONMENT_IMAGES[env.id] = ENVIRONMENT_IMAGES_BY_NAME[env.name] || DEFAULT_PREVIEW_IMAGE; });
+    // Sort by display_order when provided by the backend
+    const sorted = data.slice().sort((a, b) => {
+      if (a.display_order != null && b.display_order != null) return a.display_order - b.display_order;
+      return 0;
+    });
+    environmentsData = sorted;
 
     DOM.environment.innerHTML = '<option value="" disabled selected>Selecione</option>';
-    data.forEach(env => {
+    sorted.forEach(env => {
       const o = document.createElement('option'); o.value = env.id; o.textContent = env.name;
       DOM.environment.appendChild(o);
     });
     DOM.environment.disabled = false;
-    renderEnvCards(data);
+    renderEnvCards(sorted);
 
   } catch (e) {
     DOM.environment.innerHTML = '<option value="" disabled selected>Indisponível</option>';
@@ -469,8 +453,8 @@ function handleEnvironmentChange() {
     return;
   }
 
-  // Show inline form summary (compact, no duplicate large image)
-  const imgSrc = ENVIRONMENT_IMAGES[env.id] || ENVIRONMENT_IMAGES_BY_NAME[env.name] || DEFAULT_PREVIEW_IMAGE;
+  // Show inline form summary — image comes directly from API
+  const imgSrc = env.imageUrl || env.image_url || DEFAULT_PREVIEW_IMAGE;
   showFormSummary(env, imgSrc);
 
   DOM.guestsSublabel.textContent = `Este ambiente comporta até ${env.max_capacity} pessoas por reserva.`;
