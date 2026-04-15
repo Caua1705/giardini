@@ -6,15 +6,6 @@
 /* ── Config ────────────────────────────────────────────────────── */
 const API_BASE_URL = 'http://127.0.0.1:8000';
 
-/* ── Fallback environments — used when API is unreachable ─────── */
-const FALLBACK_ENVIRONMENTS = [
-  { id: '1', name: 'Salão Principal',        image_url: 'assets/images/salao-principal.webp',        max_capacity: 20, short_description: 'Nosso espaço principal, acolhedor e iluminado', display_order: 1 },
-  { id: '2', name: 'Jardim Externo',         image_url: 'assets/images/jardim-externo.webp',         max_capacity: 15, short_description: 'Ao ar livre, cercado de verde e tranquilidade', display_order: 2 },
-  { id: '3', name: 'Lounge Reservado',       image_url: 'assets/images/lounge-reservado.webp',       max_capacity: 8,  short_description: 'Intimista e sofisticado, para momentos especiais', display_order: 3 },
-  { id: '4', name: 'Sala Privativa Pequena', image_url: 'assets/images/sala-privativa-pequena.webp', max_capacity: 4,  short_description: 'Perfeita para reuniões íntimas', display_order: 4 },
-  { id: '5', name: 'Sala Privativa Média',   image_url: 'assets/images/sala-privativa-media.webp',   max_capacity: 8,  short_description: 'Ideal para pequenos grupos e encontros', display_order: 5 },
-  { id: '6', name: 'Sala Privativa Grande',  image_url: 'assets/images/sala-privativa-grande.webp',  max_capacity: 14, short_description: 'Ampla e versátil, para eventos e celebrações', display_order: 6 },
-];
 
 const MONTHS_PT    = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const MONTHS_SHORT = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
@@ -415,22 +406,12 @@ async function loadEnvironments() {
     renderEnvCards(sorted);
 
   } catch (e) {
-    console.warn('API indisponível, usando dados locais.', e);
-
-    // Fallback to static environment data
-    const sorted = FALLBACK_ENVIRONMENTS.slice().sort((a, b) => {
-      if (a.display_order != null && b.display_order != null) return a.display_order - b.display_order;
-      return 0;
-    });
-    environmentsData = sorted;
-
-    DOM.environment.innerHTML = '<option value="" disabled selected>Selecione</option>';
-    sorted.forEach(env => {
-      const o = document.createElement('option'); o.value = env.id; o.textContent = env.name;
-      DOM.environment.appendChild(o);
-    });
-    DOM.environment.disabled = false;
-    renderEnvCards(sorted);
+    DOM.environment.innerHTML = '<option value="" disabled selected>Indisponível</option>';
+    DOM.environmentMsg.textContent = 'Não foi possível carregar os ambientes.';
+    DOM.environmentMsg.style.color = '#ef4444';
+    DOM.environmentMsg.style.display = 'block';
+    renderEnvCards([]);
+    console.error(e);
   }
 }
 
