@@ -185,12 +185,12 @@
     padding-bottom: 1rem !important;
   }
 
-  /* Hero headline: fluid sizing across all phones */
+  /* Hero headline: largest text on the page — dominant hierarchy */
   #hero-headline {
-    font-size: clamp(2.4rem, 9vw, 3.3rem) !important;
-    line-height: 1.05 !important;
-    margin-bottom: 1.25rem !important;
-    letter-spacing: -0.025em !important;
+    font-size: clamp(2.6rem, 10vw, 3.6rem) !important;
+    line-height: 1.08 !important;
+    margin-bottom: 1.5rem !important;
+    letter-spacing: -0.03em !important;
   }
 
   /* Kicker: slightly more prominent on mobile */
@@ -200,25 +200,29 @@
     font-size: 0.58rem !important;
   }
 
-  /* CTA buttons: better touch targets */
+  /* CTA buttons: medium, not bulky — secondary to headline */
   .hero-cta {
-    gap: 1rem !important;
-    margin-top: 0.75rem !important;
+    gap: 1.25rem !important;
+    margin-top: 0.5rem !important;
+    flex-direction: column !important;
+    align-items: center !important;
   }
 
   .btn-primary.btn-order {
-    padding: clamp(0.9rem, 2.5vw, 1.1rem) clamp(1.8rem, 6vw, 2.5rem) !important;
-    font-size: clamp(0.64rem, 1.8vw, 0.72rem) !important;
-    min-height: 48px !important; /* Minimum touch target */
+    padding: 0.8rem 1.85rem !important;
+    font-size: 0.64rem !important;
+    min-height: 44px !important;
+    border-radius: 9999px !important;
   }
 
-  /* Ghost link: better touch area */
+  /* Ghost link: subtle, not competing */
   .link-ghost {
-    padding: 0.5rem 0.75rem !important;
-    font-size: clamp(0.64rem, 1.8vw, 0.72rem) !important;
-    min-height: 44px !important;
+    padding: 0.4rem 0.8rem !important;
+    font-size: 0.64rem !important;
+    min-height: auto !important;
     display: inline-flex !important;
     align-items: center !important;
+    opacity: 0.55 !important;
   }
 
   /* Explore indicator: positioned below the video at viewport bottom */
@@ -255,9 +259,9 @@
     border-radius: 18px !important;
   }
 
-  /* Section title: fluid */
+  /* Section title: one step below hero headline */
   #experience h2 {
-    font-size: clamp(2.2rem, 8vw, 3rem) !important;
+    font-size: clamp(2.1rem, 7.5vw, 2.8rem) !important;
     line-height: 1.05 !important;
   }
 
@@ -342,9 +346,9 @@
     margin-bottom: clamp(2rem, 6vw, 3rem) !important;
   }
 
-  /* Section title: fluid mobile sizing */
+  /* Section title: consistent with Experience section */
   #featured-title {
-    font-size: clamp(2.2rem, 8vw, 3rem) !important;
+    font-size: clamp(2.1rem, 7.5vw, 2.8rem) !important;
     line-height: 1.02 !important;
   }
 
@@ -465,13 +469,14 @@
     font-size: clamp(0.85rem, 2.5vw, 1rem) !important;
   }
 
-  /* CTA button: better touch target */
+  /* CTA button: medium, consistent with hero CTA weight */
   .s3-cta-wrap .loc-beam-container {
-    min-height: 52px !important;
+    min-height: 46px !important;
   }
 
   .s3-cta-wrap .loc-beam-container > div:last-child {
-    padding: 0.85rem clamp(1.5rem, 5vw, 2.25rem) !important;
+    padding: 0.75rem clamp(1.4rem, 4.5vw, 2rem) !important;
+    font-size: 0.62rem !important;
   }
 
   /* Section editorial vertical lines: hide on mobile */
@@ -567,7 +572,7 @@
   }
 
   .clube-reveal__title h2 {
-    font-size: clamp(2.2rem, 8vw, 3rem) !important;
+    font-size: clamp(2.1rem, 7.5vw, 2.8rem) !important;
     line-height: 0.98 !important;
   }
 
@@ -678,11 +683,11 @@
     min-height: 80vh !important;
   }
 
-  /* Headline: fluid sizing that stays impactful but doesn't overflow */
+  /* Headline: consistent with section title scale */
   #experience-video h2 {
-    font-size: clamp(2.6rem, 9vw, 4rem) !important;
-    line-height: 0.92 !important;
-    letter-spacing: -0.035em !important;
+    font-size: clamp(2.1rem, 7.5vw, 2.8rem) !important;
+    line-height: 0.95 !important;
+    letter-spacing: -0.03em !important;
   }
 
   /* Gold text: ensure readability on mobile screens */
@@ -704,11 +709,11 @@
     margin-bottom: 1.75rem !important;
   }
 
-  /* CTA button: better touch target */
+  /* CTA button: medium, consistent */
   #s5-cta {
-    padding: 1rem clamp(2rem, 7vw, 3rem) !important;
-    font-size: clamp(0.9rem, 2.5vw, 1.05rem) !important;
-    min-height: 52px !important;
+    padding: 0.85rem clamp(1.6rem, 5vw, 2.2rem) !important;
+    font-size: clamp(0.82rem, 2.2vw, 0.95rem) !important;
+    min-height: 46px !important;
   }
 
   /* Sub-caption below CTA */
@@ -1138,62 +1143,13 @@
     }
   }
 /* ══════════════════════════════════════════════════════════════════
-   MOBILE HERO REFINEMENT (User Request)
-   Focus: Hierarchy, Elegance, Button Weight.
-   Applies only to mobile (<= 768px).
+   MOBILE HERO REFINEMENT — merged into main block above.
+   This section kept only for video-frame border-radius override.
    ══════════════════════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-  #hero-headline {
-    font-size: clamp(2.6rem, 10vw, 3.8rem) !important;
-    line-height: 1.25 !important;
-    /* More breathing room */
-    margin-bottom: 1.5rem !important;
-    /* Move buttons up slightly */
-    letter-spacing: -0.025em !important;
-  }
-
-  .hero-cta {
-    margin-top: 0.5rem !important;
-    gap: 1.25rem !important;
-    /* Tighter space CTA -> secondary link */
-    flex-direction: column !important;
-    align-items: center !important;
-  }
-
-  .hero-cta-primary-wrap {
-    display: inline-flex;
-    position: relative;
-    border-radius: 9999px;
-  }
-
-  .btn-primary.btn-order {
-    padding: 0.8rem 1.85rem !important; /* Reduced visual weight */
-    font-size: 0.64rem !important;
-    min-height: 44px !important; /* Elegant, not bulky */
-    border-radius: 9999px !important;
-  }
-
-  /* Ensure secondary link is balanced and doesn't compete */
-  .link-ghost {
-    font-size: 0.64rem !important;
-    opacity: 0.55 !important;
-    padding: 0.4rem 0.8rem !important;
-    min-height: auto !important;
-  }
-
-  /* Layout Spacing & Balance */
-  #hero-right {
-    margin-top: 4rem !important;
-    /* Clear spacing between CTA area and image */
-    width: 85% !important;
-    max-width: 320px !important;
-  }
-
+@media (max-width: 767px) {
   #video-frame {
     border-radius: 12px !important;
-    /* Refined corners */
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.05) !important;
-    /* Softer shadow for supporting element */
     border: 1px solid rgba(43, 74, 59, 0.06) !important;
   }
 }
