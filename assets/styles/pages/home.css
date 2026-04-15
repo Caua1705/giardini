@@ -1007,15 +1007,15 @@
     font-size: clamp(2.6rem, 10vw, 3.8rem) !important;
     line-height: 1.25 !important;
     /* More breathing room */
-    margin-bottom: 2.25rem !important;
-    /* Increase space headline -> button */
+    margin-bottom: 1.5rem !important;
+    /* Move buttons up slightly */
     letter-spacing: -0.025em !important;
   }
 
   .hero-cta {
-    margin-top: 1.5rem !important;
-    gap: 1.5rem !important;
-    /* Consistent space CTA -> secondary link */
+    margin-top: 0.5rem !important;
+    gap: 1.25rem !important;
+    /* Tighter space CTA -> secondary link */
     flex-direction: column !important;
     align-items: center !important;
   }
