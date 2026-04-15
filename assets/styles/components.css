@@ -121,6 +121,14 @@
   }
 }
 
+/* CLUBE DO LIVRO: Base desktop 2-column layout */
+.clube-mosaic {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
 /* 4. CLUBE DO LIVRO: Equilíbrio Visivo (aplicado de 1024 pra baixo para matar quebra crônica) */
 @media (max-width: 1024px) {
   .clube-mosaic {
