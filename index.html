@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -40,10 +41,10 @@
   <!-- ══ REFINAMENTO FINAL — POLISH & TEXTURE ══════════════════════ -->
 
 
-<!-- ══ SECTION 3: SABORES & OBRAS — EDITORIAL ELEVATION v1 ══ -->
+  <!-- ══ SECTION 3: SABORES & OBRAS — EDITORIAL ELEVATION v1 ══ -->
 
 
-  
+
   <link rel="stylesheet" href="assets/styles/base.css">
   <link rel="stylesheet" href="assets/styles/layout.css">
   <link rel="stylesheet" href="assets/styles/components.css">
@@ -51,6 +52,7 @@
 
   <link rel="stylesheet" href="assets/styles/pages/home.css">
 </head>
+
 <body>
   <!-- ══ MID-SCROLL RELOAD FIX ═════════════════════════════════════════
        If the browser restores scroll position > 0 on reload, the body
@@ -59,9 +61,9 @@
        opacity lock so the page is visible while assets load.
        This must run SYNCHRONOUSLY before any other script.
   ══════════════════════════════════════════════════════════════════════ -->
-  
+
   <div id="global-grain" aria-hidden="true"></div>
-  
+
   <!-- ══ MOBILE MENU ══════════════════════════════════════════════════ -->
   <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Navegação">
     <button class="mobile-close" id="mobile-close" aria-label="Fechar menu">
@@ -90,19 +92,21 @@
       <a href="#location" class="nav-link">Visite-nos</a>
     </div>
     <div class="nav-actions">
-      <a href="./reservation.html" class="nav-cta group relative overflow-hidden" style="padding:0.5rem 1.2rem;font-size:0.62rem;transition:all 0.3s var(--expo);">
-      <!-- Shimmer Effect -->
-      <span class="absolute inset-0 overflow-hidden pointer-events-none" style="border-radius: inherit; z-index: 1;">
-        <div class="s4-beam"></div>
-      </span>
-      <span style="position: relative; z-index: 2;">Reservar</span>
-      <svg style="position: relative; z-index: 2;" width="10" height="10" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-        <path d="M5 12h14M12 5l7 7-7 7" />
-      </svg>
+      <a href="./reservation.html" class="nav-cta group relative overflow-hidden"
+        style="padding:0.5rem 1.2rem;font-size:0.62rem;transition:all 0.3s var(--expo);">
+        <!-- Shimmer Effect -->
+        <span class="absolute inset-0 overflow-hidden pointer-events-none" style="border-radius: inherit; z-index: 1;">
+          <div class="s4-beam"></div>
+        </span>
+        <span style="position: relative; z-index: 2;">Reservar</span>
+        <svg style="position: relative; z-index: 2;" width="10" height="10" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
       </a>
       <button class="nav-hamburger" id="hamburger" aria-label="Abrir menu">
-        <iconify-icon icon="lucide:menu" style="font-size:2rem;color:currentColor;--iconify-stroke-width:1.2px; stroke-width: 1.2px;"></iconify-icon>
+        <iconify-icon icon="lucide:menu"
+          style="font-size:2rem;color:currentColor;--iconify-stroke-width:1.2px; stroke-width: 1.2px;"></iconify-icon>
       </button>
     </div>
   </nav>
@@ -114,7 +118,9 @@
       <div class="hero-grid-bg" aria-hidden="true"></div>
       <div id="hero-spotlight" aria-hidden="true"></div>
       <!-- Depth overlay: breaks flat grid feel with barely-there atmospheric shadow -->
-      <div id="hero-depth" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:2;background:radial-gradient(circle at 70% 40%, rgba(0,0,0,0.03), transparent 60%);"></div>
+      <div id="hero-depth" aria-hidden="true"
+        style="position:absolute;inset:0;pointer-events:none;z-index:2;background:radial-gradient(circle at 70% 40%, rgba(0,0,0,0.03), transparent 60%);">
+      </div>
       <!-- Warm ambient light (off-center left) + subtle image glow -->
       <div id="hero-warm" aria-hidden="true"></div>
       <div id="hero-image-glow" aria-hidden="true"></div>
@@ -132,7 +138,8 @@
         </div>
         <h1 id="hero-headline" aria-label="Reserve sua experiência no Giardini Café.">
           <span class="line">
-            <span class="line-inner" id="el-h1a">Reserve <em style="font-style:italic;color:var(--c-primary);">sua</em></span>
+            <span class="line-inner" id="el-h1a">Reserve <em
+                style="font-style:italic;color:var(--c-primary);">sua</em></span>
           </span>
           <span class="line" style="font-style:italic;">
             <span class="line-inner" id="el-h1b">experiência aqui.</span>
@@ -147,7 +154,8 @@
           <!-- Primary CTA: direct action (now with Premium Beam Effect - Always Visible - High Visibility) -->
           <a href="./reservation.html"
             class="loc-beam-container hero-cta-primary-wrap group relative overflow-hidden transition-transform duration-700"
-            style="padding: 2px; background: linear-gradient(135deg, rgba(43,74,59,0.88) 0%, rgba(30,55,44,0.82) 100%); display:inline-flex; border-radius:9999px;" aria-label="Reservar uma mesa no Giardini Café">
+            style="padding: 2px; background: linear-gradient(135deg, rgba(43,74,59,0.88) 0%, rgba(30,55,44,0.82) 100%); display:inline-flex; border-radius:9999px;"
+            aria-label="Reservar uma mesa no Giardini Café">
             <div class="loc-beam-border"
               style="background: conic-gradient(from 0deg at 50% 50%, transparent 20%, rgba(255,255,255,0.85) 60%, #fff 100%, transparent 100%); filter: blur(1.5px); width: 400%; height: 400%; top: -150%; left: -150%; opacity: 1;">
             </div>
@@ -171,12 +179,16 @@
           <!-- Tertiary ghost link -->
           <a href="./menu.html" class="link-ghost">Ver cardápio</a>
         </div>
-        <div class="hero-meta hidden md:flex" id="el-meta" style="gap:1rem;margin-top:2rem;padding-top:1.25rem;border-top:1px solid rgba(183,147,88,0.12);">
-          <span class="live-badge" style="font-size:0.56rem;letter-spacing:0.18em;"><span class="live-pulse" style="background:var(--c-primary);"></span>Ambiente para leitura</span>
+        <div class="hero-meta hidden md:flex" id="el-meta"
+          style="gap:1rem;margin-top:2rem;padding-top:1.25rem;border-top:1px solid rgba(183,147,88,0.12);">
+          <span class="live-badge" style="font-size:0.56rem;letter-spacing:0.18em;"><span class="live-pulse"
+              style="background:var(--c-primary);"></span>Ambiente para leitura</span>
           <span style="color:rgba(183,147,88,0.45);font-size:0.42rem;font-weight:400;">◆</span>
-          <span class="live-badge" style="font-size:0.56rem;letter-spacing:0.18em;"><span class="live-pulse" style="animation-delay:0.8s;background:rgba(43,74,59,0.45);"></span>Café especial</span>
+          <span class="live-badge" style="font-size:0.56rem;letter-spacing:0.18em;"><span class="live-pulse"
+              style="animation-delay:0.8s;background:rgba(43,74,59,0.45);"></span>Café especial</span>
           <span style="color:rgba(183,147,88,0.45);font-size:0.42rem;font-weight:400;">◆</span>
-          <span class="live-badge" style="font-size:0.56rem;letter-spacing:0.18em;"><span class="live-pulse" style="animation-delay:1.6s;background:rgba(43,74,59,0.45);"></span>Troca de Livros</span>
+          <span class="live-badge" style="font-size:0.56rem;letter-spacing:0.18em;"><span class="live-pulse"
+              style="animation-delay:1.6s;background:rgba(43,74,59,0.45);"></span>Troca de Livros</span>
         </div>
       </div>
       <div id="hero-right">
@@ -184,9 +196,12 @@
       </div>
       <!-- HERO SCROLL INDICATOR -->
       <div id="hero-explore-scroll" class="hero-scroll-wrapper" aria-hidden="true">
-        <span style="font-size:0.55rem;font-weight:600;letter-spacing:0.35em;text-transform:uppercase;color:var(--c-primary);">Explore</span>
+        <span
+          style="font-size:0.55rem;font-weight:600;letter-spacing:0.35em;text-transform:uppercase;color:var(--c-primary);">Explore</span>
         <div style="width:1px;height:45px;background:rgba(43,74,59,0.15);position:relative;overflow:hidden;">
-          <div style="position:absolute;left:0;width:100%;height:50%;background:rgba(43,74,59,0.7);animation:explore-line-drop 2s ease-in-out infinite;"></div>
+          <div
+            style="position:absolute;left:0;width:100%;height:50%;background:rgba(43,74,59,0.7);animation:explore-line-drop 2s ease-in-out infinite;">
+          </div>
         </div>
       </div>
       <!-- VIDEO FRAME (agora dentro do viewport para rolar naturalmente no final) -->
@@ -227,23 +242,32 @@
         class="hidden lg:block lg:col-span-6 w-full h-[80vh] overflow-hidden relative group exp-left translate-y-12 scale-[0.96] opacity-0 blur-[10px]"
         style="border-radius:28px;box-shadow:0 50px 100px -20px rgba(0,0,0,0.14),0 20px 48px -10px rgba(43,74,59,0.10),0 6px 16px -4px rgba(0,0,0,0.07);">
         <!-- Warm tonal gradient over image -->
-        <div class="absolute inset-0 pointer-events-none z-10" style="background:linear-gradient(to bottom,rgba(43,74,59,0.03) 0%,transparent 35%,rgba(15,10,5,0.14) 100%);"></div>
+        <div class="absolute inset-0 pointer-events-none z-10"
+          style="background:linear-gradient(to bottom,rgba(43,74,59,0.03) 0%,transparent 35%,rgba(15,10,5,0.14) 100%);">
+        </div>
         <!-- Image -->
         <img src="assets/images/experience-1.webp" alt="Pessoa lendo em nossa sala"
           class="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.03] exp-left-img scale-[1.08]"
           loading="lazy">
         <!-- Premium corner accent top-left -->
-        <div class="absolute top-4 left-4 z-20 pointer-events-none" style="width:20px;height:20px;border-top:1.5px solid rgba(255,255,255,0.45);border-left:1.5px solid rgba(255,255,255,0.45);border-radius:3px 0 0 0;"></div>
+        <div class="absolute top-4 left-4 z-20 pointer-events-none"
+          style="width:20px;height:20px;border-top:1.5px solid rgba(255,255,255,0.45);border-left:1.5px solid rgba(255,255,255,0.45);border-radius:3px 0 0 0;">
+        </div>
         <!-- Premium corner accent bottom-right -->
-        <div class="absolute bottom-4 right-4 z-20 pointer-events-none" style="width:20px;height:20px;border-bottom:1.5px solid rgba(255,255,255,0.28);border-right:1.5px solid rgba(255,255,255,0.28);border-radius:0 0 3px 0;"></div>
+        <div class="absolute bottom-4 right-4 z-20 pointer-events-none"
+          style="width:20px;height:20px;border-bottom:1.5px solid rgba(255,255,255,0.28);border-right:1.5px solid rgba(255,255,255,0.28);border-radius:0 0 3px 0;">
+        </div>
       </div>
       <!-- RIGHT COLUMN: CONTENT -->
       <div class="lg:col-span-6 flex flex-col justify-center w-full relative z-10">
         <!-- Label -->
         <div class="flex items-center gap-3 mb-7 sec2-title translate-y-8 opacity-0 blur-[10px]">
           <span class="s2-label-line" aria-hidden="true"></span>
-          <span class="w-[5px] h-[5px] rounded-full flex-shrink-0" style="background:var(--c-primary);opacity:0.8;"></span>
-          <span style="font-size:0.60rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:var(--c-primary);">01 &nbsp;/&nbsp; A Experiência</span>
+          <span class="w-[5px] h-[5px] rounded-full flex-shrink-0"
+            style="background:var(--c-primary);opacity:0.8;"></span>
+          <span
+            style="font-size:0.60rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:var(--c-primary);">01
+            &nbsp;/&nbsp; A Experiência</span>
         </div>
         <div class="word-wrap mb-8" style="overflow:visible;">
           <h2
@@ -251,10 +275,11 @@
             O conceito Giardini.
           </h2>
         </div>
-        <p
-          class="hidden lg:block text-[1.05rem] md:text-[1.125rem] font-light leading-relaxed mb-10 max-w-lg sec2-title translate-y-8 opacity-0 blur-[10px]"
+        <p class="text-[1.05rem] md:text-[1.125rem] font-light leading-relaxed mb-10 max-w-lg sec2-title translate-y-8 opacity-0 blur-[10px]"
           style="color:rgba(26,26,26,0.68);line-height:1.78;letter-spacing:0.005em;">
-          Café de especialidade, livros e um ambiente silencioso — três pilares de uma pausa que você merece.
+          <span class="hidden md:inline">Café de especialidade, livros e um ambiente silencioso — três pilares de uma
+            pausa que você merece.</span>
+          <span class="inline md:hidden">Café, livros e silêncio — a pausa que você merece.</span>
         </p>
         <!-- Animated divider — brand-green signature -->
         <div class="sec2-title translate-y-8 opacity-0 blur-[10px] s2-divider-track" style="margin-bottom:2.75rem;">
@@ -271,14 +296,19 @@
             <div class="flex items-start gap-5 relative z-10">
               <!-- Number + Line -->
               <div class="flex flex-col items-center flex-shrink-0" style="padding-top:2px;">
-                <span class="exp-pillar-num" style="font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:700;letter-spacing:0.22em;color:var(--c-primary);opacity:0.6;margin-bottom:0.65rem;display:block;">01</span>
-                <div class="exp-pillar-vline" style="width:1px;flex:1;min-height:40px;background:rgba(43,74,59,0.20);"></div>
+                <span class="exp-pillar-num"
+                  style="font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:700;letter-spacing:0.22em;color:var(--c-primary);opacity:0.6;margin-bottom:0.65rem;display:block;">01</span>
+                <div class="exp-pillar-vline" style="width:1px;flex:1;min-height:40px;background:rgba(43,74,59,0.20);">
+                </div>
               </div>
               <!-- Content -->
               <div class="flex flex-col">
-                <h4 class="font-display tracking-tight" style="font-size:1.35rem;color:var(--c-dark);margin-bottom:0.4rem;line-height:1.15;letter-spacing:-0.015em;">Livros &amp; Leitura</h4>
+                <h4 class="font-display tracking-tight"
+                  style="font-size:1.35rem;color:var(--c-dark);margin-bottom:0.4rem;line-height:1.15;letter-spacing:-0.015em;">
+                  Livros &amp; Leitura</h4>
                 <p style="font-size:0.875rem;font-weight:400;line-height:1.68;color:rgba(26,26,26,0.65);">
-                  <span class="hidden md:inline">Livraria integrada ao espaço. Traga até 2 livros e troque mediante consumo.</span>
+                  <span class="hidden md:inline">Livraria integrada ao espaço. Traga até 2 livros e troque mediante
+                    consumo.</span>
                   <span class="inline md:hidden">Leitura livre, troca de livros.</span>
                 </p>
               </div>
@@ -286,7 +316,9 @@
           </div>
 
           <!-- Separator -->
-          <div aria-hidden="true" style="height:1px;background:linear-gradient(to right,rgba(43,74,59,0.08),transparent 80%);margin-left:1.5rem;"></div>
+          <div aria-hidden="true"
+            style="height:1px;background:linear-gradient(to right,rgba(43,74,59,0.08),transparent 80%);margin-left:1.5rem;">
+          </div>
 
           <!-- Pillar 2: Café Especial -->
           <div class="exp-pillar opacity-0 translate-y-8 blur-[10px] relative group cursor-default"
@@ -295,13 +327,18 @@
             onmouseleave="this.style.borderLeftColor='rgba(43,74,59,0.14)';this.style.background='transparent';this.style.boxShadow='none';">
             <div class="flex items-start gap-5 relative z-10">
               <div class="flex flex-col items-center flex-shrink-0" style="padding-top:2px;">
-                <span class="exp-pillar-num" style="font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:700;letter-spacing:0.22em;color:var(--c-primary);opacity:0.6;margin-bottom:0.65rem;display:block;">02</span>
-                <div class="exp-pillar-vline" style="width:1px;flex:1;min-height:40px;background:rgba(43,74,59,0.20);"></div>
+                <span class="exp-pillar-num"
+                  style="font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:700;letter-spacing:0.22em;color:var(--c-primary);opacity:0.6;margin-bottom:0.65rem;display:block;">02</span>
+                <div class="exp-pillar-vline" style="width:1px;flex:1;min-height:40px;background:rgba(43,74,59,0.20);">
+                </div>
               </div>
               <div class="flex flex-col">
-                <h4 class="font-display tracking-tight" style="font-size:1.35rem;color:var(--c-dark);margin-bottom:0.4rem;line-height:1.15;letter-spacing:-0.015em;">Café Especial</h4>
+                <h4 class="font-display tracking-tight"
+                  style="font-size:1.35rem;color:var(--c-dark);margin-bottom:0.4rem;line-height:1.15;letter-spacing:-0.015em;">
+                  Café Especial</h4>
                 <p style="font-size:0.875rem;font-weight:400;line-height:1.68;color:rgba(26,26,26,0.65);">
-                  <span class="hidden md:inline">Grãos selecionados, extração cuidadosa. Um café limpo e bem feito.</span>
+                  <span class="hidden md:inline">Grãos selecionados, extração cuidadosa. Um café limpo e bem
+                    feito.</span>
                   <span class="inline md:hidden">Extração precisa, grãos selecionados.</span>
                 </p>
               </div>
@@ -309,7 +346,9 @@
           </div>
 
           <!-- Separator -->
-          <div aria-hidden="true" style="height:1px;background:linear-gradient(to right,rgba(43,74,59,0.08),transparent 80%);margin-left:1.5rem;"></div>
+          <div aria-hidden="true"
+            style="height:1px;background:linear-gradient(to right,rgba(43,74,59,0.08),transparent 80%);margin-left:1.5rem;">
+          </div>
 
           <!-- Pillar 3: O Ambiente -->
           <div class="exp-pillar opacity-0 translate-y-8 blur-[10px] relative group cursor-default"
@@ -318,13 +357,18 @@
             onmouseleave="this.style.borderLeftColor='rgba(43,74,59,0.14)';this.style.background='transparent';this.style.boxShadow='none';">
             <div class="flex items-start gap-5 relative z-10">
               <div class="flex flex-col items-center flex-shrink-0" style="padding-top:2px;">
-                <span class="exp-pillar-num" style="font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:700;letter-spacing:0.22em;color:var(--c-primary);opacity:0.6;margin-bottom:0.65rem;display:block;">03</span>
-                <div class="exp-pillar-vline" style="width:1px;flex:1;min-height:40px;background:rgba(43,74,59,0.20);"></div>
+                <span class="exp-pillar-num"
+                  style="font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:700;letter-spacing:0.22em;color:var(--c-primary);opacity:0.6;margin-bottom:0.65rem;display:block;">03</span>
+                <div class="exp-pillar-vline" style="width:1px;flex:1;min-height:40px;background:rgba(43,74,59,0.20);">
+                </div>
               </div>
               <div class="flex flex-col">
-                <h4 class="font-display tracking-tight" style="font-size:1.35rem;color:var(--c-dark);margin-bottom:0.4rem;line-height:1.15;letter-spacing:-0.015em;">O Ambiente</h4>
+                <h4 class="font-display tracking-tight"
+                  style="font-size:1.35rem;color:var(--c-dark);margin-bottom:0.4rem;line-height:1.15;letter-spacing:-0.015em;">
+                  O Ambiente</h4>
                 <p style="font-size:0.875rem;font-weight:400;line-height:1.68;color:rgba(26,26,26,0.65);">
-                  <span class="hidden md:inline">Iluminação suave e acústica equilibrada — projetado para foco, calma e leitura.</span>
+                  <span class="hidden md:inline">Iluminação suave e acústica equilibrada — projetado para foco, calma e
+                    leitura.</span>
                   <span class="inline md:hidden">Silêncio, conforto e foco.</span>
                 </p>
               </div>
@@ -367,9 +411,10 @@
     <!-- ── Logo badge: premium transition marker → stronger gravity ──── -->
     <div id="s3-logo-badge" style="position:absolute;top:-56px;left:50%;transform:translateX(-50%);z-index:30;">
       <!-- Ambient halo ring -->
-      <div aria-hidden="true" style="position:absolute;inset:-10px;border-radius:50%;background:radial-gradient(circle,rgba(43,74,59,0.12) 0%,transparent 70%);pointer-events:none;"></div>
-      <div id="s3-logo-badge-ring"
-        style="width:112px;height:112px;border-radius:50%;overflow:hidden;border:4px solid #fdfbf7;
+      <div aria-hidden="true"
+        style="position:absolute;inset:-10px;border-radius:50%;background:radial-gradient(circle,rgba(43,74,59,0.12) 0%,transparent 70%);pointer-events:none;">
+      </div>
+      <div id="s3-logo-badge-ring" style="width:112px;height:112px;border-radius:50%;overflow:hidden;border:4px solid #fdfbf7;
           box-shadow:0 0 0 1px rgba(43,74,59,0.10),0 16px 48px rgba(43,74,59,0.20),0 6px 16px rgba(43,74,59,0.12),inset 0 1px 0 rgba(255,255,255,0.85);
           animation:logoBadgeBreathe 5s ease-in-out infinite;">
         <img src="assets/images/giardini-logo.webp" alt="Giardini Café"
@@ -378,11 +423,20 @@
     </div>
 
     <!-- Editorial vertical guide lines -->
-    <div aria-hidden="true" style="position:absolute;inset:0;display:flex;justify-content:space-between;padding:0 4rem;pointer-events:none;z-index:1;">
-      <div style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.015) 30%,rgba(26,26,26,0.015) 70%,transparent);"></div>
-      <div style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.015) 30%,rgba(26,26,26,0.015) 70%,transparent);"></div>
-      <div style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.015) 30%,rgba(26,26,26,0.015) 70%,transparent);"></div>
-      <div style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.015) 30%,rgba(26,26,26,0.015) 70%,transparent);"></div>
+    <div aria-hidden="true"
+      style="position:absolute;inset:0;display:flex;justify-content:space-between;padding:0 4rem;pointer-events:none;z-index:1;">
+      <div
+        style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.015) 30%,rgba(26,26,26,0.015) 70%,transparent);">
+      </div>
+      <div
+        style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.015) 30%,rgba(26,26,26,0.015) 70%,transparent);">
+      </div>
+      <div
+        style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.015) 30%,rgba(26,26,26,0.015) 70%,transparent);">
+      </div>
+      <div
+        style="width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(26,26,26,0.015) 30%,rgba(26,26,26,0.015) 70%,transparent);">
+      </div>
     </div>
 
     <!-- ═══ MAIN CONTAINER ═══════════════════════════════════════════════ -->
@@ -407,8 +461,9 @@
           <div class="word-wrap split-parent" style="overflow:hidden;">
             <h2 id="featured-title"
               style="font-family:'Instrument Serif',serif;font-size:clamp(2.8rem,5.5vw,4.75rem);letter-spacing:-0.028em;color:var(--c-dark);font-weight:400;margin:0;line-height:1.0;">
-              <span class="sect3-line-wrap"><span class="sect3-line-inner">Sabores para</span></span>
-              <span class="sect3-line-wrap"><span class="sect3-line-inner" style="font-style:italic;">acompanhar o seu <em style="font-style:italic;color:var(--c-primary);">tempo</em></span></span>
+              <span class="sect3-line-wrap"><span class="sect3-line-inner">Sabores pensados</span></span>
+              <span class="sect3-line-wrap"><span class="sect3-line-inner" style="font-style:italic;">para o
+                  <em style="font-style:italic;color:var(--c-primary);">momento</em></span></span>
             </h2>
           </div>
 
@@ -417,7 +472,8 @@
             <span class="s3-annotation-label">Seleção da casa</span>
             <div class="s3-annotation-line" aria-hidden="true"></div>
             <span class="s3-annotation-title">Três momentos escolhidos.</span>
-            <p class="s3-annotation-body">Uma prévia editada do cardápio — o que definimos como o essencial da experiência Giardini.</p>
+            <p class="s3-annotation-body">Uma prévia editada do cardápio — o que definimos como o essencial da
+              experiência Giardini.</p>
             <div class="s3-annotation-count">
               <strong>3</strong>
               <span>destaques&nbsp;da&nbsp;casa</span>
@@ -436,26 +492,31 @@
 
         <!-- Card 1: Croissant Sertaneja -->
         <div class="feat-card" style="opacity:0;transform:translateY(60px);margin-top:2.5rem;">
-          <div class="feat-card-inner"
-            style="position:relative;width:100%;aspect-ratio:3/4.2;border-radius:20px;overflow:hidden;background:#ede8e0;
+          <div class="feat-card-inner" style="position:relative;width:100%;aspect-ratio:3/4.2;border-radius:20px;overflow:hidden;background:#ede8e0;
               transition:box-shadow 0.6s ease,transform 0.6s cubic-bezier(0.16,1,0.3,1);"
             onmouseenter="this.style.transform='translateY(-6px)';this.style.boxShadow='0 28px 72px rgba(26,26,26,0.14),0 6px 18px rgba(26,26,26,0.07),inset 0 0 0 1px rgba(255,255,255,0.10)';var img=this.querySelector('.feat-img');if(img)img.style.transform='scale(1.04)';var line=this.querySelector('.feat-card-line');if(line){line.style.transform='scaleX(1)';line.style.opacity='1';}"
             onmouseleave="this.style.transform='translateY(0)';this.style.boxShadow='';var img=this.querySelector('.feat-img');if(img)img.style.transform='scale(1.0)';var line=this.querySelector('.feat-card-line');if(line){line.style.transform='scaleX(0)';line.style.opacity='0';}">
-            <img src="assets/images/croissant.webp" alt="Croissant Sertaneja" class="feat-img"
-              style="position:absolute;top:-5%;left:0;width:100%;height:110%;object-fit:cover;
+            <img src="assets/images/croissant.webp" alt="Croissant Sertaneja" class="feat-img" style="position:absolute;top:-5%;left:0;width:100%;height:110%;object-fit:cover;
                 filter:saturate(0.88) brightness(1.04) contrast(1.01);
                 transition:transform 0.85s cubic-bezier(0.22,1,0.36,1),filter 0.4s ease;transform:scale(1.0);"
               loading="lazy">
             <div class="feat-veil"
               style="position:absolute;inset:0;z-index:5;opacity:0;transition:opacity 0.75s ease;
                 background:linear-gradient(to top,rgba(245,238,225,0.94) 0%,rgba(245,238,225,0.35) 55%,transparent 100%);"></div>
-            <div class="feat-panel"
-              style="position:absolute;bottom:0;left:0;right:0;z-index:10;padding:1.6rem 1.5rem;
+            <div class="feat-panel" style="position:absolute;bottom:0;left:0;right:0;z-index:10;padding:1.6rem 1.5rem;
                 opacity:0;transform:translateY(10px);transition:all 0.65s ease;">
-              <div class="feat-card-line" style="width:26px;height:1px;background:var(--c-primary);margin-bottom:0.65rem;opacity:0;transform:scaleX(0);transform-origin:left;transition:transform 2.0s cubic-bezier(0.16,1,0.3,1), opacity 0.8s ease;"></div>
-              <h3 style="font-family:'Instrument Serif',serif;font-size:1.4rem;color:var(--c-dark);letter-spacing:-0.01em;margin:0 0 0.35rem;line-height:1.2;">Croissant Sertaneja</h3>
-              <p style="font-size:0.78rem;font-weight:300;color:rgba(26,26,26,0.58);line-height:1.65;margin:0 0 0.4rem;">Carne de sol, purê de jerimum e picles de cebola roxa.</p>
-              <span style="font-size:0.62rem;font-weight:700;letter-spacing:0.12em;color:var(--c-primary);opacity:0.9;">A partir de R$ 22</span>
+              <div class="feat-card-line"
+                style="width:26px;height:1px;background:var(--c-primary);margin-bottom:0.65rem;opacity:0;transform:scaleX(0);transform-origin:left;transition:transform 2.0s cubic-bezier(0.16,1,0.3,1), opacity 0.8s ease;">
+              </div>
+              <h3
+                style="font-family:'Instrument Serif',serif;font-size:1.4rem;color:var(--c-dark);letter-spacing:-0.01em;margin:0 0 0.35rem;line-height:1.2;">
+                Croissant Sertaneja</h3>
+              <p
+                style="font-size:0.78rem;font-weight:300;color:rgba(26,26,26,0.58);line-height:1.65;margin:0 0 0.4rem;">
+                Carne de sol, purê de jerimum e picles de cebola roxa.</p>
+              <span
+                style="font-size:0.62rem;font-weight:700;letter-spacing:0.12em;color:var(--c-primary);opacity:0.9;">A
+                partir de R$ 22</span>
             </div>
           </div>
           <!-- Premium metadata label -->
@@ -468,26 +529,31 @@
 
         <!-- Card 2: Cappuccino Italiano -->
         <div class="feat-card" style="opacity:0;transform:translateY(60px);margin-top:0;">
-          <div class="feat-card-inner"
-            style="position:relative;width:100%;aspect-ratio:3/4.2;border-radius:20px;overflow:hidden;background:#e8e2d6;
+          <div class="feat-card-inner" style="position:relative;width:100%;aspect-ratio:3/4.2;border-radius:20px;overflow:hidden;background:#e8e2d6;
               transition:box-shadow 0.6s ease,transform 0.6s cubic-bezier(0.16,1,0.3,1);"
             onmouseenter="this.style.transform='translateY(-5px)';this.style.boxShadow='0 22px 56px rgba(26,26,26,0.11),0 5px 14px rgba(26,26,26,0.06),inset 0 0 0 1px rgba(255,255,255,0.10)';var img=this.querySelector('.feat-img');if(img)img.style.transform='scale(1.04)';var line=this.querySelector('.feat-card-line');if(line){line.style.transform='scaleX(1)';line.style.opacity='1';}"
             onmouseleave="this.style.transform='translateY(0)';this.style.boxShadow='';var img=this.querySelector('.feat-img');if(img)img.style.transform='scale(1.0)';var line=this.querySelector('.feat-card-line');if(line){line.style.transform='scaleX(0)';line.style.opacity='0';}">
-            <img src="assets/images/cappuccino.webp" alt="Cappuccino Italiano" class="feat-img"
-              style="position:absolute;top:-5%;left:0;width:100%;height:110%;object-fit:cover;
+            <img src="assets/images/cappuccino.webp" alt="Cappuccino Italiano" class="feat-img" style="position:absolute;top:-5%;left:0;width:100%;height:110%;object-fit:cover;
                 filter:saturate(0.88) brightness(1.04);
                 transition:transform 0.85s cubic-bezier(0.22,1,0.36,1),filter 0.4s ease;transform:scale(1.0);"
               loading="lazy">
             <div class="feat-veil"
               style="position:absolute;inset:0;z-index:5;opacity:0;transition:opacity 1.0s ease;
                 background:linear-gradient(to top,rgba(240,232,218,0.94) 0%,rgba(240,232,218,0.35) 55%,transparent 100%);"></div>
-            <div class="feat-panel"
-              style="position:absolute;bottom:0;left:0;right:0;z-index:10;padding:1.6rem 1.5rem;
+            <div class="feat-panel" style="position:absolute;bottom:0;left:0;right:0;z-index:10;padding:1.6rem 1.5rem;
                 opacity:0;transform:translateY(10px);transition:all 0.9s cubic-bezier(0.16,1,0.3,1);">
-              <div class="feat-card-line" style="width:26px;height:1px;background:var(--c-primary);margin-bottom:0.55rem;opacity:0;transform:scaleX(0);transform-origin:left;transition:transform 2.0s cubic-bezier(0.16,1,0.3,1), opacity 0.8s ease;"></div>
-              <h3 style="font-family:'Instrument Serif',serif;font-size:1.4rem;color:var(--c-dark);letter-spacing:-0.01em;margin:0 0 0.28rem;line-height:1.2;">Cappuccino Italiano</h3>
-              <p style="font-size:0.72rem;font-weight:300;color:rgba(26,26,26,0.55);line-height:1.65;margin:0 0 0.4rem;">Espresso duplo, leite vaporizado no ponto ideal.</p>
-              <span style="font-size:0.62rem;font-weight:700;letter-spacing:0.12em;color:var(--c-primary);opacity:0.9;">A partir de R$ 14</span>
+              <div class="feat-card-line"
+                style="width:26px;height:1px;background:var(--c-primary);margin-bottom:0.55rem;opacity:0;transform:scaleX(0);transform-origin:left;transition:transform 2.0s cubic-bezier(0.16,1,0.3,1), opacity 0.8s ease;">
+              </div>
+              <h3
+                style="font-family:'Instrument Serif',serif;font-size:1.4rem;color:var(--c-dark);letter-spacing:-0.01em;margin:0 0 0.28rem;line-height:1.2;">
+                Cappuccino Italiano</h3>
+              <p
+                style="font-size:0.72rem;font-weight:300;color:rgba(26,26,26,0.55);line-height:1.65;margin:0 0 0.4rem;">
+                Espresso duplo, leite vaporizado no ponto ideal.</p>
+              <span
+                style="font-size:0.62rem;font-weight:700;letter-spacing:0.12em;color:var(--c-primary);opacity:0.9;">A
+                partir de R$ 14</span>
             </div>
           </div>
           <div class="s3-card-label">
@@ -499,26 +565,31 @@
 
         <!-- Card 3: Brusqueta Vigneto -->
         <div class="feat-card" style="opacity:0;transform:translateY(60px);margin-top:5rem;">
-          <div class="feat-card-inner"
-            style="position:relative;width:100%;aspect-ratio:3/4.2;border-radius:20px;overflow:hidden;background:#ece5d8;
+          <div class="feat-card-inner" style="position:relative;width:100%;aspect-ratio:3/4.2;border-radius:20px;overflow:hidden;background:#ece5d8;
               transition:box-shadow 0.6s ease,transform 0.6s cubic-bezier(0.16,1,0.3,1);"
             onmouseenter="this.style.transform='translateY(-5px)';this.style.boxShadow='0 22px 56px rgba(26,26,26,0.11),0 5px 14px rgba(26,26,26,0.06),inset 0 0 0 1px rgba(255,255,255,0.10)';var img=this.querySelector('.feat-img');if(img)img.style.transform='scale(1.04)';var line=this.querySelector('.feat-card-line');if(line){line.style.transform='scaleX(1)';line.style.opacity='1';}"
             onmouseleave="this.style.transform='translateY(0)';this.style.boxShadow='';var img=this.querySelector('.feat-img');if(img)img.style.transform='scale(1.0)';var line=this.querySelector('.feat-card-line');if(line){line.style.transform='scaleX(0)';line.style.opacity='0';}">
-            <img src="assets/images/bruschetta.webp" alt="Brusqueta Vigneto Cremoso" class="feat-img"
-              style="position:absolute;top:-5%;left:0;width:100%;height:110%;object-fit:cover;
+            <img src="assets/images/bruschetta.webp" alt="Brusqueta Vigneto Cremoso" class="feat-img" style="position:absolute;top:-5%;left:0;width:100%;height:110%;object-fit:cover;
                 filter:saturate(0.88) brightness(1.04);
                 transition:transform 0.85s cubic-bezier(0.22,1,0.36,1),filter 0.4s ease;transform:scale(1.0);"
               loading="lazy">
             <div class="feat-veil"
               style="position:absolute;inset:0;z-index:5;opacity:0;transition:opacity 1.0s ease;
                 background:linear-gradient(to top,rgba(242,235,220,0.94) 0%,rgba(242,235,220,0.35) 55%,transparent 100%);"></div>
-            <div class="feat-panel"
-              style="position:absolute;bottom:0;left:0;right:0;z-index:10;padding:1.6rem 1.5rem;
+            <div class="feat-panel" style="position:absolute;bottom:0;left:0;right:0;z-index:10;padding:1.6rem 1.5rem;
                 opacity:0;transform:translateY(10px);transition:all 0.9s cubic-bezier(0.16,1,0.3,1);">
-              <div class="feat-card-line" style="width:26px;height:1px;background:var(--c-primary);margin-bottom:0.55rem;opacity:0;transform:scaleX(0);transform-origin:left;transition:transform 2.0s cubic-bezier(0.16,1,0.3,1), opacity 0.8s ease;"></div>
-              <h3 style="font-family:'Instrument Serif',serif;font-size:1.4rem;color:var(--c-dark);letter-spacing:-0.01em;margin:0 0 0.28rem;line-height:1.2;">Brusqueta Vigneto</h3>
-              <p style="font-size:0.72rem;font-weight:300;color:rgba(26,26,26,0.55);line-height:1.65;margin:0 0 0.4rem;">Homus de gorgonzola, uvas assadas e mel.</p>
-              <span style="font-size:0.62rem;font-weight:700;letter-spacing:0.12em;color:var(--c-primary);opacity:0.9;">A partir de R$ 28</span>
+              <div class="feat-card-line"
+                style="width:26px;height:1px;background:var(--c-primary);margin-bottom:0.55rem;opacity:0;transform:scaleX(0);transform-origin:left;transition:transform 2.0s cubic-bezier(0.16,1,0.3,1), opacity 0.8s ease;">
+              </div>
+              <h3
+                style="font-family:'Instrument Serif',serif;font-size:1.4rem;color:var(--c-dark);letter-spacing:-0.01em;margin:0 0 0.28rem;line-height:1.2;">
+                Brusqueta Vigneto</h3>
+              <p
+                style="font-size:0.72rem;font-weight:300;color:rgba(26,26,26,0.55);line-height:1.65;margin:0 0 0.4rem;">
+                Homus de gorgonzola, uvas assadas e mel.</p>
+              <span
+                style="font-size:0.62rem;font-weight:700;letter-spacing:0.12em;color:var(--c-primary);opacity:0.9;">A
+                partir de R$ 28</span>
             </div>
           </div>
           <div class="s3-card-label">
@@ -541,20 +612,25 @@
         </div>
 
         <!-- Primary CTA button — beam container, mechanics unchanged -->
-        <a href="./menu.html"
-          class="loc-beam-container group relative hover:-translate-y-1.5"
+        <a href="./menu.html" class="loc-beam-container group relative hover:-translate-y-1.5"
           aria-label="Explorar o cardápio completo do Giardini Café"
           style="background:#B79358;padding:1.5px;will-change:transform;transition:all 0.55s cubic-bezier(0.16,1,0.3,1);">
-          <div class="loc-beam-border" style="background:conic-gradient(from 0deg at 50% 50%,transparent 40%,rgba(43,74,59,0.8) 65%,rgba(43,74,59,1) 100%,transparent 100%);filter:blur(3px);width:400%;height:400%;top:-150%;left:-150%;opacity:0.6;"></div>
-          <div class="relative z-10 flex w-full h-full items-center justify-between rounded-full bg-[#f5f2eb] px-9 py-3.5 border border-transparent shadow-[0_10px_30px_rgba(26,26,26,0.07)] group-hover:shadow-[0_24px_60px_rgba(26,26,26,0.13)] group-hover:bg-[#fdfbf6]"
+          <div class="loc-beam-border"
+            style="background:conic-gradient(from 0deg at 50% 50%,transparent 40%,rgba(43,74,59,0.8) 65%,rgba(43,74,59,1) 100%,transparent 100%);filter:blur(3px);width:400%;height:400%;top:-150%;left:-150%;opacity:0.6;">
+          </div>
+          <div
+            class="relative z-10 flex w-full h-full items-center justify-between rounded-full bg-[#f5f2eb] px-9 py-3.5 border border-transparent shadow-[0_10px_30px_rgba(26,26,26,0.07)] group-hover:shadow-[0_24px_60px_rgba(26,26,26,0.13)] group-hover:bg-[#fdfbf6]"
             style="transition:all 0.55s cubic-bezier(0.16,1,0.3,1);">
-            <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:1.175rem;color:var(--c-dark);letter-spacing:0.01em;padding-right:1.5rem;">
+            <span
+              style="font-family:'Instrument Serif',serif;font-style:italic;font-size:1.175rem;color:var(--c-dark);letter-spacing:0.01em;padding-right:1.5rem;">
               Ver cardápio completo
             </span>
-            <span style="color:var(--c-dark);opacity:0.38;display:flex;align-items:center;justify-content:center;transition:all 0.5s cubic-bezier(0.16,1,0.3,1);"
+            <span
+              style="color:var(--c-dark);opacity:0.38;display:flex;align-items:center;justify-content:center;transition:all 0.5s cubic-bezier(0.16,1,0.3,1);"
               class="group-hover:translate-x-2 group-hover:opacity-90">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </span>
           </div>
@@ -573,18 +649,20 @@
 
   <section id="experience-video" class="relative z-[60] overflow-hidden" style="min-height:100vh;">
     <!-- ── VIDEO BACKGROUND ──────────────────────────────────────────── -->
-    <video
-      autoplay muted loop playsinline
-      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"
-      aria-hidden="true">
+    <video autoplay muted loop playsinline
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" aria-hidden="true">
       <source src="assets/videos/footer-video.mp4" type="video/mp4">
     </video>
 
     <!-- ── LAYER 1: Main dark overlay ──────────────────────────────── -->
-    <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(160deg,rgba(6,4,2,0.85) 0%,rgba(14,10,4,0.72) 50%,rgba(6,4,2,0.87) 100%);pointer-events:none;"></div>
+    <div
+      style="position:absolute;inset:0;z-index:1;background:linear-gradient(160deg,rgba(6,4,2,0.85) 0%,rgba(14,10,4,0.72) 50%,rgba(6,4,2,0.87) 100%);pointer-events:none;">
+    </div>
 
     <!-- ── LAYER 2: Edge vignette ──────────────────────────────────── -->
-    <div style="position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 105% 88% at 50% 50%,transparent 28%,rgba(0,0,0,0.55) 100%);"></div>
+    <div
+      style="position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 105% 88% at 50% 50%,transparent 28%,rgba(0,0,0,0.55) 100%);">
+    </div>
 
     <!-- ── LAYER 3: Atmospheric glows ─────────────────────────────── -->
     <!-- Soft warm neutral (top-left) — desaturated, brand-cohesive -->
@@ -608,7 +686,8 @@
       background-size:180px 180px;mix-blend-mode:screen;"></div>
 
     <!-- ── LAYER 6: Top accent line (animated grow) ────────────────── -->
-    <div aria-hidden="true" style="position:absolute;top:0;left:0;right:0;height:1px;z-index:5;overflow:hidden;pointer-events:none;">
+    <div aria-hidden="true"
+      style="position:absolute;top:0;left:0;right:0;height:1px;z-index:5;overflow:hidden;pointer-events:none;">
       <div id="s5-top-line" style="height:1px;width:0;opacity:0;
         background:linear-gradient(to right,transparent,rgba(43,74,59,0.45) 25%,rgba(255,255,255,0.25) 50%,rgba(43,74,59,0.45) 75%,transparent);
         transition:width 1.4s cubic-bezier(0.16,1,0.3,1) 0.3s, opacity 0.4s ease 0.3s;"></div>
@@ -617,15 +696,21 @@
     <!-- watermark removed -->
 
     <!-- ── LAYER 8: Floating ambient particles ─────────────────────── -->
-    <div aria-hidden="true" id="s5-particles" style="position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden;">
+    <div aria-hidden="true" id="s5-particles"
+      style="position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden;">
       <span class="s5-particle" style="bottom:30%;left:20%;animation-delay:0s;animation-duration:6s;"></span>
-      <span class="s5-particle" style="bottom:45%;left:35%;animation-delay:1.2s;animation-duration:7.5s;width:3px;height:3px;background:rgba(255,255,255,0.12);"></span>
+      <span class="s5-particle"
+        style="bottom:45%;left:35%;animation-delay:1.2s;animation-duration:7.5s;width:3px;height:3px;background:rgba(255,255,255,0.12);"></span>
       <span class="s5-particle" style="bottom:22%;left:55%;animation-delay:0.6s;animation-duration:5.5s;"></span>
-      <span class="s5-particle" style="bottom:60%;left:72%;animation-delay:2.1s;animation-duration:8s;background:rgba(43,74,59,0.6);"></span>
+      <span class="s5-particle"
+        style="bottom:60%;left:72%;animation-delay:2.1s;animation-duration:8s;background:rgba(43,74,59,0.6);"></span>
       <span class="s5-particle" style="bottom:38%;left:82%;animation-delay:1.5s;animation-duration:6.8s;"></span>
-      <span class="s5-particle" style="bottom:50%;left:10%;animation-delay:3s;animation-duration:7s;background:rgba(255,255,255,0.08);width:3px;height:3px;"></span>
-      <span class="s5-particle" style="bottom:70%;left:48%;animation-delay:0.3s;animation-duration:9s;background:rgba(210,195,165,0.3);"></span>
-      <span class="s5-particle" style="bottom:18%;left:64%;animation-delay:2.7s;animation-duration:6.2s;background:rgba(255,255,255,0.10);"></span>
+      <span class="s5-particle"
+        style="bottom:50%;left:10%;animation-delay:3s;animation-duration:7s;background:rgba(255,255,255,0.08);width:3px;height:3px;"></span>
+      <span class="s5-particle"
+        style="bottom:70%;left:48%;animation-delay:0.3s;animation-duration:9s;background:rgba(210,195,165,0.3);"></span>
+      <span class="s5-particle"
+        style="bottom:18%;left:64%;animation-delay:2.7s;animation-duration:6.2s;background:rgba(255,255,255,0.10);"></span>
     </div>
 
     <!-- ── Corner frames ──────────────────────────────────────────── -->
@@ -670,9 +755,7 @@
       <!-- ── PREMIUM CTA ──────────────────────────────────────── -->
       <div class="s5-reveal-up" style="text-align:center;">
         <!-- Premium Minimalist CTA -->
-        <a href="./reservation.html" id="s5-cta"
-          class="group relative overflow-hidden"
-          style="display:inline-flex;align-items:center;gap:1.2rem;
+        <a href="./reservation.html" id="s5-cta" class="group relative overflow-hidden" style="display:inline-flex;align-items:center;gap:1.2rem;
             padding:1.1rem 3.2rem;
             border-radius:9999px;
             background:rgba(255,255,255,0.02);
@@ -692,8 +775,7 @@
             this.style.boxShadow='0 12px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1)';
             this.querySelector('.s5-arrow').style.transform='translateX(4px)';
             var sep = document.getElementById('s5-separator');
-            if(sep) { sep.classList.remove('s5-sep-active'); void sep.offsetWidth; sep.classList.add('s5-sep-active'); }"
-          onmouseleave="
+            if(sep) { sep.classList.remove('s5-sep-active'); void sep.offsetWidth; sep.classList.add('s5-sep-active'); }" onmouseleave="
             this.style.transform='translateY(0)';
             this.style.background='rgba(255,255,255,0.02)';
             this.style.borderColor='rgba(255,255,255,0.15)';
@@ -703,15 +785,15 @@
             if(sep) { sep.classList.remove('s5-sep-active'); }"
           onmousedown="this.style.transform='translateY(1px) scale(0.98)';"
           onmouseup="this.style.transform='translateY(-2px) scale(1)';">
-          
+
 
 
           <span style="position:relative;z-index:1;text-shadow:0 1px 8px rgba(0,0,0,0.2);">Fazer minha reserva</span>
-          
+
           <svg style="position:relative;z-index:1;flex-shrink:0;transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);"
-            class="s5-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
+            class="s5-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </a>
 
@@ -727,24 +809,27 @@
         display:flex;flex-direction:column;align-items:center;gap:0.85rem;">
         <span style="font-size:0.48rem;font-weight:700;letter-spacing:0.35em;text-transform:uppercase;
           color:rgba(255,255,255,0.22);">Ver localização</span>
-        <div style="width:1px;height:32px;background:linear-gradient(to bottom,rgba(255,255,255,0.3),transparent);"></div>
+        <div style="width:1px;height:32px;background:linear-gradient(to bottom,rgba(255,255,255,0.3),transparent);">
+        </div>
       </div>
 
     </div><!-- /content -->
 
 
     <!-- ── SCRIPTS ─────────────────────────────────────────────── -->
-    
+
 
     <!-- Mouse spotlight removed -->
 
   </section>
-  
-        <!-- ══ SECTION 5: LOCALIZAÇÃO (DARK EDITORIAL PREMIUM ATMOSPHERE) ════════════════════════════ -->
-  
-  
+
+  <!-- ══ SECTION 5: LOCALIZAÇÃO (DARK EDITORIAL PREMIUM ATMOSPHERE) ════════════════════════════ -->
+
+
   <!-- Cinematic gradient bleed transition from Clube do Livro section -->
-  <div aria-hidden="true" style="position:relative;z-index:58;height:240px;margin-top:-240px;pointer-events:none;background:linear-gradient(to bottom,transparent 0%,rgba(13,22,16,0.2) 35%,rgba(13,22,16,0.65) 75%,#0d1610 100%);"></div>
+  <div aria-hidden="true"
+    style="position:relative;z-index:58;height:240px;margin-top:-240px;pointer-events:none;background:linear-gradient(to bottom,transparent 0%,rgba(13,22,16,0.2) 35%,rgba(13,22,16,0.65) 75%,#0d1610 100%);">
+  </div>
 
   <section id="location" class="py-32 md:py-44 w-full relative z-[60] overflow-hidden">
 
@@ -755,19 +840,30 @@
     <div class="loc-dk-dots" aria-hidden="true"></div>
     <!-- Horizontal rhythm lines -->
     <div aria-hidden="true" style="position:absolute;inset:0;z-index:2;pointer-events:none;">
-      <div class="loc-dk-hline" style="top:22%;background:linear-gradient(to right,transparent,rgba(183,147,88,0.07) 30%,rgba(183,147,88,0.07) 70%,transparent);"></div>
-      <div class="loc-dk-hline" style="top:50%;background:linear-gradient(to right,transparent,rgba(255,255,255,0.03) 20%,rgba(255,255,255,0.03) 80%,transparent);"></div>
-      <div class="loc-dk-hline" style="top:78%;background:linear-gradient(to right,transparent,rgba(183,147,88,0.05) 30%,rgba(183,147,88,0.05) 70%,transparent);"></div>
+      <div class="loc-dk-hline"
+        style="top:22%;background:linear-gradient(to right,transparent,rgba(183,147,88,0.07) 30%,rgba(183,147,88,0.07) 70%,transparent);">
+      </div>
+      <div class="loc-dk-hline"
+        style="top:50%;background:linear-gradient(to right,transparent,rgba(255,255,255,0.03) 20%,rgba(255,255,255,0.03) 80%,transparent);">
+      </div>
+      <div class="loc-dk-hline"
+        style="top:78%;background:linear-gradient(to right,transparent,rgba(183,147,88,0.05) 30%,rgba(183,147,88,0.05) 70%,transparent);">
+      </div>
     </div>
     <!-- Central warm glow -->
-    <div aria-hidden="true" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;pointer-events:none;z-index:1;background:radial-gradient(ellipse 70% 55% at 62% 48%,rgba(43,74,59,0.18) 0%,transparent 65%),radial-gradient(ellipse 50% 40% at 30% 35%,rgba(183,147,88,0.10) 0%,transparent 60%);"></div>
-    <!-- Dark Watermark -->
-    <div aria-hidden="true" style="position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:1;pointer-events:none;overflow:hidden;">
-      <span id="loc-dk-wm" style="font-family:'Instrument Serif',serif;font-size:clamp(7rem,18vw,18rem);font-style:italic;font-weight:400;letter-spacing:-0.04em;color:rgba(255,255,255,0.022);white-space:nowrap;user-select:none;display:block;">Giardini</span>
+    <div aria-hidden="true"
+      style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;pointer-events:none;z-index:1;background:radial-gradient(ellipse 70% 55% at 62% 48%,rgba(43,74,59,0.18) 0%,transparent 65%),radial-gradient(ellipse 50% 40% at 30% 35%,rgba(183,147,88,0.10) 0%,transparent 60%);">
     </div>
-    
+    <!-- Dark Watermark -->
+    <div aria-hidden="true"
+      style="position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:1;pointer-events:none;overflow:hidden;">
+      <span id="loc-dk-wm"
+        style="font-family:'Instrument Serif',serif;font-size:clamp(7rem,18vw,18rem);font-style:italic;font-weight:400;letter-spacing:-0.04em;color:rgba(255,255,255,0.022);white-space:nowrap;user-select:none;display:block;">Giardini</span>
+    </div>
+
     <!-- MAIN GRID -->
-    <div class="max-w-[1340px] px-8 md:px-12 mx-auto grid grid-cols-1 lg:grid-cols-12 gap-24 lg:gap-16 items-start relative z-10 w-full">
+    <div
+      class="max-w-[1340px] px-8 md:px-12 mx-auto grid grid-cols-1 lg:grid-cols-12 gap-24 lg:gap-16 items-start relative z-10 w-full">
 
       <!-- LEFT: Dark Editorial Content -->
       <div class="lg:col-span-5 flex flex-col pt-4">
@@ -775,21 +871,28 @@
         <!-- Section kicker badge — inline horizontal gold badge -->
         <div class="loc-dr d1" style="display:flex;align-items:center;gap:1rem;margin-bottom:2.75rem;">
           <div class="loc-dk-badge">
-            <span style="width:5px;height:5px;border-radius:50%;background:rgba(183,147,88,0.9);flex-shrink:0;animation:live-glow 2.2s ease-in-out infinite;"></span>
-            <span style="font-size:0.55rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:rgba(183,147,88,0.88);">04 / Localização</span>
+            <span
+              style="width:5px;height:5px;border-radius:50%;background:rgba(183,147,88,0.9);flex-shrink:0;animation:live-glow 2.2s ease-in-out infinite;"></span>
+            <span
+              style="font-size:0.55rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:rgba(183,147,88,0.88);">04
+              / Localização</span>
           </div>
           <div style="flex:1;height:1px;background:linear-gradient(to right,rgba(183,147,88,0.22),transparent);"></div>
         </div>
 
-        <!-- Monumental heading in white/gold -->  
-        <h2 class="text-[5rem] md:text-[7.5rem] leading-[0.82] mb-10 overflow-hidden pb-4 loc-dr d2" style="font-family:'Instrument Serif',serif;letter-spacing:-0.04em;margin-top:0;color:rgba(255,255,255,0.92);">
+        <!-- Monumental heading in white/gold -->
+        <h2 class="text-[5rem] md:text-[7.5rem] leading-[0.82] mb-10 overflow-hidden pb-4 loc-dr d2"
+          style="font-family:'Instrument Serif',serif;letter-spacing:-0.04em;margin-top:0;color:rgba(255,255,255,0.92);">
           <span class="block overflow-hidden"><span class="block">Visite</span></span>
-          <span class="block overflow-hidden"><span class="block"><span style="font-style:italic;font-weight:300;color:rgba(183,147,88,0.9);padding-right:0.15em;">Nossa</span><span style="color:rgba(255,255,255,0.88);">Casa</span></span></span>
+          <span class="block overflow-hidden"><span class="block"><span
+                style="font-style:italic;font-weight:300;color:rgba(183,147,88,0.9);padding-right:0.15em;">Nossa</span><span
+                style="color:rgba(255,255,255,0.88);">Casa</span></span></span>
         </h2>
 
         <!-- Description in white -->
         <div class="overflow-hidden mb-10">
-          <p class="loc-dr d3" style="font-weight:300;font-size:1.05rem;color:rgba(255,255,255,0.38);line-height:1.85;max-width:400px;padding-top:0.5rem;">
+          <p class="loc-dr d3"
+            style="font-weight:300;font-size:1.05rem;color:rgba(255,255,255,0.38);line-height:1.85;max-width:400px;padding-top:0.5rem;">
             Fácil acesso pela Av. Santos Dumont. Região nobre da Varjota, Fortaleza. Estacionamento disponível na rua.
           </p>
         </div>
@@ -803,26 +906,45 @@
           <!-- ADDRESS -->
           <div class="loc-dk-row group loc-dr d4">
             <div class="loc-dk-fineline"></div>
-            <h4 style="font-size:0.52rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.22);margin-bottom:1rem;">Localização</h4>
-            <p style="font-family:'Instrument Serif',serif;font-size:1.55rem;color:rgba(255,255,255,0.88);line-height:1.15;margin-bottom:0.4rem;letter-spacing:-0.01em;">Rua Tavares Coutinho, 580</p>
-            <p style="font-size:0.68rem;color:rgba(255,255,255,0.25);font-weight:500;letter-spacing:0.15em;text-transform:uppercase;">Varjota · Fortaleza — CE</p>
+            <h4
+              style="font-size:0.52rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.22);margin-bottom:1rem;">
+              Localização</h4>
+            <p
+              style="font-family:'Instrument Serif',serif;font-size:1.55rem;color:rgba(255,255,255,0.88);line-height:1.15;margin-bottom:0.4rem;letter-spacing:-0.01em;">
+              Rua Tavares Coutinho, 580</p>
+            <p
+              style="font-size:0.68rem;color:rgba(255,255,255,0.25);font-weight:500;letter-spacing:0.15em;text-transform:uppercase;">
+              Varjota · Fortaleza — CE</p>
           </div>
 
           <!-- HOURS -->
           <div class="loc-dk-row group loc-dr d5">
             <div class="loc-dk-fineline"></div>
-            <h4 style="font-size:0.52rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.22);margin-bottom:1rem;">Rotina</h4>
+            <h4
+              style="font-size:0.52rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.22);margin-bottom:1rem;">
+              Rotina</h4>
             <div style="display:flex;flex-direction:column;gap:1.25rem;">
               <div>
-                <p style="font-size:0.58rem;color:rgba(255,255,255,0.25);font-weight:700;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.45rem;">Terça a Sábado</p>
-                <p style="font-family:'Instrument Serif',serif;font-size:2rem;color:rgba(255,255,255,0.85);letter-spacing:-0.04em;line-height:1;">07:00 – 20:00</p>
+                <p
+                  style="font-size:0.58rem;color:rgba(255,255,255,0.25);font-weight:700;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.45rem;">
+                  Terça a Sábado</p>
+                <p
+                  style="font-family:'Instrument Serif',serif;font-size:2rem;color:rgba(255,255,255,0.85);letter-spacing:-0.04em;line-height:1;">
+                  07:00 – 20:00</p>
               </div>
               <div>
-                <p style="font-size:0.58rem;color:rgba(255,255,255,0.20);font-weight:700;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.45rem;">Domingos Especiais</p>
+                <p
+                  style="font-size:0.58rem;color:rgba(255,255,255,0.20);font-weight:700;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.45rem;">
+                  Domingos Especiais</p>
                 <div style="display:flex;align-items:center;gap:1rem;">
-                  <p style="font-family:'Instrument Serif',serif;font-size:1.3rem;color:rgba(255,255,255,0.50);letter-spacing:-0.03em;line-height:1;">07:00 – 11:00</p>
-                  <span style="width:3px;height:3px;border-radius:50%;background:rgba(183,147,88,0.4);flex-shrink:0;"></span>
-                  <p style="font-family:'Instrument Serif',serif;font-size:1.3rem;color:rgba(255,255,255,0.50);letter-spacing:-0.03em;line-height:1;">15:00 – 19:00</p>
+                  <p
+                    style="font-family:'Instrument Serif',serif;font-size:1.3rem;color:rgba(255,255,255,0.50);letter-spacing:-0.03em;line-height:1;">
+                    07:00 – 11:00</p>
+                  <span
+                    style="width:3px;height:3px;border-radius:50%;background:rgba(183,147,88,0.4);flex-shrink:0;"></span>
+                  <p
+                    style="font-family:'Instrument Serif',serif;font-size:1.3rem;color:rgba(255,255,255,0.50);letter-spacing:-0.03em;line-height:1;">
+                    15:00 – 19:00</p>
                 </div>
               </div>
             </div>
@@ -832,27 +954,38 @@
 
         <!-- CTA Button gold themed -->
         <div class="loc-dr d6">
-          <a href="https://www.google.com/maps/place/R.+Tavares+Coutinho,+1580+-+Meireles,+Fortaleza+-+CE,+60160-130/@-3.732722,-38.4916182,17z/data=!3m1!4b1!4m6!3m5!1s0x7c7487eb7893ebf:0x73ea777538ebb86c!8m2!3d-3.732722!4d-38.4890433!16s%2Fg%2F11vspm60cn?entry=ttu&g_ep=EgoyMDI2MDMyMy4xIKXMDSoASAFQAw%3D%3D" target="_blank"
-            class="loc-btn-shimmer"
+          <a href="https://www.google.com/maps/place/R.+Tavares+Coutinho,+1580+-+Meireles,+Fortaleza+-+CE,+60160-130/@-3.732722,-38.4916182,17z/data=!3m1!4b1!4m6!3m5!1s0x7c7487eb7893ebf:0x73ea777538ebb86c!8m2!3d-3.732722!4d-38.4890433!16s%2Fg%2F11vspm60cn?entry=ttu&g_ep=EgoyMDI2MDMyMy4xIKXMDSoASAFQAw%3D%3D"
+            target="_blank" class="loc-btn-shimmer"
             style="display:inline-flex;align-items:center;gap:0.8rem;padding:1.05rem 2.35rem;font-size:0.68rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;border-radius:9999px;text-decoration:none;cursor:pointer;background:rgba(183,147,88,0.12);color:rgba(183,147,88,0.9);border:1px solid rgba(183,147,88,0.28);position:relative;overflow:hidden;transition:all 0.45s cubic-bezier(0.16,1,0.3,1);backdrop-filter:blur(12px);"
             onmouseenter="this.style.background='rgba(183,147,88,0.22)';this.style.borderColor='rgba(183,147,88,0.55)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 16px 40px -8px rgba(183,147,88,0.25)';this.style.color='rgba(183,147,88,1)';this.querySelector('.loc-arr').style.transform='translate(3px,-3px)';"
-            onmouseleave="this.style.background='rgba(183,147,88,0.12)';this.style.borderColor='rgba(183,147,88,0.28)';this.style.transform='';this.style.boxShadow='';this.style.color='rgba(183,147,88,0.9)';this.querySelector('.loc-arr').style.transform='';"
-          >
+            onmouseleave="this.style.background='rgba(183,147,88,0.12)';this.style.borderColor='rgba(183,147,88,0.28)';this.style.transform='';this.style.boxShadow='';this.style.color='rgba(183,147,88,0.9)';this.querySelector('.loc-arr').style.transform='';">
             <!-- Shimmer Effect -->
             <div class="s4-beam"></div>
 
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+              <circle cx="12" cy="9" r="2.5" />
+            </svg>
             Como Chegar
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);" class="loc-arr"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round"
+              style="transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);" class="loc-arr">
+              <path d="M7 17L17 7M17 7H7M17 7v10" />
+            </svg>
           </a>
         </div>
 
       </div>
-      
-      <!-- RIGHT: Cinematic Dark Map -->
-      <div class="lg:col-span-7 w-full h-full flex items-center mt-20 lg:mt-0 relative loc-dr d4" style="perspective:2000px;">
 
-        <div class="ed-map-container relative z-10 w-full md:w-[96%] mx-auto aspect-[4/5] md:aspect-[5/6] overflow-hidden group cursor-pointer" style="border-radius:22px;box-shadow:0 32px 80px -20px rgba(0,0,0,0.65),0 0 0 1px rgba(255,255,255,0.05);outline:1px solid rgba(255,255,255,0.03);outline-offset:6px;" onclick="window.open('https://www.google.com/maps/place/R.+Tavares+Coutinho,+1580+-+Meireles,+Fortaleza+-+CE,+60160-130/@-3.732722,-38.4916182,17z/data=!3m1!4b1!4m6!3m5!1s0x7c7487eb7893ebf:0x73ea777538ebb86c!8m2!3d-3.732722!4d-38.4890433!16s%2Fg%2F11vspm60cn?entry=ttu&g_ep=EgoyMDI2MDMyMy4xIKXMDSoASAFQAw%3D%3D','_blank')">
+      <!-- RIGHT: Cinematic Dark Map -->
+      <div class="lg:col-span-7 w-full h-full flex items-center mt-20 lg:mt-0 relative loc-dr d4"
+        style="perspective:2000px;">
+
+        <div
+          class="ed-map-container relative z-10 w-full md:w-[96%] mx-auto aspect-[4/5] md:aspect-[5/6] overflow-hidden group cursor-pointer"
+          style="border-radius:22px;box-shadow:0 32px 80px -20px rgba(0,0,0,0.65),0 0 0 1px rgba(255,255,255,0.05);outline:1px solid rgba(255,255,255,0.03);outline-offset:6px;"
+          onclick="window.open('https://www.google.com/maps/place/R.+Tavares+Coutinho,+1580+-+Meireles,+Fortaleza+-+CE,+60160-130/@-3.732722,-38.4916182,17z/data=!3m1!4b1!4m6!3m5!1s0x7c7487eb7893ebf:0x73ea777538ebb86c!8m2!3d-3.732722!4d-38.4890433!16s%2Fg%2F11vspm60cn?entry=ttu&g_ep=EgoyMDI2MDMyMy4xIKXMDSoASAFQAw%3D%3D','_blank')">
 
           <!-- Corner editorial brackets -->
           <div class="loc-corner loc-corner-tl"></div>
@@ -863,25 +996,39 @@
           <div class="w-full h-full overflow-hidden relative" style="border-radius:22px;background:#1a2420;">
 
             <!-- Dark cinematic overlays -->
-            <div style="position:absolute;inset:0;z-index:10;background:rgba(13,22,16,0.62);pointer-events:none;transition:opacity 1.2s ease;" class="group-hover:opacity-[0.15]"></div>
-            <div style="position:absolute;inset:0;z-index:10;background:radial-gradient(circle at center,transparent 30%,rgba(0,0,0,0.42) 100%);pointer-events:none;"></div>
-            <div style="position:absolute;inset:0;z-index:10;background:rgba(183,147,88,0.05);pointer-events:none;transition:opacity 1.2s ease;mix-blend-mode:multiply;" class="group-hover:opacity-0"></div>
+            <div
+              style="position:absolute;inset:0;z-index:10;background:rgba(13,22,16,0.62);pointer-events:none;transition:opacity 1.2s ease;"
+              class="group-hover:opacity-[0.15]"></div>
+            <div
+              style="position:absolute;inset:0;z-index:10;background:radial-gradient(circle at center,transparent 30%,rgba(0,0,0,0.42) 100%);pointer-events:none;">
+            </div>
+            <div
+              style="position:absolute;inset:0;z-index:10;background:rgba(183,147,88,0.05);pointer-events:none;transition:opacity 1.2s ease;mix-blend-mode:multiply;"
+              class="group-hover:opacity-0"></div>
 
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.365314751761!2d-38.4870535!3d-3.7303038!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7c7487cbbacbb21%3A0x67ee1c8dcab0fc41!2sR.%20Tavares%20Coutinho%2C%20580%20-%20Varjota%2C%20Fortaleza%20-%20CE%2C%2060165-080!5e0!3m2!1spt-BR!2sbr!4v1710000000000!5m2!1spt-BR!2sbr"
               class="absolute top-[-10%] left-[-10%] w-[120%] h-[120%] border-0 pointer-events-none transition-all duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
-              style="filter:grayscale(88%) contrast(1.08) brightness(0.55);"
-              allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+              style="filter:grayscale(88%) contrast(1.08) brightness(0.55);" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
             </iframe>
 
             <!-- Bottom info bar -->
             <div class="loc-map-bar">
               <div>
-                <p style="font-size:0.48rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(183,147,88,0.65);margin-bottom:0.35rem;">Endereço</p>
-                <p style="font-family:'Instrument Serif',serif;font-size:1.1rem;font-style:italic;color:rgba(255,255,255,0.90);line-height:1.2;">Rua Tavares Coutinho, 580</p>
-                <p style="font-size:0.57rem;color:rgba(255,255,255,0.38);letter-spacing:0.12em;text-transform:uppercase;margin-top:0.25rem;">Varjota · Fortaleza · CE</p>
+                <p
+                  style="font-size:0.48rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(183,147,88,0.65);margin-bottom:0.35rem;">
+                  Endereço</p>
+                <p
+                  style="font-family:'Instrument Serif',serif;font-size:1.1rem;font-style:italic;color:rgba(255,255,255,0.90);line-height:1.2;">
+                  Rua Tavares Coutinho, 580</p>
+                <p
+                  style="font-size:0.57rem;color:rgba(255,255,255,0.38);letter-spacing:0.12em;text-transform:uppercase;margin-top:0.25rem;">
+                  Varjota · Fortaleza · CE</p>
               </div>
-              <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(183,147,88,0.82);background:rgba(183,147,88,0.1);backdrop-filter:blur(12px);padding:0.45rem 1rem;border-radius:9999px;border:1px solid rgba(183,147,88,0.2);transition:all 0.4s ease;display:inline-block;">Ver no Maps →</span>
+              <span
+                style="font-size:0.5rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(183,147,88,0.82);background:rgba(183,147,88,0.1);backdrop-filter:blur(12px);padding:0.45rem 1rem;border-radius:9999px;border:1px solid rgba(183,147,88,0.2);transition:all 0.4s ease;display:inline-block;">Ver
+                no Maps →</span>
             </div>
 
           </div>
@@ -891,12 +1038,12 @@
     </div>
 
     <!-- Scroll reveal trigger -->
-    
+
 
   </section>
 
   <!-- ══ FOOTER PREMIUM ══════════════════════════════════════════════ -->
-  
+
 
   <footer id="site-footer">
 
@@ -917,30 +1064,41 @@
           <!-- Logo -->
           <div style="display:flex;align-items:center;gap:0.85rem;margin-bottom:2rem;">
             <span style="width:28px;height:1px;background:rgba(183,147,88,0.6);display:block;flex-shrink:0;"></span>
-            <a href="#hero-pin-wrapper" class="ft-nav-link" style="font-family:'Instrument Serif',serif;font-size:1.6rem;letter-spacing:-0.01em;color:rgba(255,255,255,0.92);text-decoration:none;line-height:1;">Giardini Caf&eacute;</a>
+            <a href="#hero-pin-wrapper" class="ft-nav-link"
+              style="font-family:'Instrument Serif',serif;font-size:1.6rem;letter-spacing:-0.01em;color:rgba(255,255,255,0.92);text-decoration:none;line-height:1;">Giardini
+              Caf&eacute;</a>
           </div>
           <!-- Tagline -->
-          <p style="font-size:0.88rem;font-weight:300;line-height:1.9;color:rgba(255,255,255,0.35);max-width:320px;margin-bottom:2.5rem;">
+          <p
+            style="font-size:0.88rem;font-weight:300;line-height:1.9;color:rgba(255,255,255,0.35);max-width:320px;margin-bottom:2.5rem;">
             Um lugar onde o tempo desacelera,<br>
             o caf&eacute; &eacute; bom e a leitura tem espa&ccedil;o.
           </p>
           <!-- Social links -->
           <div style="display:flex;gap:0.75rem;">
-            <a href="https://www.instagram.com/giardinicafe?igsh=c3A1cnA2dmZtNDEx" target="_blank" class="ft-social" aria-label="Instagram">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <a href="https://www.instagram.com/giardinicafe?igsh=c3A1cnA2dmZtNDEx" target="_blank" class="ft-social"
+              aria-label="Instagram">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                 <circle cx="12" cy="12" r="4"></circle>
                 <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"></circle>
               </svg>
             </a>
-            <a href="https://www.instagram.com/giardinicafe?igsh=c3A1cnA2dmZtNDEx" target="_blank" class="ft-social" aria-label="Facebook">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <a href="https://www.instagram.com/giardinicafe?igsh=c3A1cnA2dmZtNDEx" target="_blank" class="ft-social"
+              aria-label="Facebook">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
               </svg>
             </a>
-            <a href="https://wa.me/5585994452724?text=Olá,%20gostaria%20de%20fazer%20uma%20reserva%20no%20Giardini%20Café" class="ft-social" aria-label="WhatsApp">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            <a href="https://wa.me/5585994452724?text=Olá,%20gostaria%20de%20fazer%20uma%20reserva%20no%20Giardini%20Café"
+              class="ft-social" aria-label="WhatsApp">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                </path>
               </svg>
             </a>
           </div>
@@ -948,30 +1106,47 @@
 
         <!-- COL 2: Navigation -->
         <div class="ft-reveal ft-reveal-d2">
-          <p style="font-size:0.58rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(183,147,88,0.6);margin-bottom:2rem;">Navega&ccedil;&atilde;o</p>
+          <p
+            style="font-size:0.58rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(183,147,88,0.6);margin-bottom:2rem;">
+            Navega&ccedil;&atilde;o</p>
           <nav style="display:flex;flex-direction:column;gap:1.1rem;">
             <a href="#experience" class="ft-nav-link">A Experi&ecirc;ncia</a>
             <a href="./menu.html" class="ft-nav-link">Card&aacute;pio</a>
             <a href="#location" class="ft-nav-link">Visite-nos</a>
-            <a href="./reservation.html" class="ft-nav-link" style="color:rgba(183,147,88,0.55);margin-top:0.5rem;">Reservar Mesa &rarr;</a>
+            <a href="./reservation.html" class="ft-nav-link"
+              style="color:rgba(183,147,88,0.55);margin-top:0.5rem;">Reservar Mesa &rarr;</a>
           </nav>
         </div>
 
         <!-- COL 3: Contact -->
         <div class="ft-reveal ft-reveal-d3">
-          <p style="font-size:0.58rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(183,147,88,0.6);margin-bottom:2rem;">Onde Estamos</p>
+          <p
+            style="font-size:0.58rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(183,147,88,0.6);margin-bottom:2rem;">
+            Onde Estamos</p>
           <div style="display:flex;flex-direction:column;gap:1.5rem;">
             <div>
-              <p style="font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:0.4rem;">Endere&ccedil;o</p>
-              <p style="font-size:0.88rem;font-weight:300;color:rgba(255,255,255,0.6);line-height:1.65;">Rua Tavares Coutinho, 580<br><span style="color:rgba(255,255,255,0.3);font-size:0.78rem;">Varjota &middot; Fortaleza &mdash; CE</span></p>
+              <p
+                style="font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:0.4rem;">
+                Endere&ccedil;o</p>
+              <p style="font-size:0.88rem;font-weight:300;color:rgba(255,255,255,0.6);line-height:1.65;">Rua Tavares
+                Coutinho, 580<br><span style="color:rgba(255,255,255,0.3);font-size:0.78rem;">Varjota &middot; Fortaleza
+                  &mdash; CE</span></p>
             </div>
             <div>
-              <p style="font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:0.4rem;">Hor&aacute;rio</p>
-              <p style="font-family:'Instrument Serif',serif;font-size:0.95rem;font-style:italic;color:rgba(255,255,255,0.52);line-height:1.6;">Ter &ndash; S&aacute;b &nbsp;&nbsp;07:00 &ndash; 20:00</p>
-              <p style="font-family:'Instrument Serif',serif;font-size:0.85rem;font-style:italic;color:rgba(255,255,255,0.28);line-height:1.6;">Dom &nbsp;07&ndash;11h &amp; 15&ndash;19h</p>
+              <p
+                style="font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:0.4rem;">
+                Hor&aacute;rio</p>
+              <p
+                style="font-family:'Instrument Serif',serif;font-size:0.95rem;font-style:italic;color:rgba(255,255,255,0.52);line-height:1.6;">
+                Ter &ndash; S&aacute;b &nbsp;&nbsp;07:00 &ndash; 20:00</p>
+              <p
+                style="font-family:'Instrument Serif',serif;font-size:0.85rem;font-style:italic;color:rgba(255,255,255,0.28);line-height:1.6;">
+                Dom &nbsp;07&ndash;11h &amp; 15&ndash;19h</p>
             </div>
             <div>
-              <p style="font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:0.4rem;">Contato</p>
+              <p
+                style="font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:0.4rem;">
+                Contato</p>
               <a href="mailto:giardinicafee@gmail.com"
                 style="font-size:0.82rem;font-weight:300;color:rgba(255,255,255,0.35);text-decoration:none;transition:color 0.35s ease;"
                 onmouseenter="this.style.color='rgba(183,147,88,0.8)'"
@@ -992,18 +1167,19 @@
         </p>
         <div style="display:flex;align-items:center;gap:0.6rem;opacity:0.22;">
           <div style="width:16px;height:1px;background:rgba(183,147,88,0.7);"></div>
-          <span style="font-family:'Instrument Serif',serif;font-size:0.7rem;font-style:italic;color:rgba(255,255,255,0.7);letter-spacing:0.04em;">feito com calma</span>
+          <span
+            style="font-family:'Instrument Serif',serif;font-size:0.7rem;font-style:italic;color:rgba(255,255,255,0.7);letter-spacing:0.04em;">feito
+            com calma</span>
           <div style="width:16px;height:1px;background:rgba(183,147,88,0.7);"></div>
         </div>
-        <a href="#hero-pin-wrapper" class="ft-nav-link"
-          style="font-size:0.58rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;
+        <a href="#hero-pin-wrapper" class="ft-nav-link" style="font-size:0.58rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;
             color:rgba(255,255,255,0.2);text-decoration:none;background:none;border:none;cursor:pointer;
             display:flex;align-items:center;gap:0.45rem;padding:0;
-            transition:color 0.3s ease;"
-          onmouseenter="this.style.color='rgba(183,147,88,0.7)'"
+            transition:color 0.3s ease;" onmouseenter="this.style.color='rgba(183,147,88,0.7)'"
           onmouseleave="this.style.color='rgba(255,255,255,0.2)'">
-          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 19V5M5 12l7-7 7 7"/>
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 19V5M5 12l7-7 7 7" />
           </svg>
           Topo
         </a>
@@ -1012,15 +1188,16 @@
     </div>
   </footer>
 
-  
-
-  
 
 
-  
-  
+
+
+
+
+
 
 
   <script src="assets/scripts/pages/home-hero.js"></script>
 </body>
+
 </html>
