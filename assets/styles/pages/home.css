@@ -668,15 +668,15 @@
      F. SECTION VIDEO (Reserve sua mesa) — Mobile Premium Layout
      ═════════════════════════════════════════════════════════════════ */
 
-  /* Section: natural height, no forced 100vh */
+  /* Section: taller on mobile, fills more viewport */
   #experience-video {
-    min-height: auto !important;
+    min-height: 100svh !important;
   }
 
-  /* Content wrapper: compact padding, natural stack */
+  /* Content wrapper: generous bottom padding, centered */
   #experience-video > div[style*="z-index:10"] {
-    padding: clamp(5rem, 14vw, 6.5rem) clamp(1.25rem, 6vw, 2rem) clamp(3.5rem, 9vw, 5rem) !important;
-    min-height: auto !important;
+    padding: clamp(5rem, 14vw, 6.5rem) clamp(1.25rem, 6vw, 2rem) clamp(5rem, 12vw, 7rem) !important;
+    min-height: 100svh !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -689,19 +689,19 @@
     margin-bottom: 1.5rem !important;
   }
 
-  /* Headline: dominant, fluid, tight tracking */
+  /* Headline: tight line-height to eliminate gap between 'Reserve sua mesa' and 'agora mesmo' */
   #experience-video h2 {
     font-size: clamp(2.4rem, 9.5vw, 3.4rem) !important;
-    line-height: 1.1 !important;
+    line-height: 1.0 !important;
     letter-spacing: -0.035em !important;
     text-align: center !important;
     margin-bottom: 0 !important;
   }
 
-  /* Headline wrapper: balanced gap */
+  /* Headline wrapper: tighter gap below */
   #experience-video div[style*="text-align:center;margin-bottom:1.75rem"],
   #experience-video div[style*="text-align:center;margin-bottom:2.5rem"] {
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 1.25rem !important;
     width: 100% !important;
   }
 
