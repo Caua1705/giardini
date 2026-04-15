@@ -195,8 +195,19 @@ function showFormSummary(env, imgSrc) {
   DOM.formEnvThumb.src = imgSrc;
   DOM.formEnvThumb.alt = env.name;
   DOM.formEnvName.textContent = env.name;
+
+  // Populate capacity hint
+  const capEl = document.getElementById('res-form-env-cap');
+  if (capEl) {
+    const hint = ENVIRONMENT_CAPACITY_HINTS[env.name] || (env.max_capacity ? `Até ${env.max_capacity} pessoas` : '');
+    capEl.textContent = hint;
+  }
+
   DOM.formEnvSummary.classList.add('is-visible');
-  gsap.fromTo(DOM.formEnvSummary, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .5, ease: 'power3.out' });
+  gsap.fromTo(DOM.formEnvSummary,
+    { opacity: 0, y: 14, scale: .98 },
+    { opacity: 1, y: 0, scale: 1, duration: .75, ease: 'power3.out' }
+  );
 }
 
 function hideFormSummary() {
@@ -690,6 +701,14 @@ function bindEvents() {
 
   // "Alterar" button below cards
   if (DOM.envChangeBtn) DOM.envChangeBtn.addEventListener('click', resetEnvCardSelection);
+
+  // "Alterar" button in env summary — smooth scroll back to gallery
+  const alterBtn = document.getElementById('res-form-env-alter-btn');
+  if (alterBtn) {
+    alterBtn.addEventListener('click', () => {
+      lenis.scrollTo('#reservation-flow', { offset: -80, duration: 1.4 });
+    });
+  }
 }
 
 

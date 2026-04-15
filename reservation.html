@@ -279,15 +279,24 @@
       <!-- ══ FORM WRAP ═══════════════════════════════════════════════ -->
       <div class="res-form-wrap">
 
-        <!-- ── Selected environment context (subtle, no dashboard) ── -->
+        <!-- ── Selected environment bridge — contextual form header ── -->
         <div class="res-form-env-summary" id="res-form-env-summary">
           <div class="res-form-env-thumb-wrap">
             <img id="res-form-env-thumb" src="assets/images/space.webp" alt="" />
+            <div class="res-form-env-thumb-glow"></div>
           </div>
           <div class="res-form-env-text">
-            <span class="res-form-env-kicker">Ambiente selecionado</span>
+            <span class="res-form-env-kicker">
+              <span class="res-form-env-kicker-dot"></span>
+              Ambiente selecionado
+            </span>
             <span class="res-form-env-name" id="res-form-env-name">—</span>
+            <span class="res-form-env-cap" id="res-form-env-cap"></span>
           </div>
+          <button class="res-form-env-alter-btn" id="res-form-env-alter-btn" type="button" aria-label="Alterar ambiente selecionado">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            Alterar
+          </button>
         </div>
 
         <!-- ── Steps column ─────────────────────────────────────── -->

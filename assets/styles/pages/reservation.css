@@ -558,41 +558,97 @@
 }
 .res-form-wrap::before{display:none}
 
-/* ── ENV SUMMARY — minimal context strip, no dashboard feel ─────── */
+/* ── ENV SUMMARY — premium contextual bridge ─────────────────────── */
 .res-form-env-summary{
   display:none;
   align-items:center;
-  gap:1.1rem;
-  padding:.85rem 0;
-  margin-bottom:2.5rem;
-  border-bottom:1px solid rgba(255,255,255,.07);
-  transition:opacity .4s ease;
+  gap:1.5rem;
+  padding:1.4rem 1.6rem;
+  margin-bottom:3rem;
+  background:linear-gradient(135deg,rgba(43,74,59,.14) 0%,rgba(255,255,255,.025) 100%);
+  border:1px solid rgba(255,255,255,.07);
+  border-left:2px solid rgba(183,147,88,.38);
+  border-radius:14px;
+  position:relative;overflow:hidden;
+  transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1);
+}
+.res-form-env-summary::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 80% at 0% 50%,rgba(183,147,88,.06) 0%,transparent 70%);
 }
 .res-form-env-summary.is-visible{display:flex}
 
+/* Thumbnail */
 .res-form-env-thumb-wrap{
-  width:38px;height:38px;border-radius:7px;overflow:hidden;flex-shrink:0;
-  border:1px solid rgba(255,255,255,.12);
-  opacity:.85;
+  width:64px;height:64px;border-radius:11px;overflow:hidden;flex-shrink:0;
+  border:1px solid rgba(255,255,255,.1);
+  position:relative;
 }
-.res-form-env-thumb-wrap img{width:100%;height:100%;object-fit:cover;filter:saturate(.75) brightness(.85)}
+.res-form-env-thumb-wrap img{
+  width:100%;height:100%;object-fit:cover;
+  filter:saturate(.8) brightness(.82);
+  transition:filter .6s ease;
+}
+.res-form-env-thumb-glow{
+  position:absolute;inset:0;border-radius:11px;
+  background:linear-gradient(135deg,rgba(183,147,88,.08) 0%,transparent 60%);
+  pointer-events:none;
+}
 
+/* Text group */
 .res-form-env-text{
-  display:flex;flex-direction:column;gap:.18rem;
+  display:flex;flex-direction:column;gap:.35rem;
   flex:1;min-width:0;
 }
 .res-form-env-kicker{
+  display:flex;align-items:center;gap:.5rem;
   font-size:.44rem;font-weight:700;letter-spacing:.28em;
-  text-transform:uppercase;color:rgba(183,147,88,.48);
+  text-transform:uppercase;color:rgba(183,147,88,.58);
+  line-height:1;
+}
+.res-form-env-kicker-dot{
+  width:4px;height:4px;border-radius:50%;
+  background:rgba(183,147,88,.7);flex-shrink:0;
+  animation:live-glow 2.2s ease-in-out infinite;
 }
 .res-form-env-name{
   font-family:'Instrument Serif',serif;
-  font-size:.98rem;font-style:italic;
-  color:rgba(255,255,255,.7);line-height:1;
+  font-size:1.22rem;font-style:italic;
+  color:rgba(255,255,255,.9);line-height:1.1;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  letter-spacing:-.015em;
+}
+.res-form-env-cap{
+  font-size:.75rem;font-weight:300;
+  color:rgba(255,255,255,.35);
+  font-style:italic;font-family:'Instrument Serif',serif;
+  line-height:1;
 }
 
-/* Hide the old change button and pills — removed from HTML */
+/* Alterar button */
+.res-form-env-alter-btn{
+  display:inline-flex;align-items:center;gap:.45rem;flex-shrink:0;
+  font-family:'Inter',sans-serif;font-size:.5rem;
+  font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.28);
+  background:transparent;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:8px;padding:.6rem 1rem;
+  cursor:pointer;
+  transition:color .45s cubic-bezier(.22,1,.36,1),
+             border-color .45s cubic-bezier(.22,1,.36,1),
+             background .45s cubic-bezier(.22,1,.36,1);
+  white-space:nowrap;outline:none;
+}
+.res-form-env-alter-btn:hover{
+  color:rgba(183,147,88,.82);
+  border-color:rgba(183,147,88,.25);
+  background:rgba(183,147,88,.06);
+}
+.res-form-env-alter-btn svg{opacity:.6;transition:opacity .45s ease,transform .45s cubic-bezier(.22,1,.36,1)}
+.res-form-env-alter-btn:hover svg{opacity:1;transform:translateX(-2px)}
+
+/* Hide legacy elements */
 .res-form-env-change{display:none}
 .res-form-summary-pills{display:none}
 
