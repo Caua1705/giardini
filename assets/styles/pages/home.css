@@ -113,6 +113,14 @@
     visibility: visible !important;
   }
 
+  /* Re-enable beam border for Section 3 Cardápio CTA too */
+  #featured .loc-beam-container .loc-beam-border {
+    animation: rotate-beam 4s linear infinite !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
   /* 6. Hide S4 shimmer beams that animate infinitely */
   .s4-beam {
     display: none !important;
