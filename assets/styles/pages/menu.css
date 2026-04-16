@@ -1967,6 +1967,30 @@ footer {
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — LARGE DESKTOP (min-width: 992px)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 992px) {
+  /* 1. Core Structure */
+  .menu-main-wrapper { max-width: 1140px; }
+  .menu-grid { column-gap: 5rem; }
+
+  /* 2. Product Row Expansion */
+  .menu-item { padding: 1.5rem 1.25rem; }
+  
+  /* 3. Thumbnails */
+  .item-thumb { width: 84px; height: 84px; }
+  .menu-item:has(.item-thumb) { grid-template-columns: 84px 1fr auto; }
+
+  /* 4. Typography Hierarchy */
+  .item-name { font-size: 1.3rem; }
+  .item-price { font-size: 1.10rem; }
+  .item-desc { font-size: 0.85rem; }
+  .cat-btn { font-size: 0.72rem; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
    RESPONSIVE — COMPACT PHONE (max-width: 430px)
    ═══════════════════════════════════════════════════════════════════════════ */
 
