@@ -475,8 +475,8 @@
             <p class="item-price">R$ 25</p>
             <p class="item-price" style="min-width:4.5rem;">R$ 25</p>
           </div>
-          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;" data-item-name="Caprese" data-item-desc="Queijo, tomate e manjericão." data-item-price="R$ 28 / R$ 26" data-item-image="assets/images/menu/tapioca-e-cuscuz_caprese.webp" data-item-profile="veg">
-            <div class="item-thumb"><img src="assets/images/menu/tapioca-e-cuscuz_caprese.webp" alt="Caprese"></div>
+          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;" data-item-name="Caprese" data-item-desc="Queijo, tomate e manjericão." data-item-price="R$ 28 / R$ 26" data-item-image="assets/images/menu/massa-folhada_caprese.webp" data-item-profile="veg">
+            <div class="item-thumb"><img src="assets/images/menu/massa-folhada_caprese.webp" alt="Caprese"></div>
             <div class="item-body"><h3 class="item-name">Caprese</h3><p class="item-desc">Queijo, tomate e manjericão.</p>
               <div class="item-badges"><span class="badge">Vegetariano</span></div>
             </div>
@@ -580,8 +580,8 @@
             </div>
             <div><p class="item-price">R$ 22</p></div>
           </div>
-          <div class="menu-item reveal" data-item-name="Brioche Bacon &amp; Egg" data-item-desc="Ovo cremoso, bacon crocante e mix de queijos no brioche." data-item-price="R$ 25" data-item-image="assets/images/menu/sanduiches-gourmet_brioche-bacon-e-egg.webp">
-            <div class="item-thumb"><img src="assets/images/menu/sanduiches-gourmet_brioche-bacon-e-egg.webp" alt="Brioche Bacon &amp; Egg"></div>
+          <div class="menu-item reveal" data-item-name="Brioche Bacon &amp; Egg" data-item-desc="Ovo cremoso, bacon crocante e mix de queijos no brioche." data-item-price="R$ 25" data-item-image="assets/images/menu/croissant.png">
+            <div class="item-thumb"><img src="assets/images/menu/croissant.png" alt="Brioche Bacon &amp; Egg"></div>
             <div class="item-body">
               <h3 class="item-name">Brioche Bacon &amp; Egg</h3>
               <p class="item-desc">Ovo cremoso, bacon crocante e mix de queijos no brioche.</p>
