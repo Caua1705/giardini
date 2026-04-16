@@ -516,14 +516,49 @@
       const descEl = document.getElementById('modal-desc');
       const imageEl = document.getElementById('modal-image');
       const imgWrapper = document.getElementById('modal-image-wrapper');
-      const badgesEl = document.getElementById('modal-badges');
+      const attrsContainer = document.getElementById('modal-attrs');
+
+      // Dictionary of mappings for profile and allergens
+      const iconMap = {
+        veg: { label: 'Vegetariano', icon: 'lucide:leaf' },
+        vegan: { label: 'Vegano', icon: 'lucide:leaf' },
+        hot: { label: 'Picante', icon: 'lucide:flame' },
+        new: { label: 'Novidade', icon: 'lucide:star' },
+        premium: { label: 'Premium', icon: 'lucide:gem' },
+        regional: { label: 'Regional', icon: 'lucide:map-pin' },
+        fav: { label: 'Favorito', icon: 'lucide:heart' },
+        casa: { label: 'Da Casa', icon: 'lucide:home' },
+        gluten: { label: 'Contém Glúten', icon: 'lucide:wheat' },
+        leite: { label: 'Contém Leite', icon: 'lucide:milk' },
+        lac: { label: 'Contém Lactose', icon: 'lucide:milk-off' },
+        castanhas: { label: 'Castanhas', icon: 'lucide:nut' }
+      };
+
+      function buildAttrGroup(title, itemsArr) {
+        if (!itemsArr || itemsArr.length === 0) return '';
+        let html = `<div class="modal-attr-group">
+                      <h4 class="modal-attr-heading">${title}</h4>
+                      <div class="modal-attr-list">`;
+        itemsArr.forEach(key => {
+          const dict = iconMap[key.trim()];
+          if (dict) {
+            html += `<span class="modal-attr-item">
+                       <iconify-icon icon="${dict.icon}" class="modal-attr-icon"></iconify-icon>
+                       ${dict.label}
+                     </span>`;
+          }
+        });
+        html += `</div></div>`;
+        return html;
+      }
 
       function openModal(item) {
         const name = item.getAttribute('data-item-name');
         const desc = item.getAttribute('data-item-desc');
         const price = item.getAttribute('data-item-price');
         const img = item.getAttribute('data-item-image');
-        const badges = item.getAttribute('data-item-badges');
+        const allergens = item.getAttribute('data-item-allergens');
+        const profile = item.getAttribute('data-item-profile');
 
         if (name) titleEl.innerHTML = name;
         if (price) priceEl.innerHTML = price;
@@ -543,11 +578,17 @@
           imgWrapper.style.display = 'none';
         }
 
-        if (badges) {
-          badgesEl.innerHTML = badges;
-          badgesEl.style.display = 'flex';
+        // Build semantic attribute sections
+        let attrsHtml = '';
+        if (profile) attrsHtml += buildAttrGroup('Perfil', profile.split(',').filter(Boolean));
+        if (allergens) attrsHtml += buildAttrGroup('Contém', allergens.split(',').filter(Boolean));
+
+        if (attrsHtml) {
+          attrsContainer.innerHTML = attrsHtml;
+          attrsContainer.style.display = 'flex';
         } else {
-          badgesEl.style.display = 'none';
+          attrsContainer.innerHTML = '';
+          attrsContainer.style.display = 'none';
         }
 
         modal.classList.add('is-open');

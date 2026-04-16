@@ -1117,9 +1117,9 @@ body::after { display: none; }
 .item-price {
   font-family: 'Inter', sans-serif;
   font-size: 0.92rem;
-  font-weight: 600;
+  font-weight: 500;
   font-style: normal;
-  color: var(--c-primary);
+  color: var(--c-gold);
   letter-spacing: 0;
   line-height: 1.2;
   white-space: nowrap;
@@ -1131,7 +1131,7 @@ body::after { display: none; }
   font-size: 0.48rem;
   font-weight: 500;
   letter-spacing: 0.1em;
-  color: rgba(234, 228, 217, 0.45);
+  color: rgba(183, 147, 88, 0.65);
   text-transform: uppercase;
   text-align: right;
   margin-top: 0.05rem;
@@ -1149,11 +1149,11 @@ body::after { display: none; }
 }
 
 .menu-item:hover .item-name {
-  color: var(--c-primary);
+  color: var(--c-gold);
 }
 
 .menu-item:hover .item-desc {
-  color: rgba(234, 228, 217, 0.80);
+  color: rgba(234, 228, 217, 0.90);
 }
 
 
@@ -1161,25 +1161,37 @@ body::after { display: none; }
 
 .item-badges {
   display: flex;
-  gap: 0.3rem;
+  gap: 0.6rem;
   flex-wrap: wrap;
-  margin-top: 0.3rem;
+  margin-top: 0.4rem;
 }
 
 .badge {
-  font-size: 0.42rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  padding: 0.15rem 0.5rem;
-  border-radius: 9999px;
-  background: rgba(43, 74, 59, 0.4);
-  color: rgba(234, 228, 217, 0.85);
-  border: 1px solid rgba(234, 228, 217, 0.15);
+  color: rgba(234, 228, 217, 0.65);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.badge::before {
+  content: '';
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: var(--c-gold);
+  opacity: 0.7;
 }
 
 .badge-new, .badge-veg, .badge-hot {
-  /* Inherits uniform green/ivory system */
+  /* Inherits uniform editorial system */
 }
 
 
@@ -1451,8 +1463,8 @@ footer {
 
 .modal-price {
   font-size: 1rem;
-  font-weight: 600;
-  color: var(--c-primary);
+  font-weight: 500;
+  color: var(--c-gold);
   margin-bottom: 1.25rem;
 }
 
@@ -1463,12 +1475,56 @@ footer {
   margin-bottom: 1.5rem;
 }
 
-.modal-badges {
+.modal-attr-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modal-attr-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.modal-attr-heading {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(234, 228, 217, 0.4);
+}
+
+.modal-attr-list {
   display: flex;
   flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.modal-attr-item {
+  display: inline-flex;
+  align-items: center;
   gap: 0.4rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.4rem 0.7rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.65rem;
+  color: rgba(234, 228, 217, 0.85);
+  transition: background 0.3s var(--expo);
+}
+
+.modal-attr-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.modal-attr-icon {
+  font-size: 0.95rem;
+  color: var(--c-gold);
+  opacity: 0.9;
 }
 
 /* ══ 19. CUSTOM CURSOR ═══════════════════════════════════════════════════ */
