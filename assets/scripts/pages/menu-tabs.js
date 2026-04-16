@@ -501,3 +501,77 @@
       requestAnimationFrame(animCursor);
     })();
 
+    /* ══════════════════════════════════════════════════════════════════
+       PRODUCT DETAIL MODAL / BOTTOM SHEET
+    ══════════════════════════════════════════════════════════════════ */
+    (function initDetailModal() {
+      const modal = document.getElementById('menu-modal');
+      const closeBtn = document.getElementById('modal-close');
+      const backdrop = document.getElementById('modal-backdrop');
+      
+      if (!modal) return;
+
+      const titleEl = document.getElementById('modal-title');
+      const priceEl = document.getElementById('modal-price');
+      const descEl = document.getElementById('modal-desc');
+      const imageEl = document.getElementById('modal-image');
+      const imgWrapper = document.getElementById('modal-image-wrapper');
+      const badgesEl = document.getElementById('modal-badges');
+
+      function openModal(item) {
+        const name = item.getAttribute('data-item-name');
+        const desc = item.getAttribute('data-item-desc');
+        const price = item.getAttribute('data-item-price');
+        const img = item.getAttribute('data-item-image');
+        const badges = item.getAttribute('data-item-badges');
+
+        if (name) titleEl.innerHTML = name;
+        if (price) priceEl.innerHTML = price;
+        
+        if (desc) {
+          descEl.innerHTML = desc;
+          descEl.style.display = 'block';
+        } else {
+          descEl.style.display = 'none';
+        }
+
+        if (img) {
+          imageEl.src = img;
+          imgWrapper.style.display = 'block';
+        } else {
+          imageEl.src = '';
+          imgWrapper.style.display = 'none';
+        }
+
+        if (badges) {
+          badgesEl.innerHTML = badges;
+          badgesEl.style.display = 'flex';
+        } else {
+          badgesEl.style.display = 'none';
+        }
+
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        modal.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('.menu-item').forEach(item => {
+        if (item.hasAttribute('data-item-name')) {
+          item.addEventListener('click', () => openModal(item));
+        }
+      });
+
+      closeBtn.addEventListener('click', closeModal);
+      backdrop.addEventListener('click', closeModal);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+          closeModal();
+        }
+      });
+    })();
+
