@@ -1,7 +1,7 @@
 
     gsap.registerPlugin(ScrollTrigger);
 
-    /* ── Native smooth scroll behavior (desktop only — interferes with GSAP pin on mobile) ── */
+    /* ── Native smooth scroll behavior (desktop only) ── */
     if (window.innerWidth > 767) {
       document.documentElement.style.scrollBehavior = 'smooth';
     }
@@ -11,8 +11,8 @@
     const CONFIG = {
       TOTAL_FRAMES: isMobileDevice ? 80 : 150,
       FRAMES_DIR: 'references/image-frames/menu',
-      scrollVH: isMobileDevice ? 80 : 120,
-      scrub: isMobileDevice ? 0.3 : 1.0,  // Snappier on mobile
+      scrollVH: isMobileDevice ? 80 : 85,
+      scrub: isMobileDevice ? 0.3 : 1.0,
     };
     const canvas = document.getElementById('seq-canvas');
     const ctx = canvas ? canvas.getContext('2d') : null;
@@ -81,19 +81,18 @@
       
       loadTl.to(loader, { yPercent: -105, duration: 1.2, ease: 'power4.inOut' });
 
-      // ── Force scroll to top on mobile so pin engages immediately ──
+      // ── Force scroll to top on mobile ──
       if (isMobileDevice) {
         window.scrollTo(0, 0);
       }
 
-      // ── Detect mid-scroll reload ──────────────────────────────────────
+      // ── Detect mid-scroll reload ──
       const isAlreadyScrolled = (window.scrollY || window.pageYOffset) > 10;
 
-      // Track whether hero entrance has been played and exit animations created
       let heroEntranceDone = false;
       let exitAnimsCreated = false;
 
-      // ── Always initialize hero elements in their hidden state ──
+      // ── Initial hidden state for hero elements ──
       gsap.set('#el-kicker', { opacity: 0, y: 35, filter: 'blur(14px)' });
       gsap.set('#el-h1a',    { opacity: 0, y: 45, filter: 'blur(16px)' });
       gsap.set('#el-h1b',    { opacity: 0, y: -45, filter: 'blur(16px)' });
@@ -103,7 +102,7 @@
       gsap.set('#navbar',    { opacity: 0 });
       gsap.set('#video-frame', { opacity: 0, scale: 0.94 });
 
-      // ── Reusable entrance timeline builder ──
+      // ── Entrance timeline builder ──
       function buildEntranceTl(opts) {
         const tl = gsap.timeline(opts);
         tl
@@ -130,8 +129,7 @@
       const viewport = document.getElementById('hero-viewport');
       const scrollPx = window.innerHeight * (CONFIG.scrollVH / 100);
 
-      // ── Function to create exit scrub animations ──
-      // Called AFTER entrance completes so GSAP captures start values = opacity:1
+      // ── Exit scrub animations ──
       function createExitAnimations() {
         if (exitAnimsCreated) return;
         exitAnimsCreated = true;
@@ -141,7 +139,6 @@
             opacity: 1, y: 0, filter: 'blur(0px)'
           });
           gsap.set('#video-frame', { opacity: 1 });
-          gsap.set('.product-glow', { opacity: 1 });
         }
 
         const scrollSettings = {
@@ -179,10 +176,6 @@
           opacity: 0, y: -26, filter: 'blur(6px)', ease: 'power2.in', immediateRender: false,
           scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.5}` }
         });
-        gsap.to('.product-glow', {
-          opacity: 0, ease: 'none', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.35}` }
-        });
       }
 
       if (wrapper && viewport && canvas) {
@@ -206,8 +199,6 @@
         });
 
         if (isAlreadyScrolled) {
-          // ── Mid-scroll reload path ──
-          // Body visible immediately, navbar visible, canvas ready
           document.body.style.opacity = '1';
           gsap.set('#navbar', { opacity: 1 });
           gsap.set('#video-frame', { opacity: 1, scale: 1 });
@@ -218,27 +209,20 @@
             canvas.style.transform  = 'scale(1)';
           }
 
-          // Hero text elements stay hidden (set above).
-          // Watch for the hero to come into view when user scrolls up.
-          // Use a generous threshold so the entrance plays as soon as
-          // the hero area begins entering the viewport from the bottom.
           ScrollTrigger.create({
             trigger: wrapper,
             start: 'top 90%',
             onEnterBack: () => {
               if (!heroEntranceDone) {
                 heroEntranceDone = true;
-                const entranceTl = buildEntranceTl({
-                  onComplete: () => { createExitAnimations(); }
-                });
+                buildEntranceTl({ onComplete: () => { createExitAnimations(); } });
               }
             }
           });
 
         } else {
-          // ── Normal top-load path ──
           document.body.style.opacity = '1';
-          const heroTl = buildEntranceTl({
+          buildEntranceTl({
             delay: 0.1,
             onComplete: () => { createExitAnimations(); }
           });
@@ -262,22 +246,18 @@
       const catNav = document.getElementById('cat-nav');
       const catNavInner = document.getElementById('cat-nav-inner');
       const catBtns = document.querySelectorAll('.cat-btn');
-      const sections = document.querySelectorAll('.menu-section');
+      const categoryGroups = document.querySelectorAll('.category-group');
       
       /* ── Fixed-pin observer for #cat-nav ─────────────────────────────
          overflow-x:hidden on html/body breaks position:sticky, so we
-         use position:fixed instead. We detect when the cat-nav's natural
-         document position would scroll above the navbar height, then
-         switch to fixed, and compensate the layout gap with padding.
+         use position:fixed instead.
       ──────────────────────────────────────────────────────────────── */
       const menuBody = document.getElementById('menu-body');
-      const NAVBAR_H = 72; // px: collapsed navbar height
+      const NAVBAR_H = 72;
       let catNavH = catNav.offsetHeight;
       let isPinned = false;
 
-      // Measure cat-nav natural top position once per resize
       function getCatNavTop() {
-        // When already fixed, temporarily revert to get its natural position
         if (isPinned) {
           catNav.classList.remove('is-pinned');
           if (menuBody) menuBody.style.paddingTop = '0';
@@ -300,7 +280,6 @@
         if (window.scrollY >= triggerAt && !isPinned) {
           isPinned = true;
           catNav.classList.add('is-pinned');
-          // Add padding so menu-body doesn't jump up
           if (menuBody) menuBody.style.paddingTop = catNavH + 'px';
         } else if (window.scrollY < triggerAt && isPinned) {
           isPinned = false;
@@ -309,7 +288,6 @@
         }
       }
 
-      // Measure on load (after layout settles)
       requestAnimationFrame(() => {
         catNavNaturalTop = catNav.getBoundingClientRect().top + window.scrollY;
         updatePin();
@@ -322,6 +300,7 @@
         updatePin();
       }, { passive: true });
 
+      /* ── Navbar scroll state ── */
       window.addEventListener('scroll', () => {
         if (window.scrollY > 80) {
           nav.classList.add('is-scrolled');
@@ -332,7 +311,7 @@
         }
       }, { passive: true });
 
-      /* Native Intersection Observer for reveals */
+      /* ── Reveal animations (IntersectionObserver) ── */
       const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -342,21 +321,14 @@
         });
       }, { rootMargin: "0px 0px -12% 0px" });
 
-      // Observe all reveal elements by default
       document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
+
       /* ══════════════════════════════════════════════════════════
-         CATEGORY TAB LOGIC — Anchor Navigation with Scroll
+         SCROLL-BASED CATEGORY NAVIGATION
          ══════════════════════════════════════════════════════════ */
 
-      /** Returns the scroll offset so content positions just below the main navbar,
-       *  scrolling high enough that the cat-nav bar clears the visible area. */
-      function getStickyOffset() {
-        const navH = nav ? nav.getBoundingClientRect().height : 60;
-        return navH + 120; // Increased offset to scroll 'up' (stopping higher in the document)
-      }
-
-      /** Centers the active cat-btn inside the horizontally scrollable rail. */
+      /** Centers the active cat-btn inside the scrollable rail. */
       function syncCatNavRail() {
         const activeBtn = catNavInner.querySelector('.cat-btn.active');
         if (!activeBtn) return;
@@ -369,75 +341,96 @@
         });
       }
 
-      /**
-       * setActiveTab(targetId, shouldScroll)
-       * @param {string}  targetId    - the data-target / data-parent value
-       * @param {boolean} shouldScroll - true = navigate page to top of category
-       */
-      function setActiveTab(targetId, shouldScroll = false) {
-        /* 1. Update button active states */
+      /** Set active category button by ID */
+      function setActiveCategory(targetId) {
         catBtns.forEach(btn => {
           btn.classList.toggle('active', btn.dataset.target === targetId);
         });
+        syncCatNavRail();
+      }
 
-        /* 2. Show/hide sections & re-arm reveal observers */
-        let firstSection = null;
-        sections.forEach(sec => {
-          if (sec.dataset.parent === targetId) {
-            sec.classList.add('is-active');
-            if (!firstSection) firstSection = sec;
-            sec.querySelectorAll('.reveal').forEach(el => {
-              el.classList.remove('is-visible');
-              revealObserver.observe(el);
-            });
-          } else {
-            sec.classList.remove('is-active');
+      /** Scroll to a category group smoothly */
+      function scrollToCategory(targetId) {
+        const group = document.getElementById(targetId);
+        if (!group) return;
+
+        const navH = nav ? nav.getBoundingClientRect().height : 72;
+        const catH = catNav ? catNav.offsetHeight : 50;
+        const offset = navH + catH + 24;
+        const groupTop = group.getBoundingClientRect().top + window.scrollY;
+        const target = groupTop - offset;
+
+        window.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+      }
+
+      /* ── Click handlers for category buttons ── */
+      catBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.dataset.target;
+          setActiveCategory(targetId);
+          scrollToCategory(targetId);
+        });
+      });
+
+      /* ── IntersectionObserver: track which category is in view ─────
+         Updates active nav button as user scrolls through categories.
+      ──────────────────────────────────────────────────────────────── */
+      let isUserScrolling = true; // Flag to prevent observer fighting with click-scroll
+
+      const categoryObserver = new IntersectionObserver((entries) => {
+        if (!isUserScrolling) return;
+
+        // Find the topmost visible category group
+        let topEntry = null;
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            if (!topEntry || entry.boundingClientRect.top < topEntry.boundingClientRect.top) {
+              topEntry = entry;
+            }
           }
         });
 
-        /* 3. Keep active button visible inside the cat-nav rail */
-        syncCatNavRail();
-
-        /* 4. Scroll page to the VERY TOP of the selected category.
-              We always do this on user click (shouldScroll=true).
-              Precise offset = navbar height + cat-nav height + breathing room. */
-        if (shouldScroll && firstSection) {
-          const offset     = getStickyOffset();
-          const sectionTop = firstSection.getBoundingClientRect().top;
-          const target     = window.scrollY + sectionTop - offset;
-          window.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+        if (topEntry) {
+          setActiveCategory(topEntry.target.id);
         }
-      }
-
-      /* Attach click handlers — always scroll when user picks a category */
-      catBtns.forEach(btn => {
-        btn.addEventListener('click', () => setActiveTab(btn.dataset.target, true));
+      }, {
+        rootMargin: '-20% 0px -60% 0px', // Bias toward the top portion of the viewport
+        threshold: [0, 0.1]
       });
 
-      // Initialize first tab (no scroll on page load)
-      setActiveTab('manha', false);
+      categoryGroups.forEach(group => categoryObserver.observe(group));
+
+      // Temporarily disable observer during click-to-scroll
+      catBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          isUserScrolling = false;
+          // Re-enable after scrolling settles
+          setTimeout(() => { isUserScrolling = true; }, 1200);
+        });
+      });
 
 
-
-      /* ── Intercept Hero CTA & Scroll Indicator for smooth GSAP-friendly scroll ── */
+      /* ── Hero CTA & Scroll Indicator scroll-to-menu ── */
       const scrollToMenu = (e) => {
-        e.preventDefault(); // Prevent native jump
-        const targetY = catNav.getBoundingClientRect().top + window.scrollY - 76; // Accommodate sticky nav height & GSAP scrub
-        window.scrollTo({ top: targetY, behavior: 'smooth' });
-        setActiveTab('manha');
+        e.preventDefault();
+        const menuStart = document.getElementById('menu-start');
+        if (menuStart) {
+          const targetY = menuStart.getBoundingClientRect().top + window.scrollY - 76;
+          window.scrollTo({ top: targetY, behavior: 'smooth' });
+        }
 
         if (mobileMenu && mobileMenu.classList.contains('open')) {
           mobileMenu.classList.remove('open');
         }
       };
 
-      const heroCta = document.querySelector('.loc-beam-container[href="#manha"]');
+      const heroCta = document.querySelector('.loc-beam-container[href="#menu-start"]');
       if (heroCta) heroCta.addEventListener('click', scrollToMenu);
 
-      const navSabores = document.querySelector('.nav-link[href="#manha"]');
+      const navSabores = document.querySelector('.nav-link[href="#menu-start"]');
       if (navSabores) navSabores.addEventListener('click', scrollToMenu);
 
-      const mobileCardapio = document.querySelector('.mobile-link[href="#manha"]');
+      const mobileCardapio = document.querySelector('.mobile-link[href="#menu-start"]');
       if (mobileCardapio) mobileCardapio.addEventListener('click', scrollToMenu);
 
       const scrollIndicator = document.getElementById('el-scroll');
@@ -445,8 +438,11 @@
         scrollIndicator.style.pointerEvents = 'auto';
         scrollIndicator.style.cursor = 'pointer';
         scrollIndicator.addEventListener('click', () => {
-          const targetY = catNav.getBoundingClientRect().top + window.scrollY - 76;
-          window.scrollTo({ top: targetY, behavior: 'smooth' });
+          const menuStart = document.getElementById('menu-start');
+          if (menuStart) {
+            const targetY = menuStart.getBoundingClientRect().top + window.scrollY - 76;
+            window.scrollTo({ top: targetY, behavior: 'smooth' });
+          }
         });
       }
     }
@@ -458,88 +454,15 @@
     hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
     mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
     
-    // Closer menu when a link is clicked
     document.querySelectorAll('.mobile-link').forEach(link => {
       link.addEventListener('click', () => mobileMenu.classList.remove('open'));
     });
 
-    /* ══════════════════════════════════════════════════════════════════
-       AMBIENT PARTICLE SYSTEM — floating golden motes
-    ══════════════════════════════════════════════════════════════════ */
-    (function initParticles() {
-      if (window.innerWidth <= 767) return; // Skip on mobile — no GPU budget for particles
-      const canvas = document.getElementById('particle-canvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-
-      let W, H;
-      const PARTICLES = [];
-      const COUNT = 28;
-
-      function resize() {
-        W = canvas.width  = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-      }
-      window.addEventListener('resize', resize);
-      resize();
-
-      function rand(min, max) { return Math.random() * (max - min) + min; }
-
-      function createParticle() {
-        return {
-          x:     rand(0, W),
-          y:     rand(0, H),
-          r:     rand(0.6, 2.2),
-          alpha: rand(0.04, 0.22),
-          vx:    rand(-0.12, 0.12),
-          vy:    rand(-0.22, -0.06),   // always drift upward, slowly
-          life:  rand(0.4, 1),         // phase offset for pulse
-          speed: rand(0.003, 0.009),   // pulse speed
-        };
-      }
-
-      for (let i = 0; i < COUNT; i++) PARTICLES.push(createParticle());
-
-      let raf;
-      function tick(t) {
-        ctx.clearRect(0, 0, W, H);
-
-        PARTICLES.forEach(p => {
-          p.life += p.speed;
-          const pulse = 0.55 + 0.45 * Math.sin(p.life * Math.PI * 2);
-          const a = p.alpha * pulse;
-
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(183, 147, 88, ${a.toFixed(3)})`;
-          ctx.fill();
-
-          p.x += p.vx;
-          p.y += p.vy;
-
-          // Wrap around edges
-          if (p.y < -10) { p.y = H + 5; p.x = rand(0, W); }
-          if (p.x < -10) { p.x = W + 5; }
-          if (p.x > W + 10) { p.x = -5; }
-        });
-
-        raf = requestAnimationFrame(tick);
-      }
-      raf = requestAnimationFrame(tick);
-
-      // Pause when tab is hidden to save CPU
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) cancelAnimationFrame(raf);
-        else raf = requestAnimationFrame(tick);
-      });
-    })();
-
 
     /* ══════════════════════════════════════════════════════════════════
-       CUSTOM CURSOR — Magnetic golden dot with lagging ring
+       CUSTOM CURSOR — Green dot with lagging ring
     ══════════════════════════════════════════════════════════════════ */
     (function initCursor() {
-      // Only on pointer:fine devices (desktop)
       if (!window.matchMedia('(pointer: fine)').matches) return;
 
       const dot  = document.getElementById('custom-cursor');
@@ -548,7 +471,7 @@
 
       let mx = window.innerWidth / 2;
       let my = window.innerHeight / 2;
-      let rx = mx, ry = my;   // ring position (lagged)
+      let rx = mx, ry = my;
 
       document.addEventListener('mousemove', e => {
         mx = e.clientX;
@@ -565,11 +488,9 @@
       });
 
       function animCursor() {
-        // Dot: instant
         dot.style.left = mx + 'px';
         dot.style.top  = my + 'px';
 
-        // Ring: lerp for magnetic lag
         rx += (mx - rx) * 0.12;
         ry += (my - ry) * 0.12;
         ring.style.left = rx + 'px';
@@ -580,43 +501,3 @@
       requestAnimationFrame(animCursor);
     })();
 
-
-    /* ══════════════════════════════════════════════════════════════════
-       WATERMARK LETTERS — inject phantom letter behind each section header
-    ══════════════════════════════════════════════════════════════════ */
-    (function injectWatermarks() {
-      const headers = document.querySelectorAll('.section-header');
-      headers.forEach(header => {
-        const kicker = header.querySelector('.section-kicker');
-        if (!kicker) return;
-        const letter = kicker.textContent.trim().charAt(0).toUpperCase();
-        const wm = document.createElement('span');
-        wm.className = 'section-watermark';
-        wm.textContent = letter;
-        wm.setAttribute('aria-hidden', 'true');
-        header.appendChild(wm);
-      });
-    })();
-
-
-    /* ══════════════════════════════════════════════════════════════════
-       SCROLL DEPTH — add body class for orb intensity boost
-    ══════════════════════════════════════════════════════════════════ */
-    (function trackScrollDepth() {
-      const threshold = window.innerHeight * 1.5;
-      let ticking = false;
-      window.addEventListener('scroll', () => {
-        if (!ticking) {
-          requestAnimationFrame(() => {
-            document.body.classList.toggle('is-scrolled-deep', window.scrollY > threshold);
-            ticking = false;
-          });
-          ticking = true;
-        }
-      }, { passive: true });
-    })();
-
-
-
-
-  

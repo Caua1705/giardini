@@ -1,0 +1,503 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MENU-LIGHT.CSS — Giardini Café Light Theme Override
+   ═══════════════════════════════════════════════════════════════════════════
+   Loaded AFTER menu.css to force all elements into the homepage's
+   cream (#FDFBF7) / green (#2B4A3B) palette.
+   
+   Design tokens (from base.css):
+     --c-bg:      #FDFBF7  (warm ivory)
+     --c-dark:    #1A1A1A  (near-black)
+     --c-primary: #2B4A3B  (forest green)
+     --c-accent:  #EAE4D9  (warm beige)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─── 1. BODY & GLOBAL ──────────────────────────────────────────────────── */
+
+body {
+  background: var(--c-bg) !important;
+  color: var(--c-dark) !important;
+}
+
+body::before {
+  opacity: 0.15 !important;
+}
+
+body::after {
+  display: none !important;
+}
+
+
+/* ─── 2. AMBIENT EFFECTS — Disable heavy layers on light bg ─────────────── */
+
+#lateral-vignette,
+#particle-canvas,
+#menu-orb-1,
+#menu-orb-2,
+.product-glow,
+.product-shadow {
+  display: none !important;
+}
+
+.noise-overlay {
+  opacity: 0.04 !important;
+  mix-blend-mode: multiply !important;
+}
+
+.hero-grain {
+  opacity: 0.08 !important;
+}
+
+
+/* ─── 3. LOADER — Light ─────────────────────────────────────────────────── */
+
+.loader {
+  background: var(--c-bg) !important;
+}
+
+.loader-text {
+  color: var(--c-primary) !important;
+  -webkit-text-fill-color: var(--c-primary) !important;
+  background: none !important;
+}
+
+.loader-tagline {
+  color: rgba(26, 26, 26, 0.40) !important;
+}
+
+.loader-track {
+  background: rgba(43, 74, 59, 0.08) !important;
+}
+
+.loader-bar {
+  background: var(--c-primary) !important;
+}
+
+
+/* ─── 4. NAVBAR — Always light ────────────────────────────────────────── */
+
+#navbar,
+#navbar.is-scrolled {
+  background-color: rgba(253, 251, 247, 0.97) !important;
+  backdrop-filter: blur(20px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.4) !important;
+  border-bottom: 1px solid rgba(43, 74, 59, 0.06) !important;
+  box-shadow: 0 1px 0 rgba(43, 74, 59, 0.03) !important;
+}
+
+#navbar .nav-logo,
+#navbar.is-scrolled .nav-logo {
+  color: var(--c-primary) !important;
+  -webkit-text-fill-color: var(--c-primary) !important;
+}
+
+#navbar .nav-link,
+#navbar.is-scrolled .nav-link {
+  color: rgba(26, 26, 26, 0.45) !important;
+}
+
+#navbar .nav-link:hover,
+#navbar.is-scrolled .nav-link:hover {
+  color: var(--c-primary) !important;
+}
+
+.nav-hamburger,
+#navbar.is-scrolled .nav-hamburger {
+  color: var(--c-dark) !important;
+}
+
+.nav-cta,
+.is-scrolled .nav-cta {
+  border-color: var(--c-primary) !important;
+  color: var(--c-primary) !important;
+  background: transparent !important;
+}
+
+.nav-cta:hover,
+.is-scrolled .nav-cta:hover {
+  background: var(--c-primary) !important;
+  color: #fff !important;
+}
+
+
+/* ─── 5. HERO — Keep dark, add gradient bridge ────────────────────────── */
+/* Hero stays cinematic dark. We add a gradient at the bottom to
+   smoothly transition into the cream menu body. */
+
+#hero-pin-wrapper {
+  position: relative !important;
+}
+
+#hero-pin-wrapper::after {
+  content: '' !important;
+  display: block !important;
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 180px !important;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(253, 251, 247, 0.3) 30%,
+    rgba(253, 251, 247, 0.7) 60%,
+    var(--c-bg) 100%
+  ) !important;
+  z-index: 10 !important;
+  pointer-events: none !important;
+}
+
+#hero-bridge {
+  display: none !important;
+}
+
+
+/* ─── 6. CATEGORY NAV — Light glass pill ──────────────────────────────── */
+
+#cat-nav {
+  background: transparent !important;
+}
+
+.cat-nav-inner {
+  background: rgba(253, 251, 247, 0.92) !important;
+  backdrop-filter: blur(16px) saturate(1.3) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(1.3) !important;
+  border-bottom: 1px solid rgba(43, 74, 59, 0.06) !important;
+  box-shadow: none !important;
+}
+
+#cat-nav.is-pinned .cat-nav-inner {
+  background: rgba(253, 251, 247, 0.97) !important;
+  box-shadow: 0 1px 3px rgba(43, 74, 59, 0.04) !important;
+}
+
+.cat-btn {
+  color: rgba(26, 26, 26, 0.30) !important;
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
+.cat-btn:hover {
+  color: rgba(26, 26, 26, 0.55) !important;
+}
+
+.cat-btn.active {
+  color: var(--c-primary) !important;
+}
+
+.cat-btn.active::before,
+.cat-btn.active::after {
+  background: var(--c-primary) !important;
+}
+
+
+/* ─── 7. MENU BODY — Transparent over cream body ──────────────────────── */
+
+.menu-main-wrapper,
+#menu-body {
+  background: transparent !important;
+}
+
+.menu-main-wrapper::before,
+.menu-main-wrapper::after,
+#menu-body::before,
+#menu-body::after {
+  display: none !important;
+}
+
+
+/* ─── 8. SECTION HEADERS — Dark text, green accent ───────────────────── */
+
+.section-header {
+  border-bottom-color: rgba(43, 74, 59, 0.08) !important;
+}
+
+.section-kicker {
+  color: var(--c-primary) !important;
+  opacity: 0.55 !important;
+}
+
+.section-title {
+  color: var(--c-dark) !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--c-dark) !important;
+  background-clip: unset !important;
+  -webkit-background-clip: unset !important;
+  animation: none !important;
+}
+
+.section-title em {
+  color: var(--c-primary) !important;
+  -webkit-text-fill-color: var(--c-primary) !important;
+}
+
+.section-count {
+  color: rgba(26, 26, 26, 0.12) !important;
+}
+
+
+/* ─── 9. MENU ITEMS — Light theme, thumbnail support ─────────────────── */
+
+.menu-item {
+  display: grid !important;
+  grid-template-columns: 1fr auto !important;
+  align-items: center !important;
+  gap: 0.25rem 1rem !important;
+  padding: 1rem 0 !important;
+  margin-bottom: 0 !important;
+  border-bottom: 1px solid rgba(43, 74, 59, 0.06) !important;
+  transition: border-color 0.3s ease !important;
+}
+
+.menu-item:last-child {
+  border-bottom: none !important;
+}
+
+/* 3-column layout when thumbnail present */
+.menu-item:has(.item-thumb) {
+  grid-template-columns: 56px 1fr auto !important;
+}
+
+/* Thumbnail styling */
+.item-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: rgba(43, 74, 59, 0.03);
+}
+
+.item-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menu-item:hover .item-thumb img {
+  transform: scale(1.08);
+}
+
+/* Typography */
+.item-name {
+  font-family: 'Instrument Serif', serif !important;
+  font-size: 1.15rem !important;
+  color: var(--c-dark) !important;
+  -webkit-text-fill-color: var(--c-dark) !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0 !important;
+  transition: color 0.35s ease !important;
+}
+
+.item-desc {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.78rem !important;
+  font-weight: 400 !important;
+  color: rgba(26, 26, 26, 0.42) !important;
+  -webkit-text-fill-color: rgba(26, 26, 26, 0.42) !important;
+  line-height: 1.45 !important;
+}
+
+.item-price {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.92rem !important;
+  font-weight: 600 !important;
+  font-style: normal !important;
+  color: var(--c-primary) !important;
+  -webkit-text-fill-color: var(--c-primary) !important;
+  letter-spacing: 0 !important;
+  line-height: 1.2 !important;
+  padding-right: 0 !important;
+}
+
+.item-price-sub {
+  color: rgba(26, 26, 26, 0.25) !important;
+}
+
+/* Hover states */
+.menu-item:hover {
+  border-bottom-color: rgba(43, 74, 59, 0.12) !important;
+}
+
+.menu-item:hover .item-name {
+  color: var(--c-primary) !important;
+  -webkit-text-fill-color: var(--c-primary) !important;
+}
+
+.menu-item:hover .item-desc {
+  color: rgba(26, 26, 26, 0.55) !important;
+  -webkit-text-fill-color: rgba(26, 26, 26, 0.55) !important;
+}
+
+
+/* ─── 10. BADGES — Earth-toned ───────────────────────────────────────── */
+
+.badge-new {
+  background: rgba(43, 74, 59, 0.07) !important;
+  color: rgba(43, 74, 59, 0.65) !important;
+}
+
+.badge-veg {
+  background: rgba(60, 140, 80, 0.08) !important;
+  color: rgba(45, 115, 60, 0.75) !important;
+}
+
+.badge-hot {
+  background: rgba(190, 75, 40, 0.07) !important;
+  color: rgba(175, 70, 45, 0.72) !important;
+}
+
+
+/* ─── 11. MENU GRID — Desktop 2-column ───────────────────────────────── */
+
+.menu-grid {
+  column-gap: 4rem !important;
+}
+
+
+/* ─── 12. PDF / DOWNLOAD SECTION — Light ──────────────────────────────── */
+
+#pdf-section {
+  background: rgba(43, 74, 59, 0.025) !important;
+  border-top: 1px solid rgba(43, 74, 59, 0.06);
+  border-bottom: 1px solid rgba(43, 74, 59, 0.06);
+}
+
+.pdf-label {
+  color: rgba(43, 74, 59, 0.45) !important;
+}
+
+.pdf-label::before,
+.pdf-label::after {
+  background: rgba(43, 74, 59, 0.18) !important;
+}
+
+.pdf-heading {
+  color: var(--c-dark) !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--c-dark) !important;
+  background-clip: unset !important;
+  -webkit-background-clip: unset !important;
+  animation: none !important;
+}
+
+.pdf-sub {
+  color: rgba(26, 26, 26, 0.42) !important;
+}
+
+.pdf-btn,
+.nav-btn {
+  background: var(--c-primary) !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+.pdf-btn:hover,
+.nav-btn:hover {
+  background: #1f3a2d !important;
+}
+
+
+/* ─── 13. FOOTER — Light ──────────────────────────────────────────────── */
+
+footer {
+  background: rgba(43, 74, 59, 0.03) !important;
+  border-top: 1px solid rgba(43, 74, 59, 0.06) !important;
+}
+
+.footer-logo {
+  color: var(--c-dark) !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--c-dark) !important;
+  animation: none !important;
+}
+
+.footer-copy {
+  color: rgba(26, 26, 26, 0.25) !important;
+}
+
+.footer-link {
+  border-color: rgba(43, 74, 59, 0.08) !important;
+  background: rgba(43, 74, 59, 0.03) !important;
+  color: var(--c-primary) !important;
+}
+
+.footer-link:hover {
+  background: rgba(43, 74, 59, 0.06) !important;
+}
+
+
+/* ─── 14. CUSTOM CURSOR — Green on light ──────────────────────────────── */
+
+#custom-cursor {
+  background: rgba(43, 74, 59, 0.80) !important;
+  mix-blend-mode: normal !important;
+}
+
+#custom-cursor-ring {
+  border-color: rgba(43, 74, 59, 0.18) !important;
+}
+
+
+/* ─── 15. SECTION WATERMARKS — Subtle on light ───────────────────────── */
+
+.section-header .section-watermark {
+  -webkit-text-stroke-color: rgba(43, 74, 59, 0.025) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — Desktop-first adjustments
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 768px) {
+  .item-thumb {
+    width: 72px !important;
+    height: 72px !important;
+    border-radius: 12px !important;
+  }
+
+  .menu-item:has(.item-thumb) {
+    grid-template-columns: 72px 1fr auto !important;
+  }
+
+  .item-name {
+    font-size: 1.2rem !important;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Tighter spacing on mobile */
+  .menu-item {
+    padding: 0.85rem 0 !important;
+  }
+
+  .item-name {
+    font-size: 1.05rem !important;
+  }
+
+  .item-desc {
+    font-size: 0.72rem !important;
+  }
+
+  .item-price {
+    font-size: 0.85rem !important;
+  }
+
+  /* Hero bridge shorter on mobile */
+  #hero-pin-wrapper::after {
+    height: 120px !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DUAL-PRICE ITEMS (Tapioca/Cuscuz section)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* The inline styles on dual-price items use dark-aware colors.
+   Override the inline color references. */
+.menu-section[id="tapioca"] .reveal[style*="grid-template-columns"] span[style*="color"] {
+  color: rgba(26, 26, 26, 0.30) !important;
+}

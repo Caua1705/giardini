@@ -22,7 +22,7 @@
       theme: {
         extend: {
           colors: {
-            'c-bg': '#FDFBF7',
+            'c-bg': '#E4EDE6',
             'c-dark': '#1A1A1A',
             'c-primary': '#2B4A3B',
             'c-accent': '#EAE4D9',
@@ -42,13 +42,9 @@
   <!-- GSAP + Lenis -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
-  
-
-
-
-
   <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+  <!-- Styles — unified green-atmospheric theme -->
   <link rel="stylesheet" href="assets/styles/base.css">
   <link rel="stylesheet" href="assets/styles/layout.css">
   <link rel="stylesheet" href="assets/styles/components.css">
@@ -61,16 +57,16 @@
   <div id="custom-cursor" aria-hidden="true"></div>
   <div id="custom-cursor-ring" aria-hidden="true"></div>
 
-  <!-- Lateral Vignette: editorial framing of content column -->
+  <!-- Lateral Vignette -->
   <div id="lateral-vignette" aria-hidden="true"></div>
 
   <!-- Noise -->
   <div class="noise-overlay"></div>
 
-  <!-- Ambient canvas: floating golden motes -->
+  <!-- Ambient canvas (hidden in light theme) -->
   <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
-  <!-- Ambient menu orbs: warm atmosphere behind the content -->
+  <!-- Ambient menu orbs (hidden in light theme) -->
   <div id="menu-orb-1" aria-hidden="true"></div>
   <div id="menu-orb-2" aria-hidden="true"></div>
 
@@ -89,7 +85,7 @@
       <iconify-icon icon="lucide:x"></iconify-icon>
     </button>
     <a class="mobile-link" href="./index.html">Início</a>
-    <a class="mobile-link" href="#manha" style="color:var(--c-primary)">Cardápio</a>
+    <a class="mobile-link" href="#menu-start" style="color:var(--c-primary)">Cardápio</a>
     <a class="mobile-link" href="./index.html#location">Localização</a>
     <a class="mobile-link" href="./reservation.html">Reservar</a>
   </div>
@@ -101,14 +97,13 @@
     <!-- Center -->
     <div class="nav-menu">
       <a href="./index.html" class="nav-link">Início</a>
-      <a href="#manha" class="nav-link">Sabores</a>
+      <a href="#menu-start" class="nav-link">Sabores</a>
       <a href="./index.html#location" class="nav-link">Visite-nos</a>
     </div>
 
     <!-- Right -->
     <div class="nav-actions">
       <a href="./reservation.html" class="nav-cta">
-        <!-- Shimmer Beam Effect -->
         <span class="s4-beam"></span>
         <span style="position: relative; z-index: 2;">Reservar</span>
         <svg style="position: relative; z-index: 2;" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -136,7 +131,6 @@
 
       <div class="hero-video-overlay"></div>
       <div class="hero-grain"></div>
-      <!-- Text scrim: dedicated dark backdrop behind copy only — z9, above cup, below content -->
       <div class="hero-text-scrim" aria-hidden="true"></div>
 
       <div class="hero-content">
@@ -155,7 +149,7 @@
           Para quem aprecia a diferença.
         </p>
         <div class="hero-cta-wrap" id="el-cta">
-          <a href="#manha" class="loc-beam-container group relative overflow-hidden transition-transform duration-700" 
+          <a href="#menu-start" class="loc-beam-container group relative overflow-hidden transition-transform duration-700" 
              style="padding: 2px; background: linear-gradient(135deg, rgba(183,147,88,0.4) 0%, rgba(183,147,88,0.1) 100%); display:inline-flex; border-radius:9999px;">
             <div class="loc-beam-border" style="background: conic-gradient(from 0deg at 50% 50%, transparent 20%, rgba(183,147,88,0.85) 60%, rgba(183,147,88,1) 100%, transparent 100%); filter: blur(1.5px); width: 400%; height: 400%; top: -150%; left: -150%; opacity: 1 !important; z-index: 0; pointer-events: none; animation: rotate-beam 4s linear infinite;"></div>
             <div class="hero-btn-primary" style="position: relative; z-index: 10; border-radius: 9999px;">
@@ -174,7 +168,6 @@
         <div class="hero-scroll-line"></div>
       </div>
 
-      <!-- Bridge element: appears during transition to guide user into the menu -->
       <div id="hero-bridge" aria-hidden="true">
         <span class="hero-bridge-label">Cardápio</span>
         <div class="hero-bridge-line"></div>
@@ -182,25 +175,31 @@
     </section>
   </div>
 
-  <!-- ════ NEW WRAPPER ═════════════════════════════════════════════════ -->
-  <div class="menu-main-wrapper">
-    <!-- ════ CATEGORY NAV (Editorial Sidebar) ══════════════════════════ -->
+  <!-- ════ MENU WRAPPER ═════════════════════════════════════════════════ -->
+  <div class="menu-main-wrapper" id="menu-start">
+    <!-- ════ CATEGORY NAV — Scroll anchors ══════════════════════════ -->
     <nav id="cat-nav" aria-label="Categorias do cardápio">
       <div class="cat-nav-inner" id="cat-nav-inner">
-        <button class="cat-btn active" data-target="manha">Manhã</button>
-        <button class="cat-btn" data-target="comidas">Comidas</button>
-        <button class="cat-btn" data-target="cafebebidas">Café &amp; Bebidas</button>
-        <button class="cat-btn" data-target="saudavel">Saudável</button>
-        <button class="cat-btn" data-target="doces">Doces</button>
-        <button class="cat-btn" data-target="extras">Extras</button>
+        <button class="cat-btn active" data-target="cat-manha">Manhã</button>
+        <button class="cat-btn" data-target="cat-comidas">Comidas</button>
+        <button class="cat-btn" data-target="cat-cafebebidas">Café &amp; Bebidas</button>
+        <button class="cat-btn" data-target="cat-saudavel">Saudável</button>
+        <button class="cat-btn" data-target="cat-doces">Doces</button>
+        <button class="cat-btn" data-target="cat-extras">Extras</button>
       </div>
     </nav>
 
-    <!-- ════ MENU BODY ══════════════════════════════════════════════════ -->
+    <!-- ════ MENU BODY — All sections visible ═══════════════════════ -->
     <main id="menu-body">
 
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         CATEGORY: MANHÃ
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="category-group" id="cat-manha">
+
     <!-- ── Croissants ──────────────────────────────── -->
-    <section class="menu-section" id="croissants" data-parent="manha">
+    <section class="menu-section" id="croissants">
       <div class="menu-container">
         <div class="section-header reveal">
           <div>
@@ -212,106 +211,52 @@
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">O Clássico</h3>
-              <p class="item-desc">Acompanha manteiga ou geleia da casa.</p>
+              <p class="item-desc">Com manteiga ou geleia da casa.</p>
             </div>
-            <div>
-              <p class="item-price">R$ 15</p>
-            </div>
+            <div><p class="item-price">R$ 15</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">Brie e Mel</h3>
-              <p class="item-desc">Queijo brie maçaricado e mel.</p>
+              <p class="item-desc">Brie maçaricado e mel.</p>
             </div>
-            <div>
-              <p class="item-price">R$ 34</p>
-            </div>
+            <div><p class="item-price">R$ 34</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">Caprese</h3>
-              <p class="item-desc">Mussarela de búfala, tomate confit e pesto.</p>
+              <p class="item-desc">Búfala, tomate confit e pesto.</p>
               <div class="item-badges"><span class="badge badge-veg">Vegetariano</span></div>
             </div>
-            <div>
-              <p class="item-price">R$ 35</p>
-            </div>
+            <div><p class="item-price">R$ 35</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">Doce de Leite Artesanal</h3>
             </div>
-            <div>
-              <p class="item-price">R$ 28</p>
-            </div>
+            <div><p class="item-price">R$ 28</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">Frango com Requeijão</h3>
-              <p class="item-desc">Frango com requeijão</p>
+              <p class="item-desc">Frango desfiado e requeijão.</p>
             </div>
-            <div>
-              <p class="item-price">R$ 28</p>
-            </div>
+            <div><p class="item-price">R$ 28</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">Sertaneja</h3>
-              <p class="item-desc">Carne de sol, purê de jerimum e picles de cebola roxa.</p>
+              <p class="item-desc">Carne de sol, purê de jerimum e picles roxo.</p>
               <div class="item-badges"><span class="badge badge-hot">Casa</span></div>
             </div>
-            <div>
-              <p class="item-price">R$ 30</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Bruschettas ──────────────────────────────── -->
-    <section class="menu-section" id="bruschettas" data-parent="comidas">
-      <div class="menu-container">
-        <div class="section-header reveal">
-          <div>
-            <p class="section-kicker">Bruschettas</p>
-            <h2 class="section-title">Pão & <em>tradição</em></h2>
-          </div><span class="section-count">03 itens</span>
-        </div>
-        <div class="menu-grid">
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Confit Rústica</h3>
-              <p class="item-desc">Tomates confit, manjericão fresco e parmesão.</p>
-              <div class="item-badges"><span class="badge badge-veg">Vegetariano</span></div>
-            </div>
-            <div>
-              <p class="item-price">R$ 15</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Brie com Parma</h3>
-              <p class="item-desc">Queijo brie derretido, presunto de parma e mel.</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 30</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Vigneto Cremoso</h3>
-              <p class="item-desc">Homus de queijo gorgonzola e castanha de caju, uvas verdes assadas, mel e manjericão</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 23</p>
-            </div>
+            <div><p class="item-price">R$ 30</p></div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ── Pães & Chapa ──────────────────────────────── -->
-    <section class="menu-section" id="paes" data-parent="manha">
+    <section class="menu-section" id="paes">
       <div class="menu-container">
         <div class="section-header reveal">
           <div>
@@ -325,383 +270,49 @@
               <h3 class="item-name">Pão na Chapa</h3>
               <p class="item-desc">Com manteiga da terra ou requeijão.</p>
             </div>
-            <div>
-              <p class="item-price">R$ 7</p>
-            </div>
+            <div><p class="item-price">R$ 7</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">Pão com Ovo</h3>
               <p class="item-desc">Ovo frito ou mexido cremoso.</p>
             </div>
-            <div>
-              <p class="item-price">R$ 10</p>
-            </div>
+            <div><p class="item-price">R$ 10</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">Misto Quente Clássico</h3>
               <p class="item-desc">Presunto e queijo derretido.</p>
             </div>
-            <div>
-              <p class="item-price">R$ 15</p>
-            </div>
+            <div><p class="item-price">R$ 15</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">Queijo Quente</h3>
+              <p class="item-desc">Queijo derretido no pão tostado.</p>
             </div>
-            <div>
-              <p class="item-price">R$ 13</p>
-            </div>
+            <div><p class="item-price">R$ 13</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">Frango Giardini</h3>
               <p class="item-desc">Frango desfiado e requeijão.</p>
             </div>
-            <div>
-              <p class="item-price">R$ 20</p>
-            </div>
+            <div><p class="item-price">R$ 20</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">Pão Sertanejo</h3>
               <p class="item-desc">Carne de sol refogada e queijo.</p>
             </div>
-            <div>
-              <p class="item-price">R$ 24</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Tapioca & Cuscuz ──────────────────────────── -->
-    <section class="menu-section" id="tapioca" data-parent="comidas">
-      <div class="menu-container">
-        <div class="section-header reveal">
-          <div>
-            <p class="section-kicker">Tapioca &amp; Cuscuz</p>
-            <h2 class="section-title">Raízes <em>nordestinas</em></h2>
-          </div><span class="section-count">07 itens</span>
-        </div>
-        <!-- dual-price header -->
-        <div class="reveal"
-          style="display:grid;grid-template-columns:1fr auto auto;gap:1rem;align-items:center;padding:0 0 1.25rem;margin-bottom:1.5rem;border-bottom:1px solid rgba(26,26,26,0.07);">
-          <span></span>
-          <span
-            style="font-size:0.55rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(26,26,26,0.3);text-align:right;white-space:nowrap;">Cuscuz</span>
-          <span
-            style="font-size:0.55rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(26,26,26,0.3);text-align:right;white-space:nowrap;min-width:4.5rem;">Tapioca</span>
-        </div>
-        <div class="menu-grid">
-          <!-- dual-price item -->
-          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
-            <div class="item-body">
-              <h3 class="item-name">Tradicional</h3>
-              <p class="item-desc">Manteiga ou Leite de Coco</p>
-            </div>
-            <p class="item-price">R$ 18</p>
-            <p class="item-price" style="min-width:4.5rem;">R$ 15</p>
-          </div>
-          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
-            <div class="item-body">
-              <h3 class="item-name">Classic Eggs</h3>
-              <p class="item-desc">Escolha entre ovo frito ou mexido</p>
-            </div>
-            <p class="item-price">R$ 20</p>
-            <p class="item-price" style="min-width:4.5rem;">R$ 18</p>
-          </div>
-          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
-            <div class="item-body">
-              <h3 class="item-name">Queijo Coalho</h3>
-              <p class="item-desc">Queijo na manteiga da terra.</p>
-            </div>
-            <p class="item-price">R$ 23</p>
-            <p class="item-price" style="min-width:4.5rem;">R$ 21</p>
-          </div>
-          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
-            <div class="item-body">
-              <h3 class="item-name">Frango Cremoso</h3>
-              <p class="item-desc">Frango, milho, requeijão e vinagrete.</p>
-            </div>
-            <p class="item-price">R$ 25</p>
-            <p class="item-price" style="min-width:4.5rem;">R$ 25</p>
-          </div>
-          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
-            <div class="item-body">
-              <h3 class="item-name">Caprese</h3>
-              <p class="item-desc">Queijo, tomate e manjericão.</p>
-              <div class="item-badges"><span class="badge badge-veg">Vegetariano</span></div>
-            </div>
-            <p class="item-price">R$ 28</p>
-            <p class="item-price" style="min-width:4.5rem;">R$ 26</p>
-          </div>
-          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
-            <div class="item-body">
-              <h3 class="item-name">Sertão</h3>
-              <p class="item-desc">Carne de sol e queijo coalho.</p>
-            </div>
-            <p class="item-price">R$ 30</p>
-            <p class="item-price" style="min-width:4.5rem;">R$ 30</p>
-          </div>
-          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
-            <div class="item-body">
-              <h3 class="item-name">Gostosinho</h3>
-              <p class="item-desc">Carne moída, ovos, vinagrete e cheiro verde.</p>
-            </div>
-            <p class="item-price">R$ 30</p>
-            <p class="item-price" style="min-width:4.5rem;">R$ 30</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Salgados de Forno ─────────────────────────── -->
-    <section class="menu-section" id="salgados" data-parent="comidas">
-      <div class="menu-container">
-        <div class="section-header reveal">
-          <div>
-            <p class="section-kicker">Salgados de Forno</p>
-            <h2 class="section-title">Forno & <em>crocância</em></h2>
-          </div><span class="section-count">05 itens</span>
-        </div>
-        <div class="menu-grid">
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Pão de Queijo Mineiro</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 9 (unidade) / R$ 30 (4 unidades)</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Porção de Mini Coxinhas</h3>
-              <p class="item-desc">8 mini coxinhas de frango cremoso</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 20</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Guirlanda Folheada</h3>
-              <p class="item-desc">Carne do sol, Emmental e Gorgonzola / Frango com mix de queijo e cream cheese</p>
-            </div>
-            <div>
-              <p class="item-price">Fatia: R$ 10 / Inteira: R$ 57</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Quiche Especial</h3>
-              <p class="item-desc">Alho Poró e Brie / Carne de sol com requeijão</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 20</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Coxinhas Giardini</h3>
-              <p class="item-desc">Frango cremoso / Carne de sol com requeijão</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 14 / R$ 16</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Sanduíches Gourmet ────────────────────────── -->
-    <section class="menu-section" id="sanduiches" data-parent="comidas">
-      <div class="menu-container">
-        <div class="section-header reveal">
-          <div>
-            <p class="section-kicker">Sanduíches Gourmet</p>
-            <h2 class="section-title">Brioche & <em>sabor</em></h2>
-          </div><span class="section-count">04 itens</span>
-        </div>
-        <div class="menu-grid">
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Garden Caprese</h3>
-              <p class="item-desc">Queijo branco, pesto de manjericão, tomate confit e rúcula no pão brioche.</p>
-              <div class="item-badges"><span class="badge badge-veg">Vegetariano</span></div>
-            </div>
-            <div>
-              <p class="item-price">R$ 23</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Lemon Chicken</h3>
-              <p class="item-desc">Frango creme de ricota com limão siciliano e folhas frescas no pão brioche</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 22</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Brioche Bacon &amp; Egg</h3>
-              <p class="item-desc">Ovo cremoso, bacon crocante e mix de queijo no pão brioche.</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 25</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Giardini Burguer</h3>
-              <p class="item-desc">Blend artesanal, queijo brie, cebola caramelizada e geleia de pimenta no pão
-                australiano.</p>
-              <div class="item-badges"><span class="badge badge-hot">Premium</span></div>
-            </div>
-            <div>
-              <p class="item-price">R$ 27</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Mundo Fit ─────────────────────────────────── -->
-    <section class="menu-section" id="fit" data-parent="saudavel">
-      <div class="menu-container">
-        <div class="section-header reveal">
-          <div>
-            <p class="section-kicker">Mundo Fit</p>
-            <h2 class="section-title">Leve & <em>nutritivo</em></h2>
-          </div><span class="section-count">06 itens</span>
-        </div>
-        <div class="menu-grid">
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Super Fruit Bowl</h3>
-              <p class="item-desc">Bowl de frutas com sementes (bali) e whey</p>
-              <div class="item-badges"><span class="badge badge-veg">Fit</span></div>
-            </div>
-            <div style="text-align:right;">
-              <p class="item-price" style="font-size:0.85rem;">P R$ 18</p>
-              <p class="item-price" style="font-size:0.85rem;">M R$ 22</p>
-              <p class="item-price" style="font-size:0.85rem;">G R$ 40</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Muffin de Batata Doce</h3>
-              <p class="item-desc">Bolo de batata doce com carne de sol.</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 22</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Muffin Giardini</h3>
-              <p class="item-desc">Massa de aveia com gotas de chocolate.</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 25</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Quiche de Legumes</h3>
-              <p class="item-desc">Massa de grão-de-bico com recheio de legumes.</p>
-              <div class="item-badges"><span class="badge badge-veg">Vegano</span></div>
-            </div>
-            <div>
-              <p class="item-price">R$ 22</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Omelete Giardini</h3>
-              <p class="item-desc">Mussarela, Tomate e Molho Pesto</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 18</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Quiche de Salmão</h3>
-              <p class="item-desc">Massa de rúcula e recheio de salmão e pepino</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 29</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Confeitaria ────────────────────────────────── -->
-    <section class="menu-section" id="confeitaria" data-parent="doces">
-      <div class="menu-container">
-        <div class="section-header reveal">
-          <div>
-            <p class="section-kicker">Confeitaria</p>
-            <h2 class="section-title">Doce <em>precisão</em></h2>
-          </div><span class="section-count">05 itens</span>
-        </div>
-        <div class="menu-grid">
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Brownie Giardini</h3>
-              <p class="item-desc">Brownie meio amargo.</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 13</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Tortelete</h3>
-              <p class="item-desc">Limão / Chocolate.</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 17</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Sonho</h3>
-              <p class="item-desc">Chocolate, creme de limão e frutas caramelizadas</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 22</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Sonho Recheado</h3>
-              <p class="item-desc">Creme de Avelã e Pistache</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 23</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Bolo Caseiro do Dia</h3>
-              <p class="item-desc">Fatia de cenoura com chocolate/Laranja/Mesclado</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 21</p>
-            </div>
+            <div><p class="item-price">R$ 24</p></div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ── Big Combos ─────────────────────────────────── -->
-    <section class="menu-section" id="combos" data-parent="manha">
+    <section class="menu-section" id="combos">
       <div class="menu-container">
         <div class="section-header reveal">
           <div>
@@ -713,136 +324,266 @@
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">Start do Dia</h3>
-              <p class="item-desc">Pão na chapa com requeijão + café espresso.</p>
+              <p class="item-desc">Pão na chapa com requeijão + espresso.</p>
             </div>
-            <div>
-              <p class="item-price">R$ 22</p>
-            </div>
+            <div><p class="item-price">R$ 22</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">O Parisiense</h3>
               <p class="item-desc">Croissant com geleia + cappuccino italiano.</p>
             </div>
-            <div>
-              <p class="item-price">R$ 33</p>
-            </div>
+            <div><p class="item-price">R$ 33</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">Nordestino Arretado</h3>
-              <p class="item-desc">Cuscuz ou Tapioca frango com requeijão + Café + Suco</p>
+              <p class="item-desc">Cuscuz ou tapioca + frango com requeijão + café + suco.</p>
               <div class="item-badges"><span class="badge badge-new">Regional</span></div>
             </div>
-            <div>
-              <p class="item-price">R$ 44</p>
-            </div>
+            <div><p class="item-price">R$ 44</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">Brunch Solo</h3>
-              <p class="item-desc">Toast ou Croissant + Ovos cremosos + Bowl pequeno + Café ou Suco</p>
+              <p class="item-desc">Toast ou croissant + ovos cremosos + bowl pequeno + café ou suco.</p>
             </div>
-            <div>
-              <p class="item-price">R$ 66</p>
-            </div>
+            <div><p class="item-price">R$ 66</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">Double Morning</h3>
-              <p class="item-desc">1 fatia de Brioche + 1 Croissant + Bowl de frutas pequeno, Bolo do dia e 2 Cafés</p>
+              <p class="item-desc">Brioche + croissant + bowl pequeno + bolo do dia + 2 cafés.</p>
               <div class="item-badges"><span class="badge badge-hot">Premium</span></div>
             </div>
-            <div>
-              <p class="item-price">R$ 99</p>
-            </div>
+            <div><p class="item-price">R$ 99</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
               <h3 class="item-name">Royal Brunch</h3>
-              <p class="item-desc">2 fatias de brioche + 1 Croissant + ovos e bacon + bowl de frutas pequeno + 2 sucos ou 2 cafés</p>
+              <p class="item-desc">2 brioches + croissant + ovos e bacon + bowl pequeno + 2 cafés ou 2 sucos.</p>
               <div class="item-badges"><span class="badge badge-hot">Premium</span></div>
             </div>
-            <div>
-              <p class="item-price">R$ 132</p>
-            </div>
+            <div><p class="item-price">R$ 132</p></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ── Adicionais ─────────────────────────────────── -->
-    <section class="menu-section" id="adicionais" data-parent="extras">
+    </div><!-- /cat-manha -->
+
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         CATEGORY: COMIDAS
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="category-divider" aria-hidden="true">
+      <div class="category-divider-line"></div>
+      <div class="category-divider-dot"></div>
+      <div class="category-divider-line"></div>
+    </div>
+
+    <div class="category-group" id="cat-comidas">
+
+    <!-- ── Bruschettas ──────────────────────────────── -->
+    <section class="menu-section" id="bruschettas">
       <div class="menu-container">
         <div class="section-header reveal">
           <div>
-            <p class="section-kicker">Adicionais</p>
-            <h2 class="section-title">A seu <em>gosto</em></h2>
-          </div><span class="section-count">06 itens</span>
+            <p class="section-kicker">Bruschettas</p>
+            <h2 class="section-title">Pão & <em>tradição</em></h2>
+          </div><span class="section-count">03 itens</span>
         </div>
         <div class="menu-grid">
           <div class="menu-item reveal">
             <div class="item-body">
-              <h3 class="item-name">Ovo</h3>
+              <h3 class="item-name">Confit Rústica</h3>
+              <p class="item-desc">Tomates confit, manjericão e parmesão.</p>
+              <div class="item-badges"><span class="badge badge-veg">Vegetariano</span></div>
             </div>
-            <div>
-              <p class="item-price">R$ 6</p>
-            </div>
+            <div><p class="item-price">R$ 15</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
-              <h3 class="item-name">Bacon</h3>
+              <h3 class="item-name">Brie com Parma</h3>
+              <p class="item-desc">Brie derretido, presunto de parma e mel.</p>
             </div>
-            <div>
-              <p class="item-price">R$ 8</p>
-            </div>
+            <div><p class="item-price">R$ 30</p></div>
           </div>
           <div class="menu-item reveal">
             <div class="item-body">
-              <h3 class="item-name">Frango</h3>
+              <h3 class="item-name">Vigneto Cremoso</h3>
+              <p class="item-desc">Creme de gorgonzola, castanha de caju, uvas assadas, mel e manjericão.</p>
             </div>
-            <div>
-              <p class="item-price">R$ 8</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Mel</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 4</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Mussarela / Coalho</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 6</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Abacate</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 7</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Granola</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 5</p>
-            </div>
+            <div><p class="item-price">R$ 23</p></div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- ── Tapioca & Cuscuz ──────────────────────────── -->
+    <section class="menu-section" id="tapioca">
+      <div class="menu-container">
+        <div class="section-header reveal">
+          <div>
+            <p class="section-kicker">Tapioca &amp; Cuscuz</p>
+            <h2 class="section-title">Raízes <em>nordestinas</em></h2>
+          </div><span class="section-count">07 itens</span>
+        </div>
+        <!-- dual-price header -->
+        <div class="reveal"
+          style="display:grid;grid-template-columns:1fr auto auto;gap:1rem;align-items:center;padding:0 0 1.25rem;margin-bottom:1.5rem;border-bottom:1px solid rgba(43,74,59,0.06);">
+          <span></span>
+          <span style="font-size:0.55rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(43,74,59,0.30);text-align:right;white-space:nowrap;">Cuscuz</span>
+          <span style="font-size:0.55rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(43,74,59,0.30);text-align:right;white-space:nowrap;min-width:4.5rem;">Tapioca</span>
+        </div>
+        <div class="menu-grid">
+          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
+            <div class="item-body"><h3 class="item-name">Tradicional</h3><p class="item-desc">Manteiga ou leite de coco.</p></div>
+            <p class="item-price">R$ 18</p>
+            <p class="item-price" style="min-width:4.5rem;">R$ 15</p>
+          </div>
+          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
+            <div class="item-body"><h3 class="item-name">Classic Eggs</h3><p class="item-desc">Ovo frito ou mexido.</p></div>
+            <p class="item-price">R$ 20</p>
+            <p class="item-price" style="min-width:4.5rem;">R$ 18</p>
+          </div>
+          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
+            <div class="item-body"><h3 class="item-name">Queijo Coalho</h3><p class="item-desc">Queijo coalho na manteiga da terra.</p></div>
+            <p class="item-price">R$ 23</p>
+            <p class="item-price" style="min-width:4.5rem;">R$ 21</p>
+          </div>
+          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
+            <div class="item-body"><h3 class="item-name">Frango Cremoso</h3><p class="item-desc">Frango, milho, requeijão e vinagrete.</p></div>
+            <p class="item-price">R$ 25</p>
+            <p class="item-price" style="min-width:4.5rem;">R$ 25</p>
+          </div>
+          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
+            <div class="item-body"><h3 class="item-name">Caprese</h3><p class="item-desc">Queijo, tomate e manjericão.</p>
+              <div class="item-badges"><span class="badge badge-veg">Vegetariano</span></div>
+            </div>
+            <p class="item-price">R$ 28</p>
+            <p class="item-price" style="min-width:4.5rem;">R$ 26</p>
+          </div>
+          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
+            <div class="item-body"><h3 class="item-name">Sertão</h3><p class="item-desc">Carne de sol e queijo coalho.</p></div>
+            <p class="item-price">R$ 30</p>
+            <p class="item-price" style="min-width:4.5rem;">R$ 30</p>
+          </div>
+          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;">
+            <div class="item-body"><h3 class="item-name">Gostosinho</h3><p class="item-desc">Carne moída, ovos, vinagrete e cheiro-verde.</p></div>
+            <p class="item-price">R$ 30</p>
+            <p class="item-price" style="min-width:4.5rem;">R$ 30</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Salgados de Forno ─────────────────────────── -->
+    <section class="menu-section" id="salgados">
+      <div class="menu-container">
+        <div class="section-header reveal">
+          <div>
+            <p class="section-kicker">Salgados de Forno</p>
+            <h2 class="section-title">Forno & <em>crocância</em></h2>
+          </div><span class="section-count">05 itens</span>
+        </div>
+        <div class="menu-grid">
+          <div class="menu-item reveal">
+            <div class="item-body"><h3 class="item-name">Pão de Queijo Mineiro</h3><p class="item-desc">Unidade ou porção com 4.</p></div>
+            <div><p class="item-price">R$ 9 / R$ 30</p><p class="item-price-sub">unidade / 4 unidades</p></div>
+          </div>
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Porção de Mini Coxinhas</h3>
+              <p class="item-desc">8 mini coxinhas de frango cremoso.</p>
+            </div>
+            <div><p class="item-price">R$ 20</p></div>
+          </div>
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Guirlanda Folheada</h3>
+              <p class="item-desc">Carne de sol, emmental e gorgonzola • ou frango com mix de queijos.</p>
+            </div>
+            <div><p class="item-price">R$ 10 / R$ 57</p><p class="item-price-sub">fatia / inteira</p></div>
+          </div>
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Quiche Especial</h3>
+              <p class="item-desc">Alho-poró com brie • ou carne de sol com requeijão.</p>
+            </div>
+            <div><p class="item-price">R$ 20</p></div>
+          </div>
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Coxinhas Giardini</h3>
+              <p class="item-desc">Frango cremoso • ou carne de sol com requeijão.</p>
+            </div>
+            <div><p class="item-price">R$ 14 / R$ 16</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Sanduíches Gourmet ────────────────────────── -->
+    <section class="menu-section" id="sanduiches">
+      <div class="menu-container">
+        <div class="section-header reveal">
+          <div>
+            <p class="section-kicker">Sanduíches Gourmet</p>
+            <h2 class="section-title">Brioche & <em>sabor</em></h2>
+          </div><span class="section-count">04 itens</span>
+        </div>
+        <div class="menu-grid">
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Garden Caprese</h3>
+              <p class="item-desc">Queijo branco, pesto, tomate confit e rúcula no brioche.</p>
+              <div class="item-badges"><span class="badge badge-veg">Vegetariano</span></div>
+            </div>
+            <div><p class="item-price">R$ 23</p></div>
+          </div>
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Lemon Chicken</h3>
+              <p class="item-desc">Frango com creme de ricota, limão siciliano e folhas frescas no brioche.</p>
+            </div>
+            <div><p class="item-price">R$ 22</p></div>
+          </div>
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Brioche Bacon &amp; Egg</h3>
+              <p class="item-desc">Ovo cremoso, bacon crocante e mix de queijos no brioche.</p>
+            </div>
+            <div><p class="item-price">R$ 25</p></div>
+          </div>
+          <div class="menu-item reveal">
+            <div class="item-body">
+              <h3 class="item-name">Giardini Burguer</h3>
+              <p class="item-desc">Blend artesanal, brie, cebola caramelizada e geleia de pimenta.</p>
+              <div class="item-badges"><span class="badge badge-hot">Premium</span></div>
+            </div>
+            <div><p class="item-price">R$ 27</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    </div><!-- /cat-comidas -->
+
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         CATEGORY: CAFÉ & BEBIDAS
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="category-divider" aria-hidden="true">
+      <div class="category-divider-line"></div>
+      <div class="category-divider-dot"></div>
+      <div class="category-divider-line"></div>
+    </div>
+
+    <div class="category-group" id="cat-cafebebidas">
+
     <!-- ── Barista ────────────────────────────────────── -->
-    <section class="menu-section" id="barista" data-parent="cafebebidas">
+    <section class="menu-section" id="barista">
       <div class="menu-container">
         <div class="section-header reveal">
           <div>
@@ -851,156 +592,29 @@
           </div><span class="section-count">17 itens</span>
         </div>
         <div class="menu-grid">
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Café Coado</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 9</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Espresso</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 9</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Café Coado com Leite</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 14</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Espresso Duplo</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 16</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Macchiato</h3>
-              <p class="item-desc">Espresso com espuma de leite.</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 14</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Americano</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 10</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Cappuccino</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 15</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Cappuccino Gelado</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 19</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Latte Garden</h3>
-              <p class="item-desc">Mais leite e cremosidade.</p>
-              <div class="item-badges"><span class="badge badge-new">Favorito</span></div>
-            </div>
-            <div>
-              <p class="item-price">R$ 20</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Mocha</h3>
-              <p class="item-desc">Calda de chocolate belga, café e leite.</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 25</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Chocolate Cremoso</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 20</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Cold Brew</h3>
-              <p class="item-desc">Clássico café com gelo.</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 20</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Caramel Macchiato Iced</h3>
-              <p class="item-desc">Café gelado com caramelo.</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 25</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Cappuccino Italiano</h3>
-              <p class="item-desc">Espresso, leite vaporizado cacau e canela em pó</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 20</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Iced Vanilla</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 26</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Chá Mate</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 22</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Soda Italiana</h3>
-              <p class="item-desc">Maçã Verde, Morango, Limão Siciliano, Pêssego e Tangerina</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 22</p>
-            </div>
-          </div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Café Coado</h3></div><div><p class="item-price">R$ 9</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Espresso</h3></div><div><p class="item-price">R$ 9</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Café Coado com Leite</h3></div><div><p class="item-price">R$ 14</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Espresso Duplo</h3></div><div><p class="item-price">R$ 16</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Macchiato</h3><p class="item-desc">Espresso com espuma de leite.</p></div><div><p class="item-price">R$ 14</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Americano</h3></div><div><p class="item-price">R$ 10</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Cappuccino</h3></div><div><p class="item-price">R$ 15</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Cappuccino Gelado</h3></div><div><p class="item-price">R$ 19</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Latte Garden</h3><p class="item-desc">Mais leite e cremosidade.</p><div class="item-badges"><span class="badge badge-new">Favorito</span></div></div><div><p class="item-price">R$ 20</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Mocha</h3><p class="item-desc">Chocolate belga, café e leite.</p></div><div><p class="item-price">R$ 25</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Chocolate Cremoso</h3></div><div><p class="item-price">R$ 20</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Cold Brew</h3><p class="item-desc">Café gelado clássico.</p></div><div><p class="item-price">R$ 20</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Caramel Macchiato Iced</h3><p class="item-desc">Café gelado com caramelo.</p></div><div><p class="item-price">R$ 25</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Cappuccino Italiano</h3><p class="item-desc">Espresso, leite vaporizado, cacau e canela.</p></div><div><p class="item-price">R$ 20</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Iced Vanilla</h3></div><div><p class="item-price">R$ 26</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Chá Mate</h3></div><div><p class="item-price">R$ 22</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Soda Italiana</h3><p class="item-desc">Maçã verde, morango, limão siciliano, pêssego ou tangerina.</p></div><div><p class="item-price">R$ 22</p></div></div>
         </div>
       </div>
     </section>
 
     <!-- ── Drinks ─────────────────────────────────────── -->
-    <section class="menu-section" id="drinks" data-parent="cafebebidas">
+    <section class="menu-section" id="drinks">
       <div class="menu-container">
         <div class="section-header reveal">
           <div>
@@ -1009,28 +623,14 @@
           </div><span class="section-count">02 itens</span>
         </div>
         <div class="menu-grid">
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Cerveja Long Neck</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 18</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Taça de Vinho</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 17</p>
-            </div>
-          </div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Cerveja Long Neck</h3></div><div><p class="item-price">R$ 18</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Taça de Vinho</h3></div><div><p class="item-price">R$ 17</p></div></div>
         </div>
       </div>
     </section>
 
     <!-- ── Soft Drinks ──────────────────────────────── -->
-    <section class="menu-section" id="softdrinks" data-parent="cafebebidas">
+    <section class="menu-section" id="softdrinks">
       <div class="menu-container">
         <div class="section-header reveal">
           <div>
@@ -1039,120 +639,152 @@
           </div><span class="section-count">06 itens</span>
         </div>
         <div class="menu-grid">
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Água Mineral (S/ GÁS)</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 8</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Água com Gás</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 9</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Refrigerante (N/Z)</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 10</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Água Tônica</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 12</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Chá da Casa (SACHÊ)</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 9</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Energético</h3>
-            </div>
-            <div>
-              <p class="item-price">R$ 15</p>
-            </div>
-          </div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Água Mineral (S/ GÁS)</h3></div><div><p class="item-price">R$ 8</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Água com Gás</h3></div><div><p class="item-price">R$ 9</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Refrigerante (N/Z)</h3></div><div><p class="item-price">R$ 10</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Água Tônica</h3></div><div><p class="item-price">R$ 12</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Chá da Casa (SACHÊ)</h3></div><div><p class="item-price">R$ 9</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Energético</h3></div><div><p class="item-price">R$ 15</p></div></div>
         </div>
       </div>
     </section>
 
     <!-- ── Sucos ──────────────────────────────────────── -->
-    <section class="menu-section" id="sucos" data-parent="cafebebidas">
+    <section class="menu-section" id="sucos">
       <div class="menu-container">
         <div class="section-header reveal">
           <div>
             <p class="section-kicker">Sucos</p>
             <h2 class="section-title">Natureza <em>gelada</em></h2>
+          </div><span class="section-count">05 itens</span>
+        </div>
+        <div class="menu-grid">
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Tropical</h3><p class="item-desc">Kiwi com abacaxi • ou manga com morango.</p></div><div><p class="item-price">R$ 17 / R$ 22</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Golden Hour</h3><p class="item-desc">Abacaxi, laranja e canela.</p></div><div><p class="item-price">R$ 17</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Zen Garden</h3><p class="item-desc">Maracujá com capim-santo.</p></div><div><p class="item-price">R$ 17</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Summer Vibes</h3><p class="item-desc">Melancia, limão e hortelã.</p></div><div><p class="item-price">R$ 17</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Santo Gengibre</h3><p class="item-desc">Limão, gengibre e capim-santo.</p></div><div><p class="item-price">R$ 17</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    </div><!-- /cat-cafebebidas -->
+
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         CATEGORY: SAUDÁVEL
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="category-divider" aria-hidden="true">
+      <div class="category-divider-line"></div>
+      <div class="category-divider-dot"></div>
+      <div class="category-divider-line"></div>
+    </div>
+
+    <div class="category-group" id="cat-saudavel">
+
+    <!-- ── Mundo Fit ─────────────────────────────────── -->
+    <section class="menu-section" id="fit">
+      <div class="menu-container">
+        <div class="section-header reveal">
+          <div>
+            <p class="section-kicker">Mundo Fit</p>
+            <h2 class="section-title">Leve & <em>nutritivo</em></h2>
           </div><span class="section-count">06 itens</span>
         </div>
         <div class="menu-grid">
           <div class="menu-item reveal">
             <div class="item-body">
-              <h3 class="item-name">TROPICAL</h3>
-              <p class="item-desc">Kiwi com abacaxi / Manga com morango</p>
+              <h3 class="item-name">Super Fruit Bowl</h3>
+              <p class="item-desc">Bowl de frutas, sementes e whey.</p>
+              <div class="item-badges"><span class="badge badge-veg">Fit</span></div>
             </div>
-            <div>
-              <p class="item-price">R$ 17 / R$ 22</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Golden Hour</h3>
-              <p class="item-desc">Abacaxi, laranja e canela.</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 17</p>
+            <div style="text-align:right;">
+              <p class="item-price" style="font-size:0.85rem;">P R$ 18</p>
+              <p class="item-price" style="font-size:0.85rem;">M R$ 22</p>
+              <p class="item-price" style="font-size:0.85rem;">G R$ 40</p>
             </div>
           </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Zen Garden</h3>
-              <p class="item-desc">Maracujá com capim santo.</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 17</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Summer Vibes</h3>
-              <p class="item-desc">Melancia, limão e hortelã.</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 17</p>
-            </div>
-          </div>
-          <div class="menu-item reveal">
-            <div class="item-body">
-              <h3 class="item-name">Santo Gengibre</h3>
-              <p class="item-desc">Limão, gengibre e capim santo.</p>
-            </div>
-            <div>
-              <p class="item-price">R$ 17</p>
-            </div>
-          </div>
-
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Muffin de Batata Doce</h3><p class="item-desc">Batata-doce com carne de sol.</p></div><div><p class="item-price">R$ 22</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Muffin Giardini</h3><p class="item-desc">Massa de aveia com gotas de chocolate.</p></div><div><p class="item-price">R$ 25</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Quiche de Legumes</h3><p class="item-desc">Massa de grão-de-bico com recheio de legumes.</p><div class="item-badges"><span class="badge badge-veg">Vegano</span></div></div><div><p class="item-price">R$ 22</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Omelete Giardini</h3><p class="item-desc">Mussarela, tomate e pesto.</p></div><div><p class="item-price">R$ 18</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Quiche de Salmão</h3><p class="item-desc">Massa de rúcula com salmão e pepino.</p></div><div><p class="item-price">R$ 29</p></div></div>
         </div>
       </div>
     </section>
 
+    </div><!-- /cat-saudavel -->
+
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         CATEGORY: DOCES
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="category-divider" aria-hidden="true">
+      <div class="category-divider-line"></div>
+      <div class="category-divider-dot"></div>
+      <div class="category-divider-line"></div>
+    </div>
+
+    <div class="category-group" id="cat-doces">
+
+    <!-- ── Confeitaria ────────────────────────────────── -->
+    <section class="menu-section" id="confeitaria">
+      <div class="menu-container">
+        <div class="section-header reveal">
+          <div>
+            <p class="section-kicker">Confeitaria</p>
+            <h2 class="section-title">Doce <em>precisão</em></h2>
+          </div><span class="section-count">05 itens</span>
+        </div>
+        <div class="menu-grid">
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Brownie Giardini</h3><p class="item-desc">Brownie meio amargo.</p></div><div><p class="item-price">R$ 13</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Tortelete</h3><p class="item-desc">Limão ou chocolate.</p></div><div><p class="item-price">R$ 17</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Sonho</h3><p class="item-desc">Chocolate, creme de limão e frutas caramelizadas.</p></div><div><p class="item-price">R$ 22</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Sonho Recheado</h3><p class="item-desc">Creme de avelã e pistache.</p></div><div><p class="item-price">R$ 23</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Bolo Caseiro do Dia</h3><p class="item-desc">Cenoura com chocolate • laranja • ou mesclado.</p></div><div><p class="item-price">R$ 21</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    </div><!-- /cat-doces -->
+
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         CATEGORY: EXTRAS
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="category-divider" aria-hidden="true">
+      <div class="category-divider-line"></div>
+      <div class="category-divider-dot"></div>
+      <div class="category-divider-line"></div>
+    </div>
+
+    <div class="category-group" id="cat-extras">
+
+    <!-- ── Adicionais ─────────────────────────────────── -->
+    <section class="menu-section" id="adicionais">
+      <div class="menu-container">
+        <div class="section-header reveal">
+          <div>
+            <p class="section-kicker">Adicionais</p>
+            <h2 class="section-title">A seu <em>gosto</em></h2>
+          </div><span class="section-count">07 itens</span>
+        </div>
+        <div class="menu-grid">
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Ovo</h3></div><div><p class="item-price">R$ 6</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Bacon</h3></div><div><p class="item-price">R$ 8</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Frango</h3></div><div><p class="item-price">R$ 8</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Mel</h3></div><div><p class="item-price">R$ 4</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Mussarela / Coalho</h3></div><div><p class="item-price">R$ 6</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Abacate</h3></div><div><p class="item-price">R$ 7</p></div></div>
+          <div class="menu-item reveal"><div class="item-body"><h3 class="item-name">Granola</h3></div><div><p class="item-price">R$ 5</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    </div><!-- /cat-extras -->
+
   </main>
-  </div> <!-- Encerrando menu-main-wrapper -->
+  </div> <!-- /menu-main-wrapper -->
 
   <!-- ════ PDF SECTION ════════════════════════════════════════════════ -->
   <section id="pdf-section">
@@ -1193,8 +825,6 @@
   </footer>
 
   <!-- ════ SCRIPTS ════════════════════════════════════════════════════ -->
-  
-
   <script src="assets/scripts/pages/menu-tabs.js"></script>
 </body>
 
