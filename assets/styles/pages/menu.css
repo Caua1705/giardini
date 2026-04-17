@@ -1061,12 +1061,13 @@ body::after { display: none; }
 
 /* Thumbnail support */
 .menu-item:has(.item-thumb) {
-  grid-template-columns: 64px 1fr auto;
+  grid-template-columns: 80px 1fr auto;
+  gap: 0.25rem 1rem;
 }
 
 .item-thumb {
-  width: 64px;
-  height: 64px;
+  width: 80px;
+  height: 80px;
   border-radius: 10px;
   overflow: hidden;
   flex-shrink: 0;
@@ -1078,11 +1079,13 @@ body::after { display: none; }
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
+  transform: scale(1.15);
   transition: transform 0.6s var(--expo);
   will-change: transform;
 }
 
-.menu-item:hover .item-thumb img { transform: scale(1.06); }
+.menu-item:hover .item-thumb img { transform: scale(1.22); }
 
 .item-dots { display: none; }
 
@@ -1973,14 +1976,14 @@ footer {
 @media (min-width: 992px) {
   /* 1. Core Structure */
   .menu-main-wrapper { max-width: 1140px; }
-  .menu-grid { column-gap: 5rem; }
+  .menu-grid { column-gap: 3.5rem; }
 
   /* 2. Product Row Expansion */
   .menu-item { padding: 1.5rem 1.25rem; }
   
   /* 3. Thumbnails */
-  .item-thumb { width: 84px; height: 84px; }
-  .menu-item:has(.item-thumb) { grid-template-columns: 84px 1fr auto; }
+  .item-thumb { width: 104px; height: 104px; }
+  .menu-item:has(.item-thumb) { grid-template-columns: 104px 1fr auto; gap: 0.25rem 1.15rem; }
 
   /* 4. Typography Hierarchy */
   .item-name { font-size: 1.3rem; }
