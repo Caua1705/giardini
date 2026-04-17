@@ -560,8 +560,18 @@
         const allergens = item.getAttribute('data-item-allergens');
         const profile = item.getAttribute('data-item-profile');
 
+        const priceCuscuz = item.getAttribute('data-price-cuscuz');
+        const priceTapioca = item.getAttribute('data-price-tapioca');
+
         if (name) titleEl.innerHTML = name;
-        if (price) priceEl.innerHTML = price;
+        
+        if (price) {
+          if (priceCuscuz && priceTapioca) {
+            priceEl.innerHTML = `<span style="display:block; font-size: 0.55em; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2px;">Cuscuz &nbsp;<strong style="font-size: 1.6em; font-weight: 500; letter-spacing: normal; text-transform: none; padding-right: 1.5rem;">${priceCuscuz}</strong> Tapioca &nbsp;<strong style="font-size: 1.6em; font-weight: 500; letter-spacing: normal; text-transform: none;">${priceTapioca}</strong></span>`;
+          } else {
+            priceEl.innerHTML = price;
+          }
+        }
         
         if (desc) {
           descEl.innerHTML = desc;
@@ -613,6 +623,47 @@
         if (e.key === 'Escape' && modal.classList.contains('is-open')) {
           closeModal();
         }
+      });
+    })();
+
+    /* ══════════════════════════════════════════════════════════════════
+       BASE SELECTOR LOGIC (TAPIOCA / CUSCUZ)
+    ══════════════════════════════════════════════════════════════════ */
+    (function initBaseSelector() {
+      const toggleBtns = document.querySelectorAll('.base-toggle-btn');
+      if (toggleBtns.length === 0) return;
+
+      toggleBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          // Update active states on buttons
+          toggleBtns.forEach(b => b.classList.remove('active'));
+          const currentBtn = e.currentTarget;
+          currentBtn.classList.add('active');
+
+          const base = currentBtn.getAttribute('data-base'); // 'cuscuz' or 'tapioca'
+
+          // Find all items within the Tapioca grid
+          const tapiocaGrid = document.querySelector('#tapioca .menu-grid');
+          if (!tapiocaGrid) return;
+
+          const items = tapiocaGrid.querySelectorAll('.menu-item');
+          items.forEach(item => {
+            const priceEl = item.querySelector('.dynamic-price');
+            if (!priceEl) return;
+            
+            // Extract the target price based on selected base
+            const targetAttr = base === 'cuscuz' ? 'data-price-cuscuz' : 'data-price-tapioca';
+            const newPrice = item.getAttribute(targetAttr);
+            
+            if (newPrice) {
+              // Create a tiny subtle animation jump when price changes
+              gsap.to(priceEl, { opacity: 0, y: -2, duration: 0.15, onComplete: () => {
+                priceEl.innerHTML = newPrice;
+                gsap.to(priceEl, { opacity: 1, y: 0, duration: 0.15 });
+              }});
+            }
+          });
+        });
       });
     })();
 

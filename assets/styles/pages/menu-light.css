@@ -493,11 +493,64 @@ footer {
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   DUAL-PRICE ITEMS (Tapioca/Cuscuz section)
+   SEGMENTED CONTROL (Tapioca/Cuscuz section)
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* The inline styles on dual-price items use dark-aware colors.
-   Override the inline color references. */
-.menu-section[id="tapioca"] .reveal[style*="grid-template-columns"] span[style*="color"] {
-  color: rgba(26, 26, 26, 0.30) !important;
+.base-selector-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 0 1.25rem !important;
+  margin-bottom: 1.5rem !important;
+  border-bottom: 1px solid rgba(43,74,59,0.06) !important;
+}
+
+.base-selector-label {
+  font-size: 0.65rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: rgba(43,74,59,0.45) !important;
+  margin: 0 !important;
+}
+
+.base-selector {
+  display: flex !important;
+  background-color: rgba(43,74,59,0.04) !important;
+  border-radius: 99px !important;
+  padding: 4px !important;
+}
+
+.base-toggle-btn {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 99px !important;
+  padding: 0.4rem 1.2rem !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  color: rgba(43,74,59,0.5) !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  font-family: inherit !important;
+  outline: none !important;
+}
+
+.base-toggle-btn:hover {
+  color: rgba(43,74,59,0.8) !important;
+}
+
+.base-toggle-btn.active {
+  background: var(--c-bg, #FDFBF7) !important;
+  box-shadow: 0 2px 8px rgba(43,74,59,0.08) !important;
+  color: rgba(43,74,59, 1) !important;
+  font-weight: 600 !important;
+}
+
+@media (max-width: 767px) {
+  .base-selector-label {
+    display: none !important; /* Keep it simpler on mobile */
+  }
+  .base-selector-wrapper {
+    justify-content: center !important;
+  }
 }

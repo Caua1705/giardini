@@ -444,56 +444,51 @@
             <h2 class="section-title">Raízes <em>nordestinas</em></h2>
           </div><span class="section-count">07 itens</span>
         </div>
-        <!-- dual-price header -->
-        <div class="reveal" style="display:grid;grid-template-columns:1fr auto auto;gap:1rem;align-items:center;padding:0 0 1.25rem;margin-bottom:1.5rem;border-bottom:1px solid rgba(43,74,59,0.06);">
-          <span></span>
-          <span style="font-size:0.55rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(43,74,59,0.30);text-align:right;white-space:nowrap;">Cuscuz</span>
-          <span style="font-size:0.55rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(43,74,59,0.30);text-align:right;white-space:nowrap;min-width:4.5rem;">Tapioca</span>
+        <!-- Segmented Selector -->
+        <div class="reveal base-selector-wrapper">
+          <p class="base-selector-label">Escolha a base para esta seção:</p>
+          <div class="base-selector">
+            <button class="base-toggle-btn active" data-base="cuscuz">Cuscuz</button>
+            <button class="base-toggle-btn" data-base="tapioca">Tapioca</button>
+          </div>
         </div>
         <div class="menu-grid">
-          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;" data-item-image="assets/images/menu/tapioca-e-cuscuz/tradicional.webp">
+          <div class="menu-item reveal" data-item-name="Tradicional" data-item-desc="Manteiga ou leite de coco." data-item-price="R$ 18 / R$ 15" data-price-cuscuz="R$ 18" data-price-tapioca="R$ 15" data-item-image="assets/images/menu/tapioca-e-cuscuz/tradicional.webp">
             <div class="item-thumb"><img src="assets/images/menu/tapioca-e-cuscuz/tradicional.webp" alt="Tradicional"></div>
             <div class="item-body"><h3 class="item-name">Tradicional</h3><p class="item-desc">Manteiga ou leite de coco.</p></div>
-            <p class="item-price">R$ 18</p>
-            <p class="item-price" style="min-width:4.5rem;">R$ 15</p>
+            <div><p class="item-price dynamic-price">R$ 18</p></div>
           </div>
-          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;" data-item-name="Ovos Clássicos" data-item-desc="Ovo frito ou mexido." data-item-price="R$ 20 / R$ 18" data-item-image="assets/images/menu/tapioca-e-cuscuz/ovos-classicos.webp">
+          <div class="menu-item reveal" data-item-name="Ovos Clássicos" data-item-desc="Ovo frito ou mexido." data-item-price="R$ 20 / R$ 18" data-price-cuscuz="R$ 20" data-price-tapioca="R$ 18" data-item-image="assets/images/menu/tapioca-e-cuscuz/ovos-classicos.webp">
             <div class="item-thumb"><img src="assets/images/menu/tapioca-e-cuscuz/ovos-classicos.webp" alt="Ovos Clássicos"></div>
             <div class="item-body"><h3 class="item-name">Ovos Clássicos</h3><p class="item-desc">Ovo frito ou mexido.</p></div>
-            <p class="item-price">R$ 20</p>
-            <p class="item-price" style="min-width:4.5rem;">R$ 18</p>
+            <div><p class="item-price dynamic-price">R$ 20</p></div>
           </div>
-          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;" data-item-name="Queijo Coalho" data-item-desc="Queijo coalho na manteiga da terra." data-item-price="R$ 23 / R$ 21" data-item-image="assets/images/menu/tapioca-e-cuscuz/queijo-coalho.webp">
+          <div class="menu-item reveal" data-item-name="Queijo Coalho" data-item-desc="Queijo coalho na manteiga da terra." data-item-price="R$ 23 / R$ 21" data-price-cuscuz="R$ 23" data-price-tapioca="R$ 21" data-item-image="assets/images/menu/tapioca-e-cuscuz/queijo-coalho.webp">
             <div class="item-thumb"><img src="assets/images/menu/tapioca-e-cuscuz/queijo-coalho.webp" alt="Queijo Coalho"></div>
             <div class="item-body"><h3 class="item-name">Queijo Coalho</h3><p class="item-desc">Queijo coalho na manteiga da terra.</p></div>
-            <p class="item-price">R$ 23</p>
-            <p class="item-price" style="min-width:4.5rem;">R$ 21</p>
+            <div><p class="item-price dynamic-price">R$ 23</p></div>
           </div>
-          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;" data-item-name="Frango Cremoso" data-item-desc="Frango, milho, requeijão e vinagrete." data-item-price="R$ 25 / R$ 25" data-item-image="assets/images/menu/tapioca-e-cuscuz/frango-cremoso.webp">
+          <div class="menu-item reveal" data-item-name="Frango Cremoso" data-item-desc="Frango, milho, requeijão e vinagrete." data-item-price="R$ 25 / R$ 25" data-price-cuscuz="R$ 25" data-price-tapioca="R$ 25" data-item-image="assets/images/menu/tapioca-e-cuscuz/frango-cremoso.webp">
             <div class="item-thumb"><img src="assets/images/menu/tapioca-e-cuscuz/frango-cremoso.webp" alt="Frango Cremoso"></div>
             <div class="item-body"><h3 class="item-name">Frango Cremoso</h3><p class="item-desc">Frango, milho, requeijão e vinagrete.</p></div>
-            <p class="item-price">R$ 25</p>
-            <p class="item-price" style="min-width:4.5rem;">R$ 25</p>
+            <div><p class="item-price dynamic-price">R$ 25</p></div>
           </div>
-          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;" data-item-name="Caprese" data-item-desc="Queijo, tomate e manjericão." data-item-price="R$ 28 / R$ 26" data-item-image="assets/images/menu/tapioca-e-cuscuz/caprese.webp" data-item-profile="veg">
+          <div class="menu-item reveal" data-item-name="Caprese" data-item-desc="Queijo, tomate e manjericão." data-item-price="R$ 28 / R$ 26" data-price-cuscuz="R$ 28" data-price-tapioca="R$ 26" data-item-image="assets/images/menu/tapioca-e-cuscuz/caprese.webp" data-item-profile="veg">
             <div class="item-thumb"><img src="assets/images/menu/tapioca-e-cuscuz/caprese.webp" alt="Caprese"></div>
             <div class="item-body"><h3 class="item-name">Caprese</h3><p class="item-desc">Queijo, tomate e manjericão.</p>
               <div class="item-badges"><span class="badge">Vegetariano</span></div>
             </div>
-            <p class="item-price">R$ 28</p>
-            <p class="item-price" style="min-width:4.5rem;">R$ 26</p>
+            <div><p class="item-price dynamic-price">R$ 28</p></div>
           </div>
-          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;" data-item-name="Sertão" data-item-desc="Carne de sol e queijo coalho." data-item-price="R$ 30 / R$ 30" data-item-image="assets/images/menu/tapioca-e-cuscuz/sertao.webp">
+          <div class="menu-item reveal" data-item-name="Sertão" data-item-desc="Carne de sol e queijo coalho." data-item-price="R$ 30 / R$ 30" data-price-cuscuz="R$ 30" data-price-tapioca="R$ 30" data-item-image="assets/images/menu/tapioca-e-cuscuz/sertao.webp">
             <div class="item-thumb"><img src="assets/images/menu/tapioca-e-cuscuz/sertao.webp" alt="Sertão"></div>
             <div class="item-body"><h3 class="item-name">Sertão</h3><p class="item-desc">Carne de sol e queijo coalho.</p></div>
-            <p class="item-price">R$ 30</p>
-            <p class="item-price" style="min-width:4.5rem;">R$ 30</p>
+            <div><p class="item-price dynamic-price">R$ 30</p></div>
           </div>
-          <div class="menu-item reveal" style="grid-template-columns:1fr auto auto;gap:1rem;" data-item-name="Gostosinho" data-item-desc="Carne moída, ovos, vinagrete e cheiro-verde." data-item-price="R$ 30 / R$ 30" data-item-image="assets/images/menu/review/tapioca-gostosinho.webp">
-            <div class="item-thumb"><img src="assets/images/menu/review/tapioca-gostosinho.webp" alt="Gostosinho"></div>
+          <div class="menu-item reveal" data-item-name="Gostosinho" data-item-desc="Carne moída, ovos, vinagrete e cheiro-verde." data-item-price="R$ 30 / R$ 30" data-price-cuscuz="R$ 30" data-price-tapioca="R$ 30" data-item-image="assets/images/menu/unmatched/tapioca-gostosinho.webp">
+            <div class="item-thumb"><img src="assets/images/menu/unmatched/tapioca-gostosinho.webp" alt="Gostosinho"></div>
             <div class="item-body"><h3 class="item-name">Gostosinho</h3><p class="item-desc">Carne moída, ovos, vinagrete e cheiro-verde.</p></div>
-            <p class="item-price">R$ 30</p>
-            <p class="item-price" style="min-width:4.5rem;">R$ 30</p>
+            <div><p class="item-price dynamic-price">R$ 30</p></div>
           </div>
         </div>
       </div>
