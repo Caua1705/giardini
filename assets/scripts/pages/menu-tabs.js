@@ -626,44 +626,65 @@
       });
     })();
 
-    /* ══════════════════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════════════════════════
        BASE SELECTOR LOGIC (TAPIOCA / CUSCUZ)
-    ══════════════════════════════════════════════════════════════════ */
+    ═══════════════════════════════════════════════════════════════════════════ */
     (function initBaseSelector() {
       const toggleBtns = document.querySelectorAll('.base-toggle-btn');
       if (toggleBtns.length === 0) return;
 
+      function updateTapiocaGrid(base) {
+        const tapiocaGrid = document.querySelector('#tapioca .menu-grid');
+        if (!tapiocaGrid) return;
+        
+        const items = tapiocaGrid.querySelectorAll('.menu-item');
+        items.forEach(item => {
+          // Toggle image paths
+          const thumbImg = item.querySelector('.item-thumb img');
+          const currentDataImg = item.getAttribute('data-item-image');
+          
+          if (thumbImg && currentDataImg) {
+            const newPath = base === 'cuscuz' 
+              ? currentDataImg.replace('/tapioca-e-cuscuz/tapioca/', '/tapioca-e-cuscuz/cuzcuz/')
+              : currentDataImg.replace('/tapioca-e-cuscuz/cuzcuz/', '/tapioca-e-cuscuz/tapioca/');
+            
+            thumbImg.src = newPath;
+            item.setAttribute('data-item-image', newPath);
+          }
+
+          item.classList.remove('thumb-hidden');
+
+          // Toggle prices
+          const priceEl = item.querySelector('.dynamic-price');
+          if (!priceEl) return;
+          
+          const targetAttr = base === 'cuscuz' ? 'data-price-cuscuz' : 'data-price-tapioca';
+          const newPrice = item.getAttribute(targetAttr);
+          
+          if (newPrice && priceEl.innerHTML !== newPrice) {
+            gsap.to(priceEl, { opacity: 0, y: -2, duration: 0.15, onComplete: () => {
+              priceEl.innerHTML = newPrice;
+              gsap.to(priceEl, { opacity: 1, y: 0, duration: 0.15 });
+            }});
+          }
+        });
+      }
+
       toggleBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
-          // Update active states on buttons
           toggleBtns.forEach(b => b.classList.remove('active'));
           const currentBtn = e.currentTarget;
           currentBtn.classList.add('active');
 
           const base = currentBtn.getAttribute('data-base'); // 'cuscuz' or 'tapioca'
-
-          // Find all items within the Tapioca grid
-          const tapiocaGrid = document.querySelector('#tapioca .menu-grid');
-          if (!tapiocaGrid) return;
-
-          const items = tapiocaGrid.querySelectorAll('.menu-item');
-          items.forEach(item => {
-            const priceEl = item.querySelector('.dynamic-price');
-            if (!priceEl) return;
-            
-            // Extract the target price based on selected base
-            const targetAttr = base === 'cuscuz' ? 'data-price-cuscuz' : 'data-price-tapioca';
-            const newPrice = item.getAttribute(targetAttr);
-            
-            if (newPrice) {
-              // Create a tiny subtle animation jump when price changes
-              gsap.to(priceEl, { opacity: 0, y: -2, duration: 0.15, onComplete: () => {
-                priceEl.innerHTML = newPrice;
-                gsap.to(priceEl, { opacity: 1, y: 0, duration: 0.15 });
-              }});
-            }
-          });
+          updateTapiocaGrid(base);
         });
       });
+
+      // Initialize initial render state
+      const initialActive = document.querySelector('.base-toggle-btn.active');
+      if (initialActive) {
+        updateTapiocaGrid(initialActive.getAttribute('data-base'));
+      }
     })();
 
