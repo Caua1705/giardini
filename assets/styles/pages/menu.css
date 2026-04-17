@@ -2053,3 +2053,81 @@ footer {
   footer { padding: 2.5rem 1.25rem; gap: 1.25rem; }
   .mobile-link { font-size: 2.2rem; }
 }
+/* ---------------------------------------------------------------------------
+   PREMIUM SEGMENTED CONTROL (TAPIOCA/CUSCUZ)
+   --------------------------------------------------------------------------- */
+
+.base-selector-wrapper {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0.8rem !important;
+  padding: 1.5rem 0 2.5rem !important; 
+  margin-bottom: 2.5rem !important;
+  margin-top: 1rem !important; 
+  border-bottom: 1px solid rgba(234, 228, 217, 0.08) !important; 
+}
+
+.base-selector-label {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: rgba(234, 228, 217, 0.5) !important; 
+  margin: 0 !important;
+}
+
+.base-selector {
+  display: inline-flex !important;
+  background-color: rgba(43, 74, 59, 0.4) !important; 
+  border: 1px solid rgba(234, 228, 217, 0.1) !important; 
+  border-radius: 999px !important;
+  padding: 6px !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+.base-toggle-btn {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 999px !important;
+  padding: 0.65rem 2.25rem !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  color: rgba(234, 228, 217, 0.6) !important; 
+  cursor: pointer !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  font-family: 'Inter', sans-serif !important;
+  outline: none !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+}
+
+.base-toggle-btn:hover {
+  color: rgba(234, 228, 217, 0.95) !important;
+  background: rgba(234, 228, 217, 0.04) !important;
+}
+
+/* Active Toggle: High contrast, Ivory pill with dark text */
+.base-toggle-btn.active {
+  background: var(--c-accent, #EAE4D9) !important; 
+  box-shadow: 0 4px 15px rgba(234, 228, 217, 0.15) !important; 
+  color: var(--c-primary, #2B4A3B) !important; 
+  font-weight: 600 !important;
+}
+
+@media (max-width: 767px) {
+  .base-selector-wrapper {
+    align-items: stretch !important;
+    padding: 1rem 0 2rem !important;
+  }
+  .base-selector {
+    display: flex !important;
+    width: 100% !important;
+  }
+  .base-toggle-btn {
+    flex: 1 !important;
+    text-align: center !important;
+    padding: 0.75rem 1rem !important;
+  }
+}
