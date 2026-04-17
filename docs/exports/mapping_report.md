@@ -6,14 +6,14 @@
 | Brie e Mel | massa-folhada_brie-e-mel.webp | ✅ Matched |
 | Caprese | massa-folhada_caprese.webp | ✅ Matched |
 | Doce de Leite Artesanal | massa-folhada_doce-de-leite-artesanal.webp | ✅ Matched |
-| Frango com Requeijão | massa-folhada_frango-com-requeijao.webp | ✅ Matched |
+| Frango com Requeijão | massa-folhada_frango-com-requeijao.png | ✅ Matched |
 | Sertaneja | massa-folhada_sertaneja.webp | ✅ Matched |
-| Pão na Chapa | - | ❌ Unmatched |
-| Pão com Ovo | paes-e-chapa_pao-com-ovo.webp | ✅ Matched |
+| Pão na Chapa | paes-e-chapa_pao-na-chapa.png | ✅ Matched |
+| Pão com Ovo | paes-e-chapa_pao-com-ovo.png | ✅ Matched |
 | Misto Quente Clássico | paes-e-chapa_misto-quente-classico.webp | ✅ Matched |
 | Queijo Quente | paes-e-chapa_queijo-quente.webp | ✅ Matched |
 | Frango Giardini | paes-e-chapa_frango-giardini.webp | ✅ Matched |
-| Pão Sertanejo | paes-e-chapa_pao-sertanejo.webp | ✅ Matched |
+| Pão Sertanejo | paes-e-chapa_pao-sertanejo.png | ✅ Matched |
 | Start do Dia | big-combos-experiencias_start-do-dia.png | ✅ Matched |
 | O Parisiense | big-combos-experiencias_o-parisiense.png | ✅ Matched |
 | Nordestino Arretado | big-combos-experiencias_nordestino-arretado.png | ✅ Matched |
