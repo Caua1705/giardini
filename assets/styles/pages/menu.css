@@ -1637,6 +1637,8 @@ footer {
     top: 0 !important;
     padding: 1rem 1.25rem;
     background-color: transparent !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
   }
 
   #navbar.is-scrolled {
@@ -1647,6 +1649,7 @@ footer {
     background-color: transparent !important;
     backdrop-filter: none !important;
     border-bottom: none !important;
+    box-shadow: none !important;
   }
 
   #navbar .nav-logo { font-size: 1.3rem; flex: unset; }
@@ -1691,43 +1694,44 @@ footer {
   }
 
   .hero-content {
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 5.5rem 1.5rem 0;
+    padding: 0 1.5rem; /* Permite que o flexbox centralize perfeitamente 
+                          no eixo Y sem empurrar para cima */
     gap: 0;
   }
 
   .hero-kicker {
-    font-size: 0.44rem;
-    letter-spacing: 0.45em;
+    font-size: 0.52rem;
+    letter-spacing: 0.5em;
     gap: 0.8rem;
-    margin-bottom: 1rem;
-    color: rgba(183, 147, 88, 0.70);
+    margin-bottom: 1.2rem;
+    color: rgba(183, 147, 88, 0.85);
   }
 
   .hero-title {
-    font-size: clamp(3rem, 12vw, 4.5rem);
-    line-height: 0.94;
+    font-size: clamp(3.8rem, 15vw, 5.2rem);
+    line-height: 0.92;
     letter-spacing: -0.03em;
     text-align: center;
   }
 
   .hero-title-sep {
     display: block !important;
-    width: 32px;
+    width: 40px;
     height: 1px;
-    background: rgba(200, 225, 208, 0.40);
-    margin: 1.2rem auto;
+    background: rgba(200, 225, 208, 0.50);
+    margin: 1.5rem auto;
   }
 
   .hero-sub {
-    font-size: 0.78rem;
-    line-height: 1.65;
-    max-width: 260px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    max-width: 290px;
     text-align: center;
-    margin: 0 auto 1.6rem auto;
-    color: rgba(200, 210, 198, 0.70);
+    margin: 0 auto 2rem auto;
+    color: rgba(200, 210, 198, 0.80);
   }
 
   .hero-cta-wrap {
@@ -1749,18 +1753,17 @@ footer {
   }
 
   #video-frame {
-    width: 100vw;
-    max-width: 460px;
-    top: 105%;
-    left: 50%;
-    opacity: 0.90;
+    width: 90vw !important; /* Tamanho proporcional, respira nas bordas */
+    max-width: 340px !important;
+    top: 50% !important; /* Fica alinhado exato com o texto */
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    opacity: 0.70 !important;
     aspect-ratio: 9/16;
-    mask-image: radial-gradient(ellipse 90% 55% at 50% 20%,
-      rgba(0,0,0,1) 0%, rgba(0,0,0,0.92) 20%,
-      rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.10) 60%, rgba(0,0,0,0) 80%);
-    -webkit-mask-image: radial-gradient(ellipse 90% 55% at 50% 20%,
-      rgba(0,0,0,1) 0%, rgba(0,0,0,0.92) 20%,
-      rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.10) 60%, rgba(0,0,0,0) 80%);
+    mask-image: radial-gradient(ellipse 75% 55% at 50% 50%,
+      rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: radial-gradient(ellipse 75% 55% at 50% 50%,
+      rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0) 100%);
   }
 
   #hero-pin-wrapper::after {
@@ -1892,9 +1895,9 @@ footer {
 
   .menu-item {
     display: grid !important;
-    grid-template-columns: 125px 1fr !important; /* Tamanho forte e simétrico da thumb */
-    gap: 0.5rem 1rem !important; /* Espaçamento aproximado de 16px da foto */
-    padding: 1.5rem 0 !important; /* Altura generosa entre cada produto */
+    grid-template-columns: 145px 1fr !important; /* Massive increase for mobile presence */
+    gap: 0.5rem 1.25rem !important; /* Refined breathing room laterally */
+    padding: 2.25rem 0 !important; /* Huge vertical padding, less items per screen */
     margin: 0 !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
     border-radius: 0 !important;
@@ -1918,8 +1921,8 @@ footer {
 
   /* ── THUMBNAIL ── */
   .item-thumb {
-    width: 125px !important;
-    height: 125px !important;
+    width: 145px !important;
+    height: 145px !important;
     border-radius: 8px !important;
     grid-row: 1 / span 4 !important;
     grid-column: 1 !important;
@@ -1944,21 +1947,20 @@ footer {
     display: contents !important;
   }
   
-  /* 1. NOME (Uppercase como na ref) */
+  /* 1. NOME (Restaurada identidade original com tamanho formidável) */
   .item-name {
     grid-column: 2 !important;
     grid-row: 1 !important;
     align-self: end !important;
-    font-size: 1.05rem !important; /* Menor mas maiúsculo */
-    line-height: 1.25 !important;
-    letter-spacing: 0.05em !important; /* Traço editorial */
-    text-transform: uppercase !important; /* Correspondência com a foto (SALMÃO | MOLHO...) */
+    font-size: 1.35rem !important; /* Substantial reading clarity */
+    line-height: 1.15 !important;
+    letter-spacing: -0.01em !important; 
     color: rgba(236, 230, 218, 0.95) !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    margin: 0 !important;
+    margin: 0 0 0.15rem 0 !important;
   }
 
   .menu-item:not(:has(.item-thumb)) .item-name {
@@ -1973,8 +1975,8 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: flex-start !important;
-    margin-top: 0.2rem !important; /* Super colado no título */
-    margin-bottom: 0.4rem !important;
+    margin-top: 0 !important; 
+    margin-bottom: 0.6rem !important; /* Larger separation before description */
   }
   
   .menu-item:not(:has(.item-thumb)) > div:last-child {
@@ -1982,16 +1984,16 @@ footer {
   }
 
   .item-price {
-    font-size: 1rem !important; /* Ligeiramente menor que o title */
+    font-size: 1.25rem !important; /* Very strong price presence */
     font-weight: 600 !important;
-    color: var(--c-gold, rgba(183, 147, 88, 0.95)) !important; /* Dourado/quente */
+    color: var(--c-gold, rgba(183, 147, 88, 0.95)) !important; 
     text-align: left !important;
     white-space: nowrap !important;
     line-height: 1 !important;
   }
   
   .item-price-sub {
-    font-size: 0.65rem !important;
+    font-size: 0.75rem !important;
     text-align: left !important;
     margin-top: 0.15rem !important;
     color: rgba(228, 221, 208, 0.65) !important;
@@ -2002,10 +2004,10 @@ footer {
     grid-column: 2 !important;
     grid-row: 3 !important;
     align-self: start !important;
-    font-size: 0.85rem !important;
-    line-height: 1.4 !important;
+    font-size: 0.9rem !important; /* Consideravelmente ais legível */
+    line-height: 1.45 !important;
     margin-top: 0 !important;
-    color: rgba(228, 221, 208, 0.60) !important;
+    color: rgba(228, 221, 208, 0.65) !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 2 !important;
     -webkit-box-orient: vertical;
@@ -2034,18 +2036,44 @@ footer {
     padding: 0 !important;
   }
 
-  /* ── VERTICAL LINE ARTIFACT — kill it ──
-     components.css L5388 adds #menu-body::after as a decorative
-     vertical left-margin line. Kill it on mobile, alongside any
-     other central artifact. */
+  /* ── ARRASTÕES DE LINHAS FANTASMAS — Kill it ──
+     Desliga grid marks (horizontais/verticais) no mobile, 
+     linhas decoradoras de scroll formadas e divisores de header/footer errantes.
+     Abaixo também morre o Shimmer Line (linha verde de varredura infinita
+     sob os títulos das Categorias/Section Headers, L943). */
   #menu-body::after,
   #menu-body::before,
   .menu-main-wrapper::after,
   .menu-main-wrapper::before,
-  #hero-bg-cols {
+  #hero-bg-cols,
+  .hero-grid-bg,
+  .hero-col,
+  .scroll-indicator-wrap,
+  #scroll-progress-line,
+  #cat-nav::after,
+  #cat-nav::before,
+  #hero-left::after,
+  .section-header::after {
     display: none !important;
     content: none !important;
     width: 0 !important;
+    height: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    animation: none !important; /* Trava imediatamente os infinite shimmers */
+  }
+
+  /* Desliga o texto animado em degradê nos títulos das seções (ex: "Clássicos da Manhã") */
+  .section-title {
+    animation: none !important;
+    background: none !important;
+    -webkit-text-fill-color: var(--c-dark) !important;
+    color: var(--c-dark) !important;
+  }
+
+  .section-title em {
+    -webkit-text-fill-color: var(--c-editorial) !important;
+    color: var(--c-editorial) !important;
   }
 
   /* Also kill the menu-item hover pseudo border */
@@ -2127,6 +2155,36 @@ footer {
 
   .modal-title {
     font-size: 1.8rem;
+  }
+
+  /* ── 5. PADRONIZAÇÃO ABSOLUTA DO FUNDO MOBILE ──
+     Para evitar qualquer flash, sombra passando ou linha atravessando a tela,
+     nós removemos todas as texturas, degradês e animações de background. */
+  html, body, #menu-body, .menu-main-wrapper {
+    background: var(--m-bg) !important;
+    background-image: none !important;
+  }
+
+  body::before,
+  body::after,
+  html::before,
+  html::after,
+  .noise-overlay,
+  #global-grain,
+  .hero-grain,
+  #menu-orb-1,
+  #menu-orb-2,
+  #lateral-vignette {
+    display: none !important;
+    opacity: 0 !important;
+    animation: none !important;
+    content: none !important;
+    background: none !important;
+  }
+
+  /* Aplica background solid sem borders ou box-shadow em todos os elementos de categoria e wrapper */
+  .category-group {
+    background: transparent !important;
   }
 
   /* ── REVEALS — force visible on mobile ──
