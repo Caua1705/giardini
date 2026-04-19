@@ -116,7 +116,7 @@ body::after { display: none; }
 .loader-text {
   font-family: 'Instrument Serif', serif;
   font-size: clamp(2.5rem, 8vw, 5rem);
-  color: var(--c-primary);
+  color: var(--c-dark); /* Cream so it's readable on dark green */
   letter-spacing: -0.02em;
 }
 
@@ -602,6 +602,10 @@ body::after { display: none; }
   opacity: 0;
   transform: translateY(10px);
 }
+
+.mobile-text { display: none; }
+.desktop-text { display: inline; }
+
 
 .hero-cta-wrap {
   display: flex;
@@ -1712,7 +1716,7 @@ footer {
     letter-spacing: 0.5em;
     gap: 0.8rem;
     margin-bottom: 1.2rem;
-    color: rgba(183, 147, 88, 0.85);
+    color: var(--c-editorial) !important;
   }
 
   .hero-title {
@@ -1720,7 +1724,16 @@ footer {
     line-height: 0.92;
     letter-spacing: -0.03em;
     text-align: center;
+    color: var(--c-dark) !important;
   }
+
+  .hero-title em {
+    color: var(--c-editorial) !important;
+  }
+  
+  .loader { background: var(--m-bg) !important; }
+  .loader-text { color: var(--c-dark) !important; }
+  .loader-tagline { color: var(--c-editorial) !important; }
 
   .hero-title-sep {
     display: block !important;
@@ -1738,6 +1751,9 @@ footer {
     margin: 0 auto 2rem auto;
     color: rgba(200, 210, 198, 0.80);
   }
+
+  .desktop-text { display: none !important; }
+  .mobile-text { display: inline !important; }
 
   .hero-cta-wrap {
     flex-direction: column !important;
@@ -2184,6 +2200,12 @@ footer {
     animation: none !important;
     content: none !important;
     background: none !important;
+  }
+
+  /* Increase hero background size to fix color divergence instead of hiding it */
+  .hero-bg {
+    height: 150vh !important;
+    background: radial-gradient(ellipse at 50% 40%, #0E1E12 0%, #091410 50%, #050C07 100%) !important;
   }
 
   /* Aplica background solid sem borders ou box-shadow em todos os elementos de categoria e wrapper */
