@@ -1896,7 +1896,7 @@ footer {
   /* ── 1. CORE CARD — Exactly as user specified ── */
   .menu-item {
     display: grid !important;
-    grid-template-columns: 108px minmax(0, 1fr) !important;
+    grid-template-columns: 125px minmax(0, 1fr) !important;
     grid-template-rows: auto auto auto auto;
     column-gap: 16px !important;
     align-items: start !important;
@@ -1922,8 +1922,8 @@ footer {
 
   /* ── 2. THUMBNAIL ── */
   .item-thumb {
-    width: 108px !important;
-    height: 108px !important;
+    width: 125px !important;
+    height: 125px !important;
     border-radius: 14px !important;
     grid-row: 1 / span 4 !important;
     grid-column: 1 !important;
@@ -1974,7 +1974,7 @@ footer {
   }
 
   .item-price {
-    font-size: 1.05rem !important;
+    font-size: 0.92rem !important;
     line-height: 1 !important;
     font-weight: 600 !important;
     color: var(--c-gold, rgba(183, 147, 88, 0.95)) !important; 
@@ -1991,7 +1991,7 @@ footer {
   .item-desc {
     grid-column: 2 !important;
     grid-row: 3 !important;
-    font-size: 0.92rem !important;
+    font-size: 0.85rem !important;
     line-height: 1.35 !important;
     margin: 0 !important;
     color: rgba(228, 221, 208, 0.65) !important;
