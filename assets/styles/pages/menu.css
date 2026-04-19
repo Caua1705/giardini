@@ -1633,15 +1633,20 @@ footer {
 
   /* ── NAVBAR ── */
   #navbar {
+    position: absolute !important;
+    top: 0 !important;
     padding: 1rem 1.25rem;
-    background-color: transparent;
+    background-color: transparent !important;
   }
 
   #navbar.is-scrolled {
+    position: absolute !important; /* Evita colar na tela rolando */
+    top: 0 !important;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    background-color: rgba(218, 230, 222, 0.97) !important;
-    backdrop-filter: blur(20px) !important;
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+    border-bottom: none !important;
   }
 
   #navbar .nav-logo { font-size: 1.3rem; flex: unset; }
@@ -1887,9 +1892,9 @@ footer {
 
   .menu-item {
     display: grid !important;
-    grid-template-columns: 125px 1fr !important; /* Thumb aumentada (125px) */
-    gap: 0.6rem 1.15rem !important; /* Espaçamentos internos levemente maiores */
-    padding: 1.75rem 0 !important; /* Mais altura visual (premium) */
+    grid-template-columns: 125px 1fr !important; /* Tamanho forte e simétrico da thumb */
+    gap: 0.5rem 1rem !important; /* Espaçamento aproximado de 16px da foto */
+    padding: 1.5rem 0 !important; /* Altura generosa entre cada produto */
     margin: 0 !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
     border-radius: 0 !important;
@@ -1911,12 +1916,12 @@ footer {
     background: transparent !important;
   }
 
-  /* ── THUMBNAIL — larger, more presence (+ ~13% size) ── */
+  /* ── THUMBNAIL ── */
   .item-thumb {
     width: 125px !important;
     height: 125px !important;
     border-radius: 8px !important;
-    grid-row: 1 / span 4 !important; /* Ocupa até 4 rows virtuais do texto */
+    grid-row: 1 / span 4 !important;
     grid-column: 1 !important;
     overflow: hidden !important;
     margin: 0 !important;
@@ -1927,26 +1932,27 @@ footer {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
-    transform: none !important; /* Overriding desktop scale transforms */
+    transform: none !important;
   }
 
   .menu-item:hover .item-thumb img {
     transform: none !important;
   }
 
-  /* ── ITEM BODY — Unleash children to parent grid ── */
+  /* ── ITEM BODY ── */
   .item-body {
     display: contents !important;
   }
   
-  /* 1. NOME (+ ~8-10% size) */
+  /* 1. NOME (Uppercase como na ref) */
   .item-name {
     grid-column: 2 !important;
     grid-row: 1 !important;
     align-self: end !important;
-    font-size: 1.25rem !important; /* Aumentado */
+    font-size: 1.05rem !important; /* Menor mas maiúsculo */
     line-height: 1.25 !important;
-    letter-spacing: -0.01em !important;
+    letter-spacing: 0.05em !important; /* Traço editorial */
+    text-transform: uppercase !important; /* Correspondência com a foto (SALMÃO | MOLHO...) */
     color: rgba(236, 230, 218, 0.95) !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 2;
@@ -1959,7 +1965,7 @@ footer {
     grid-column: 1 !important;
   }
   
-  /* 2. PREÇO (div:last-child wrapper e parágrafos) */
+  /* 2. PREÇO */
   .menu-item > div:last-child {
     grid-column: 2 !important;
     grid-row: 2 !important;
@@ -1967,8 +1973,8 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: flex-start !important;
-    margin-top: 0.15rem !important;
-    margin-bottom: 0.25rem !important;
+    margin-top: 0.2rem !important; /* Super colado no título */
+    margin-bottom: 0.4rem !important;
   }
   
   .menu-item:not(:has(.item-thumb)) > div:last-child {
@@ -1976,9 +1982,9 @@ footer {
   }
 
   .item-price {
-    font-size: 1.18rem !important; /* Aumentado um pouco para equilibrar com o título forte */
+    font-size: 1rem !important; /* Ligeiramente menor que o title */
     font-weight: 600 !important;
-    color: var(--c-gold, rgba(183, 147, 88, 0.95)) !important;
+    color: var(--c-gold, rgba(183, 147, 88, 0.95)) !important; /* Dourado/quente */
     text-align: left !important;
     white-space: nowrap !important;
     line-height: 1 !important;
