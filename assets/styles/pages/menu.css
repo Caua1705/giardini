@@ -1896,14 +1896,14 @@ footer {
   /* ── 1. CORE CARD — Exactly as user specified ── */
   .menu-item {
     display: grid !important;
-    grid-template-columns: 125px minmax(0, 1fr) !important;
+    grid-template-columns: 138px minmax(0, 1fr) !important;
     grid-template-rows: auto auto auto auto;
     column-gap: 16px !important;
     align-items: start !important;
     padding: 18px 0 !important;
     min-height: 128px !important;
     margin: 0 !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important; /* Linha mais sutil/fina e premium */
     border-radius: 0 !important;
   }
 
@@ -1922,9 +1922,9 @@ footer {
 
   /* ── 2. THUMBNAIL ── */
   .item-thumb {
-    width: 125px !important;
-    height: 125px !important;
-    border-radius: 14px !important;
+    width: 138px !important;
+    height: 138px !important;
+    border-radius: 8px !important; /* Curva mais aguda e editorial */
     grid-row: 1 / span 4 !important;
     grid-column: 1 !important;
     overflow: hidden !important;
@@ -2160,19 +2160,15 @@ footer {
     font-size: 1.8rem;
   }
 
-  /* ── 5. PADRONIZAÇÃO ABSOLUTA DO FUNDO MOBILE ──
-     Para evitar qualquer flash, sombra passando ou linha atravessando a tela,
-     nós removemos todas as texturas, degradês e animações de background. */
+  /* ── 5. PADRONIZAÇÃO DO FUNDO MOBILE ──
+     Devolvemos a luminosidade nativa do PC removendo a trava de noise/glow. */
   html, body, #menu-body, .menu-main-wrapper {
     background: var(--m-bg) !important;
-    background-image: none !important;
   }
 
-  body::before,
   body::after,
   html::before,
   html::after,
-  .noise-overlay,
   #global-grain,
   .hero-grain,
   #menu-orb-1,
