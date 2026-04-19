@@ -2201,6 +2201,87 @@ footer {
     transition: none !important;
   }
 
+  /* ── 8. MOBILE HIERARCHY & NAVIGATION REFINEMENT ──
+     Requested by User: Make hierarchy cleaner, stronger, more professional. */
+  
+  /* Strongly stick the main category navigation with a premium blur */
+  #cat-nav {
+    position: sticky !important;
+    top: 55px !important; /* Below the mobile header */
+    z-index: 100 !important;
+    background: linear-gradient(180deg, rgba(14, 27, 19, 0.95) 0%, rgba(14, 27, 19, 0.75) 100%) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    padding: 0.5rem 0 0.8rem 0 !important;
+    margin-bottom: 2.5rem !important;
+    box-shadow: 0 4px 20px -5px rgba(0,0,0,0.4) !important;
+  }
+  .cat-nav-inner {
+    padding: 0 1.25rem !important;
+    margin: 0 !important;
+    gap: 0.65rem !important;
+    justify-content: flex-start !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+    /* Soft edges for scroll */
+    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%) !important;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%) !important;
+  }
+  .cat-nav-inner::-webkit-scrollbar { display: none !important; }
+  .cat-btn {
+    padding: 0.5rem 1.1rem !important;
+    font-size: 0.72rem !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Defensively wipe out any second-layer subcategory navigation rows (if added) */
+  .sub-cat-nav, .subcategory-nav {
+    display: none !important;
+  }
+
+  /* Subcategories become strong section headings */
+  .menu-section {
+    padding-bottom: 4.5rem !important; /* Stronger visual rhythm/breathing room */
+  }
+  
+  .section-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.6rem !important;
+    padding-bottom: 1.5rem !important;
+    margin-bottom: 2.5rem !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .section-title {
+    font-size: clamp(2.2rem, 9vw, 2.8rem) !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.05 !important;
+    margin: 0 !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+  }
+
+  /* Eyebrow Labels (e.g. CROISSANTS) - larger, more legible, and elegant */
+  .section-kicker {
+    font-size: 0.68rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    color: rgba(183, 147, 88, 0.95) !important; /* Gold premium accent */
+    margin-bottom: 0.3rem !important;
+    opacity: 1 !important;
+  }
+
+  /* Item count size upgrade */
+  .section-count {
+    font-size: 0.65rem !important;
+    opacity: 0.4 !important;
+    letter-spacing: 0.15em !important;
+  }
+
   .menu-grid .reveal:nth-child(n) { transition-delay: 0s; }
 
   /* Override clip-path reveal from components.css */
@@ -2329,8 +2410,7 @@ footer {
   }
 
   /* O bloco nativo apagado daqui evitava estragar mobile menores */
-
-  .section-title { font-size: clamp(1.3rem, 5.5vw, 1.6rem); }
+  /* .section-title removido: herdando do bloco 767px premium */
 
   footer { padding: 2.5rem 1.25rem; gap: 1.25rem; }
   .mobile-link { font-size: 2.2rem; }
