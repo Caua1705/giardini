@@ -1887,9 +1887,9 @@ footer {
 
   .menu-item {
     display: grid !important;
-    grid-template-columns: 110px 1fr !important; /* 2 colunas: thumb e conteúdo */
-    gap: 0.5rem 1rem !important; /* Row x Col Gap */
-    padding: 1.5rem 0 !important; /* Mais respiro de um cardápio real */
+    grid-template-columns: 125px 1fr !important; /* Thumb aumentada (125px) */
+    gap: 0.6rem 1.15rem !important; /* Espaçamentos internos levemente maiores */
+    padding: 1.75rem 0 !important; /* Mais altura visual (premium) */
     margin: 0 !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
     border-radius: 0 !important;
@@ -1911,10 +1911,10 @@ footer {
     background: transparent !important;
   }
 
-  /* ── THUMBNAIL — larger, more presence ── */
+  /* ── THUMBNAIL — larger, more presence (+ ~13% size) ── */
   .item-thumb {
-    width: 110px !important;
-    height: 110px !important;
+    width: 125px !important;
+    height: 125px !important;
     border-radius: 8px !important;
     grid-row: 1 / span 4 !important; /* Ocupa até 4 rows virtuais do texto */
     grid-column: 1 !important;
@@ -1939,12 +1939,12 @@ footer {
     display: contents !important;
   }
   
-  /* 1. NOME */
+  /* 1. NOME (+ ~8-10% size) */
   .item-name {
     grid-column: 2 !important;
     grid-row: 1 !important;
     align-self: end !important;
-    font-size: 1.15rem !important;
+    font-size: 1.25rem !important; /* Aumentado */
     line-height: 1.25 !important;
     letter-spacing: -0.01em !important;
     color: rgba(236, 230, 218, 0.95) !important;
@@ -1976,7 +1976,7 @@ footer {
   }
 
   .item-price {
-    font-size: 1.1rem !important;
+    font-size: 1.18rem !important; /* Aumentado um pouco para equilibrar com o título forte */
     font-weight: 600 !important;
     color: var(--c-gold, rgba(183, 147, 88, 0.95)) !important;
     text-align: left !important;
