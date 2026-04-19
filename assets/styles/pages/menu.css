@@ -21,11 +21,11 @@
 /* ══ 1. GLOBALS ══════════════════════════════════════════════════════════ */
 
 :root {
-  /* Immersive dark green from homepage */
-  --c-bg:        #0A120D;
-  --m-bg:        #0A120D;
-  --m-bg-deep:   #0E1A12;
-  --m-bg-glow:   #142419;
+  /* Elevado para o tom floresta (família Location), menos preto */
+  --c-bg:        #0E1B13;
+  --m-bg:        #0E1B13;
+  --m-bg-deep:   #0A140F;
+  --m-bg-glow:   #132419;
   --m-bg-surface: rgba(234, 228, 217, 0.04);
   --c-dark:      #FDFBF7;
   --c-primary:   #2B4A3B;
@@ -42,7 +42,12 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
-  background: var(--m-bg) !important;
+  /* Premium deep green gradient matching Location family but strictly darker */
+  background: linear-gradient(160deg, #132419 0%, #0E1B13 45%, #0A140F 100%) fixed !important;
+}
+
+body {
+  background: transparent !important;
 }
 
 @media (max-width: 767px) {
@@ -2162,8 +2167,8 @@ footer {
 
   /* ── 5. PADRONIZAÇÃO DO FUNDO MOBILE ──
      Devolvemos a luminosidade nativa do PC removendo a trava de noise/glow. */
-  html, body, #menu-body, .menu-main-wrapper {
-    background: var(--m-bg) !important;
+  body, #menu-body, .menu-main-wrapper {
+    background: transparent !important;
   }
 
   body::after,
