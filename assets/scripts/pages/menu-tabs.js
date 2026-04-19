@@ -8,6 +8,22 @@
 
     /* ── CANVAS FRAME VARS ── */
     const isMobileDevice = window.innerWidth <= 767;
+
+    /* ── MOBILE SAFETY NET: Force all .reveal elements visible ──
+       This runs independently of the preloader/initPage chain.
+       Even if frame preloading fails, menu items will appear. */
+    if (isMobileDevice) {
+      setTimeout(() => {
+        document.querySelectorAll('.reveal').forEach(el => {
+          el.classList.add('is-visible');
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+          el.style.clipPath = 'none';
+          el.style.webkitClipPath = 'none';
+        });
+      }, 2000);
+    }
+
     const CONFIG = {
       TOTAL_FRAMES: isMobileDevice ? 80 : 150,
       FRAMES_DIR: 'references/image-frames/menu',
@@ -322,6 +338,17 @@
       }, { rootMargin: "0px 0px -12% 0px" });
 
       document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+      /* ── Mobile fallback: force all reveals visible immediately ── */
+      if (window.innerWidth <= 767) {
+        document.querySelectorAll('.reveal').forEach(el => {
+          el.classList.add('is-visible');
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+          el.style.clipPath = 'none';
+          el.style.webkitClipPath = 'none';
+        });
+      }
 
 
       /* ══════════════════════════════════════════════════════════
