@@ -404,6 +404,12 @@ body::after { display: none; }
 #hero-pin-wrapper {
   position: relative;
   width: 100%;
+  background: var(--m-bg, #0E1B13);
+}
+
+/* GSAP ScrollTrigger creates a .pin-spacer wrapper — ensure it matches */
+.pin-spacer {
+  background: var(--m-bg, #0E1B13) !important;
 }
 
 #hero-viewport {
@@ -411,6 +417,7 @@ body::after { display: none; }
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  background: var(--m-bg, #0E1B13);
   will-change: transform;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
