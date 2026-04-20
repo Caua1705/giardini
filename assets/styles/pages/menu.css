@@ -1835,10 +1835,18 @@ footer {
   }
   
   #cat-nav.is-pinned {
-    background: transparent !important;
-    box-shadow: none !important;
-    border-bottom: none !important;
-    padding: 0 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    z-index: 400 !important;
+    background: linear-gradient(180deg, rgba(14, 27, 19, 0.97) 0%, rgba(14, 27, 19, 0.90) 100%) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    padding: 0.5rem 0 0.6rem 0 !important;
+    margin-bottom: 0 !important;
+    box-shadow: 0 4px 20px -5px rgba(0,0,0,0.5) !important;
   }
 
   .cat-nav-inner {
@@ -2227,19 +2235,7 @@ footer {
   /* ── 8. MOBILE HIERARCHY & NAVIGATION REFINEMENT ──
      Requested by User: Make hierarchy cleaner, stronger, more professional. */
   
-  /* Strongly stick the main category navigation with a premium blur */
-  #cat-nav {
-    position: sticky !important;
-    top: 55px !important; /* Below the mobile header */
-    z-index: 100 !important;
-    background: linear-gradient(180deg, rgba(14, 27, 19, 0.95) 0%, rgba(14, 27, 19, 0.75) 100%) !important;
-    backdrop-filter: blur(14px) !important;
-    -webkit-backdrop-filter: blur(14px) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
-    padding: 0.5rem 0 0.8rem 0 !important;
-    margin-bottom: 2.5rem !important;
-    box-shadow: 0 4px 20px -5px rgba(0,0,0,0.4) !important;
-  }
+  /* Cat-nav pinning is handled by JS .is-pinned class — see cat-nav.is-pinned above */
   .cat-nav-inner {
     padding: 0 1.25rem !important;
     margin: 0 !important;

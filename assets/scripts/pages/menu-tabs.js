@@ -267,9 +267,11 @@
       /* ── Fixed-pin observer for #cat-nav ─────────────────────────────
          overflow-x:hidden on html/body breaks position:sticky, so we
          use position:fixed instead.
+         On mobile the navbar is position:absolute (scrolls away),
+         so cat-nav pins at top:0. On desktop it pins below navbar.
       ──────────────────────────────────────────────────────────────── */
       const menuBody = document.getElementById('menu-body');
-      const NAVBAR_H = 72;
+      const NAVBAR_H = isMobileDevice ? 0 : 72;
       let catNavH = catNav.offsetHeight;
       let isPinned = false;
 
@@ -353,27 +355,32 @@
 
       /* ══════════════════════════════════════════════════════════
          SCROLL-BASED CATEGORY NAVIGATION
-         ══════════════════════════════════════════════════════════ */
+      ══════════════════════════════════════════════════════════ */
 
       /** Centers the active cat-btn inside the scrollable rail. */
       function syncCatNavRail() {
         const activeBtn = catNavInner.querySelector('.cat-btn.active');
         if (!activeBtn) return;
+        const rail = catNavInner;
         const btnLeft  = activeBtn.offsetLeft;
         const btnWidth = activeBtn.offsetWidth;
-        const railW    = catNavInner.parentElement.offsetWidth;
-        catNavInner.scrollTo({
-          left: btnLeft - railW / 2 + btnWidth / 2,
+        const railW    = rail.offsetWidth;
+        const scrollTarget = btnLeft - (railW / 2) + (btnWidth / 2);
+        rail.scrollTo({
+          left: Math.max(0, scrollTarget),
           behavior: 'smooth'
         });
       }
 
       /** Set active category button by ID */
       function setActiveCategory(targetId) {
+        let changed = false;
         catBtns.forEach(btn => {
-          btn.classList.toggle('active', btn.dataset.target === targetId);
+          const shouldBeActive = btn.dataset.target === targetId;
+          if (shouldBeActive && !btn.classList.contains('active')) changed = true;
+          btn.classList.toggle('active', shouldBeActive);
         });
-        syncCatNavRail();
+        if (changed) syncCatNavRail();
       }
 
       /** Scroll to a category group smoothly */
@@ -383,7 +390,7 @@
 
         const navH = nav ? nav.getBoundingClientRect().height : 72;
         const catH = catNav ? catNav.offsetHeight : 50;
-        const offset = navH + catH + 24;
+        const offset = (isMobileDevice ? 0 : navH) + catH + 24;
         const groupTop = group.getBoundingClientRect().top + window.scrollY;
         const target = groupTop - offset;
 
@@ -401,8 +408,14 @@
 
       /* ── IntersectionObserver: track which category is in view ─────
          Updates active nav button as user scrolls through categories.
+         On mobile, use a tighter rootMargin for better detection since
+         cat-nav pins at top:0 without the navbar taking space.
       ──────────────────────────────────────────────────────────────── */
       let isUserScrolling = true; // Flag to prevent observer fighting with click-scroll
+
+      const catObserverMargin = isMobileDevice
+        ? '-8% 0px -70% 0px'   // Mobile: detect near top of viewport
+        : '-20% 0px -60% 0px'; // Desktop: bias toward upper portion
 
       const categoryObserver = new IntersectionObserver((entries) => {
         if (!isUserScrolling) return;
@@ -421,7 +434,7 @@
           setActiveCategory(topEntry.target.id);
         }
       }, {
-        rootMargin: '-20% 0px -60% 0px', // Bias toward the top portion of the viewport
+        rootMargin: catObserverMargin,
         threshold: [0, 0.1]
       });
 
