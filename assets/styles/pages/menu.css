@@ -2187,6 +2187,7 @@ footer {
     background: transparent !important;
   }
 
+  body::before,
   body::after,
   html::before,
   html::after,
