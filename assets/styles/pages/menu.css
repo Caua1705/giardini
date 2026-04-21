@@ -105,7 +105,7 @@ body::after { display: none; }
 .loader {
   position: fixed;
   inset: 0;
-  background: var(--m-bg);
+  background: var(--c-bg);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -116,7 +116,7 @@ body::after { display: none; }
 .loader-text {
   font-family: 'Instrument Serif', serif;
   font-size: clamp(2.5rem, 8vw, 5rem);
-  color: var(--c-dark); /* Cream so it's readable on dark green */
+  color: var(--c-accent);
   letter-spacing: -0.02em;
 }
 
@@ -125,7 +125,7 @@ body::after { display: none; }
   font-weight: 500;
   letter-spacing: 0.38em;
   text-transform: uppercase;
-  color: rgba(234, 228, 217, 0.65);
+  color: var(--c-gold);
   margin-top: 1.8rem;
   animation: loaderTaglinePulse 2.5s ease-in-out infinite;
 }
@@ -147,7 +147,7 @@ body::after { display: none; }
 .loader-bar {
   height: 100%;
   width: 0%;
-  background: var(--c-primary);
+  background: var(--c-gold);
   position: relative;
   overflow: hidden;
 }
@@ -159,7 +159,7 @@ body::after { display: none; }
   left: -100%;
   width: 60%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  background: linear-gradient(90deg, transparent, rgba(234, 228, 217, 0.5), transparent);
   animation: loaderShimmer 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
@@ -1788,9 +1788,9 @@ footer {
     color: var(--c-editorial) !important;
   }
   
-  .loader { background: var(--m-bg) !important; }
-  .loader-text { color: var(--c-dark) !important; }
-  .loader-tagline { color: var(--c-editorial) !important; }
+  .loader { background: var(--c-bg) !important; }
+  .loader-text { color: var(--c-accent) !important; }
+  .loader-tagline { color: var(--c-gold) !important; }
 
   .hero-title-sep {
     display: block !important;
