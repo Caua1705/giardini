@@ -21,16 +21,17 @@
 /* ══ 1. GLOBALS ══════════════════════════════════════════════════════════ */
 
 :root {
-  --c-bg:        #F7F3ED;
-  --m-bg:        #0E1B13; /* still used by hero and loader */
+  /* Elevado para o tom floresta (família Location), menos preto */
+  --c-bg:        #0E1B13;
+  --m-bg:        #0E1B13;
   --m-bg-deep:   #0A140F;
   --m-bg-glow:   #132419;
   --m-bg-surface: rgba(234, 228, 217, 0.04);
-  --c-dark:      #1A1A1A; /* text is now dark on light bg */
+  --c-dark:      #FDFBF7;
   --c-primary:   #2B4A3B;
   --c-brand-muted: #8E9C92;
   --c-gold:      #B79358;
-  --c-editorial: #6E7C6F;
+  --c-editorial: #C2B49A;
   --c-accent:    #EAE4D9;
   --expo:        cubic-bezier(0.16, 1, 0.3, 1);
   --transition-smooth: 0.45s cubic-bezier(0.16, 1, 0.3, 1);
@@ -41,7 +42,8 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
-  background: linear-gradient(175deg, #B8D9BF 0%, #AACFB3 50%, #9DC4AA 100%) fixed !important;
+  /* Premium deep green gradient matching Location family but strictly darker */
+  background: linear-gradient(160deg, #132419 0%, #0E1B13 45%, #0A140F 100%) fixed !important;
 }
 
 body {
@@ -53,7 +55,7 @@ body {
 }
 
 body {
-  background: transparent !important;
+  background: var(--m-bg) !important;
   color: var(--c-dark);
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -61,32 +63,20 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Green atmospheric tint — subtle warm ivory glows to balance the dark green */
 body::before {
-  /* Atmospheric glows — forest green left top, amber gold right, brand-cohesive */
   content: '';
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 65% 50% at 5% 25%,  rgba(43, 84, 66, 0.10) 0%, transparent 62%),
-    radial-gradient(ellipse 55% 40% at 92% 55%,  rgba(183, 147, 88, 0.07) 0%, transparent 55%),
-    radial-gradient(ellipse 45% 35% at 50% 90%,  rgba(43, 84, 66, 0.06) 0%, transparent 55%),
-    radial-gradient(ellipse 70% 25% at 30% 100%, rgba(183, 147, 88, 0.04) 0%, transparent 60%);
+    radial-gradient(ellipse 90% 60% at 15% 25%, rgba(234, 228, 217, 0.03) 0%, transparent 58%),
+    radial-gradient(ellipse 80% 60% at 85% 65%, rgba(234, 228, 217, 0.02) 0%, transparent 52%),
+    radial-gradient(ellipse 70% 50% at 50% 50%, rgba(183, 147, 88, 0.02) 0%, transparent 55%);
 }
 
-/* Grain texture for premium depth (same as index.html section 2) */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-  mix-blend-mode: multiply;
-}
+body::after { display: none; }
 
 
 /* ══ 2. NOISE OVERLAY ════════════════════════════════════════════════════ */
@@ -459,18 +449,18 @@ body::after {
   background: radial-gradient(ellipse at 50% 55%, #0E1E12 0%, #091410 60%, #050C07 100%);
 }
 
-/* Hero bridge — funde o hero escuro no fundo verde-pálido */
+/* Hero section bridge — seamless blend into dark menu body */
 #hero-pin-wrapper::after {
   content: '';
   position: absolute;
   bottom: -1px;
   left: 0;
   width: 100%;
-  height: 180px;
+  height: 150px;
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    #B8D9BF 100%
+    var(--m-bg) 100%
   );
   z-index: 10;
   pointer-events: none;
@@ -776,16 +766,16 @@ body::after {
   background: transparent;
 }
 
-/* Sage green glass pill when pinned */
+/* Green glass pill — matches green atmospheric body */
 #cat-nav.is-pinned .cat-nav-inner {
-  background: rgba(184, 217, 191, 0.92);
-  backdrop-filter: blur(20px) saturate(1.3);
-  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  background: rgba(18, 28, 22, 0.85);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
   border-radius: 9999px;
   box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.05),
-    0 8px 24px -4px rgba(0, 0, 0, 0.10);
-  border: 1px solid rgba(43, 84, 66, 0.15);
+    0 1px 3px rgba(0, 0, 0, 0.2),
+    0 8px 24px -4px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   animation: cat-nav-inner-reveal 0.45s var(--expo) forwards;
 }
 
@@ -876,13 +866,11 @@ body::after {
 
 .menu-main-wrapper {
   max-width: 960px;
-  margin: 0 auto;
+  margin: -6vh auto 0;
   display: block;
   padding: 0 32px;
   position: relative;
   z-index: 20;
-  /* Sem background: transparente, fundo vem do html/body */
-  background: transparent;
 }
 
 #menu-body {
@@ -916,14 +904,14 @@ body::after {
 .category-divider-line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(to right, transparent, rgba(26, 26, 26, 0.08), transparent);
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.08), transparent);
 }
 
 .category-divider-dot {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: rgba(43, 74, 59, 0.20);
+  background: rgba(255, 255, 255, 0.15);
   flex-shrink: 0;
 }
 
@@ -948,7 +936,6 @@ body::after {
 
 /* ══ 10. SECTION HEADERS ═════════════════════════════════════════════════ */
 
-/* ── Section header borders use light color on cream bg ── */
 .section-header {
   display: flex;
   align-items: flex-end;
@@ -956,7 +943,7 @@ body::after {
   gap: 2rem;
   margin-bottom: 2rem;
   padding-bottom: 1.25rem;
-  border-bottom: 1px solid var(--m-border, rgba(26, 26, 26, 0.06));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   position: relative;
 }
 
@@ -971,9 +958,9 @@ body::after {
   left: 0;
   background: linear-gradient(90deg,
     transparent 0%,
-    rgba(43, 74, 59, 0.15) 25%,
-    rgba(43, 74, 59, 0.30) 50%,
-    rgba(43, 74, 59, 0.15) 75%,
+    rgba(255, 255, 255, 0.10) 25%,
+    rgba(255, 255, 255, 0.20) 50%,
+    rgba(255, 255, 255, 0.10) 75%,
     transparent 100%);
   background-size: 200% 100%;
   animation: shimmerLine 6s ease-in-out infinite;
@@ -989,26 +976,13 @@ body::after {
 }
 
 .section-kicker {
-  font-size: 0.52rem;
+  font-size: 0.55rem;
   font-weight: 700;
-  letter-spacing: 0.40em;
+  letter-spacing: 0.42em;
   text-transform: uppercase;
-  color: var(--c-primary);
-  opacity: 0.8;
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-}
-
-.section-kicker::before {
-  content: '';
-  display: inline-block;
-  width: 18px;
-  height: 1.5px;
-  background: var(--c-primary);
-  opacity: 0.5;
-  flex-shrink: 0;
+  color: var(--c-editorial);
+  opacity: 0.85;
+  margin-bottom: 0.4rem;
 }
 
 .section-title {
@@ -1016,12 +990,12 @@ body::after {
   font-size: clamp(1.65rem, 2.8vw, 2.4rem);
   letter-spacing: -0.025em;
   line-height: 1;
-  color: #1A1A1A;
+  color: var(--c-dark);
 }
 
 .section-title em {
   font-style: italic;
-  color: var(--c-primary);
+  color: var(--c-editorial);
 }
 
 .section-count {
@@ -1029,8 +1003,8 @@ body::after {
   font-weight: 600;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--c-primary);
-  opacity: 0.45;
+  color: var(--c-editorial);
+  opacity: 0.65;
   white-space: nowrap;
 }
 
@@ -1073,7 +1047,7 @@ body::after {
   gap: 0.25rem 1.25rem;
   padding: 1.2rem 1rem;
   margin: 0 -1rem;
-  border-bottom: 1px solid rgba(26, 26, 26, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   cursor: pointer;
   border-radius: 12px;
   position: relative;
@@ -1145,7 +1119,7 @@ body::after {
   font-family: 'Instrument Serif', serif;
   font-size: 1.15rem;
   letter-spacing: 0;
-  color: #1A1A1A;
+  color: var(--c-dark);
   margin: 0;
   line-height: 1.25;
   transition: color 0.4s var(--expo);
@@ -1156,7 +1130,7 @@ body::after {
   font-family: 'Inter', sans-serif;
   font-size: 0.78rem;
   font-weight: 400;
-  color: rgba(26, 26, 26, 0.5);
+  color: rgba(234, 228, 217, 0.55);
   line-height: 1.45;
   white-space: normal;
   transition: color 0.4s var(--expo);
@@ -1242,21 +1216,21 @@ body::after {
 
 /* Hover states */
 .menu-item:hover {
-  background: rgba(43, 74, 59, 0.04);
+  background: rgba(255, 255, 255, 0.02);
   border-bottom-color: transparent;
   transform: translateY(-2px);
 }
 
 .menu-item:hover::after {
-  border-color: rgba(43, 74, 59, 0.10);
+  border-color: rgba(234, 228, 217, 0.06);
 }
 
 .menu-item:hover .item-name {
-  color: var(--c-primary);
+  color: var(--c-gold);
 }
 
 .menu-item:hover .item-desc {
-  color: rgba(26, 26, 26, 0.75);
+  color: rgba(234, 228, 217, 0.90);
 }
 
 
@@ -1333,9 +1307,9 @@ body::after {
 #pdf-section {
   padding: 5rem 2rem;
   text-align: center;
-  background: linear-gradient(160deg, #9DC4AA 0%, #92BAA0 100%);
-  border-top: 1px solid rgba(43, 84, 66, 0.12);
-  border-bottom: none;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   position: relative;
   overflow: hidden;
 }
@@ -1345,8 +1319,7 @@ body::after {
   font-weight: 700;
   letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: var(--c-primary);
-  opacity: 0.7;
+  color: rgba(234, 228, 217, 0.55);
   margin-bottom: 1.25rem;
   display: flex;
   align-items: center;
@@ -1359,7 +1332,7 @@ body::after {
   content: '';
   width: 24px;
   height: 1px;
-  background: rgba(43, 74, 59, 0.25);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .pdf-heading {
@@ -1367,19 +1340,19 @@ body::after {
   font-size: clamp(2rem, 4.5vw, 3.5rem);
   letter-spacing: -0.03em;
   line-height: 1;
-  color: #1A1A1A;
+  color: var(--c-dark);
   margin-bottom: 0.75rem;
 }
 
 .pdf-heading em {
   font-style: italic;
-  color: var(--c-primary);
+  color: var(--c-editorial);
 }
 
 .pdf-sub {
   font-size: 0.85rem;
   font-weight: 300;
-  color: rgba(26, 26, 26, 0.55);
+  color: rgba(234, 228, 217, 0.65);
   margin-bottom: 2.5rem;
 }
 
@@ -1411,12 +1384,12 @@ body::after {
 .pdf-btn svg { flex-shrink: 0; }
 
 
-/* ══ 16. FOOTER — Warm linen premium ════════════════════════════════════ */
+/* ══ 16. FOOTER — Green atmospheric ══════════════════════════════════════ */
 
 footer {
   padding: 3.5rem 4rem 3rem;
-  border-top: 1px solid rgba(43, 84, 66, 0.15);
-  background: linear-gradient(175deg, #92BAA0 0%, #88B096 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.01);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1429,12 +1402,9 @@ footer {
   font-family: 'Instrument Serif', serif;
   font-size: 1.6rem;
   letter-spacing: -0.01em;
-  color: #1A1A1A;
+  color: var(--c-dark);
   text-decoration: none;
-  transition: opacity 0.3s ease;
 }
-
-.footer-logo:hover { opacity: 0.7; }
 
 .footer-links {
   display: flex;
@@ -1446,8 +1416,8 @@ footer {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-  background: rgba(43, 74, 59, 0.08);
-  border: 1px solid rgba(43, 74, 59, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1457,9 +1427,8 @@ footer {
 }
 
 .footer-link:hover {
-  background: rgba(43, 74, 59, 0.18);
+  background: rgba(255, 255, 255, 0.08);
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(43, 74, 59, 0.12);
 }
 
 .footer-copy {
@@ -1467,7 +1436,7 @@ footer {
   font-weight: 500;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(26, 26, 26, 0.38);
+  color: rgba(234, 228, 217, 0.35);
 }
 
 
@@ -2074,7 +2043,7 @@ footer {
     line-height: 1.08 !important;
     margin: 0 0 6px 0 !important;
     font-family: 'Instrument Serif', serif !important;
-    color: #1A1A1A !important; /* dark text on light green bg */
+    color: rgba(236, 230, 218, 0.95) !important;
   }
 
   .menu-item:not(:has(.item-thumb)) .item-name {
@@ -2106,7 +2075,7 @@ footer {
   .item-price-sub {
     font-size: 0.75rem !important;
     margin-top: 0.15rem !important;
-    color: rgba(26, 26, 26, 0.50) !important; /* dark on light */
+    color: rgba(228, 221, 208, 0.65) !important;
   }
 
   /* ── 5. DESCRIPTION ── */
@@ -2116,7 +2085,7 @@ footer {
     font-size: 0.85rem !important;
     line-height: 1.35 !important;
     margin: 0 !important;
-    color: rgba(26, 26, 26, 0.52) !important; /* dark on light */
+    color: rgba(228, 221, 208, 0.65) !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 2 !important;
     -webkit-box-orient: vertical !important;
