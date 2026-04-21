@@ -1751,6 +1751,160 @@ body{
   }
 }
 
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE REFINEMENT — Passo 02 (Booking Details Section)
+   Only affects max-width: 767px. Desktop untouched.
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+
+  /* ── 1. SECTION HEADER — compact title & subtitle ───────────────
+     clamp() keeps the title fluid but caps it well below desktop.
+     Subtitle line-height reduced: less vertical waste on scroll.
+  ─────────────────────────────────────────────────────────────────── */
+  .res-section-title {
+    font-size: clamp(1.75rem, 8vw, 2.4rem) !important;
+    line-height: 1.08 !important;
+    margin-bottom: 0.75rem !important;
+    letter-spacing: -0.025em !important;
+  }
+  .res-section-subtitle {
+    font-size: 0.88rem !important;
+    line-height: 1.55 !important;
+    color: rgba(255,255,255,0.42) !important;
+  }
+  .res-section-header {
+    margin-bottom: 1.75rem !important;
+  }
+  .res-section-label-text {
+    font-size: 0.5rem !important;
+  }
+
+  /* ── 2. ENV SUMMARY CARD — slimmer, more horizontal ────────────
+     Reduced thumb from 64px → 48px: keeps image recognisable but
+     saves ~16px of height. Padding tightened, gap between elements
+     reduced so all info fits in ~2 lines max.
+  ─────────────────────────────────────────────────────────────────── */
+  .res-form-env-summary {
+    padding: 0.85rem 1rem !important;
+    gap: 0.85rem !important;
+    margin-bottom: 1.75rem !important;
+    border-radius: 12px !important;
+    align-items: center !important;
+  }
+  .res-form-env-thumb-wrap {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 9px !important;
+    flex-shrink: 0 !important;
+  }
+  .res-form-env-text {
+    gap: 0.2rem !important;
+    min-width: 0 !important;
+  }
+  .res-form-env-kicker {
+    font-size: 0.4rem !important;
+    letter-spacing: 0.22em !important;
+  }
+  .res-form-env-name {
+    font-size: 1rem !important;
+    line-height: 1.15 !important;
+  }
+  .res-form-env-cap {
+    font-size: 0.68rem !important;
+    line-height: 1.2 !important;
+  }
+  .res-form-env-alter-btn {
+    font-size: 0.44rem !important;
+    padding: 0.42rem 0.7rem !important;
+    border-radius: 7px !important;
+    flex-shrink: 0 !important;
+    letter-spacing: 0.14em !important;
+  }
+
+  /* ── 3. PILLS (Quantidade de pessoas) — denser grid ────────────
+     Fixed 4-column grid: each pill is smaller but still ~44px touch
+     target. Gap reduced to 6px — tight but not cramped.
+     Hover lift disabled on touch (no meaningful hover on mobile).
+  ─────────────────────────────────────────────────────────────────── */
+  .res-pills {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 6px !important;
+  }
+  .res-pill {
+    width: auto !important;
+    height: 44px !important;
+    font-size: 0.82rem !important;
+    border-radius: 10px !important;
+  }
+  .res-pill:hover {
+    transform: none !important;
+  }
+
+  /* ── 4. STEPS — tighter padding, compact sublabel ───────────────
+     Each step's internal vertical padding reduced by ~20%.
+     Step sublabel: slightly smaller, tight line-height. Still reads
+     well, just stops eating so much vertical space.
+  ─────────────────────────────────────────────────────────────────── */
+  .res-step {
+    grid-template-columns: 36px 1fr !important;
+    gap: 0 0.9rem !important;
+    padding: 1.6rem 0 !important;
+  }
+  .res-step-num {
+    font-size: 1.3rem !important;
+  }
+  .res-step-label {
+    font-size: 0.54rem !important;
+    letter-spacing: 0.22em !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .res-step-sublabel {
+    font-size: 0.88rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 1.25rem !important;
+    color: rgba(255,255,255,0.4) !important;
+  }
+
+  /* ── 5. DATEPICKER TRIGGER — full width, compact ───────────────*/
+  .rcd-wrap {
+    max-width: 100% !important;
+  }
+  .rcd-trigger {
+    padding: 0.82rem 1rem !important;
+    font-size: 0.82rem !important;
+  }
+
+  /* ── 6. CTA AREA — full-width submit button ─────────────────────
+     Submit button stretches to full width on mobile for easy tap.
+     CTA divider label reduced in size to avoid wrapping.
+  ─────────────────────────────────────────────────────────────────── */
+  .res-submit-btn {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 1.1rem 2rem !important;
+    font-size: 0.72rem !important;
+    letter-spacing: 0.18em !important;
+  }
+  .res-cta-divider-label {
+    font-size: 0.48rem !important;
+    letter-spacing: 0.14em !important;
+  }
+  .res-cta-area {
+    margin-top: 0.5rem !important;
+  }
+
+  /* ── 7. FORM FIELDS — full-width inputs, comfortable padding ────*/
+  .res-form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  .res-form-input {
+    padding: 0.82rem 1rem !important;
+    font-size: 0.88rem !important;
+  }
+}
+
 @media (max-width: 767px) {
   #site-footer .ft-reveal { opacity: 1 !important; transform: none !important; }
 
