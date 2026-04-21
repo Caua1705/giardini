@@ -142,8 +142,9 @@ function renderPriceHtml(product, sectionId = '') {
         </div>`;
       }
 
-      // Se o label for curto (ex: "Fatia", "Unidade"), usamos layout lado-a-lado
-      const isShort = v.name.length <= 10;
+      // Layout compacto: label — preço na mesma linha
+      // Apenas nomes muito longos (> 22 chars) ficam empilhados verticalmente
+      const isShort = v.name.length <= 22;
       const compactClass = isShort ? 'variant-item--compact' : '';
 
       return `<div class="variant-item ${compactClass}">

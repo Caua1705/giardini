@@ -1177,11 +1177,14 @@ body::after { display: none; }
   line-height: 1.1;
 }
 
-/* Compact layout for variants with short labels */
+/* Compact layout for variants — label and price on the same line */
 .variant-item--compact {
   flex-direction: row;
   align-items: center;
-  gap: 0.45rem;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  gap: 0.4rem;
+  min-width: 0;
 }
 
 .variant-label {
@@ -1195,7 +1198,7 @@ body::after { display: none; }
 
 .variant-price {
   font-family: 'Inter', sans-serif;
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   font-weight: 500;
   color: var(--c-gold);
 }
