@@ -1954,8 +1954,8 @@ footer {
   /* ── CATEGORY GROUPS ── */
   .category-group { margin-bottom: 2rem; scroll-margin-top: 115px; }
   .category-divider {
-    margin-bottom: 1.5rem;
-    padding: 0.35rem 0 0;
+    margin-bottom: 2rem;
+    padding: 0;
     gap: 1.25rem;
   }
 
@@ -1964,7 +1964,11 @@ footer {
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
-    padding: 0 0 1.25rem 0;
+    padding: 0 0 1.25rem 0 !important;
+  }
+
+  .menu-section:last-child {
+    padding-bottom: 0 !important;
   }
 
   .section-header {
@@ -2406,6 +2410,10 @@ footer {
   /* Subcategories become strong section headings */
   .menu-section {
     padding-bottom: 2.2rem !important; /* Compact but breathable rhythm */
+  }
+
+  .menu-section:last-child {
+    padding-bottom: 0 !important;
   }
 
   .section-header {
