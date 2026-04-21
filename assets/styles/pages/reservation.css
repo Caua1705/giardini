@@ -1582,6 +1582,175 @@ body{
   .res-section::after{animation:none!important}
 }
 
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE REFINEMENT — Environment Section & Cards
+   Applies only below 767px. Desktop is untouched.
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+
+  /* ── 1. ENV SECTION — breathing room ──────────────────────────── */
+  .res-env-section {
+    padding: 4rem 0 3rem !important;
+  }
+  .res-env-section-inner {
+    padding: 0 1.25rem !important;
+  }
+  .res-env-section-header {
+    margin-bottom: 2rem !important;
+  }
+  .res-env-section-title {
+    font-size: clamp(1.7rem, 6.5vw, 2.2rem) !important;
+    line-height: 1.1 !important;
+  }
+
+  /* ── 2. GRID — single column, generous gap ─────────────────────
+     One card per row gives enough width for readable text and a
+     proper image-to-content ratio. Gap adds vertical breathing room.
+  ─────────────────────────────────────────────────────────────────── */
+  .res-env-cards {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: unset !important;
+    gap: 14px !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  /* ── 3. CARD — taller, no hover transform on touch ─────────────
+     Aspect ratio 3/2 gives more vertical canvas so the gradient
+     overlay has room to breathe and text sits clearly at the bottom.
+  ─────────────────────────────────────────────────────────────────── */
+  .res-env-card {
+    aspect-ratio: 3 / 2 !important;
+    border-radius: 16px !important;
+    /* Disable lift transform on touch — no hover events anyway */
+    transform: none !important;
+  }
+  .res-env-card:hover {
+    transform: none !important;
+  }
+  .res-env-card.is-selected {
+    transform: none !important;
+    border-color: rgba(183,147,88,.55) !important;
+    box-shadow: 0 0 0 1.5px rgba(183,147,88,.18), 0 8px 28px -6px rgba(0,0,0,.7) !important;
+  }
+
+  /* ── 4. OVERLAY — stronger gradient so text is always readable ──
+     Extended dark zone from 45 % onwards ensures the name + cap
+     text never compete with a bright area of the photo.
+  ─────────────────────────────────────────────────────────────────── */
+  .res-env-card-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(4,8,6,.0) 0%,
+      rgba(4,8,6,.10) 30%,
+      rgba(4,8,6,.72) 62%,
+      rgba(4,8,6,.96) 100%
+    ) !important;
+  }
+
+  /* ── 5. CARD CONTENT — more padding, clearer hierarchy ─────────
+     Extra bottom padding keeps text away from the rounded corner.
+     Larger gap between name and cap gives vertical separation.
+  ─────────────────────────────────────────────────────────────────── */
+  .res-env-card-content {
+    padding: 1rem 1.15rem 1.1rem !important;
+  }
+  .res-env-card-name {
+    font-size: 1.05rem !important;
+    line-height: 1.22 !important;
+    letter-spacing: -.01em !important;
+    color: rgba(255,255,255,.96) !important;
+  }
+  .res-env-card-cap {
+    font-size: .5rem !important;
+    letter-spacing: .2em !important;
+    margin-top: .45rem !important;
+    color: rgba(255,255,255,.38) !important;
+  }
+
+  /* Selected: gold tint on text */
+  .res-env-card.is-selected .res-env-card-name {
+    color: rgba(183,147,88,.96) !important;
+  }
+  .res-env-card.is-selected .res-env-card-cap {
+    color: rgba(183,147,88,.52) !important;
+  }
+
+  /* ── 6. HOVER CUE — hide completely on touch ───────────────────
+     "Clique para selecionar" is a hover label; on mobile it flashes
+     on tap and crowds the card. Hide it entirely — the check badge
+     is sufficient feedback.
+  ─────────────────────────────────────────────────────────────────── */
+  .res-env-card-hover-cue {
+    display: none !important;
+  }
+
+  /* ── 7. SELECTED BADGE — smaller, top-left, discrete ───────────
+     Moved to top-left so it doesn't overlap the environment name at
+     bottom-left. Size reduced from 24 px to 20 px — still visible,
+     never invasive.
+  ─────────────────────────────────────────────────────────────────── */
+  .res-env-card-check {
+    width: 20px !important;
+    height: 20px !important;
+    top: .65rem !important;
+    right: .65rem !important;
+    border-width: 1px !important;
+  }
+  .res-env-card-check svg {
+    width: 9px !important;
+    height: 9px !important;
+  }
+
+  /* ── 8. SELECTED SUMMARY BAR — compact ─────────────────────────*/
+  .res-env-selected-bar {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: .75rem !important;
+    padding: .75rem 1rem !important;
+    border-radius: 12px !important;
+  }
+  .res-env-selected-img-wrap {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  .res-env-selected-name {
+    font-size: .92rem !important;
+  }
+  .res-env-selected-change {
+    font-size: .48rem !important;
+    padding: .38rem .65rem !important;
+  }
+
+  /* ── 9. FORM SECTION — vertical breathing room ─────────────────*/
+  .res-section {
+    padding: 3.5rem 0 5rem !important;
+  }
+  .res-container {
+    padding: 0 1.25rem !important;
+  }
+  .res-section-header {
+    margin-bottom: 2.25rem !important;
+  }
+  .res-section-title {
+    font-size: clamp(1.8rem, 7vw, 2.4rem) !important;
+  }
+
+  /* ── 10. STEPS — tighter index column ──────────────────────────*/
+  .res-step {
+    grid-template-columns: 38px 1fr !important;
+    gap: 0 1rem !important;
+    padding: 2rem 0 !important;
+  }
+  .res-step-num {
+    font-size: 1.35rem !important;
+  }
+
+  /* ── 11. DATE PICKER — full width on mobile ─────────────────── */
+  .rcd-wrap {
+    max-width: 100% !important;
+  }
+}
+
 @media (max-width: 767px) {
   #site-footer .ft-reveal { opacity: 1 !important; transform: none !important; }
 
