@@ -112,6 +112,7 @@
       gsap.set('#el-kicker', { opacity: 0, y: 35, filter: 'blur(14px)' });
       gsap.set('#el-h1a',    { opacity: 0, y: 45, filter: 'blur(16px)' });
       gsap.set('#el-h1b',    { opacity: 0, y: -45, filter: 'blur(16px)' });
+      gsap.set('#el-h1-sep', { opacity: 0, scaleX: 0, transformOrigin: 'left' });
       gsap.set('#el-body',   { opacity: 0, y: 30, filter: 'blur(12px)' });
       gsap.set('#el-cta',    { opacity: 0, y: 25, filter: 'blur(10px)' });
       gsap.set('#el-scroll', { opacity: 0, y: 15, filter: 'blur(8px)' });
@@ -128,6 +129,7 @@
           .to('#el-h1a', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'expo.out' }, 'titleShow')
           .to('#video-frame', { opacity: 1, scale: 1, duration: 1.8, ease: 'power4.out' }, 'titleShow')
           .to('#el-h1b', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'expo.out' }, 'titleShow+=0.18')
+          .to('#el-h1-sep', { opacity: 1, scaleX: 1, duration: 1.2, ease: 'expo.out' }, 'titleShow+=0.30')
           .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' }, 'titleShow+=0.55')
           .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, 'titleShow+=0.75')
           .to('#el-scroll', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power2.out' }, 'titleShow+=1.05');
@@ -177,7 +179,7 @@
           scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.36}` }
         });
         gsap.to('#el-h1-sep', {
-          opacity: 0, y: -30, filter: 'blur(5px)', ease: 'power2.in', immediateRender: false,
+          scaleX: 0, opacity: 0, ease: 'power2.in', immediateRender: false,
           scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.38}` }
         });
         gsap.to('#el-scroll', {

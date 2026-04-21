@@ -1832,18 +1832,17 @@ footer {
   }
 
   #video-frame {
-    width: 100vw !important; /* Full edge-to-edge para o fundo mesclar perfeito */
-    max-width: 400px !important;
-    top: 50% !important; /* Fica alinhado exato com o texto */
+    width: 100vw !important; 
+    height: 100svh !important; /* Força o vídeo a cobrir do topo até o fundo da hero */
+    max-width: none !important;
+    top: 50% !important; 
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
     opacity: 0.70 !important;
-    mix-blend-mode: screen !important; /* Remove o fundo preto do vídeo e mescla com o verde */
-    aspect-ratio: 9/16;
-    mask-image: radial-gradient(ellipse 75% 55% at 50% 50%,
-      rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0) 100%);
-    -webkit-mask-image: radial-gradient(ellipse 75% 55% at 50% 50%,
-      rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0) 100%);
+    mix-blend-mode: screen !important; 
+    aspect-ratio: auto !important; /* Permite que a altura dite o tamanho e a tela do canvas faça o object-fit */
+    mask-image: none !important; /* Sem máscaras para não ter quebra embaixo */
+    -webkit-mask-image: none !important;
   }
 
   #hero-pin-wrapper::after {
