@@ -4,6 +4,10 @@
    ══════════════════════════════════════════════════════════════════ */
 
 /* ── NAVBAR — Sync with Index.html (Transparent top, Cream Scrolled) ─ */
+
+/* Force footer reveals visible since reservation page lacks scroll triggers for them */
+#site-footer .ft-reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
+
 #navbar {
   background: transparent!important;
   backdrop-filter: none!important;
@@ -1576,4 +1580,173 @@ body{
   .res-section-label-dot::after{animation:none!important}
   .res-step-bar::after{animation:none!important}
   .res-section::after{animation:none!important}
+}
+
+@media (max-width: 767px) {
+  #site-footer .ft-reveal { opacity: 1 !important; transform: none !important; }
+
+     H. FOOTER — Mobile Premium Redesign (Left-Aligned Vertical Stack)
+     ═════════════════════════════════════════════════════════════════ */
+
+  /* Section container: consistent side padding, generous vertical space */
+  #site-footer > div[style*="max-width:1340px"] {
+    padding: 3.5rem clamp(1.5rem, 5.5vw, 2rem) 0 !important;
+  }
+
+  /* ── Grid: collapse to single column, uniform gap between sections */
+  .ft-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Each footer column: consistent bottom spacing + separator line (24px) */
+  .ft-reveal.ft-reveal-d1,
+  .ft-reveal.ft-reveal-d2,
+  .ft-reveal.ft-reveal-d3 {
+    padding-bottom: 2rem !important;
+    margin-bottom: 2rem !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+  }
+
+  /* ── COL 1: Brand ──────────────────────────────────────────────── */
+  /* Logo row: left-aligned, tighter */
+  .ft-grid > div:first-child > div[style*="display:flex"][style*="margin-bottom:2rem"] {
+    margin-bottom: 1rem !important;
+    gap: 0.65rem !important;
+  }
+
+  /* Gold accent line next to logo: shorter on mobile */
+  .ft-grid > div:first-child > div > span[style*="width:28px"] {
+    width: 18px !important;
+  }
+
+  /* Brand name: strong and clear (+7%) */
+  .ft-grid > div:first-child .ft-nav-link[style*="font-size:1.6rem"] {
+    font-size: 1.45rem !important;
+    line-height: 1.12 !important;
+    min-height: unset !important;
+  }
+
+  /* Tagline: readable, not too dim (+6%) */
+  .ft-grid > div:first-child p[style*="max-width:320px"] {
+    max-width: 100% !important;
+    font-size: 0.85rem !important;
+    line-height: 1.8 !important;
+    margin-bottom: 1.5rem !important;
+    color: rgba(255,255,255,0.40) !important;
+  }
+
+  /* Social icons: proper touch targets */
+  .ft-social {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  /* ── COL 2: Navigation ─────────────────────────────────────────── */
+  /* Section label */
+  .ft-reveal.ft-reveal-d2 p[style*="letter-spacing:0.28em"],
+  .ft-reveal.ft-reveal-d3 p[style*="letter-spacing:0.28em"] {
+    font-size: 0.52rem !important;
+    color: rgba(183,147,88,0.65) !important;
+    margin-bottom: 1.1rem !important;
+    letter-spacing: 0.3em !important;
+  }
+
+  /* Nav links: vertical stack, comfortable tap targets */
+  .ft-reveal.ft-reveal-d2 nav {
+    gap: 0 !important;
+  }
+  .ft-nav-link {
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    font-size: 0.88rem !important;
+    padding: 0 !important;
+    border-bottom: 1px solid rgba(255,255,255,0.04) !important;
+  }
+  /* Last nav link: no bottom border */
+  .ft-reveal.ft-reveal-d2 nav a:last-child {
+    border-bottom: none !important;
+  }
+
+  /* ── COL 3: Onde Estamos ───────────────────────────────────────── */
+  /* Info blocks: consistent internal gap */
+  .ft-reveal.ft-reveal-d3 > div[style*="flex-direction:column"] {
+    gap: 1.5rem !important;
+  }
+
+  /* Sub-labels (Endereço, Horário, Contato) */
+  .ft-reveal.ft-reveal-d3 p[style*="letter-spacing:0.12em"] {
+    font-size: 0.54rem !important;
+    color: rgba(255,255,255,0.28) !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  /* Address text (+6%) */
+  .ft-reveal.ft-reveal-d3 p[style*="font-size:0.88rem"] {
+    font-size: 0.88rem !important;
+    line-height: 1.7 !important;
+    color: rgba(255,255,255,0.58) !important;
+  }
+
+  /* Hours text: readable italic (+5%) */
+  .ft-reveal.ft-reveal-d3 p[style*="font-size:0.95rem"] {
+    font-size: 0.93rem !important;
+    color: rgba(255,255,255,0.52) !important;
+  }
+  .ft-reveal.ft-reveal-d3 p[style*="font-size:0.85rem"] {
+    font-size: 0.85rem !important;
+    color: rgba(255,255,255,0.30) !important;
+  }
+
+  /* Email contact link (+6%) */
+  .ft-reveal.ft-reveal-d3 a[href^="mailto"] {
+    font-size: 0.84rem !important;
+    color: rgba(255,255,255,0.40) !important;
+  }
+
+  /* ── DIVIDER ───────────────────────────────────────────────────── */
+  .ft-divider {
+    opacity: 0.4 !important;
+    margin-top: 0 !important;
+  }
+
+  /* ── BOTTOM BAR ────────────────────────────────────────────────── */
+  /* Stack all items, center-aligned */
+  #site-footer .ft-reveal.ft-reveal-d5[style*="justify-content:space-between"] {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1rem !important;
+    padding: 1.5rem 0 3rem !important;
+    text-align: center !important;
+  }
+
+  /* Copyright: small and dim */
+  #site-footer .ft-reveal-d5 > p {
+    font-size: 0.54rem !important;
+    letter-spacing: 0.12em !important;
+    color: rgba(255,255,255,0.14) !important;
+  }
+
+  /* "feito com calma" signature */
+  #site-footer .ft-reveal-d5 > div[style*="opacity:0.22"] {
+    opacity: 0.18 !important;
+  }
+
+  /* "Topo" back-to-top link */
+  #site-footer .ft-reveal-d5 > a.ft-nav-link {
+    font-size: 0.54rem !important;
+    color: rgba(255,255,255,0.18) !important;
+    min-height: unset !important;
+    border-bottom: none !important;
+  }
+
+  /* ── HIDE DECORATIVE NOISE ON MOBILE ──────────────────────────── */
+  .ft-orb-1, .ft-orb-2 {
+    display: none !important;
+  }
+
+  /* ═════════════════════════════════════════════════════════════════
 }
