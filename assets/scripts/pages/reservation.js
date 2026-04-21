@@ -1010,16 +1010,21 @@ function initEnvCardsParallax() {
     });
   };
 
-  // Wait for JS to populate cards (API call)
-  const observer = new MutationObserver(() => {
-    const cards = grid.querySelectorAll('.res-env-card');
-    if (cards.length > 0) {
-      observer.disconnect();
-      // Small delay ensures gsap.set(opacity:0) from renderEnvCards settled
-      setTimeout(runEntrance, 80);
-    }
-  });
-  observer.observe(grid, { childList: true });
+  // Wait for JS to populate cards (API call), or run immediately if already populated
+  const existingCards = grid.querySelectorAll('.res-env-card');
+  if (existingCards.length > 0) {
+    setTimeout(runEntrance, 80);
+  } else {
+    const observer = new MutationObserver(() => {
+      const cards = grid.querySelectorAll('.res-env-card');
+      if (cards.length > 0) {
+        observer.disconnect();
+        // Small delay ensures gsap.set(opacity:0) from renderEnvCards settled
+        setTimeout(runEntrance, 80);
+      }
+    });
+    observer.observe(grid, { childList: true });
+  }
 }
 
 /* ── Section divider reveal — animate lines in from center ─────── */
@@ -1044,8 +1049,11 @@ function initSectionDividerReveal() {
 
 /* ── Init ──────────────────────────────────────────────────────── */
 
+// FETCH ANTECIPADO: inicia a requisição imediatamente,
+// sem aguardar a animação do preloader terminar.
+loadEnvironments();
+
 function initPage() {
-  loadEnvironments();
   initAnimations();
 }
 
