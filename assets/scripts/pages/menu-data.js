@@ -180,6 +180,7 @@ function renderMenuItemHtml(product, sectionId = '') {
   // data-attributes consumidos pelo modal em menu-tabs.js
   const safeDesc  = product.description ? product.description.replace(/"/g, '&quot;') : '';
   const safeImg   = product.image_url ?? '';
+  const safeBadge = product.badge ? product.badge.replace(/"/g, '&quot;') : '';
 
   // Lógica específica de variantes para Tapioca & Cuscuz
   let extraAttrs = '';
@@ -212,7 +213,8 @@ function renderMenuItemHtml(product, sectionId = '') {
       data-item-name="${product.name}"
       data-item-desc="${safeDesc}"
       data-item-price="${finalSafePrice}"
-      data-item-image="${safeImg}">
+      data-item-image="${safeImg}"
+      data-item-badge="${safeBadge}">
   ${imgHtml}
   <div class="item-body">
     <h3 class="item-name">${product.name}</h3>

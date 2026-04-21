@@ -215,7 +215,7 @@ body::after { display: none; }
 }
 
 .is-scrolled .nav-logo {
-  color: var(--c-brand-muted);
+  color: var(--c-accent);
 }
 
 .nav-menu {
@@ -287,13 +287,13 @@ body::after { display: none; }
 }
 
 .is-scrolled .nav-cta {
-  border-color: var(--c-primary);
-  color: var(--c-primary);
+  border-color: rgba(234, 228, 217, 0.4);
+  color: var(--c-accent);
   background: transparent;
 }
 
 .is-scrolled .nav-cta:hover {
-  background: var(--c-primary);
+  background: rgba(234, 228, 217, 0.1);
   color: #fff;
 }
 
@@ -1404,13 +1404,14 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--c-primary);
+  color: rgba(234, 228, 217, 0.75);
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
 .footer-link:hover {
   background: rgba(255, 255, 255, 0.08);
+  color: #fff;
   transform: translateY(-2px);
 }
 
