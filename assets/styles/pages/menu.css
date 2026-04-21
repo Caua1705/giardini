@@ -1777,8 +1777,8 @@ footer {
   }
 
   .hero-title {
-    font-size: clamp(3.8rem, 15vw, 5.2rem);
-    line-height: 0.92;
+    font-size: clamp(3.2rem, 12vw, 4.2rem);
+    line-height: 0.95;
     letter-spacing: -0.03em;
     text-align: center;
     color: var(--c-dark) !important;
@@ -1815,8 +1815,9 @@ footer {
   .hero-cta-wrap {
     flex-direction: column !important;
     align-items: center;
-    gap: 0.65rem !important;
+    gap: 1rem !important;
     width: 100%;
+    margin-top: 0.5rem;
   }
 
   .hero-btn-primary {
@@ -1831,12 +1832,13 @@ footer {
   }
 
   #video-frame {
-    width: 90vw !important; /* Tamanho proporcional, respira nas bordas */
-    max-width: 340px !important;
+    width: 100vw !important; /* Full edge-to-edge para o fundo mesclar perfeito */
+    max-width: 400px !important;
     top: 50% !important; /* Fica alinhado exato com o texto */
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
     opacity: 0.70 !important;
+    mix-blend-mode: screen !important; /* Remove o fundo preto do vídeo e mescla com o verde */
     aspect-ratio: 9/16;
     mask-image: radial-gradient(ellipse 75% 55% at 50% 50%,
       rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0) 100%);
