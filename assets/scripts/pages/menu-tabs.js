@@ -339,7 +339,14 @@
         });
       }, { rootMargin: "0px 0px -12% 0px" });
 
-      document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+      function observeRevealElements() {
+        document.querySelectorAll('.reveal:not(.is-observed)').forEach(el => {
+          el.classList.add('is-observed');
+          revealObserver.observe(el);
+        });
+      }
+
+      observeRevealElements();
 
       /* ── Mobile fallback: force all reveals visible immediately ── */
       if (window.innerWidth <= 767) {
@@ -650,9 +657,34 @@
         document.body.style.overflow = '';
       }
 
-      document.querySelectorAll('.menu-item').forEach(item => {
-        if (item.hasAttribute('data-item-name')) {
-          item.addEventListener('click', () => openModal(item));
+      function registerMenuItemClicks() {
+        document.querySelectorAll('.menu-item').forEach(item => {
+          if (item.hasAttribute('data-item-name') && !item._modalBound) {
+            item._modalBound = true;
+            item.addEventListener('click', () => openModal(item));
+          }
+        });
+      }
+
+      registerMenuItemClicks();
+
+      // Re-registrar após fetch dinâmico da API (menu-data.js)
+      document.addEventListener('menuRendered', () => {
+        registerMenuItemClicks();
+        // Re-initializar reveal observer para os novos elementos
+        document.querySelectorAll('.reveal:not(.is-observed)').forEach(el => {
+          el.classList.add('is-observed');
+          revealObserver.observe(el);
+        });
+        // Mobile fallback para novos elementos
+        if (window.innerWidth <= 767) {
+          document.querySelectorAll('.reveal').forEach(el => {
+            el.classList.add('is-visible');
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+            el.style.clipPath = 'none';
+            el.style.webkitClipPath = 'none';
+          });
         }
       });
 
@@ -668,26 +700,27 @@
 
     /* ═══════════════════════════════════════════════════════════════════════════
        BASE SELECTOR LOGIC (TAPIOCA / CUSCUZ)
+       Aguarda menuRendered para garantir que o grid está populado pela API.
     ═══════════════════════════════════════════════════════════════════════════ */
-    (function initBaseSelector() {
+    function initBaseSelector() {
       const toggleBtns = document.querySelectorAll('.base-toggle-btn');
       if (toggleBtns.length === 0) return;
 
       function updateTapiocaGrid(base) {
         const tapiocaGrid = document.querySelector('#tapioca .menu-grid');
         if (!tapiocaGrid) return;
-        
+
         const items = tapiocaGrid.querySelectorAll('.menu-item');
         items.forEach(item => {
           // Toggle image paths
           const thumbImg = item.querySelector('.item-thumb img');
           const currentDataImg = item.getAttribute('data-item-image');
-          
+
           if (thumbImg && currentDataImg) {
-            const newPath = base === 'cuscuz' 
+            const newPath = base === 'cuscuz'
               ? currentDataImg.replace('/tapioca-e-cuscuz/tapioca/', '/tapioca-e-cuscuz/cuzcuz/')
               : currentDataImg.replace('/tapioca-e-cuscuz/cuzcuz/', '/tapioca-e-cuscuz/tapioca/');
-            
+
             thumbImg.src = newPath;
             item.setAttribute('data-item-image', newPath);
           }
@@ -721,10 +754,15 @@
         });
       });
 
-      // Initialize initial render state
+      // Estado inicial
       const initialActive = document.querySelector('.base-toggle-btn.active');
       if (initialActive) {
         updateTapiocaGrid(initialActive.getAttribute('data-base'));
       }
-    })();
+    }
 
+    // Tentar inicializar imediatamente (dados hardcoded ou fetch já concluído)
+    initBaseSelector();
+
+    // Re-inicializar após o fetch dinâmico popular o grid de Tapioca & Cuscuz
+    document.addEventListener('menuRendered', initBaseSelector);

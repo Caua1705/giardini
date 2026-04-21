@@ -3,8 +3,7 @@
    Giardini Café · reservation.js
    ═══════════════════════════════════════════════════════════════════ */
 
-/* ── Config ────────────────────────────────────────────────────── */
-const API_BASE_URL = 'http://127.0.0.1:8000';
+import { apiFetch, API_BASE_URL, API_ROUTES } from '../config/api.js';
 
 
 const MONTHS_PT    = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
@@ -382,9 +381,7 @@ async function loadEnvironments() {
   }
 
   try {
-    const r = await fetch(`${API_BASE_URL}/environments`);
-    if (!r.ok) throw new Error('api fail');
-    const data = await r.json();
+    const data = await apiFetch(API_ROUTES.environments);
 
     if (!data || data.length === 0) {
       DOM.environment.innerHTML = '<option value="" disabled selected>Nenhum ambiente</option>';
@@ -547,9 +544,8 @@ async function loadAvailability() {
 
   /* ── 2. FETCH availability ─────────────────────────────────── */
   try {
-    const r = await fetch(`${API_BASE_URL}/availability?${new URLSearchParams({environment_id:envId,reservation_date:date,party_size:size})}`);
-    if (!r.ok) throw new Error('fail');
-    const slots = await r.json();
+    const params = new URLSearchParams({ environment_id: envId, reservation_date: date, party_size: size });
+    const slots  = await apiFetch(`${API_ROUTES.availability}?${params}`);
 
     // Remove loading
     if (loadingEl) {
@@ -636,45 +632,48 @@ async function handleSubmit() {
   textEl.textContent = 'Confirmando...'; arrowEl.style.display = 'none';
 
   try {
-    const r = await fetch(`${API_BASE_URL}/reservations`, {
-      method: 'POST', headers: {'Content-Type':'application/json'},
+    await apiFetch(API_ROUTES.reservations, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         name, email, phone,
-        environment_id: environment,
-        reservation_date: date,
-        reservation_time: selectedTime,
-        party_size: Number(selectedGuests),
-        notes: notes || null,
+        environment_id:    environment,
+        reservation_date:  date,
+        reservation_time:  selectedTime,
+        party_size:        Number(selectedGuests),
+        notes:             notes || null,
       }),
     });
 
     btn.classList.remove('loading');
-    if (r.ok) {
-      btn.classList.add('success'); textEl.textContent = 'Reserva Confirmada ✓';
-      DOM.successPanel.style.display = 'block';
-      requestAnimationFrame(() => DOM.successPanel.classList.add('visible'));
-      setTimeout(() => lenis.scrollTo(DOM.successPanel, {offset:-100,duration:1.2}), 300);
-    } else {
-      let msg = 'Não foi possível processar sua reserva.';
-      try {
-        const b = await r.json();
-        if (b.detail) msg = typeof b.detail === 'string' ? b.detail : b.detail.map(e => e.msg).join('. ');
-      } catch(_) {}
-      btn.classList.add('error'); textEl.textContent = 'Erro — Tente novamente';
-      DOM.errorPanel.style.display = 'block';
-      requestAnimationFrame(() => DOM.errorPanel.classList.add('visible'));
-      valMsg.textContent = msg; valMsg.style.display = 'block';
-      setTimeout(() => { btn.classList.remove('error'); btn.disabled = false; textEl.textContent = 'Confirmar Reserva'; arrowEl.style.display = ''; }, 3000);
-    }
+    btn.classList.add('success'); textEl.textContent = 'Reserva Confirmada ✓';
+    DOM.successPanel.style.display = 'block';
+    requestAnimationFrame(() => DOM.successPanel.classList.add('visible'));
+    setTimeout(() => lenis.scrollTo(DOM.successPanel, {offset:-100,duration:1.2}), 300);
   } catch (e) {
-    btn.classList.remove('loading'); btn.classList.add('error');
+    btn.classList.remove('loading');
+    // Tenta extrair mensagem de validação do backend (HTTPException do FastAPI)
+    let msg = 'Não foi possível processar sua reserva.';
+    try {
+      if (e.message) {
+        const match = e.message.match(/API error \d+/);
+        if (!match) msg = e.message;
+      }
+    } catch (_) {}
+
+    btn.classList.add('error');
     textEl.textContent = 'Erro — Tente novamente';
     DOM.errorPanel.style.display = 'block';
     requestAnimationFrame(() => DOM.errorPanel.classList.add('visible'));
-    const valMsg2 = document.getElementById('res-validation-msg');
-    valMsg2.textContent = 'Falha na conexão.'; valMsg2.style.display = 'block';
-    console.error(e);
-    setTimeout(() => { btn.classList.remove('error'); btn.disabled = false; textEl.textContent = 'Confirmar Reserva'; arrowEl.style.display = ''; }, 3000);
+    valMsg.textContent = msg;
+    valMsg.style.display = 'block';
+    console.error('[reservation] handleSubmit error:', e);
+    setTimeout(() => {
+      btn.classList.remove('error');
+      btn.disabled = false;
+      textEl.textContent = 'Confirmar Reserva';
+      arrowEl.style.display = '';
+    }, 3000);
   }
 }
 
