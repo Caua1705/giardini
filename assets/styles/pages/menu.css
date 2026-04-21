@@ -2227,8 +2227,7 @@ footer {
   #scroll-progress-line,
   #cat-nav::after,
   #cat-nav::before,
-  #hero-left::after,
-  .section-header::after {
+  #hero-left::after {
     display: none !important;
     content: none !important;
     width: 0 !important;
@@ -2489,6 +2488,11 @@ footer {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
+  }
+
+  /* Mantém o efeito da linha dourada visível no mobile */
+  .section-header::after {
+    opacity: 1 !important;
   }
 
   .section-header .section-kicker {
