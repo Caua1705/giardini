@@ -1078,10 +1078,10 @@ body::after { display: none; }
   }
 }
 
-/* Thumbnail support */
+/* Thumbnail support - Refined grid for better balance with variants */
 .menu-item:has(.item-thumb) {
-  grid-template-columns: 80px 1fr auto;
-  gap: 0.25rem 1rem;
+  grid-template-columns: 80px 1fr minmax(85px, auto);
+  gap: 0.25rem 1.25rem;
 }
 
 .item-thumb {
@@ -1157,6 +1157,57 @@ body::after { display: none; }
   text-transform: uppercase;
   text-align: right;
   margin-top: 0.05rem;
+}
+
+/* ── VARIANT SYSTEM ────────────────────────────────────────────── */
+
+.variant-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+.variant-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  line-height: 1.1;
+}
+
+/* Compact layout for variants with short labels */
+.variant-item--compact {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.variant-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(234, 228, 217, 0.45); /* Editorial subtle color */
+  transition: color 0.4s var(--expo);
+}
+
+.variant-price {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--c-gold);
+}
+
+.variant-separator {
+  opacity: 0.2;
+  color: var(--c-gold);
+  font-size: 0.8rem;
+}
+
+.menu-item:hover .variant-label {
+  color: rgba(234, 228, 217, 0.75);
 }
 
 /* Hover states */

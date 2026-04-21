@@ -8,7 +8,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-export const API_BASE_URL = 'https://api.giardini.cloud/api/v1';
+export const API_BASE_URL = 'http://127.0.0.1:8000';
 
 /** Rotas relativas disponíveis no backend. */
 export const API_ROUTES = {
@@ -24,7 +24,9 @@ export const API_ROUTES = {
  * @returns {string}
  */
 export function buildApiUrl(path) {
-  return `${API_BASE_URL}${path}`;
+  const url = `${API_BASE_URL}${path}`;
+  console.log('[api] buildApiUrl → API_BASE_URL:', API_BASE_URL, '| path:', path, '| url final:', url);
+  return url;
 }
 
 /**
@@ -36,7 +38,16 @@ export function buildApiUrl(path) {
  * @returns {Promise<any>} - JSON da resposta
  */
 export async function apiFetch(path, options = {}) {
-  const response = await fetch(buildApiUrl(path), options);
+  const url = buildApiUrl(path);
+  console.log('[api] apiFetch → iniciando fetch para:', url, '| options:', options);
+  let response;
+  try {
+    response = await fetch(url, options);
+  } catch (networkErr) {
+    console.error('[api] apiFetch → ERRO DE REDE (fetch lançou exceção):', networkErr);
+    throw networkErr;
+  }
+  console.log('[api] apiFetch → response recebida | status:', response.status, '| ok:', response.ok, '| url:', response.url);
 
   if (!response.ok) {
     throw new Error(`API error ${response.status} em ${path}`);

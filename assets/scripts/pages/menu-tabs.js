@@ -671,21 +671,17 @@
       // Re-registrar após fetch dinâmico da API (menu-data.js)
       document.addEventListener('menuRendered', () => {
         registerMenuItemClicks();
-        // Re-initializar reveal observer para os novos elementos
+        // Não tentar usar o revealObserver aqui porque o initPage pode não ter rodado.
+        // Apenas deixe os elementos prontos. 
         document.querySelectorAll('.reveal:not(.is-observed)').forEach(el => {
-          el.classList.add('is-observed');
-          revealObserver.observe(el);
+          // Fallback seguro: já torna os itens diretamente visíveis
+          // Para evitar o bug do observer nunca inicializando neles
+          el.classList.add('is-visible');
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+          el.style.clipPath = 'none';
+          el.style.webkitClipPath = 'none';
         });
-        // Mobile fallback para novos elementos
-        if (window.innerWidth <= 767) {
-          document.querySelectorAll('.reveal').forEach(el => {
-            el.classList.add('is-visible');
-            el.style.opacity = '1';
-            el.style.transform = 'none';
-            el.style.clipPath = 'none';
-            el.style.webkitClipPath = 'none';
-          });
-        }
       });
 
       closeBtn.addEventListener('click', closeModal);
@@ -735,6 +731,9 @@
           const newPrice = item.getAttribute(targetAttr);
           
           if (newPrice && priceEl.innerHTML !== newPrice) {
+            // Atualiza também o atributo consumido pelo modal
+            item.setAttribute('data-item-price', newPrice);
+
             gsap.to(priceEl, { opacity: 0, y: -2, duration: 0.15, onComplete: () => {
               priceEl.innerHTML = newPrice;
               gsap.to(priceEl, { opacity: 1, y: 0, duration: 0.15 });
