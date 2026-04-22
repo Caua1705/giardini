@@ -1526,17 +1526,30 @@ textarea.res-form-input{
     color: rgba(183,147,88,.92) !important;
   }
 
-  /* ── Separador: posicionado entre título e body com ritmo equilibrado ── */
+  /* ── Separador: ESTÁTICO no mobile — sem animação, sem pseudo-elemento ── */
   .res-hero-sep{
+    display: block !important;
     width: 32px !important;
     height: 1px !important;
     align-self: center !important;
-    margin: 1.25rem 0 1.25rem 0 !important;
-    background: linear-gradient(90deg, rgba(183,147,88,.50), transparent) !important;
-    overflow: visible !important;
+    margin-top: 1rem !important;
+    margin-bottom: 2rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    background: rgba(183,147,88,.45) !important;
+    position: static !important;
+    overflow: hidden !important;
+    animation: none !important;
+    transform: none !important;
   }
+  .res-hero-sep::before,
   .res-hero-sep::after{
+    content: none !important;
     display: none !important;
+    animation: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    position: static !important;
   }
 
   /* ── Body ── */
