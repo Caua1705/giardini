@@ -1025,13 +1025,13 @@ textarea.res-form-input{
   padding:1.25rem 3rem;
   font-family:'Inter',sans-serif;font-size:.67rem;font-weight:700;
   letter-spacing:.22em;text-transform:uppercase;
-  color:#f0f5f2;
-  background:#0c1a12;
-  border:1px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.92);
+  background:#163628;
+  border:1px solid rgba(183,147,88,.18);
   border-radius:99px;cursor:pointer;
   position:relative;overflow:hidden;
   transition:all .45s cubic-bezier(.22,1,.36,1);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+  box-shadow:0 6px 22px -4px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.05);
   transform:translateZ(0);
   will-change:transform;
 }
@@ -1044,12 +1044,29 @@ textarea.res-form-input{
 @keyframes resCtaSweep{0%{left:-75%}100%{left:150%}}
 .res-submit-btn:hover{
   transform:translate3d(0,-2px,0);
-  background:#112017;
-  border-color:rgba(183,147,88,.4);
+  background:#1d4a35;
+  border-color:rgba(183,147,88,.42);
   color:#fff;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+  box-shadow:0 10px 32px -6px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.07);
 }
 .res-submit-btn:active{transform:translate3d(0,0,0) scale(.99)}
+
+/* ── Shake micro-interaction — validation error feedback ───────────
+   Short, tight, elegant. Amplitude stays under 5px so it reads as
+   "a nudge", not a cartoon bounce. 0.32s total — gone before the
+   user notices it was an animation at all.
+─────────────────────────────────────────────────────────────────── */
+@keyframes resSubmitShake {
+  0%   { transform: translateX(0); }
+  18%  { transform: translateX(-5px); }
+  36%  { transform: translateX(4px); }
+  54%  { transform: translateX(-3px); }
+  72%  { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}
+.res-submit-btn.is-shaking {
+  animation: resSubmitShake 0.32s cubic-bezier(.36,.07,.19,.97) both !important;
+}
 .res-submit-btn.loading{pointer-events:none;opacity:.85}
 .res-submit-btn.success{background:linear-gradient(135deg,#345e47 0%,#3a6350 100%);pointer-events:none}
 .res-submit-btn.error{background:linear-gradient(135deg,#8C3131 0%,#723030 100%);pointer-events:none}
@@ -1303,13 +1320,13 @@ textarea.res-form-input{
   text-shadow:0 0 16px rgba(183,147,88,.2);
 }
 
-/* Submit button breathing glow — deep forest green */
+/* Submit button — very subtle breathing shadow, natural tone */
 .res-submit-btn{
-  animation:resSubmitGlow 4s ease-in-out infinite;
+  animation:resSubmitGlow 5s ease-in-out infinite;
 }
 @keyframes resSubmitGlow{
-  0%,100%{box-shadow:0 12px 40px -8px rgba(0,0,0,.65),0 4px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08)}
-  50%{box-shadow:0 12px 40px -8px rgba(10,30,20,.7),0 4px 16px rgba(0,0,0,.35),0 0 40px rgba(10,40,25,.25),inset 0 1px 0 rgba(255,255,255,.08)}
+  0%,100%{box-shadow:0 4px 18px -4px rgba(0,0,0,.28)}
+  50%{box-shadow:0 6px 26px -4px rgba(30,68,50,.45)}
 }
 
 /* ══════════════════════════════════════════════════════════════════

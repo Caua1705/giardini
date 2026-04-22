@@ -624,7 +624,10 @@ async function handleSubmit() {
   const err = getValidationError({environment, date, name, email, phone});
   if (err) {
     valMsg.textContent = err; valMsg.style.display = 'block';
-    gsap.to(btn, { x: [-8,8,-6,6,-3,3,0], duration: .5, ease: 'power2.out' });
+    btn.classList.remove('is-shaking'); // reset so re-trigger works
+    void btn.offsetWidth;              // force reflow
+    btn.classList.add('is-shaking');
+    btn.addEventListener('animationend', () => btn.classList.remove('is-shaking'), { once: true });
     return;
   }
 
