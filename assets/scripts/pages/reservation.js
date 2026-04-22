@@ -14,8 +14,8 @@ const isMobileDevice = window.innerWidth <= 768;
 const CONFIG_SEQ = {
   TOTAL_FRAMES: 150,
   FRAMES_DIR: isMobileDevice ? 'references/image-frames/reservation-mobile' : 'references/image-frames/reservation',
-  scrollVH: isMobileDevice ? 80 : 100, // Amount of scroll to complete sequence
-  scrub: isMobileDevice ? 0.3 : 1.0,
+  scrollVH: isMobileDevice ? 150 : 100, // Mobile: 150vh scroll space while hero stays pinned
+  scrub: isMobileDevice ? 0.8 : 1.0,
 };
 
 let frames = [];
@@ -88,22 +88,22 @@ function preloadFrames() {
 /* ── GSAP + Lenis ──────────────────────────────────────────────── */
 gsap.registerPlugin(ScrollTrigger);
 
-const lenis = new Lenis({
-  duration: 1.4,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  direction: 'vertical',
-  smooth: true,
-  smoothTouch: false,
-});
-
-function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-requestAnimationFrame(raf);
-
-// Sync ScrollTrigger with Lenis
-lenis.on('scroll', ScrollTrigger.update);
-gsap.ticker.add((time) => {
-  lenis.raf(time * 1000);
-});
+// On mobile: native scroll is used so GSAP ScrollTrigger pin works flawlessly.
+// Lenis can prevent the pin from sticking on touch devices.
+let lenis = null;
+if (!isMobileDevice) {
+  lenis = new Lenis({
+    duration: 1.4,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    direction: 'vertical',
+    smooth: true,
+    smoothTouch: false,
+  });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+}
 gsap.ticker.lagSmoothing(0);
 
 
@@ -910,7 +910,9 @@ function initAnimations() {
       start: 'top top',
       end: () => `+=${scrollPx}`,
       pin: viewport,
-      pinSpacing: false,
+      // Mobile: pinSpacing true so the section below starts after the full pin zone
+      // Desktop: false because we set wrapper height manually
+      pinSpacing: isMobileDevice,
       scrub: CONFIG_SEQ.scrub,
       onUpdate: (self) => {
         const idx = Math.min(
