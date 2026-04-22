@@ -106,6 +106,17 @@ if (!isMobileDevice) {
 }
 gsap.ticker.lagSmoothing(0);
 
+// Safe scroll helper — uses Lenis on desktop, native scrollIntoView on mobile
+function safeScrollTo(target, opts = {}) {
+  if (lenis) {
+    lenis.scrollTo(target, opts);
+  } else {
+    const el = typeof target === 'string' ? document.querySelector(target) : target;
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+
 
 /* ── DOM ───────────────────────────────────────────────────────── */
 const DOM = {
