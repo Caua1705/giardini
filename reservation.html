@@ -103,75 +103,71 @@
     </div>
   </nav>
 
-  <!-- ══════════════════════════════════════════════════════════════
-       HERO — CINEMATIC FULL-BLEED VIDEO
-       ══════════════════════════════════════════════════════════════ -->
-  <section class="res-hero" id="res-hero" aria-label="Hero — Reservas">
+  <!-- ════ HERO WRAPPER FOR SCROLL PIN ════════════════════════════════ -->
+  <div id="hero-pin-wrapper">
+    <section class="res-hero" id="hero-viewport" aria-label="Hero — Reservas">
 
-    <!-- Background video -->
-    <div class="res-hero-bg">
-      <video autoplay muted loop playsinline preload="auto" aria-hidden="true">
-        <source src="assets/videos/home/ambient-video.mp4" type="video/mp4" />
-      </video>
-    </div>
+      <!-- Background Canvas Sequence -->
+      <div id="video-frame" aria-hidden="true">
+        <canvas id="seq-canvas"></canvas>
+      </div>
 
-    <!-- Layered cinematic overlays -->
-    <div class="res-hero-overlay"></div>
-    <div class="res-hero-vignette"></div>
-    <div class="res-hero-grain"></div>
-    <div class="res-hero-scanlines" aria-hidden="true"></div>
+      <!-- Layered cinematic overlays -->
+      <div class="res-hero-overlay"></div>
+      <div class="res-hero-vignette"></div>
+      <div class="res-hero-grain"></div>
+      <div class="res-hero-scanlines" aria-hidden="true"></div>
 
-    <!-- Atmospheric orbs -->
-    <div class="res-hero-orb res-hero-orb-1" aria-hidden="true"></div>
-    <div class="res-hero-orb res-hero-orb-2" aria-hidden="true"></div>
+      <!-- Atmospheric orbs -->
+      <div class="res-hero-orb res-hero-orb-1" aria-hidden="true"></div>
+      <div class="res-hero-orb res-hero-orb-2" aria-hidden="true"></div>
 
-    <!-- Floating particles -->
-    <div class="res-hero-particles" id="res-hero-particles" aria-hidden="true"></div>
+      <!-- Floating particles -->
+      <div class="res-hero-particles" id="res-hero-particles" aria-hidden="true"></div>
 
+      <!-- Hero content — editorial grid container -->
+      <div class="res-hero-container">
+        <div class="res-hero-content">
+          <!-- Kicker -->
+          <div class="res-hero-kicker res-hero-reveal" id="el-kicker" data-delay="0">
+            <div class="res-hero-kicker-line"></div>
+            <div class="res-hero-kicker-dot"></div>
+            Reservas &middot; Giardini Caf&eacute;
+            <div class="res-hero-kicker-dot" style="animation-delay:0.8s;"></div>
+            <div class="res-hero-kicker-line"></div>
+          </div>
 
+          <!-- Title -->
+          <h1 class="res-hero-title res-hero-reveal" id="el-h1" data-delay="0.12">
+            Reserve sua<br><em>experi&ecirc;ncia</em>
+          </h1>
 
-    <!-- Hero content — editorial grid container -->
-    <div class="res-hero-container">
-      <div class="res-hero-content">
-        <!-- Kicker -->
-        <div class="res-hero-kicker res-hero-reveal" data-delay="0">
-          <div class="res-hero-kicker-line"></div>
-          <div class="res-hero-kicker-dot"></div>
-          Reservas &middot; Giardini Caf&eacute;
-          <div class="res-hero-kicker-dot" style="animation-delay:0.8s;"></div>
-          <div class="res-hero-kicker-line"></div>
+          <!-- Separator with shimmer -->
+          <div class="res-hero-sep res-hero-reveal" id="el-sep" data-delay="0.28"></div>
+
+          <!-- Body -->
+          <p class="res-hero-body res-hero-reveal" id="el-body" data-delay="0.38">
+            Um momento reservado para voc&ecirc;.<br>Escolha o ambiente, a data e viva o Giardini.
+          </p>
+
+          <!-- CTA inline arrow -->
+          <a href="#reservation-flow" class="res-hero-cta res-hero-reveal" data-delay="0.5" id="el-cta">
+            <span>Fazer minha reserva</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
         </div>
-
-        <!-- Title -->
-        <h1 class="res-hero-title res-hero-reveal" data-delay="0.12">
-          Reserve sua<br><em>experi&ecirc;ncia</em>
-        </h1>
-
-        <!-- Separator with shimmer -->
-        <div class="res-hero-sep res-hero-reveal" data-delay="0.28"></div>
-
-        <!-- Body -->
-        <p class="res-hero-body res-hero-reveal" data-delay="0.38">
-          Um momento reservado para voc&ecirc;.<br>Escolha o ambiente, a data e viva o Giardini.
-        </p>
-
-        <!-- CTA inline arrow -->
-        <a href="#reservation-flow" class="res-hero-cta res-hero-reveal" data-delay="0.5" id="res-hero-cta">
-          <span>Fazer minha reserva</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
       </div>
-    </div>
 
-    <!-- Scroll indicator — bottom center -->
-    <div class="res-hero-scroll res-hero-reveal" data-delay="0.65">
-      <span class="res-hero-scroll-label">Reservar</span>
-      <div class="res-hero-scroll-track">
-        <div class="res-hero-scroll-dot"></div>
+      <!-- Scroll indicator — bottom center -->
+      <div class="res-hero-scroll res-hero-reveal" id="el-scroll" data-delay="0.65">
+        <span class="res-hero-scroll-label">Reservar</span>
+        <div class="res-hero-scroll-track">
+          <div class="res-hero-scroll-dot"></div>
+        </div>
       </div>
-    </div>
 
-  </section>
+    </section>
+  </div>
 
 
   <!-- ══════════════════════════════════════════════════════════════

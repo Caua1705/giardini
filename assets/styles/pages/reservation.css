@@ -75,20 +75,114 @@
 /* ══════════════════════════════════════════════════════════════════
    HERO
    ══════════════════════════════════════════════════════════════════ */
+/* ════ HERO WRAPPER FOR SCROLL PIN ════ */
+#hero-pin-wrapper {
+  position: relative;
+  width: 100%;
+  background: #0C1A10; /* Match dark theme start */
+}
+
 .res-hero{
   position:relative;width:100%;height:100vh;min-height:680px;
   overflow:hidden;display:flex;flex-direction:column;
+  background: #0C1A10;
+  will-change: transform;
 }
-.res-hero-bg{position:absolute;inset:0;z-index:0}
-.res-hero-bg video{width:100%;height:100%;object-fit:cover;filter:saturate(.75) brightness(.5) contrast(1.1)}
-.res-hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(115deg,rgba(4,8,6,.92) 0%,rgba(8,16,11,.7) 45%,rgba(4,8,6,.55) 100%);pointer-events:none}
-.res-hero-vignette{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse 90% 80% at 30% 60%,transparent 30%,rgba(0,0,0,.55) 100%);pointer-events:none}
-.res-hero-grain{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");background-size:180px 180px;mix-blend-mode:screen}
-.res-hero-scanlines{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.018;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.8) 2px,rgba(0,0,0,.8) 3px)}
-.res-hero-orb{position:absolute;border-radius:50%;pointer-events:none;z-index:2}
+
+/* Canvas frame / Full Screen — Resetting global components.css styles */
+#video-frame {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 1 !important;
+  overflow: hidden !important;
+  opacity: 0; /* Managed by JS entrance */
+  
+  /* Reset global styles from components.css */
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  transform: none !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+#video-frame::before,
+#video-frame::after,
+#hero-viewport::after {
+  display: none !important;
+}
+
+/* Override global components.css #seq-canvas on reservation page */
+.res-hero #seq-canvas,
+#seq-canvas {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  image-rendering: auto !important;
+  backface-visibility: visible !important;
+  object-fit: cover !important;
+  filter: blur(12px);
+  opacity: 0;
+  transform: scale(1.05);
+  transition: filter 2s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 1.5s ease, 
+              transform 2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.res-hero #seq-canvas.ready,
+#seq-canvas.ready {
+  filter: blur(0) contrast(1.05) brightness(1.02);
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ══ RESERVATION-PAGE MOBILE: nuclear override for #video-frame ══
+   components.css sets #video-frame to a small centered card on mobile
+   (max-width:340px, width:82%, transform:translate(-50%,-50%), etc).
+   On the reservation page, #video-frame MUST be fullscreen behind the hero.
+   We use .res-hero ancestor to win specificity.                     */
+@media (max-width: 1024px) {
+  .res-hero #video-frame {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    aspect-ratio: unset !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+}
+
+.res-hero-bg{display: none;} /* Video replaced by canvas */
+.res-hero-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(115deg,rgba(4,8,6,.92) 0%,rgba(8,16,11,.7) 45%,rgba(4,8,6,.55) 100%);pointer-events:none}
+.res-hero-vignette{position:absolute;inset:0;z-index:3;background:radial-gradient(ellipse 90% 80% at 30% 60%,transparent 30%,rgba(0,0,0,.55) 100%);pointer-events:none}
+.res-hero-grain{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");background-size:180px 180px;mix-blend-mode:screen}
+.res-hero-scanlines{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:.018;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.8) 2px,rgba(0,0,0,.8) 3px)}
+.res-hero-orb{position:absolute;border-radius:50%;pointer-events:none;z-index:3}
 .res-hero-orb-1{top:-20%;right:-5%;width:55vw;height:55vw;background:radial-gradient(circle,rgba(43,74,59,.14) 0%,transparent 65%);animation:s5-float-orb 22s ease-in-out infinite}
 .res-hero-orb-2{bottom:-15%;left:30%;width:35vw;height:35vw;background:radial-gradient(circle,rgba(183,147,88,.08) 0%,transparent 65%);animation:s5-float-orb2 28s ease-in-out infinite 4s}
-.res-hero-particles{position:absolute;inset:0;z-index:4;pointer-events:none}
+.res-hero-particles{position:absolute;inset:0;z-index:5;pointer-events:none}
 
 /* ── Hero editorial container — defines the content grid ──────── */
 .res-hero-container{
@@ -99,6 +193,9 @@
   flex:1;
   display:flex;
   align-items:center;
+}
+@media (max-width: 768px) {
+  .res-hero-container { padding: 0 2rem !important; }
 }
 
 /* ── Hero content block — left-anchored, tight rhythm ──────────── */
@@ -2088,5 +2185,4 @@ body{
     display: none !important;
   }
 
-  /* ═════════════════════════════════════════════════════════════════
 }

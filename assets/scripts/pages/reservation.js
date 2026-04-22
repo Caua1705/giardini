@@ -9,6 +9,81 @@ import { apiFetch, API_BASE_URL, API_ROUTES } from '../config/api.js';
 const MONTHS_PT    = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const MONTHS_SHORT = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
 
+/* ── CANVAS SEQUENCE CONFIG ── */
+const isMobileDevice = window.innerWidth <= 768;
+const CONFIG_SEQ = {
+  TOTAL_FRAMES: 150,
+  FRAMES_DIR: isMobileDevice ? 'references/image-frames/reservation-mobile' : 'references/image-frames/reservation',
+  scrollVH: isMobileDevice ? 80 : 100, // Amount of scroll to complete sequence
+  scrub: isMobileDevice ? 0.3 : 1.0,
+};
+
+let frames = [];
+let currentFrameIndex = -1;
+const canvas = document.getElementById('seq-canvas');
+const ctx = canvas ? canvas.getContext('2d') : null;
+
+function resizeCanvas() {
+  if (!canvas) return;
+  // Always size the canvas to the actual rendered viewport size
+  const cw = window.innerWidth;
+  const ch = window.innerHeight;
+  if (canvas.width !== cw || canvas.height !== ch) {
+    canvas.width  = cw;
+    canvas.height = ch;
+  }
+  if (currentFrameIndex >= 0) redrawCurrentFrame();
+}
+
+function redrawCurrentFrame() {
+  if (currentFrameIndex < 0 || !ctx) return;
+  const img = frames[currentFrameIndex];
+  if (!img || !img.complete || img.naturalWidth === 0) return;
+  paintCover(img);
+}
+
+function paintCover(img) {
+  const cw = canvas.width;
+  const ch = canvas.height;
+  const iw = img.naturalWidth;
+  const ih = img.naturalHeight;
+  // Cover fill: scale so image covers entire canvas, centred
+  const scale = Math.max(cw / iw, ch / ih);
+  const dw = Math.ceil(iw * scale);
+  const dh = Math.ceil(ih * scale);
+  const dx = Math.floor((cw - dw) / 2);
+  const dy = Math.floor((ch - dh) / 2);
+  ctx.clearRect(0, 0, cw, ch);
+  ctx.drawImage(img, dx, dy, dw, dh);
+}
+
+function drawFrame(index) {
+  if (index === currentFrameIndex || !ctx) return;
+  const img = frames[index];
+  if (!img || !img.complete || img.naturalWidth === 0) return;
+  currentFrameIndex = index;
+  paintCover(img);
+}
+
+function preloadFrames() {
+  return new Promise((resolve) => {
+    let loaded = 0;
+    const total = CONFIG_SEQ.TOTAL_FRAMES;
+    frames = new Array(total);
+    for (let i = 0; i < total; i++) {
+      const img = new Image();
+      img.src = `${CONFIG_SEQ.FRAMES_DIR}/frame_${String(i).padStart(4, '0')}.webp`;
+      frames[i] = img;
+      img.onload = img.onerror = () => {
+        loaded++;
+        const pct = Math.round((loaded / total) * 100);
+        if (DOM.loaderBar) DOM.loaderBar.style.width = `${pct}%`;
+        if (loaded === total) resolve();
+      };
+    }
+  });
+}
+
 
 /* ── GSAP + Lenis ──────────────────────────────────────────────── */
 gsap.registerPlugin(ScrollTrigger);
@@ -23,6 +98,13 @@ const lenis = new Lenis({
 
 function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
 requestAnimationFrame(raf);
+
+// Sync ScrollTrigger with Lenis
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((time) => {
+  lenis.raf(time * 1000);
+});
+gsap.ticker.lagSmoothing(0);
 
 
 /* ── DOM ───────────────────────────────────────────────────────── */
@@ -778,17 +860,102 @@ function bindEvents() {
 
 function initAnimations() {
   ScrollTrigger.create({start:'top -80',end:99999,toggleClass:{className:'is-scrolled',targets:'#navbar'}});
-  gsap.to('#navbar',{opacity:1,duration:.8,delay:.2});
+  
+  // Hero element initial state
+  gsap.set('#el-kicker', { opacity: 0, y: 35, filter: 'blur(14px)' });
+  gsap.set('#el-h1',     { opacity: 0, y: 45, filter: 'blur(16px)' });
+  gsap.set('#el-sep',    { opacity: 0, scaleX: 0, transformOrigin: 'left' });
+  gsap.set('#el-body',   { opacity: 0, y: 30, filter: 'blur(12px)' });
+  gsap.set('#el-cta',    { opacity: 0, y: 25, filter: 'blur(10px)' });
+  gsap.set('#el-scroll', { opacity: 0, y: 15, filter: 'blur(8px)' });
+  gsap.set('#video-frame', { opacity: 0, scale: 0.94 });
+  gsap.set('#navbar',    { opacity: 0 });
 
-  // Hero reveals — staggered with blur
-  document.querySelectorAll('.res-hero-reveal').forEach(el => {
-    const d = parseFloat(el.dataset.delay || 0);
-    gsap.fromTo(el,
-      {opacity:0, y:32, filter:'blur(6px)'},
-      {opacity:1, y:0, filter:'blur(0px)', duration:1.4, ease:'power4.out', delay:.5+d,
-        onStart:()=>el.classList.add('is-visible')}
-    );
-  });
+  // Entrance timeline
+  function buildEntranceTl() {
+    const tl = gsap.timeline();
+    tl
+      .to('#navbar', { opacity: 1, duration: 0.8, ease: 'power2.out' })
+      .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.25, ease: 'expo.out' }, '-=0.5')
+      .add('titleShow', '-=0.8')
+      .to('#el-h1', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'expo.out' }, 'titleShow')
+      .to('#video-frame', { opacity: 1, scale: 1, duration: 1.8, ease: 'power4.out' }, 'titleShow')
+      .to('#el-sep', { opacity: 1, scaleX: 1, duration: 1.2, ease: 'expo.out' }, 'titleShow+=0.30')
+      .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' }, 'titleShow+=0.55')
+      .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, 'titleShow+=0.75')
+      .to('#el-scroll', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power2.out' }, 'titleShow+=1.05');
+    return tl;
+  }
+
+  // Initialize Canvas — size MUST be set before first draw
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+  // Force-draw frame 0 immediately if it already loaded
+  if (frames[0]?.complete && frames[0].naturalWidth > 0) {
+    currentFrameIndex = -1; // reset so drawFrame doesn't skip
+    drawFrame(0);
+  }
+  if (canvas) canvas.classList.add('ready');
+
+  // Hero Scroll Pin + Sequence
+  const wrapper = document.getElementById('hero-pin-wrapper');
+  const viewport = document.getElementById('hero-viewport');
+  const scrollPx = window.innerHeight * (CONFIG_SEQ.scrollVH / 100);
+
+  if (wrapper && viewport && canvas) {
+    wrapper.style.height = `${window.innerHeight + scrollPx}px`;
+
+    ScrollTrigger.create({
+      trigger: wrapper,
+      start: 'top top',
+      end: () => `+=${scrollPx}`,
+      pin: viewport,
+      pinSpacing: false,
+      scrub: CONFIG_SEQ.scrub,
+      onUpdate: (self) => {
+        const idx = Math.min(
+          Math.floor(self.progress * CONFIG_SEQ.TOTAL_FRAMES),
+          CONFIG_SEQ.TOTAL_FRAMES - 1
+        );
+        drawFrame(idx);
+      }
+    });
+
+    // Exit Scrub Animations (Elements fade out as you scroll)
+    const scrollSettings = {
+      trigger: wrapper,
+      start: 'top top',
+      scrub: 1.2,
+    };
+
+    gsap.to('#el-kicker', {
+      opacity: 0, y: -40, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
+      scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.22}` }
+    });
+    gsap.to('#el-h1', {
+      opacity: 0, y: -60, filter: 'blur(12px)', ease: 'power2.in', immediateRender: false,
+      scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.3}` }
+    });
+    gsap.to('#el-sep', {
+      scaleX: 0, opacity: 0, ease: 'power2.in', immediateRender: false,
+      scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.38}` }
+    });
+    gsap.to('#el-body', {
+      opacity: 0, y: -32, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
+      scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.43}` }
+    });
+    gsap.to('#el-cta', {
+      opacity: 0, y: -26, filter: 'blur(6px)', ease: 'power2.in', immediateRender: false,
+      scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.5}` }
+    });
+    gsap.to('#el-scroll', {
+      opacity: 0, y: -20, filter: 'blur(5px)', ease: 'power2.in', immediateRender: false,
+      scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.25}` }
+    });
+  }
+
+  // Entrance
+  buildEntranceTl().delay(0.2);
 
   // Section reveals — with subtle scale and rotation
   document.querySelectorAll('.res-reveal').forEach(el => {
@@ -840,17 +1007,7 @@ function initAnimations() {
 }
 
 function initHeroParallax() {
-  const heroBg      = document.querySelector('.res-hero-bg video');
-  const heroContent = document.querySelector('.res-hero-content');
-  if (!heroBg || !heroContent) return;
-  ScrollTrigger.create({
-    trigger: '.res-hero', start: 'top top', end: 'bottom top', scrub: true,
-    onUpdate: (self) => {
-      const p = self.progress;
-      gsap.set(heroBg,      { y: p * 90 });
-      gsap.set(heroContent, { y: p * -28, opacity: 1 - p * 0.7 });
-    }
-  });
+  // Parallax removed in favor of scroll pinning sequence
 }
 
 function initHeroParticles() {
@@ -1060,23 +1217,18 @@ function initPage() {
   initAnimations();
 }
 
-(function runPreloader() {
-  let p = 0;
-  const iv = setInterval(() => {
-    p += Math.random() * 15 + 5;
-    if (p >= 100) {
-      p = 100; clearInterval(iv);
-      DOM.loaderBar.style.width = '100%';
-      setTimeout(() => {
-        gsap.to(DOM.loader, {yPercent:-100, duration:1, ease:'power4.inOut', onComplete:() => {
-          DOM.loader.style.display = 'none';
-          document.body.style.opacity = '1';
-          initPage();
-        }});
-      }, 300);
-    }
-    DOM.loaderBar.style.width = p + '%';
-  }, 80);
+(async function runPreloader() {
+  // Preload frames while simulating percentage
+  await preloadFrames();
+  
+  DOM.loaderBar.style.width = '100%';
+  setTimeout(() => {
+    gsap.to(DOM.loader, {yPercent:-100, duration:1.2, ease:'power4.inOut', onComplete:() => {
+      DOM.loader.style.display = 'none';
+      document.body.style.opacity = '1';
+      initPage();
+    }});
+  }, 400);
 })();
 
 bindEvents();
