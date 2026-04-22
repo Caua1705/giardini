@@ -2,7 +2,7 @@ import cv2
 from pathlib import Path
 
 # CONFIG
-VIDEO_PATH = Path(__file__).parent / "nenem2.mp4"
+VIDEO_PATH = Path(__file__).parent / "teste-mobile.mp4"
 OUTPUT_DIR = Path(__file__).parent.parent / "references" / "image-frames" / "reservation-mobile"
 TOTAL_FRAMES = 150
 FRAME_WIDTH = 1280
