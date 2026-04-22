@@ -1956,145 +1956,154 @@ footer {
     justify-content: center;
   }
 
-  /* ── HERO ── */
+  /* ══════════════════════════════════════════════════════════════
+     HERO — Premium Mobile (Segunda versão lapidada)
+     Estrutura preservada: centralizado, coluna, canvas fullscreen.
+     Apenas tamanhos, espaçamentos e hierarquia refinados.
+     ══════════════════════════════════════════════════════════════ */
   #hero-viewport {
-    height: 100svh;
-    min-height: 640px;
-    max-height: 960px;
+    height: 100svh !important;
+    min-height: 600px;
+    max-height: 920px;
   }
 
+  /* Container: centralizado c/ clearance da navbar no topo */
   .hero-content {
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 0 1.5rem;
-    /* Permite que o flexbox centralize perfeitamente 
-                          no eixo Y sem empurrar para cima */
-    gap: 0;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: max(4.75rem, 68px) 1.75rem 2rem !important;
+    gap: 0 !important;
   }
 
+  /* Kicker: letter-spacing calibrado (era 0.5em — muito aberto) */
   .hero-kicker {
-    font-size: 0.52rem;
-    letter-spacing: 0.5em;
-    gap: 0.8rem;
-    margin-bottom: 1.2rem;
+    font-size: 0.54rem !important;
+    letter-spacing: 0.30em !important;
+    gap: 0.65rem !important;
+    margin-bottom: 1rem !important;
+    justify-content: center !important;
     color: var(--c-editorial) !important;
   }
-
-  .hero-title {
-    font-size: clamp(3.2rem, 12vw, 4.2rem);
-    line-height: 0.95;
-    letter-spacing: -0.03em;
-    text-align: center;
-    color: var(--c-dark) !important;
+  .kicker-line {
+    width: 18px !important;
   }
 
+  /* Headline: ligeiramente maior, line-height equilibra as duas linhas */
+  .hero-title {
+    font-size: clamp(3.4rem, 12.5vw, 4.6rem) !important;
+    line-height: 0.97 !important;
+    letter-spacing: -0.033em !important;
+    text-align: center !important;
+    color: rgba(244, 242, 237, 0.97) !important;
+    margin-bottom: 0 !important;
+  }
   .hero-title em {
     color: var(--c-editorial) !important;
+    -webkit-text-fill-color: var(--c-editorial) !important;
   }
 
-  .loader {
-    background: var(--c-bg) !important;
-  }
+  /* Loader */
+  .loader { background: var(--c-bg) !important; }
+  .loader-text { color: var(--c-accent) !important; }
+  .loader-tagline { color: var(--c-gold) !important; }
 
-  .loader-text {
-    color: var(--c-accent) !important;
-  }
-
-  .loader-tagline {
-    color: var(--c-gold) !important;
-  }
-
+  /* Separador: margens menores, mais sutil */
   .hero-title-sep {
     display: block !important;
-    width: 40px;
-    height: 1px;
-    background: rgba(200, 225, 208, 0.50);
-    margin: 1.5rem auto;
+    width: 32px !important;
+    height: 1px !important;
+    background: rgba(194, 180, 154, 0.36) !important;
+    margin: 0.95rem auto !important;
+    border: none !important;
   }
 
+  /* Subtítulo: line-height mais aberto, margem inferior menor */
   .hero-sub {
-    font-size: 0.85rem;
-    line-height: 1.6;
-    max-width: 290px;
-    text-align: center;
-    margin: 0 auto 2rem auto;
-    color: rgba(200, 210, 198, 0.80);
+    font-size: 0.86rem !important;
+    line-height: 1.74 !important;
+    max-width: 280px !important;
+    text-align: center !important;
+    margin: 0 auto 1.65rem !important;
+    color: rgba(194, 180, 154, 0.72) !important;
   }
+  .desktop-text { display: none !important; }
+  .mobile-text  { display: inline !important; }
 
-  .desktop-text {
-    display: none !important;
-  }
-
-  .mobile-text {
-    display: inline !important;
-  }
-
+  /* CTA wrap: segunda versão em coluna, gap calibrado */
   .hero-cta-wrap {
+    display: flex !important;
     flex-direction: column !important;
-    align-items: center;
-    gap: 1rem !important;
-    width: 100%;
-    margin-top: 0.5rem;
+    align-items: center !important;
+    gap: 0.55rem !important;
+    width: 100% !important;
+    margin-top: 0 !important;
   }
 
+  /* Botão primário: font maior, padding proporcional */
   .hero-btn-primary {
-    padding: 0.95rem 2.6rem;
-    font-size: 0.56rem;
-    letter-spacing: 0.25em;
+    padding: 0.88rem 2.4rem !important;
+    font-size: 0.60rem !important;
+    letter-spacing: 0.20em !important;
+    min-height: 44px !important;
+    white-space: nowrap !important;
   }
 
+  /* CTA secundário: intencional, dim mas legível */
   .hero-btn-secondary {
     display: inline-flex !important;
-    font-size: 0.55rem !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    font-size: 0.57rem !important;
+    letter-spacing: 0.18em !important;
+    color: rgba(194, 180, 154, 0.50) !important;
+    padding: 0.6rem 0.5rem !important;
+    white-space: nowrap !important;
   }
 
+  /* Canvas fullscreen cinematic */
   #video-frame {
     width: 100vw !important;
     height: 100svh !important;
-    /* Força o vídeo a cobrir do topo até o fundo da hero */
     max-width: none !important;
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
-    opacity: 0.70 !important;
+    opacity: 0.65 !important;
     mix-blend-mode: screen !important;
     aspect-ratio: auto !important;
-    /* Permite que a altura dite o tamanho e a tela do canvas faça o object-fit */
     mask-image: none !important;
-    /* Sem máscaras para não ter quebra embaixo */
     -webkit-mask-image: none !important;
   }
 
-  #hero-pin-wrapper::after {
-    height: 100px;
-  }
+  #hero-pin-wrapper::after { height: 90px !important; }
 
+  /* Scrim superior — legibilidade da navbar */
   #hero-viewport::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 140px;
+    top: 0; left: 0; right: 0;
+    height: 130px;
     background: linear-gradient(to bottom,
-        rgba(10, 24, 14, 0.82) 0%, rgba(10, 24, 14, 0.40) 45%, transparent 100%);
+      rgba(8, 20, 12, 0.85) 0%,
+      rgba(8, 20, 12, 0.35) 55%,
+      transparent 100%);
     z-index: 4;
     pointer-events: none;
   }
 
+  /* Scroll indicator */
   .hero-scroll {
-    display: flex;
-    bottom: 1.8rem;
-    color: rgba(200, 225, 208, 0.32);
-    font-size: 0.38rem;
-    letter-spacing: 0.42em;
-    gap: 0.4rem;
+    display: flex !important;
+    bottom: clamp(1.5rem, 4svh, 2.5rem) !important;
+    color: rgba(194, 180, 154, 0.35) !important;
+    font-size: 0.42rem !important;
+    letter-spacing: 0.36em !important;
+    gap: 0.45rem !important;
   }
-
   .hero-scroll-line {
-    height: 20px;
-    background: linear-gradient(to bottom, rgba(200, 225, 208, 0.40), transparent);
+    height: 26px !important;
+    background: linear-gradient(to bottom, rgba(194, 180, 154, 0.32), transparent) !important;
   }
 
   #hero-bridge {
