@@ -8,7 +8,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-export const API_BASE_URL = 'http://127.0.0.1:8000';
+export const API_BASE_URL = 'http://212.85.0.237:8000';
 
 /** Rotas relativas disponíveis no backend. */
 export const API_ROUTES = {
