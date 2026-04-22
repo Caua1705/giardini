@@ -1463,11 +1463,133 @@ textarea.res-form-input{
   .res-section-ambient-1,.res-section-ambient-2{display:none}
   .res-section{padding:5rem 0 5rem}
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   HERO MOBILE — Premium Fully Refined (≤ 767px)
+   Estratégia:
+     • Viewport seguro com 100svh (sem jump de iOS)
+     • Conteúdo centralizado no eixo Y — text-align: center
+     • Hierarquia clara: kicker < body < headline (dominante)
+     • CTA: proporcional, 44px mínimo, cor gold legível
+     • Scroll indicator: discreto mas visível
+   ══════════════════════════════════════════════════════════════════ */
 @media(max-width:768px){
-  .res-hero{min-height:520px}
-  .res-hero-container{padding:0 1.75rem}
-  .res-hero-title{font-size:clamp(2.8rem,11vw,4.5rem)}
-  .res-hero-scroll{bottom:1.5rem}
+
+  /* ── Viewport ── */
+  .res-hero{
+    height: 100svh !important;
+    min-height: 560px !important;
+    max-height: 920px !important;
+  }
+
+  /* ── Container: centralizado verticalmente ── */
+  .res-hero-container{
+    padding: 0 1.75rem !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* ── Content block: centralizado, sem max-width restritivo ── */
+  .res-hero-content{
+    max-width: 100% !important;
+    padding: max(5rem, 72px) 0 1.5rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  /* ── Kicker: label editorial compacto, centrado ── */
+  .res-hero-kicker{
+    font-size: .54rem !important;
+    letter-spacing: .22em !important;
+    gap: .65rem !important;
+    margin-bottom: 1.1rem !important;
+    justify-content: center !important;
+    color: rgba(255,255,255,.38) !important;
+  }
+
+  .res-hero-kicker-line{
+    width: 16px !important;
+  }
+
+  /* ── Headline: âncora visual dominante ── */
+  .res-hero-title{
+    font-size: clamp(2.75rem, 10.5vw, 4.2rem) !important;
+    line-height: .92 !important;
+    letter-spacing: -.04em !important;
+    text-align: center !important;
+    margin: 0 0 1rem !important;
+  }
+
+  .res-hero-title em{
+    display: block !important;
+    color: rgba(183,147,88,.92) !important;
+  }
+
+  /* ── Separador: brand accent compacto ── */
+  .res-hero-sep{
+    width: 36px !important;
+    margin: 0 auto .95rem !important;
+    background: linear-gradient(90deg, rgba(183,147,88,.55), transparent) !important;
+  }
+
+  /* ── Body: legível, compacto ── */
+  .res-hero-body{
+    font-size: .86rem !important;
+    line-height: 1.72 !important;
+    color: rgba(255,255,255,.48) !important;
+    margin-bottom: 1.75rem !important;
+    max-width: 320px !important;
+    text-align: center !important;
+  }
+
+  /* ── CTA: proporcional, mínimo 44px, centrado ── */
+  .res-hero-cta{
+    padding: .82rem 1.8rem !important;
+    font-size: .62rem !important;
+    letter-spacing: .16em !important;
+    min-height: 44px !important;
+    white-space: nowrap !important;
+    align-self: center !important;
+  }
+
+  /* ── Scroll indicator: centrado exato na hero ── */
+  .res-hero-scroll{
+    position: absolute !important;
+    bottom: clamp(1.25rem, 4svh, 2.25rem) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: max-content !important;
+  }
+  .res-hero-scroll-label{
+    font-size: .42rem !important;
+    letter-spacing: .32em !important;
+    color: rgba(255,255,255,.28) !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+  }
+  .res-hero-scroll-track{
+    height: 28px !important;
+    width: 1px !important;
+    background: rgba(255,255,255,.08) !important;
+    margin: 0 auto !important;
+  }
+
+  /* ── Overlay: reforçado para legibilidade do texto ── */
+  .res-hero-overlay{
+    background: linear-gradient(
+      155deg,
+      rgba(4,8,6,.90) 0%,
+      rgba(8,16,11,.68) 45%,
+      rgba(4,8,6,.55) 100%
+    ) !important;
+  }
+
+  /* ── Seções abaixo da hero ── */
   .res-section{padding:4rem 0 4.5rem}
   .res-section-header{margin-bottom:2.25rem}
   .res-step{grid-template-columns:40px 1fr;gap:0 1rem;padding:1.75rem 0}
@@ -1484,11 +1606,45 @@ textarea.res-form-input{
   .res-form-env-summary{flex-wrap:wrap;gap:.75rem 1rem}
   .res-form-env-thumb-wrap{width:52px;height:52px}
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   HERO — Telas muito pequenas (≤ 480px — iPhone SE, Mini)
+   ══════════════════════════════════════════════════════════════════ */
 @media(max-width:480px){
-  .res-hero-container{padding:0 1.25rem}
-  .res-hero-content{padding:1rem 0}
-  .res-hero-kicker{font-size:.5rem}
-  .res-hero-body{font-size:.88rem}
+
+  /* Hero content: menos padding topo em telas bem pequenas */
+  .res-hero-container{padding:0 1.25rem !important}
+  .res-hero-content{
+    padding-top: max(4.5rem, 64px) !important;
+    padding-bottom: 1.25rem !important;
+  }
+
+  /* Kicker: ainda mais compacto */
+  .res-hero-kicker{
+    font-size: .50rem !important;
+    margin-bottom: .9rem !important;
+  }
+
+  /* Headline: ligeiramente menor para não transbordar */
+  .res-hero-title{
+    font-size: clamp(2.45rem, 10vw, 3.2rem) !important;
+    margin-bottom: .85rem !important;
+  }
+
+  /* Body: ainda mais compacto */
+  .res-hero-body{
+    font-size: .82rem !important;
+    margin-bottom: 1.5rem !important;
+    max-width: 280px !important;
+  }
+
+  /* CTA: padding ligeiramente menor */
+  .res-hero-cta{
+    padding: .75rem 1.5rem !important;
+    font-size: .60rem !important;
+  }
+
+  /* Restante das seções */
   .res-step{grid-template-columns:34px 1fr;padding:1.5rem 0}
   .res-step-num{font-size:1rem}
   .rcd-trigger,.res-form-input{font-size:.84rem}
