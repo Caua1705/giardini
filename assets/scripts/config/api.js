@@ -8,7 +8,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-export const API_BASE_URL = 'http://212.85.0.237:8000';
+export const API_BASE_URL = 'http://api.giardini.cloud:8080';
 
 /** Rotas relativas disponíveis no backend. */
 export const API_ROUTES = {
