@@ -1478,77 +1478,82 @@ textarea.res-form-input{
   /* ── Viewport ── */
   .res-hero{
     height: 100svh !important;
-    min-height: 560px !important;
+    min-height: 580px !important;
     max-height: 920px !important;
   }
 
-  /* ── Container: centralizado verticalmente ── */
+  /* ── Container: centralizado no eixo Y ── */
   .res-hero-container{
     padding: 0 1.75rem !important;
     align-items: center !important;
     justify-content: center !important;
   }
 
-  /* ── Content block: centralizado, sem max-width restritivo ── */
+  /* ── Content: flex column, centralizado, ritmo vertical controlado ── */
   .res-hero-content{
     max-width: 100% !important;
-    padding: max(5rem, 72px) 0 1.5rem !important;
+    padding: 0 !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     text-align: center !important;
+    gap: 0 !important;
   }
 
-  /* ── Kicker: label editorial compacto, centrado ── */
+  /* ── Kicker ── */
   .res-hero-kicker{
-    font-size: .54rem !important;
-    letter-spacing: .22em !important;
-    gap: .65rem !important;
-    margin-bottom: 1.1rem !important;
+    font-size: .52rem !important;
+    letter-spacing: .24em !important;
+    gap: .6rem !important;
+    margin-bottom: 1.25rem !important;
     justify-content: center !important;
-    color: rgba(255,255,255,.38) !important;
+    color: rgba(255,255,255,.35) !important;
   }
-
   .res-hero-kicker-line{
     width: 16px !important;
   }
 
-  /* ── Headline: âncora visual dominante ── */
+  /* ── Título ── */
   .res-hero-title{
-    font-size: clamp(2.75rem, 10.5vw, 4.2rem) !important;
-    line-height: .92 !important;
-    letter-spacing: -.04em !important;
+    font-size: clamp(2.8rem, 10.5vw, 4rem) !important;
+    line-height: .94 !important;
+    letter-spacing: -.035em !important;
     text-align: center !important;
-    margin: 0 0 1rem !important;
+    margin: 0 !important;
   }
-
   .res-hero-title em{
     display: block !important;
     color: rgba(183,147,88,.92) !important;
   }
 
-  /* ── Separador: brand accent compacto ── */
+  /* ── Separador: posicionado entre título e body com ritmo equilibrado ── */
   .res-hero-sep{
-    width: 36px !important;
-    margin: 0 auto .95rem !important;
-    background: linear-gradient(90deg, rgba(183,147,88,.55), transparent) !important;
+    width: 32px !important;
+    height: 1px !important;
+    align-self: center !important;
+    margin: 1.25rem 0 1.25rem 0 !important;
+    background: linear-gradient(90deg, rgba(183,147,88,.50), transparent) !important;
+    overflow: visible !important;
+  }
+  .res-hero-sep::after{
+    display: none !important;
   }
 
-  /* ── Body: legível, compacto ── */
+  /* ── Body ── */
   .res-hero-body{
-    font-size: .86rem !important;
-    line-height: 1.72 !important;
-    color: rgba(255,255,255,.48) !important;
-    margin-bottom: 1.75rem !important;
-    max-width: 320px !important;
+    font-size: .88rem !important;
+    line-height: 1.75 !important;
+    color: rgba(255,255,255,.44) !important;
+    margin: 0 0 2rem 0 !important;
+    max-width: 300px !important;
     text-align: center !important;
   }
 
-  /* ── CTA: proporcional, mínimo 44px, centrado ── */
+  /* ── CTA ── */
   .res-hero-cta{
-    padding: .82rem 1.8rem !important;
-    font-size: .62rem !important;
-    letter-spacing: .16em !important;
+    padding: .88rem 2rem !important;
+    font-size: .60rem !important;
+    letter-spacing: .18em !important;
     min-height: 44px !important;
     white-space: nowrap !important;
     align-self: center !important;
@@ -1628,7 +1633,7 @@ textarea.res-form-input{
   /* Headline: ligeiramente menor para não transbordar */
   .res-hero-title{
     font-size: clamp(2.45rem, 10vw, 3.2rem) !important;
-    margin-bottom: .85rem !important;
+    margin-bottom: 0 !important;
   }
 
   /* Body: ainda mais compacto */
