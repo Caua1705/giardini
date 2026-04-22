@@ -109,7 +109,7 @@ gsap.ticker.lagSmoothing(0);
 // Safe scroll helper — uses Lenis on desktop, native scrollIntoView on mobile
 function safeScrollTo(target, opts = {}) {
   if (lenis) {
-    lenis.scrollTo(target, opts);
+    safeScrollTo(target, opts);
   } else {
     const el = typeof target === 'string' ? document.querySelector(target) : target;
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -259,7 +259,7 @@ function resetEnvCardSelection() {
   DOM.envCards.querySelectorAll('.res-env-card').forEach(c => c.classList.remove('is-selected'));
   hideFormSummary();
   DOM.envSelectedBar.classList.remove('is-visible');
-  lenis.scrollTo('#reservation-flow', { offset: -60, duration: 1.2 });
+  safeScrollTo('#reservation-flow', { offset: -60, duration: 1.2 });
 }
 
 
@@ -562,7 +562,7 @@ function handleEnvironmentChange() {
 
   // Scroll to booking section smoothly
   setTimeout(() => {
-    lenis.scrollTo('#res-booking-section', { offset: -80, duration: 1.4 });
+    safeScrollTo('#res-booking-section', { offset: -80, duration: 1.4 });
   }, 250);
 }
 
@@ -745,7 +745,7 @@ async function handleSubmit() {
     btn.classList.add('success'); textEl.textContent = 'Reserva Confirmada ✓';
     DOM.successPanel.style.display = 'block';
     requestAnimationFrame(() => DOM.successPanel.classList.add('visible'));
-    setTimeout(() => lenis.scrollTo(DOM.successPanel, {offset:-100,duration:1.2}), 300);
+    setTimeout(() => safeScrollTo(DOM.successPanel, {offset:-100,duration:1.2}), 300);
   } catch (e) {
     btn.classList.remove('loading');
     // Tenta extrair mensagem de validação do backend (HTTPException do FastAPI)
@@ -827,7 +827,7 @@ function handleNewReservation() {
   DOM.successPanel.classList.remove('visible'); DOM.successPanel.style.display = 'none';
   DOM.errorPanel.classList.remove('visible');   DOM.errorPanel.style.display = 'none';
   resetForm();
-  setTimeout(() => { lenis.scrollTo('#reservation-flow', {offset:-60,duration:1.4}); }, 150);
+  setTimeout(() => { safeScrollTo('#reservation-flow', {offset:-60,duration:1.4}); }, 150);
 }
 
 
@@ -861,7 +861,7 @@ function bindEvents() {
   const alterBtn = document.getElementById('res-form-env-alter-btn');
   if (alterBtn) {
     alterBtn.addEventListener('click', () => {
-      lenis.scrollTo('#reservation-flow', { offset: -80, duration: 1.4 });
+      safeScrollTo('#reservation-flow', { offset: -80, duration: 1.4 });
     });
   }
 }
@@ -1002,7 +1002,7 @@ function initAnimations() {
   if (heroCta) {
     heroCta.addEventListener('click', e => {
       e.preventDefault();
-      lenis.scrollTo('#reservation-flow', {offset:-60,duration:1.8});
+      safeScrollTo('#reservation-flow', {offset:-60,duration:1.8});
     });
   }
 
