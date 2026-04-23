@@ -59,6 +59,8 @@ body {
 @media (max-width: 767px) {
   html {
     scroll-behavior: auto;
+    background: #0A140F !important;
+    background-attachment: scroll !important;
   }
 }
 
