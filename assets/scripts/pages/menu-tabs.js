@@ -59,7 +59,6 @@
       const dh = ih * scale;
       const dx = (cw - dw) / 2;
       const dy = (ch - dh) / 2;
-      ctx.clearRect(0, 0, cw, ch);
       ctx.drawImage(img, dx, dy, dw, dh);
     }
 
@@ -139,8 +138,20 @@
       // Initialize canvas
       window.addEventListener('resize', resizeCanvas);
       resizeCanvas();
-      if (frames[0]?.complete) drawFrame(0);
-      if (canvas) canvas.classList.add('ready');
+      // Force draw first frame — retry until loaded
+      function tryDrawFirst() {
+        if (frames[0]?.complete && frames[0].naturalWidth > 0) {
+          currentFrameIndex = -1; // reset to force draw
+          drawFrame(0);
+        } else {
+          requestAnimationFrame(tryDrawFirst);
+        }
+      }
+      tryDrawFirst();
+      if (canvas) {
+        canvas.classList.add('ready');
+        canvas.style.willChange = 'transform';
+      }
 
       // ── ScrollTrigger Scrub Animation ──
       const wrapper = document.getElementById('hero-pin-wrapper');
