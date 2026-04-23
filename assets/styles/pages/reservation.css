@@ -138,10 +138,6 @@
      Falls back to 100vh for older browsers. */
   height: 100vh;
   height: 100dvh;
-  /* Dark curtain below the hero — covers gap caused by mobile browser
-     bar collapsing/expanding. box-shadow is not clipped by overflow
-     and extends 200px below the hero's bottom edge. */
-  box-shadow: 0 200px 0 0 #0C1A10;
 }
 
 /* Canvas frame / Full Screen — Resetting global components.css styles */
@@ -393,10 +389,12 @@
    ══════════════════════════════════════════════════════════════════ */
 .res-env-section{
   position:relative;z-index:40;
+  /* Top starts with exact hero color (#0C1A10) for seamless transition
+     when mobile browser bar collapses and reveals content below hero. */
   background:
     linear-gradient(135deg,rgba(43,74,59,.18) 0%,transparent 40%),
-    linear-gradient(180deg,#0b1410 0%,#0e1812 55%,#131c15 100%);
-  padding:6rem 0 6rem;overflow:hidden;
+    linear-gradient(180deg,#0C1A10 0%,#0C1A10 120px,#0b1410 180px,#0e1812 55%,#131c15 100%);
+  padding:8rem 0 6rem;overflow:hidden;
 }
 .res-env-section-bg{
   position:absolute;inset:0;z-index:0;pointer-events:none;
