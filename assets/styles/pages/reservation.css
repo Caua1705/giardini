@@ -409,7 +409,12 @@
   background:
     linear-gradient(135deg,rgba(43,74,59,.18) 0%,transparent 40%),
     linear-gradient(180deg,#0C1A10 0%,#0C1A10 120px,#0b1410 180px,#0e1812 55%,#131c15 100%);
-  padding:8rem 0 6rem;overflow:hidden;
+  padding:6rem 0 6rem;overflow:hidden;
+}
+@media(max-width:768px){
+  .res-env-section{
+    padding-top:3rem !important;
+  }
 }
 .res-env-section-bg{
   position:absolute;inset:0;z-index:0;pointer-events:none;

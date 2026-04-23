@@ -49,8 +49,9 @@ function paintCover(img) {
   const ch = canvas.height;
   const iw = img.naturalWidth;
   const ih = img.naturalHeight;
-  // Cover fill: scale so image covers entire canvas, centred
-  const scale = Math.max(cw / iw, ch / ih);
+  // Cover fill + 8% zoom to crop out 'Veo' watermark at bottom-right
+  const ZOOM = 1.08;
+  const scale = Math.max(cw / iw, ch / ih) * ZOOM;
   const dw = Math.ceil(iw * scale);
   const dh = Math.ceil(ih * scale);
   const dx = Math.floor((cw - dw) / 2);
@@ -1032,8 +1033,10 @@ function initAnimations() {
 
         // Expand from card to fullscreen
         gsap.to(frame, {
+          top: '0%',
           bottom: '0%',
           left: '0%',
+          right: '0%',
           xPercent: 0,
           width: '100%',
           maxWidth: 'none',
