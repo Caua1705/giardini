@@ -14,9 +14,31 @@ const isMobileDevice = window.innerWidth <= 768;
 const CONFIG_SEQ = {
   TOTAL_FRAMES: 150,
   FRAMES_DIR: isMobileDevice ? 'references/image-frames/reservation-mobile' : 'references/image-frames/reservation',
-  scrollVH: isMobileDevice ? 150 : 100, // Mobile: 150vh scroll space while hero stays pinned
-  scrub: isMobileDevice ? 0.8 : 1.0,
+  scrollVH: isMobileDevice ? 200 : 100, // Mobile: 200vh scroll space = vídeo completo antes de descer
+  scrub: isMobileDevice ? 0.6 : 1.0,
 };
+
+/* ── Mobile scroll-lock helpers ──────────────────────────────────────────
+   No mobile, travamos completamente o scroll enquanto o vídeo roda.
+   Quando o ScrollTrigger detecta que o pin terminou (onLeave), liberamos.
+   Usamos um flag para evitar liberação duplicada.                          */
+let _mobileScrollLocked = false;
+
+function lockScroll() {
+  if (!isMobileDevice || _mobileScrollLocked) return;
+  _mobileScrollLocked = true;
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
+  document.body.style.touchAction = 'none';
+}
+
+function unlockScroll() {
+  if (!_mobileScrollLocked) return;
+  _mobileScrollLocked = false;
+  document.documentElement.style.overflow = '';
+  document.body.style.overflow = '';
+  document.body.style.touchAction = '';
+}
 
 let frames = [];
 let currentFrameIndex = -1;
@@ -921,10 +943,25 @@ function initAnimations() {
       start: 'top top',
       end: () => `+=${scrollPx}`,
       pin: viewport,
-      // Mobile: pinSpacing true so the section below starts after the full pin zone
-      // Desktop: false because we set wrapper height manually
-      pinSpacing: isMobileDevice,
+      // Mobile: pinSpacing false — scroll-lock manual garante que a tela
+      // não desça enquanto o vídeo roda. Conteúdo abaixo é empurrado via
+      // wrapper.style.height definido acima.
+      pinSpacing: false,
       scrub: CONFIG_SEQ.scrub,
+      onEnter: () => {
+        if (isMobileDevice) lockScroll();
+      },
+      onLeave: () => {
+        // Vídeo terminou → libera scroll com pequeno delay para evitar
+        // que o dedo ainda na tela cause scroll indesejado
+        if (isMobileDevice) {
+          setTimeout(unlockScroll, 120);
+        }
+      },
+      onLeaveBack: () => {
+        // Usuário volta ao topo — libera também
+        if (isMobileDevice) unlockScroll();
+      },
       onUpdate: (self) => {
         const idx = Math.min(
           Math.floor(self.progress * CONFIG_SEQ.TOTAL_FRAMES),
@@ -933,6 +970,17 @@ function initAnimations() {
         drawFrame(idx);
       }
     });
+
+    // Libera scroll se o usuário sair da área do hero de qualquer forma
+    if (isMobileDevice) {
+      ScrollTrigger.create({
+        trigger: wrapper,
+        start: 'top top',
+        end: () => `+=${scrollPx}`,
+        onLeave: () => setTimeout(unlockScroll, 120),
+        onLeaveBack: () => unlockScroll(),
+      });
+    }
 
     // Exit Scrub Animations (Elements fade out as you scroll)
     const scrollSettings = {

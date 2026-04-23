@@ -2176,11 +2176,11 @@ footer {
   }
 
   .cat-btn {
-    padding: 0.75rem 1.1rem;
-    font-size: 0.60rem;
+    padding: 0.95rem 1.5rem;
+    font-size: 0.70rem;
     letter-spacing: 0.18em;
     white-space: nowrap;
-    min-height: 44px;
+    min-height: 52px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -2222,10 +2222,10 @@ footer {
   .section-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 0.6rem;
     flex-wrap: nowrap;
-    margin-bottom: 2rem;
-    padding-bottom: 1.35rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.6rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
@@ -2240,24 +2240,24 @@ footer {
 
   .section-count {
     display: inline;
-    font-size: 0.52rem;
+    font-size: 0.62rem;
     letter-spacing: 0.18em;
-    opacity: 0.38;
+    opacity: 0.45;
     align-self: flex-end;
     margin-top: -0.25rem;
   }
 
   .section-kicker {
-    font-size: 0.58rem;
+    font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.28em;
     color: rgba(183, 147, 88, 0.90);
     opacity: 1;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.5rem;
   }
 
   .section-title {
-    font-size: clamp(1.7rem, 7.5vw, 2.2rem);
+    font-size: clamp(2rem, 8.5vw, 2.8rem);
     line-height: 1.0;
     letter-spacing: -0.025em;
   }
@@ -2273,12 +2273,12 @@ footer {
   /* ── 1. CORE CARD ── */
   .menu-item {
     display: grid !important;
-    grid-template-columns: 112px minmax(0, 1fr) !important;
+    grid-template-columns: 140px minmax(0, 1fr) !important;
     grid-template-rows: auto auto auto auto;
-    column-gap: 14px !important;
+    column-gap: 18px !important;
     align-items: start !important;
-    padding: 16px 0 !important;
-    min-height: 112px !important;
+    padding: 22px 0 !important;
+    min-height: 140px !important;
     margin: 0 !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
     border-radius: 0 !important;
@@ -2300,9 +2300,9 @@ footer {
 
   /* ── 2. THUMBNAIL ── */
   .item-thumb {
-    width: 112px !important;
-    height: 112px !important;
-    border-radius: 8px !important;
+    width: 140px !important;
+    height: 140px !important;
+    border-radius: 12px !important;
     grid-row: 1 / span 4 !important;
     grid-column: 1 !important;
     overflow: hidden !important;
@@ -2327,9 +2327,9 @@ footer {
   .item-name {
     grid-column: 2 !important;
     grid-row: 1 !important;
-    font-size: 1.08rem !important;
+    font-size: 1.32rem !important;
     line-height: 1.12 !important;
-    margin: 0 0 5px 0 !important;
+    margin: 0 0 7px 0 !important;
     font-family: 'Instrument Serif', serif !important;
     color: rgba(244, 240, 232, 0.95) !important;
   }
@@ -2353,7 +2353,7 @@ footer {
   }
 
   .item-price {
-    font-size: 0.88rem !important;
+    font-size: 1.05rem !important;
     line-height: 1.1 !important;
     font-weight: 600 !important;
     color: rgba(183, 147, 88, 0.95) !important;
@@ -2362,8 +2362,8 @@ footer {
   }
 
   .item-price-sub {
-    font-size: 0.56rem !important;
-    margin-top: 0.1rem !important;
+    font-size: 0.64rem !important;
+    margin-top: 0.15rem !important;
     letter-spacing: 0.08em !important;
     color: rgba(183, 147, 88, 0.55) !important;
     text-transform: uppercase !important;
@@ -2397,7 +2397,7 @@ footer {
   }
 
   .variant-label {
-    font-size: 0.72rem !important;
+    font-size: 0.88rem !important;
     font-weight: 500 !important;
     letter-spacing: 0.01em !important;
     opacity: 0.80 !important;
@@ -2405,13 +2405,13 @@ footer {
   }
 
   .variant-price {
-    font-size: 0.82rem !important;
+    font-size: 0.98rem !important;
     font-weight: 600 !important;
     white-space: nowrap !important;
   }
 
   .variant-separator {
-    font-size: 0.65rem !important;
+    font-size: 0.75rem !important;
     opacity: 0.35 !important;
   }
 
@@ -2419,10 +2419,10 @@ footer {
   .item-desc {
     grid-column: 2 !important;
     grid-row: 3 !important;
-    font-size: 0.74rem !important;
-    line-height: 1.45 !important;
-    margin: 2px 0 0 !important;
-    color: rgba(234, 228, 217, 0.48) !important;
+    font-size: 0.86rem !important;
+    line-height: 1.55 !important;
+    margin: 5px 0 0 !important;
+    color: rgba(234, 228, 217, 0.52) !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 2 !important;
     -webkit-box-orient: vertical !important;

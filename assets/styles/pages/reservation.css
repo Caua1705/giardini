@@ -27,7 +27,53 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05)!important;
 }
 @media (max-width: 768px) {
-  #navbar { padding: 1.5rem 2rem!important; }
+  /* ── Navbar: absolute (não fixa) no mobile — igual ao menu.css ── */
+  #navbar {
+    position: absolute !important;
+    top: 0 !important;
+    padding: 1rem 1.25rem !important;
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Quando JS adiciona .is-scrolled, mantém absolute para não colar na tela */
+  #navbar.is-scrolled {
+    position: absolute !important;
+    top: 0 !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+
+  #navbar .nav-logo {
+    font-size: 1.3rem;
+    color: #fff !important;
+  }
+
+  .nav-menu { display: none; }
+
+  .nav-actions { gap: 0.85rem; flex: unset; }
+
+  .nav-cta { display: none; }
+
+  .nav-hamburger {
+    display: flex;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: flex-end;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.95) !important;
+    cursor: pointer;
+  }
 }
 
 /* Logo */
