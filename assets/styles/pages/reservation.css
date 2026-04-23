@@ -128,6 +128,12 @@
   z-index: 100; /* Above env section (z:40) so hero covers it during pin */
   background: #0C1A10; /* Match dark theme start */
 }
+/* GSAP pin-spacer: ensure full width */
+.pin-spacer {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+}
 
 .res-hero{
   position:relative;width:100%;min-height:680px;
@@ -138,6 +144,14 @@
      Falls back to 100vh for older browsers. */
   height: 100vh;
   height: 100dvh;
+}
+/* When GSAP pins the hero (position:fixed), force it to cover full viewport */
+@media (max-width: 1024px) {
+  .res-hero[style*="fixed"] {
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+  }
 }
 
 /* Canvas frame / Full Screen — Resetting global components.css styles */
@@ -202,12 +216,23 @@
    Animatable properties (width, height, border-radius, position)
    do NOT use !important — GSAP animates them to fill the screen.   */
 @media (max-width: 1024px) {
-  /* Force dark background — components.css sets #hero-viewport to cream */
+  /* Force full-width dark hero — override components.css cream bg + width */
+  #hero-pin-wrapper {
+    width: 100vw !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
   .res-hero,
   #hero-viewport.res-hero {
     background: #0C1A10 !important;
     flex-direction: column !important;
     overflow: hidden !important;
+    width: 100vw !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   /* Video card — starts as a centered card, GSAP expands to fullscreen */

@@ -958,6 +958,31 @@ function initAnimations() {
     // (CSS 100vh can be taller than the visible area due to browser bar)
     if (isMobileDevice) {
       viewport.style.height = `${window.innerHeight}px`;
+
+      // Paint body dark while hero is visible — any gaps show dark, not cream
+      document.body.style.background = '#0C1A10';
+
+      // Watch for GSAP pin changes and force full width immediately
+      const forceFullWidth = () => {
+        viewport.style.setProperty('width', '100vw', 'important');
+        viewport.style.setProperty('left', '0', 'important');
+        viewport.style.setProperty('transform', 'none', 'important');
+        viewport.style.setProperty('max-width', 'none', 'important');
+      };
+      forceFullWidth();
+
+      // MutationObserver: whenever GSAP touches inline styles, re-force
+      const observer = new MutationObserver(forceFullWidth);
+      observer.observe(viewport, { attributes: true, attributeFilter: ['style'] });
+
+      // Restore body bg when hero scrolls out of view
+      ScrollTrigger.create({
+        trigger: wrapper,
+        start: 'top top',
+        end: 'bottom top',
+        onLeave: () => { document.body.style.background = ''; },
+        onEnterBack: () => { document.body.style.background = '#0C1A10'; }
+      });
     }
 
     // Ensure pinned hero covers content below with high z-index
@@ -979,8 +1004,21 @@ function initAnimations() {
           CONFIG_SEQ.TOTAL_FRAMES - 1
         );
         drawFrame(idx);
+      },
+      onRefresh: () => {
+        // GSAP pin sets explicit pixel width — override to full viewport
+        if (isMobileDevice) {
+          viewport.style.setProperty('width', '100vw', 'important');
+          viewport.style.setProperty('left', '0', 'important');
+        }
       }
     });
+
+    // Also force immediately after creation (before first refresh)
+    if (isMobileDevice) {
+      viewport.style.setProperty('width', '100vw', 'important');
+      viewport.style.setProperty('left', '0', 'important');
+    }
 
     // Exit Scrub Animations (Elements fade out as you scroll)
     const scrollSettings = {
