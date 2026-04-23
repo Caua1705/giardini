@@ -298,8 +298,8 @@ function selectEnvironmentCard(card, env) {
   // Subtle pulse
   gsap.to(card, { scale: 1.025, duration: .18, ease: 'power2.out', yoyo: true, repeat: 1 });
 
-  // Auto-scroll para step de guests
-  scrollToStep('#step-guests', -60, 450);
+  // Auto-scroll para seção de ambiente selecionado
+  scrollToStep('#res-booking-section', -40, 450);
 }
 
 function resetEnvCardSelection() {
@@ -507,6 +507,8 @@ function handleDateChange() {
 
   updateSummaryPills();
   loadAvailability();
+  // Auto-scroll para step de horários
+  scrollToStep('#step-time', -60, 500);
 }
 
 
