@@ -2176,11 +2176,11 @@ footer {
   }
 
   .cat-btn {
-    padding: 0.95rem 1.5rem;
-    font-size: 0.70rem;
-    letter-spacing: 0.18em;
+    padding: 1rem 1.6rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
     white-space: nowrap;
-    min-height: 52px;
+    min-height: 54px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -2257,7 +2257,7 @@ footer {
   }
 
   .section-title {
-    font-size: clamp(2rem, 8.5vw, 2.8rem);
+    font-size: clamp(2.2rem, 9vw, 3rem);
     line-height: 1.0;
     letter-spacing: -0.025em;
   }
@@ -2273,12 +2273,12 @@ footer {
   /* ── 1. CORE CARD ── */
   .menu-item {
     display: grid !important;
-    grid-template-columns: 140px minmax(0, 1fr) !important;
+    grid-template-columns: 150px minmax(0, 1fr) !important;
     grid-template-rows: auto auto auto auto;
-    column-gap: 18px !important;
+    column-gap: 20px !important;
     align-items: start !important;
-    padding: 22px 0 !important;
-    min-height: 140px !important;
+    padding: 24px 0 !important;
+    min-height: 150px !important;
     margin: 0 !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
     border-radius: 0 !important;
@@ -2300,9 +2300,9 @@ footer {
 
   /* ── 2. THUMBNAIL ── */
   .item-thumb {
-    width: 140px !important;
-    height: 140px !important;
-    border-radius: 12px !important;
+    width: 150px !important;
+    height: 150px !important;
+    border-radius: 14px !important;
     grid-row: 1 / span 4 !important;
     grid-column: 1 !important;
     overflow: hidden !important;
@@ -2327,9 +2327,9 @@ footer {
   .item-name {
     grid-column: 2 !important;
     grid-row: 1 !important;
-    font-size: 1.32rem !important;
-    line-height: 1.12 !important;
-    margin: 0 0 7px 0 !important;
+    font-size: 1.45rem !important;
+    line-height: 1.15 !important;
+    margin: 0 0 8px 0 !important;
     font-family: 'Instrument Serif', serif !important;
     color: rgba(244, 240, 232, 0.95) !important;
   }
@@ -2353,7 +2353,7 @@ footer {
   }
 
   .item-price {
-    font-size: 1.05rem !important;
+    font-size: 1.15rem !important;
     line-height: 1.1 !important;
     font-weight: 600 !important;
     color: rgba(183, 147, 88, 0.95) !important;
@@ -2397,7 +2397,7 @@ footer {
   }
 
   .variant-label {
-    font-size: 0.88rem !important;
+    font-size: 0.95rem !important;
     font-weight: 500 !important;
     letter-spacing: 0.01em !important;
     opacity: 0.80 !important;
@@ -2405,7 +2405,7 @@ footer {
   }
 
   .variant-price {
-    font-size: 0.98rem !important;
+    font-size: 1.05rem !important;
     font-weight: 600 !important;
     white-space: nowrap !important;
   }
@@ -2419,9 +2419,9 @@ footer {
   .item-desc {
     grid-column: 2 !important;
     grid-row: 3 !important;
-    font-size: 0.86rem !important;
-    line-height: 1.55 !important;
-    margin: 5px 0 0 !important;
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+    margin: 6px 0 0 !important;
     color: rgba(234, 228, 217, 0.52) !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 2 !important;
