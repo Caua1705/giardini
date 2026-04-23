@@ -664,6 +664,7 @@
       const imageEl = document.getElementById('modal-image');
       const imgWrapper = document.getElementById('modal-image-wrapper');
       const attrsContainer = document.getElementById('modal-attrs');
+      const badgesContainer = document.getElementById('modal-badges');
 
       // Dictionary of mappings for profile and allergens
       const iconMap = {
@@ -746,6 +747,18 @@
         } else {
           attrsContainer.innerHTML = '';
           attrsContainer.style.display = 'none';
+        }
+
+        // Show badges in modal
+        const badge = item.getAttribute('data-item-badge');
+        if (badgesContainer) {
+          if (badge && badge.trim()) {
+            badgesContainer.innerHTML = `<span class="badge">${badge}</span>`;
+            badgesContainer.style.display = 'flex';
+          } else {
+            badgesContainer.innerHTML = '';
+            badgesContainer.style.display = 'none';
+          }
         }
 
         modal.classList.add('is-open');
