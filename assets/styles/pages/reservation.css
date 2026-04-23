@@ -138,6 +138,10 @@
      Falls back to 100vh for older browsers. */
   height: 100vh;
   height: 100dvh;
+  /* Dark curtain below the hero — covers gap caused by mobile browser
+     bar collapsing/expanding. box-shadow is not clipped by overflow
+     and extends 200px below the hero's bottom edge. */
+  box-shadow: 0 200px 0 0 #0C1A10;
 }
 
 /* Canvas frame / Full Screen — Resetting global components.css styles */
