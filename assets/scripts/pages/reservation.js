@@ -947,8 +947,14 @@ function initAnimations() {
   if (wrapper && viewport && canvas) {
     wrapper.style.height = `${window.innerHeight + scrollPx}px`;
 
+    // On mobile, force the hero to match the real viewport height
+    // (CSS 100vh can be taller than the visible area due to browser bar)
+    if (isMobileDevice) {
+      viewport.style.height = `${window.innerHeight}px`;
+    }
+
     // Ensure pinned hero covers content below with high z-index
-    viewport.style.zIndex = '50';
+    viewport.style.zIndex = '100';
 
     ScrollTrigger.create({
       trigger: wrapper,
