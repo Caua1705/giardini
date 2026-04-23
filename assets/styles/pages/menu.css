@@ -2137,7 +2137,7 @@ footer {
     left: 0 !important;
     width: 100vw !important;
     z-index: 400 !important;
-    background: linear-gradient(180deg, rgba(14, 27, 19, 0.97) 0%, rgba(14, 27, 19, 0.90) 100%) !important;
+    background: linear-gradient(180deg, rgba(14, 27, 19, 0.98) 0%, rgba(14, 27, 19, 0.92) 100%) !important;
     backdrop-filter: blur(16px) !important;
     -webkit-backdrop-filter: blur(16px) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
@@ -2919,8 +2919,9 @@ footer {
   }
 
   #cat-nav {
-    top: 58px;
+    top: 0;
     margin-bottom: 2rem;
+    padding: 0;
   }
 
   .cat-nav-inner {
