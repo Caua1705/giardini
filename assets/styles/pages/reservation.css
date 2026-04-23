@@ -154,24 +154,27 @@
   }
 }
 
-/* Canvas frame / Full Screen — Resetting global components.css styles */
-#video-frame {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  z-index: 1 !important;
-  overflow: hidden !important;
-  opacity: 0; /* Managed by JS entrance */
-  
-  /* Reset global styles from components.css */
-  border: none !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  background: transparent !important;
-  transform: none !important;
-  mask-image: none !important;
-  -webkit-mask-image: none !important;
+/* Canvas frame / Full Screen — Desktop only.
+   On mobile, the card styles from the mobile override block apply instead. */
+@media (min-width: 1025px) {
+  #video-frame {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1 !important;
+    overflow: hidden !important;
+    opacity: 0; /* Managed by JS entrance */
+    
+    /* Reset global styles from components.css */
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    transform: none !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
 }
 
 #video-frame::before,
@@ -235,21 +238,23 @@
     padding-right: 0 !important;
   }
 
-  /* Video card — starts as a centered card, GSAP expands to fullscreen */
+  /* Video card — centered card. All props use !important to beat
+     components.css which sets transform:none!important on #video-frame */
   .res-hero #video-frame {
-    position: absolute;
-    top: auto;
-    bottom: 8%;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    width: 72%;
-    max-width: 320px;
-    aspect-ratio: 4 / 5;
-    height: auto;
-    max-height: none;
+    position: absolute !important;
+    inset: auto !important;
+    top: auto !important;
+    bottom: 8% !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: 72% !important;
+    max-width: 320px !important;
+    aspect-ratio: 4 / 5 !important;
+    height: auto !important;
+    max-height: none !important;
     /* Premium card styling */
-    border-radius: 16px;
+    border-radius: 16px !important;
     border: 1px solid rgba(183,147,88,.15) !important;
     box-shadow:
       0 12px 40px rgba(0,0,0,.35),
@@ -262,6 +267,36 @@
     mask-image: none !important;
     -webkit-mask-image: none !important;
     z-index: 6 !important;
+    opacity: 0; /* JS entrance animation */
+    /* Smooth expansion transition */
+    transition: width 0.6s cubic-bezier(0.16,1,0.3,1),
+                height 0.6s cubic-bezier(0.16,1,0.3,1),
+                max-width 0.6s cubic-bezier(0.16,1,0.3,1),
+                left 0.6s cubic-bezier(0.16,1,0.3,1),
+                top 0.6s cubic-bezier(0.16,1,0.3,1),
+                bottom 0.6s cubic-bezier(0.16,1,0.3,1),
+                transform 0.6s cubic-bezier(0.16,1,0.3,1),
+                border-radius 0.6s cubic-bezier(0.16,1,0.3,1),
+                border 0.4s ease,
+                box-shadow 0.4s ease;
+  }
+
+  /* Fullscreen state — toggled by JS on scroll */
+  .res-hero #video-frame.is-fullscreen {
+    inset: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    aspect-ratio: auto !important;
   }
 }
 

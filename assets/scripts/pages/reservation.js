@@ -1053,46 +1053,22 @@ function initAnimations() {
     });
 
     // ── Mobile: Expand video card to fullscreen during scroll ──
+    // Uses CSS class toggle + transition for perfectly smooth expansion
     if (isMobileDevice) {
       const frame = document.getElementById('video-frame');
       if (frame) {
-        // Set initial state explicitly for GSAP to animate FROM
-        gsap.set(frame, {
-          position: 'absolute',
-          bottom: '8%',
-          left: '50%',
-          xPercent: -50,
-          width: '72%',
-          maxWidth: '320px',
-          height: 'auto',
-          aspectRatio: '4 / 5',
-          borderRadius: '16px',
-        });
-
-        // Expand from card to fullscreen
-        gsap.to(frame, {
-          top: '0%',
-          bottom: '0%',
-          left: '0%',
-          right: '0%',
-          xPercent: 0,
-          width: '100%',
-          maxWidth: 'none',
-          height: '100%',
-          aspectRatio: 'auto',
-          borderRadius: '0px',
-          border: 'none',
-          boxShadow: 'none',
-          ease: 'power2.inOut',
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: wrapper,
-            start: 'top top',
-            end: () => `+=${scrollPx * 0.7}`,
-            scrub: CONFIG_SEQ.scrub,
-          },
-          onUpdate: function() {
-            // Resize canvas to match expanding frame
+        ScrollTrigger.create({
+          trigger: wrapper,
+          start: 'top top',
+          end: () => `+=${scrollPx * 0.6}`,
+          onUpdate: (self) => {
+            if (self.progress > 0.35) {
+              if (!frame.classList.contains('is-fullscreen')) {
+                frame.classList.add('is-fullscreen');
+              }
+            } else {
+              frame.classList.remove('is-fullscreen');
+            }
             resizeCanvas();
           }
         });
