@@ -130,12 +130,34 @@ gsap.ticker.lagSmoothing(0);
 
 // Safe scroll helper — uses Lenis on desktop, native scrollIntoView on mobile
 function safeScrollTo(target, opts = {}) {
+  const el = typeof target === 'string' ? document.querySelector(target) : target;
+  if (!el) return;
   if (lenis) {
-    safeScrollTo(target, opts);
+    lenis.scrollTo(el, { offset: opts.offset || 0, duration: opts.duration || 1.2 });
   } else {
-    const el = typeof target === 'string' ? document.querySelector(target) : target;
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+}
+
+/**
+ * scrollToStep — Scroll suave até o próximo step do formulário.
+ * Usa GSAP gsap.to(window) para controle preciso de offset tanto
+ * em mobile (sem Lenis) quanto em desktop (com Lenis).
+ * @param {string|HTMLElement} target - seletor CSS ou elemento
+ * @param {number} offset - pixels de offset do topo (default -80)
+ * @param {number} delay  - delay em ms antes de scrollar (default 350)
+ */
+function scrollToStep(target, offset = -80, delay = 350) {
+  setTimeout(() => {
+    const el = typeof target === 'string' ? document.querySelector(target) : target;
+    if (!el) return;
+    const y = el.getBoundingClientRect().top + window.scrollY + offset;
+    if (lenis) {
+      lenis.scrollTo(y, { duration: 1.2 });
+    } else {
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }, delay);
 }
 
 
@@ -275,6 +297,9 @@ function selectEnvironmentCard(card, env) {
 
   // Subtle pulse
   gsap.to(card, { scale: 1.025, duration: .18, ease: 'power2.out', yoyo: true, repeat: 1 });
+
+  // Auto-scroll para step de guests
+  scrollToStep('#step-guests', -60, 450);
 }
 
 function resetEnvCardSelection() {
@@ -546,6 +571,8 @@ function renderGuestPills(max) {
       p.classList.add('active');
       selectedGuests = p.dataset.guests;
       tryEnableDateInput(); tryLoadAvailability(); updateSummaryPills();
+      // Auto-scroll para step de data
+      scrollToStep('#step-date', -60, 350);
     });
     DOM.guestsContainer.appendChild(p);
   }
@@ -596,6 +623,8 @@ function createTimePill(time) {
     p.classList.add('active');
     selectedTime = time;
     tryEnablePersonalFields(); updateSummaryPills();
+    // Auto-scroll para step de dados pessoais
+    scrollToStep('#step-info', -60, 350);
   });
   return p;
 }
