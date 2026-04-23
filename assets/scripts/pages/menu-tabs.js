@@ -38,10 +38,18 @@
     function resizeCanvas() {
       if (!canvas) return;
       const frame = document.getElementById('video-frame');
-      canvas.width = frame.offsetWidth;
-      canvas.height = frame.offsetHeight;
-      if (frames.length > 0 && currentFrameIndex >= 0) {
-        drawFrame(currentFrameIndex);
+      const newW = frame.offsetWidth;
+      const newH = frame.offsetHeight;
+      // Only resize if dimensions actually changed (avoids clearing canvas)
+      if (newW > 0 && newH > 0 && (canvas.width !== newW || canvas.height !== newH)) {
+        canvas.width = newW;
+        canvas.height = newH;
+        // Canvas was cleared by dimension change — force redraw
+        const savedIdx = currentFrameIndex;
+        currentFrameIndex = -1;
+        if (frames.length > 0 && savedIdx >= 0) {
+          drawFrame(savedIdx);
+        }
       }
     }
 
@@ -49,6 +57,7 @@
       if (index === currentFrameIndex || !ctx) return;
       const img = frames[index];
       if (!img || !img.complete || img.naturalWidth === 0) return;
+      if (canvas.width === 0 || canvas.height === 0) return;
       currentFrameIndex = index;
       const cw = canvas.width;
       const ch = canvas.height;
@@ -60,6 +69,15 @@
       const dx = (cw - dw) / 2;
       const dy = (ch - dh) / 2;
       ctx.drawImage(img, dx, dy, dw, dh);
+    }
+
+    // Force redraw current frame (bypasses index guard)
+    function forceRedraw() {
+      if (currentFrameIndex >= 0 && frames[currentFrameIndex]?.complete) {
+        const idx = currentFrameIndex;
+        currentFrameIndex = -1;
+        drawFrame(idx);
+      }
     }
 
     /* ── Preloader ── */
@@ -292,6 +310,37 @@
           buildEntranceTl({
             delay: 0.1,
             onComplete: () => { createExitAnimations(); }
+          });
+        }
+
+        // ── MOBILE SAFETY NET: ensure canvas never stays blank ──
+        if (isMobileDevice && canvas && ctx) {
+          let safetyTick = false;
+          window.addEventListener('scroll', () => {
+            if (safetyTick) return;
+            safetyTick = true;
+            requestAnimationFrame(() => {
+              safetyTick = false;
+              // Check if canvas has content by sampling center pixel
+              if (canvas.width > 0 && canvas.height > 0 && currentFrameIndex >= 0) {
+                const px = ctx.getImageData(
+                  Math.floor(canvas.width / 2),
+                  Math.floor(canvas.height / 2),
+                  1, 1
+                ).data;
+                // If center pixel is fully transparent → canvas was cleared
+                if (px[3] === 0) {
+                  forceRedraw();
+                }
+              }
+            });
+          }, { passive: true });
+
+          // Also redraw when tab regains focus
+          document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+              forceRedraw();
+            }
           });
         }
 
