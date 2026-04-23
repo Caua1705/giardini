@@ -120,6 +120,16 @@
 
       // ── Entrance timeline builder ──
       function buildEntranceTl(opts) {
+        const originalOnComplete = opts.onComplete;
+        opts.onComplete = () => {
+          // After entrance: lock video-frame visible permanently
+          const vf = document.getElementById('video-frame');
+          if (vf) {
+            vf.style.opacity = '1';
+            vf.style.transform = 'scale(1)';
+          }
+          if (originalOnComplete) originalOnComplete();
+        };
         const tl = gsap.timeline(opts);
         tl
           .to('#navbar', { opacity: 1, duration: 0.8, ease: 'power2.out' })
@@ -167,13 +177,24 @@
           gsap.set(['#el-kicker', '#el-h1a', '#el-h1b', '#el-h1-sep', '#el-body', '#el-cta', '#el-scroll'], {
             opacity: 1, y: 0, filter: 'blur(0px)'
           });
-          gsap.set('#video-frame', { opacity: 1 });
+          gsap.set('#el-h1-sep', { scaleX: 1 });
+          // Force video-frame visible and redraw first frame
+          const vf = document.getElementById('video-frame');
+          if (vf) {
+            vf.style.opacity = '1';
+            vf.style.transform = 'scale(1)';
+          }
+          gsap.set('#video-frame', { opacity: 1, scale: 1 });
+          if (frames[0]?.complete) {
+            currentFrameIndex = -1;
+            drawFrame(0);
+          }
         }
 
         const scrollSettings = {
           trigger: wrapper,
           start: 'top top',
-          scrub: 1.2,
+          scrub: 0.6,
           onLeaveBack: () => { snapHeroVisible(); }
         };
 
@@ -224,6 +245,23 @@
               CONFIG.TOTAL_FRAMES - 1
             );
             drawFrame(idx);
+          },
+          onLeaveBack: () => {
+            // Safety: always show frame 0 + video-frame when returning to top
+            const vf = document.getElementById('video-frame');
+            if (vf) vf.style.opacity = '1';
+            if (frames[0]?.complete) {
+              currentFrameIndex = -1;
+              drawFrame(0);
+            }
+          },
+          onLeave: () => {
+            // When leaving hero area: ensure last frame stays drawn
+            const lastIdx = CONFIG.TOTAL_FRAMES - 1;
+            if (frames[lastIdx]?.complete) {
+              currentFrameIndex = -1;
+              drawFrame(lastIdx);
+            }
           }
         });
 
