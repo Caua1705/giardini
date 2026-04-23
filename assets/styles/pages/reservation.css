@@ -195,33 +195,48 @@
   transform: scale(1);
 }
 
-/* ══ RESERVATION-PAGE MOBILE: nuclear override for #video-frame ══
-   components.css sets #video-frame to a small centered card on mobile
-   (max-width:340px, width:82%, transform:translate(-50%,-50%), etc).
-   On the reservation page, #video-frame MUST be fullscreen behind the hero.
-   We use .res-hero ancestor to win specificity.                     */
+/* ══ RESERVATION-PAGE MOBILE: override components.css + card video ═══
+   components.css sets #hero-viewport to cream bg and #video-frame to
+   a small card at max-width:1024px. We override both for the dark
+   reservation hero, placing the video in a centered card.
+   Animatable properties (width, height, border-radius, position)
+   do NOT use !important — GSAP animates them to fill the screen.   */
 @media (max-width: 1024px) {
+  /* Force dark background — components.css sets #hero-viewport to cream */
+  .res-hero,
+  #hero-viewport.res-hero {
+    background: #0C1A10 !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+
+  /* Video card — starts as a centered card, GSAP expands to fullscreen */
   .res-hero #video-frame {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    max-width: none !important;
-    max-height: none !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    transform: none !important;
-    border-radius: 0 !important;
-    border: none !important;
-    box-shadow: none !important;
-    background: transparent !important;
-    aspect-ratio: unset !important;
+    position: absolute;
+    top: auto;
+    bottom: 8%;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: 72%;
+    max-width: 320px;
+    aspect-ratio: 4 / 5;
+    height: auto;
+    max-height: none;
+    /* Premium card styling */
+    border-radius: 16px;
+    border: 1px solid rgba(183,147,88,.15) !important;
+    box-shadow:
+      0 12px 40px rgba(0,0,0,.35),
+      0 4px 12px rgba(0,0,0,.2),
+      inset 0 0 0 1px rgba(255,255,255,.04) !important;
+    background: #0a0a0a !important;
+    overflow: hidden !important;
     margin: 0 !important;
     padding: 0 !important;
     mask-image: none !important;
     -webkit-mask-image: none !important;
+    z-index: 6 !important;
   }
 }
 
@@ -1535,11 +1550,12 @@ textarea.res-form-input{
     max-height: 920px !important;
   }
 
-  /* ── Container: centralizado no eixo Y ── */
+  /* ── Container: content at upper portion, video card at bottom ── */
   .res-hero-container{
     padding: 0 1.75rem !important;
     align-items: center !important;
-    justify-content: center !important;
+    justify-content: flex-start !important;
+    padding-top: 10vh !important;
   }
 
   /* ── Content: flex column, centralizado, ritmo vertical controlado ── */

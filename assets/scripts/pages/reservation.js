@@ -25,10 +25,12 @@ const ctx = canvas ? canvas.getContext('2d') : null;
 
 function resizeCanvas() {
   if (!canvas) return;
-  // Always size the canvas to the actual rendered viewport size
-  const cw = window.innerWidth;
-  const ch = window.innerHeight;
-  if (canvas.width !== cw || canvas.height !== ch) {
+  // On mobile, canvas matches the card (#video-frame) size.
+  // On desktop, canvas matches the full viewport.
+  const frame = document.getElementById('video-frame');
+  const cw = (isMobileDevice && frame) ? frame.offsetWidth  : window.innerWidth;
+  const ch = (isMobileDevice && frame) ? frame.offsetHeight : window.innerHeight;
+  if (cw > 0 && ch > 0 && (canvas.width !== cw || canvas.height !== ch)) {
     canvas.width  = cw;
     canvas.height = ch;
   }
@@ -932,6 +934,10 @@ function initAnimations() {
   // Initialize Canvas — size MUST be set before first draw
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
+  // On mobile, the card may not have final dimensions yet — retry after layout
+  if (isMobileDevice) {
+    requestAnimationFrame(() => { resizeCanvas(); setTimeout(resizeCanvas, 300); });
+  }
   // Force-draw frame 0 immediately if it already loaded
   if (frames[0]?.complete && frames[0].naturalWidth > 0) {
     currentFrameIndex = -1; // reset so drawFrame doesn't skip
@@ -1006,6 +1012,51 @@ function initAnimations() {
       opacity: 0, y: -20, filter: 'blur(5px)', ease: 'power2.in', immediateRender: false,
       scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.25}` }
     });
+
+    // ── Mobile: Expand video card to fullscreen during scroll ──
+    if (isMobileDevice) {
+      const frame = document.getElementById('video-frame');
+      if (frame) {
+        // Set initial state explicitly for GSAP to animate FROM
+        gsap.set(frame, {
+          position: 'absolute',
+          bottom: '8%',
+          left: '50%',
+          xPercent: -50,
+          width: '72%',
+          maxWidth: '320px',
+          height: 'auto',
+          aspectRatio: '4 / 5',
+          borderRadius: '16px',
+        });
+
+        // Expand from card to fullscreen
+        gsap.to(frame, {
+          bottom: '0%',
+          left: '0%',
+          xPercent: 0,
+          width: '100%',
+          maxWidth: 'none',
+          height: '100%',
+          aspectRatio: 'auto',
+          borderRadius: '0px',
+          border: 'none',
+          boxShadow: 'none',
+          ease: 'power2.inOut',
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: wrapper,
+            start: 'top top',
+            end: () => `+=${scrollPx * 0.7}`,
+            scrub: CONFIG_SEQ.scrub,
+          },
+          onUpdate: function() {
+            // Resize canvas to match expanding frame
+            resizeCanvas();
+          }
+        });
+      }
+    }
   }
 
   // Entrance
