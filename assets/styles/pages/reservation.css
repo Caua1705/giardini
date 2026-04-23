@@ -238,56 +238,10 @@
     padding-right: 0 !important;
   }
 
-  /* Video card — centered card. All props use !important to beat
-     components.css which sets transform:none!important on #video-frame */
+  /* Video — fullscreen from start on mobile. No card, no expansion. */
   .res-hero #video-frame {
     position: absolute !important;
-    inset: auto !important;
-    top: auto !important;
-    bottom: 8% !important;
-    left: 50% !important;
-    right: auto !important;
-    transform: translateX(-50%) !important;
-    width: 72% !important;
-    max-width: 320px !important;
-    aspect-ratio: 4 / 5 !important;
-    height: auto !important;
-    max-height: none !important;
-    /* Premium card styling */
-    border-radius: 16px !important;
-    border: 1px solid rgba(183,147,88,.15) !important;
-    box-shadow:
-      0 12px 40px rgba(0,0,0,.35),
-      0 4px 12px rgba(0,0,0,.2),
-      inset 0 0 0 1px rgba(255,255,255,.04) !important;
-    background: #0a0a0a !important;
-    overflow: hidden !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    mask-image: none !important;
-    -webkit-mask-image: none !important;
-    z-index: 6 !important;
-    opacity: 0; /* JS entrance animation */
-    /* Smooth expansion transition */
-    transition: width 0.6s cubic-bezier(0.16,1,0.3,1),
-                height 0.6s cubic-bezier(0.16,1,0.3,1),
-                max-width 0.6s cubic-bezier(0.16,1,0.3,1),
-                left 0.6s cubic-bezier(0.16,1,0.3,1),
-                top 0.6s cubic-bezier(0.16,1,0.3,1),
-                bottom 0.6s cubic-bezier(0.16,1,0.3,1),
-                transform 0.6s cubic-bezier(0.16,1,0.3,1),
-                border-radius 0.6s cubic-bezier(0.16,1,0.3,1),
-                border 0.4s ease,
-                box-shadow 0.4s ease;
-  }
-
-  /* Fullscreen state — toggled by JS on scroll */
-  .res-hero #video-frame.is-fullscreen {
     inset: 0 !important;
-    top: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
     width: 100% !important;
     height: 100% !important;
     max-width: none !important;
@@ -297,6 +251,15 @@
     border: none !important;
     box-shadow: none !important;
     aspect-ratio: auto !important;
+    overflow: hidden !important;
+    background: #0a0a0a !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    z-index: 1 !important;
+    opacity: 0; /* JS entrance animation */
+    transition: none !important;
   }
 }
 
@@ -321,7 +284,70 @@
   align-items:center;
 }
 @media (max-width: 768px) {
-  .res-hero-container { padding: 0 2rem !important; }
+  /* Container: full width, centered vertically + horizontally */
+  .res-hero-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    padding: 0 1.5rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+  /* Content block: centered column, vertically centered via auto margins */
+  .res-hero-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 0 !important;
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+  }
+  /* Kicker */
+  .res-hero-kicker {
+    justify-content: center !important;
+    width: 100% !important;
+    font-size: .52rem !important;
+    margin-bottom: 1.4rem !important;
+  }
+  /* Title */
+  .res-hero-title {
+    font-size: clamp(2.6rem, 10vw, 3.8rem) !important;
+    text-align: center !important;
+    width: 100% !important;
+    margin-bottom: 1.2rem !important;
+  }
+  /* Separator */
+  .res-hero-sep {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-bottom: 1.2rem !important;
+  }
+  /* Body text */
+  .res-hero-body {
+    font-size: .88rem !important;
+    text-align: center !important;
+    max-width: 300px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-bottom: 1.8rem !important;
+    line-height: 1.75 !important;
+  }
+  /* CTA button */
+  .res-hero-cta {
+    font-size: .62rem !important;
+    padding: .85rem 2rem !important;
+    margin: 0 auto !important;
+  }
+  /* Scroll indicator */
+  .res-hero-scroll {
+    bottom: 1.5rem !important;
+  }
 }
 
 /* ── Hero content block — left-anchored, tight rhythm ──────────── */

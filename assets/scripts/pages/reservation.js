@@ -962,19 +962,6 @@ function initAnimations() {
       // Paint body dark while hero is visible — any gaps show dark, not cream
       document.body.style.background = '#0C1A10';
 
-      // Watch for GSAP pin changes and force full width immediately
-      const forceFullWidth = () => {
-        viewport.style.setProperty('width', '100vw', 'important');
-        viewport.style.setProperty('left', '0', 'important');
-        viewport.style.setProperty('transform', 'none', 'important');
-        viewport.style.setProperty('max-width', 'none', 'important');
-      };
-      forceFullWidth();
-
-      // MutationObserver: whenever GSAP touches inline styles, re-force
-      const observer = new MutationObserver(forceFullWidth);
-      observer.observe(viewport, { attributes: true, attributeFilter: ['style'] });
-
       // Restore body bg when hero scrolls out of view
       ScrollTrigger.create({
         trigger: wrapper,
@@ -1052,28 +1039,8 @@ function initAnimations() {
       scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.25}` }
     });
 
-    // ── Mobile: Expand video card to fullscreen during scroll ──
-    // Uses CSS class toggle + transition for perfectly smooth expansion
-    if (isMobileDevice) {
-      const frame = document.getElementById('video-frame');
-      if (frame) {
-        ScrollTrigger.create({
-          trigger: wrapper,
-          start: 'top top',
-          end: () => `+=${scrollPx * 0.6}`,
-          onUpdate: (self) => {
-            if (self.progress > 0.35) {
-              if (!frame.classList.contains('is-fullscreen')) {
-                frame.classList.add('is-fullscreen');
-              }
-            } else {
-              frame.classList.remove('is-fullscreen');
-            }
-            resizeCanvas();
-          }
-        });
-      }
-    }
+    // Mobile: video is fullscreen from start (CSS handles it).
+    // No card expansion needed — just frames + scroll.
   }
 
   // Entrance
