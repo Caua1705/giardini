@@ -1822,9 +1822,11 @@ footer {
   }
 
   .cat-btn {
-    white-space: nowrap;
-    font-size: 0.65rem;
-    padding: 0.45rem 1.25rem;
+    white-space: nowrap !important;
+    font-size: 0.82rem !important;
+    padding: 0.95rem 1.5rem !important;
+    min-height: 52px !important;
+    font-weight: 600 !important;
   }
 
   .menu-grid {
@@ -2176,17 +2178,17 @@ footer {
   }
 
   .cat-btn {
-    padding: 1.5rem 2.2rem;
-    font-size: 1.1rem;
-    letter-spacing: 0.1em;
-    white-space: nowrap;
-    min-height: 72px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border-radius: 0;
-    font-weight: 700;
+    padding: 0.95rem 1.5rem !important;
+    font-size: 0.82rem !important;
+    letter-spacing: 0.12em !important;
+    white-space: nowrap !important;
+    min-height: 52px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    border-radius: 0 !important;
+    font-weight: 600 !important;
   }
 
   /* No mobile: linha full-width, flush com borda inferior da barra */
@@ -2691,12 +2693,13 @@ footer {
   }
 
   .cat-btn {
-    padding: 0.7rem 1.0rem !important;
-    font-size: 0.60rem !important;
+    padding: 0.95rem 1.5rem !important;
+    font-size: 0.82rem !important;
     white-space: nowrap !important;
     flex-shrink: 0 !important;
     border-radius: 0 !important;
-    min-height: 44px !important;
+    min-height: 52px !important;
+    font-weight: 600 !important;
   }
 
   /* Defensively wipe out any second-layer subcategory navigation rows (if added) */
