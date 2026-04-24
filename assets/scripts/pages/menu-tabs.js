@@ -26,7 +26,9 @@
 
     const CONFIG = {
       TOTAL_FRAMES: isMobileDevice ? 80 : 150,
-      FRAMES_DIR: 'references/image-frames/menu',
+      FRAMES_DIR: isMobileDevice
+        ? 'references/image-frames/menu-mobile'
+        : 'references/image-frames/menu',
       scrollVH: isMobileDevice ? 80 : 85,
       scrub: isMobileDevice ? 0.3 : 1.0,
     };
