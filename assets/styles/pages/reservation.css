@@ -324,23 +324,26 @@
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    justify-content: flex-end !important;
+    justify-content: flex-start !important;
     height: 100dvh !important;
-    padding-top: 0 !important;
-    padding-bottom: 9vh !important;
+    padding: 0 1.75rem !important;
+    position: relative !important;
     text-align: center !important;
   }
-  /* Content block: force to bottom of container */
+  /* Content block: absolute position so GSAP flex can't override */
   .res-hero-content {
+    position: absolute !important;
+    bottom: 24vh !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: 0 1.75rem !important;
     width: 100% !important;
     max-width: 100% !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     text-align: center !important;
-    padding: 0 !important;
-    margin-top: auto !important;
-    margin-bottom: 0 !important;
+    margin: 0 !important;
   }
   /* Kicker — noticeably larger */
   .res-hero-kicker {
