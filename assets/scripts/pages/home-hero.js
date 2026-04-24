@@ -493,13 +493,15 @@
           gsap.set(frame, { opacity: 1, scale: 1 });
           // Activate bg columns immediately (skip stagger entrance)
           document.querySelectorAll('#hero-bg-cols .hero-col').forEach(col => col.classList.add('active'));
-          // Initialize Flashlight tracking
-          const viewportElemScroll = document.getElementById('hero-viewport');
-          viewportElemScroll.addEventListener('mousemove', (e) => {
-            const rect = viewportElemScroll.getBoundingClientRect();
-            viewportElemScroll.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-            viewportElemScroll.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-          });
+          // Initialize Flashlight tracking — skip on mobile (no mouse)
+          if (!IS_MOBILE) {
+            const viewportElemScroll = document.getElementById('hero-viewport');
+            viewportElemScroll.addEventListener('mousemove', (e) => {
+              const rect = viewportElemScroll.getBoundingClientRect();
+              viewportElemScroll.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+              viewportElemScroll.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+            });
+          }
         } else {
           // Normal page load at top: run entrance animation
           gsap.set('#el-kicker', { opacity: 0, y: 35, filter: 'blur(14px)' });
@@ -518,13 +520,15 @@
             onStart: () => {
               document.body.style.opacity = '1';
               document.getElementById('hero-left').style.pointerEvents = 'auto';
-              // Initialize Flashlight tracking
+            // Initialize Flashlight tracking — skip on mobile (no mouse)
+            if (!IS_MOBILE) {
               const viewportElem = document.getElementById('hero-viewport');
               viewportElem.addEventListener('mousemove', (e) => {
                 const rect = viewportElem.getBoundingClientRect();
                 viewportElem.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
                 viewportElem.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
               });
+            }
             }
           });
           tl
@@ -897,16 +901,18 @@
         }
         // Hero headline uses dedicated GSAP line animations (see tl above)
         // splitAndAnimate removed here to preserve HTML color/style markup
-        // 2. Flashlight / Spotlight Mouse Follow
-        document.querySelectorAll('.flashlight-card').forEach(card => {
-          card.addEventListener('mousemove', e => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
+        // 2. Flashlight / Spotlight Mouse Follow — skip on mobile (no mouse)
+        if (!IS_MOBILE) {
+          document.querySelectorAll('.flashlight-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+              const rect = card.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              const y = e.clientY - rect.top;
+              card.style.setProperty('--mouse-x', `${x}px`);
+              card.style.setProperty('--mouse-y', `${y}px`);
+            });
           });
-        });
+        }
         // 3. Section 3 Dark Mode (Improved Transitions)
         // On mobile: skip body/section background color GSAP transition.
         // Reason: fast scroll on phones causes jarring color flash between
@@ -1094,21 +1100,25 @@
         });
       })();
       /* ══ CUSTOM SCROLL INDICATOR LOGIC ════════════════════════════ */
-      (function () {
-        const line = document.getElementById('scroll-progress-line');
-        if (!line) return;
-        const fill = document.createElement('div');
-        fill.style.cssText = 'position:absolute;top:0;left:0;right:0;background:var(--c-primary);border-radius:2px;height:0%;transition:height 0.15s linear;';
-        line.appendChild(fill);
-        function updateScrollProgress() {
-          const scrollTop = window.scrollY;
-          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-          const progress = (scrollTop / (docHeight || 1)) * 100;
-          fill.style.height = Math.min(100, Math.max(0, progress)) + '%';
-        }
-        window.addEventListener('scroll', updateScrollProgress, { passive: true });
-        updateScrollProgress();
-      })();
+      // Skip on mobile — the indicator is positioned at right:3rem,
+      // barely visible on small screens, and adds a scroll listener per pixel.
+      if (!IS_MOBILE) {
+        (function () {
+          const line = document.getElementById('scroll-progress-line');
+          if (!line) return;
+          const fill = document.createElement('div');
+          fill.style.cssText = 'position:absolute;top:0;left:0;right:0;background:var(--c-primary);border-radius:2px;height:0%;transition:height 0.15s linear;';
+          line.appendChild(fill);
+          function updateScrollProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / (docHeight || 1)) * 100;
+            fill.style.height = Math.min(100, Math.max(0, progress)) + '%';
+          }
+          window.addEventListener('scroll', updateScrollProgress, { passive: true });
+          updateScrollProgress();
+        })();
+      }
       (function () {
         const clockEl = document.getElementById('hero-clock');
         if (!clockEl) return;

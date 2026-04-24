@@ -2694,6 +2694,87 @@ footer {
     background: none !important;
   }
 
+  /* ═══ MOBILE PERFORMANCE KILL LIST ═══════════════════════════════
+     Extra decorative elements to hide/stop on mobile for fluidity.
+     Zero visual impact — user won't notice any difference.
+     ═══════════════════════════════════════════════════════════════ */
+
+  /* Noise overlay — full-viewport, fixed-position SVG texture */
+  .noise-overlay {
+    display: none !important;
+  }
+
+  /* Particle canvas — ambient JS canvas particles, hidden anyway */
+  #particle-canvas {
+    display: none !important;
+  }
+
+  /* Product glow/shadow — decorative radial gradients behind hero frame */
+  .product-glow,
+  .product-shadow {
+    display: none !important;
+  }
+
+  /* Hero text scrim — subtle gradient, barely visible on mobile */
+  .hero-text-scrim {
+    display: none !important;
+  }
+
+  /* Hero video overlay — remove backdrop-filter (expensive on mobile GPU) */
+  .hero-video-overlay {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Custom cursor — never visible on touch devices */
+  #custom-cursor,
+  #custom-cursor-ring {
+    display: none !important;
+  }
+
+  /* Category divider dot — kill infinite pulse animation */
+  .category-divider-dot {
+    animation: none !important;
+  }
+
+  /* Category divider line shimmer — kill infinite sweep */
+  .category-divider-line::after {
+    animation: none !important;
+  }
+
+  /* Section kicker line shimmer */
+  .section-kicker::after {
+    animation: none !important;
+  }
+
+  /* PDF section beam */
+  .pdf-btn .s4-beam {
+    display: none !important;
+  }
+
+  /* Nav CTA beam — too small to notice on mobile */
+  .nav-cta .s4-beam {
+    display: none !important;
+  }
+
+  /* Remove will-change from non-animating elements */
+  .word-inner {
+    will-change: auto !important;
+  }
+
+  /* Modal backdrop — remove blur filter on mobile */
+  .modal-backdrop {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(0, 0, 0, 0.65) !important;
+  }
+
+  /* Modal close button — remove backdrop-filter */
+  .modal-close {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
   /* Increase hero background size to fix color divergence instead of hiding it */
   .hero-bg {
     height: 150vh !important;

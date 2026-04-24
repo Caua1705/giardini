@@ -96,6 +96,121 @@
   .s5-corner { display: none !important; }
   #hero-wm { display: none !important; }
 
+  /* ═══ MOBILE ANIMATION KILL LIST ═══════════════════════════════
+     Stops infinite CSS animations that burn CPU/GPU on mobile
+     for decorative elements with minimal visual payoff on small screens.
+     ═══════════════════════════════════════════════════════════════ */
+
+  /* Location section floating orbs */
+  .loc-dk-orb1, .loc-dk-orb2 {
+    animation: none !important;
+  }
+
+  /* Location divider shimmer sweep */
+  .loc-dk-divider::after {
+    animation: none !important;
+  }
+
+  /* Location grain texture (expensive bg-image + blend) */
+  .loc-dk-grain {
+    display: none !important;
+  }
+
+  /* Location dots pattern */
+  .loc-dk-dots {
+    display: none !important;
+  }
+
+  /* Location watermark */
+  #loc-dk-wm {
+    display: none !important;
+  }
+
+  /* Footer logo shimmer sweep */
+  .ft-logo-text {
+    animation: none !important;
+  }
+
+  /* Footer floating orbs */
+  .ft-orb-1, .ft-orb-2 {
+    animation: none !important;
+    display: none !important;
+  }
+
+  /* Footer grain texture */
+  .ft-grain {
+    display: none !important;
+  }
+
+  /* Section 3 featured divider shimmer beams */
+  .s3-divider::after,
+  .s3-label-line::after {
+    animation: none !important;
+  }
+
+  /* Section 5 separator infinite shimmer and pulse */
+  .s5-sep::after {
+    animation: none !important;
+  }
+
+  /* Global grain noise (fixed position, full-viewport, infinite drift) */
+  #global-grain {
+    animation: none !important;
+  }
+
+  /* Hero scroll float animation */
+  .hero-scroll-wrapper {
+    animation: none !important;
+  }
+
+  /* Section 3 ambient glows (inside featured section) */
+  #featured > div[style*="border-radius:40px"] > div[class*="animate-float"] {
+    animation: none !important;
+  }
+
+  /* Clube do Livro floating orbs */
+  .clube-orb-1, .clube-orb-2 {
+    animation: none !important;
+    display: none !important;
+  }
+
+  /* Clube marquee scroll — always running, never visible enough on mobile */
+  .clube-marquee-content {
+    animation: none !important;
+  }
+
+  /* Section 5 video section floating orbs */
+  #experience-video > div[style*="border-radius:50%"] {
+    animation: none !important;
+  }
+
+  /* Video frame hover effect — no hover on mobile */
+  #video-frame:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Reduce will-change on elements not being animated */
+  .hero-col, .word-inner {
+    will-change: auto !important;
+  }
+
+  /* Disable backdrop-filter on location CTA (expensive on mobile GPU) */
+  .loc-btn-shimmer {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Hide scroll progress indicator — desktop-only UI, invisible on mobile */
+  .scroll-indicator-wrap {
+    display: none !important;
+  }
+
+  /* Hide hero grid background — decorative, hidden by cream bg anyway */
+  .hero-grid-bg {
+    display: none !important;
+  }
+
   /* 5. Remove rotating beam animation on mobile CTAs — saves continuous GPU usage */
   .loc-beam-container .loc-beam-border {
     animation: none !important;

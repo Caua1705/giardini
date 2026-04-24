@@ -164,7 +164,16 @@
       }
 
       // Initialize canvas
-      window.addEventListener('resize', resizeCanvas);
+      // Initialize canvas — debounce resize on mobile
+      if (isMobileDevice) {
+        let _rTimer;
+        window.addEventListener('resize', () => {
+          clearTimeout(_rTimer);
+          _rTimer = setTimeout(resizeCanvas, 150);
+        });
+      } else {
+        window.addEventListener('resize', resizeCanvas);
+      }
       resizeCanvas();
       // Force draw first frame — retry until loaded
       function tryDrawFirst() {
@@ -216,16 +225,19 @@
           onLeaveBack: () => { snapHeroVisible(); }
         };
 
+        // On mobile, skip filter:blur in scroll-out — paint op, not compositor-only
+        const _f = (b) => isMobileDevice ? {} : { filter: `blur(${b})` };
+
         gsap.to('#el-kicker', {
-          opacity: 0, y: -40, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
+          opacity: 0, y: -40, ..._f('8px'), ease: 'power2.in', immediateRender: false,
           scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.22}` }
         });
         gsap.to('#el-h1a', {
-          opacity: 0, y: -60, filter: 'blur(12px)', ease: 'power2.in', immediateRender: false,
+          opacity: 0, y: -60, ..._f('12px'), ease: 'power2.in', immediateRender: false,
           scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.3}` }
         });
         gsap.to('#el-h1b', {
-          opacity: 0, y: -48, filter: 'blur(10px)', ease: 'power2.in', immediateRender: false,
+          opacity: 0, y: -48, ..._f('10px'), ease: 'power2.in', immediateRender: false,
           scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.36}` }
         });
         gsap.to('#el-h1-sep', {
@@ -233,15 +245,15 @@
           scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.38}` }
         });
         gsap.to('#el-scroll', {
-          opacity: 0, y: -20, filter: 'blur(5px)', ease: 'power2.in', immediateRender: false,
+          opacity: 0, y: -20, ..._f('5px'), ease: 'power2.in', immediateRender: false,
           scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.25}` }
         });
         gsap.to('#el-body', {
-          opacity: 0, y: -32, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
+          opacity: 0, y: -32, ..._f('8px'), ease: 'power2.in', immediateRender: false,
           scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.43}` }
         });
         gsap.to('#el-cta', {
-          opacity: 0, y: -26, filter: 'blur(6px)', ease: 'power2.in', immediateRender: false,
+          opacity: 0, y: -26, ..._f('6px'), ease: 'power2.in', immediateRender: false,
           scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.5}` }
         });
       }
@@ -314,29 +326,10 @@
         }
 
         // ── MOBILE SAFETY NET: ensure canvas never stays blank ──
+        // Use lightweight check: only redraw on visibilitychange (tab regain).
+        // The previous getImageData approach was extremely expensive on mobile
+        // (GPU→CPU readback on every scroll frame). Removed.
         if (isMobileDevice && canvas && ctx) {
-          let safetyTick = false;
-          window.addEventListener('scroll', () => {
-            if (safetyTick) return;
-            safetyTick = true;
-            requestAnimationFrame(() => {
-              safetyTick = false;
-              // Check if canvas has content by sampling center pixel
-              if (canvas.width > 0 && canvas.height > 0 && currentFrameIndex >= 0) {
-                const px = ctx.getImageData(
-                  Math.floor(canvas.width / 2),
-                  Math.floor(canvas.height / 2),
-                  1, 1
-                ).data;
-                // If center pixel is fully transparent → canvas was cleared
-                if (px[3] === 0) {
-                  forceRedraw();
-                }
-              }
-            });
-          }, { passive: true });
-
-          // Also redraw when tab regains focus
           document.addEventListener('visibilitychange', () => {
             if (!document.hidden) {
               forceRedraw();
