@@ -67,8 +67,10 @@ function paintCover(img) {
 
   let scale;
   if (isMobileDevice) {
-    // Scale by height then pull back to zoom out (show more of the scene)
-    scale = (ch / ih) * 0.78;
+    // CONTAIN: mostra o frame inteiro sem cortar nada.
+    // O fundo escuro do hero preenche as áreas restantes.
+    // Math.min = escala pelo menor lado (sem overflow).
+    scale = Math.min(cw / iw, ch / ih);
   } else {
     // Desktop: standard cover with slight zoom-in
     scale = Math.max(cw / iw, ch / ih) * 1.08;
