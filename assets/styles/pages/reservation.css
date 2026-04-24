@@ -280,6 +280,11 @@
 
 .res-hero-bg{display: none;} /* Video replaced by canvas */
 .res-hero-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(115deg,rgba(4,8,6,.92) 0%,rgba(8,16,11,.7) 45%,rgba(4,8,6,.55) 100%);pointer-events:none}
+@media(max-width:768px){
+  /* Brighter on mobile — reduce overlay darkness so the video is more visible */
+  .res-hero-overlay{background:linear-gradient(115deg,rgba(4,8,6,.62) 0%,rgba(8,16,11,.44) 45%,rgba(4,8,6,.30) 100%) !important;}
+  .res-hero-vignette{opacity:0.5 !important;}
+}
 .res-hero-vignette{position:absolute;inset:0;z-index:3;background:radial-gradient(ellipse 90% 80% at 30% 60%,transparent 30%,rgba(0,0,0,.55) 100%);pointer-events:none}
 .res-hero-grain{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");background-size:180px 180px;mix-blend-mode:screen}
 .res-hero-scanlines{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:.018;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.8) 2px,rgba(0,0,0,.8) 3px)}
@@ -299,7 +304,7 @@
   align-items:center;
 }
 @media (max-width: 768px) {
-  /* Container: full width, centered vertically + horizontally */
+  /* Container: full width, shifted toward top */
   .res-hero-container {
     width: 100% !important;
     max-width: 100% !important;
@@ -308,10 +313,11 @@
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    justify-content: center !important;
+    justify-content: flex-start !important;
+    padding-top: 22vh !important;
     text-align: center !important;
   }
-  /* Content block: centered column, vertically centered via auto margins */
+  /* Content block: centered column, pushed up */
   .res-hero-content {
     width: 100% !important;
     max-width: 100% !important;
@@ -320,8 +326,8 @@
     align-items: center !important;
     text-align: center !important;
     padding: 0 !important;
-    margin-top: auto !important;
-    margin-bottom: auto !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
   }
   /* Kicker */
   .res-hero-kicker {
