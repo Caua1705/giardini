@@ -9,16 +9,19 @@ import { apiFetch, API_BASE_URL, API_ROUTES } from '../config/api.js';
 const MONTHS_PT    = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const MONTHS_SHORT = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
 
-/* ── CANVAS SEQUENCE CONFIG ── */
 // Detect mobile using both width and pointer (touch) for accuracy
 const isMobileDevice = window.innerWidth <= 768 || window.matchMedia('(pointer: coarse)').matches;
 const CONFIG_SEQ = {
-  // Mobile: 80 frames for faster load; desktop: 150 for cinematic quality
-  TOTAL_FRAMES: isMobileDevice ? 80 : 150,
-  FRAMES_DIR: isMobileDevice ? 'references/image-frames/reservation-mobile' : 'references/image-frames/reservation',
+  // Mobile: 60 frames (lightest set, ~1.3MB) for fast load
+  // Desktop: 150 frames (cinematic quality, ~3.2MB)
+  TOTAL_FRAMES: isMobileDevice ? 60 : 150,
+  // CRITICAL: 'reservation' folder has lighter frames (~21KB avg)
+  //           'reservation-mobile' has heavier frames (~63KB avg)
+  //           Mobile MUST use the lighter set for performance
+  FRAMES_DIR: isMobileDevice ? 'references/image-frames/reservation' : 'references/image-frames/reservation',
   scrollVH: isMobileDevice ? 150 : 100,
   // Mobile: tighter scrub = less intermediate frames decoded per tick
-  scrub: isMobileDevice ? 0.5 : 1.0,
+  scrub: isMobileDevice ? 0.3 : 1.0,
 };
 
 let frames = [];

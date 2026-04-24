@@ -2630,6 +2630,22 @@ body{
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
+  .res-env-selected-bar {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .res-env-card-hover-cue {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  /* Env card images: remove saturate/brightness filter transitions on scroll */
+  .res-env-card-img {
+    filter: saturate(.7) brightness(.6) !important;
+    transition: none !important;
+  }
+  .res-env-card.is-selected .res-env-card-img {
+    filter: saturate(.85) brightness(.65) !important;
+  }
 
   /* ── 3. Clear will-change (prevents GPU layer promotion leaks) ── */
   .res-scroll-word,
