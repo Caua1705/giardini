@@ -2554,6 +2554,14 @@ body{
     animation-iteration-count: 1 !important;
   }
 
+  /* ── Whitelist: functional animations that MUST keep running ──── */
+  .res-spinner {
+    animation: resSpin 0.7s linear infinite !important;
+  }
+  .loading .res-spinner {
+    display: block !important;
+  }
+
   /* ── Mobile readability: brighten colors ─────────────────────────
      Dark editorial theme is elegant on desktop but too dim on
      mobile screens viewed in daylight. Boost contrast. */
@@ -2639,6 +2647,14 @@ body{
   }
   .rcd-day.is-today {
     color: rgba(183,147,88,1) !important;
+  }
+  /* Selected day must override the base .rcd-day color */
+  .rcd-day.is-selected {
+    background: var(--c-primary) !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 16px rgba(43,74,59,.5) !important;
+    border: 1px solid rgba(255,255,255,.15) !important;
   }
 
   /* Section label */
