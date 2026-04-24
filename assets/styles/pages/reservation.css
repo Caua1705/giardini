@@ -324,8 +324,9 @@
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    justify-content: flex-start !important;
-    padding-top: 58vh !important;
+    justify-content: flex-end !important;
+    padding-top: 0 !important;
+    padding-bottom: 14vh !important;
     text-align: center !important;
   }
   /* Content block */
@@ -344,39 +345,39 @@
   .res-hero-kicker {
     justify-content: center !important;
     width: 100% !important;
-    font-size: .60rem !important;
-    margin-bottom: 1.1rem !important;
+    font-size: .65rem !important;
+    margin-bottom: 1.2rem !important;
   }
   /* Title — bigger for visual impact */
   .res-hero-title {
-    font-size: clamp(3.2rem, 12vw, 4.6rem) !important;
+    font-size: clamp(3.5rem, 14vw, 5.2rem) !important;
     text-align: center !important;
     width: 100% !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 1.1rem !important;
     line-height: .9 !important;
   }
   /* Separator */
   .res-hero-sep {
     margin-left: auto !important;
     margin-right: auto !important;
-    margin-bottom: 1rem !important;
-    width: 48px !important;
+    margin-bottom: 1.1rem !important;
+    width: 52px !important;
   }
   /* Body text — more legible */
   .res-hero-body {
-    font-size: 1rem !important;
+    font-size: 1.1rem !important;
     text-align: center !important;
-    max-width: 310px !important;
+    max-width: 330px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    margin-bottom: 1.6rem !important;
+    margin-bottom: 1.8rem !important;
     line-height: 1.7 !important;
-    color: rgba(255,255,255,.65) !important;
+    color: rgba(255,255,255,.75) !important;
   }
   /* CTA button — bigger tap target */
   .res-hero-cta {
-    font-size: .68rem !important;
-    padding: 1rem 2.4rem !important;
+    font-size: .75rem !important;
+    padding: 1.1rem 2.6rem !important;
     margin: 0 auto !important;
     letter-spacing: .18em !important;
   }
