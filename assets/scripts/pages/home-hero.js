@@ -820,6 +820,8 @@
         gsap.set('.feat-reveal', { opacity: 0, y: 28, filter: 'blur(6px)' });
         // Title lines start clipped
         gsap.set('.sect3-line-inner', { y: '110%', opacity: 0 });
+        // Logo badge starts hidden
+        gsap.set('#s3-logo-badge', { opacity: 0, scale: 0.6, y: 20, filter: 'blur(12px)' });
         ScrollTrigger.create({
           trigger: '#featured',
           start: 'top 72%',
@@ -854,7 +856,16 @@
                 ease: 'power4.out',
                 stagger: 0.18,
                 clearProps: 'filter'
-              }, 'start+=0.35');
+              }, 'start+=0.35')
+              // 4. Logo badge: premium reveal after everything else
+              .to('#s3-logo-badge', {
+                opacity: 1,
+                scale: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 1.4,
+                ease: 'elastic.out(1, 0.75)',
+              }, 'start+=0.6');
           }
         });
         // ── CREATIVE ANIMATIONS (NEW) ──────────────────────────────
