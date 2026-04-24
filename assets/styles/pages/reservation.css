@@ -2544,59 +2544,106 @@ body{
    ══════════════════════════════════════════════════════════════════ */
 @media (max-width: 767px) {
 
-  /* ── 1. Kill all infinite animations that waste GPU cycles ─── */
-  .res-hero-orb-1,
-  .res-hero-orb-2 {
-    animation: none !important;
+  /* ══ NUCLEAR: Kill ALL animations on mobile ══════════════════════
+     Instead of listing 30+ selectors one by one, this wildcard
+     kills every animation in every element on the page.
+     This is the single biggest performance win on mobile. */
+  *, *::before, *::after {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
   }
-  .res-section-ambient-1,
-  .res-section-ambient-2 {
-    animation: none !important;
-    display: none !important;
+
+  /* ── Mobile readability: brighten colors ─────────────────────────
+     Dark editorial theme is elegant on desktop but too dim on
+     mobile screens viewed in daylight. Boost contrast. */
+
+  /* Step labels */
+  .res-step-label {
+    color: rgba(255,255,255,.92) !important;
   }
-  .res-step-bar::after {
-    animation: none !important;
-    display: none !important;
+  .res-step-sublabel {
+    color: rgba(255,255,255,.55) !important;
   }
+  .res-step-num {
+    color: rgba(183,147,88,.85) !important;
+  }
+
+  /* Section titles */
+  .res-section-title {
+    color: rgba(255,255,255,.95) !important;
+  }
+  .res-section-title em {
+    color: rgba(183,147,88,.95) !important;
+  }
+  .res-section-subtitle {
+    color: rgba(255,255,255,.55) !important;
+  }
+  .res-env-section-title {
+    color: rgba(255,255,255,.95) !important;
+  }
+
+  /* Form inputs */
+  .res-form-input {
+    color: rgba(255,255,255,.9) !important;
+    border-color: rgba(255,255,255,.18) !important;
+  }
+  .res-form-input::placeholder {
+    color: rgba(255,255,255,.35) !important;
+  }
+  .res-form-label {
+    color: rgba(255,255,255,.7) !important;
+  }
+
+  /* Pills */
+  .res-pill,
+  .res-time-pill {
+    color: rgba(255,255,255,.8) !important;
+    border-color: rgba(255,255,255,.15) !important;
+  }
+  .res-pill.active,
+  .res-time-pill.active {
+    color: #fff !important;
+    background: rgba(43,74,59,.9) !important;
+    border-color: rgba(183,147,88,.5) !important;
+  }
+
+  /* Environment card names — brighter for mobile */
+  .res-env-card-name {
+    color: rgba(255,255,255,.95) !important;
+    font-size: 1rem !important;
+  }
+  .res-env-card-cap {
+    color: rgba(255,255,255,.6) !important;
+  }
+
+  /* Submit button — high contrast */
   .res-submit-btn {
-    animation: none !important;
+    background: rgba(43,74,59,.95) !important;
+    color: #fff !important;
+    border-color: rgba(183,147,88,.4) !important;
   }
-  .res-section-label-dot::after {
-    animation: none !important;
-    display: none !important;
+
+  /* Datepicker — brighter text */
+  .rcd-value {
+    color: rgba(255,255,255,.65) !important;
   }
-  .res-env-card.is-selected {
-    animation: none !important;
+  .rcd-value.has-date {
+    color: rgba(255,255,255,.95) !important;
   }
-  .res-hero-kicker-dot {
-    animation: none !important;
+  .rcd-month {
+    color: rgba(255,255,255,.9) !important;
   }
-  .res-form-env-kicker-dot {
-    animation: none !important;
+  .rcd-day {
+    color: rgba(255,255,255,.7) !important;
   }
-  .res-section-label-dot {
-    animation: none !important;
+  .rcd-day.is-today {
+    color: rgba(183,147,88,1) !important;
   }
-  .res-step-label::after {
-    animation: none !important;
-    display: none !important;
-  }
-  .res-to-footer-diamond {
-    animation: none !important;
-  }
-  .res-hero-cta::after {
-    animation: none !important;
-    display: none !important;
-  }
-  .res-hero-sep::after {
-    animation: none !important;
-    display: none !important;
-  }
-  /* Grain overlays: static on mobile (no animation needed) */
-  .res-hero-grain,
-  .res-env-section-grain,
-  .res-section-grain {
-    animation: none !important;
+
+  /* Section label */
+  .res-section-label-text {
+    color: rgba(183,147,88,.85) !important;
   }
 
   /* ── 2. Remove backdrop-filter (heaviest mobile GPU cost) ──── */

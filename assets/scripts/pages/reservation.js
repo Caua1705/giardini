@@ -12,13 +12,13 @@ const MONTHS_SHORT = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out
 // Detect mobile using both width and pointer (touch) for accuracy
 const isMobileDevice = window.innerWidth <= 768 || window.matchMedia('(pointer: coarse)').matches;
 const CONFIG_SEQ = {
-  // Mobile: 60 frames (lightest set, ~1.3MB) for fast load
-  // Desktop: 150 frames (cinematic quality, ~3.2MB)
-  TOTAL_FRAMES: isMobileDevice ? 60 : 150,
-  // CRITICAL: 'reservation' folder has lighter frames (~21KB avg)
+  // All 150 frames on both — reservation frames are light (21KB avg = 3.2MB total)
+  // This matches the home page hero behavior for consistent experience
+  TOTAL_FRAMES: 150,
   FRAMES_DIR: 'references/image-frames/reservation',
-  // Mobile: 250vh gives more scroll distance for the hero pin
-  scrollVH: isMobileDevice ? 250 : 100,
+  // Mobile: 200vh scroll distance (matches home-hero.js)
+  // Desktop: 100vh
+  scrollVH: isMobileDevice ? 200 : 100,
   scrub: isMobileDevice ? 0.3 : 1.0,
 };
 
