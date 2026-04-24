@@ -72,8 +72,9 @@
       const ch = canvas.height / dpr;
       const iw = img.naturalWidth;
       const ih = img.naturalHeight;
-      // Cover with slight zoom to avoid edge gaps
-      const scale = Math.max(cw / iw, ch / ih) * 1.02;
+      // Cover — zoom slightly more on mobile to hide edge artifacts
+      const zoom = isMobileDevice ? 1.15 : 1.02;
+      const scale = Math.max(cw / iw, ch / ih) * zoom;
       const dw = iw * scale;
       const dh = ih * scale;
       const dx = (cw - dw) / 2;
