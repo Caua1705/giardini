@@ -10,12 +10,15 @@ const MONTHS_PT    = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Jul
 const MONTHS_SHORT = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
 
 /* ── CANVAS SEQUENCE CONFIG ── */
-const isMobileDevice = window.innerWidth <= 768;
+// Detect mobile using both width and pointer (touch) for accuracy
+const isMobileDevice = window.innerWidth <= 768 || window.matchMedia('(pointer: coarse)').matches;
 const CONFIG_SEQ = {
-  TOTAL_FRAMES: 150,
+  // Mobile: 80 frames for faster load; desktop: 150 for cinematic quality
+  TOTAL_FRAMES: isMobileDevice ? 80 : 150,
   FRAMES_DIR: isMobileDevice ? 'references/image-frames/reservation-mobile' : 'references/image-frames/reservation',
-  scrollVH: isMobileDevice ? 150 : 100, // Mobile: 150vh scroll space while hero stays pinned
-  scrub: isMobileDevice ? 0.8 : 1.0,
+  scrollVH: isMobileDevice ? 150 : 100,
+  // Mobile: tighter scrub = less intermediate frames decoded per tick
+  scrub: isMobileDevice ? 0.5 : 1.0,
 };
 
 let frames = [];
@@ -23,10 +26,11 @@ let currentFrameIndex = -1;
 const canvas = document.getElementById('seq-canvas');
 const ctx = canvas ? canvas.getContext('2d') : null;
 
-function resizeCanvas() {
+// Throttle helper for mobile resize — avoids canvas redraws on every pixel
+// (browser bar hide/show fires many sequential resize events on iOS/Android)
+let _resizeTimer = null;
+function _doResize() {
   if (!canvas) return;
-  // On mobile, canvas matches the card (#video-frame) size.
-  // On desktop, canvas matches the full viewport.
   const frame = document.getElementById('video-frame');
   const cw = (isMobileDevice && frame) ? frame.offsetWidth  : window.innerWidth;
   const ch = (isMobileDevice && frame) ? frame.offsetHeight : window.innerHeight;
@@ -35,6 +39,16 @@ function resizeCanvas() {
     canvas.height = ch;
   }
   if (currentFrameIndex >= 0) redrawCurrentFrame();
+}
+function resizeCanvas() {
+  if (!canvas) return;
+  if (isMobileDevice) {
+    // Throttle: run at most once per 150ms to prevent scroll-bar-jank redraws
+    clearTimeout(_resizeTimer);
+    _resizeTimer = setTimeout(_doResize, 150);
+  } else {
+    _doResize();
+  }
 }
 
 function redrawCurrentFrame() {
@@ -905,46 +919,71 @@ function bindEvents() {
 
 function initAnimations() {
   ScrollTrigger.create({start:'top -80',end:99999,toggleClass:{className:'is-scrolled',targets:'#navbar'}});
-  
+
+  // On mobile: skip GPU-heavy blur filters — use only opacity+y
+  const useBlur = !isMobileDevice;
+
   // Hero element initial state
-  gsap.set('#el-kicker', { opacity: 0, y: 35, filter: 'blur(14px)' });
-  gsap.set('#el-h1',     { opacity: 0, y: 45, filter: 'blur(16px)' });
+  gsap.set('#el-kicker', { opacity: 0, y: 22, ...(useBlur && { filter: 'blur(14px)' }) });
+  gsap.set('#el-h1',     { opacity: 0, y: 30, ...(useBlur && { filter: 'blur(16px)' }) });
   gsap.set('#el-sep',    { opacity: 0, scaleX: 0, transformOrigin: 'left' });
-  gsap.set('#el-body',   { opacity: 0, y: 30, filter: 'blur(12px)' });
-  gsap.set('#el-cta',    { opacity: 0, y: 25, filter: 'blur(10px)' });
-  gsap.set('#el-scroll', { opacity: 0, y: 15, filter: 'blur(8px)' });
-  gsap.set('#video-frame', { opacity: 0, scale: 0.94 });
+  gsap.set('#el-body',   { opacity: 0, y: 20, ...(useBlur && { filter: 'blur(12px)' }) });
+  gsap.set('#el-cta',    { opacity: 0, y: 16, ...(useBlur && { filter: 'blur(10px)' }) });
+  gsap.set('#el-scroll', { opacity: 0, y: 10, ...(useBlur && { filter: 'blur(8px)' }) });
+  gsap.set('#video-frame', { opacity: 0, scale: isMobileDevice ? 1 : 0.94 });
   gsap.set('#navbar',    { opacity: 0 });
 
-  // Entrance timeline
+  // Entrance timeline — simplified on mobile for faster perceived load
   function buildEntranceTl() {
     const tl = gsap.timeline();
-    tl
-      .to('#navbar', { opacity: 1, duration: 0.8, ease: 'power2.out' })
-      .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.25, ease: 'expo.out' }, '-=0.5')
-      .add('titleShow', '-=0.8')
-      .to('#el-h1', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'expo.out' }, 'titleShow')
-      .to('#video-frame', { opacity: 1, scale: 1, duration: 1.8, ease: 'power4.out' }, 'titleShow')
-      .to('#el-sep', { opacity: 1, scaleX: 1, duration: 1.2, ease: 'expo.out' }, 'titleShow+=0.30')
-      .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' }, 'titleShow+=0.55')
-      .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, 'titleShow+=0.75')
-      .to('#el-scroll', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power2.out' }, 'titleShow+=1.05');
+    if (isMobileDevice) {
+      // Simpler, faster entrance: no blur, shorter durations
+      tl
+        .to('#navbar',    { opacity: 1, duration: 0.5, ease: 'power2.out' })
+        .to('#el-kicker', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.3')
+        .to('#video-frame', { opacity: 1, duration: 0.9, ease: 'power3.out' }, '<')
+        .to('#el-h1',     { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
+        .to('#el-sep',    { opacity: 1, scaleX: 1, duration: 0.6, ease: 'power3.out' }, '-=0.4')
+        .to('#el-body',   { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.3')
+        .to('#el-cta',    { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.2')
+        .to('#el-scroll', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.1');
+    } else {
+      tl
+        .to('#navbar', { opacity: 1, duration: 0.8, ease: 'power2.out' })
+        .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.25, ease: 'expo.out' }, '-=0.5')
+        .add('titleShow', '-=0.8')
+        .to('#el-h1', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'expo.out' }, 'titleShow')
+        .to('#video-frame', { opacity: 1, scale: 1, duration: 1.8, ease: 'power4.out' }, 'titleShow')
+        .to('#el-sep', { opacity: 1, scaleX: 1, duration: 1.2, ease: 'expo.out' }, 'titleShow+=0.30')
+        .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' }, 'titleShow+=0.55')
+        .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, 'titleShow+=0.75')
+        .to('#el-scroll', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power2.out' }, 'titleShow+=1.05');
+    }
     return tl;
   }
 
   // Initialize Canvas — size MUST be set before first draw
-  resizeCanvas();
+  _doResize(); // Use direct call to bypass throttle on init
   window.addEventListener('resize', resizeCanvas);
   // On mobile, the card may not have final dimensions yet — retry after layout
   if (isMobileDevice) {
-    requestAnimationFrame(() => { resizeCanvas(); setTimeout(resizeCanvas, 300); });
+    requestAnimationFrame(() => { _doResize(); setTimeout(_doResize, 300); });
   }
   // Force-draw frame 0 immediately if it already loaded
   if (frames[0]?.complete && frames[0].naturalWidth > 0) {
     currentFrameIndex = -1; // reset so drawFrame doesn't skip
     drawFrame(0);
   }
-  if (canvas) canvas.classList.add('ready');
+  // Canvas ready state:
+  // On desktop: add .ready class to trigger CSS unblur animation
+  // On mobile: directly set visible state (CSS transitions already disabled)
+  if (canvas) {
+    if (isMobileDevice) {
+      canvas.style.cssText += ';filter:none;transform:none;opacity:1;transition:none';
+    } else {
+      canvas.classList.add('ready');
+    }
+  }
 
   // Hero Scroll Pin + Sequence
   const wrapper = document.getElementById('hero-pin-wrapper');
@@ -1014,12 +1053,14 @@ function initAnimations() {
       scrub: 1.2,
     };
 
+    // Exit animations — no blur on mobile (expensive)
+    const bf = (v) => useBlur ? { filter: `blur(${v})` } : {};
     gsap.to('#el-kicker', {
-      opacity: 0, y: -40, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
+      opacity: 0, y: -28, ...bf('8px'), ease: 'power2.in', immediateRender: false,
       scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.22}` }
     });
     gsap.to('#el-h1', {
-      opacity: 0, y: -60, filter: 'blur(12px)', ease: 'power2.in', immediateRender: false,
+      opacity: 0, y: -40, ...bf('12px'), ease: 'power2.in', immediateRender: false,
       scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.3}` }
     });
     gsap.to('#el-sep', {
@@ -1027,15 +1068,15 @@ function initAnimations() {
       scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.38}` }
     });
     gsap.to('#el-body', {
-      opacity: 0, y: -32, filter: 'blur(8px)', ease: 'power2.in', immediateRender: false,
+      opacity: 0, y: -22, ...bf('8px'), ease: 'power2.in', immediateRender: false,
       scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.43}` }
     });
     gsap.to('#el-cta', {
-      opacity: 0, y: -26, filter: 'blur(6px)', ease: 'power2.in', immediateRender: false,
+      opacity: 0, y: -18, ...bf('6px'), ease: 'power2.in', immediateRender: false,
       scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.5}` }
     });
     gsap.to('#el-scroll', {
-      opacity: 0, y: -20, filter: 'blur(5px)', ease: 'power2.in', immediateRender: false,
+      opacity: 0, y: -14, ease: 'power2.in', immediateRender: false,
       scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.25}` }
     });
 
@@ -1046,32 +1087,54 @@ function initAnimations() {
   // Entrance
   buildEntranceTl().delay(0.2);
 
-  // Section reveals — with subtle scale and rotation
+  // Section reveals — skip scale animation on mobile for jank-free scroll
   document.querySelectorAll('.res-reveal').forEach(el => {
     ScrollTrigger.create({
-      trigger: el, start: 'top 87%',
+      trigger: el, start: 'top 90%',
       onEnter: () => {
         el.classList.add('is-visible');
-        if (el.classList.contains('res-step')) {
+        if (!isMobileDevice && el.classList.contains('res-step')) {
           gsap.fromTo(el, { scale:.988 }, { scale:1, duration:1, ease:'power3.out' });
         }
       }
     });
   });
 
-  // Footer reveals
+  // Footer reveals — no blur on mobile
   document.querySelectorAll('.ft-reveal').forEach(el => {
     ScrollTrigger.create({trigger:el,start:'top 92%',onEnter:()=>{
-      gsap.to(el,{opacity:1,y:0,filter:'blur(0px)',duration:.9,ease:'power3.out'});
+      if (isMobileDevice) {
+        gsap.to(el, { opacity:1, y:0, duration:0.6, ease:'power3.out' });
+      } else {
+        gsap.to(el, { opacity:1, y:0, filter:'blur(0px)', duration:.9, ease:'power3.out' });
+      }
     }});
   });
 
-  // Parallax
-  initHeroParallax();
-  initHeroParticles();
-  initGoldenDust();
-  initEnvSectionParallax();
-  initSectionDividerReveal();
+  // Secondary animations:
+  // On mobile: defer to idle time so the hero scroll+frames render first
+  // On desktop: run immediately after layout
+  const scheduleSecondary = (fn) => {
+    if (isMobileDevice) {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(fn, { timeout: 1500 });
+      } else {
+        setTimeout(fn, 400);
+      }
+    } else {
+      fn();
+    }
+  };
+
+  scheduleSecondary(() => {
+    initHeroParallax();
+    initHeroParticles();   // already no-op on mobile
+    initGoldenDust();      // already no-op on mobile
+    initEnvSectionParallax(); // no-op on mobile
+    initSectionDividerReveal();
+    initEnvScrollWord();   // already no-op on mobile
+    initFormScrollWord();  // already no-op on mobile
+  });
 
   // Hero CTA
   const heroCta = document.getElementById('res-hero-cta');
@@ -1084,12 +1147,6 @@ function initAnimations() {
 
   // Env section header reveal
   initEnvHeaderReveal();
-
-  // AMBIENTE scroll-driven word (like TEMPO in index)
-  initEnvScrollWord();
-
-  // RESERVAR scroll-driven word — form section
-  initFormScrollWord();
 
   // Env card parallax + fade-in
   initEnvCardsParallax();
@@ -1132,8 +1189,9 @@ function initGoldenDust() {
   }
 }
 
-/* ── Environment section parallax — subtle depth on bg elements ── */
+/* ── Environment section parallax — desktop only, skip on mobile ── */
 function initEnvSectionParallax() {
+  if (isMobileDevice) return; // Parallax on scroll is janky on mobile
   const envBg = document.querySelector('.res-env-section-bg');
   if (!envBg) return;
   ScrollTrigger.create({
@@ -1145,28 +1203,30 @@ function initEnvSectionParallax() {
   });
 }
 
-/* ── Env Section Header Reveal — staggered fade-in + blur ─────── */
+/* ── Env Section Header Reveal — no blur on mobile ──────────────── */
 function initEnvHeaderReveal() {
   const headerEls = document.querySelectorAll('.res-env-header-reveal');
   if (!headerEls.length) return;
 
-  // Set initial hidden state
-  gsap.set(headerEls, { opacity: 0, y: 30, filter: 'blur(8px)' });
+  // Set initial hidden state — no blur on mobile
+  if (isMobileDevice) {
+    gsap.set(headerEls, { opacity: 0, y: 18 });
+  } else {
+    gsap.set(headerEls, { opacity: 0, y: 30, filter: 'blur(8px)' });
+  }
 
-  // Single ScrollTrigger on the header block — fires once only
   ScrollTrigger.create({
     trigger: '.res-env-section-header',
-    start: 'top 88%',
+    start: 'top 90%',
     once: true,
     onEnter: () => {
       headerEls.forEach(el => {
-        const d = parseFloat(el.dataset.delay || 0);
-        gsap.to(el, {
-          opacity: 1, y: 0, filter: 'blur(0px)',
-          duration: 1.2, ease: 'power3.out', delay: d,
-          onStart: () => el.classList.add('is-revealed'),
-          onComplete: () => gsap.set(el, { clearProps: 'filter' })
-        });
+        const d = isMobileDevice ? 0 : parseFloat(el.dataset.delay || 0);
+        const props = isMobileDevice
+          ? { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: d }
+          : { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out', delay: d,
+              onComplete: () => gsap.set(el, { clearProps: 'filter' }) };
+        gsap.to(el, { ...props, onStart: () => el.classList.add('is-revealed') });
       });
     }
   });
@@ -1227,36 +1287,48 @@ function initEnvCardsParallax() {
         if (entranceDone) return;
         entranceDone = true;
 
-        gsap.to(cards, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          filter: 'blur(0px)',
-          duration: 0.75,
-          ease: 'power3.out',
-          stagger: 0.07,
-          onComplete: () => {
-            // Clean up inline filter after animation so hover/CSS works normally
-            cards.forEach(c => gsap.set(c, { clearProps: 'filter' }));
-          }
-        });
+        if (isMobileDevice) {
+          // Mobile: no blur, no scale — pure opacity+y for compositor-thread animation
+          gsap.to(cards, {
+            opacity: 1,
+            y: 0,
+            duration: 0.55,
+            ease: 'power3.out',
+            stagger: 0.05,
+          });
+        } else {
+          gsap.to(cards, {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: 'blur(0px)',
+            duration: 0.75,
+            ease: 'power3.out',
+            stagger: 0.07,
+            onComplete: () => {
+              cards.forEach(c => gsap.set(c, { clearProps: 'filter' }));
+            }
+          });
+        }
       }
     });
 
-    // Subtle image parallax per card (no conflict with entrance)
-    cards.forEach(card => {
-      const img = card.querySelector('.res-env-card-img');
-      if (!img) return;
-      ScrollTrigger.create({
-        trigger: card,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true,
-        onUpdate: (self) => {
-          gsap.set(img, { y: (self.progress - 0.5) * 28 });
-        }
+    // Card image parallax — desktop only (scrub on every scroll event is too heavy on mobile)
+    if (!isMobileDevice) {
+      cards.forEach(card => {
+        const img = card.querySelector('.res-env-card-img');
+        if (!img) return;
+        ScrollTrigger.create({
+          trigger: card,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true,
+          onUpdate: (self) => {
+            gsap.set(img, { y: (self.progress - 0.5) * 28 });
+          }
+        });
       });
-    });
+    }
   };
 
   // Wait for JS to populate cards (API call), or run immediately if already populated
@@ -1311,15 +1383,19 @@ function initPage() {
   await preloadFrames();
   
   DOM.loaderBar.style.width = '100%';
+
+  // Mobile: shorter delay before reveal for faster time-to-interactive
+  const preloaderDelay = isMobileDevice ? 150 : 400;
+  const preloaderDuration = isMobileDevice ? 0.7 : 1.2;
+
   setTimeout(() => {
-    gsap.to(DOM.loader, {yPercent:-100, duration:1.2, ease:'power4.inOut', onComplete:() => {
+    gsap.to(DOM.loader, {yPercent:-100, duration:preloaderDuration, ease:'power4.inOut', onComplete:() => {
       DOM.loader.style.display = 'none';
       document.body.style.opacity = '1';
       initPage();
     }});
-  }, 400);
+  }, preloaderDelay);
 })();
 
 bindEvents();
 initDatepicker();
-

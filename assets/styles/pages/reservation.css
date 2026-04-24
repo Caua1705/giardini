@@ -74,6 +74,19 @@
     color: rgba(255, 255, 255, 0.95) !important;
     cursor: pointer;
   }
+
+  /* ── Disable noise-overlay blend mode on mobile — biggest global GPU
+     compositing win. mix-blend-mode forces GPU layer promotion for the
+     entire page stack, causing stutter on every scroll tick. ── */
+  .noise-overlay {
+    mix-blend-mode: normal !important;
+    opacity: 0.06 !important; /* Still provides grain feel, near-invisible */
+  }
+
+  /* Scanlines: remove on mobile (1px repeating-linear-gradient = lots of geometry) */
+  .res-hero-scanlines {
+    display: none !important;
+  }
 }
 
 /* Logo */
@@ -144,6 +157,8 @@
      Falls back to 100vh for older browsers. */
   height: 100vh;
   height: 100dvh;
+  /* Paint containment: hero repaints don't trigger full-page relayout */
+  contain: layout style;
 }
 /* When GSAP pins the hero (position:fixed), force it to cover full viewport */
 @media (max-width: 1024px) {
@@ -2519,4 +2534,184 @@ body{
     display: none !important;
   }
 
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE PERFORMANCE OPTIMIZER (≤ 767px)
+   Kills GPU-heavy ops: backdrop-filter, infinite animations,
+   will-change, and complex CSS filters.
+   This single block is the biggest scroll-fluidity win on mobile.
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+
+  /* ── 1. Kill all infinite animations that waste GPU cycles ─── */
+  .res-hero-orb-1,
+  .res-hero-orb-2 {
+    animation: none !important;
+  }
+  .res-section-ambient-1,
+  .res-section-ambient-2 {
+    animation: none !important;
+    display: none !important;
+  }
+  .res-step-bar::after {
+    animation: none !important;
+    display: none !important;
+  }
+  .res-submit-btn {
+    animation: none !important;
+  }
+  .res-section-label-dot::after {
+    animation: none !important;
+    display: none !important;
+  }
+  .res-env-card.is-selected {
+    animation: none !important;
+  }
+  .res-hero-kicker-dot {
+    animation: none !important;
+  }
+  .res-form-env-kicker-dot {
+    animation: none !important;
+  }
+  .res-section-label-dot {
+    animation: none !important;
+  }
+  .res-step-label::after {
+    animation: none !important;
+    display: none !important;
+  }
+  .res-to-footer-diamond {
+    animation: none !important;
+  }
+  .res-hero-cta::after {
+    animation: none !important;
+    display: none !important;
+  }
+  .res-hero-sep::after {
+    animation: none !important;
+    display: none !important;
+  }
+  /* Grain overlays: static on mobile (no animation needed) */
+  .res-hero-grain,
+  .res-env-section-grain,
+  .res-section-grain {
+    animation: none !important;
+  }
+
+  /* ── 2. Remove backdrop-filter (heaviest mobile GPU cost) ──── */
+  .res-pill,
+  .res-time-pill {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    /* Compensate with slightly more opaque bg for readability */
+    background: rgba(255,255,255,.1) !important;
+  }
+  .res-pill.active,
+  .res-time-pill.active {
+    background: rgba(43,74,59,.85) !important;
+  }
+  .rcd-trigger {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255,255,255,.1) !important;
+  }
+  .rcd-calendar {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(14,22,17,.98) !important;
+  }
+  .res-form-input {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255,255,255,.1) !important;
+  }
+  .res-feedback {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* ── 3. Clear will-change (prevents GPU layer promotion leaks) ── */
+  .res-scroll-word,
+  .res-scroll-word-text,
+  .res-env-scroll-word,
+  .res-env-scroll-word-text,
+  .res-submit-btn {
+    will-change: auto !important;
+  }
+  .res-env-card .res-env-card-img {
+    will-change: auto !important;
+  }
+
+  /* ── 4. Simplify transition durations (faster feel on touch) ── */
+  .res-env-card {
+    transition: border-color .25s ease, box-shadow .25s ease !important;
+  }
+  .res-env-card-img {
+    transition: filter .4s ease !important;
+    transform: none !important; /* disable parallax leftover */
+  }
+  .res-pill,
+  .res-time-pill {
+    transition: background .2s ease, border-color .2s ease, color .2s ease !important;
+  }
+  .res-form-input {
+    transition: background .25s ease, border-color .25s ease !important;
+  }
+
+  /* ── 5. Disable hover transforms on touch (no hover on mobile) ── */
+  .res-env-card:hover { transform: none !important; }
+  .res-pill:hover     { transform: none !important; }
+  .res-time-pill:hover { transform: none !important; }
+  .res-feedback-btn-primary:hover { transform: none !important; }
+  .res-feedback-btn-secondary:hover { transform: none !important; }
+
+  /* ── 6. Env section BG: static on mobile (no GSAP parallax) ── */
+  .res-env-section-bg {
+    transform: none !important;
+  }
+
+  /* ── 7. Canvas: remove expensive blur filter and transition on mobile ── */
+  /* The initial filter:blur(12px) + scale(1.05) + 2s transition is the
+     heaviest single CSS cost on mobile. Remove all of it.
+     GSAP controls #video-frame opacity for the entrance instead. */
+  #seq-canvas {
+    filter: none !important;
+    transform: none !important;
+    transition: none !important;
+    /* Let the canvas always be opaque — the #video-frame wrapper fades in */
+    opacity: 1 !important;
+  }
+  /* .ready class adds no extra cost (filter/transform already none) */
+  #seq-canvas.ready {
+    filter: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  /* ── 8. Paint containment on scrollable sections ────────────── */
+  /* Isolates each section's repaints from the rest of the document */
+  .res-env-section,
+  .res-section {
+    contain: layout style;
+  }
+
+  /* ── 9. Kill skeleton shimmer animation ─────────────────────── */
+  .res-env-card-skeleton,
+  .res-skeleton-pill {
+    animation: none !important;
+    background: rgba(255,255,255,.06) !important;
+  }
+
+  /* ── 10. Orbs: static (remove infinite transform animations) ── */
+  .res-hero-orb {
+    animation: none !important;
+    /* Keep visible but static */
+    opacity: 0.5 !important;
+  }
+
+  /* ── 11. Hero grain: reduce opacity even further on mobile ───── */
+  .res-hero-grain {
+    opacity: 0.02 !important;
+  }
 }
