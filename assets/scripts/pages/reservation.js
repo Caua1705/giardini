@@ -64,9 +64,18 @@ function paintCover(img) {
   const ch = canvas.height;
   const iw = img.naturalWidth;
   const ih = img.naturalHeight;
-  // Cover fill — well zoomed-out on mobile to show wide scene
-  const ZOOM = isMobileDevice ? 0.65 : 1.08;
-  const scale = Math.max(cw / iw, ch / ih) * ZOOM;
+
+  let scale;
+  if (isMobileDevice) {
+    // Mobile canvas is portrait, frames are landscape.
+    // Scale by HEIGHT so the frame always fills top-to-bottom (no black bars),
+    // then center-crop the left/right sides — identical to object-fit:cover portrait.
+    scale = ch / ih;
+  } else {
+    // Desktop: standard cover with slight zoom-in
+    scale = Math.max(cw / iw, ch / ih) * 1.08;
+  }
+
   const dw = Math.ceil(iw * scale);
   const dh = Math.ceil(ih * scale);
   const dx = Math.floor((cw - dw) / 2);
