@@ -325,11 +325,12 @@
     flex-direction: column !important;
     align-items: center !important;
     justify-content: flex-end !important;
+    height: 100dvh !important;
     padding-top: 0 !important;
-    padding-bottom: 14vh !important;
+    padding-bottom: 6vh !important;
     text-align: center !important;
   }
-  /* Content block */
+  /* Content block: force to bottom of container */
   .res-hero-content {
     width: 100% !important;
     max-width: 100% !important;
@@ -338,41 +339,41 @@
     align-items: center !important;
     text-align: center !important;
     padding: 0 !important;
-    margin-top: 0 !important;
+    margin-top: auto !important;
     margin-bottom: 0 !important;
   }
-  /* Kicker — slightly larger */
+  /* Kicker — noticeably larger */
   .res-hero-kicker {
     justify-content: center !important;
     width: 100% !important;
-    font-size: .65rem !important;
-    margin-bottom: 1.2rem !important;
+    font-size: .70rem !important;
+    margin-bottom: 1.4rem !important;
   }
-  /* Title — bigger for visual impact */
+  /* Title — MASSIVE for professional mobile impact */
   .res-hero-title {
-    font-size: clamp(3.5rem, 14vw, 5.2rem) !important;
+    font-size: clamp(3.8rem, 16vw, 5.8rem) !important;
     text-align: center !important;
     width: 100% !important;
-    margin-bottom: 1.1rem !important;
-    line-height: .9 !important;
+    margin-bottom: 1.2rem !important;
+    line-height: .88 !important;
   }
   /* Separator */
   .res-hero-sep {
     margin-left: auto !important;
     margin-right: auto !important;
-    margin-bottom: 1.1rem !important;
-    width: 52px !important;
+    margin-bottom: 1.2rem !important;
+    width: 60px !important;
   }
-  /* Body text — more legible */
+  /* Body text — very legible */
   .res-hero-body {
-    font-size: 1.1rem !important;
+    font-size: 1.15rem !important;
     text-align: center !important;
-    max-width: 330px !important;
+    max-width: 340px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    margin-bottom: 1.8rem !important;
+    margin-bottom: 2rem !important;
     line-height: 1.7 !important;
-    color: rgba(255,255,255,.75) !important;
+    color: rgba(255,255,255,.8) !important;
   }
   /* CTA button — bigger tap target */
   .res-hero-cta {
