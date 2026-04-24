@@ -16,11 +16,9 @@ const CONFIG_SEQ = {
   // Desktop: 150 frames (cinematic quality, ~3.2MB)
   TOTAL_FRAMES: isMobileDevice ? 60 : 150,
   // CRITICAL: 'reservation' folder has lighter frames (~21KB avg)
-  //           'reservation-mobile' has heavier frames (~63KB avg)
-  //           Mobile MUST use the lighter set for performance
-  FRAMES_DIR: isMobileDevice ? 'references/image-frames/reservation' : 'references/image-frames/reservation',
-  scrollVH: isMobileDevice ? 150 : 100,
-  // Mobile: tighter scrub = less intermediate frames decoded per tick
+  FRAMES_DIR: 'references/image-frames/reservation',
+  // Mobile: 250vh gives more scroll distance for the hero pin
+  scrollVH: isMobileDevice ? 250 : 100,
   scrub: isMobileDevice ? 0.3 : 1.0,
 };
 
@@ -66,8 +64,8 @@ function paintCover(img) {
   const ch = canvas.height;
   const iw = img.naturalWidth;
   const ih = img.naturalHeight;
-  // Cover fill + 8% zoom to crop out 'Veo' watermark at bottom-right
-  const ZOOM = 1.08;
+  // Cover fill — less zoom on mobile to show more of the frame
+  const ZOOM = isMobileDevice ? 1.03 : 1.08;
   const scale = Math.max(cw / iw, ch / ih) * ZOOM;
   const dw = Math.ceil(iw * scale);
   const dh = Math.ceil(ih * scale);
@@ -126,14 +124,34 @@ if (!isMobileDevice) {
 }
 gsap.ticker.lagSmoothing(0);
 
-// Safe scroll helper — uses Lenis on desktop, native scrollIntoView on mobile
+// Safe scroll helper — uses Lenis on desktop, lightweight tween on mobile
+// (No ScrollToPlugin needed — uses rAF + easing for fast, jank-free scroll)
+function _tweenScrollTo(targetY, duration) {
+  const startY = window.scrollY;
+  const dist = targetY - startY;
+  if (Math.abs(dist) < 2) return;
+  const startTime = performance.now();
+  const durationMs = duration * 1000;
+  function step(now) {
+    const elapsed = now - startTime;
+    const t = Math.min(elapsed / durationMs, 1);
+    // power2.out easing: 1 - (1-t)^2
+    const ease = 1 - (1 - t) * (1 - t);
+    window.scrollTo(0, startY + dist * ease);
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
 function safeScrollTo(target, opts = {}) {
   const el = typeof target === 'string' ? document.querySelector(target) : target;
   if (!el) return;
   if (lenis) {
     lenis.scrollTo(el, { offset: opts.offset || 0, duration: opts.duration || 1.2 });
   } else {
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Mobile: fast lightweight tween
+    const y = el.getBoundingClientRect().top + window.scrollY + (opts.offset || 0);
+    _tweenScrollTo(y, opts.duration || 0.7);
   }
 }
 
@@ -146,6 +164,8 @@ function safeScrollTo(target, opts = {}) {
  * @param {number} delay  - delay em ms antes de scrollar (default 350)
  */
 function scrollToStep(target, offset = -80, delay = 350) {
+  // Mobile: much shorter delay for snappier feel
+  const actualDelay = isMobileDevice ? Math.min(delay, 150) : delay;
   setTimeout(() => {
     const el = typeof target === 'string' ? document.querySelector(target) : target;
     if (!el) return;
@@ -153,9 +173,10 @@ function scrollToStep(target, offset = -80, delay = 350) {
     if (lenis) {
       lenis.scrollTo(y, { duration: 1.2 });
     } else {
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      // Mobile: fast lightweight tween (no ScrollToPlugin needed)
+      _tweenScrollTo(y, 0.6);
     }
-  }, delay);
+  }, actualDelay);
 }
 
 
