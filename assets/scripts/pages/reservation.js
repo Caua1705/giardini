@@ -144,13 +144,18 @@ function _tweenScrollTo(targetY, duration) {
 }
 
 function safeScrollTo(target, opts = {}) {
-  const el = typeof target === 'string' ? document.querySelector(target) : target;
-  if (!el) return;
   if (lenis) {
-    lenis.scrollTo(el, { offset: opts.offset || 0, duration: opts.duration || 1.2 });
+    lenis.scrollTo(target, { offset: opts.offset || 0, duration: opts.duration || 1.2 });
   } else {
     // Mobile: fast lightweight tween
-    const y = el.getBoundingClientRect().top + window.scrollY + (opts.offset || 0);
+    let y = 0;
+    if (typeof target === 'number') {
+      y = target + (opts.offset || 0);
+    } else {
+      const el = typeof target === 'string' ? document.querySelector(target) : target;
+      if (!el) return;
+      y = el.getBoundingClientRect().top + window.scrollY + (opts.offset || 0);
+    }
     _tweenScrollTo(y, opts.duration || 0.7);
   }
 }
@@ -1165,6 +1170,15 @@ function initAnimations() {
     heroCta.addEventListener('click', e => {
       e.preventDefault();
       safeScrollTo('#reservation-flow', {offset:-60,duration:1.8});
+    });
+  }
+
+  // Footer Top Button
+  const topoBtn = document.getElementById('ft-topo-btn');
+  if (topoBtn) {
+    topoBtn.addEventListener('click', e => {
+      e.preventDefault();
+      safeScrollTo(0, { duration: 1.5 });
     });
   }
 

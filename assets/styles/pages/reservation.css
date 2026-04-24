@@ -2559,6 +2559,10 @@ body{
     animation: resSpin 0.7s linear infinite !important;
     display: inline-block !important;
   }
+  /* Hide the spinner inside the submit button on mobile */
+  .res-submit-btn .res-spinner {
+    display: none !important;
+  }
 
   /* ── Mobile readability: brighten colors ─────────────────────────
      Dark editorial theme is elegant on desktop but too dim on
@@ -2871,6 +2875,11 @@ body{
   /* ── 15. Scroll-driven word: already hidden by CSS, ensure it ── */
   .res-scroll-word,
   .res-env-scroll-word {
+    display: none !important;
+  }
+
+  /* ── 16. Footer Adjustments ── */
+  .ft-clube-link {
     display: none !important;
   }
 }
