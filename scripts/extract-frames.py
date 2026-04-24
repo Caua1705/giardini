@@ -2,8 +2,8 @@ import cv2
 from pathlib import Path
 
 # CONFIG
-VIDEO_PATH = Path(__file__).parent / "hori2.mp4"
-OUTPUT_DIR = Path(__file__).parent.parent / "references" / "image-frames" / "reservation"
+VIDEO_PATH = Path(__file__).parent / "vertical1.mp4"
+OUTPUT_DIR = Path(__file__).parent.parent / "references" / "image-frames" / "menu-mobile"
 TOTAL_FRAMES = 150
 FRAME_WIDTH = 1280
 WEBP_QUALITY = 82

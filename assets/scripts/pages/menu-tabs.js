@@ -40,10 +40,16 @@
       const frame = document.getElementById('video-frame');
       const newW = frame.offsetWidth;
       const newH = frame.offsetHeight;
-      // Only resize if dimensions actually changed (avoids clearing canvas)
-      if (newW > 0 && newH > 0 && (canvas.width !== newW || canvas.height !== newH)) {
-        canvas.width = newW;
-        canvas.height = newH;
+      if (newW <= 0 || newH <= 0) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const targetW = Math.round(newW * dpr);
+      const targetH = Math.round(newH * dpr);
+      if (canvas.width !== targetW || canvas.height !== targetH) {
+        canvas.width  = targetW;
+        canvas.height = targetH;
+        canvas.style.width  = newW + 'px';
+        canvas.style.height = newH + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         // Canvas was cleared by dimension change — force redraw
         const savedIdx = currentFrameIndex;
         currentFrameIndex = -1;
@@ -59,15 +65,18 @@
       if (!img || !img.complete || img.naturalWidth === 0) return;
       if (canvas.width === 0 || canvas.height === 0) return;
       currentFrameIndex = index;
-      const cw = canvas.width;
-      const ch = canvas.height;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const cw = canvas.width / dpr;
+      const ch = canvas.height / dpr;
       const iw = img.naturalWidth;
       const ih = img.naturalHeight;
-      const scale = Math.max(cw / iw, ch / ih);
+      // Cover with slight zoom to avoid edge gaps
+      const scale = Math.max(cw / iw, ch / ih) * 1.02;
       const dw = iw * scale;
       const dh = ih * scale;
       const dx = (cw - dw) / 2;
       const dy = (ch - dh) / 2;
+      ctx.clearRect(0, 0, cw, ch);
       ctx.drawImage(img, dx, dy, dw, dh);
     }
 
@@ -270,6 +279,7 @@
           scrub: CONFIG.scrub,
           anticipatePin: isMobileDevice ? 1.5 : 1,
           onUpdate: (self) => {
+            resizeCanvas(); // keep canvas synced with any GSAP size changes
             const idx = Math.min(
               Math.floor(self.progress * CONFIG.TOTAL_FRAMES),
               CONFIG.TOTAL_FRAMES - 1
