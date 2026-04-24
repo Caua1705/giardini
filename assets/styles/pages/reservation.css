@@ -333,7 +333,7 @@
   /* Content block: absolute position — immune to GSAP flex overrides */
   .res-hero-content {
     position: absolute !important;
-    bottom: 38vh !important;
+    bottom: 28vh !important;
     left: 0 !important;
     right: 0 !important;
     padding: 0 1.75rem !important;
