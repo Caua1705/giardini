@@ -345,45 +345,45 @@
     text-align: center !important;
     margin: 0 !important;
   }
-  /* Kicker — noticeably larger */
+  /* Kicker */
   .res-hero-kicker {
     justify-content: center !important;
     width: 100% !important;
-    font-size: .70rem !important;
-    margin-bottom: 1.4rem !important;
+    font-size: .78rem !important;
+    margin-bottom: 1.6rem !important;
   }
-  /* Title — MASSIVE for professional mobile impact */
+  /* Title */
   .res-hero-title {
-    font-size: clamp(3.8rem, 16vw, 5.8rem) !important;
+    font-size: clamp(4.4rem, 17vw, 6.5rem) !important;
     text-align: center !important;
     width: 100% !important;
-    margin-bottom: 1.2rem !important;
+    margin-bottom: 1.3rem !important;
     line-height: .88 !important;
   }
   /* Separator */
   .res-hero-sep {
     margin-left: auto !important;
     margin-right: auto !important;
-    margin-bottom: 1.2rem !important;
-    width: 60px !important;
+    margin-bottom: 1.3rem !important;
+    width: 72px !important;
   }
-  /* Body text — very legible */
+  /* Body text */
   .res-hero-body {
-    font-size: 1.15rem !important;
+    font-size: 1.25rem !important;
     text-align: center !important;
-    max-width: 340px !important;
+    max-width: 360px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    margin-bottom: 2rem !important;
+    margin-bottom: 2.2rem !important;
     line-height: 1.7 !important;
-    color: rgba(255,255,255,.8) !important;
+    color: rgba(255,255,255,.82) !important;
   }
-  /* CTA button — bigger tap target */
+  /* CTA button */
   .res-hero-cta {
-    font-size: .75rem !important;
-    padding: 1.1rem 2.6rem !important;
+    font-size: .82rem !important;
+    padding: 1.2rem 3rem !important;
     margin: 0 auto !important;
-    letter-spacing: .18em !important;
+    letter-spacing: .2em !important;
   }
   /* Scroll indicator */
   .res-hero-scroll {
