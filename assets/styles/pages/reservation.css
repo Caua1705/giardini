@@ -2688,17 +2688,12 @@ body{
   }
 
   /* ── 7. Canvas: remove expensive blur filter and transition on mobile ── */
-  /* The initial filter:blur(12px) + scale(1.05) + 2s transition is the
-     heaviest single CSS cost on mobile. Remove all of it.
-     GSAP controls #video-frame opacity for the entrance instead. */
   #seq-canvas {
     filter: none !important;
     transform: none !important;
     transition: none !important;
-    /* Let the canvas always be opaque — the #video-frame wrapper fades in */
     opacity: 1 !important;
   }
-  /* .ready class adds no extra cost (filter/transform already none) */
   #seq-canvas.ready {
     filter: none !important;
     transform: none !important;
@@ -2706,7 +2701,6 @@ body{
   }
 
   /* ── 8. Paint containment on scrollable sections ────────────── */
-  /* Isolates each section's repaints from the rest of the document */
   .res-env-section,
   .res-section {
     contain: layout style;
@@ -2719,15 +2713,92 @@ body{
     background: rgba(255,255,255,.06) !important;
   }
 
-  /* ── 10. Orbs: static (remove infinite transform animations) ── */
-  .res-hero-orb {
-    animation: none !important;
-    /* Keep visible but static */
-    opacity: 0.5 !important;
+  /* ── 10. Orbs + ambient blobs: HIDE entirely on mobile ──────── */
+  /* Each radial-gradient orb is 600-700px and forces its own
+     compositing layer. Hiding them saves ~4 GPU layers. */
+  .res-hero-orb,
+  .res-hero-orb-1,
+  .res-hero-orb-2,
+  .res-section-ambient-1,
+  .res-section-ambient-2 {
+    display: none !important;
   }
 
-  /* ── 11. Hero grain: reduce opacity even further on mobile ───── */
-  .res-hero-grain {
-    opacity: 0.02 !important;
+  /* ── 11. Grain SVG textures: HIDE on mobile ─────────────────── */
+  /* SVG feTurbulence + mix-blend-mode:screen is one of the most
+     expensive rendering ops. On a 390px screen it's invisible. */
+  .res-hero-grain,
+  .res-env-section-grain,
+  .res-section-grain {
+    display: none !important;
+  }
+
+  /* ── 12. Decorative pseudo-elements: remove on mobile ───────── */
+  /* Section ::before (top gradient), ::after (vertical rule),
+     float-lines, corner accents, golden dust — all invisible
+     on small screens but force extra compositing layers. */
+  .res-section::before,
+  .res-section::after {
+    display: none !important;
+  }
+  .res-float-line,
+  .res-float-line-1,
+  .res-float-line-2 {
+    display: none !important;
+  }
+  .res-corner-accent {
+    display: none !important;
+  }
+  .res-golden-dust {
+    display: none !important;
+  }
+  .res-section-watermark {
+    display: none !important;
+  }
+  .res-section-top-line {
+    display: none !important;
+  }
+  .res-env-section-bg {
+    display: none !important;
+  }
+
+  /* ── 13. Env cards: remove ALL GPU filters on mobile ─────────── */
+  /* filter:saturate()+brightness() on each card image forces
+     GPU rasterization per-card. On mobile we show the natural
+     image colors (slightly dimmed via overlay gradient). */
+  .res-env-card-img {
+    filter: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+  .res-env-card:hover .res-env-card-img,
+  .res-env-card.is-selected .res-env-card-img {
+    filter: none !important;
+    transform: none !important;
+  }
+
+  /* Card container: instant state changes (no transition overhead) */
+  .res-env-card {
+    transition: none !important;
+  }
+  .res-env-card-overlay {
+    transition: none !important;
+  }
+  .res-env-card-hover-cue {
+    display: none !important;
+  }
+
+  /* ── 14. Form section: simplify backgrounds ─────────────────── */
+  .res-section {
+    background: linear-gradient(180deg, #0C1A10 0%, #131c15 100%) !important;
+  }
+  .res-env-section {
+    background: linear-gradient(180deg, #0C1A10 0%, #0e1812 100%) !important;
+  }
+
+  /* ── 15. Scroll-driven word: already hidden by CSS, ensure it ── */
+  .res-scroll-word,
+  .res-env-scroll-word {
+    display: none !important;
   }
 }
