@@ -67,10 +67,8 @@ function paintCover(img) {
 
   let scale;
   if (isMobileDevice) {
-    // Mobile canvas is portrait, frames are landscape.
-    // Scale by HEIGHT so the frame always fills top-to-bottom (no black bars),
-    // then center-crop the left/right sides — identical to object-fit:cover portrait.
-    scale = ch / ih;
+    // Scale by height then pull back to zoom out (show more of the scene)
+    scale = (ch / ih) * 0.78;
   } else {
     // Desktop: standard cover with slight zoom-in
     scale = Math.max(cw / iw, ch / ih) * 1.08;
