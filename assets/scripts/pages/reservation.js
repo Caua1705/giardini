@@ -64,8 +64,8 @@ function paintCover(img) {
   const ch = canvas.height;
   const iw = img.naturalWidth;
   const ih = img.naturalHeight;
-  // Cover fill — no extra zoom on mobile (1.0 = fit exactly, no crop)
-  const ZOOM = isMobileDevice ? 1.0 : 1.08;
+  // Cover fill — zoom out on mobile to show more of the scene
+  const ZOOM = isMobileDevice ? 0.82 : 1.08;
   const scale = Math.max(cw / iw, ch / ih) * ZOOM;
   const dw = Math.ceil(iw * scale);
   const dh = Math.ceil(ih * scale);
