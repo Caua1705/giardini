@@ -141,6 +141,17 @@
   z-index: 100; /* Above env section (z:40) so hero covers it during pin */
   background: #0C1A10; /* Match dark theme start */
 }
+@media (max-width: 768px) {
+  /* On mobile the green pin-spacer filler is visible between hero and
+     section 2 during scroll. Make it transparent since the canvas
+     covers the full viewport and we don't need a background fill. */
+  #hero-pin-wrapper {
+    background: transparent !important;
+  }
+  .pin-spacer {
+    background: transparent !important;
+  }
+}
 /* GSAP pin-spacer: ensure full width */
 .pin-spacer {
   width: 100% !important;
