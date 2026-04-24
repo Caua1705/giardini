@@ -2557,9 +2557,7 @@ body{
   /* ── Whitelist: functional animations that MUST keep running ──── */
   .res-spinner {
     animation: resSpin 0.7s linear infinite !important;
-  }
-  .loading .res-spinner {
-    display: block !important;
+    display: inline-block !important;
   }
 
   /* ── Mobile readability: brighten colors ─────────────────────────
@@ -2642,19 +2640,30 @@ body{
   .rcd-month {
     color: rgba(255,255,255,.9) !important;
   }
+
+  /* Datepicker days — normal available days */
   .rcd-day {
     color: rgba(255,255,255,.7) !important;
   }
-  .rcd-day.is-today {
+  .rcd-day.is-today:not(.is-selected) {
     color: rgba(183,147,88,1) !important;
   }
-  /* Selected day must override the base .rcd-day color */
+  /* Selected day — green background with white text */
   .rcd-day.is-selected {
     background: var(--c-primary) !important;
     color: #fff !important;
     font-weight: 600 !important;
     box-shadow: 0 4px 16px rgba(43,74,59,.5) !important;
     border: 1px solid rgba(255,255,255,.15) !important;
+  }
+  /* Disabled days (past + Mondays) — clearly dimmed + strikethrough */
+  .rcd-day.is-disabled,
+  .rcd-day.is-past {
+    color: rgba(255,255,255,.14) !important;
+    cursor: not-allowed !important;
+    text-decoration: line-through !important;
+    text-decoration-color: rgba(255,255,255,.08) !important;
+    pointer-events: none !important;
   }
 
   /* Section label */

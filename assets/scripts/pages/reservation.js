@@ -685,12 +685,11 @@ async function loadAvailability() {
     transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1);
   `;
   loadingEl.innerHTML = `
-    <span style="
+    <span class="res-spinner" style="
       display:inline-block;width:18px;height:18px;
       border:2px solid rgba(183,147,88,.2);
       border-top-color:rgba(183,147,88,.7);
       border-radius:50%;
-      animation:resSpin .8s linear infinite;
       flex-shrink:0;
     "></span>
     <span style="
