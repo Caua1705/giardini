@@ -261,6 +261,13 @@ let selectedGuests   = null;
 let selectedTime     = null;
 let dpViewYear       = new Date().getFullYear();
 let dpViewMonth      = new Date().getMonth();
+/**
+ * lastFetchedGuests — the party_size used in the last successful
+ * availability fetch. If the user selects a LOWER or EQUAL count,
+ * the existing slots are still valid and we skip the re-fetch.
+ * Only re-fetch when the new count is STRICTLY HIGHER.
+ */
+let lastFetchedGuests = null;
 
 
 /* ══════════════════════════════════════════════════════════════════
@@ -490,7 +497,8 @@ function resetTimeSlots() {
   // Remove any lingering loading message
   const existingLoader = document.getElementById('res-times-loading');
   if (existingLoader) existingLoader.remove();
-  selectedTime = null;
+  selectedTime      = null;
+  lastFetchedGuests = null; // Reset so next fetch always runs
   tryEnablePersonalFields();
   updateSummaryPills();
 }
@@ -605,8 +613,22 @@ function renderGuestPills(max) {
     p.addEventListener('click', () => {
       DOM.guestsContainer.querySelectorAll('.res-pill').forEach(b => b.classList.remove('active'));
       p.classList.add('active');
+      const newCount = Number(p.dataset.guests);
       selectedGuests = p.dataset.guests;
-      tryEnableDateInput(); tryLoadAvailability(); updateSummaryPills();
+      tryEnableDateInput();
+
+      // Only re-fetch availability when the new party size is STRICTLY
+      // HIGHER than the count used for the last fetch. If it's lower or
+      // equal, every slot that fit before still fits now — no new request.
+      const needsRefetch = lastFetchedGuests === null || newCount > lastFetchedGuests;
+      if (needsRefetch) {
+        tryLoadAvailability();
+      } else {
+        // Slots remain valid; just keep them and update summary/form state
+        tryEnablePersonalFields();
+        updateSummaryPills();
+      }
+
       // Auto-scroll para step de data
       scrollToStep('#step-date', -60, 350);
     });
@@ -755,6 +777,9 @@ async function loadAvailability() {
     if (pills.length) {
       gsap.fromTo(pills, {opacity:0,y:8,scale:.95}, {opacity:1,y:0,scale:1,duration:.4,ease:'power3.out',stagger:.04});
     }
+
+    // Record the guest count used for this successful fetch
+    lastFetchedGuests = Number(size);
 
     // Re-enable interaction
     if (timesArea) timesArea.style.pointerEvents = '';
