@@ -1,4 +1,4 @@
-# Reservation Hero Video
+# Reservation Hero Mobile Video
 
 ## Purpose
 Describe what this prompt generates.

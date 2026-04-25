@@ -1,4 +1,4 @@
-# Home Hero Frame
+# Reservation Hero Desktop Video
 
 ## Purpose
 Describe what this prompt generates.

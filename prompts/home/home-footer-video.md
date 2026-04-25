@@ -1,4 +1,4 @@
-# Menu Heart Video
+# Home Footer Video
 
 ## Purpose
 Describe what this prompt generates.

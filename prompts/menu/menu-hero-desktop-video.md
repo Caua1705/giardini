@@ -1,4 +1,4 @@
-# Menu Liquid Frame
+# Menu Hero Desktop Video
 
 ## Purpose
 Describe what this prompt generates.

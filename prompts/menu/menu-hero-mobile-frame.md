@@ -1,4 +1,4 @@
-# Reservation Hero Frame
+# Menu Hero Mobile Frame
 
 ## Purpose
 Describe what this prompt generates.

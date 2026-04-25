@@ -1,4 +1,4 @@
-# Menu Abstract Video
+# Menu Hero Mobile Video
 
 ## Purpose
 Describe what this prompt generates.
