@@ -363,10 +363,9 @@
     gap: clamp(1.25rem, 4vw, 2rem) !important;
   }
 
-  /* Image: tighter height for better proportion */
+  /* Hide experience image on mobile */
   #experience .exp-left {
-    height: clamp(32vh, 46vw, 42vh) !important;
-    border-radius: 18px !important;
+    display: none !important;
   }
 
   /* Section title: one step below hero headline (+10%) */
