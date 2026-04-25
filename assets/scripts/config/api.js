@@ -12,10 +12,11 @@ export const API_BASE_URL = 'https://api.giardini.cloud';
 
 /** Rotas relativas disponíveis no backend. */
 export const API_ROUTES = {
-  menu:          '/menu',
-  environments:  '/environments',
-  availability:  '/availability',
-  reservations:  '/reservations',
+  menu:               '/menu',
+  environments:       '/environments',
+  availability:       '/availability',
+  reservations:       '/reservations',
+  adminReservations:  '/admin/reservations',
 };
 
 /**
