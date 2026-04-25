@@ -16,8 +16,8 @@ const CONFIG_SEQ = {
   TOTAL_FRAMES: 150,
   // Use specialized mobile frames when on mobile device
   FRAMES_DIR: isMobileDevice 
-    ? 'references/image-frames/reservation-mobile' 
-    : 'references/image-frames/reservation',
+    ? 'references/image-frames/reservation/mobile' 
+    : 'references/image-frames/reservation/desktop',
   // Mobile: 200vh scroll distance (matches home-hero.js)
   // Desktop: 100vh
   scrollVH: isMobileDevice ? 200 : 100,
