@@ -435,27 +435,23 @@
 
           if (isMobile) {
             // ──────────────────────────────────────────────────────────
-            // MOBILE FRAME POSITIONING — stable, no per-device hacks.
-            //
-            // Use percentage-based top/left with center transform so
-            // GSAP can interpolate smoothly from initial → fullscreen.
-            // The frame sits at ~62% from top (visually below text/CTA)
-            // and centered horizontally. This eliminates the dead zone
-            // on first scroll because GSAP interpolates percentages
-            // (62%→50% top, 82%→100vw width) in a single smooth motion.
+            // MOBILE: Video frame covers entire hero as background.
+            // Starts fullscreen behind text content (z-index:1).
+            // Hero text floats on top with dark overlay for readability.
             // ──────────────────────────────────────────────────────────
             gsap.set(frame, {
               position: 'absolute',
-              left: '50%',
-              xPercent: -50,
-              top: '67%',
-              yPercent: -50,
-              width: '82%',
-              maxWidth: 340,
-              height: 'auto',
-              aspectRatio: '16 / 10',
-              borderRadius: 16,
-              zIndex: 15,
+              left: 0,
+              top: 0,
+              xPercent: 0,
+              yPercent: 0,
+              width: '100vw',
+              height: '100vh',
+              maxWidth: 'none',
+              maxHeight: 'none',
+              aspectRatio: 'auto',
+              borderRadius: 0,
+              zIndex: 1,
               boxShadow: 'none',
             });
           } else {
@@ -683,42 +679,10 @@
 
           if (isMobile) {
             // ──────────────────────────────────────────────────────────
-            // MOBILE EXPANSION — immediate response, zero dead zone.
-            //
-            // Initial state: top:62%, yPercent:-50, width:82%, centered
-            // Final state:   top:50%, yPercent:-50, width:100vw, height:100vh
-            //
-            // Because both start and end use percentage-based top with
-            // the same yPercent, GSAP interpolates a smooth 62%→50%
-            // movement. Combined with width 82%→100vw and height
-            // auto→100vh, the frame visibly grows from scroll pixel 0.
-            // No dead zone or delayed activation.
+            // MOBILE: Frame is already fullscreen from init.
+            // No expansion animation needed — just keep it pinned.
             // ──────────────────────────────────────────────────────────
-            const mobileFullscreen = {
-              width: '100vw',
-              height: '100vh',
-              top: '50%',
-              yPercent: -50,
-              left: '50%',
-              xPercent: -50,
-              maxWidth: 'none',
-              maxHeight: 'none',
-              borderRadius: 0,
-              boxShadow: 'none',
-              zIndex: 40,
-            };
-
-            gsap.to(frame, {
-              ...mobileFullscreen,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: wrapper,
-                start: 'top top',
-                end: () => `+=${scrollPx * 0.95}`,
-                scrub: 0.3,
-                onLeave: () => gsap.set(frame, mobileFullscreen),
-              }
-            });
+            // no-op: frame stays fullscreen throughout scroll
           } else {
             const desktopFullscreen = {
               width: '100vw',
