@@ -2790,6 +2790,83 @@ footer {
     transition: none !important;
   }
 
+  /* ═══ AGGRESSIVE GPU OPTIMIZATION FOR MOBILE FLUIDITY ═════════════
+     These rules eliminate hidden GPU costs that cause jank/stutter.
+     ═══════════════════════════════════════════════════════════════ */
+
+  /* Kill ALL will-change — each one creates a compositor layer eating VRAM */
+  *,
+  *::before,
+  *::after {
+    will-change: auto !important;
+  }
+
+  /* Kill ALL backdrop-filter — extremely expensive on mobile GPUs */
+  #cat-nav.is-pinned,
+  #cat-nav.is-pinned .cat-nav-inner,
+  #navbar.is-scrolled,
+  #mobile-menu {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Kill infinite shimmerLine animation on section headers — runs on ALL sections */
+  .section-header::after {
+    animation: none !important;
+    background-size: 100% 100% !important;
+  }
+
+  /* Kill hero beam rotation animation — runs infinitely even off-screen */
+  .loc-beam-border {
+    animation: none !important;
+  }
+
+  /* Kill all hover transitions on menu items — touch devices don't hover */
+  .menu-item {
+    transition: none !important;
+  }
+  .menu-item .item-name,
+  .menu-item .item-desc,
+  .menu-item .item-price {
+    transition: none !important;
+  }
+
+  /* Canvas: single layer, no filters */
+  #seq-canvas {
+    filter: none !important;
+    transform: none !important;
+    will-change: auto !important;
+    image-rendering: auto !important;
+  }
+  #seq-canvas.ready {
+    filter: none !important;
+    transition: opacity 0.8s ease !important;
+  }
+
+  /* Hero viewport: simplify compositing */
+  #hero-viewport {
+    will-change: auto !important;
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+  }
+
+  /* Loader tagline: kill infinite pulse */
+  .loader-tagline {
+    animation: none !important;
+    opacity: 0.5 !important;
+  }
+
+  /* Loader bar shimmer: kill infinite sweep */
+  .loader-bar::after {
+    animation: none !important;
+    display: none !important;
+  }
+
+  /* Pinned cat-nav: use solid bg instead of blur */
+  #cat-nav.is-pinned {
+    background: rgba(10, 20, 15, 0.97) !important;
+  }
+
   /* ── 8. MOBILE HIERARCHY & NAVIGATION REFINEMENT ──
      Requested by User: Make hierarchy cleaner, stronger, more professional. */
 

@@ -7,7 +7,7 @@
     }
 
     /* ── CANVAS FRAME VARS ── */
-    const isMobileDevice = window.innerWidth <= 767;
+    const isMobileDevice = window.innerWidth <= 767 || ('ontouchstart' in window);
 
     /* ── MOBILE SAFETY NET: Force all .reveal elements visible ──
        This runs independently of the preloader/initPage chain.
@@ -21,43 +21,46 @@
           el.style.clipPath = 'none';
           el.style.webkitClipPath = 'none';
         });
-      }, 2000);
+      }, 1000);
     }
 
     const CONFIG = {
-      TOTAL_FRAMES: isMobileDevice ? 80 : 150,
+      TOTAL_FRAMES: isMobileDevice ? 25 : 150,
+      FRAME_STEP: isMobileDevice ? 6 : 1,
       FRAMES_DIR: isMobileDevice
         ? 'references/image-frames/menu/mobile'
         : 'references/image-frames/menu/desktop',
-      scrollVH: isMobileDevice ? 80 : 85,
-      scrub: isMobileDevice ? 0.3 : 1.0,
+      scrollVH: isMobileDevice ? 60 : 85,
+      scrub: isMobileDevice ? 0.15 : 1.0,
     };
     const canvas = document.getElementById('seq-canvas');
     const ctx = canvas ? canvas.getContext('2d') : null;
     let frames = [];
     let currentFrameIndex = -1;
 
+    let _canvasW = 0, _canvasH = 0;
     function resizeCanvas() {
       if (!canvas) return;
       const frame = document.getElementById('video-frame');
       const newW = frame.offsetWidth;
       const newH = frame.offsetHeight;
       if (newW <= 0 || newH <= 0) return;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      // On mobile, cap DPR at 1 to halve GPU memory usage
+      const dpr = isMobileDevice ? 1 : Math.min(window.devicePixelRatio || 1, 2);
       const targetW = Math.round(newW * dpr);
       const targetH = Math.round(newH * dpr);
-      if (canvas.width !== targetW || canvas.height !== targetH) {
-        canvas.width  = targetW;
-        canvas.height = targetH;
-        canvas.style.width  = newW + 'px';
-        canvas.style.height = newH + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        // Canvas was cleared by dimension change — force redraw
-        const savedIdx = currentFrameIndex;
-        currentFrameIndex = -1;
-        if (frames.length > 0 && savedIdx >= 0) {
-          drawFrame(savedIdx);
-        }
+      if (targetW === _canvasW && targetH === _canvasH) return;
+      _canvasW = targetW;
+      _canvasH = targetH;
+      canvas.width  = targetW;
+      canvas.height = targetH;
+      canvas.style.width  = newW + 'px';
+      canvas.style.height = newH + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const savedIdx = currentFrameIndex;
+      currentFrameIndex = -1;
+      if (frames.length > 0 && savedIdx >= 0) {
+        drawFrame(savedIdx);
       }
     }
 
@@ -100,10 +103,15 @@
       return new Promise((resolve) => {
         let loaded = 0;
         const total = CONFIG.TOTAL_FRAMES;
+        const step = CONFIG.FRAME_STEP;
         frames = new Array(total);
+        // On mobile, load every Nth frame to slash bandwidth from 10MB to ~1.7MB
         for (let i = 0; i < total; i++) {
           const img = new Image();
-          img.src = `${CONFIG.FRAMES_DIR}/frame_${String(i).padStart(4, '0')}.webp`;
+          const srcIndex = i * step;
+          img.src = `${CONFIG.FRAMES_DIR}/frame_${String(srcIndex).padStart(4, '0')}.webp`;
+          // Decode asynchronously to avoid blocking main thread
+          if (img.decode) img.decode().catch(() => {});
           frames[i] = img;
           img.onload = img.onerror = () => {
             loaded++;
@@ -138,13 +146,15 @@
       let exitAnimsCreated = false;
 
       // ── Initial hidden state for hero elements ──
-      gsap.set('#el-kicker', { opacity: 0, y: 35, filter: 'blur(14px)' });
-      gsap.set('#el-h1a',    { opacity: 0, y: 45, filter: 'blur(16px)' });
-      gsap.set('#el-h1b',    { opacity: 0, y: -45, filter: 'blur(16px)' });
+      // Skip expensive filter:blur on mobile — use opacity+transform only
+      const _b = (px) => isMobileDevice ? {} : { filter: `blur(${px}px)` };
+      gsap.set('#el-kicker', { opacity: 0, y: 35, ..._b(14) });
+      gsap.set('#el-h1a',    { opacity: 0, y: 45, ..._b(16) });
+      gsap.set('#el-h1b',    { opacity: 0, y: -45, ..._b(16) });
       gsap.set('#el-h1-sep', { opacity: 0, scaleX: 0, transformOrigin: 'left' });
-      gsap.set('#el-body',   { opacity: 0, y: 30, filter: 'blur(12px)' });
-      gsap.set('#el-cta',    { opacity: 0, y: 25, filter: 'blur(10px)' });
-      gsap.set('#el-scroll', { opacity: 0, y: 15, filter: 'blur(8px)' });
+      gsap.set('#el-body',   { opacity: 0, y: 30, ..._b(12) });
+      gsap.set('#el-cta',    { opacity: 0, y: 25, ..._b(10) });
+      gsap.set('#el-scroll', { opacity: 0, y: 15, ..._b(8) });
       gsap.set('#navbar',    { opacity: 0 });
       gsap.set('#video-frame', { opacity: 0, scale: 0.94 });
 
@@ -161,17 +171,20 @@
           if (originalOnComplete) originalOnComplete();
         };
         const tl = gsap.timeline(opts);
+        // On mobile: shorter durations, no filter:blur (GPU-expensive)
+        const _bf = isMobileDevice ? {} : { filter: 'blur(0px)' };
+        const _d = (d) => isMobileDevice ? d * 0.6 : d;
         tl
-          .to('#navbar', { opacity: 1, duration: 0.8, ease: 'power2.out' })
-          .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.25, ease: 'expo.out' }, '-=0.5')
-          .add('titleShow', '-=0.8')
-          .to('#el-h1a', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'expo.out' }, 'titleShow')
-          .to('#video-frame', { opacity: 1, scale: 1, duration: 1.8, ease: 'power4.out' }, 'titleShow')
-          .to('#el-h1b', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'expo.out' }, 'titleShow+=0.18')
-          .to('#el-h1-sep', { opacity: 1, scaleX: 1, duration: 1.2, ease: 'expo.out' }, 'titleShow+=0.30')
-          .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' }, 'titleShow+=0.55')
-          .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, 'titleShow+=0.75')
-          .to('#el-scroll', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power2.out' }, 'titleShow+=1.05');
+          .to('#navbar', { opacity: 1, duration: _d(0.8), ease: 'power2.out' })
+          .to('#el-kicker', { opacity: 1, y: 0, ..._bf, duration: _d(1.25), ease: 'expo.out' }, '-=0.3')
+          .add('titleShow', '-=0.5')
+          .to('#el-h1a', { opacity: 1, y: 0, ..._bf, duration: _d(1.5), ease: 'expo.out' }, 'titleShow')
+          .to('#video-frame', { opacity: 1, scale: 1, duration: _d(1.8), ease: 'power4.out' }, 'titleShow')
+          .to('#el-h1b', { opacity: 1, y: 0, ..._bf, duration: _d(1.5), ease: 'expo.out' }, 'titleShow+=0.12')
+          .to('#el-h1-sep', { opacity: 1, scaleX: 1, duration: _d(1.2), ease: 'expo.out' }, 'titleShow+=0.20')
+          .to('#el-body', { opacity: 1, y: 0, ..._bf, duration: _d(1.2), ease: 'power3.out' }, 'titleShow+=0.35')
+          .to('#el-cta', { opacity: 1, y: 0, ..._bf, duration: _d(1.0), ease: 'power3.out' }, 'titleShow+=0.45')
+          .to('#el-scroll', { opacity: 1, y: 0, ..._bf, duration: _d(0.9), ease: 'power2.out' }, 'titleShow+=0.6');
         return tl;
       }
 
@@ -282,7 +295,7 @@
           scrub: CONFIG.scrub,
           anticipatePin: isMobileDevice ? 1.5 : 1,
           onUpdate: (self) => {
-            resizeCanvas(); // keep canvas synced with any GSAP size changes
+            // REMOVED resizeCanvas() from here — was called 60x/sec causing massive jank on mobile
             const idx = Math.min(
               Math.floor(self.progress * CONFIG.TOTAL_FRAMES),
               CONFIG.TOTAL_FRAMES - 1
@@ -361,7 +374,7 @@
                 initPage();
             }});
         }
-    }, 6000);
+    }, isMobileDevice ? 3500 : 6000);
 
     function initPage() {
       const nav = document.getElementById('navbar');

@@ -30,13 +30,12 @@
     }
   </script>
 
-  <!-- Icons -->
-  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <!-- Icons (deferred — not critical for first paint) -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
 
-  <!-- GSAP + Lenis -->
+  <!-- GSAP (no Lenis — unused on menu page) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
 
   <!-- Styles — unified green-atmospheric theme -->
   <link rel="stylesheet" href="assets/styles/base.css">
@@ -50,22 +49,12 @@
 </head>
 
 <body class="antialiased">
-  <!-- Custom Cursor (desktop only) -->
+  <!-- Custom Cursor (desktop only — hidden on mobile via CSS) -->
   <div id="custom-cursor" aria-hidden="true"></div>
   <div id="custom-cursor-ring" aria-hidden="true"></div>
 
-  <!-- Lateral Vignette -->
-  <div id="lateral-vignette" aria-hidden="true"></div>
-
-  <!-- Noise -->
+  <!-- Noise (hidden on mobile via CSS) -->
   <div class="noise-overlay"></div>
-
-  <!-- Ambient canvas (hidden in light theme) -->
-  <canvas id="particle-canvas" aria-hidden="true"></canvas>
-
-  <!-- Ambient menu orbs (hidden in light theme) -->
-  <div id="menu-orb-1" aria-hidden="true"></div>
-  <div id="menu-orb-2" aria-hidden="true"></div>
 
   <!-- Preloader -->
   <div class="loader" id="loader">
