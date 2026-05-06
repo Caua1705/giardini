@@ -201,6 +201,70 @@
     -webkit-backdrop-filter: none !important;
   }
 
+  /* ═══ AGGRESSIVE GPU OPTIMIZATION FOR MOBILE FLUIDITY ═════════════
+     These rules eliminate hidden GPU costs that cause jank/stutter.
+     ═══════════════════════════════════════════════════════════════ */
+
+  /* Kill ALL will-change — each one creates a compositor layer eating VRAM */
+  *,
+  *::before,
+  *::after {
+    will-change: auto !important;
+  }
+
+  /* Kill ALL backdrop-filter — extremely expensive on mobile GPUs */
+  #navbar,
+  #navbar.is-scrolled,
+  #mobile-menu,
+  .loc-btn-shimmer {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Kill all hover transitions on cards — touch devices don't hover */
+  .feat-card,
+  .feat-card-inner,
+  .clube-stat-card,
+  .exp-pillar {
+    transition: none !important;
+  }
+
+  /* Canvas: single layer, no filters */
+  #seq-canvas {
+    filter: none !important;
+    transform: none !important;
+    image-rendering: auto !important;
+  }
+  #seq-canvas.ready {
+    filter: none !important;
+  }
+
+  /* Hero viewport: simplify compositing */
+  #hero-viewport {
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+  }
+
+  /* Section 2/3 blur reveals: kill filter on mobile (JS uses _bi helper instead) */
+  .sec2-title,
+  .exp-pillar,
+  .feat-card,
+  .feat-reveal,
+  .sect3-line-inner,
+  #s3-logo-badge {
+    filter: none !important;
+  }
+
+  /* Logo badge breathe animation — runs infinitely */
+  #s3-logo-badge-ring {
+    animation: none !important;
+  }
+
+  /* Section 5 video background: reduce quality for GPU savings */
+  #experience-video video {
+    image-rendering: auto !important;
+  }
+
   /* Hide scroll progress indicator — desktop-only UI, invisible on mobile */
   .scroll-indicator-wrap {
     display: none !important;

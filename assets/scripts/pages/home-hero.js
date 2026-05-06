@@ -221,10 +221,12 @@
          IS_MOBILE = true only for real phones (≤767px).
          900×700/1024×768 laptops are NEVER flagged mobile here.
       ══════════════════════════════════════════════════════════════ */
-      const IS_MOBILE = window.innerWidth <= 767;
+      const IS_MOBILE = window.innerWidth <= 767 || ('ontouchstart' in window && window.innerWidth <= 767);
+      // Mobile: skip filter:blur entirely — uses only opacity+transform (compositor-only)
+      const _bi = (px) => IS_MOBILE ? {} : { filter: `blur(${px}px)` };
       /* ── PRELOAD HIDING ─────────────────────────────────────────── */
-      gsap.set(['#el-kicker', '#el-body', '#el-cta', '#el-meta', '#hero-explore-scroll', '#el-badge'], { opacity: 0, y: 15, filter: 'blur(8px)' });
-      gsap.set(['#el-h1a', '#el-h1b'], { y: '108%', filter: 'blur(10px)' });
+      gsap.set(['#el-kicker', '#el-body', '#el-cta', '#el-meta', '#hero-explore-scroll', '#el-badge'], { opacity: 0, y: 15, ..._bi(8) });
+      gsap.set(['#el-h1a', '#el-h1b'], { y: '108%', ..._bi(10) });
       gsap.set('#video-frame', { opacity: 0, scale: 0.94 });
       gsap.set('#navbar', { opacity: 0 });
       /* ══════════════════════════════════════════════════════════════
@@ -238,10 +240,11 @@
          scrub        → suavidade do ScrollTrigger (true = 1:1, número = lag)
       ══════════════════════════════════════════════════════════════ */
       const CONFIG = {
-        TOTAL_FRAMES: 150,
+        TOTAL_FRAMES: IS_MOBILE ? 30 : 150,
+        FRAME_STEP: IS_MOBILE ? 5 : 1,
         FRAMES_DIR: 'references/image-frames/home',   // frame sequence for home hero
-        scrollVH: 380,        // % do viewport — aumentado para o vídeo fluir até o fim do scroll
-        scrub: 1.0,        // 1.0 = seguindo o scroll com pequeno amortecimento suave
+        scrollVH: IS_MOBILE ? 200 : 380,
+        scrub: IS_MOBILE ? 0.15 : 1.0,
       };
       /* ══ GSAP ══════════════════════════════════════════════════════ */
       gsap.registerPlugin(ScrollTrigger);
@@ -251,17 +254,20 @@
         element.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
         element.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
       };
-      /* ══ LENIS (smooth scroll, corretamente sincronizado) ══════════ */
-      const lenis = new Lenis({
-        duration: 1.05,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        orientation: 'vertical',
-        smoothWheel: true,
-        smoothTouch: false,
-      });
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-      gsap.ticker.lagSmoothing(0);
+      /* ══ LENIS (smooth scroll — desktop only, wastes resources on mobile) ══ */
+      let lenis = null;
+      if (!IS_MOBILE && typeof Lenis !== 'undefined') {
+        lenis = new Lenis({
+          duration: 1.05,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          orientation: 'vertical',
+          smoothWheel: true,
+          smoothTouch: false,
+        });
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+        gsap.ticker.lagSmoothing(0);
+      }
 
       // ── SMOOTH SCROLL FOR MENU LINKS (Optimized) ──────────────────
       document.querySelectorAll('.nav-link, .ft-nav-link, .nav-logo').forEach(anchor => {
@@ -288,45 +294,49 @@
       let frames = [];      // array de Image objects pré-carregados
       let currentFrameIndex = -1; // evita repintar o mesmo frame
       /* Redimensiona o canvas para o tamanho do #video-frame */
+      let _cW = 0, _cH = 0;
       function resizeCanvas() {
         const frame = document.getElementById('video-frame');
         const w = frame.offsetWidth;
         const h = frame.offsetHeight;
-        // Usa devicePixelRatio para nitidez em telas retina/mobile
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = w * dpr;
-        canvas.height = h * dpr;
-        canvas.style.width = w + 'px';
+        if (w <= 0 || h <= 0) return;
+        // Cap DPR at 1 on mobile to halve GPU memory usage
+        const dpr = IS_MOBILE ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+        const tw = Math.ceil(w * dpr) + 1;
+        const th = Math.ceil(h * dpr);
+        if (tw === _cW && th === _cH) return;
+        _cW = tw; _cH = th;
+        canvas.width = tw;
+        canvas.height = th;
+        canvas.style.width = (w + 1) + 'px';
         canvas.style.height = h + 'px';
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         // Repinta frame atual após resize
         if (frames.length > 0 && currentFrameIndex >= 0) {
           const savedIdx = currentFrameIndex;
-          currentFrameIndex = -1; // força repaint
+          currentFrameIndex = -1;
           drawFrame(savedIdx);
         }
       }
-      /* Sincroniza canvas com o tamanho atual do #video-frame durante scroll */
+      /* Sincroniza canvas com o tamanho atual do #video-frame durante scroll
+         On mobile: SKIP entirely — was called 60x/sec causing massive jank.
+         resizeCanvas is only called on window resize (debounced). */
       function syncCanvasSize() {
+        if (IS_MOBILE) return false;
         const frame = document.getElementById('video-frame');
         const w = frame.offsetWidth;
         const h = frame.offsetHeight;
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        
-        // Math.ceil + 1px reserva garante que o canvas mate qualquer frestinha na lateral direita
         const targetW = Math.ceil(w * dpr) + 1; 
         const targetH = Math.ceil(h * dpr);
-        
-        // Threshold reduzido para 0.1 para precisão absoluta durante a expansão (mata tremedeira)
-        if (Math.abs(canvas.width - targetW) > 0.1 || Math.abs(canvas.height - targetH) > 0.1) {
-          canvas.width = targetW;
-          canvas.height = targetH;
-          canvas.style.width = (w + 1) + 'px'; // Estica 1px a mais pra garantir cobertura total
-          canvas.style.height = h + 'px';
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          return true; // canvas foi redimensionado
-        }
-        return false;
+        if (targetW === _cW && targetH === _cH) return false;
+        _cW = targetW; _cH = targetH;
+        canvas.width = targetW;
+        canvas.height = targetH;
+        canvas.style.width = (w + 1) + 'px';
+        canvas.style.height = h + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        return true;
       }
       /* Desenha um frame no canvas preservando aspect ratio (object-fit: cover) */
       function drawFrame(index) {
@@ -356,12 +366,16 @@
       function preloadFrames() {
         return new Promise((resolve) => {
           let loaded = 0;
-          // On mobile: preload 110 frames for complete page-turn animation. Desktop gets all 150.
-          const total = IS_MOBILE ? Math.min(110, CONFIG.TOTAL_FRAMES) : CONFIG.TOTAL_FRAMES;
+          const total = CONFIG.TOTAL_FRAMES;
+          const step = CONFIG.FRAME_STEP;
           frames = new Array(total);
+          // On mobile: load every Nth frame to slash bandwidth from 17.8MB to ~1MB
           for (let i = 0; i < total; i++) {
             const img = new Image();
-            img.src = `${CONFIG.FRAMES_DIR}/frame_${String(i).padStart(4, '0')}.webp`;
+            const srcIndex = i * step;
+            img.src = `${CONFIG.FRAMES_DIR}/frame_${String(srcIndex).padStart(4, '0')}.webp`;
+            // Decode asynchronously to avoid blocking main thread
+            if (img.decode) img.decode().catch(() => {});
             frames[i] = img;
             img.onload = img.onerror = () => {
               loaded++;
@@ -504,13 +518,13 @@
           }
         } else {
           // Normal page load at top: run entrance animation
-          gsap.set('#el-kicker', { opacity: 0, y: 35, filter: 'blur(14px)' });
-          gsap.set('#el-h1a', { opacity: 0, y: 45, filter: 'blur(16px)' });
-          gsap.set('#el-h1b', { opacity: 0, y: -45, filter: 'blur(16px)' });
-          gsap.set('#el-body', { opacity: 0, y: 30, filter: 'blur(12px)' });
-          gsap.set('#el-cta', { opacity: 0, y: 25, filter: 'blur(10px)' });
-          gsap.set('#el-meta', { opacity: 0, y: 15, filter: 'blur(8px)' });
-          gsap.set('#hero-explore-scroll', { opacity: 0, y: 15, filter: 'blur(8px)' });
+          gsap.set('#el-kicker', { opacity: 0, y: 35, ..._bi(14) });
+          gsap.set('#el-h1a', { opacity: 0, y: 45, ..._bi(16) });
+          gsap.set('#el-h1b', { opacity: 0, y: -45, ..._bi(16) });
+          gsap.set('#el-body', { opacity: 0, y: 30, ..._bi(12) });
+          gsap.set('#el-cta', { opacity: 0, y: 25, ..._bi(10) });
+          gsap.set('#el-meta', { opacity: 0, y: 15, ..._bi(8) });
+          gsap.set('#hero-explore-scroll', { opacity: 0, y: 15, ..._bi(8) });
           gsap.set(['#el-badge'], { opacity: 0, y: 15 });
           gsap.set('#navbar', { opacity: 0 });
           gsap.set('#hero-sep', { opacity: 0, scaleX: 0, transformOrigin: 'left center' });
@@ -531,20 +545,23 @@
             }
             }
           });
+          // Mobile: shorter durations, no filter:blur (GPU-expensive)
+          const _bf = IS_MOBILE ? {} : { filter: 'blur(0px)' };
+          const _d = (d) => IS_MOBILE ? d * 0.6 : d;
           tl
-            .to('#navbar', { opacity: 1, duration: 0.8, ease: 'power2.out' })
-            .to('#el-kicker', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.25, ease: 'expo.out' }, '-=0.5')
-            .add('titleShow', '-=0.8')
-            .to('#el-h1a', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'expo.out' }, 'titleShow')
-            .to(frame, { opacity: 1, scale: 1, duration: 1.8, ease: 'power4.out' }, 'titleShow')
-            .to('#el-h1b', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'expo.out' }, 'titleShow+=0.18')
-            .to('#hero-sep', { opacity: 1, scaleX: 1, duration: 1.2, ease: 'power3.out' }, 'titleShow+=0.45')
-            .to('#el-body', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' }, 'titleShow+=0.55')
-            .to('#el-cta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }, 'titleShow+=0.75')
-            .to('#el-meta', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power2.out' }, 'titleShow+=0.95')
-            .to('#hero-explore-scroll', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power2.out' }, 'titleShow+=1.05')
-            .to(['#el-badge'], { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', stagger: 0.15 }, 'titleShow+=1.1')
-            .to('#hero-wm',  { opacity: 1, duration: 2.5, ease: 'power1.out' }, 'titleShow+=0.8');
+            .to('#navbar', { opacity: 1, duration: _d(0.8), ease: 'power2.out' })
+            .to('#el-kicker', { opacity: 1, y: 0, ..._bf, duration: _d(1.25), ease: 'expo.out' }, '-=0.3')
+            .add('titleShow', '-=0.5')
+            .to('#el-h1a', { opacity: 1, y: 0, ..._bf, duration: _d(1.5), ease: 'expo.out' }, 'titleShow')
+            .to(frame, { opacity: 1, scale: 1, duration: _d(1.8), ease: 'power4.out' }, 'titleShow')
+            .to('#el-h1b', { opacity: 1, y: 0, ..._bf, duration: _d(1.5), ease: 'expo.out' }, 'titleShow+=0.12')
+            .to('#hero-sep', { opacity: 1, scaleX: 1, duration: _d(1.2), ease: 'power3.out' }, 'titleShow+=0.30')
+            .to('#el-body', { opacity: 1, y: 0, ..._bf, duration: _d(1.2), ease: 'power3.out' }, 'titleShow+=0.40')
+            .to('#el-cta', { opacity: 1, y: 0, ..._bf, duration: _d(1.0), ease: 'power3.out' }, 'titleShow+=0.50')
+            .to('#el-meta', { opacity: 1, y: 0, ..._bf, duration: _d(0.9), ease: 'power2.out' }, 'titleShow+=0.60')
+            .to('#hero-explore-scroll', { opacity: 1, y: 0, ..._bf, duration: _d(0.9), ease: 'power2.out' }, 'titleShow+=0.70')
+            .to(['#el-badge'], { opacity: 1, y: 0, duration: _d(0.8), ease: 'power2.out', stagger: 0.15 }, 'titleShow+=0.75')
+            .to('#hero-wm',  { opacity: 1, duration: _d(2.5), ease: 'power1.out' }, 'titleShow+=0.5');
 
           // Graceful interruption: fast-forward intro if user interacts to avoid broken scroll states
           const skipIntro = () => {
@@ -792,8 +809,8 @@
                 opacity: 1,
                 y: 0,
                 scale: 1,
-                filter: 'blur(0px)',
-                duration: 1.6,
+                ...( IS_MOBILE ? {} : { filter: 'blur(0px)' }),
+                duration: IS_MOBILE ? 0.9 : 1.6,
                 ease: 'power3.out'
               }, 'start')
               .to('.exp-left-img', {
@@ -805,27 +822,27 @@
               .to('.sec2-title', {
                 opacity: 1,
                 y: 0,
-                filter: 'blur(0px)',
-                duration: 1.0,
+                ...( IS_MOBILE ? {} : { filter: 'blur(0px)' }),
+                duration: IS_MOBILE ? 0.6 : 1.0,
                 ease: 'power3.out'
               }, 'start+=0.3')
               .to('.exp-pillar', {
                 opacity: 1,
                 y: 0,
-                filter: 'blur(0px)',
-                duration: 1.0,
+                ...( IS_MOBILE ? {} : { filter: 'blur(0px)' }),
+                duration: IS_MOBILE ? 0.6 : 1.0,
                 ease: 'power3.out',
-                stagger: 0.4
-              }, 'start+=0.7');
+                stagger: IS_MOBILE ? 0.2 : 0.4
+              }, 'start+=0.5');
           }
         });
         // ── SECTION 3 ANIMATION (Gemini-style) ─────────────────────
-        gsap.set('.feat-card', { opacity: 0, y: 70, scale: 0.94, filter: 'blur(6px)' });
-        gsap.set('.feat-reveal', { opacity: 0, y: 28, filter: 'blur(6px)' });
+        gsap.set('.feat-card', { opacity: 0, y: 70, scale: 0.94, ..._bi(6) });
+        gsap.set('.feat-reveal', { opacity: 0, y: 28, ..._bi(6) });
         // Title lines start clipped
         gsap.set('.sect3-line-inner', { y: '110%', opacity: 0 });
         // Logo badge starts hidden
-        gsap.set('#s3-logo-badge', { opacity: 0, scale: 0.6, y: 20, filter: 'blur(12px)' });
+        gsap.set('#s3-logo-badge', { opacity: 0, scale: 0.6, y: 20, ..._bi(12) });
         ScrollTrigger.create({
           trigger: '#featured',
           start: 'top 72%',
@@ -833,30 +850,30 @@
           onEnter: () => {
             const tFeat = gsap.timeline();
             tFeat.add('start')
-              // 1. Label animationIn blur
+              // 1. Label animationIn
               .to('.feat-reveal', {
                 opacity: 1,
                 y: 0,
-                filter: 'blur(0px)',
-                duration: 0.9,
+                ...( IS_MOBILE ? {} : { filter: 'blur(0px)' }),
+                duration: IS_MOBILE ? 0.55 : 0.9,
                 ease: 'power3.out',
                 stagger: 0.08
               }, 'start')
-              // 2. Heading: each line slides up from clip (Gemini textSlide)
+              // 2. Heading: each line slides up from clip
               .to('.sect3-line-inner', {
                 y: '0%',
                 opacity: 1,
-                duration: 1.0,
+                duration: IS_MOBILE ? 0.6 : 1.0,
                 ease: 'expo.out',
                 stagger: 0.14
               }, 'start+=0.1')
-              // 3. Cards: stagger with blur + scale (Gemini animationIn energy)
+              // 3. Cards: stagger with scale
               .to('.feat-card', {
                 opacity: 1,
                 y: 0,
                 scale: 1,
-                filter: 'blur(0px)',
-                duration: 1.1,
+                ...( IS_MOBILE ? {} : { filter: 'blur(0px)' }),
+                duration: IS_MOBILE ? 0.7 : 1.1,
                 ease: 'power4.out',
                 stagger: 0.18,
                 clearProps: 'filter'
@@ -866,8 +883,8 @@
                 opacity: 1,
                 scale: 1,
                 y: 0,
-                filter: 'blur(0px)',
-                duration: 1.4,
+                ...( IS_MOBILE ? {} : { filter: 'blur(0px)' }),
+                duration: IS_MOBILE ? 0.8 : 1.4,
                 ease: 'elastic.out(1, 0.75)',
               }, 'start+=0.6');
           }
@@ -1146,12 +1163,12 @@
       if (hamburger && mobileMenu) {
         hamburger.addEventListener('click', () => {
           mobileMenu.classList.add('open');
-          if (typeof lenis !== 'undefined') lenis.stop();
+          if (lenis) lenis.stop();
         });
 
         const closeMenu = () => {
           mobileMenu.classList.remove('open');
-          if (typeof lenis !== 'undefined') lenis.start();
+          if (lenis) lenis.start();
         };
 
         if (mobileClose) mobileClose.addEventListener('click', closeMenu);
@@ -1170,8 +1187,7 @@
             closeMenu();
 
             const target = (href === '#' || href === '') ? 0 : document.querySelector(href);
-            if (target !== null && typeof lenis !== 'undefined') {
-              // Small delay to let the menu close animation start
+            if (target !== null && lenis) {
               setTimeout(() => {
                 lenis.scrollTo(target, {
                   offset: 0,
