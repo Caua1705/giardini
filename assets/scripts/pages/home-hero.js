@@ -297,8 +297,9 @@
       let _cW = 0, _cH = 0;
       function resizeCanvas() {
         const frame = document.getElementById('video-frame');
-        const w = frame.offsetWidth;
-        const h = frame.offsetHeight;
+        // Mobile: use viewport dimensions directly — frame may not have GSAP sizes yet
+        const w = IS_MOBILE ? window.innerWidth : frame.offsetWidth;
+        const h = IS_MOBILE ? window.innerHeight : frame.offsetHeight;
         if (w <= 0 || h <= 0) return;
         // Cap DPR at 1 on mobile to halve GPU memory usage
         const dpr = IS_MOBILE ? 1 : Math.min(window.devicePixelRatio || 1, 2);
@@ -355,10 +356,7 @@
         let sw = iw;
         let sh = ih;
 
-        if (IS_MOBILE) {
-          // Corta os 15% inferiores da imagem original para eliminar a linha/sombra branca nativa
-          sh = ih * 0.85;
-        }
+        // Use full image — no crop needed for mobile frames
 
         // Cover: escala para preencher mantendo proporção com a área útil
         const scale = Math.max(cw / sw, ch / sh);
