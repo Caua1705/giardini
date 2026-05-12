@@ -242,7 +242,7 @@
       const CONFIG = {
         TOTAL_FRAMES: IS_MOBILE ? 30 : 150,
         FRAME_STEP: IS_MOBILE ? 5 : 1,
-        FRAMES_DIR: 'references/image-frames/home',   // frame sequence for home hero
+        FRAMES_DIR: IS_MOBILE ? 'references/image-frames/home-mobile' : 'references/image-frames/home',
         scrollVH: IS_MOBILE ? 200 : 380,
         scrub: IS_MOBILE ? 0.15 : 1.0,
       };
@@ -345,17 +345,23 @@
         const img = frames[index];
         if (!img || !img.complete || img.naturalWidth === 0) return;
         currentFrameIndex = index;
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const dpr = IS_MOBILE ? 1 : Math.min(window.devicePixelRatio || 1, 2);
         const cw = canvas.width / dpr;
         const ch = canvas.height / dpr;
         const iw = img.naturalWidth;
         const ih = img.naturalHeight;
         // Cover: escala para preencher mantendo proporção, centraliza
-        const scale = Math.max(cw / iw, ch / ih);
+        let scale = Math.max(cw / iw, ch / ih);
+        if (IS_MOBILE) {
+          // Zoom no mobile para podermos esconder a parte de baixo do vídeo (sombra branca)
+          scale *= 1.15;
+        }
         const dw = iw * scale;
         const dh = ih * scale;
         const dx = (cw - dw) / 2;
-        const dy = (ch - dh) / 2;
+        // No mobile, alinha o topo do vídeo com o topo do canvas para "descer" o vídeo
+        // e esconder a parte inferior (onde tem a sombra branca no vídeo original).
+        const dy = IS_MOBILE ? 0 : (ch - dh) / 2;
         ctx.clearRect(0, 0, cw, ch);
         ctx.drawImage(img, dx, dy, dw, dh);
       }
@@ -446,7 +452,7 @@
               xPercent: 0,
               yPercent: 0,
               width: '100vw',
-              height: '100vh',
+              height: '100svh',
               maxWidth: 'none',
               maxHeight: 'none',
               aspectRatio: 'auto',

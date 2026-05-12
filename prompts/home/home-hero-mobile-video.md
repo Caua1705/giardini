@@ -1,4 +1,4 @@
-# Menu Hero Desktop Frame
+# Home Hero Video
 
 ## Purpose
 Describe what this prompt generates.

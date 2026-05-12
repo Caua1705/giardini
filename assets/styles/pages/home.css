@@ -68,7 +68,7 @@
   #hero-viewport {
     background: #0a0a0a !important;
     overflow: hidden !important;
-    height: 100vh !important;
+    height: 100svh !important;
   }
 
   #hero-pin-wrapper {
@@ -84,7 +84,7 @@
     position: absolute !important;
     inset: 0 !important;
     width: 100vw !important;
-    height: 100vh !important;
+    height: 100svh !important;
     border-radius: 0 !important;
     z-index: 1 !important;
   }
