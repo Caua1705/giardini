@@ -350,20 +350,28 @@
         const ch = canvas.height / dpr;
         const iw = img.naturalWidth;
         const ih = img.naturalHeight;
-        // Cover: escala para preencher mantendo proporção, centraliza
-        let scale = Math.max(cw / iw, ch / ih);
+        let sx = 0;
+        let sy = 0;
+        let sw = iw;
+        let sh = ih;
+
         if (IS_MOBILE) {
-          // Zoom no mobile para podermos esconder a parte de baixo do vídeo (sombra branca)
-          scale *= 1.15;
+          // Corta os 15% inferiores da imagem original para eliminar a linha/sombra branca nativa
+          sh = ih * 0.85;
         }
-        const dw = iw * scale;
-        const dh = ih * scale;
+
+        // Cover: escala para preencher mantendo proporção com a área útil
+        const scale = Math.max(cw / sw, ch / sh);
+        const dw = sw * scale;
+        const dh = sh * scale;
+        
         const dx = (cw - dw) / 2;
-        // No mobile, alinha o topo do vídeo com o topo do canvas para "descer" o vídeo
-        // e esconder a parte inferior (onde tem a sombra branca no vídeo original).
-        const dy = IS_MOBILE ? 0 : (ch - dh) / 2;
+        // Ao remover a trava "IS_MOBILE ? 0", nós centralizamos a imagem no novo eixo (sh),
+        // o que na prática "desce" todo o conteúdo do vídeo, aproximando do centro de atenção da imagem original.
+        const dy = (ch - dh) / 2;
+        
         ctx.clearRect(0, 0, cw, ch);
-        ctx.drawImage(img, dx, dy, dw, dh);
+        ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
       }
       /* ══ PRELOAD DE FRAMES ═════════════════════════════════════════
          Carrega todos os frames em paralelo (Image objects) em segundo 

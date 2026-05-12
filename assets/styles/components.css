@@ -180,7 +180,7 @@
     order: 1;
     width: 100%;
     height: auto;
-    padding: 7rem 1.5rem 1rem;
+    padding: 6.5rem 1.5rem 1rem;
     align-items: center;
     text-align: center;
     display: flex;
@@ -324,8 +324,8 @@
 
   /* video-overlay: starts hidden (opacity:0 in base CSS), GSAP fades it in during scroll */
   #video-overlay {
-    display: block !important;
-    visibility: visible !important;
+    display: none !important;
+    visibility: hidden !important;
     pointer-events: none !important;
   }
 
@@ -371,18 +371,7 @@
 
   /* ── EXPLORE INDICATOR ────────────────────────────────────────── */
   .hero-scroll-wrapper {
-    position: absolute !important;
-    bottom: 2.5rem !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    order: 3 !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: auto !important;
-    padding: 0 !important;
-    pointer-events: none;
-    z-index: 50 !important;
+    display: none !important;
   }
 
   /* ── SECTION 2: fix compressed images ───────────────────────────── */
@@ -461,6 +450,7 @@
   #video-frame::after,
   #video-frame::before,
   .scroll-indicator-wrap,
+  .vf-corner,
   .frame-corner,
   .mobile-destaque-hide,
   #hero-vig,
@@ -500,10 +490,10 @@
   /* ── BREAKPOINT 430x932 (iPhone Pro Max / Plus) ── */
   @media (min-width: 428px) and (min-height: 900px) {
     #hero-left {
-      padding-top: 8.5rem !important; /* Desce todo o conteúdo de texto e botões significativamente */
+      padding-top: 7.5rem !important; /* Desce todo o conteúdo de texto e botões significativamente */
     }
     .hero-scroll-wrapper {
-      bottom: -8rem !important; /* Desce o Explore de forma extrema para muito abaixo do vídeo */
+      display: none !important;
     }
   }
 
