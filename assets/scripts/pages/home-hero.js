@@ -227,7 +227,7 @@
       /* ── PRELOAD HIDING ─────────────────────────────────────────── */
       gsap.set(['#el-kicker', '#el-body', '#el-cta', '#el-meta', '#hero-explore-scroll', '#el-badge'], { opacity: 0, y: 15, ..._bi(8) });
       gsap.set(['#el-h1a', '#el-h1b'], { y: '108%', ..._bi(10) });
-      gsap.set('#video-frame', { opacity: 0, scale: 0.94 });
+      gsap.set('#video-frame', { opacity: 0, ...(IS_MOBILE ? {} : { scale: 0.94 }) });
       gsap.set('#navbar', { opacity: 0 });
       /* ══════════════════════════════════════════════════════════════
          CONFIG
@@ -460,13 +460,14 @@
               xPercent: 0,
               yPercent: 0,
               width: '100vw',
-              height: '100vh',
+              height: '100svh',
               maxWidth: 'none',
               maxHeight: 'none',
               aspectRatio: 'auto',
               borderRadius: 0,
               zIndex: 1,
               boxShadow: 'none',
+              scale: 1,
             });
           } else {
             gsap.set(frame, {
@@ -563,7 +564,7 @@
             .to('#el-kicker', { opacity: 1, y: 0, ..._bf, duration: _d(1.25), ease: 'expo.out' }, '-=0.3')
             .add('titleShow', '-=0.5')
             .to('#el-h1a', { opacity: 1, y: 0, ..._bf, duration: _d(1.5), ease: 'expo.out' }, 'titleShow')
-            .to(frame, { opacity: 1, scale: 1, duration: _d(1.8), ease: 'power4.out' }, 'titleShow')
+            .to(frame, { opacity: 1, ...(IS_MOBILE ? {} : { scale: 1 }), duration: _d(1.8), ease: 'power4.out' }, 'titleShow')
             .to('#el-h1b', { opacity: 1, y: 0, ..._bf, duration: _d(1.5), ease: 'expo.out' }, 'titleShow+=0.12')
             .to('#hero-sep', { opacity: 1, scaleX: 1, duration: _d(1.2), ease: 'power3.out' }, 'titleShow+=0.30')
             .to('#el-body', { opacity: 1, y: 0, ..._bf, duration: _d(1.2), ease: 'power3.out' }, 'titleShow+=0.40')

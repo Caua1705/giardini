@@ -69,6 +69,7 @@
     background: #0a0a0a !important;
     overflow: hidden !important;
     height: 100svh !important;
+    min-height: 100svh !important;
   }
 
   #hero-pin-wrapper {
@@ -1469,9 +1470,9 @@
    ══════════════════════════════════════════════════════════════════ */
 @media (max-width: 767px) {
   #video-frame {
-    border-radius: 12px !important;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.05) !important;
-    border: 1px solid rgba(43, 74, 59, 0.06) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
   }
 }
 }
