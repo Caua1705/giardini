@@ -1295,6 +1295,9 @@
     padding: 0 !important;
     border-bottom: 1px solid rgba(255,255,255,0.04) !important;
   }
+  a[href="#experience"].ft-nav-link {
+    display: none !important;
+  }
   /* Last nav link: no bottom border */
   .ft-reveal.ft-reveal-d2 nav a:last-child {
     border-bottom: none !important;

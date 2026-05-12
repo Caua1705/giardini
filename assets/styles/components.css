@@ -468,7 +468,8 @@
   .flashlight-card::before,
   .flashlight-border,
   .s4-flashlight::before,
-  .btn-beam-container .beam-border {
+  .btn-beam-container .beam-border,
+  a[href="#experience"].ft-nav-link {
     display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
