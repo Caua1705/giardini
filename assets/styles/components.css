@@ -329,43 +329,27 @@
     pointer-events: none !important;
   }
 
-  /* ── VIDEO FRAME: clean premium border, predictive layout ──────── */
+  /* ── VIDEO FRAME mobile: GSAP controla tudo; CSS só reseta artefatos ── */
   #video-frame {
-    box-shadow: 0 8px 28px rgba(0,0,0,0.10),
-                0 2px 8px rgba(0,0,0,0.06);
-    border: 1px solid rgba(43,74,59,0.10) !important;
-    border-radius: 16px !important;
+    /* Reset todas as restrições de tamanho/posição que conflitam com o GSAP */
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
     background: #0a0a0a !important;
     mask-image: none !important;
     -webkit-mask-image: none !important;
     overflow: hidden !important;
-
-    margin: 0;
-    will-change: transform;
-    
-    top: 62%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 82%;
-    max-width: 340px;
-    aspect-ratio: 16 / 10;
+    margin: 0 !important;
+    /* Não definir width/height/top/left/transform aqui — o GSAP faz isso */
   }
 
-  /* Suppress expensive mask-composite gradient border ring on mobile.
-     The solid border: 1px solid above already provides the frame edge.
-     The ::after pseudo-element uses mask-composite: exclude which triggers
-     an additional compositing layer with no visual benefit under the solid border. */
-  #video-frame::after {
-    display: none;
-  }
-
-  /* Suppress corner expand on touch hover — touch fires :hover on tap,
-     causing a layout shift with no intentional interaction benefit. */
+  /* Suppress corner expand on touch hover */
   #video-frame:hover .vf-corner-tl,
   #video-frame:hover .vf-corner-br {
     width: 22px;
     height: 22px;
   }
+
 
 
 
