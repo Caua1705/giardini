@@ -335,7 +335,7 @@
     box-shadow: none !important;
     border: none !important;
     border-radius: 0 !important;
-    background: #0a0a0a !important;
+    background: transparent !important;
     mask-image: none !important;
     -webkit-mask-image: none !important;
     overflow: hidden !important;

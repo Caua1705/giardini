@@ -66,7 +66,7 @@
   }
 
   #hero-viewport {
-    background: #0a0a0a !important;
+    background: transparent !important;
     overflow: hidden !important;
     height: 100svh !important;
     min-height: 100svh !important;
@@ -74,7 +74,7 @@
   }
 
   #hero-pin-wrapper {
-    background: #0a0a0a !important;
+    background: transparent !important;
   }
 
   #hero-right {
@@ -89,19 +89,15 @@
     height: 100svh !important;
     border-radius: 0 !important;
     z-index: 1 !important;
+    background: transparent !important;
   }
 
-  /* Dark scrim over video for text readability */
+  /* Dark scrim: HIDDEN on mobile per user request */
   #video-overlay {
-    opacity: 1 !important;
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.55) 0%,
-      rgba(0, 0, 0, 0.25) 40%,
-      rgba(0, 0, 0, 0.35) 70%,
-      rgba(0, 0, 0, 0.65) 100%
-    ) !important;
-    z-index: 2 !important;
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
   }
 
   /* Canvas: fill the frame */
@@ -110,10 +106,17 @@
     height: 100% !important;
   }
 
-  /* Hero-left text: float on top of video */
+  /* Hero-left text: float on top of video, fill viewport */
   #hero-left {
     position: relative !important;
     z-index: 10 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 5.5rem 2rem 2rem !important;
   }
 
   /* ── TEXT COLORS: white over dark video ─────────────────────── */
