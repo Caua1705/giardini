@@ -76,7 +76,7 @@
   }
 
   #hero-pin-wrapper {
-    background: var(--c-bg) !important;
+    background: #0a0a0a !important;
   }
 
   #hero-right {
@@ -96,10 +96,16 @@
     border: none !important;
     box-shadow: none !important;
     z-index: 1 !important;
-    background: transparent !important;
+    background: #0a0a0a !important;
     transform: none !important;
     margin: 0 !important;
     overflow: hidden !important;
+  }
+
+  /* Zoom canvas to crop VEO watermark from bottom-right */
+  #seq-canvas {
+    transform: scale(1.25) !important;
+    transform-origin: center 55% !important;
   }
 
   /* Dark scrim: HIDDEN on mobile per user request */
@@ -120,7 +126,7 @@
     object-fit: cover !important;
   }
 
-  /* Hero-left text: float on top of video, fill viewport */
+  /* Hero-left text: float on top of video, positioned in sky area */
   #hero-left {
     position: absolute !important;
     top: 0 !important;
@@ -130,9 +136,9 @@
     height: 100svh !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: center !important;
+    justify-content: flex-start !important;
     align-items: center !important;
-    padding: 5.5rem 2rem 2rem !important;
+    padding: clamp(6rem, 22vw, 10rem) 2rem 2rem !important;
   }
 
   /* ── TEXT COLORS: white over dark video ─────────────────────── */

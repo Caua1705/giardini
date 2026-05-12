@@ -243,7 +243,7 @@
         TOTAL_FRAMES: IS_MOBILE ? 30 : 150,
         FRAME_STEP: IS_MOBILE ? 5 : 1,
         FRAMES_DIR: IS_MOBILE ? 'references/image-frames/home-mobile' : 'references/image-frames/home',
-        scrollVH: IS_MOBILE ? 200 : 380,
+        scrollVH: IS_MOBILE ? 120 : 380,
         scrub: IS_MOBILE ? 0.15 : 1.0,
       };
       /* ══ GSAP ══════════════════════════════════════════════════════ */
@@ -429,7 +429,7 @@
         const viewport = document.getElementById('hero-viewport');
         const wrapper = document.getElementById('hero-pin-wrapper');
         /* Altura virtual do scroll — shorter on mobile for immediate responsiveness */
-        const mobileScrollVH = 200;
+        const mobileScrollVH = 120;
         const scrollVH = IS_MOBILE ? mobileScrollVH : CONFIG.scrollVH;
         const scrollPx = window.innerHeight * (scrollVH / 100);
         wrapper.style.height = `${window.innerHeight + scrollPx}px`;
