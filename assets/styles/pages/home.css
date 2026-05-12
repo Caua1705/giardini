@@ -70,6 +70,7 @@
     overflow: hidden !important;
     height: 100svh !important;
     min-height: 100svh !important;
+    z-index: 100 !important;
   }
 
   #hero-pin-wrapper {
@@ -600,8 +601,10 @@
   #featured {
     padding: clamp(4rem, 11vw, 5.5rem) 0 clamp(2.5rem, 7vw, 3.5rem) !important;
     border-radius: 0 !important;
-    margin-top: 0 !important;
+    margin-top: -100svh !important;
     box-shadow: none !important;
+    position: relative !important;
+    z-index: 60 !important;
   }
 
   /* Remove rounded clip container on mobile — it creates a dark gap */
