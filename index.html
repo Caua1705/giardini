@@ -1082,7 +1082,7 @@
             style="font-size:0.58rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(183,147,88,0.6);margin-bottom:2rem;">
             Navega&ccedil;&atilde;o</p>
           <nav style="display:flex;flex-direction:column;gap:1.1rem;">
-            <a href="#experience" class="ft-nav-link">A Experi&ecirc;ncia</a>
+            <a href="#experience" class="hidden md:inline ft-nav-link">A Experi&ecirc;ncia</a>
             <a href="./menu.html" class="ft-nav-link">Card&aacute;pio</a>
             <a href="#location" class="ft-nav-link">Visite-nos</a>
             <a href="./reservation.html" class="ft-nav-link"
@@ -1144,10 +1144,12 @@
             com calma</span>
           <div style="width:16px;height:1px;background:rgba(183,147,88,0.7);"></div>
         </div>
-        <a href="#hero-pin-wrapper" class="ft-nav-link" style="font-size:0.58rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;
+        <a href="#" class="ft-nav-link" style="font-size:0.58rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;
             color:rgba(255,255,255,0.2);text-decoration:none;background:none;border:none;cursor:pointer;
             display:flex;align-items:center;gap:0.45rem;padding:0;
-            transition:color 0.3s ease;" onmouseenter="this.style.color='rgba(183,147,88,0.7)'"
+            transition:color 0.3s ease;" 
+            onclick="if(window.lenis) { window.lenis.scrollTo(0, {duration:1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))}); } else { window.scrollTo({top:0, behavior:'smooth'}); } return false;"
+            onmouseenter="this.style.color='rgba(183,147,88,0.7)'"
           onmouseleave="this.style.color='rgba(255,255,255,0.2)'">
           <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
             stroke-linecap="round" stroke-linejoin="round">
