@@ -2977,12 +2977,303 @@ body{
     justify-content: center;
     color: #EAE4D9;
     -webkit-tap-highlight-color: transparent;
+  /* ── 3. Clear will-change (prevents GPU layer promotion leaks) ── */
+  .res-scroll-word,
+  .res-scroll-word-text,
+  .res-env-scroll-word,
+  .res-env-scroll-word-text,
+  .res-submit-btn {
+    will-change: auto !important;
+  }
+  .res-env-card .res-env-card-img {
+    will-change: auto !important;
+  }
+
+  /* ── 4. Simplify transition durations (faster feel on touch) ── */
+  .res-env-card {
+    transition: border-color .25s ease, box-shadow .25s ease !important;
+  }
+  .res-env-card-img {
+    transition: filter .4s ease !important;
+    transform: none !important; /* disable parallax leftover */
+  }
+  .res-pill,
+  .res-time-pill {
+    transition: background .2s ease, border-color .2s ease, color .2s ease !important;
+  }
+  .res-form-input {
+    transition: background .25s ease, border-color .25s ease !important;
+  }
+
+  /* ── 5. Disable hover transforms on touch (no hover on mobile) ── */
+  .res-env-card:hover { transform: none !important; }
+  .res-pill:hover     { transform: none !important; }
+  .res-time-pill:hover { transform: none !important; }
+  .res-feedback-btn-primary:hover { transform: none !important; }
+  .res-feedback-btn-secondary:hover { transform: none !important; }
+
+  /* ── 6. Env section BG: static on mobile (no GSAP parallax) ── */
+  .res-env-section-bg {
+    transform: none !important;
+  }
+
+  /* ── 7. Canvas: remove expensive blur filter and transition on mobile ── */
+  #seq-canvas {
+    filter: none !important;
+    transform: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+  }
+  #seq-canvas.ready {
+    filter: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  /* ── 8. Paint containment on scrollable sections ────────────── */
+  .res-env-section,
+  .res-section {
+    contain: layout style;
+  }
+
+  /* ── 9. Kill skeleton shimmer animation ─────────────────────── */
+  .res-env-card-skeleton,
+  .res-skeleton-pill {
+    animation: none !important;
+    background: rgba(255,255,255,.06) !important;
+  }
+
+  /* ── 10. Orbs + ambient blobs: HIDE entirely on mobile ──────── */
+  /* Each radial-gradient orb is 600-700px and forces its own
+     compositing layer. Hiding them saves ~4 GPU layers. */
+  .res-hero-orb,
+  .res-hero-orb-1,
+  .res-hero-orb-2,
+  .res-section-ambient-1,
+  .res-section-ambient-2 {
+    display: none !important;
+  }
+
+  /* ── 11. Grain SVG textures: HIDE on mobile ─────────────────── */
+  /* SVG feTurbulence + mix-blend-mode:screen is one of the most
+     expensive rendering ops. On a 390px screen it's invisible. */
+  .res-hero-grain,
+  .res-env-section-grain,
+  .res-section-grain {
+    display: none !important;
+  }
+
+  /* ── 12. Decorative pseudo-elements: remove on mobile ───────── */
+  /* Section ::before (top gradient), ::after (vertical rule),
+     float-lines, corner accents, golden dust — all invisible
+     on small screens but force extra compositing layers. */
+  .res-section::before,
+  .res-section::after {
+    display: none !important;
+  }
+  .res-float-line,
+  .res-float-line-1,
+  .res-float-line-2 {
+    display: none !important;
+  }
+  .res-corner-accent {
+    display: none !important;
+  }
+  .res-golden-dust {
+    display: none !important;
+  }
+  .res-section-watermark {
+    display: none !important;
+  }
+  .res-section-top-line {
+    display: none !important;
+  }
+  .res-env-section-bg {
+    display: none !important;
+  }
+
+  /* ── 13. Env cards: remove ALL GPU filters on mobile ─────────── */
+  /* filter:saturate()+brightness() on each card image forces
+     GPU rasterization per-card. On mobile we show the natural
+     image colors (slightly dimmed via overlay gradient). */
+  .res-env-card-img {
+    filter: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+  .res-env-card:hover .res-env-card-img,
+  .res-env-card.is-selected .res-env-card-img {
+    filter: none !important;
+    transform: none !important;
+  }
+
+  /* Card container: instant state changes (no transition overhead) */
+  .res-env-card {
+    transition: none !important;
+  }
+  .res-env-card-overlay {
+    transition: none !important;
+  }
+  .res-env-card-hover-cue {
+    display: none !important;
+  }
+
+  /* ── 14. Form section: simplify backgrounds ─────────────────── */
+  .res-section {
+    background: #121C16 !important;
+  }
+  .res-env-section {
+    background: #121C16 !important;
+  }
+
+  /* ── 15. Scroll-driven word: already hidden by CSS, ensure it ── */
+  .res-scroll-word,
+  .res-env-scroll-word {
+    display: none !important;
+  }
+
+  /* ── 16. Footer Adjustments ── */
+  .ft-clube-link {
+    display: none !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE APP HEADER
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .res-mobile-header {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.1rem 0.5rem;
+    background: rgba(18, 28, 22, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 9999;
+  }
+  .res-mh-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.1rem;
+    color: #EAE4D9;
+  }
+  .res-mh-icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #EAE4D9;
+    -webkit-tap-highlight-color: transparent;
     transition: background 0.2s;
   }
   .res-mh-icon-btn:active {
     background: rgba(255, 255, 255, 0.16);
   }
   #navbar {
+    display: none !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE APP FORM PANEL
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+  /* 1. Environment Section Transition */
+  .res-env-section {
+    padding-bottom: 32px !important;
+  }
+  
+  /* Divider below env cards */
+  .res-env-section::after {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(183,147,88,0.25), transparent);
+    margin: 28px auto 0;
+  }
+
+  /* 2. Form Panel Wrapper */
+  #res-booking-section {
+    margin-top: 0 !important;
+    background: #17241A !important; /* Slightly lighter dark green */
+    border-top-left-radius: 32px !important;
+    border-top-right-radius: 32px !important;
+    border-top: 1px solid rgba(183,147,88,0.12) !important;
+    box-shadow: inset 0 20px 40px -10px rgba(0,0,0,0.3) !important;
+    padding-top: 36px !important;
+    padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px)) !important;
+    position: relative;
+    z-index: 60;
+  }
+
+  /* 3. Panel Header */
+  #res-booking-section .res-section-header {
+    text-align: center;
+    margin-bottom: 2rem !important;
+    padding: 0 1.5rem !important;
+  }
+  #res-booking-section .res-section-title {
+    font-size: 1.8rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  #res-booking-section .res-section-subtitle {
+    font-size: 0.85rem !important;
+    opacity: 0.65;
+  }
+
+  /* 4. Form Cards Grid */
+  .res-reservation-flow {
+    padding: 0 1.2rem !important;
+  }
+  
+  .res-step {
+    display: block !important;
+    background: rgba(255,255,255,0.02) !important;
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    border-radius: 20px !important;
+    padding: 1.35rem !important;
+    margin-bottom: 1rem !important;
+    position: relative !important;
+    box-shadow: 0 8px 24px -8px rgba(0,0,0,0.2) !important;
+  }
+  
+  /* Reset desktop decorations */
+  .res-step::before { display: none !important; }
+  .res-step-index { display: none !important; }
+  .res-step-body { 
+    padding: 0 !important; 
+    width: 100% !important; 
+    display: block !important; 
+  }
+  
+  .res-step-label {
+    font-size: 0.7rem !important;
+    letter-spacing: 0.2em !important;
+    margin-bottom: 0.35rem !important;
+    color: #EAE4D9 !important;
+  }
+  .res-step-sublabel {
+    font-size: 0.95rem !important;
+    margin-bottom: 1.2rem !important;
+    color: rgba(234, 228, 217, 0.5) !important;
+  }
+
+  /* Remove desktop atmospheric/floating elements to keep panel clean */
+  .res-section-grain,
+  .res-section-ambient-1,
+  .res-section-ambient-2,
+  .res-section-top-line,
+  .res-scroll-word,
+  .res-corner-accent,
+  .res-golden-dust {
     display: none !important;
   }
 }
