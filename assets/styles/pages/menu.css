@@ -3673,10 +3673,14 @@ footer {
 
   /* When JS pins it to the top: flush, no gap */
   #cat-nav.is-pinned {
-    top: 0 !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+    position: fixed !important;
+    top: -1px !important;
+    left: 0 !important;
+    width: 100vw !important;
+    padding: 0 !important;
+    margin: 0 !important;
     background: #121C16 !important;
+    border-top: none !important;
   }
 
   #cat-nav.is-pinned .cat-nav-inner {
@@ -3762,6 +3766,7 @@ footer {
     font-weight: 500;
   }
 }
+
 
 
 
