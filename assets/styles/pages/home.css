@@ -461,14 +461,6 @@
     visibility: visible !important;
   }
 
-  /* Re-enable beam border for Section 3 Cardápio CTA too */
-  #featured .loc-beam-container .loc-beam-border {
-    animation: rotate-beam 4s linear infinite !important;
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-
   /* 6. Hide S4 shimmer beams that animate infinitely */
   .s4-beam {
     display: none !important;
@@ -1857,8 +1849,9 @@
         Full override of the section-G location block above.
      ══════════════════════════════════════════════════════════════ */
 
-  /* Section: minimal vertical breathing room */
+  /* Section: minimal vertical breathing room + same green as mobile nav bar */
   #location {
+    background: linear-gradient(160deg, #151f19 0%, #121C16 60%, #101914 100%) !important;
     padding-top: clamp(1.75rem, 5vw, 2.25rem) !important;
     padding-bottom: clamp(1.75rem, 5vw, 2.25rem) !important;
   }
@@ -2217,7 +2210,7 @@
 
   /* ── SECTION BACKGROUND ──────────────────────────────────────── */
   #featured {
-    background: linear-gradient(160deg, #101d14 0%, #0b1610 60%, #07100a 100%) !important;
+    background: linear-gradient(160deg, #151f19 0%, #121C16 60%, #101914 100%) !important;
     box-shadow: none !important;
     border-top: none !important;
     overflow: hidden !important;
@@ -2391,7 +2384,7 @@
 
   /* ── SECTION BOTTOM FADE: smooth emerald fade into reservation ── */
   #featured .s3-fade-out {
-    background: linear-gradient(to bottom, transparent, #07100a) !important;
+    background: linear-gradient(to bottom, transparent, #121C16) !important;
     height: 80px !important;
   }
 }
