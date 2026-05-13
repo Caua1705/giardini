@@ -1800,76 +1800,11 @@
   }
 
   /* ══════════════════════════════════════════════════════════════
-     5. SECTION 2 — A EXPERIÊNCIA (Compact mobile rows)
-        Overrides the display:none from earlier in this file.
+     5. SECTION 2 — A EXPERIÊNCIA — hidden on mobile
      ══════════════════════════════════════════════════════════════ */
 
   #experience {
-    display: block !important;
-    padding: 2.5rem clamp(1.25rem, 5vw, 1.75rem) 2rem !important;
-    background: linear-gradient(162deg, #fefcf8 0%, #f8f3eb 55%, #f3ede3 100%) !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    overflow: hidden !important;
-  }
-
-  /* Hide desktop decorative layers that are GPU-costly / visually noisy at small size */
-  #experience > div[class*="absolute"],
-  #experience #parallax-text,
-  #experience .hero-grid-bg {
     display: none !important;
-  }
-
-  /* Single-column grid */
-  #experience > div.grid {
-    grid-template-columns: 1fr !important;
-    gap: 0 !important;
-    max-width: 100% !important;
-    padding: 0 !important;
-  }
-
-  #experience .lg\:col-span-6 {
-    width: 100% !important;
-  }
-
-  /* Section label: compact */
-  #experience .flex.items-center.gap-3.mb-7 {
-    margin-bottom: 0.65rem !important;
-  }
-
-  /* Section heading: mobile-calibrated */
-  #experience h2 {
-    font-size: clamp(1.75rem, 6.5vw, 2.2rem) !important;
-    margin-bottom: 1.25rem !important;
-    line-height: 1.06 !important;
-  }
-
-  /* Divider: tighter */
-  #experience .s2-divider-track {
-    margin-bottom: 1.25rem !important;
-  }
-
-  /* Pillars wrapper: compact gap */
-  .exp-pillars-wrap {
-    gap: 0 !important;
-    margin-top: 0 !important;
-  }
-
-  /* Force section 2 elements visible — JS ScrollTrigger may not fire
-     for elements that were display:none at setup time */
-  #experience .sec2-title,
-  #experience .exp-pillar {
-    opacity: 1 !important;
-    transform: none !important;
-    filter: none !important;
-  }
-
-  /* Compact pillar rows */
-  .exp-pillar {
-    opacity: 1 !important;
-    transform: none !important;
-    filter: none !important;
-    padding: 0.85rem 1rem 0.85rem 1.1rem !important;
   }
 
   /* ══════════════════════════════════════════════════════════════
@@ -1899,6 +1834,21 @@
   #location {
     padding-top: clamp(2.75rem, 8vw, 3.5rem) !important;
     padding-bottom: clamp(2.75rem, 8vw, 3.5rem) !important;
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     8. FIX — Hero canvas z-index bleed between sections
+        Earlier block sets z-index:100 on #hero-viewport; sections
+        only have z-index:60 (Tailwind z-[60]), so the pinned canvas
+        bleeds through. Override to 1 so sections stack above it.
+     ══════════════════════════════════════════════════════════════ */
+
+  #hero-viewport {
+    z-index: 1 !important;
+  }
+
+  #hero-pin-wrapper {
+    overflow: hidden !important;
   }
 
 }
