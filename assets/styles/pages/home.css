@@ -2011,13 +2011,13 @@
     gap: 0 !important;
   }
 
-  /* Darken overlay: text/CTA as main focus */
+  /* Overlay: cinematic depth — image visible but text-readable */
   #experience-video > div[style*="z-index:1"] {
     background: linear-gradient(
       170deg,
-      rgba(4, 3, 2, 0.82) 0%,
-      rgba(10, 7, 3, 0.70) 50%,
-      rgba(4, 3, 2, 0.85) 100%
+      rgba(4, 3, 2, 0.64) 0%,
+      rgba(10, 7, 3, 0.48) 50%,
+      rgba(4, 3, 2, 0.68) 100%
     ) !important;
   }
 
@@ -2039,12 +2039,13 @@
     margin-bottom: 0.6rem !important;
   }
 
-  /* Headline: refined, compact serif */
+  /* Headline: refined serif — text-shadow anchors it against lighter overlay */
   #experience-video h2 {
     font-size: clamp(1.9rem, 7.5vw, 2.45rem) !important;
     line-height: 0.88 !important;
     letter-spacing: -0.03em !important;
     margin: 0 !important;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55) !important;
   }
 
   #experience-video h2 span {
@@ -2062,13 +2063,14 @@
     width: 100% !important;
   }
 
-  /* Subline: compact, secondary role */
+  /* Subline: compact, secondary role — stronger against lighter overlay */
   #experience-video p[style*="max-width:400px"] {
     font-size: 0.79rem !important;
     line-height: 1.5 !important;
-    color: rgba(255, 255, 255, 0.55) !important;
+    color: rgba(255, 255, 255, 0.72) !important;
     margin: 0 !important;
     max-width: 80% !important;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.60) !important;
   }
 
   /* Separator: minimal presence */
@@ -2078,13 +2080,13 @@
     margin-bottom: 0.9rem !important;
   }
 
-  /* CTA: dark emerald pill — consistent with app system */
+  /* CTA: emerald pill — slightly brighter, crisp against image */
   #s5-cta {
-    background: #2B4A3B !important;
-    border: 1px solid rgba(183, 147, 88, 0.28) !important;
+    background: #355C49 !important;
+    border: 1px solid rgba(183, 147, 88, 0.38) !important;
     border-radius: 9999px !important;
-    color: rgba(255, 255, 255, 0.92) !important;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.30) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
     padding: 0.72rem 1.65rem !important;
     font-family: 'Inter', sans-serif !important;
     font-size: 0.60rem !important;
