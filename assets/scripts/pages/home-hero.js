@@ -428,11 +428,16 @@
         const frame = document.getElementById('video-frame');
         const viewport = document.getElementById('hero-viewport');
         const wrapper = document.getElementById('hero-pin-wrapper');
-        /* Altura virtual do scroll — shorter on mobile for immediate responsiveness */
-        const mobileScrollVH = 120;
+        /* Scroll territory: 200vh on mobile so frames play before next section appears */
+        const mobileScrollVH = 200;
         const scrollVH = IS_MOBILE ? mobileScrollVH : CONFIG.scrollVH;
         const scrollPx = window.innerHeight * (scrollVH / 100);
-        wrapper.style.height = `${window.innerHeight + scrollPx}px`;
+        // Use setProperty with 'important' so JS always wins over any CSS height rule
+        if (IS_MOBILE) {
+          wrapper.style.setProperty('height', `${window.innerHeight + scrollPx}px`, 'important');
+        } else {
+          wrapper.style.height = `${window.innerHeight + scrollPx}px`;
+        }
         /* Registra matchMedia para layouts responsivos */
         let mm = gsap.matchMedia();
 
@@ -641,14 +646,34 @@
           });
         }
         /* ── SCROLL PIN ──────────────────────────────────────────── */
+        if (IS_MOBILE) {
+          // High z-index so pinned hero covers sections below
+          viewport.style.zIndex = '100';
+          // Match real pixel viewport height (avoids browser-bar svh mismatch)
+          viewport.style.setProperty('height', `${window.innerHeight}px`, 'important');
+        }
         ScrollTrigger.create({
           trigger: wrapper,
           start: 'top top',
           end: () => `+=${scrollPx}`,
           pin: viewport,
-          pinSpacing: false,
+          // pinSpacing:true on mobile pushes content below the pin zone —
+          // next section only appears after the full frame sequence ends
+          pinSpacing: IS_MOBILE,
           anticipatePin: IS_MOBILE ? 0 : 1,
+          onRefresh: () => {
+            if (IS_MOBILE) {
+              viewport.style.setProperty('width', '100vw', 'important');
+              viewport.style.setProperty('left', '0', 'important');
+              viewport.style.setProperty('top', '0', 'important');
+            }
+          }
         });
+        // Force full-width immediately after pin creation (before first GSAP refresh)
+        if (IS_MOBILE) {
+          viewport.style.setProperty('width', '100vw', 'important');
+          viewport.style.setProperty('left', '0', 'important');
+        }
         /* ── IMAGE SEQUENCE SCRUB ────────────────────────────────────
            OnUpdate dispara a cada tick de scroll.
            O índice é calculado pelo progresso (0→1) × total de frames.

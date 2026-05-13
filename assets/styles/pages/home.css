@@ -69,11 +69,17 @@
     background: transparent !important;
     overflow: hidden !important;
     height: 100svh !important;
-    min-height: 100svh !important;
-    max-height: 100svh !important;
     z-index: 100 !important;
     display: block !important;
-    position: relative !important;
+    /* NO position:relative !important — GSAP must be free to apply position:fixed during pin */
+  }
+
+  /* Full-width coverage when GSAP pins the hero (position:fixed in inline style) */
+  #hero-viewport[style*="fixed"] {
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    top: 0 !important;
   }
 
   #hero-pin-wrapper {
@@ -1632,36 +1638,34 @@
   }
 
   /* ══════════════════════════════════════════════════════════════
-     2. HERO — 60svh cinematic app entry screen
-        Overrides the 100svh landing page hero from earlier in this file.
+     2. HERO — Fullscreen frame sequence (matches reservation page)
+        Hero occupies full viewport. Frames play while pinned.
+        Scroll to next section only after sequence ends.
      ══════════════════════════════════════════════════════════════ */
 
-  #hero-pin-wrapper {
-    height: 60svh !important;
-  }
-
+  /* Viewport: full height — GSAP controls position during pin */
   #hero-viewport {
-    height: 60svh !important;
-    min-height: 60svh !important;
-    max-height: 60svh !important;
+    height: 100svh !important;
+    min-height: unset !important;
+    max-height: unset !important;
   }
 
   #video-frame {
-    height: 60svh !important;
+    height: 100svh !important;
   }
 
   #seq-canvas {
-    height: 60svh !important;
+    height: 100svh !important;
   }
 
-  /* Text block: bottom-anchored for app feel */
+  /* Text block: bottom-anchored inside full-height hero */
   #hero-left {
-    height: 60svh !important;
+    height: 100svh !important;
     justify-content: flex-end !important;
     padding: 3.5rem clamp(1.5rem, 6vw, 2rem) 2.5rem !important;
   }
 
-  /* Compact headline for smaller hero */
+  /* Compact headline */
   #hero-headline {
     font-size: clamp(2rem, 8vw, 2.85rem) !important;
     margin-bottom: 0.55rem !important;
@@ -1972,21 +1976,6 @@
     font-size: 0.44rem !important;
     padding: 0.3rem 0.7rem !important;
     flex-shrink: 0 !important;
-  }
-
-  /* ══════════════════════════════════════════════════════════════
-     8. FIX — Hero canvas z-index bleed between sections
-        Earlier block sets z-index:100 on #hero-viewport; sections
-        only have z-index:60 (Tailwind z-[60]), so the pinned canvas
-        bleeds through. Override to 1 so sections stack above it.
-     ══════════════════════════════════════════════════════════════ */
-
-  #hero-viewport {
-    z-index: 1 !important;
-  }
-
-  #hero-pin-wrapper {
-    overflow: hidden !important;
   }
 
   /* ══════════════════════════════════════════════════════════════
