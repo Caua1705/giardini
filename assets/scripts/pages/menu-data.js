@@ -8,6 +8,11 @@
  *   4. Dispatchar o evento customizado 'menuRendered' ao terminar
  *      — menu-tabs.js ouve esse evento para re-inicializar reveal e modal
  *
+ * Também implementa:
+ *   - Skeleton loading (shimmer cards enquanto API carrega)
+ *   - Cache em sessionStorage (render instantâneo quando revisitando)
+ *   - Prioridade de carregamento de imagens (eager/lazy)
+ *
  * NÃO mexe em:
  *   - Lógica de hero, canvas, GSAP, scroll, navegação de categorias
  *   - Backend, endpoints, services, models, banco de dados
@@ -18,14 +23,12 @@ import { apiFetch, API_ROUTES } from '../config/api.js';
 
 console.log('[menu-data] script loaded — API_ROUTES.menu:', API_ROUTES.menu);
 
-// ── INÍCIO IMEDIATO DA REQUISIÇÃO ─────────────────────────────────────────────
-// Disparamos o fetch aqui no topo para que a rede comece a trabalhar enquanto
-// o navegador ainda está fazendo o parsing do HTML/CSS.
-const menuDataPromise = apiFetch(API_ROUTES.menu).catch(err => {
-  console.error('[menu-data] Erro crítico na requisição antecipada:', err);
-  return null;
-});
-// ─────────────────────────────────────────────────────────────────────────────
+/* ════════════════════════════════════════════════════════════════════════════
+   CONSTANTS
+════════════════════════════════════════════════════════════════════════════ */
+
+const CACHE_KEY = 'giardini_menu_cache';
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 /* ── Mapeamento: subcategory slug (API) → section ID no HTML ────────────── */
 const SUBCATEGORY_TO_SECTION_ID = {
@@ -44,6 +47,91 @@ const SUBCATEGORY_TO_SECTION_ID = {
   'Confeitaria':     'confeitaria',
   'Adicionais':      'adicionais',
 };
+
+/* Sections that appear first on screen — get skeleton priority */
+const VISIBLE_SECTIONS = ['croissants', 'paes', 'combos'];
+
+/* ════════════════════════════════════════════════════════════════════════════
+   SKELETON LOADING
+════════════════════════════════════════════════════════════════════════════ */
+
+/** Generates a single skeleton card HTML */
+function skeletonCardHtml(hasThumb) {
+  const thumbClass = hasThumb ? ' has-thumb' : '';
+  const thumbBlock = hasThumb
+    ? '<div class="skeleton-block skeleton-thumb"></div>'
+    : '';
+
+  return `<div class="skeleton-card${thumbClass}">
+  ${thumbBlock}
+  <div>
+    <div class="skeleton-block skeleton-title"></div>
+    <div class="skeleton-block skeleton-desc"></div>
+    <div class="skeleton-block skeleton-desc-short"></div>
+  </div>
+  <div>
+    <div class="skeleton-block skeleton-price"></div>
+  </div>
+</div>`;
+}
+
+/** Injects skeleton cards into the first visible grids */
+function showSkeletons() {
+  for (const sectionId of VISIBLE_SECTIONS) {
+    const section = document.getElementById(sectionId);
+    if (!section) continue;
+    const grid = section.querySelector('.menu-grid');
+    if (!grid || grid.children.length > 0) continue;
+
+    // 4 skeletons per section, alternating with/without thumb
+    const cards = [];
+    for (let i = 0; i < 4; i++) {
+      cards.push(skeletonCardHtml(i % 3 === 0)); // every 3rd has a thumb
+    }
+    grid.innerHTML = cards.join('\n');
+    grid.classList.add('has-skeletons');
+  }
+}
+
+/** Removes all skeleton cards from all grids */
+function removeSkeletons() {
+  document.querySelectorAll('.menu-grid.has-skeletons').forEach(grid => {
+    grid.classList.remove('has-skeletons');
+    // Skeletons are replaced by renderMenuIntoDOM's innerHTML
+  });
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   CACHE (sessionStorage)
+════════════════════════════════════════════════════════════════════════════ */
+
+function getCachedMenu() {
+  try {
+    const raw = sessionStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const { data, timestamp } = JSON.parse(raw);
+    // Check TTL
+    if (Date.now() - timestamp > CACHE_TTL) {
+      sessionStorage.removeItem(CACHE_KEY);
+      return null;
+    }
+    return data;
+  } catch {
+    sessionStorage.removeItem(CACHE_KEY);
+    return null;
+  }
+}
+
+function setCachedMenu(items) {
+  try {
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify({
+      data: items,
+      timestamp: Date.now(),
+    }));
+  } catch {
+    // Storage full or disabled — silently continue
+  }
+}
 
 /* ════════════════════════════════════════════════════════════════════════════
    AGRUPAMENTO
@@ -158,11 +246,18 @@ function renderPriceHtml(product, sectionId = '') {
   return `<div class="variant-list">${lines}</div>`;
 }
 
-/** Gera o HTML completo de um card .menu-item. */
-function renderMenuItemHtml(product, sectionId = '') {
+/** 
+ * Gera o HTML completo de um card .menu-item. 
+ * @param {number} index — position in render order, used for image priority
+ */
+function renderMenuItemHtml(product, sectionId = '', index = 999) {
+  // Image loading priority: first 6 items get eager loading
+  const isAboveFold = index < 6;
+  const loadAttr = isAboveFold ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
+
   // Thumb — oculto se não houver imagem
   const imgHtml = product.image_url
-    ? `<div class="item-thumb"><img src="${product.image_url}" alt="${product.name}" loading="lazy"></div>`
+    ? `<div class="item-thumb"><img src="${product.image_url}" alt="${product.name}" ${loadAttr}></div>`
     : `<div class="item-thumb item-thumb--no-image"></div>`;
 
   // Descrição (nullable)
@@ -231,6 +326,9 @@ function renderMenuItemHtml(product, sectionId = '') {
  */
 function renderMenuIntoDOM(grouped) {
   console.log('[menu-data] renderMenuIntoDOM → subcategorias no grouped:', [...grouped.keys()]);
+  
+  let globalIndex = 0; // tracks render order for image priority
+
   for (const [subcategory, subMap] of grouped) {
     const sectionId = SUBCATEGORY_TO_SECTION_ID[subcategory];
     console.log('[menu-data] rendering section → subcategory:', subcategory, '| sectionId:', sectionId, '| produtos:', subMap.size);
@@ -244,7 +342,8 @@ function renderMenuIntoDOM(grouped) {
     if (grid) {
       const cards = [];
       for (const [, product] of subMap) {
-        cards.push(renderMenuItemHtml(product, sectionId));
+        cards.push(renderMenuItemHtml(product, sectionId, globalIndex));
+        globalIndex++;
       }
       grid.innerHTML = cards.join('\n');
     }
@@ -259,32 +358,73 @@ function renderMenuIntoDOM(grouped) {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   FETCH PRINCIPAL
+   FETCH PRINCIPAL — with cache + skeleton strategy
 ════════════════════════════════════════════════════════════════════════════ */
 
 /**
- * Busca os dados da API, agrupa, renderiza e dispara o evento 'menuRendered'.
- * Em caso de erro de rede, os grids ficam vazios sem quebrar o resto da página.
+ * Strategy:
+ *   1. If cache exists → render cached data INSTANTLY (no skeletons)
+ *      → still fetch fresh data in background → silently update if different
+ *   2. If no cache → show skeletons → fetch → render → remove skeletons
  */
 async function fetchAndRenderMenu() {
-  console.log('[menu-data] fetchAndRenderMenu → aguardando dados da API e prontidão do DOM');
+  console.log('[menu-data] fetchAndRenderMenu → checking cache');
+
+  const cached = getCachedMenu();
+  let usedCache = false;
+
+  // ── STEP 1: Render cached data instantly if available ──
+  if (cached && cached.length > 0) {
+    console.log('[menu-data] cache HIT → rendering', cached.length, 'items instantly');
+    const grouped = groupMenuItems(cached);
+    renderMenuIntoDOM(grouped);
+    document.dispatchEvent(new CustomEvent('menuRendered'));
+    usedCache = true;
+  } else {
+    // ── STEP 2: No cache → show skeletons ──
+    console.log('[menu-data] cache MISS → showing skeletons');
+    showSkeletons();
+  }
+
+  // ── STEP 3: Always fetch fresh data from API ──
   try {
-    // Aguarda a promessa que foi disparada no topo do script
-    const items = await menuDataPromise;
-    
+    console.log('[menu-data] fetching fresh data from API');
+    const items = await apiFetch(API_ROUTES.menu);
+
     if (!items) {
       throw new Error('Nenhum dado recebido da API (fetch retornou null)');
     }
 
-    console.log('[menu-data] items received via pre-fetch → total:', items.length);
-    const grouped = groupMenuItems(items);
-    renderMenuIntoDOM(grouped);
-    console.log('[menu-data] renderização concluída — disparando evento menuRendered');
+    console.log('[menu-data] items received → total:', items.length);
 
-    // Notifica menu-tabs.js que o DOM está populado
-    document.dispatchEvent(new CustomEvent('menuRendered'));
+    // Cache the fresh response
+    setCachedMenu(items);
+
+    if (!usedCache) {
+      // First load (no cache): remove skeletons and render
+      removeSkeletons();
+      const grouped = groupMenuItems(items);
+      renderMenuIntoDOM(grouped);
+      document.dispatchEvent(new CustomEvent('menuRendered'));
+    } else {
+      // Cache was used: silently update if data changed
+      const cachedStr = JSON.stringify(cached);
+      const freshStr  = JSON.stringify(items);
+      if (cachedStr !== freshStr) {
+        console.log('[menu-data] fresh data differs from cache → updating DOM');
+        const grouped = groupMenuItems(items);
+        renderMenuIntoDOM(grouped);
+        document.dispatchEvent(new CustomEvent('menuRendered'));
+      } else {
+        console.log('[menu-data] fresh data matches cache — no DOM update needed');
+      }
+    }
+
   } catch (err) {
     console.error('[menu-data] ERRO em fetchAndRenderMenu:', err);
+    if (!usedCache) {
+      removeSkeletons();
+    }
     document.dispatchEvent(new CustomEvent('menuRendered', { detail: { error: true } }));
   }
 }

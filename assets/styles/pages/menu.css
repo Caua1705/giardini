@@ -3423,6 +3423,82 @@ footer {
 }
 
 /* ---------------------------------------------------------------------------
+   SKELETON LOADING — shimmer cards while API loads
+   --------------------------------------------------------------------------- */
+
+@keyframes skeletonShimmer {
+  0%   { background-position: -300px 0; }
+  100% { background-position: 300px 0; }
+}
+
+.skeleton-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 0.25rem 1.25rem;
+  padding: 1.35rem 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.skeleton-card:nth-child(even) {
+  border-left: 1px solid rgba(255,255,255,0.04);
+}
+
+.skeleton-card.has-thumb {
+  grid-template-columns: 88px 1fr minmax(90px, auto);
+  gap: 0.25rem 1.1rem;
+}
+
+.skeleton-block {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.03) 0%,
+    rgba(255,255,255,0.07) 40%,
+    rgba(255,255,255,0.03) 80%
+  );
+  background-size: 600px 100%;
+  animation: skeletonShimmer 1.6s ease-in-out infinite;
+  border-radius: 6px;
+}
+
+.skeleton-thumb {
+  width: 88px;
+  height: 88px;
+  border-radius: 8px;
+}
+
+.skeleton-title {
+  height: 14px;
+  width: 70%;
+  margin-bottom: 8px;
+}
+
+.skeleton-desc {
+  height: 10px;
+  width: 90%;
+  margin-bottom: 5px;
+}
+
+.skeleton-desc-short {
+  height: 10px;
+  width: 55%;
+}
+
+.skeleton-price {
+  height: 14px;
+  width: 60px;
+  margin-left: auto;
+}
+
+/* Fade-out when real content loads */
+.menu-grid.loaded .skeleton-card {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* ---------------------------------------------------------------------------
    MENU MOBILE HERO - App-style restaurant header (mobile only)
    --------------------------------------------------------------------------- */
 
@@ -3766,6 +3842,7 @@ footer {
     font-weight: 500;
   }
 }
+
 
 
 
