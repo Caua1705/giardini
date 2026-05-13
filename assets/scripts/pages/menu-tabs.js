@@ -1130,9 +1130,9 @@
         + thumbHtml
         + '<div class="search-result-body">'
         + '<p class="search-result-name">' + product.name + '</p>'
+        + '<span class="search-result-price">' + product.price + '</span>'
         + descHtml
         + '</div>'
-        + '<span class="search-result-price">' + product.price + '</span>'
         + '</div>';
     }
 
