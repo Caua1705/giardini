@@ -70,8 +70,8 @@ function paintCover(img) {
   let scale;
   if (isMobileDevice) {
     // COVER: fills 100% of the hero space.
-    // We add a slight zoom (1.15) to hide bottom-right artifacts.
-    scale = Math.max(cw / iw, ch / ih) * 1.15;
+    // Scale reduzido para mostrar mais do frame (livro completo visível).
+    scale = Math.max(cw / iw, ch / ih) * 0.95;
   } else {
     // Desktop: standard cover with slight zoom-in
     scale = Math.max(cw / iw, ch / ih) * 1.08;
@@ -1008,8 +1008,7 @@ function initAnimations() {
         .to('#el-h1',     { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
         .to('#el-sep',    { opacity: 1, scaleX: 1, duration: 0.6, ease: 'power3.out' }, '-=0.4')
         .to('#el-body',   { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.3')
-        .to('#el-cta',    { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.2')
-        .to('#el-scroll', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.1');
+        .to('#el-cta',    { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.2');
     } else {
       tl
         .to('#navbar', { opacity: 1, duration: 0.8, ease: 'power2.out' })

@@ -87,6 +87,38 @@
   .res-hero-scanlines {
     display: none !important;
   }
+
+  /* ── Background da página igual ao fundo da bottom nav (#121C16) ── */
+  body,
+  html {
+    background-color: #121C16 !important;
+  }
+  .res-env-section {
+    background: #121C16 !important;
+  }
+  .res-section {
+    background: #121C16 !important;
+  }
+
+  /* ── Oculta o gradiente de bleed do rodapé (tom diferente de verde) ── */
+  #footer-bleed {
+    display: none !important;
+  }
+
+  /* ── Remove "Reservar" + setinha vertical do hero no mobile ── */
+  .res-hero-scroll {
+    display: none !important;
+  }
+
+  /* ── Reduz zoom do canvas do hero no mobile ── */
+  .res-hero #seq-canvas,
+  #seq-canvas {
+    transform: scale(1) !important;
+  }
+  .res-hero #seq-canvas.ready,
+  #seq-canvas.ready {
+    transform: scale(1) !important;
+  }
 }
 
 /* Logo */
@@ -254,7 +286,7 @@
 
   .res-hero,
   #hero-viewport.res-hero {
-    background: #0C1A10 !important;
+    background: #121C16 !important;
     flex-direction: column !important;
     overflow: hidden !important;
     width: 100vw !important;
@@ -2894,10 +2926,10 @@ body{
 
   /* ── 14. Form section: simplify backgrounds ─────────────────── */
   .res-section {
-    background: linear-gradient(180deg, #0C1A10 0%, #131c15 100%) !important;
+    background: #121C16 !important;
   }
   .res-env-section {
-    background: linear-gradient(180deg, #0C1A10 0%, #0e1812 100%) !important;
+    background: #121C16 !important;
   }
 
   /* ── 15. Scroll-driven word: already hidden by CSS, ensure it ── */
