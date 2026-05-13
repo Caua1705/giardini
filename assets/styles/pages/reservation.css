@@ -3020,13 +3020,13 @@ body{
   /* ── 7. Canvas: remove expensive blur filter and transition on mobile ── */
   #seq-canvas {
     filter: none !important;
-    transform: none !important;
+    transform: scale(1.15) !important;
     transition: none !important;
     opacity: 1 !important;
   }
   #seq-canvas.ready {
     filter: none !important;
-    transform: none !important;
+    transform: scale(1.15) !important;
     opacity: 1 !important;
   }
 
