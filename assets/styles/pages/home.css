@@ -1828,12 +1828,150 @@
   }
 
   /* ══════════════════════════════════════════════════════════════
-     7. LOCATION — Minor tightening beyond existing mobile styles
+     7. LOCATION — Compact premium mobile information panel
+        Full override of the section-G location block above.
      ══════════════════════════════════════════════════════════════ */
 
+  /* Section: minimal vertical breathing room */
   #location {
-    padding-top: clamp(2.75rem, 8vw, 3.5rem) !important;
-    padding-bottom: clamp(2.75rem, 8vw, 3.5rem) !important;
+    padding-top: clamp(1.75rem, 5vw, 2.25rem) !important;
+    padding-bottom: clamp(1.75rem, 5vw, 2.25rem) !important;
+  }
+
+  /* Grid: single column, tight padding */
+  #location .grid {
+    padding-left: clamp(1.25rem, 5vw, 1.75rem) !important;
+    padding-right: clamp(1.25rem, 5vw, 1.75rem) !important;
+    gap: 0 !important;
+  }
+
+  /* Badge row: tight */
+  #location .loc-dr.d1 {
+    margin-bottom: 0.85rem !important;
+  }
+
+  /* Headline: refined mobile size, no editorial sprawl */
+  #location h2 {
+    font-size: clamp(2.25rem, 9.5vw, 2.85rem) !important;
+    line-height: 0.88 !important;
+    margin-bottom: 0.85rem !important;
+    padding-bottom: 0 !important;
+    letter-spacing: -0.03em !important;
+  }
+
+  /* Description: compact, scannable */
+  #location p[style*="max-width:400px"] {
+    font-size: 0.80rem !important;
+    line-height: 1.55 !important;
+    color: rgba(255,255,255,0.38) !important;
+    padding-top: 0 !important;
+  }
+  #location .overflow-hidden.mb-10 {
+    margin-bottom: 0.75rem !important;
+  }
+
+  /* Divider: minimal presence */
+  .loc-dk-divider {
+    margin-bottom: 0.75rem !important;
+  }
+
+  /* Info rows container: tight vertical stack */
+  #location div[style*="gap:3.5rem;margin-bottom:3.5rem"] {
+    gap: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* Fine-line accent: minimal */
+  .loc-dk-fineline {
+    margin-bottom: 0.35rem !important;
+  }
+
+  /* Row label (Localização, Rotina) */
+  #location .loc-dk-row h4 {
+    margin-bottom: 0.35rem !important;
+    font-size: 0.48rem !important;
+  }
+
+  /* Address: readable but compact */
+  #location .loc-dk-row p[style*="font-size:1.55rem"] {
+    font-size: 1rem !important;
+    line-height: 1.15 !important;
+  }
+
+  /* Neighborhood sub-label */
+  #location .loc-dk-row p[style*="font-size:0.68rem"] {
+    margin-top: 0.15rem !important;
+    font-size: 0.57rem !important;
+  }
+
+  /* Hours inner stack: tighter */
+  #location .loc-dk-row div[style*="gap:1.25rem"] {
+    gap: 0.55rem !important;
+  }
+
+  /* Primary hours time */
+  #location .loc-dk-row p[style*="font-size:2rem"] {
+    font-size: 1.2rem !important;
+    letter-spacing: -0.04em !important;
+    line-height: 1 !important;
+  }
+
+  /* Sunday day label */
+  #location .loc-dk-row p[style*="font-size:0.58rem"] {
+    margin-bottom: 0.2rem !important;
+  }
+
+  /* Sunday times */
+  #location .loc-dk-row p[style*="font-size:1.3rem"] {
+    font-size: 0.88rem !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1 !important;
+  }
+
+  /* CTA: flush to info block */
+  #location .loc-dr.d6 {
+    margin-top: 0 !important;
+  }
+  .loc-btn-shimmer {
+    padding: 0.72rem 1.5rem !important;
+    font-size: 0.59rem !important;
+    letter-spacing: 0.14em !important;
+    min-height: 42px !important;
+    gap: 0.6rem !important;
+  }
+
+  /* Map column: close to text content */
+  #location .lg\:col-span-7 {
+    margin-top: 1.5rem !important;
+    width: 100% !important;
+    perspective: none !important;
+  }
+
+  /* Map card: fixed compact height, not aspect-ratio driven */
+  .ed-map-container {
+    aspect-ratio: unset !important;
+    height: 240px !important;
+    width: 100% !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.32) !important;
+  }
+
+  /* Map info bar: single row layout */
+  .loc-map-bar {
+    padding: 0.7rem 0.9rem 0.65rem !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.5rem !important;
+  }
+  .loc-map-bar p[style*="font-size:1.1rem"] {
+    font-size: 0.78rem !important;
+    line-height: 1.2 !important;
+  }
+  .loc-map-bar > span {
+    font-size: 0.44rem !important;
+    padding: 0.3rem 0.7rem !important;
+    flex-shrink: 0 !important;
   }
 
   /* ══════════════════════════════════════════════════════════════
