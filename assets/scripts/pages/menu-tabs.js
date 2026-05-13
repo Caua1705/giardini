@@ -1,15 +1,15 @@
-
+﻿
     gsap.registerPlugin(ScrollTrigger);
 
-    /* ── Native smooth scroll behavior (desktop only) ── */
+    /* â”€â”€ Native smooth scroll behavior (desktop only) â”€â”€ */
     if (window.innerWidth > 767) {
       document.documentElement.style.scrollBehavior = 'smooth';
     }
 
-    /* ── CANVAS FRAME VARS ── */
+    /* â”€â”€ CANVAS FRAME VARS â”€â”€ */
     const isMobileDevice = window.innerWidth <= 767 || ('ontouchstart' in window);
 
-    /* ── MOBILE SAFETY NET: Force all .reveal elements visible ──
+    /* â”€â”€ MOBILE SAFETY NET: Force all .reveal elements visible â”€â”€
        This runs independently of the preloader/initPage chain.
        Even if frame preloading fails, menu items will appear. */
     if (isMobileDevice) {
@@ -75,7 +75,7 @@
       const ch = canvas.height / dpr;
       const iw = img.naturalWidth;
       const ih = img.naturalHeight;
-      // Cover — zoom slightly more on mobile to hide edge artifacts
+      // Cover â€” zoom slightly more on mobile to hide edge artifacts
       const zoom = isMobileDevice ? 1.15 : 1.02;
       const scale = Math.max(cw / iw, ch / ih) * zoom;
       const dw = iw * scale;
@@ -95,7 +95,7 @@
       }
     }
 
-    /* ── Preloader ── */
+    /* â”€â”€ Preloader â”€â”€ */
     const loaderBar = document.getElementById('loader-bar');
     const loader = document.getElementById('loader');
 
@@ -124,7 +124,7 @@
     }
 
     preloadFrames().then(() => {
-      // ── Loader Lift ──
+      // â”€â”€ Loader Lift â”€â”€
       const loadTl = gsap.timeline({
         onComplete: () => {
           loader.style.display = 'none';
@@ -134,19 +134,19 @@
       
       loadTl.to(loader, { yPercent: -105, duration: 1.2, ease: 'power4.inOut' });
 
-      // ── Force scroll to top on mobile ──
+      // â”€â”€ Force scroll to top on mobile â”€â”€
       if (isMobileDevice) {
         window.scrollTo(0, 0);
       }
 
-      // ── Detect mid-scroll reload ──
+      // â”€â”€ Detect mid-scroll reload â”€â”€
       const isAlreadyScrolled = (window.scrollY || window.pageYOffset) > 10;
 
       let heroEntranceDone = false;
       let exitAnimsCreated = false;
 
-      // ── Initial hidden state for hero elements ──
-      // Skip expensive filter:blur on mobile — use opacity+transform only
+      // â”€â”€ Initial hidden state for hero elements â”€â”€
+      // Skip expensive filter:blur on mobile â€” use opacity+transform only
       const _b = (px) => isMobileDevice ? {} : { filter: `blur(${px}px)` };
       gsap.set('#el-kicker', { opacity: 0, y: 35, ..._b(14) });
       gsap.set('#el-h1a',    { opacity: 0, y: 45, ..._b(16) });
@@ -158,7 +158,7 @@
       gsap.set('#navbar',    { opacity: 0 });
       gsap.set('#video-frame', { opacity: 0, scale: 0.94 });
 
-      // ── Entrance timeline builder ──
+      // â”€â”€ Entrance timeline builder â”€â”€
       function buildEntranceTl(opts) {
         const originalOnComplete = opts.onComplete;
         opts.onComplete = () => {
@@ -189,7 +189,7 @@
       }
 
       // Initialize canvas
-      // Initialize canvas — debounce resize on mobile
+      // Initialize canvas â€” debounce resize on mobile
       if (isMobileDevice) {
         let _rTimer;
         window.addEventListener('resize', () => {
@@ -200,7 +200,7 @@
         window.addEventListener('resize', resizeCanvas);
       }
       resizeCanvas();
-      // Force draw first frame — retry until loaded
+      // Force draw first frame â€” retry until loaded
       function tryDrawFirst() {
         if (frames[0]?.complete && frames[0].naturalWidth > 0) {
           currentFrameIndex = -1; // reset to force draw
@@ -215,12 +215,12 @@
         canvas.style.willChange = 'transform';
       }
 
-      // ── ScrollTrigger Scrub Animation ──
+      // â”€â”€ ScrollTrigger Scrub Animation â”€â”€
       const wrapper = document.getElementById('hero-pin-wrapper');
       const viewport = document.getElementById('hero-viewport');
       const scrollPx = window.innerHeight * (CONFIG.scrollVH / 100);
 
-      // ── Exit scrub animations ──
+      // â”€â”€ Exit scrub animations â”€â”€
       function createExitAnimations() {
         if (exitAnimsCreated) return;
         exitAnimsCreated = true;
@@ -250,7 +250,7 @@
           onLeaveBack: () => { snapHeroVisible(); }
         };
 
-        // On mobile, skip filter:blur in scroll-out — paint op, not compositor-only
+        // On mobile, skip filter:blur in scroll-out â€” paint op, not compositor-only
         const _f = (b) => isMobileDevice ? {} : { filter: `blur(${b})` };
 
         gsap.to('#el-kicker', {
@@ -295,7 +295,7 @@
           scrub: CONFIG.scrub,
           anticipatePin: isMobileDevice ? 1.5 : 1,
           onUpdate: (self) => {
-            // REMOVED resizeCanvas() from here — was called 60x/sec causing massive jank on mobile
+            // REMOVED resizeCanvas() from here â€” was called 60x/sec causing massive jank on mobile
             const idx = Math.min(
               Math.floor(self.progress * CONFIG.TOTAL_FRAMES),
               CONFIG.TOTAL_FRAMES - 1
@@ -351,10 +351,10 @@
           });
         }
 
-        // ── MOBILE SAFETY NET: ensure canvas never stays blank ──
+        // â”€â”€ MOBILE SAFETY NET: ensure canvas never stays blank â”€â”€
         // Use lightweight check: only redraw on visibilitychange (tab regain).
         // The previous getImageData approach was extremely expensive on mobile
-        // (GPU→CPU readback on every scroll frame). Removed.
+        // (GPUâ†’CPU readback on every scroll frame). Removed.
         if (isMobileDevice && canvas && ctx) {
           document.addEventListener('visibilitychange', () => {
             if (!document.hidden) {
@@ -383,12 +383,12 @@
       const catBtns = document.querySelectorAll('.cat-btn');
       const categoryGroups = document.querySelectorAll('.category-group');
       
-      /* ── Fixed-pin observer for #cat-nav ─────────────────────────────
+      /* â”€â”€ Fixed-pin observer for #cat-nav â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
          overflow-x:hidden on html/body breaks position:sticky, so we
          use position:fixed instead.
          On mobile the navbar is position:absolute (scrolls away),
          so cat-nav pins at top:0. On desktop it pins below navbar.
-      ──────────────────────────────────────────────────────────────── */
+      â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
       const menuBody = document.getElementById('menu-body');
       const NAVBAR_H = isMobileDevice ? 0 : 72;
       let catNavH = catNav.offsetHeight;
@@ -437,7 +437,7 @@
         updatePin();
       }, { passive: true });
 
-      /* ── Navbar scroll state ── */
+      /* â”€â”€ Navbar scroll state â”€â”€ */
       window.addEventListener('scroll', () => {
         if (window.scrollY > 80) {
           nav.classList.add('is-scrolled');
@@ -448,7 +448,7 @@
         }
       }, { passive: true });
 
-      /* ── Reveal animations (IntersectionObserver) ── */
+      /* â”€â”€ Reveal animations (IntersectionObserver) â”€â”€ */
       const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -467,7 +467,7 @@
 
       observeRevealElements();
 
-      /* ── Mobile fallback: force all reveals visible immediately ── */
+      /* â”€â”€ Mobile fallback: force all reveals visible immediately â”€â”€ */
       if (window.innerWidth <= 767) {
         document.querySelectorAll('.reveal').forEach(el => {
           el.classList.add('is-visible');
@@ -479,9 +479,9 @@
       }
 
 
-      /* ══════════════════════════════════════════════════════════
+      /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
          SCROLL-BASED CATEGORY NAVIGATION
-      ══════════════════════════════════════════════════════════ */
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
       /** Centers the active cat-btn inside the scrollable rail. */
       function syncCatNavRail() {
@@ -523,7 +523,7 @@
         window.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
       }
 
-      /* ── Click handlers for category buttons ── */
+      /* â”€â”€ Click handlers for category buttons â”€â”€ */
       catBtns.forEach(btn => {
         btn.addEventListener('click', () => {
           const targetId = btn.dataset.target;
@@ -532,11 +532,11 @@
         });
       });
 
-      /* ── IntersectionObserver: track which category is in view ─────
+      /* â”€â”€ IntersectionObserver: track which category is in view â”€â”€â”€â”€â”€
          Updates active nav button as user scrolls through categories.
          On mobile, use a tighter rootMargin for better detection since
          cat-nav pins at top:0 without the navbar taking space.
-      ──────────────────────────────────────────────────────────────── */
+      â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
       let isUserScrolling = true; // Flag to prevent observer fighting with click-scroll
 
       const catObserverMargin = isMobileDevice
@@ -576,7 +576,7 @@
       });
 
 
-      /* ── Hero CTA & Scroll Indicator scroll-to-menu ── */
+      /* â”€â”€ Hero CTA & Scroll Indicator scroll-to-menu â”€â”€ */
       const scrollToMenu = (e) => {
         e.preventDefault();
         const menuStart = document.getElementById('menu-start');
@@ -613,7 +613,7 @@
       }
     }
 
-    /* ── Mobile menu ── */
+    /* â”€â”€ Mobile menu â”€â”€ */
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
     const mobileClose = document.getElementById('mobile-close');
@@ -625,9 +625,9 @@
     });
 
 
-    /* ══════════════════════════════════════════════════════════════════
-       CUSTOM CURSOR — Green dot with lagging ring
-    ══════════════════════════════════════════════════════════════════ */
+    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       CUSTOM CURSOR â€” Green dot with lagging ring
+    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
     (function initCursor() {
       if (!window.matchMedia('(pointer: fine)').matches) return;
 
@@ -667,9 +667,9 @@
       requestAnimationFrame(animCursor);
     })();
 
-    /* ══════════════════════════════════════════════════════════════════
+    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
        PRODUCT DETAIL MODAL / BOTTOM SHEET
-    ══════════════════════════════════════════════════════════════════ */
+    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
     (function initDetailModal() {
       const modal = document.getElementById('menu-modal');
       const closeBtn = document.getElementById('modal-close');
@@ -695,9 +695,9 @@
         regional: { label: 'Regional', icon: 'lucide:map-pin' },
         fav: { label: 'Favorito', icon: 'lucide:heart' },
         casa: { label: 'Da Casa', icon: 'lucide:home' },
-        gluten: { label: 'Contém Glúten', icon: 'lucide:wheat' },
-        leite: { label: 'Contém Leite', icon: 'lucide:milk' },
-        lac: { label: 'Contém Lactose', icon: 'lucide:milk-off' },
+        gluten: { label: 'ContÃ©m GlÃºten', icon: 'lucide:wheat' },
+        leite: { label: 'ContÃ©m Leite', icon: 'lucide:milk' },
+        lac: { label: 'ContÃ©m Lactose', icon: 'lucide:milk-off' },
         castanhas: { label: 'Castanhas', icon: 'lucide:nut' }
       };
 
@@ -758,7 +758,7 @@
         // Build semantic attribute sections
         let attrsHtml = '';
         if (profile) attrsHtml += buildAttrGroup('Perfil', profile.split(',').filter(Boolean));
-        if (allergens) attrsHtml += buildAttrGroup('Contém', allergens.split(',').filter(Boolean));
+        if (allergens) attrsHtml += buildAttrGroup('ContÃ©m', allergens.split(',').filter(Boolean));
 
         if (attrsHtml) {
           attrsContainer.innerHTML = attrsHtml;
@@ -800,13 +800,13 @@
 
       registerMenuItemClicks();
 
-      // Re-registrar após fetch dinâmico da API (menu-data.js)
+      // Re-registrar apÃ³s fetch dinÃ¢mico da API (menu-data.js)
       document.addEventListener('menuRendered', () => {
         registerMenuItemClicks();
-        // Não tentar usar o revealObserver aqui porque o initPage pode não ter rodado.
+        // NÃ£o tentar usar o revealObserver aqui porque o initPage pode nÃ£o ter rodado.
         // Apenas deixe os elementos prontos. 
         document.querySelectorAll('.reveal:not(.is-observed)').forEach(el => {
-          // Fallback seguro: já torna os itens diretamente visíveis
+          // Fallback seguro: jÃ¡ torna os itens diretamente visÃ­veis
           // Para evitar o bug do observer nunca inicializando neles
           el.classList.add('is-visible');
           el.style.opacity = '1';
@@ -826,10 +826,10 @@
       });
     })();
 
-    /* ═══════════════════════════════════════════════════════════════════════════
+    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
        BASE SELECTOR LOGIC (TAPIOCA / CUSCUZ)
-       Aguarda menuRendered para garantir que o grid está populado pela API.
-    ═══════════════════════════════════════════════════════════════════════════ */
+       Aguarda menuRendered para garantir que o grid estÃ¡ populado pela API.
+    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
     function initBaseSelector() {
       const toggleBtns = document.querySelectorAll('.base-toggle-btn');
       if (toggleBtns.length === 0) return;
@@ -863,7 +863,7 @@
           const newPrice = item.getAttribute(targetAttr);
           
           if (newPrice && priceEl.innerHTML !== newPrice) {
-            // Atualiza também o atributo consumido pelo modal
+            // Atualiza tambÃ©m o atributo consumido pelo modal
             item.setAttribute('data-item-price', newPrice);
 
             gsap.to(priceEl, { opacity: 0, y: -2, duration: 0.15, onComplete: () => {
@@ -892,8 +892,234 @@
       }
     }
 
-    // Tentar inicializar imediatamente (dados hardcoded ou fetch já concluído)
+    // Tentar inicializar imediatamente (dados hardcoded ou fetch jÃ¡ concluÃ­do)
     initBaseSelector();
 
-    // Re-inicializar após o fetch dinâmico popular o grid de Tapioca & Cuscuz
+    // Re-inicializar apÃ³s o fetch dinÃ¢mico popular o grid de Tapioca & Cuscuz
     document.addEventListener('menuRendered', initBaseSelector);
+
+
+/* -------------------------------------------------------------------------
+   MOBILE HERO — Carousel (swipe + auto-advance) + Search overlay
+   ------------------------------------------------------------------------- */
+(function () {
+  'use strict';
+
+  /* ── Helpers ──────────────────────────────────────────────── */
+  function qs(sel) { return document.querySelector(sel); }
+
+  /* ══════════════════════════════════════════════════════════
+     1. CAROUSEL
+  ══════════════════════════════════════════════════════════ */
+  function initCarousel() {
+    var slides   = document.querySelectorAll('#mmh-slides .mmh-slide');
+    var dots     = document.querySelectorAll('#mmh-dots .mmh-dot');
+    var wrap     = document.getElementById('mmh-carousel');
+    if (!slides.length || !dots.length || !wrap) return;
+
+    var current  = 0;
+    var total    = slides.length;
+    var DURATION = 3500;
+    var timer    = null;
+    var paused   = false;
+
+    /* ── goTo: transition to slide index ───────────── */
+    function goTo(index, resetTimer) {
+      var prev = current;
+      current  = ((index % total) + total) % total;
+      if (prev === current) return;
+
+      slides[prev].classList.remove('mmh-slide--active');
+      slides[current].classList.add('mmh-slide--active');
+
+      // update dots
+      for (var i = 0; i < total; i++) {
+        var fill = dots[i].querySelector('.mmh-dot-fill');
+        dots[i].classList.remove('mmh-dot--active', 'mmh-dot--done');
+        if (fill) { fill.style.animation = 'none'; fill.style.width = '0%'; }
+
+        if (i === current) {
+          dots[i].classList.add('mmh-dot--active');
+          if (fill) {
+            fill.getBoundingClientRect(); // reflow
+            fill.style.animation = 'mmhFill ' + (DURATION / 1000) + 's linear forwards';
+          }
+        } else if (i < current) {
+          dots[i].classList.add('mmh-dot--done');
+          if (fill) { fill.style.width = '100%'; }
+        }
+      }
+
+      if (resetTimer !== false) startTimer();
+    }
+
+    /* ── Auto-advance timer ─────────────────────── */
+    function startTimer() {
+      clearInterval(timer);
+      if (!paused) {
+        timer = setInterval(function () { goTo(current + 1); }, DURATION);
+      }
+    }
+
+    /* ── Kick off first dot fill ────────────────── */
+    (function () {
+      var f = dots[0] && dots[0].querySelector('.mmh-dot-fill');
+      if (f) {
+        f.style.animation = 'none';
+        f.style.width = '0%';
+        f.getBoundingClientRect();
+        f.style.animation = 'mmhFill ' + (DURATION / 1000) + 's linear forwards';
+      }
+      dots[0] && dots[0].classList.add('mmh-dot--active');
+    })();
+
+    startTimer();
+
+    /* ── SWIPE — touch ───────────────────────────── */
+    var touchStartX = 0;
+    var touchStartY = 0;
+    var dragging    = false;
+
+    wrap.addEventListener('touchstart', function (e) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      dragging    = true;
+      paused      = true;
+      clearInterval(timer);
+    }, { passive: true });
+
+    wrap.addEventListener('touchmove', function (e) {
+      if (!dragging) return;
+      var dx = e.touches[0].clientX - touchStartX;
+      var dy = e.touches[0].clientY - touchStartY;
+      // Only intercept horizontal swipes > 10px
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    wrap.addEventListener('touchend', function (e) {
+      if (!dragging) return;
+      dragging = false;
+      paused   = false;
+      var dx   = e.changedTouches[0].clientX - touchStartX;
+      var dy   = e.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+        goTo(dx < 0 ? current + 1 : current - 1);
+      } else {
+        startTimer();
+      }
+    }, { passive: true });
+
+    /* ── SWIPE — mouse (desktop dev convenience) ─ */
+    var mouseStartX = 0;
+    var mouseDragging = false;
+
+    wrap.addEventListener('mousedown', function (e) {
+      mouseStartX   = e.clientX;
+      mouseDragging = true;
+      paused        = true;
+      clearInterval(timer);
+      e.preventDefault();
+    });
+
+    document.addEventListener('mouseup', function (e) {
+      if (!mouseDragging) return;
+      mouseDragging = false;
+      paused        = false;
+      var dx        = e.clientX - mouseStartX;
+      if (Math.abs(dx) > 40) {
+        goTo(dx < 0 ? current + 1 : current - 1);
+      } else {
+        startTimer();
+      }
+    });
+
+    /* ── Dot click ───────────────────────────────── */
+    dots.forEach(function (dot, idx) {
+      dot.addEventListener('click', function () { goTo(idx); });
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     2. SEARCH OVERLAY
+  ══════════════════════════════════════════════════════════ */
+  function initSearch() {
+    var overlay   = document.getElementById('mmh-search-overlay');
+    var input     = document.getElementById('mmh-search-input');
+    var closeBtn  = document.getElementById('mmh-search-close');
+    var countEl   = document.getElementById('mmh-search-count');
+    var searchBtn = document.querySelector('.mmh-icon-btn[aria-label="Buscar"]');
+    if (!overlay || !input || !searchBtn) return;
+
+    /* Open */
+    searchBtn.addEventListener('click', function () {
+      overlay.classList.add('open');
+      setTimeout(function () { input.focus(); }, 150);
+      doFilter(input.value);
+    });
+
+    /* Close */
+    function closeSearch() {
+      overlay.classList.remove('open');
+      input.value = '';
+      doFilter('');
+    }
+
+    closeBtn && closeBtn.addEventListener('click', closeSearch);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeSearch();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeSearch();
+    });
+
+    /* Filter — hides product cards that don't match */
+    function doFilter(query) {
+      var q = (query || '').trim().toLowerCase();
+
+      // Product cards can have various selectors depending on the page
+      var cards = document.querySelectorAll(
+        '.product-card, .menu-item, [data-product-name], .item-card'
+      );
+
+      var shown = 0;
+      cards.forEach(function (card) {
+        // Try multiple ways to read the product name
+        var name = (
+          card.getAttribute('data-product-name') ||
+          (card.querySelector('.product-name, .item-name, h3, h4') || {}).textContent ||
+          card.textContent
+        ).toLowerCase();
+
+        var visible = !q || name.indexOf(q) !== -1;
+        card.style.display = visible ? '' : 'none';
+        if (visible) shown++;
+      });
+
+      if (countEl) {
+        if (q && cards.length) {
+          countEl.textContent = shown + ' resultado' + (shown !== 1 ? 's' : '') + ' para "' + query.trim() + '"';
+          countEl.style.display = 'block';
+        } else {
+          countEl.style.display = 'none';
+        }
+      }
+    }
+
+    input.addEventListener('input', function () { doFilter(this.value); });
+  }
+
+  /* ── Boot ─────────────────────────────────────────────────── */
+  function boot() {
+    initCarousel();
+    initSearch();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+
+})();

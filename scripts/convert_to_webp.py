@@ -2,7 +2,7 @@ from PIL import Image
 import os
 
 # CAMINHO DA IMAGEM
-input_path = "assets/images/foto.jpg"
+input_path = "assets/images/_MG_2083.jpg"
 
 # QUALIDADE (0-100)
 quality = 80

@@ -1,31 +1,31 @@
-/* ═══════════════════════════════════════════════════════════════════════════
-   GIARDINI CAFÉ — MENU PAGE (Green-Atmospheric Theme)
-   ═══════════════════════════════════════════════════════════════════════════
+﻿/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   GIARDINI CAFÃ‰ â€” MENU PAGE (Green-Atmospheric Theme)
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    Chromatic strategy: The ENTIRE page lives inside the Giardini green world.
    
-   Hero:        Dark cinematic green  (#0C1A10 → #162218)
-   Bridge:      Gradient from dark green → light green
+   Hero:        Dark cinematic green  (#0C1A10 â†’ #162218)
+   Bridge:      Gradient from dark green â†’ light green
    Body:        Light green atmospheric (#EFF4F0 / #E5ECE7)
    Surfaces:    Green-tinted glass, not white/cream
    
    Color tokens:
-     --m-bg:        #EFF4F0  (light sage — main body bg)
+     --m-bg:        #EFF4F0  (light sage â€” main body bg)
      --m-bg-deep:   #E5ECE7  (slightly deeper sage for cards/sections)
      --m-bg-glow:   #DDE6DF  (warm sage for emphasized areas)
      --c-dark:      #1A1A1A  (near-black text)
-     --c-primary:   #2B4A3B  (forest green — brand anchor)
-     --c-gold:      #B79358  (warm gold — hero accents only)
-   ═══════════════════════════════════════════════════════════════════════════ */
+     --c-primary:   #2B4A3B  (forest green â€” brand anchor)
+     --c-gold:      #B79358  (warm gold â€” hero accents only)
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 
-/* ══ 1. GLOBALS ══════════════════════════════════════════════════════════ */
+/* â•â• 1. GLOBALS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 :root {
-  /* Elevado para o tom floresta (família Location), menos preto */
-  --c-bg: #0E1B13;
-  --m-bg: #0E1B13;
-  --m-bg-deep: #0A140F;
-  --m-bg-glow: #132419;
+  /* Elevado para o tom floresta (famÃ­lia Location), menos preto */
+  --c-bg: #121C16;
+  --m-bg: #121C16;
+  --m-bg-deep: #0D1711;
+  --m-bg-glow: #182A1E;
   --m-bg-surface: rgba(234, 228, 217, 0.04);
   --c-dark: #FDFBF7;
   --c-primary: #2B4A3B;
@@ -49,7 +49,7 @@ html {
   scroll-behavior: smooth;
   overflow-x: hidden;
   /* Premium deep green gradient matching Location family but strictly darker */
-  background: linear-gradient(160deg, #132419 0%, #0E1B13 45%, #0A140F 100%) fixed !important;
+  background: #121C16 fixed !important;
 }
 
 body {
@@ -59,7 +59,7 @@ body {
 @media (max-width: 767px) {
   html {
     scroll-behavior: auto;
-    background: #0A140F !important;
+    background: #121C16 !important;
     background-attachment: scroll !important;
   }
 }
@@ -73,7 +73,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Green atmospheric tint — subtle warm ivory glows to balance the dark green */
+/* Green atmospheric tint â€” subtle warm ivory glows to balance the dark green */
 body::before {
   content: '';
   position: fixed;
@@ -91,7 +91,7 @@ body::after {
 }
 
 
-/* ══ 2. NOISE OVERLAY ════════════════════════════════════════════════════ */
+/* â•â• 2. NOISE OVERLAY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 .noise-overlay {
   position: fixed;
@@ -114,7 +114,7 @@ body::after {
 }
 
 
-/* ══ 3. LOADER ═══════════════════════════════════════════════════════════ */
+/* â•â• 3. LOADER â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 .loader {
   position: fixed;
@@ -191,7 +191,7 @@ body::after {
 }
 
 
-/* ══ 4. NAVBAR — Green glass ═════════════════════════════════════════════ */
+/* â•â• 4. NAVBAR â€” Green glass â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 #navbar {
   position: fixed;
@@ -452,7 +452,7 @@ body::after {
 }
 
 
-/* ══ 5. HERO — Cinematic Dark Green (slightly lighter) ═══════════════════ */
+/* â•â• 5. HERO â€” Cinematic Dark Green (slightly lighter) â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 #hero-pin-wrapper {
   position: relative;
@@ -460,7 +460,7 @@ body::after {
   background: var(--m-bg, #0E1B13);
 }
 
-/* GSAP ScrollTrigger creates a .pin-spacer wrapper — ensure it matches */
+/* GSAP ScrollTrigger creates a .pin-spacer wrapper â€” ensure it matches */
 .pin-spacer {
   background: var(--m-bg, #0E1B13) !important;
 }
@@ -498,7 +498,7 @@ body::after {
   pointer-events: auto;
 }
 
-/* Hero background: slightly lighter green-black — still cinematic, but lifted */
+/* Hero background: slightly lighter green-black â€” still cinematic, but lifted */
 .hero-bg {
   position: absolute;
   inset: 0;
@@ -506,7 +506,7 @@ body::after {
   background: radial-gradient(ellipse at 50% 55%, #0E1E12 0%, #091410 60%, #050C07 100%);
 }
 
-/* Hero section bridge — seamless blend into dark menu body */
+/* Hero section bridge â€” seamless blend into dark menu body */
 #hero-pin-wrapper::after {
   content: '';
   position: absolute;
@@ -525,7 +525,7 @@ body::after {
   display: none;
 }
 
-/* Canvas frame — fullscreen, same as reservation hero */
+/* Canvas frame â€” fullscreen, same as reservation hero */
 #video-frame {
   position: absolute;
   inset: 0;
@@ -824,7 +824,7 @@ body::after {
 }
 
 
-/* ══ 6. CATEGORY NAV — Green glass pill ══════════════════════════════════ */
+/* â•â• 6. CATEGORY NAV â€” Green glass pill â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 @keyframes cat-nav-inner-reveal {
   from {
@@ -859,7 +859,7 @@ body::after {
   background: transparent;
 }
 
-/* Green glass pill — matches green atmospheric body */
+/* Green glass pill â€” matches green atmospheric body */
 #cat-nav.is-pinned .cat-nav-inner {
   background: rgba(18, 28, 22, 0.85);
   backdrop-filter: blur(20px) saturate(1.2);
@@ -928,7 +928,7 @@ body::after {
 }
 
 
-/* ══ 7. MENU BODY ═══════════════════════════════════════════════════════ */
+/* â•â• 7. MENU BODY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 .menu-main-wrapper {
   max-width: 1040px;
@@ -948,7 +948,7 @@ body::after {
 }
 
 
-/* ══ 8. CATEGORY GROUPS — Scroll anchors ═════════════════════════════════ */
+/* â•â• 8. CATEGORY GROUPS â€” Scroll anchors â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 .category-group {
   margin-bottom: 5.5rem;
@@ -987,7 +987,7 @@ body::after {
 }
 
 
-/* ══ 9. MENU SECTIONS ════════════════════════════════════════════════════ */
+/* â•â• 9. MENU SECTIONS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 .menu-section {
   padding: 0 0 3rem 0;
@@ -1007,7 +1007,7 @@ body::after {
 }
 
 
-/* ══ 10. SECTION HEADERS ═════════════════════════════════════════════════ */
+/* â•â• 10. SECTION HEADERS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 .section-header {
   display: flex;
@@ -1108,7 +1108,7 @@ body::after {
 }
 
 
-/* ══ 11. MENU GRID ═══════════════════════════════════════════════════════ */
+/* â•â• 11. MENU GRID â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 .menu-grid {
   display: grid;
@@ -1119,7 +1119,7 @@ body::after {
 }
 
 
-/* ══ 12. MENU ITEMS ══════════════════════════════════════════════════════ */
+/* â•â• 12. MENU ITEMS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 .menu-item {
   display: grid;
@@ -1256,7 +1256,7 @@ body::after {
   margin-top: 0.1rem;
 }
 
-/* ── VARIANT SYSTEM ────────────────────────────────────────────── */
+/* â”€â”€ VARIANT SYSTEM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .variant-list {
   display: flex;
@@ -1274,7 +1274,7 @@ body::after {
   line-height: 1.0;
 }
 
-/* Compact layout for variants — label and price on the same line */
+/* Compact layout for variants â€” label and price on the same line */
 .variant-item--compact {
   flex-direction: row;
   align-items: center;
@@ -1331,7 +1331,7 @@ body::after {
 }
 
 
-/* ══ 13. BADGES ══════════════════════════════════════════════════════════ */
+/* â•â• 13. BADGES â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 .item-badges {
   display: flex;
@@ -1371,7 +1371,7 @@ body::after {
 }
 
 
-/* ══ 14. REVEAL ANIMATIONS ═══════════════════════════════════════════════ */
+/* â•â• 14. REVEAL ANIMATIONS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 .reveal {
   opacity: 0;
@@ -1429,7 +1429,7 @@ body::after {
 }
 
 
-/* ══ 15. PDF SECTION ═════════════════════════════════════════════════════ */
+/* â•â• 15. PDF SECTION â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 #pdf-section {
   padding: 5rem 2rem;
@@ -1513,7 +1513,7 @@ body::after {
 }
 
 
-/* ══ 16. FOOTER — Green atmospheric ══════════════════════════════════════ */
+/* â•â• 16. FOOTER â€” Green atmospheric â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 footer {
   padding: 3.5rem 4rem 3rem;
@@ -1570,7 +1570,7 @@ footer {
 }
 
 
-/* ══ 18. MODAL / BOTTOM SHEET ═══════════════════════════════════════════ */
+/* â•â• 18. MODAL / BOTTOM SHEET â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 #menu-modal {
   position: fixed;
@@ -1734,7 +1734,7 @@ footer {
   opacity: 0.9;
 }
 
-/* ══ 19. CUSTOM CURSOR ═══════════════════════════════════════════════════ */
+/* â•â• 19. CUSTOM CURSOR â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 #custom-cursor {
   position: fixed;
@@ -1762,7 +1762,7 @@ footer {
 }
 
 
-/* ══ 20. SCROLLBAR ═══════════════════════════════════════════════════════ */
+/* â•â• 20. SCROLLBAR â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 ::-webkit-scrollbar {
   width: 6px;
@@ -1782,9 +1782,9 @@ footer {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   RESPONSIVE — TABLET (max-width: 1024px)
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   RESPONSIVE â€” TABLET (max-width: 1024px)
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 @media (max-width: 1024px) {
   .hero-content {
@@ -1865,13 +1865,13 @@ footer {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   RESPONSIVE — SMARTPHONE (max-width: 767px)
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   RESPONSIVE â€” SMARTPHONE (max-width: 767px)
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 @media (max-width: 767px) {
 
-  /* ── NAVBAR ── */
+  /* â”€â”€ NAVBAR â”€â”€ */
   #navbar {
     position: absolute !important;
     top: 0 !important;
@@ -1941,7 +1941,7 @@ footer {
     color: rgba(255, 255, 255, 0.95);
   }
 
-  /* ── MOBILE MENU ── */
+  /* â”€â”€ MOBILE MENU â”€â”€ */
   #mobile-menu {
     gap: 2rem;
     padding: 2rem;
@@ -1964,11 +1964,11 @@ footer {
     justify-content: center;
   }
 
-  /* ══════════════════════════════════════════════════════════════
-     HERO — Premium Mobile (Segunda versão lapidada)
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     HERO â€” Premium Mobile (Segunda versÃ£o lapidada)
      Estrutura preservada: centralizado, coluna, canvas fullscreen.
-     Apenas tamanhos, espaçamentos e hierarquia refinados.
-     ══════════════════════════════════════════════════════════════ */
+     Apenas tamanhos, espaÃ§amentos e hierarquia refinados.
+     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   #hero-viewport {
     height: 100svh !important;
     min-height: 600px;
@@ -1984,7 +1984,7 @@ footer {
     gap: 0 !important;
   }
 
-  /* Kicker: letter-spacing calibrado (era 0.5em — muito aberto) */
+  /* Kicker: letter-spacing calibrado (era 0.5em â€” muito aberto) */
   .hero-kicker {
     font-size: 0.54rem !important;
     letter-spacing: 0.30em !important;
@@ -2026,7 +2026,7 @@ footer {
     border: none !important;
   }
 
-  /* Subtítulo: line-height mais aberto, margem inferior menor */
+  /* SubtÃ­tulo: line-height mais aberto, margem inferior menor */
   .hero-sub {
     font-size: 0.86rem !important;
     line-height: 1.74 !important;
@@ -2038,7 +2038,7 @@ footer {
   .desktop-text { display: none !important; }
   .mobile-text  { display: inline !important; }
 
-  /* CTA wrap: segunda versão em coluna, gap calibrado */
+  /* CTA wrap: segunda versÃ£o em coluna, gap calibrado */
   .hero-cta-wrap {
     display: flex !important;
     flex-direction: column !important;
@@ -2048,7 +2048,7 @@ footer {
     margin-top: 0 !important;
   }
 
-  /* Botão primário: font maior, padding proporcional */
+  /* BotÃ£o primÃ¡rio: font maior, padding proporcional */
   .hero-btn-primary {
     padding: 0.88rem 2.4rem !important;
     font-size: 0.60rem !important;
@@ -2057,7 +2057,7 @@ footer {
     white-space: nowrap !important;
   }
 
-  /* CTA secundário: intencional, dim mas legível */
+  /* CTA secundÃ¡rio: intencional, dim mas legÃ­vel */
   .hero-btn-secondary {
     display: inline-flex !important;
     align-items: center !important;
@@ -2086,7 +2086,7 @@ footer {
 
   #hero-pin-wrapper::after { height: 90px !important; }
 
-  /* Scrim superior — legibilidade da navbar */
+  /* Scrim superior â€” legibilidade da navbar */
   #hero-viewport::before {
     content: '';
     position: absolute;
@@ -2123,7 +2123,7 @@ footer {
     display: none;
   }
 
-  /* ── MENU WRAPPER ── */
+  /* â”€â”€ MENU WRAPPER â”€â”€ */
   .menu-main-wrapper {
     padding: 2.5rem 18px 0;
   }
@@ -2132,7 +2132,7 @@ footer {
     padding-bottom: 4rem;
   }
 
-  /* ── CATEGORY NAV ── */
+  /* â”€â”€ CATEGORY NAV â”€â”€ */
   #cat-nav {
     position: relative !important;
     top: auto !important;
@@ -2175,7 +2175,7 @@ footer {
       transparent 100%) !important;
   }
 
-  /* No mobile: nav-inner é flat e ocupa toda a largura — sem cápsula/cilindro */
+  /* No mobile: nav-inner Ã© flat e ocupa toda a largura â€” sem cÃ¡psula/cilindro */
   #cat-nav.is-pinned .cat-nav-inner {
     background: transparent !important;
     backdrop-filter: none !important;
@@ -2237,7 +2237,7 @@ footer {
     right: 0;
   }
 
-  /* ── CATEGORY GROUPS ── */
+  /* â”€â”€ CATEGORY GROUPS â”€â”€ */
   .category-group {
     margin-bottom: 3rem;
     scroll-margin-top: 130px;
@@ -2249,7 +2249,7 @@ footer {
     gap: 1.25rem;
   }
 
-  /* ── SECTIONS ── */
+  /* â”€â”€ SECTIONS â”€â”€ */
   .menu-section {
     display: block !important;
     opacity: 1 !important;
@@ -2304,15 +2304,15 @@ footer {
     letter-spacing: -0.03em;
   }
 
-  /* ── ITEMS — card layout per reference ───────────────────────
+  /* â”€â”€ ITEMS â€” card layout per reference â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
      Grid goes to strict 3-column (thumb|body|price) for clean read.
-     ───────────────────────────────────────────────────────────── */
+     â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   .menu-grid {
     grid-template-columns: 1fr !important;
     column-gap: 0 !important;
   }
 
-  /* ── 1. CORE CARD ── */
+  /* â”€â”€ 1. CORE CARD â”€â”€ */
   .menu-item {
     display: grid !important;
     grid-template-columns: 140px minmax(0, 1fr) !important;
@@ -2340,7 +2340,7 @@ footer {
     background: transparent !important;
   }
 
-  /* ── 2. THUMBNAIL ── */
+  /* â”€â”€ 2. THUMBNAIL â”€â”€ */
   .item-thumb {
     width: 140px !important;
     height: 140px !important;
@@ -2365,7 +2365,7 @@ footer {
     /* Forces children into the parent grid */
   }
 
-  /* ── 3. NAME ── */
+  /* â”€â”€ 3. NAME â”€â”€ */
   .item-name {
     grid-column: 2 !important;
     grid-row: 1 !important;
@@ -2380,7 +2380,7 @@ footer {
     grid-column: 1 !important;
   }
 
-  /* ── 4. PRICE ── */
+  /* â”€â”€ 4. PRICE â”€â”€ */
   .menu-item>div:last-child {
     grid-column: 2 !important;
     grid-row: 2 !important;
@@ -2411,7 +2411,7 @@ footer {
     text-transform: uppercase !important;
   }
 
-  /* ── 4b. VARIANT SYSTEM — force left-align on mobile ──
+  /* â”€â”€ 4b. VARIANT SYSTEM â€” force left-align on mobile â”€â”€
      Variants are right-aligned by default (desktop price column).
      On mobile the price lives in column 2, so everything must align left. */
   .item-price {
@@ -2457,7 +2457,7 @@ footer {
     opacity: 0.35 !important;
   }
 
-  /* ── 5. DESCRIPTION ── */
+  /* â”€â”€ 5. DESCRIPTION â”€â”€ */
   .item-desc {
     grid-column: 2 !important;
     grid-row: 3 !important;
@@ -2475,7 +2475,7 @@ footer {
     grid-column: 1 !important;
   }
 
-  /* ── 6. BADGES ── */
+  /* â”€â”€ 6. BADGES â”€â”€ */
   .item-badges {
     grid-column: 2 !important;
     grid-row: 4 !important;
@@ -2487,7 +2487,7 @@ footer {
     grid-column: 1 !important;
   }
 
-  /* Circulares vazados conforme a referência fotográfica */
+  /* Circulares vazados conforme a referÃªncia fotogrÃ¡fica */
   .attr-badge {
     width: 24px !important;
     height: 24px !important;
@@ -2507,14 +2507,14 @@ footer {
 
   .attr-label {
     display: none !important;
-    /* Remove o texto para usar apenas os círculos */
+    /* Remove o texto para usar apenas os cÃ­rculos */
   }
 
-  /* ── ARRASTÕES DE LINHAS FANTASMAS — Kill it ──
+  /* â”€â”€ ARRASTÃ•ES DE LINHAS FANTASMAS â€” Kill it â”€â”€
      Desliga grid marks (horizontais/verticais) no mobile, 
      linhas decoradoras de scroll formadas e divisores de header/footer errantes.
-     Abaixo também morre o Shimmer Line (linha verde de varredura infinita
-     sob os títulos das Categorias/Section Headers, L943). */
+     Abaixo tambÃ©m morre o Shimmer Line (linha verde de varredura infinita
+     sob os tÃ­tulos das Categorias/Section Headers, L943). */
   #menu-body::after,
   #menu-body::before,
   .menu-main-wrapper::after,
@@ -2537,7 +2537,7 @@ footer {
     /* Trava imediatamente os infinite shimmers */
   }
 
-  /* Desliga o texto animado em degradê nos títulos das seções (ex: "Clássicos da Manhã") */
+  /* Desliga o texto animado em degradÃª nos tÃ­tulos das seÃ§Ãµes (ex: "ClÃ¡ssicos da ManhÃ£") */
   .section-title {
     animation: none !important;
     background: none !important;
@@ -2555,7 +2555,7 @@ footer {
     display: none !important;
   }
 
-  /* ── PDF SECTION ── */
+  /* â”€â”€ PDF SECTION â”€â”€ */
   #pdf-section {
     padding: 5rem 1.5rem 6rem;
     display: flex;
@@ -2588,7 +2588,7 @@ footer {
     font-size: 0.6rem;
   }
 
-  /* ── FOOTER ── */
+  /* â”€â”€ FOOTER â”€â”€ */
   footer {
     padding: 3.5rem 1.5rem;
     flex-direction: column;
@@ -2616,7 +2616,7 @@ footer {
     margin-top: 0.5rem;
   }
 
-  /* ── BOTTOM SHEET (MODAL OVERRIDE) ── */
+  /* â”€â”€ BOTTOM SHEET (MODAL OVERRIDE) â”€â”€ */
   #menu-modal {
     align-items: flex-end;
     padding: 0;
@@ -2664,7 +2664,7 @@ footer {
     font-size: 1.8rem;
   }
 
-  /* ── 5. PADRONIZAÇÃO DO FUNDO MOBILE ──
+  /* â”€â”€ 5. PADRONIZAÃ‡ÃƒO DO FUNDO MOBILE â”€â”€
      Devolvemos a luminosidade nativa do PC removendo a trava de noise/glow. */
   body,
   #menu-body,
@@ -2688,50 +2688,50 @@ footer {
     background: none !important;
   }
 
-  /* ═══ MOBILE PERFORMANCE KILL LIST ═══════════════════════════════
+  /* â•â•â• MOBILE PERFORMANCE KILL LIST â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
      Extra decorative elements to hide/stop on mobile for fluidity.
-     Zero visual impact — user won't notice any difference.
-     ═══════════════════════════════════════════════════════════════ */
+     Zero visual impact â€” user won't notice any difference.
+     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-  /* Noise overlay — full-viewport, fixed-position SVG texture */
+  /* Noise overlay â€” full-viewport, fixed-position SVG texture */
   .noise-overlay {
     display: none !important;
   }
 
-  /* Particle canvas — ambient JS canvas particles, hidden anyway */
+  /* Particle canvas â€” ambient JS canvas particles, hidden anyway */
   #particle-canvas {
     display: none !important;
   }
 
-  /* Product glow/shadow — decorative radial gradients behind hero frame */
+  /* Product glow/shadow â€” decorative radial gradients behind hero frame */
   .product-glow,
   .product-shadow {
     display: none !important;
   }
 
-  /* Hero text scrim — subtle gradient, barely visible on mobile */
+  /* Hero text scrim â€” subtle gradient, barely visible on mobile */
   .hero-text-scrim {
     display: none !important;
   }
 
-  /* Hero video overlay — remove backdrop-filter (expensive on mobile GPU) */
+  /* Hero video overlay â€” remove backdrop-filter (expensive on mobile GPU) */
   .hero-video-overlay {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
 
-  /* Custom cursor — never visible on touch devices */
+  /* Custom cursor â€” never visible on touch devices */
   #custom-cursor,
   #custom-cursor-ring {
     display: none !important;
   }
 
-  /* Category divider dot — kill infinite pulse animation */
+  /* Category divider dot â€” kill infinite pulse animation */
   .category-divider-dot {
     animation: none !important;
   }
 
-  /* Category divider line shimmer — kill infinite sweep */
+  /* Category divider line shimmer â€” kill infinite sweep */
   .category-divider-line::after {
     animation: none !important;
   }
@@ -2746,7 +2746,7 @@ footer {
     display: none !important;
   }
 
-  /* Nav CTA beam — too small to notice on mobile */
+  /* Nav CTA beam â€” too small to notice on mobile */
   .nav-cta .s4-beam {
     display: none !important;
   }
@@ -2756,14 +2756,14 @@ footer {
     will-change: auto !important;
   }
 
-  /* Modal backdrop — remove blur filter on mobile */
+  /* Modal backdrop â€” remove blur filter on mobile */
   .modal-backdrop {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     background: rgba(0, 0, 0, 0.65) !important;
   }
 
-  /* Modal close button — remove backdrop-filter */
+  /* Modal close button â€” remove backdrop-filter */
   .modal-close {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
@@ -2780,7 +2780,7 @@ footer {
     background: transparent !important;
   }
 
-  /* ── REVEALS — force visible on mobile ──
+  /* â”€â”€ REVEALS â€” force visible on mobile â”€â”€
      The IntersectionObserver + GSAP loader chain can fail on mobile,
      leaving items with opacity:0 and clip-path:inset(0 0 100% 0).
      Force everything visible immediately on mobile. */
@@ -2790,18 +2790,18 @@ footer {
     transition: none !important;
   }
 
-  /* ═══ AGGRESSIVE GPU OPTIMIZATION FOR MOBILE FLUIDITY ═════════════
+  /* â•â•â• AGGRESSIVE GPU OPTIMIZATION FOR MOBILE FLUIDITY â•â•â•â•â•â•â•â•â•â•â•â•â•
      These rules eliminate hidden GPU costs that cause jank/stutter.
-     ═══════════════════════════════════════════════════════════════ */
+     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-  /* Kill ALL will-change — each one creates a compositor layer eating VRAM */
+  /* Kill ALL will-change â€” each one creates a compositor layer eating VRAM */
   *,
   *::before,
   *::after {
     will-change: auto !important;
   }
 
-  /* Kill ALL backdrop-filter — extremely expensive on mobile GPUs */
+  /* Kill ALL backdrop-filter â€” extremely expensive on mobile GPUs */
   #cat-nav.is-pinned,
   #cat-nav.is-pinned .cat-nav-inner,
   #navbar.is-scrolled,
@@ -2810,18 +2810,18 @@ footer {
     -webkit-backdrop-filter: none !important;
   }
 
-  /* Kill infinite shimmerLine animation on section headers — runs on ALL sections */
+  /* Kill infinite shimmerLine animation on section headers â€” runs on ALL sections */
   .section-header::after {
     animation: none !important;
     background-size: 100% 100% !important;
   }
 
-  /* Kill hero beam rotation animation — runs infinitely even off-screen */
+  /* Kill hero beam rotation animation â€” runs infinitely even off-screen */
   .loc-beam-border {
     animation: none !important;
   }
 
-  /* Kill all hover transitions on menu items — touch devices don't hover */
+  /* Kill all hover transitions on menu items â€” touch devices don't hover */
   .menu-item {
     transition: none !important;
   }
@@ -2867,10 +2867,10 @@ footer {
     background: rgba(10, 20, 15, 0.97) !important;
   }
 
-  /* ── 8. MOBILE HIERARCHY & NAVIGATION REFINEMENT ──
+  /* â”€â”€ 8. MOBILE HIERARCHY & NAVIGATION REFINEMENT â”€â”€
      Requested by User: Make hierarchy cleaner, stronger, more professional. */
 
-  /* Cat-nav pinning is handled by JS .is-pinned class — see cat-nav.is-pinned above */
+  /* Cat-nav pinning is handled by JS .is-pinned class â€” see cat-nav.is-pinned above */
   .cat-nav-inner {
     padding: 0 12px !important;
     margin: 0 !important;
@@ -3002,7 +3002,7 @@ footer {
     clip-path: none !important;
   }
 
-  /* Mantém o efeito da linha dourada visível no mobile */
+  /* MantÃ©m o efeito da linha dourada visÃ­vel no mobile */
   .section-header::after {
     opacity: 1 !important;
   }
@@ -3020,9 +3020,9 @@ footer {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   RESPONSIVE — LARGE DESKTOP (min-width: 992px)
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   RESPONSIVE â€” LARGE DESKTOP (min-width: 992px)
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 @media (min-width: 992px) {
 
@@ -3078,9 +3078,9 @@ footer {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   RESPONSIVE — COMPACT PHONE (max-width: 430px)
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   RESPONSIVE â€” COMPACT PHONE (max-width: 430px)
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 @media (max-width: 430px) {
   .hero-title {
@@ -3272,7 +3272,7 @@ footer {
   background: rgba(255, 255, 255, 0.03) !important;
 }
 
-/* Active Toggle: gold pill — matches the editorial gold accent system */
+/* Active Toggle: gold pill â€” matches the editorial gold accent system */
 .base-toggle-btn.active {
   background: rgba(183, 147, 88, 0.15) !important;
   border-color: rgba(183, 147, 88, 0.40) !important;
@@ -3319,9 +3319,9 @@ footer {
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   MOBILE NUCLEAR OVERRIDE — GUARANTEE PRODUCT VISIBILITY
-   ═══════════════════════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   MOBILE NUCLEAR OVERRIDE â€” GUARANTEE PRODUCT VISIBILITY
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    This block sits at the VERY END of the last CSS file loaded for the menu
    page (menu.css loads after components.css). Combined with !important,
    these rules have the highest effective priority in the cascade.
@@ -3331,11 +3331,11 @@ footer {
    The JS IntersectionObserver that adds .is-visible can fail on mobile.
    
    Solution: On mobile, skip all reveal animations entirely.
-   ═══════════════════════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 @media (max-width: 767px) {
 
-  /* Force ALL reveals visible — items, headers, selectors */
+  /* Force ALL reveals visible â€” items, headers, selectors */
   .reveal,
   .reveal.is-visible,
   .menu-item.reveal,
@@ -3383,7 +3383,7 @@ footer {
     clip-path: none !important;
   }
 
-  /* Variant elements visible and left-aligned — definitive override */
+  /* Variant elements visible and left-aligned â€” definitive override */
   .menu-item .variant-list,
   .menu-item .variant-item,
   .menu-item .variant-label,
@@ -3393,7 +3393,7 @@ footer {
     visibility: visible !important;
   }
 
-  /* ── VARIANT ALIGNMENT FINAL LOCK ──
+  /* â”€â”€ VARIANT ALIGNMENT FINAL LOCK â”€â”€
      Overrides any inherited right-alignment from the desktop variant system.
      This must be at the END of the file to win the cascade. */
   .variant-list {
@@ -3420,3 +3420,331 @@ footer {
     text-align: left !important;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   MENU MOBILE HERO - App-style restaurant header (mobile only)
+   --------------------------------------------------------------------------- */
+
+@media (min-width: 768px) {
+  #menu-mobile-hero,
+  #mmh-search-overlay {
+    display: none !important;
+  }
+  .desktop-hero-only {
+    display: block !important;
+  }
+}
+
+@media (max-width: 767px) {
+
+  #navbar { display: none !important; }
+  .desktop-hero-only { display: none !important; }
+
+  /* ── PAGE BACKGROUND: same deep green as cat-nav ── */
+  html, body {
+    background: #121C16 !important;
+  }
+
+  /* Ensure ALL major wrappers inherit the green */
+  #menu-mobile-hero,
+  .menu-main-wrapper,
+  #menu-start,
+  .menu-section,
+  .section-wrapper,
+  main {
+    background: #121C16 !important;
+  }
+
+  /* ── Container ───────────────────────────────── */
+  #menu-mobile-hero {
+    display: block;
+  }
+
+  /* ── Top bar ─────────────────────────────────── */
+  .mmh-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.1rem 0.75rem;
+    background: #121C16;
+  }
+
+  .mmh-topbar-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.1rem;
+    color: #EAE4D9;
+  }
+
+  .mmh-icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #EAE4D9;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.2s;
+  }
+  .mmh-icon-btn:active { background: rgba(255,255,255,0.16); }
+
+  /* ── Outer wrapper: positions logo on top ───── */
+  .mmh-carousel-outer {
+    position: relative;
+    margin: 0 0.9rem;
+  }
+
+  /* ── Carousel image box ──────────────────────── */
+  .mmh-image-wrap {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 205px;
+    touch-action: pan-y;
+  }
+
+  .mmh-slides {
+    position: absolute;
+    inset: 0;
+  }
+
+  .mmh-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.55s ease;
+  }
+  .mmh-slide--active { opacity: 1; }
+
+  .mmh-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .mmh-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(0,0,0,0.08) 0%,
+      rgba(0,0,0,0.04) 50%,
+      rgba(0,0,0,0.52) 100%
+    );
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* ── Progress bar dots ───────────────────────── */
+  .mmh-dots {
+    position: absolute;
+    top: 9px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    z-index: 10;
+  }
+
+  .mmh-dot {
+    height: 3px;
+    width: 28px;
+    border-radius: 9999px;
+    background: rgba(255,255,255,0.28);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .mmh-dot-fill {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: 0%;
+    background: rgba(255,255,255,0.95);
+    border-radius: 9999px;
+  }
+
+  .mmh-dot--active .mmh-dot-fill {
+    animation: mmhFill 3.5s linear forwards;
+  }
+
+  .mmh-dot--done .mmh-dot-fill {
+    width: 100%;
+    animation: none;
+  }
+
+  @keyframes mmhFill {
+    from { width: 0%; }
+    to   { width: 100%; }
+  }
+
+  /* ── Logo: OUTSIDE overflow:hidden ──────────── */
+    .mmh-logo-wrap {
+    position: absolute;
+    bottom: -58px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+
+  .mmh-logo-circle {
+    width: 80px;          /* bigger: was 64px */
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3.5px solid #121C16;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.60);
+    background: #2B4A3B;
+  }
+
+  .mmh-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── Info row: raised (less margin = higher position) ─ */
+  .mmh-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.9rem;
+    margin-top: 68px;     /* logo 80px, overlap 58px → 44px + 4px breathing */
+  }
+
+  .mmh-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0.4rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.10);
+    color: #EAE4D9;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mmh-pill--info {
+    color: #B7935A;
+    border-color: rgba(183,147,90,0.25);
+    background: rgba(183,147,90,0.08);
+  }
+
+  /* ── Restaurant name ─────────────────────────── */
+  .mmh-name {
+    text-align: center;
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.32rem;
+    font-weight: 400;
+    color: #EAE4D9;
+    letter-spacing: -0.01em;
+    margin: 0.65rem 1rem 0;
+  }
+
+  /* ── cat-nav sticky ──────────────────────────── */
+  #cat-nav {
+    top: 0 !important;
+    position: sticky !important;
+    z-index: 100;
+    background: #121C16 !important;
+    backdrop-filter: none;
+    margin-top: 0.6rem;
+  }
+
+  /* ══════════════════════════════════════════════
+     SEARCH OVERLAY
+  ══════════════════════════════════════════════ */
+  #mmh-search-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    background: rgba(10,16,12,0.97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    align-items: flex-start;
+    padding-top: 1.25rem;
+  }
+
+  #mmh-search-overlay.open {
+    display: flex;
+  }
+
+  .mmh-search-inner {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  .mmh-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+  }
+
+  #mmh-search-input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: #EAE4D9;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    caret-color: #B7935A;
+  }
+
+  #mmh-search-input::placeholder {
+    color: rgba(234,228,217,0.35);
+  }
+
+  #mmh-search-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(234,228,217,0.55);
+    display: flex;
+    align-items: center;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mmh-search-hint {
+    font-size: 0.72rem;
+    color: rgba(234,228,217,0.35);
+    text-align: center;
+    margin-top: 1rem;
+    letter-spacing: 0.02em;
+  }
+
+  .mmh-search-count {
+    font-size: 0.75rem;
+    color: #B7935A;
+    text-align: center;
+    margin-top: 0.5rem;
+    font-weight: 500;
+  }
+}
+
+

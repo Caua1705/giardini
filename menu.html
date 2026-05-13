@@ -102,8 +102,96 @@
     </div>
   </nav>
 
-  <!-- ════ HERO WRAPPER FOR SCROLL PIN ════════════════════════════════ -->
-  <div id="hero-pin-wrapper">
+  <!-- ════ MOBILE HERO (app-style, mobile-only) ═════════════════════════ -->
+  <div id="menu-mobile-hero" aria-label="Giardini Café — Cardápio" role="banner">
+
+    <!-- Top Bar -->
+    <div class="mmh-topbar">
+      <button class="mmh-icon-btn" id="hamburger" aria-label="Menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <span class="mmh-topbar-title">Menu</span>
+      <button class="mmh-icon-btn" aria-label="Buscar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </button>
+    </div>
+
+    <!-- Hero Carousel -->
+    <div class="mmh-carousel-outer">
+      <div class="mmh-image-wrap" id="mmh-carousel">
+
+        <!-- Slides -->
+        <div class="mmh-slides" id="mmh-slides">
+          <div class="mmh-slide mmh-slide--active">
+            <img src="assets/images/giardini-sala-01.webp" alt="Giardini Café — Ambiente" class="mmh-image">
+          </div>
+          <div class="mmh-slide">
+            <img src="assets/images/giardini-sala-02.webp" alt="Giardini Café — Sala" class="mmh-image">
+          </div>
+          <div class="mmh-slide">
+            <img src="assets/images/giardini-sala-03.webp" alt="Giardini Café — Livros" class="mmh-image">
+          </div>
+          <div class="mmh-slide">
+            <img src="assets/images/giardini-sala-04.webp" alt="Giardini Café — Jardim" class="mmh-image">
+          </div>
+        </div>
+
+        <div class="mmh-overlay"></div>
+
+        <!-- Progress bar dots -->
+        <div class="mmh-dots" id="mmh-dots">
+          <span class="mmh-dot mmh-dot--active"><span class="mmh-dot-fill"></span></span>
+          <span class="mmh-dot"><span class="mmh-dot-fill"></span></span>
+          <span class="mmh-dot"><span class="mmh-dot-fill"></span></span>
+          <span class="mmh-dot"><span class="mmh-dot-fill"></span></span>
+        </div>
+
+      </div><!-- /mmh-image-wrap -->
+
+      <!-- Logo OUTSIDE overflow:hidden — floats over image bottom -->
+      <div class="mmh-logo-wrap">
+        <div class="mmh-logo-circle">
+          <img src="assets/images/giardini-logo.webp" alt="Giardini Café" class="mmh-logo-img">
+        </div>
+        <!-- Name sits right below the logo circle -->
+        <p class="mmh-name">Giardini Café</p>
+      </div>
+
+    </div><!-- /mmh-carousel-outer -->
+
+    <!-- Info Row — below logo+name block -->
+    <div class="mmh-info-row">
+      <button class="mmh-pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="color:#B7935A"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <span>5,0 <span style="opacity:0.55">(0)</span></span>
+      </button>
+      <a href="./reservation.html" class="mmh-pill mmh-pill--info">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>Info</span>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+      </a>
+    </div>
+
+  </div><!-- /menu-mobile-hero -->
+
+  <!-- Search Overlay (mobile) -->
+  <div id="mmh-search-overlay" role="dialog" aria-label="Buscar no cardápio">
+    <div class="mmh-search-inner">
+      <div class="mmh-search-bar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:0.5;flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="search" id="mmh-search-input" placeholder="Buscar prato, bebida..." autocomplete="off" autocorrect="off" spellcheck="false">
+        <button id="mmh-search-close" aria-label="Fechar busca">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <p class="mmh-search-hint">Digite para filtrar os itens do cardápio</p>
+      <div id="mmh-search-count" class="mmh-search-count" style="display:none"></div>
+    </div>
+  </div>
+
+
+  <!-- ════ HERO WRAPPER FOR SCROLL PIN (desktop only) ═════════════════ -->
+  <div id="hero-pin-wrapper" class="desktop-hero-only">
     <section id="hero-viewport" aria-label="Hero — Cardápio Completo">
       <div class="hero-bg"></div>
 

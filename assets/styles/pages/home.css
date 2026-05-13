@@ -73,6 +73,7 @@
     max-height: 100svh !important;
     z-index: 100 !important;
     display: block !important;
+    position: relative !important;
   }
 
   #hero-pin-wrapper {
@@ -102,21 +103,7 @@
     overflow: hidden !important;
   }
 
-  /* Zoom canvas to crop VEO watermark from bottom-right */
-  #seq-canvas {
-    transform: scale(1.25) !important;
-    transform-origin: center 55% !important;
-  }
-
-  /* Dark scrim: HIDDEN on mobile per user request */
-  #video-overlay {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-  }
-
-  /* Canvas: fill viewport directly — not relative to parent */
+  /* Canvas: zoom + pull lower to crop VEO watermark & frame building intentionally */
   #seq-canvas {
     position: absolute !important;
     top: 0 !important;
@@ -124,9 +111,37 @@
     width: 100vw !important;
     height: 100svh !important;
     object-fit: cover !important;
+    transform: scale(1.45) !important;
+    transform-origin: center 70% !important;
   }
 
-  /* Hero-left text: float on top of video, positioned in sky area */
+  /* Cinematic overlay layers over the video — dark top + soft center + dark bottom */
+  #video-frame::before {
+    content: '' !important;
+    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 5 !important;
+    pointer-events: none !important;
+    background:
+      linear-gradient(to bottom,
+        rgba(0,0,0,0.62) 0%,
+        rgba(0,0,0,0.28) 32%,
+        rgba(0,0,0,0.08) 55%,
+        rgba(0,0,0,0.38) 80%,
+        rgba(0,0,0,0.72) 100%
+      ) !important;
+  }
+
+  /* Dark scrim: hidden (replaced by ::before overlay above) */
+  #video-overlay {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  /* Hero-left: cinematic full-screen text layer above video */
   #hero-left {
     position: absolute !important;
     top: 0 !important;
@@ -137,8 +152,9 @@
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
-    align-items: center !important;
-    padding: clamp(6rem, 22vw, 10rem) 2rem 2rem !important;
+    align-items: flex-start !important;
+    padding: clamp(5.5rem, 18vw, 8rem) clamp(1.5rem, 6vw, 2.5rem) clamp(3rem, 8vw, 5rem) !important;
+    text-align: left !important;
   }
 
   /* ── TEXT COLORS: white over dark video ─────────────────────── */
@@ -186,13 +202,27 @@
     background: rgba(255, 255, 255, 0.5) !important;
   }
 
-  /* ── NAVBAR: dark mode on mobile (video hero is dark) ── */
+  /* ── NAVBAR: fully transparent + cinematic gradient top ── */
   #navbar,
   #navbar.is-scrolled {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: rgba(10, 10, 10, 0.85) !important;
-    border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+    background: transparent !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Cinematic top gradient so navbar text stays readable */
+  #navbar::before {
+    content: '' !important;
+    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
+    top: -8px !important;
+    height: 120px !important;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, transparent 100%) !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
   }
 
   #navbar .nav-logo,
@@ -202,14 +232,14 @@
 
   #navbar .nav-link,
   #navbar.is-scrolled .nav-link {
-    color: rgba(255, 255, 255, 0.6) !important;
+    color: rgba(255, 255, 255, 0.7) !important;
   }
 
   #navbar .nav-cta,
   #navbar.is-scrolled .nav-cta {
-    border-color: rgba(255, 255, 255, 0.25) !important;
+    border-color: rgba(255, 255, 255, 0.30) !important;
     color: #fff !important;
-    background: transparent !important;
+    background: rgba(255,255,255,0.08) !important;
   }
 
 
@@ -478,63 +508,89 @@
      B. HERO SECTION — Premium Mobile Layout
      ═════════════════════════════════════════════════════════════════ */
 
-  /* Hero left column: fluid padding */
-  #hero-left {
-    padding-left: clamp(1.25rem, 5vw, 2rem) !important;
-    padding-right: clamp(1.25rem, 5vw, 2rem) !important;
-    padding-top: clamp(5.5rem, 16vw, 8rem) !important;
-    padding-bottom: 1rem !important;
-  }
+  /* ── EDITORIAL MOBILE HERO TYPOGRAPHY ─────────────────────── */
 
-  /* Hero headline: dominant focal point — clearly larger than CTA */
-  #hero-headline {
-    font-size: clamp(3.1rem, 12vw, 4.2rem) !important;
-    line-height: 1.10 !important;
-    margin-bottom: 1.5rem !important;
-    letter-spacing: -0.03em !important;
-  }
-
-  /* Kicker: slightly more prominent on mobile */
+  /* Kicker: subtle, left-aligned editorial tag */
   .kicker {
-    margin-bottom: 1.5rem !important;
-    gap: 0.75rem !important;
-    font-size: 0.62rem !important;
+    margin-bottom: 1.1rem !important;
+    gap: 0.6rem !important;
+    font-size: 0.58rem !important;
+    letter-spacing: 0.28em !important;
+    justify-content: flex-start !important;
+    opacity: 0.75 !important;
   }
 
-  /* CTA buttons: medium, not bulky — secondary to headline */
+  /* Hero headline: compact, editorial — not oversized */
+  #hero-headline {
+    font-size: clamp(2.4rem, 9.5vw, 3.4rem) !important;
+    line-height: 1.06 !important;
+    margin-bottom: 0.75rem !important;
+    letter-spacing: -0.03em !important;
+    text-align: left !important;
+  }
+
+  /* Subheadline: "Momentos reservados para poucos." */
+  .hero-body {
+    display: block !important;
+    font-size: clamp(0.78rem, 2.8vw, 0.92rem) !important;
+    line-height: 1.65 !important;
+    color: rgba(255,255,255,0.62) !important;
+    margin-bottom: 1.75rem !important;
+    margin-top: 0.25rem !important;
+    max-width: 26ch !important;
+    letter-spacing: 0.01em !important;
+  }
+
+  /* CTA group: left-aligned, tight, intentional */
   .hero-cta {
-    gap: 1.25rem !important;
-    margin-top: 0.5rem !important;
-    flex-direction: column !important;
+    gap: 0.85rem !important;
+    margin-top: 0 !important;
+    flex-direction: row !important;
     align-items: center !important;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
   }
 
   .btn-primary.btn-order {
-    padding: 0.8rem 1.85rem !important;
-    font-size: 0.64rem !important;
-    min-height: 44px !important;
+    padding: 0.72rem 1.6rem !important;
+    font-size: 0.62rem !important;
+    min-height: 42px !important;
     border-radius: 9999px !important;
+    letter-spacing: 0.16em !important;
   }
 
-  /* Ghost link: subtle, not competing */
+  /* Ghost link: minimal, white, understated */
   .link-ghost {
-    padding: 0.4rem 0.8rem !important;
-    font-size: 0.64rem !important;
+    padding: 0.35rem 0.75rem !important;
+    font-size: 0.62rem !important;
     min-height: auto !important;
     display: inline-flex !important;
     align-items: center !important;
-    opacity: 0.55 !important;
+    opacity: 0.60 !important;
+    letter-spacing: 0.12em !important;
   }
 
-  /* Explore indicator: positioned below the video at viewport bottom */
+  /* Meta row: hidden on mobile — saves vertical space */
+  .hero-meta {
+    display: none !important;
+  }
+
+  /* Separator: compact */
+  #hero-sep {
+    margin: 0.75rem 0 1rem !important;
+    max-width: 180px !important;
+  }
+
+  /* Explore indicator: bottom-center, cinematic */
   .hero-scroll-wrapper {
     position: absolute !important;
-    bottom: 2.5rem !important;
+    bottom: 2rem !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     z-index: 50 !important;
     padding: 0 !important;
-    pointer-events: none;
+    pointer-events: none !important;
+    opacity: 0.6 !important;
   }
 
   /* ═════════════════════════════════════════════════════════════════
