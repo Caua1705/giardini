@@ -1,4 +1,4 @@
-﻿/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    GIARDINI CAFÃ‰ â€” MENU PAGE (Green-Atmospheric Theme)
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    Chromatic strategy: The ENTIRE page lives inside the Giardini green world.
@@ -3766,38 +3766,45 @@ footer {
     border: none !important;
   }
 
-  /* ══════════════════════════════════════════════
-     SEARCH OVERLAY
-  ══════════════════════════════════════════════ */
+  /* ═══════ SEARCH OVERLAY — Full-screen ═══════ */
   #mmh-search-overlay {
     display: none;
     position: fixed;
     inset: 0;
     z-index: 9000;
-    background: rgba(10,16,12,0.97);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    align-items: flex-start;
-    padding-top: 1.25rem;
+    background: #121C16;
+    flex-direction: column;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   #mmh-search-overlay.open {
     display: flex;
   }
 
-  .mmh-search-inner {
-    width: 100%;
-    padding: 0 1rem;
+  /* ── Top bar ──────────────────────── */
+  .mmh-search-topbar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    flex-shrink: 0;
   }
 
   .mmh-search-bar {
+    flex: 1;
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.12);
+    gap: 0.5rem;
+    background: rgba(255,255,255,0.08);
+    border: none;
     border-radius: 12px;
-    padding: 0.75rem 1rem;
+    padding: 0.7rem 0.9rem;
+  }
+
+  .mmh-search-icon {
+    flex-shrink: 0;
+    opacity: 0.4;
   }
 
   #mmh-search-input {
@@ -3806,42 +3813,161 @@ footer {
     border: none;
     outline: none;
     color: #EAE4D9;
-    font-size: 1rem;
-    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-family: "Inter", sans-serif;
     caret-color: #B7935A;
+    min-width: 0;
   }
 
   #mmh-search-input::placeholder {
-    color: rgba(234,228,217,0.35);
+    color: rgba(234,228,217,0.30);
   }
 
-  #mmh-search-close {
+  #mmh-search-input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    display: none;
+  }
+
+  #mmh-search-clear {
     background: none;
     border: none;
     cursor: pointer;
-    color: rgba(234,228,217,0.55);
     display: flex;
     align-items: center;
     padding: 0;
     -webkit-tap-highlight-color: transparent;
   }
 
-  .mmh-search-hint {
-    font-size: 0.72rem;
-    color: rgba(234,228,217,0.35);
-    text-align: center;
-    margin-top: 1rem;
-    letter-spacing: 0.02em;
+  .mmh-search-cancel {
+    background: none;
+    border: none;
+    color: #B7935A;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    padding: 0.5rem 0;
+    -webkit-tap-highlight-color: transparent;
+    font-family: "Inter", sans-serif;
   }
 
-  .mmh-search-count {
-    font-size: 0.68rem;
-    color: #B7935A;
+  /* ── Empty / No-results states ───── */
+  .mmh-search-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem 2rem;
     text-align: center;
-    margin-top: 0.5rem;
-    font-weight: 500;
+  }
+
+  .mmh-search-emoji {
+    font-size: 3.5rem;
+    margin-bottom: 1.2rem;
+    filter: grayscale(0.15);
+  }
+
+  .mmh-search-state-title {
+    font-family: "Inter", sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #EAE4D9;
+    margin: 0 0 0.5rem;
+  }
+
+  .mmh-search-state-sub {
+    font-family: "Inter", sans-serif;
+    font-size: 0.82rem;
+    color: rgba(234,228,217,0.40);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* ── Results grid ────────────────── */
+  .mmh-search-results {
+    padding: 0.25rem 0;
+  }
+
+  .search-result-card {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .search-result-card:active {
+    background: rgba(255,255,255,0.04);
+  }
+
+  .search-result-thumb {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .search-result-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .search-result-thumb--empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    opacity: 0.3;
+  }
+
+  .search-result-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .search-result-name {
+    font-family: "Inter", sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #EAE4D9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0 0 2px;
+  }
+
+  .search-result-desc {
+    font-size: 0.72rem;
+    color: rgba(234,228,217,0.35);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+  }
+
+  .search-result-price {
+    font-family: "Inter", sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #B7935A;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .mmh-search-results-count {
+    font-size: 0.7rem;
+    color: rgba(234,228,217,0.30);
+    text-align: center;
+    padding: 1rem 0 2rem;
+    letter-spacing: 0.03em;
   }
 }
+
 
 
 

@@ -56,15 +56,6 @@
   <!-- Noise (hidden on mobile via CSS) -->
   <div class="noise-overlay"></div>
 
-  <!-- Preloader -->
-  <div class="loader" id="loader">
-    <div class="loader-text">Giardini</div>
-    <p class="loader-tagline">Cardápio</p>
-    <div class="loader-track">
-      <div class="loader-bar" id="loader-bar"></div>
-    </div>
-  </div>
-
   <!-- Mobile Menu -->
   <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Navegação">
     <button class="mobile-close" id="mobile-close" aria-label="Fechar menu">
@@ -176,19 +167,38 @@
   </div><!-- /menu-mobile-hero -->
 
 
-  <!-- Search Overlay (mobile) -->
+  <!-- Search Overlay (mobile) — full-screen like reference -->
   <div id="mmh-search-overlay" role="dialog" aria-label="Buscar no cardápio">
-    <div class="mmh-search-inner">
+
+    <!-- Top bar: search input + Cancelar -->
+    <div class="mmh-search-topbar">
       <div class="mmh-search-bar">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:0.5;flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <input type="search" id="mmh-search-input" placeholder="Buscar prato, bebida..." autocomplete="off" autocorrect="off" spellcheck="false">
-        <button id="mmh-search-close" aria-label="Fechar busca">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <svg class="mmh-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="search" id="mmh-search-input" placeholder="Buscar no menu..." autocomplete="off" autocorrect="off" spellcheck="false">
+        <button id="mmh-search-clear" aria-label="Limpar" style="display:none">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.2)"/><path d="M15.5 8.5l-7 7M8.5 8.5l7 7" stroke="#121C16" stroke-width="2.5" stroke-linecap="round"/></svg>
         </button>
       </div>
-      <p class="mmh-search-hint">Digite para filtrar os itens do cardápio</p>
-      <div id="mmh-search-count" class="mmh-search-count" style="display:none"></div>
+      <button id="mmh-search-cancel" class="mmh-search-cancel">Cancelar</button>
     </div>
+
+    <!-- Empty state: initial (no query yet) -->
+    <div class="mmh-search-state" id="mmh-state-empty">
+      <div class="mmh-search-emoji">🔍</div>
+      <h2 class="mmh-search-state-title">O que você procura?</h2>
+      <p class="mmh-search-state-sub">Digite algo relacionado ao que você deseja.</p>
+    </div>
+
+    <!-- No results state -->
+    <div class="mmh-search-state" id="mmh-state-noresults" style="display:none">
+      <div class="mmh-search-emoji">🍽️</div>
+      <h2 class="mmh-search-state-title">Nada por aqui...</h2>
+      <p class="mmh-search-state-sub">Nenhum resultado encontrado,<br>tente buscar por outro termo.</p>
+    </div>
+
+    <!-- Results grid -->
+    <div class="mmh-search-results" id="mmh-search-results" style="display:none"></div>
+
   </div>
 
 

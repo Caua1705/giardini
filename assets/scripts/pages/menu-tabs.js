@@ -1,4 +1,4 @@
-﻿
+
     gsap.registerPlugin(ScrollTrigger);
 
     /* â”€â”€ Native smooth scroll behavior (desktop only) â”€â”€ */
@@ -1054,51 +1054,124 @@
   }
 
   /* ================================================================
-     2. SEARCH OVERLAY
+     2. SEARCH OVERLAY — full-screen with states
   ================================================================ */
   function initSearch() {
-    var overlay   = document.getElementById('mmh-search-overlay');
-    var input     = document.getElementById('mmh-search-input');
-    var closeBtn  = document.getElementById('mmh-search-close');
-    var countEl   = document.getElementById('mmh-search-count');
-    var searchBtn = document.querySelector('.mmh-icon-btn[aria-label="Buscar"]');
+    var overlay    = document.getElementById('mmh-search-overlay');
+    var input      = document.getElementById('mmh-search-input');
+    var clearBtn   = document.getElementById('mmh-search-clear');
+    var cancelBtn  = document.getElementById('mmh-search-cancel');
+    var stateEmpty = document.getElementById('mmh-state-empty');
+    var stateNone  = document.getElementById('mmh-state-noresults');
+    var resultsEl  = document.getElementById('mmh-search-results');
+    var searchBtn  = document.querySelector('.mmh-icon-btn[aria-label="Buscar"]');
     if (!overlay || !input || !searchBtn) return;
 
+    /* ── Open ────────────────────────────── */
     searchBtn.addEventListener('click', function () {
       overlay.classList.add('open');
-      setTimeout(function () { input.focus(); }, 150);
-      doFilter(input.value);
+      input.value = '';
+      showState('empty');
+      setTimeout(function () { input.focus(); }, 200);
     });
 
+    /* ── Close ───────────────────────────── */
     function closeSearch() {
       overlay.classList.remove('open');
       input.value = '';
-      doFilter('');
+      if (clearBtn) clearBtn.style.display = 'none';
     }
-    closeBtn && closeBtn.addEventListener('click', closeSearch);
-    overlay.addEventListener('click', function (e) { if (e.target === overlay) closeSearch(); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeSearch(); });
 
-    function doFilter(query) {
-      var q = (query || '').trim().toLowerCase();
-      var cards = document.querySelectorAll('.product-card, .menu-item, [data-product-name], .item-card');
-      var shown = 0;
-      cards.forEach(function (card) {
-        var name = (card.getAttribute('data-product-name') ||
-          (card.querySelector('.product-name, .item-name, h3, h4') || {}).textContent ||
-          card.textContent).toLowerCase();
-        var ok = !q || name.indexOf(q) !== -1;
-        card.style.display = ok ? '' : 'none';
-        if (ok) shown++;
-      });
-      if (countEl) {
-        if (q && cards.length) {
-          countEl.textContent = shown + ' resultado' + (shown !== 1 ? 's' : '') + ' para "' + query.trim() + '"';
-          countEl.style.display = 'block';
-        } else { countEl.style.display = 'none'; }
-      }
+    cancelBtn && cancelBtn.addEventListener('click', closeSearch);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) closeSearch();
+    });
+
+    /* ── Clear button ────────────────────── */
+    clearBtn && clearBtn.addEventListener('click', function () {
+      input.value = '';
+      clearBtn.style.display = 'none';
+      showState('empty');
+      input.focus();
+    });
+
+    /* ── State management ────────────────── */
+    function showState(state) {
+      stateEmpty && (stateEmpty.style.display = state === 'empty' ? 'flex' : 'none');
+      stateNone  && (stateNone.style.display  = state === 'noresults' ? 'flex' : 'none');
+      resultsEl  && (resultsEl.style.display   = state === 'results' ? 'block' : 'none');
     }
-    input.addEventListener('input', function () { doFilter(this.value); });
+
+    /* ── Collect all products from DOM ───── */
+    function getAllProducts() {
+      var products = [];
+      document.querySelectorAll('.menu-item[data-item-name]').forEach(function (card) {
+        products.push({
+          name:  card.getAttribute('data-item-name') || '',
+          desc:  card.getAttribute('data-item-desc') || '',
+          price: card.getAttribute('data-item-price') || '',
+          image: card.getAttribute('data-item-image') || '',
+        });
+      });
+      return products;
+    }
+
+    /* ── Render a result card ────────────── */
+    function renderResultCard(product) {
+      var thumbHtml = product.image
+        ? '<div class="search-result-thumb"><img src="' + product.image + '" alt="" loading="lazy"></div>'
+        : '<div class="search-result-thumb search-result-thumb--empty">🍽</div>';
+
+      var descHtml = product.desc
+        ? '<p class="search-result-desc">' + product.desc + '</p>'
+        : '';
+
+      return '<div class="search-result-card">'
+        + thumbHtml
+        + '<div class="search-result-body">'
+        + '<p class="search-result-name">' + product.name + '</p>'
+        + descHtml
+        + '</div>'
+        + '<span class="search-result-price">' + product.price + '</span>'
+        + '</div>';
+    }
+
+    /* ── Search logic ────────────────────── */
+    function doSearch(query) {
+      var q = (query || '').trim().toLowerCase();
+
+      // Toggle clear button
+      if (clearBtn) clearBtn.style.display = q ? 'flex' : 'none';
+
+      // Empty query → show initial state
+      if (!q) {
+        showState('empty');
+        return;
+      }
+
+      // Search
+      var products = getAllProducts();
+      var matches = products.filter(function (p) {
+        var haystack = (p.name + ' ' + p.desc).toLowerCase();
+        return haystack.indexOf(q) !== -1;
+      });
+
+      if (matches.length === 0) {
+        showState('noresults');
+        return;
+      }
+
+      // Render results
+      var html = matches.map(renderResultCard).join('');
+      html += '<div class="mmh-search-results-count">'
+        + matches.length + ' resultado' + (matches.length !== 1 ? 's' : '')
+        + ' encontrado' + (matches.length !== 1 ? 's' : '')
+        + '</div>';
+      resultsEl.innerHTML = html;
+      showState('results');
+    }
+
+    input.addEventListener('input', function () { doSearch(this.value); });
   }
 
   /* ── Boot ─────────────────────────────────────────────────── */
