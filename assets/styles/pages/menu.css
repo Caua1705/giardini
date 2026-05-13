@@ -1820,7 +1820,7 @@ footer {
 
   .cat-btn {
     white-space: nowrap !important;
-    font-size: 0.72rem !important;
+    font-size: 0.82rem !important;
     padding: 0.95rem 1.4rem !important;
     min-height: 48px !important;
     font-weight: 500 !important;
@@ -2207,7 +2207,7 @@ footer {
 
   .cat-btn {
     padding: 0.95rem 1.4rem !important;
-    font-size: 0.72rem !important;
+    font-size: 0.82rem !important;
     letter-spacing: 0.14em !important;
     white-space: nowrap !important;
     min-height: 48px !important;
@@ -2405,7 +2405,7 @@ footer {
   }
 
   .item-price-sub {
-    font-size: 0.72rem !important;
+    font-size: 0.82rem !important;
     margin-top: 0.2rem !important;
     letter-spacing: 0.08em !important;
     color: rgba(183, 147, 88, 0.65) !important;
@@ -2892,7 +2892,7 @@ footer {
 
   .cat-btn {
     padding: 0.95rem 1.4rem !important;
-    font-size: 0.72rem !important;
+    font-size: 0.82rem !important;
     white-space: nowrap !important;
     flex-shrink: 0 !important;
     border-radius: 0 !important;
@@ -3842,6 +3842,7 @@ footer {
     font-weight: 500;
   }
 }
+
 
 
 
