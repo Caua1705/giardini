@@ -878,7 +878,7 @@ async function handleSubmit() {
     setTimeout(() => {
       btn.classList.remove('error');
       btn.disabled = false;
-      textEl.textContent = 'Confirmar Reserva';
+      textEl.textContent = 'Confirmar reserva';
       arrowEl.style.display = '';
     }, 3000);
   }
@@ -928,7 +928,7 @@ function resetForm() {
 
   const btn = DOM.submitBtn, t = btn.querySelector('.res-submit-text'), a = btn.querySelector('.res-submit-arrow');
   btn.classList.remove('loading','success','error'); btn.disabled = false;
-  t.textContent = 'Confirmar Reserva'; a.style.display = '';
+  t.textContent = 'Confirmar reserva'; a.style.display = '';
 
   const v = document.getElementById('res-validation-msg'); if (v) v.style.display = 'none';
   updateSummaryPills();

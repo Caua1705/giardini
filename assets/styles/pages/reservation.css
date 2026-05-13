@@ -3210,7 +3210,7 @@ body{
     border-top: 1px solid rgba(183,147,88,0.12) !important;
     box-shadow: inset 0 20px 40px -10px rgba(0,0,0,0.3) !important;
     padding-top: 36px !important;
-    padding-bottom: 32px !important;
+    padding-bottom: 24px !important;
     position: relative;
     z-index: 60;
   }
@@ -3280,5 +3280,61 @@ body{
   .res-corner-accent,
   .res-golden-dust {
     display: none !important;
+  }
+
+  /* 5. Refined Minimal Luxury Mobile CTA Button */
+  .res-cta-area {
+    margin-top: 1.2rem !important; 
+    margin-bottom: 0 !important;
+  }
+  .res-cta-divider {
+    display: none !important;
+  }
+  
+  .res-cta-center {
+    display: flex;
+    justify-content: center;
+    padding: 0 1.2rem;
+  }
+  
+  .res-submit-btn {
+    height: 56px !important;
+    width: 100% !important;
+    border-radius: 18px !important;
+    background: linear-gradient(180deg, #1d3625 0%, #122117 100%) !important;
+    border: 1px solid rgba(183, 147, 88, 0.28) !important;
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 4px 16px rgba(0, 0, 0, 0.2) !important;
+    font-size: 0.95rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.01em !important;
+    color: rgba(234, 228, 217, 0.95) !important;
+    text-transform: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    padding: 0 1.5rem !important;
+  }
+  
+  .res-submit-btn:active, .res-submit-btn:hover {
+    transform: translateY(-1px) !important;
+    background: linear-gradient(180deg, #223f2b 0%, #15261b 100%) !important;
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 6px 20px rgba(0, 0, 0, 0.25) !important;
+  }
+  
+  .res-submit-arrow {
+    width: 15px !important;
+    height: 15px !important;
+    stroke-width: 1.8px !important;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+  
+  .res-submit-btn:active .res-submit-arrow, .res-submit-btn:hover .res-submit-arrow {
+    transform: translateX(3px) !important;
   }
 }
