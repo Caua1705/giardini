@@ -1811,6 +1811,7 @@ footer {
     gap: 0;
     padding: 0.75rem 1.5rem;
     margin: 0;
+    padding-top: 0;
   }
 
   .cat-nav-inner::-webkit-scrollbar {
@@ -3514,10 +3515,17 @@ footer {
   .mmh-slide {
     position: absolute;
     inset: 0;
-    opacity: 0;
-    transition: opacity 0.55s ease;
+    opacity: 1;
+    transform: translateX(100%);
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
   }
-  .mmh-slide--active { opacity: 1; }
+  .mmh-slide--active {
+    transform: translateX(0%);
+  }
+  .mmh-slide--exit {
+    transform: translateX(-100%);
+  }
 
   .mmh-image {
     width: 100%;
@@ -3588,25 +3596,20 @@ footer {
   }
 
   /* ── Logo: OUTSIDE overflow:hidden ──────────── */
-    .mmh-logo-wrap {
+      .mmh-logo-wrap {
     position: absolute;
-    bottom: -58px;
+    bottom: -42px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 30;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
   }
 
   .mmh-logo-circle {
-    width: 80px;          /* bigger: was 64px */
-    height: 80px;
+    width: 92px;          /* bigger */
+    height: 92px;
     border-radius: 50%;
     overflow: hidden;
-    border: 3.5px solid #121C16;
+    border: 4px solid #121C16;
     box-shadow: 0 4px 20px rgba(0,0,0,0.60);
     background: #2B4A3B;
   }
@@ -3624,7 +3627,7 @@ footer {
     align-items: center;
     justify-content: space-between;
     padding: 0 0.9rem;
-    margin-top: 68px;     /* logo 80px, overlap 58px → 44px + 4px breathing */
+    margin-top: 58px;  /* logo 92px, overlap 42px => 50px + breathing */
   }
 
   .mmh-pill {
@@ -3746,5 +3749,6 @@ footer {
     font-weight: 500;
   }
 }
+
 
 

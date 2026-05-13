@@ -900,17 +900,14 @@
 
 
 /* -------------------------------------------------------------------------
-   MOBILE HERO — Carousel (swipe + auto-advance) + Search overlay
+   MOBILE HERO - Carousel (slide translateX) + Search overlay
    ------------------------------------------------------------------------- */
 (function () {
   'use strict';
 
-  /* ── Helpers ──────────────────────────────────────────────── */
-  function qs(sel) { return document.querySelector(sel); }
-
-  /* ══════════════════════════════════════════════════════════
-     1. CAROUSEL
-  ══════════════════════════════════════════════════════════ */
+  /* ================================================================
+     1. CAROUSEL  -  slides in from right, exits to left
+  ================================================================ */
   function initCarousel() {
     var slides   = document.querySelectorAll('#mmh-slides .mmh-slide');
     var dots     = document.querySelectorAll('#mmh-dots .mmh-dot');
@@ -921,129 +918,144 @@
     var total    = slides.length;
     var DURATION = 3500;
     var timer    = null;
-    var paused   = false;
+    var animating = false;
 
-    /* ── goTo: transition to slide index ───────────── */
-    function goTo(index, resetTimer) {
-      var prev = current;
-      current  = ((index % total) + total) % total;
-      if (prev === current) return;
+    /* Set initial positions: first slide centered, rest off-right */
+    slides.forEach(function (s, i) {
+      s.style.transform = i === 0 ? 'translateX(0%)' : 'translateX(100%)';
+      s.style.transition = 'none';
+    });
+    slides[0].classList.add('mmh-slide--active');
 
-      slides[prev].classList.remove('mmh-slide--active');
-      slides[current].classList.add('mmh-slide--active');
+    /* ── goTo ──────────────────────────────────────────── */
+    function goTo(index, direction) {
+      if (animating) return;
+      var next = ((index % total) + total) % total;
+      if (next === current) return;
+      animating = true;
 
-      // update dots
+      var dir  = (direction === 'prev') ? -1 : 1;  /* 1 = forward (right→left) */
+      var incoming = slides[next];
+      var outgoing = slides[current];
+
+      /* Position incoming off-screen to the right (or left if going back) */
+      incoming.style.transition = 'none';
+      incoming.style.transform  = dir > 0 ? 'translateX(100%)' : 'translateX(-100%)';
+      incoming.classList.add('mmh-slide--active');
+
+      /* Trigger layout */
+      incoming.getBoundingClientRect();
+
+      /* Slide both */
+      var ease = 'cubic-bezier(0.4, 0, 0.2, 1)';
+      var dur  = '0.45s';
+      incoming.style.transition = 'transform ' + dur + ' ' + ease;
+      outgoing.style.transition = 'transform ' + dur + ' ' + ease;
+      incoming.style.transform  = 'translateX(0%)';
+      outgoing.style.transform  = dir > 0 ? 'translateX(-100%)' : 'translateX(100%)';
+
+      /* After transition */
+      setTimeout(function () {
+        outgoing.classList.remove('mmh-slide--active');
+        outgoing.style.transition = 'none';
+        outgoing.style.transform  = dir > 0 ? 'translateX(100%)' : 'translateX(-100%)';
+        current   = next;
+        animating = false;
+      }, 460);
+
+      /* Update dots */
+      updateDots(next);
+      startTimer();
+    }
+
+    /* ── Dot animation ─────────────────────────────────── */
+    function updateDots(active) {
       for (var i = 0; i < total; i++) {
         var fill = dots[i].querySelector('.mmh-dot-fill');
         dots[i].classList.remove('mmh-dot--active', 'mmh-dot--done');
-        if (fill) { fill.style.animation = 'none'; fill.style.width = '0%'; }
+        if (fill) { fill.style.animation = 'none'; fill.style.width = i < active ? '100%' : '0%'; }
 
-        if (i === current) {
+        if (i === active) {
           dots[i].classList.add('mmh-dot--active');
           if (fill) {
-            fill.getBoundingClientRect(); // reflow
+            fill.getBoundingClientRect();
             fill.style.animation = 'mmhFill ' + (DURATION / 1000) + 's linear forwards';
           }
-        } else if (i < current) {
+        } else if (i < active) {
           dots[i].classList.add('mmh-dot--done');
-          if (fill) { fill.style.width = '100%'; }
         }
       }
-
-      if (resetTimer !== false) startTimer();
     }
 
-    /* ── Auto-advance timer ─────────────────────── */
+    /* ── Auto-advance ──────────────────────────────────── */
     function startTimer() {
       clearInterval(timer);
-      if (!paused) {
-        timer = setInterval(function () { goTo(current + 1); }, DURATION);
-      }
+      timer = setInterval(function () { goTo(current + 1, 'next'); }, DURATION);
     }
 
-    /* ── Kick off first dot fill ────────────────── */
-    (function () {
-      var f = dots[0] && dots[0].querySelector('.mmh-dot-fill');
-      if (f) {
-        f.style.animation = 'none';
-        f.style.width = '0%';
-        f.getBoundingClientRect();
-        f.style.animation = 'mmhFill ' + (DURATION / 1000) + 's linear forwards';
-      }
-      dots[0] && dots[0].classList.add('mmh-dot--active');
-    })();
-
+    /* Init first dot */
+    updateDots(0);
     startTimer();
 
-    /* ── SWIPE — touch ───────────────────────────── */
-    var touchStartX = 0;
-    var touchStartY = 0;
-    var dragging    = false;
+    /* ── Dot click ─────────────────────────────────────── */
+    dots.forEach(function (dot, idx) {
+      dot.addEventListener('click', function () {
+        if (idx !== current) goTo(idx, idx > current ? 'next' : 'prev');
+      });
+    });
+
+    /* ── TOUCH SWIPE ───────────────────────────────────── */
+    var touchX = 0, touchY = 0, swiping = false;
 
     wrap.addEventListener('touchstart', function (e) {
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-      dragging    = true;
-      paused      = true;
+      touchX   = e.touches[0].clientX;
+      touchY   = e.touches[0].clientY;
+      swiping  = true;
       clearInterval(timer);
     }, { passive: true });
 
     wrap.addEventListener('touchmove', function (e) {
-      if (!dragging) return;
-      var dx = e.touches[0].clientX - touchStartX;
-      var dy = e.touches[0].clientY - touchStartY;
-      // Only intercept horizontal swipes > 10px
-      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
-        e.preventDefault();
-      }
+      if (!swiping) return;
+      var dx = e.touches[0].clientX - touchX;
+      var dy = e.touches[0].clientY - touchY;
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) e.preventDefault();
     }, { passive: false });
 
     wrap.addEventListener('touchend', function (e) {
-      if (!dragging) return;
-      dragging = false;
-      paused   = false;
-      var dx   = e.changedTouches[0].clientX - touchStartX;
-      var dy   = e.changedTouches[0].clientY - touchStartY;
+      if (!swiping) return;
+      swiping = false;
+      var dx = e.changedTouches[0].clientX - touchX;
+      var dy = e.changedTouches[0].clientY - touchY;
       if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
-        goTo(dx < 0 ? current + 1 : current - 1);
+        goTo(dx < 0 ? current + 1 : current - 1, dx < 0 ? 'next' : 'prev');
       } else {
         startTimer();
       }
     }, { passive: true });
 
-    /* ── SWIPE — mouse (desktop dev convenience) ─ */
-    var mouseStartX = 0;
-    var mouseDragging = false;
-
+    /* ── MOUSE DRAG ────────────────────────────────────── */
+    var mouseX = 0, mouseDrag = false;
     wrap.addEventListener('mousedown', function (e) {
-      mouseStartX   = e.clientX;
-      mouseDragging = true;
-      paused        = true;
+      mouseX    = e.clientX;
+      mouseDrag = true;
       clearInterval(timer);
       e.preventDefault();
     });
-
     document.addEventListener('mouseup', function (e) {
-      if (!mouseDragging) return;
-      mouseDragging = false;
-      paused        = false;
-      var dx        = e.clientX - mouseStartX;
+      if (!mouseDrag) return;
+      mouseDrag = false;
+      var dx = e.clientX - mouseX;
       if (Math.abs(dx) > 40) {
-        goTo(dx < 0 ? current + 1 : current - 1);
+        goTo(dx < 0 ? current + 1 : current - 1, dx < 0 ? 'next' : 'prev');
       } else {
         startTimer();
       }
     });
-
-    /* ── Dot click ───────────────────────────────── */
-    dots.forEach(function (dot, idx) {
-      dot.addEventListener('click', function () { goTo(idx); });
-    });
   }
 
-  /* ══════════════════════════════════════════════════════════
+  /* ================================================================
      2. SEARCH OVERLAY
-  ══════════════════════════════════════════════════════════ */
+  ================================================================ */
   function initSearch() {
     var overlay   = document.getElementById('mmh-search-overlay');
     var input     = document.getElementById('mmh-search-input');
@@ -1052,74 +1064,47 @@
     var searchBtn = document.querySelector('.mmh-icon-btn[aria-label="Buscar"]');
     if (!overlay || !input || !searchBtn) return;
 
-    /* Open */
     searchBtn.addEventListener('click', function () {
       overlay.classList.add('open');
       setTimeout(function () { input.focus(); }, 150);
       doFilter(input.value);
     });
 
-    /* Close */
     function closeSearch() {
       overlay.classList.remove('open');
       input.value = '';
       doFilter('');
     }
-
     closeBtn && closeBtn.addEventListener('click', closeSearch);
-    overlay.addEventListener('click', function (e) {
-      if (e.target === overlay) closeSearch();
-    });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeSearch();
-    });
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) closeSearch(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeSearch(); });
 
-    /* Filter — hides product cards that don't match */
     function doFilter(query) {
       var q = (query || '').trim().toLowerCase();
-
-      // Product cards can have various selectors depending on the page
-      var cards = document.querySelectorAll(
-        '.product-card, .menu-item, [data-product-name], .item-card'
-      );
-
+      var cards = document.querySelectorAll('.product-card, .menu-item, [data-product-name], .item-card');
       var shown = 0;
       cards.forEach(function (card) {
-        // Try multiple ways to read the product name
-        var name = (
-          card.getAttribute('data-product-name') ||
+        var name = (card.getAttribute('data-product-name') ||
           (card.querySelector('.product-name, .item-name, h3, h4') || {}).textContent ||
-          card.textContent
-        ).toLowerCase();
-
-        var visible = !q || name.indexOf(q) !== -1;
-        card.style.display = visible ? '' : 'none';
-        if (visible) shown++;
+          card.textContent).toLowerCase();
+        var ok = !q || name.indexOf(q) !== -1;
+        card.style.display = ok ? '' : 'none';
+        if (ok) shown++;
       });
-
       if (countEl) {
         if (q && cards.length) {
           countEl.textContent = shown + ' resultado' + (shown !== 1 ? 's' : '') + ' para "' + query.trim() + '"';
           countEl.style.display = 'block';
-        } else {
-          countEl.style.display = 'none';
-        }
+        } else { countEl.style.display = 'none'; }
       }
     }
-
     input.addEventListener('input', function () { doFilter(this.value); });
   }
 
   /* ── Boot ─────────────────────────────────────────────────── */
-  function boot() {
-    initCarousel();
-    initSearch();
-  }
-
+  function boot() { initCarousel(); initSearch(); }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);
-  } else {
-    boot();
-  }
+  } else { boot(); }
 
 })();
