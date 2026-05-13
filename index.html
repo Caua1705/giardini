@@ -79,12 +79,23 @@
   </div>
 
 
+  <!-- ══ MOBILE APP HEADER (homepage-only, mobile-only) ═══════════════ -->
+  <header id="home-mobile-header" aria-label="Giardini Café — Início">
+    <button class="hmh-icon-btn" aria-label="Abrir menu" onclick="document.getElementById('hamburger').click()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <span class="hmh-title">Giardini Café</span>
+    <a href="./reservation.html" class="hmh-icon-btn" aria-label="Reservar mesa">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    </a>
+  </header>
+
   <!-- GRAIN NOISE TEXTURE -->
   <!-- CUSTOM SCROLL INDICATOR (Minimalist Line) -->
   <div class="scroll-indicator-wrap" aria-hidden="true">
     <div id="scroll-progress-line"></div>
   </div>
-  <nav id="navbar" class="is-scrolled" aria-label="Navegação principal">
+  <nav id="navbar" aria-label="Navegação principal">
     <a href="#" class="nav-logo" style="letter-spacing:0.01em;font-size:1.35rem;">Giardini Café</a>
     <div class="nav-menu">
       <a href="#experience" class="nav-link">Experiência</a>
@@ -180,6 +191,14 @@
           <!-- Tertiary ghost link -->
           <a href="./menu.html" class="link-ghost">Ver cardápio</a>
         </div>
+        <!-- Mobile-only CTA: discovery-first (reservation already in bottom nav) -->
+        <div class="hero-cta-mobile">
+          <a href="./menu.html" class="hmh-cta-primary">
+            <span>Explorar cardápio</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="./reservation.html" class="hmh-cta-secondary">Reservar mesa</a>
+        </div>
         <div class="hero-meta hidden md:flex" id="el-meta"
           style="gap:1rem;margin-top:2rem;padding-top:1.25rem;border-top:1px solid rgba(183,147,88,0.12);">
           <span class="live-badge" style="font-size:0.56rem;letter-spacing:0.18em;"><span class="live-pulse"
@@ -216,6 +235,28 @@
       </div>
     </div><!-- /hero-viewport -->
   </div><!-- /hero-pin-wrapper -->
+
+  <!-- ══ QUICK ACTIONS STRIP (mobile-only, immediately below hero) ═════ -->
+  <div id="home-quick-actions" aria-label="Ações rápidas">
+    <a href="./menu.html" class="hqa-chip" aria-label="Ver cardápio">
+      <span class="hqa-icon">
+        <iconify-icon icon="lucide:book-open" style="font-size:1.2rem;"></iconify-icon>
+      </span>
+      <span class="hqa-label">Cardápio</span>
+    </a>
+    <a href="./reservation.html" class="hqa-chip" aria-label="Fazer reserva">
+      <span class="hqa-icon">
+        <iconify-icon icon="lucide:calendar" style="font-size:1.2rem;"></iconify-icon>
+      </span>
+      <span class="hqa-label">Reservar</span>
+    </a>
+    <a href="#location" class="hqa-chip" aria-label="Ver localização e horários">
+      <span class="hqa-icon">
+        <iconify-icon icon="lucide:map-pin" style="font-size:1.2rem;"></iconify-icon>
+      </span>
+      <span class="hqa-label">Visite-nos</span>
+    </a>
+  </div>
 
   <!-- ══ SECTION 2: A EXPERIÊNCIA ═════════════════════════════════ -->
   <section id="experience"
