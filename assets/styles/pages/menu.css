@@ -3095,7 +3095,7 @@ footer {
   }
 
   .hero-sub {
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     max-width: 240px;
     margin: 0 auto 1.4rem;
   }
@@ -3634,12 +3634,12 @@ footer {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    padding: 0.4rem 0.85rem;
+    padding: 0.28rem 0.65rem;
     border-radius: 9999px;
     background: rgba(255,255,255,0.07);
     border: 1px solid rgba(255,255,255,0.10);
     color: #EAE4D9;
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     font-weight: 500;
     cursor: pointer;
     text-decoration: none;
@@ -3671,6 +3671,9 @@ footer {
     background: #121C16 !important;
     backdrop-filter: none;
     margin-top: 0.15rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 0;
   }
 
   /* ══════════════════════════════════════════════
@@ -3742,13 +3745,14 @@ footer {
   }
 
   .mmh-search-count {
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     color: #B7935A;
     text-align: center;
     margin-top: 0.5rem;
     font-weight: 500;
   }
 }
+
 
 
 
