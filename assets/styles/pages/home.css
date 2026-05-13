@@ -1989,4 +1989,121 @@
     overflow: hidden !important;
   }
 
+  /* ══════════════════════════════════════════════════════════════
+     9. RESERVATION TEASER — Compact premium mobile card
+        Full override of all earlier #experience-video mobile rules.
+     ══════════════════════════════════════════════════════════════ */
+
+  /* Section: compact cinematic teaser height */
+  #experience-video {
+    min-height: 50svh !important;
+    max-height: 58svh !important;
+  }
+
+  /* Content wrapper: match section, tight padding */
+  #experience-video > div[style*="z-index:10"] {
+    min-height: 50svh !important;
+    padding-top: clamp(2rem, 7vw, 2.75rem) !important;
+    padding-bottom: clamp(1.75rem, 5vw, 2.25rem) !important;
+    padding-left: clamp(1.5rem, 6vw, 2rem) !important;
+    padding-right: clamp(1.5rem, 6vw, 2rem) !important;
+    justify-content: center !important;
+    gap: 0 !important;
+  }
+
+  /* Darken overlay: text/CTA as main focus */
+  #experience-video > div[style*="z-index:1"] {
+    background: linear-gradient(
+      170deg,
+      rgba(4, 3, 2, 0.82) 0%,
+      rgba(10, 7, 3, 0.70) 50%,
+      rgba(4, 3, 2, 0.85) 100%
+    ) !important;
+  }
+
+  /* Bottom fade: smooth transition into location section */
+  #experience-video::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 90px;
+    background: linear-gradient(to bottom, transparent, rgba(7, 14, 10, 0.88));
+    z-index: 6;
+    pointer-events: none;
+  }
+
+  /* Section label: tighter */
+  #experience-video .s5-reveal-up:first-child {
+    margin-bottom: 0.6rem !important;
+  }
+
+  /* Headline: refined, compact serif */
+  #experience-video h2 {
+    font-size: clamp(1.9rem, 7.5vw, 2.45rem) !important;
+    line-height: 0.88 !important;
+    letter-spacing: -0.03em !important;
+    margin: 0 !important;
+  }
+
+  #experience-video h2 span {
+    line-height: 0.88 !important;
+    margin: 0 !important;
+  }
+
+  #experience-video h2 span:last-child {
+    margin-top: -0.18em !important;
+  }
+
+  /* Headline wrapper: tight bottom spacing */
+  #experience-video div[style*="text-align:center;margin-bottom:1.5rem"] {
+    margin-bottom: 0.7rem !important;
+    width: 100% !important;
+  }
+
+  /* Subline: compact, secondary role */
+  #experience-video p[style*="max-width:400px"] {
+    font-size: 0.79rem !important;
+    line-height: 1.5 !important;
+    color: rgba(255, 255, 255, 0.55) !important;
+    margin: 0 !important;
+    max-width: 80% !important;
+  }
+
+  /* Separator: minimal presence */
+  .s5-sep {
+    max-width: 100px !important;
+    margin-top: 0.9rem !important;
+    margin-bottom: 0.9rem !important;
+  }
+
+  /* CTA: dark emerald pill — consistent with app system */
+  #s5-cta {
+    background: #2B4A3B !important;
+    border: 1px solid rgba(183, 147, 88, 0.28) !important;
+    border-radius: 9999px !important;
+    color: rgba(255, 255, 255, 0.92) !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.30) !important;
+    padding: 0.72rem 1.65rem !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.60rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.17em !important;
+    text-transform: uppercase !important;
+    min-height: 44px !important;
+    gap: 0.55rem !important;
+  }
+
+  /* Benefits: one compact row, reduced prominence */
+  #experience-video p[style*="margin-top:1.5rem"] {
+    margin-top: 0.8rem !important;
+    font-size: 0.47rem !important;
+    letter-spacing: 0.11em !important;
+    color: rgba(255, 255, 255, 0.28) !important;
+    line-height: 1.6 !important;
+    max-width: 92% !important;
+    margin-bottom: 0 !important;
+  }
+
 }
