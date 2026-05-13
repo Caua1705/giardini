@@ -1,902 +1,906 @@
 
-    gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger);
 
-    /* â”€â”€ Native smooth scroll behavior (desktop only) â”€â”€ */
-    if (window.innerWidth > 767) {
-      document.documentElement.style.scrollBehavior = 'smooth';
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Native smooth scroll behavior (desktop only) Ã¢â€â‚¬Ã¢â€â‚¬ */
+if (window.innerWidth > 767) {
+  document.documentElement.style.scrollBehavior = 'smooth';
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬ CANVAS FRAME VARS Ã¢â€â‚¬Ã¢â€â‚¬ */
+const isMobileDevice = window.innerWidth <= 767 || ('ontouchstart' in window);
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬ MOBILE SAFETY NET: Force all .reveal elements visible Ã¢â€â‚¬Ã¢â€â‚¬
+   This runs independently of the preloader/initPage chain.
+   Even if frame preloading fails, menu items will appear. */
+if (isMobileDevice) {
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach(el => {
+      el.classList.add('is-visible');
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+      el.style.clipPath = 'none';
+      el.style.webkitClipPath = 'none';
+    });
+  }, 1000);
+}
+
+const CONFIG = {
+  TOTAL_FRAMES: isMobileDevice ? 25 : 150,
+  FRAME_STEP: isMobileDevice ? 6 : 1,
+  FRAMES_DIR: isMobileDevice
+    ? 'references/image-frames/menu/mobile'
+    : 'references/image-frames/menu/desktop',
+  scrollVH: isMobileDevice ? 60 : 85,
+  scrub: isMobileDevice ? 0.15 : 1.0,
+};
+const canvas = document.getElementById('seq-canvas');
+const ctx = canvas ? canvas.getContext('2d') : null;
+let frames = [];
+let currentFrameIndex = -1;
+
+let _canvasW = 0, _canvasH = 0;
+function resizeCanvas() {
+  if (!canvas) return;
+  const frame = document.getElementById('video-frame');
+  const newW = frame.offsetWidth;
+  const newH = frame.offsetHeight;
+  if (newW <= 0 || newH <= 0) return;
+  // On mobile, cap DPR at 1 to halve GPU memory usage
+  const dpr = isMobileDevice ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+  const targetW = Math.round(newW * dpr);
+  const targetH = Math.round(newH * dpr);
+  if (targetW === _canvasW && targetH === _canvasH) return;
+  _canvasW = targetW;
+  _canvasH = targetH;
+  canvas.width = targetW;
+  canvas.height = targetH;
+  canvas.style.width = newW + 'px';
+  canvas.style.height = newH + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const savedIdx = currentFrameIndex;
+  currentFrameIndex = -1;
+  if (frames.length > 0 && savedIdx >= 0) {
+    drawFrame(savedIdx);
+  }
+}
+
+function drawFrame(index) {
+  if (index === currentFrameIndex || !ctx) return;
+  const img = frames[index];
+  if (!img || !img.complete || img.naturalWidth === 0) return;
+  if (canvas.width === 0 || canvas.height === 0) return;
+  currentFrameIndex = index;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const cw = canvas.width / dpr;
+  const ch = canvas.height / dpr;
+  const iw = img.naturalWidth;
+  const ih = img.naturalHeight;
+  // Cover Ã¢â‚¬â€ zoom slightly more on mobile to hide edge artifacts
+  const zoom = isMobileDevice ? 1.15 : 1.02;
+  const scale = Math.max(cw / iw, ch / ih) * zoom;
+  const dw = iw * scale;
+  const dh = ih * scale;
+  const dx = (cw - dw) / 2;
+  const dy = (ch - dh) / 2;
+  ctx.clearRect(0, 0, cw, ch);
+  ctx.drawImage(img, dx, dy, dw, dh);
+}
+
+// Force redraw current frame (bypasses index guard)
+function forceRedraw() {
+  if (currentFrameIndex >= 0 && frames[currentFrameIndex]?.complete) {
+    const idx = currentFrameIndex;
+    currentFrameIndex = -1;
+    drawFrame(idx);
+  }
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Preloader Ã¢â€â‚¬Ã¢â€â‚¬ */
+const loaderBar = document.getElementById('loader-bar');
+const loader = document.getElementById('loader');
+
+function preloadFrames() {
+  return new Promise((resolve) => {
+    let loaded = 0;
+    const total = CONFIG.TOTAL_FRAMES;
+    const step = CONFIG.FRAME_STEP;
+    frames = new Array(total);
+    // On mobile, load every Nth frame to slash bandwidth from 10MB to ~1.7MB
+    for (let i = 0; i < total; i++) {
+      const img = new Image();
+      const srcIndex = i * step;
+      img.src = `${CONFIG.FRAMES_DIR}/frame_${String(srcIndex).padStart(4, '0')}.webp`;
+      // Decode asynchronously to avoid blocking main thread
+      if (img.decode) img.decode().catch(() => { });
+      frames[i] = img;
+      img.onload = img.onerror = () => {
+        loaded++;
+        const pct = Math.round((loaded / total) * 100);
+        if (loaderBar) loaderBar.style.width = `${pct}%`;
+        if (loaded === total) resolve();
+      };
     }
+  });
+}
 
-    /* â”€â”€ CANVAS FRAME VARS â”€â”€ */
-    const isMobileDevice = window.innerWidth <= 767 || ('ontouchstart' in window);
-
-    /* â”€â”€ MOBILE SAFETY NET: Force all .reveal elements visible â”€â”€
-       This runs independently of the preloader/initPage chain.
-       Even if frame preloading fails, menu items will appear. */
-    if (isMobileDevice) {
-      setTimeout(() => {
-        document.querySelectorAll('.reveal').forEach(el => {
-          el.classList.add('is-visible');
-          el.style.opacity = '1';
-          el.style.transform = 'none';
-          el.style.clipPath = 'none';
-          el.style.webkitClipPath = 'none';
-        });
-      }, 1000);
+preloadFrames().then(() => {
+  // Ã¢â€â‚¬Ã¢â€â‚¬ Loader Lift Ã¢â€â‚¬Ã¢â€â‚¬
+  const loadTl = gsap.timeline({
+    onComplete: () => {
+      loader.style.display = 'none';
+      initPage();
     }
+  });
 
-    const CONFIG = {
-      TOTAL_FRAMES: isMobileDevice ? 25 : 150,
-      FRAME_STEP: isMobileDevice ? 6 : 1,
-      FRAMES_DIR: isMobileDevice
-        ? 'references/image-frames/menu/mobile'
-        : 'references/image-frames/menu/desktop',
-      scrollVH: isMobileDevice ? 60 : 85,
-      scrub: isMobileDevice ? 0.15 : 1.0,
+  loadTl.to(loader, { yPercent: -105, duration: 1.2, ease: 'power4.inOut' });
+
+  // Ã¢â€â‚¬Ã¢â€â‚¬ Force scroll to top on mobile Ã¢â€â‚¬Ã¢â€â‚¬
+  if (isMobileDevice) {
+    window.scrollTo(0, 0);
+  }
+
+  // Ã¢â€â‚¬Ã¢â€â‚¬ Detect mid-scroll reload Ã¢â€â‚¬Ã¢â€â‚¬
+  const isAlreadyScrolled = (window.scrollY || window.pageYOffset) > 10;
+
+  let heroEntranceDone = false;
+  let exitAnimsCreated = false;
+
+  // Ã¢â€â‚¬Ã¢â€â‚¬ Initial hidden state for hero elements Ã¢â€â‚¬Ã¢â€â‚¬
+  // Skip expensive filter:blur on mobile Ã¢â‚¬â€ use opacity+transform only
+  const _b = (px) => isMobileDevice ? {} : { filter: `blur(${px}px)` };
+  gsap.set('#el-kicker', { opacity: 0, y: 35, ..._b(14) });
+  gsap.set('#el-h1a', { opacity: 0, y: 45, ..._b(16) });
+  gsap.set('#el-h1b', { opacity: 0, y: -45, ..._b(16) });
+  gsap.set('#el-h1-sep', { opacity: 0, scaleX: 0, transformOrigin: 'left' });
+  gsap.set('#el-body', { opacity: 0, y: 30, ..._b(12) });
+  gsap.set('#el-cta', { opacity: 0, y: 25, ..._b(10) });
+  gsap.set('#el-scroll', { opacity: 0, y: 15, ..._b(8) });
+  gsap.set('#navbar', { opacity: 0 });
+  gsap.set('#video-frame', { opacity: 0, scale: 0.94 });
+
+  // Ã¢â€â‚¬Ã¢â€â‚¬ Entrance timeline builder Ã¢â€â‚¬Ã¢â€â‚¬
+  function buildEntranceTl(opts) {
+    const originalOnComplete = opts.onComplete;
+    opts.onComplete = () => {
+      // After entrance: lock video-frame visible permanently
+      const vf = document.getElementById('video-frame');
+      if (vf) {
+        vf.style.opacity = '1';
+        vf.style.transform = 'scale(1)';
+      }
+      if (originalOnComplete) originalOnComplete();
     };
-    const canvas = document.getElementById('seq-canvas');
-    const ctx = canvas ? canvas.getContext('2d') : null;
-    let frames = [];
-    let currentFrameIndex = -1;
+    const tl = gsap.timeline(opts);
+    // On mobile: shorter durations, no filter:blur (GPU-expensive)
+    const _bf = isMobileDevice ? {} : { filter: 'blur(0px)' };
+    const _d = (d) => isMobileDevice ? d * 0.6 : d;
+    tl
+      .to('#navbar', { opacity: 1, duration: _d(0.8), ease: 'power2.out' })
+      .to('#el-kicker', { opacity: 1, y: 0, ..._bf, duration: _d(1.25), ease: 'expo.out' }, '-=0.3')
+      .add('titleShow', '-=0.5')
+      .to('#el-h1a', { opacity: 1, y: 0, ..._bf, duration: _d(1.5), ease: 'expo.out' }, 'titleShow')
+      .to('#video-frame', { opacity: 1, scale: 1, duration: _d(1.8), ease: 'power4.out' }, 'titleShow')
+      .to('#el-h1b', { opacity: 1, y: 0, ..._bf, duration: _d(1.5), ease: 'expo.out' }, 'titleShow+=0.12')
+      .to('#el-h1-sep', { opacity: 1, scaleX: 1, duration: _d(1.2), ease: 'expo.out' }, 'titleShow+=0.20')
+      .to('#el-body', { opacity: 1, y: 0, ..._bf, duration: _d(1.2), ease: 'power3.out' }, 'titleShow+=0.35')
+      .to('#el-cta', { opacity: 1, y: 0, ..._bf, duration: _d(1.0), ease: 'power3.out' }, 'titleShow+=0.45')
+      .to('#el-scroll', { opacity: 1, y: 0, ..._bf, duration: _d(0.9), ease: 'power2.out' }, 'titleShow+=0.6');
+    return tl;
+  }
 
-    let _canvasW = 0, _canvasH = 0;
-    function resizeCanvas() {
-      if (!canvas) return;
-      const frame = document.getElementById('video-frame');
-      const newW = frame.offsetWidth;
-      const newH = frame.offsetHeight;
-      if (newW <= 0 || newH <= 0) return;
-      // On mobile, cap DPR at 1 to halve GPU memory usage
-      const dpr = isMobileDevice ? 1 : Math.min(window.devicePixelRatio || 1, 2);
-      const targetW = Math.round(newW * dpr);
-      const targetH = Math.round(newH * dpr);
-      if (targetW === _canvasW && targetH === _canvasH) return;
-      _canvasW = targetW;
-      _canvasH = targetH;
-      canvas.width  = targetW;
-      canvas.height = targetH;
-      canvas.style.width  = newW + 'px';
-      canvas.style.height = newH + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const savedIdx = currentFrameIndex;
-      currentFrameIndex = -1;
-      if (frames.length > 0 && savedIdx >= 0) {
-        drawFrame(savedIdx);
+  // Initialize canvas
+  // Initialize canvas Ã¢â‚¬â€ debounce resize on mobile
+  if (isMobileDevice) {
+    let _rTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(_rTimer);
+      _rTimer = setTimeout(resizeCanvas, 150);
+    });
+  } else {
+    window.addEventListener('resize', resizeCanvas);
+  }
+  resizeCanvas();
+  // Force draw first frame Ã¢â‚¬â€ retry until loaded
+  function tryDrawFirst() {
+    if (frames[0]?.complete && frames[0].naturalWidth > 0) {
+      currentFrameIndex = -1; // reset to force draw
+      drawFrame(0);
+    } else {
+      requestAnimationFrame(tryDrawFirst);
+    }
+  }
+  tryDrawFirst();
+  if (canvas) {
+    canvas.classList.add('ready');
+    canvas.style.willChange = 'transform';
+  }
+
+  // Ã¢â€â‚¬Ã¢â€â‚¬ ScrollTrigger Scrub Animation Ã¢â€â‚¬Ã¢â€â‚¬
+  const wrapper = document.getElementById('hero-pin-wrapper');
+  const viewport = document.getElementById('hero-viewport');
+  const scrollPx = window.innerHeight * (CONFIG.scrollVH / 100);
+
+  // Ã¢â€â‚¬Ã¢â€â‚¬ Exit scrub animations Ã¢â€â‚¬Ã¢â€â‚¬
+  function createExitAnimations() {
+    if (exitAnimsCreated) return;
+    exitAnimsCreated = true;
+
+    function snapHeroVisible() {
+      gsap.set(['#el-kicker', '#el-h1a', '#el-h1b', '#el-h1-sep', '#el-body', '#el-cta', '#el-scroll'], {
+        opacity: 1, y: 0, filter: 'blur(0px)'
+      });
+      gsap.set('#el-h1-sep', { scaleX: 1 });
+      // Force video-frame visible and redraw first frame
+      const vf = document.getElementById('video-frame');
+      if (vf) {
+        vf.style.opacity = '1';
+        vf.style.transform = 'scale(1)';
       }
-    }
-
-    function drawFrame(index) {
-      if (index === currentFrameIndex || !ctx) return;
-      const img = frames[index];
-      if (!img || !img.complete || img.naturalWidth === 0) return;
-      if (canvas.width === 0 || canvas.height === 0) return;
-      currentFrameIndex = index;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const cw = canvas.width / dpr;
-      const ch = canvas.height / dpr;
-      const iw = img.naturalWidth;
-      const ih = img.naturalHeight;
-      // Cover â€” zoom slightly more on mobile to hide edge artifacts
-      const zoom = isMobileDevice ? 1.15 : 1.02;
-      const scale = Math.max(cw / iw, ch / ih) * zoom;
-      const dw = iw * scale;
-      const dh = ih * scale;
-      const dx = (cw - dw) / 2;
-      const dy = (ch - dh) / 2;
-      ctx.clearRect(0, 0, cw, ch);
-      ctx.drawImage(img, dx, dy, dw, dh);
-    }
-
-    // Force redraw current frame (bypasses index guard)
-    function forceRedraw() {
-      if (currentFrameIndex >= 0 && frames[currentFrameIndex]?.complete) {
-        const idx = currentFrameIndex;
+      gsap.set('#video-frame', { opacity: 1, scale: 1 });
+      if (frames[0]?.complete) {
         currentFrameIndex = -1;
+        drawFrame(0);
+      }
+    }
+
+    const scrollSettings = {
+      trigger: wrapper,
+      start: 'top top',
+      scrub: 0.6,
+      onLeaveBack: () => { snapHeroVisible(); }
+    };
+
+    // On mobile, skip filter:blur in scroll-out Ã¢â‚¬â€ paint op, not compositor-only
+    const _f = (b) => isMobileDevice ? {} : { filter: `blur(${b})` };
+
+    gsap.to('#el-kicker', {
+      opacity: 0, y: -40, ..._f('8px'), ease: 'power2.in', immediateRender: false,
+      scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.22}` }
+    });
+    gsap.to('#el-h1a', {
+      opacity: 0, y: -60, ..._f('12px'), ease: 'power2.in', immediateRender: false,
+      scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.3}` }
+    });
+    gsap.to('#el-h1b', {
+      opacity: 0, y: -48, ..._f('10px'), ease: 'power2.in', immediateRender: false,
+      scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.36}` }
+    });
+    gsap.to('#el-h1-sep', {
+      scaleX: 0, opacity: 0, ease: 'power2.in', immediateRender: false,
+      scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.38}` }
+    });
+    gsap.to('#el-scroll', {
+      opacity: 0, y: -20, ..._f('5px'), ease: 'power2.in', immediateRender: false,
+      scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.25}` }
+    });
+    gsap.to('#el-body', {
+      opacity: 0, y: -32, ..._f('8px'), ease: 'power2.in', immediateRender: false,
+      scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.43}` }
+    });
+    gsap.to('#el-cta', {
+      opacity: 0, y: -26, ..._f('6px'), ease: 'power2.in', immediateRender: false,
+      scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.5}` }
+    });
+  }
+
+  if (wrapper && viewport && canvas) {
+    wrapper.style.height = `${window.innerHeight + scrollPx}px`;
+
+    ScrollTrigger.create({
+      trigger: wrapper,
+      start: 'top top',
+      end: () => `+=${scrollPx}`,
+      pin: viewport,
+      pinSpacing: false,
+      scrub: CONFIG.scrub,
+      anticipatePin: isMobileDevice ? 1.5 : 1,
+      onUpdate: (self) => {
+        // REMOVED resizeCanvas() from here Ã¢â‚¬â€ was called 60x/sec causing massive jank on mobile
+        const idx = Math.min(
+          Math.floor(self.progress * CONFIG.TOTAL_FRAMES),
+          CONFIG.TOTAL_FRAMES - 1
+        );
         drawFrame(idx);
-      }
-    }
-
-    /* â”€â”€ Preloader â”€â”€ */
-    const loaderBar = document.getElementById('loader-bar');
-    const loader = document.getElementById('loader');
-
-    function preloadFrames() {
-      return new Promise((resolve) => {
-        let loaded = 0;
-        const total = CONFIG.TOTAL_FRAMES;
-        const step = CONFIG.FRAME_STEP;
-        frames = new Array(total);
-        // On mobile, load every Nth frame to slash bandwidth from 10MB to ~1.7MB
-        for (let i = 0; i < total; i++) {
-          const img = new Image();
-          const srcIndex = i * step;
-          img.src = `${CONFIG.FRAMES_DIR}/frame_${String(srcIndex).padStart(4, '0')}.webp`;
-          // Decode asynchronously to avoid blocking main thread
-          if (img.decode) img.decode().catch(() => {});
-          frames[i] = img;
-          img.onload = img.onerror = () => {
-            loaded++;
-            const pct = Math.round((loaded / total) * 100);
-            if (loaderBar) loaderBar.style.width = `${pct}%`;
-            if (loaded === total) resolve();
-          };
-        }
-      });
-    }
-
-    preloadFrames().then(() => {
-      // â”€â”€ Loader Lift â”€â”€
-      const loadTl = gsap.timeline({
-        onComplete: () => {
-          loader.style.display = 'none';
-          initPage();
-        }
-      });
-      
-      loadTl.to(loader, { yPercent: -105, duration: 1.2, ease: 'power4.inOut' });
-
-      // â”€â”€ Force scroll to top on mobile â”€â”€
-      if (isMobileDevice) {
-        window.scrollTo(0, 0);
-      }
-
-      // â”€â”€ Detect mid-scroll reload â”€â”€
-      const isAlreadyScrolled = (window.scrollY || window.pageYOffset) > 10;
-
-      let heroEntranceDone = false;
-      let exitAnimsCreated = false;
-
-      // â”€â”€ Initial hidden state for hero elements â”€â”€
-      // Skip expensive filter:blur on mobile â€” use opacity+transform only
-      const _b = (px) => isMobileDevice ? {} : { filter: `blur(${px}px)` };
-      gsap.set('#el-kicker', { opacity: 0, y: 35, ..._b(14) });
-      gsap.set('#el-h1a',    { opacity: 0, y: 45, ..._b(16) });
-      gsap.set('#el-h1b',    { opacity: 0, y: -45, ..._b(16) });
-      gsap.set('#el-h1-sep', { opacity: 0, scaleX: 0, transformOrigin: 'left' });
-      gsap.set('#el-body',   { opacity: 0, y: 30, ..._b(12) });
-      gsap.set('#el-cta',    { opacity: 0, y: 25, ..._b(10) });
-      gsap.set('#el-scroll', { opacity: 0, y: 15, ..._b(8) });
-      gsap.set('#navbar',    { opacity: 0 });
-      gsap.set('#video-frame', { opacity: 0, scale: 0.94 });
-
-      // â”€â”€ Entrance timeline builder â”€â”€
-      function buildEntranceTl(opts) {
-        const originalOnComplete = opts.onComplete;
-        opts.onComplete = () => {
-          // After entrance: lock video-frame visible permanently
-          const vf = document.getElementById('video-frame');
-          if (vf) {
-            vf.style.opacity = '1';
-            vf.style.transform = 'scale(1)';
-          }
-          if (originalOnComplete) originalOnComplete();
-        };
-        const tl = gsap.timeline(opts);
-        // On mobile: shorter durations, no filter:blur (GPU-expensive)
-        const _bf = isMobileDevice ? {} : { filter: 'blur(0px)' };
-        const _d = (d) => isMobileDevice ? d * 0.6 : d;
-        tl
-          .to('#navbar', { opacity: 1, duration: _d(0.8), ease: 'power2.out' })
-          .to('#el-kicker', { opacity: 1, y: 0, ..._bf, duration: _d(1.25), ease: 'expo.out' }, '-=0.3')
-          .add('titleShow', '-=0.5')
-          .to('#el-h1a', { opacity: 1, y: 0, ..._bf, duration: _d(1.5), ease: 'expo.out' }, 'titleShow')
-          .to('#video-frame', { opacity: 1, scale: 1, duration: _d(1.8), ease: 'power4.out' }, 'titleShow')
-          .to('#el-h1b', { opacity: 1, y: 0, ..._bf, duration: _d(1.5), ease: 'expo.out' }, 'titleShow+=0.12')
-          .to('#el-h1-sep', { opacity: 1, scaleX: 1, duration: _d(1.2), ease: 'expo.out' }, 'titleShow+=0.20')
-          .to('#el-body', { opacity: 1, y: 0, ..._bf, duration: _d(1.2), ease: 'power3.out' }, 'titleShow+=0.35')
-          .to('#el-cta', { opacity: 1, y: 0, ..._bf, duration: _d(1.0), ease: 'power3.out' }, 'titleShow+=0.45')
-          .to('#el-scroll', { opacity: 1, y: 0, ..._bf, duration: _d(0.9), ease: 'power2.out' }, 'titleShow+=0.6');
-        return tl;
-      }
-
-      // Initialize canvas
-      // Initialize canvas â€” debounce resize on mobile
-      if (isMobileDevice) {
-        let _rTimer;
-        window.addEventListener('resize', () => {
-          clearTimeout(_rTimer);
-          _rTimer = setTimeout(resizeCanvas, 150);
-        });
-      } else {
-        window.addEventListener('resize', resizeCanvas);
-      }
-      resizeCanvas();
-      // Force draw first frame â€” retry until loaded
-      function tryDrawFirst() {
-        if (frames[0]?.complete && frames[0].naturalWidth > 0) {
-          currentFrameIndex = -1; // reset to force draw
+      },
+      onLeaveBack: () => {
+        // Safety: always show frame 0 + video-frame when returning to top
+        const vf = document.getElementById('video-frame');
+        if (vf) vf.style.opacity = '1';
+        if (frames[0]?.complete) {
+          currentFrameIndex = -1;
           drawFrame(0);
-        } else {
-          requestAnimationFrame(tryDrawFirst);
         }
-      }
-      tryDrawFirst();
-      if (canvas) {
-        canvas.classList.add('ready');
-        canvas.style.willChange = 'transform';
-      }
-
-      // â”€â”€ ScrollTrigger Scrub Animation â”€â”€
-      const wrapper = document.getElementById('hero-pin-wrapper');
-      const viewport = document.getElementById('hero-viewport');
-      const scrollPx = window.innerHeight * (CONFIG.scrollVH / 100);
-
-      // â”€â”€ Exit scrub animations â”€â”€
-      function createExitAnimations() {
-        if (exitAnimsCreated) return;
-        exitAnimsCreated = true;
-
-        function snapHeroVisible() {
-          gsap.set(['#el-kicker', '#el-h1a', '#el-h1b', '#el-h1-sep', '#el-body', '#el-cta', '#el-scroll'], {
-            opacity: 1, y: 0, filter: 'blur(0px)'
-          });
-          gsap.set('#el-h1-sep', { scaleX: 1 });
-          // Force video-frame visible and redraw first frame
-          const vf = document.getElementById('video-frame');
-          if (vf) {
-            vf.style.opacity = '1';
-            vf.style.transform = 'scale(1)';
-          }
-          gsap.set('#video-frame', { opacity: 1, scale: 1 });
-          if (frames[0]?.complete) {
-            currentFrameIndex = -1;
-            drawFrame(0);
-          }
+      },
+      onLeave: () => {
+        // When leaving hero area: ensure last frame stays drawn
+        const lastIdx = CONFIG.TOTAL_FRAMES - 1;
+        if (frames[lastIdx]?.complete) {
+          currentFrameIndex = -1;
+          drawFrame(lastIdx);
         }
-
-        const scrollSettings = {
-          trigger: wrapper,
-          start: 'top top',
-          scrub: 0.6,
-          onLeaveBack: () => { snapHeroVisible(); }
-        };
-
-        // On mobile, skip filter:blur in scroll-out â€” paint op, not compositor-only
-        const _f = (b) => isMobileDevice ? {} : { filter: `blur(${b})` };
-
-        gsap.to('#el-kicker', {
-          opacity: 0, y: -40, ..._f('8px'), ease: 'power2.in', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.22}` }
-        });
-        gsap.to('#el-h1a', {
-          opacity: 0, y: -60, ..._f('12px'), ease: 'power2.in', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.3}` }
-        });
-        gsap.to('#el-h1b', {
-          opacity: 0, y: -48, ..._f('10px'), ease: 'power2.in', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.36}` }
-        });
-        gsap.to('#el-h1-sep', {
-          scaleX: 0, opacity: 0, ease: 'power2.in', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.38}` }
-        });
-        gsap.to('#el-scroll', {
-          opacity: 0, y: -20, ..._f('5px'), ease: 'power2.in', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.25}` }
-        });
-        gsap.to('#el-body', {
-          opacity: 0, y: -32, ..._f('8px'), ease: 'power2.in', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.43}` }
-        });
-        gsap.to('#el-cta', {
-          opacity: 0, y: -26, ..._f('6px'), ease: 'power2.in', immediateRender: false,
-          scrollTrigger: { ...scrollSettings, end: () => `+=${scrollPx * 0.5}` }
-        });
-      }
-
-      if (wrapper && viewport && canvas) {
-        wrapper.style.height = `${window.innerHeight + scrollPx}px`;
-
-        ScrollTrigger.create({
-          trigger: wrapper,
-          start: 'top top',
-          end: () => `+=${scrollPx}`,
-          pin: viewport,
-          pinSpacing: false,
-          scrub: CONFIG.scrub,
-          anticipatePin: isMobileDevice ? 1.5 : 1,
-          onUpdate: (self) => {
-            // REMOVED resizeCanvas() from here â€” was called 60x/sec causing massive jank on mobile
-            const idx = Math.min(
-              Math.floor(self.progress * CONFIG.TOTAL_FRAMES),
-              CONFIG.TOTAL_FRAMES - 1
-            );
-            drawFrame(idx);
-          },
-          onLeaveBack: () => {
-            // Safety: always show frame 0 + video-frame when returning to top
-            const vf = document.getElementById('video-frame');
-            if (vf) vf.style.opacity = '1';
-            if (frames[0]?.complete) {
-              currentFrameIndex = -1;
-              drawFrame(0);
-            }
-          },
-          onLeave: () => {
-            // When leaving hero area: ensure last frame stays drawn
-            const lastIdx = CONFIG.TOTAL_FRAMES - 1;
-            if (frames[lastIdx]?.complete) {
-              currentFrameIndex = -1;
-              drawFrame(lastIdx);
-            }
-          }
-        });
-
-        if (isAlreadyScrolled) {
-          document.body.style.opacity = '1';
-          gsap.set('#navbar', { opacity: 1 });
-          gsap.set('#video-frame', { opacity: 1, scale: 1 });
-          if (canvas) {
-            canvas.style.transition = 'none';
-            canvas.style.opacity    = '1';
-            canvas.style.filter     = 'blur(0) contrast(1.1) brightness(1.05)';
-            canvas.style.transform  = 'scale(1)';
-          }
-
-          ScrollTrigger.create({
-            trigger: wrapper,
-            start: 'top 90%',
-            onEnterBack: () => {
-              if (!heroEntranceDone) {
-                heroEntranceDone = true;
-                buildEntranceTl({ onComplete: () => { createExitAnimations(); } });
-              }
-            }
-          });
-
-        } else {
-          document.body.style.opacity = '1';
-          buildEntranceTl({
-            delay: 0.1,
-            onComplete: () => { createExitAnimations(); }
-          });
-        }
-
-        // â”€â”€ MOBILE SAFETY NET: ensure canvas never stays blank â”€â”€
-        // Use lightweight check: only redraw on visibilitychange (tab regain).
-        // The previous getImageData approach was extremely expensive on mobile
-        // (GPUâ†’CPU readback on every scroll frame). Removed.
-        if (isMobileDevice && canvas && ctx) {
-          document.addEventListener('visibilitychange', () => {
-            if (!document.hidden) {
-              forceRedraw();
-            }
-          });
-        }
-
       }
     });
 
-    // Fallback: If loader doesn't clear in 6s, reveal anyway
-    setTimeout(() => {
-        if (loader && loader.style.display !== 'none') {
-            gsap.to(loader, { yPercent: -105, duration: 1.2, ease: 'power4.inOut', onComplete: () => {
-                loader.style.display = 'none';
-                initPage();
-            }});
-        }
-    }, isMobileDevice ? 3500 : 6000);
-
-    function initPage() {
-      const nav = document.getElementById('navbar');
-      const catNav = document.getElementById('cat-nav');
-      const catNavInner = document.getElementById('cat-nav-inner');
-      const catBtns = document.querySelectorAll('.cat-btn');
-      const categoryGroups = document.querySelectorAll('.category-group');
-      
-      /* â”€â”€ Fixed-pin observer for #cat-nav â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-         overflow-x:hidden on html/body breaks position:sticky, so we
-         use position:fixed instead.
-         On mobile the navbar is position:absolute (scrolls away),
-         so cat-nav pins at top:0. On desktop it pins below navbar.
-      â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-      const menuBody = document.getElementById('menu-body');
-      const NAVBAR_H = isMobileDevice ? 0 : 72;
-      let catNavH = catNav.offsetHeight;
-      let isPinned = false;
-
-      function getCatNavTop() {
-        if (isPinned) {
-          catNav.classList.remove('is-pinned');
-          if (menuBody) menuBody.style.paddingTop = '0';
-        }
-        const rect = catNav.getBoundingClientRect();
-        const top = rect.top + window.scrollY;
-        if (isPinned) {
-          catNav.classList.add('is-pinned');
-          if (menuBody) menuBody.style.paddingTop = catNavH + 'px';
-        }
-        return top;
+    if (isAlreadyScrolled) {
+      document.body.style.opacity = '1';
+      gsap.set('#navbar', { opacity: 1 });
+      gsap.set('#video-frame', { opacity: 1, scale: 1 });
+      if (canvas) {
+        canvas.style.transition = 'none';
+        canvas.style.opacity = '1';
+        canvas.style.filter = 'blur(0) contrast(1.1) brightness(1.05)';
+        canvas.style.transform = 'scale(1)';
       }
 
-      let catNavNaturalTop = 0;
-
-      function updatePin() {
-        catNavH = catNav.offsetHeight;
-        const triggerAt = catNavNaturalTop - NAVBAR_H;
-
-        if (window.scrollY >= triggerAt && !isPinned) {
-          isPinned = true;
-          catNav.classList.add('is-pinned');
-          if (menuBody) menuBody.style.paddingTop = catNavH + 'px';
-        } else if (window.scrollY < triggerAt && isPinned) {
-          isPinned = false;
-          catNav.classList.remove('is-pinned');
-          if (menuBody) menuBody.style.paddingTop = '0';
-        }
-      }
-
-      requestAnimationFrame(() => {
-        catNavNaturalTop = catNav.getBoundingClientRect().top + window.scrollY;
-        updatePin();
-      });
-
-      window.addEventListener('scroll', updatePin, { passive: true });
-      window.addEventListener('resize', () => {
-        catNavNaturalTop = getCatNavTop();
-        catNavH = catNav.offsetHeight;
-        updatePin();
-      }, { passive: true });
-
-      /* â”€â”€ Navbar scroll state â”€â”€ */
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 80) {
-          nav.classList.add('is-scrolled');
-          nav.classList.remove('nav-light');
-        } else {
-          nav.classList.remove('is-scrolled');
-          nav.classList.add('nav-light');
-        }
-      }, { passive: true });
-
-      /* â”€â”€ Reveal animations (IntersectionObserver) â”€â”€ */
-      const revealObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
+      ScrollTrigger.create({
+        trigger: wrapper,
+        start: 'top 90%',
+        onEnterBack: () => {
+          if (!heroEntranceDone) {
+            heroEntranceDone = true;
+            buildEntranceTl({ onComplete: () => { createExitAnimations(); } });
           }
-        });
-      }, { rootMargin: "0px 0px -12% 0px" });
-
-      function observeRevealElements() {
-        document.querySelectorAll('.reveal:not(.is-observed)').forEach(el => {
-          el.classList.add('is-observed');
-          revealObserver.observe(el);
-        });
-      }
-
-      observeRevealElements();
-
-      /* â”€â”€ Mobile fallback: force all reveals visible immediately â”€â”€ */
-      if (window.innerWidth <= 767) {
-        document.querySelectorAll('.reveal').forEach(el => {
-          el.classList.add('is-visible');
-          el.style.opacity = '1';
-          el.style.transform = 'none';
-          el.style.clipPath = 'none';
-          el.style.webkitClipPath = 'none';
-        });
-      }
-
-
-      /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-         SCROLL-BASED CATEGORY NAVIGATION
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-
-      /** Centers the active cat-btn inside the scrollable rail. */
-      function syncCatNavRail() {
-        const activeBtn = catNavInner.querySelector('.cat-btn.active');
-        if (!activeBtn) return;
-        const rail = catNavInner;
-        const btnLeft  = activeBtn.offsetLeft;
-        const btnWidth = activeBtn.offsetWidth;
-        const railW    = rail.offsetWidth;
-        const scrollTarget = btnLeft - (railW / 2) + (btnWidth / 2);
-        rail.scrollTo({
-          left: Math.max(0, scrollTarget),
-          behavior: 'smooth'
-        });
-      }
-
-      /** Set active category button by ID */
-      function setActiveCategory(targetId) {
-        let changed = false;
-        catBtns.forEach(btn => {
-          const shouldBeActive = btn.dataset.target === targetId;
-          if (shouldBeActive && !btn.classList.contains('active')) changed = true;
-          btn.classList.toggle('active', shouldBeActive);
-        });
-        if (changed) syncCatNavRail();
-      }
-
-      /** Scroll to a category group smoothly */
-      function scrollToCategory(targetId) {
-        const group = document.getElementById(targetId);
-        if (!group) return;
-
-        const navH = nav ? nav.getBoundingClientRect().height : 72;
-        const catH = catNav ? catNav.offsetHeight : 50;
-        const offset = (isMobileDevice ? 0 : navH) + catH + 24;
-        const groupTop = group.getBoundingClientRect().top + window.scrollY;
-        const target = groupTop - offset;
-
-        window.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
-      }
-
-      /* â”€â”€ Click handlers for category buttons â”€â”€ */
-      catBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const targetId = btn.dataset.target;
-          setActiveCategory(targetId);
-          scrollToCategory(targetId);
-        });
+        }
       });
 
-      /* â”€â”€ IntersectionObserver: track which category is in view â”€â”€â”€â”€â”€
-         Updates active nav button as user scrolls through categories.
-         On mobile, use a tighter rootMargin for better detection since
-         cat-nav pins at top:0 without the navbar taking space.
-      â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-      let isUserScrolling = true; // Flag to prevent observer fighting with click-scroll
-
-      const catObserverMargin = isMobileDevice
-        ? '-8% 0px -70% 0px'   // Mobile: detect near top of viewport
-        : '-20% 0px -60% 0px'; // Desktop: bias toward upper portion
-
-      const categoryObserver = new IntersectionObserver((entries) => {
-        if (!isUserScrolling) return;
-
-        // Find the topmost visible category group
-        let topEntry = null;
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            if (!topEntry || entry.boundingClientRect.top < topEntry.boundingClientRect.top) {
-              topEntry = entry;
-            }
-          }
-        });
-
-        if (topEntry) {
-          setActiveCategory(topEntry.target.id);
-        }
-      }, {
-        rootMargin: catObserverMargin,
-        threshold: [0, 0.1]
+    } else {
+      document.body.style.opacity = '1';
+      buildEntranceTl({
+        delay: 0.1,
+        onComplete: () => { createExitAnimations(); }
       });
-
-      categoryGroups.forEach(group => categoryObserver.observe(group));
-
-      // Temporarily disable observer during click-to-scroll
-      catBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          isUserScrolling = false;
-          // Re-enable after scrolling settles
-          setTimeout(() => { isUserScrolling = true; }, 1200);
-        });
-      });
-
-
-      /* â”€â”€ Hero CTA & Scroll Indicator scroll-to-menu â”€â”€ */
-      const scrollToMenu = (e) => {
-        e.preventDefault();
-        const menuStart = document.getElementById('menu-start');
-        if (menuStart) {
-          const targetY = menuStart.getBoundingClientRect().top + window.scrollY - 76;
-          window.scrollTo({ top: targetY, behavior: 'smooth' });
-        }
-
-        if (mobileMenu && mobileMenu.classList.contains('open')) {
-          mobileMenu.classList.remove('open');
-        }
-      };
-
-      const heroCta = document.querySelector('.loc-beam-container[href="#menu-start"]');
-      if (heroCta) heroCta.addEventListener('click', scrollToMenu);
-
-      const navSabores = document.querySelector('.nav-link[href="#menu-start"]');
-      if (navSabores) navSabores.addEventListener('click', scrollToMenu);
-
-      const mobileCardapio = document.querySelector('.mobile-link[href="#menu-start"]');
-      if (mobileCardapio) mobileCardapio.addEventListener('click', scrollToMenu);
-
-      const scrollIndicator = document.getElementById('el-scroll');
-      if (scrollIndicator) {
-        scrollIndicator.style.pointerEvents = 'auto';
-        scrollIndicator.style.cursor = 'pointer';
-        scrollIndicator.addEventListener('click', () => {
-          const menuStart = document.getElementById('menu-start');
-          if (menuStart) {
-            const targetY = menuStart.getBoundingClientRect().top + window.scrollY - 76;
-            window.scrollTo({ top: targetY, behavior: 'smooth' });
-          }
-        });
-      }
     }
 
-    /* â”€â”€ Mobile menu â”€â”€ */
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const mobileClose = document.getElementById('mobile-close');
-    hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
-    mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
-    
-    document.querySelectorAll('.mobile-link').forEach(link => {
-      link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    // Ã¢â€â‚¬Ã¢â€â‚¬ MOBILE SAFETY NET: ensure canvas never stays blank Ã¢â€â‚¬Ã¢â€â‚¬
+    // Use lightweight check: only redraw on visibilitychange (tab regain).
+    // The previous getImageData approach was extremely expensive on mobile
+    // (GPUÃ¢â€ â€™CPU readback on every scroll frame). Removed.
+    if (isMobileDevice && canvas && ctx) {
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+          forceRedraw();
+        }
+      });
+    }
+
+  }
+});
+
+// Fallback: If loader doesn't clear in 6s, reveal anyway
+setTimeout(() => {
+  if (loader && loader.style.display !== 'none') {
+    gsap.to(loader, {
+      yPercent: -105, duration: 1.2, ease: 'power4.inOut', onComplete: () => {
+        loader.style.display = 'none';
+        initPage();
+      }
+    });
+  }
+}, isMobileDevice ? 3500 : 6000);
+
+function initPage() {
+  const nav = document.getElementById('navbar');
+  const catNav = document.getElementById('cat-nav');
+  const catNavInner = document.getElementById('cat-nav-inner');
+  const catBtns = document.querySelectorAll('.cat-btn');
+  const categoryGroups = document.querySelectorAll('.category-group');
+
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ Fixed-pin observer for #cat-nav Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+     overflow-x:hidden on html/body breaks position:sticky, so we
+     use position:fixed instead.
+     On mobile the navbar is position:absolute (scrolls away),
+     so cat-nav pins at top:0. On desktop it pins below navbar.
+  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+  const menuBody = document.getElementById('menu-body');
+  const NAVBAR_H = isMobileDevice ? 0 : 72;
+  let catNavH = catNav.offsetHeight;
+  let isPinned = false;
+
+  function getCatNavTop() {
+    if (isPinned) {
+      catNav.classList.remove('is-pinned');
+      if (menuBody) menuBody.style.paddingTop = '0';
+    }
+    const rect = catNav.getBoundingClientRect();
+    const top = rect.top + window.scrollY;
+    if (isPinned) {
+      catNav.classList.add('is-pinned');
+      if (menuBody) menuBody.style.paddingTop = catNavH + 'px';
+    }
+    return top;
+  }
+
+  let catNavNaturalTop = 0;
+
+  function updatePin() {
+    catNavH = catNav.offsetHeight;
+    const triggerAt = catNavNaturalTop - NAVBAR_H;
+
+    if (window.scrollY >= triggerAt && !isPinned) {
+      isPinned = true;
+      catNav.classList.add('is-pinned');
+      if (menuBody) menuBody.style.paddingTop = catNavH + 'px';
+    } else if (window.scrollY < triggerAt && isPinned) {
+      isPinned = false;
+      catNav.classList.remove('is-pinned');
+      if (menuBody) menuBody.style.paddingTop = '0';
+    }
+  }
+
+  requestAnimationFrame(() => {
+    catNavNaturalTop = catNav.getBoundingClientRect().top + window.scrollY;
+    updatePin();
+  });
+
+  window.addEventListener('scroll', updatePin, { passive: true });
+  window.addEventListener('resize', () => {
+    catNavNaturalTop = getCatNavTop();
+    catNavH = catNav.offsetHeight;
+    updatePin();
+  }, { passive: true });
+
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ Navbar scroll state Ã¢â€â‚¬Ã¢â€â‚¬ */
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) {
+      nav.classList.add('is-scrolled');
+      nav.classList.remove('nav-light');
+    } else {
+      nav.classList.remove('is-scrolled');
+      nav.classList.add('nav-light');
+    }
+  }, { passive: true });
+
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ Reveal animations (IntersectionObserver) Ã¢â€â‚¬Ã¢â€â‚¬ */
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: "0px 0px -12% 0px" });
+
+  function observeRevealElements() {
+    document.querySelectorAll('.reveal:not(.is-observed)').forEach(el => {
+      el.classList.add('is-observed');
+      revealObserver.observe(el);
+    });
+  }
+
+  observeRevealElements();
+
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ Mobile fallback: force all reveals visible immediately Ã¢â€â‚¬Ã¢â€â‚¬ */
+  if (window.innerWidth <= 767) {
+    document.querySelectorAll('.reveal').forEach(el => {
+      el.classList.add('is-visible');
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+      el.style.clipPath = 'none';
+      el.style.webkitClipPath = 'none';
+    });
+  }
+
+
+  /* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+     SCROLL-BASED CATEGORY NAVIGATION
+  Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
+
+  /** Centers the active cat-btn inside the scrollable rail. */
+  function syncCatNavRail() {
+    const activeBtn = catNavInner.querySelector('.cat-btn.active');
+    if (!activeBtn) return;
+    const rail = catNavInner;
+    const btnLeft = activeBtn.offsetLeft;
+    const btnWidth = activeBtn.offsetWidth;
+    const railW = rail.offsetWidth;
+    const scrollTarget = btnLeft - (railW / 2) + (btnWidth / 2);
+    rail.scrollTo({
+      left: Math.max(0, scrollTarget),
+      behavior: 'smooth'
+    });
+  }
+
+  /** Set active category button by ID */
+  function setActiveCategory(targetId) {
+    let changed = false;
+    catBtns.forEach(btn => {
+      const shouldBeActive = btn.dataset.target === targetId;
+      if (shouldBeActive && !btn.classList.contains('active')) changed = true;
+      btn.classList.toggle('active', shouldBeActive);
+    });
+    if (changed) syncCatNavRail();
+  }
+
+  /** Scroll to a category group smoothly */
+  function scrollToCategory(targetId) {
+    const group = document.getElementById(targetId);
+    if (!group) return;
+
+    const navH = nav ? nav.getBoundingClientRect().height : 72;
+    const catH = catNav ? catNav.offsetHeight : 50;
+    const offset = (isMobileDevice ? 0 : navH) + catH + 24;
+    const groupTop = group.getBoundingClientRect().top + window.scrollY;
+    const target = groupTop - offset;
+
+    window.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+  }
+
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ Click handlers for category buttons Ã¢â€â‚¬Ã¢â€â‚¬ */
+  catBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.target;
+      setActiveCategory(targetId);
+      scrollToCategory(targetId);
+    });
+  });
+
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ IntersectionObserver: track which category is in view Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+     Updates active nav button as user scrolls through categories.
+     On mobile, use a tighter rootMargin for better detection since
+     cat-nav pins at top:0 without the navbar taking space.
+  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+  let isUserScrolling = true; // Flag to prevent observer fighting with click-scroll
+
+  const catObserverMargin = isMobileDevice
+    ? '-8% 0px -70% 0px'   // Mobile: detect near top of viewport
+    : '-20% 0px -60% 0px'; // Desktop: bias toward upper portion
+
+  const categoryObserver = new IntersectionObserver((entries) => {
+    if (!isUserScrolling) return;
+
+    // Find the topmost visible category group
+    let topEntry = null;
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        if (!topEntry || entry.boundingClientRect.top < topEntry.boundingClientRect.top) {
+          topEntry = entry;
+        }
+      }
     });
 
+    if (topEntry) {
+      setActiveCategory(topEntry.target.id);
+    }
+  }, {
+    rootMargin: catObserverMargin,
+    threshold: [0, 0.1]
+  });
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-       CUSTOM CURSOR â€” Green dot with lagging ring
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-    (function initCursor() {
-      if (!window.matchMedia('(pointer: fine)').matches) return;
+  categoryGroups.forEach(group => categoryObserver.observe(group));
 
-      const dot  = document.getElementById('custom-cursor');
-      const ring = document.getElementById('custom-cursor-ring');
-      if (!dot || !ring) return;
+  // Temporarily disable observer during click-to-scroll
+  catBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      isUserScrolling = false;
+      // Re-enable after scrolling settles
+      setTimeout(() => { isUserScrolling = true; }, 1200);
+    });
+  });
 
-      let mx = window.innerWidth / 2;
-      let my = window.innerHeight / 2;
-      let rx = mx, ry = my;
 
-      document.addEventListener('mousemove', e => {
-        mx = e.clientX;
-        my = e.clientY;
-      });
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ Hero CTA & Scroll Indicator scroll-to-menu Ã¢â€â‚¬Ã¢â€â‚¬ */
+  const scrollToMenu = (e) => {
+    e.preventDefault();
+    const menuStart = document.getElementById('menu-start');
+    if (menuStart) {
+      const targetY = menuStart.getBoundingClientRect().top + window.scrollY - 76;
+      window.scrollTo({ top: targetY, behavior: 'smooth' });
+    }
 
-      document.addEventListener('mouseleave', () => {
-        dot.style.opacity  = '0';
-        ring.style.opacity = '0';
-      });
-      document.addEventListener('mouseenter', () => {
-        dot.style.opacity  = '1';
-        ring.style.opacity = '1';
-      });
+    if (mobileMenu && mobileMenu.classList.contains('open')) {
+      mobileMenu.classList.remove('open');
+    }
+  };
 
-      function animCursor() {
-        dot.style.left = mx + 'px';
-        dot.style.top  = my + 'px';
+  const heroCta = document.querySelector('.loc-beam-container[href="#menu-start"]');
+  if (heroCta) heroCta.addEventListener('click', scrollToMenu);
 
-        rx += (mx - rx) * 0.12;
-        ry += (my - ry) * 0.12;
-        ring.style.left = rx + 'px';
-        ring.style.top  = ry + 'px';
+  const navSabores = document.querySelector('.nav-link[href="#menu-start"]');
+  if (navSabores) navSabores.addEventListener('click', scrollToMenu);
 
-        requestAnimationFrame(animCursor);
+  const mobileCardapio = document.querySelector('.mobile-link[href="#menu-start"]');
+  if (mobileCardapio) mobileCardapio.addEventListener('click', scrollToMenu);
+
+  const scrollIndicator = document.getElementById('el-scroll');
+  if (scrollIndicator) {
+    scrollIndicator.style.pointerEvents = 'auto';
+    scrollIndicator.style.cursor = 'pointer';
+    scrollIndicator.addEventListener('click', () => {
+      const menuStart = document.getElementById('menu-start');
+      if (menuStart) {
+        const targetY = menuStart.getBoundingClientRect().top + window.scrollY - 76;
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
       }
-      requestAnimationFrame(animCursor);
-    })();
+    });
+  }
+}
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-       PRODUCT DETAIL MODAL / BOTTOM SHEET
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-    (function initDetailModal() {
-      const modal = document.getElementById('menu-modal');
-      const closeBtn = document.getElementById('modal-close');
-      const backdrop = document.getElementById('modal-backdrop');
-      
-      if (!modal) return;
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Mobile menu Ã¢â€â‚¬Ã¢â€â‚¬ */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileClose = document.getElementById('mobile-close');
+hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
 
-      const titleEl = document.getElementById('modal-title');
-      const priceEl = document.getElementById('modal-price');
-      const descEl = document.getElementById('modal-desc');
-      const imageEl = document.getElementById('modal-image');
-      const imgWrapper = document.getElementById('modal-image-wrapper');
-      const attrsContainer = document.getElementById('modal-attrs');
-      const badgesContainer = document.getElementById('modal-badges');
+document.querySelectorAll('.mobile-link').forEach(link => {
+  link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+});
 
-      // Dictionary of mappings for profile and allergens
-      const iconMap = {
-        veg: { label: 'Vegetariano', icon: 'lucide:leaf' },
-        vegan: { label: 'Vegano', icon: 'lucide:leaf' },
-        hot: { label: 'Picante', icon: 'lucide:flame' },
-        new: { label: 'Novidade', icon: 'lucide:star' },
-        premium: { label: 'Premium', icon: 'lucide:gem' },
-        regional: { label: 'Regional', icon: 'lucide:map-pin' },
-        fav: { label: 'Favorito', icon: 'lucide:heart' },
-        casa: { label: 'Da Casa', icon: 'lucide:home' },
-        gluten: { label: 'ContÃ©m GlÃºten', icon: 'lucide:wheat' },
-        leite: { label: 'ContÃ©m Leite', icon: 'lucide:milk' },
-        lac: { label: 'ContÃ©m Lactose', icon: 'lucide:milk-off' },
-        castanhas: { label: 'Castanhas', icon: 'lucide:nut' }
-      };
 
-      function buildAttrGroup(title, itemsArr) {
-        if (!itemsArr || itemsArr.length === 0) return '';
-        let html = `<div class="modal-attr-group">
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+   CUSTOM CURSOR Ã¢â‚¬â€ Green dot with lagging ring
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
+(function initCursor() {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
+  const dot = document.getElementById('custom-cursor');
+  const ring = document.getElementById('custom-cursor-ring');
+  if (!dot || !ring) return;
+
+  let mx = window.innerWidth / 2;
+  let my = window.innerHeight / 2;
+  let rx = mx, ry = my;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+  });
+
+  document.addEventListener('mouseleave', () => {
+    dot.style.opacity = '0';
+    ring.style.opacity = '0';
+  });
+  document.addEventListener('mouseenter', () => {
+    dot.style.opacity = '1';
+    ring.style.opacity = '1';
+  });
+
+  function animCursor() {
+    dot.style.left = mx + 'px';
+    dot.style.top = my + 'px';
+
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+
+    requestAnimationFrame(animCursor);
+  }
+  requestAnimationFrame(animCursor);
+})();
+
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+   PRODUCT DETAIL MODAL / BOTTOM SHEET
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
+(function initDetailModal() {
+  const modal = document.getElementById('menu-modal');
+  const closeBtn = document.getElementById('modal-close');
+  const backdrop = document.getElementById('modal-backdrop');
+
+  if (!modal) return;
+
+  const titleEl = document.getElementById('modal-title');
+  const priceEl = document.getElementById('modal-price');
+  const descEl = document.getElementById('modal-desc');
+  const imageEl = document.getElementById('modal-image');
+  const imgWrapper = document.getElementById('modal-image-wrapper');
+  const attrsContainer = document.getElementById('modal-attrs');
+  const badgesContainer = document.getElementById('modal-badges');
+
+  // Dictionary of mappings for profile and allergens
+  const iconMap = {
+    veg: { label: 'Vegetariano', icon: 'lucide:leaf' },
+    vegan: { label: 'Vegano', icon: 'lucide:leaf' },
+    hot: { label: 'Picante', icon: 'lucide:flame' },
+    new: { label: 'Novidade', icon: 'lucide:star' },
+    premium: { label: 'Premium', icon: 'lucide:gem' },
+    regional: { label: 'Regional', icon: 'lucide:map-pin' },
+    fav: { label: 'Favorito', icon: 'lucide:heart' },
+    casa: { label: 'Da Casa', icon: 'lucide:home' },
+    gluten: { label: 'ContÃƒÂ©m GlÃƒÂºten', icon: 'lucide:wheat' },
+    leite: { label: 'ContÃƒÂ©m Leite', icon: 'lucide:milk' },
+    lac: { label: 'ContÃƒÂ©m Lactose', icon: 'lucide:milk-off' },
+    castanhas: { label: 'Castanhas', icon: 'lucide:nut' }
+  };
+
+  function buildAttrGroup(title, itemsArr) {
+    if (!itemsArr || itemsArr.length === 0) return '';
+    let html = `<div class="modal-attr-group">
                       <h4 class="modal-attr-heading">${title}</h4>
                       <div class="modal-attr-list">`;
-        itemsArr.forEach(key => {
-          const dict = iconMap[key.trim()];
-          if (dict) {
-            html += `<span class="modal-attr-item">
+    itemsArr.forEach(key => {
+      const dict = iconMap[key.trim()];
+      if (dict) {
+        html += `<span class="modal-attr-item">
                        <iconify-icon icon="${dict.icon}" class="modal-attr-icon"></iconify-icon>
                        ${dict.label}
                      </span>`;
-          }
-        });
-        html += `</div></div>`;
-        return html;
       }
+    });
+    html += `</div></div>`;
+    return html;
+  }
 
-      function openModal(item) {
-        const name = item.getAttribute('data-item-name');
-        const desc = item.getAttribute('data-item-desc');
-        const price = item.getAttribute('data-item-price');
-        const img = item.getAttribute('data-item-image');
-        const allergens = item.getAttribute('data-item-allergens');
-        const profile = item.getAttribute('data-item-profile');
+  function openModal(item) {
+    const name = item.getAttribute('data-item-name');
+    const desc = item.getAttribute('data-item-desc');
+    const price = item.getAttribute('data-item-price');
+    const img = item.getAttribute('data-item-image');
+    const allergens = item.getAttribute('data-item-allergens');
+    const profile = item.getAttribute('data-item-profile');
 
-        const priceCuscuz = item.getAttribute('data-price-cuscuz');
-        const priceTapioca = item.getAttribute('data-price-tapioca');
+    const priceCuscuz = item.getAttribute('data-price-cuscuz');
+    const priceTapioca = item.getAttribute('data-price-tapioca');
 
-        if (name) titleEl.innerHTML = name;
-        
-        if (price) {
-          if (priceCuscuz && priceTapioca) {
-            priceEl.innerHTML = `<span style="display:block; font-size: 0.55em; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2px;">Cuscuz &nbsp;<strong style="font-size: 1.6em; font-weight: 500; letter-spacing: normal; text-transform: none; padding-right: 1.5rem;">${priceCuscuz}</strong> Tapioca &nbsp;<strong style="font-size: 1.6em; font-weight: 500; letter-spacing: normal; text-transform: none;">${priceTapioca}</strong></span>`;
-          } else {
-            priceEl.innerHTML = price;
-          }
-        }
-        
-        if (desc) {
-          descEl.innerHTML = desc;
-          descEl.style.display = 'block';
-        } else {
-          descEl.style.display = 'none';
-        }
+    if (name) titleEl.innerHTML = name;
 
-        if (img) {
-          imageEl.src = img;
-          imgWrapper.style.display = 'block';
-        } else {
-          imageEl.src = '';
-          imgWrapper.style.display = 'none';
-        }
-
-        // Build semantic attribute sections
-        let attrsHtml = '';
-        if (profile) attrsHtml += buildAttrGroup('Perfil', profile.split(',').filter(Boolean));
-        if (allergens) attrsHtml += buildAttrGroup('ContÃ©m', allergens.split(',').filter(Boolean));
-
-        if (attrsHtml) {
-          attrsContainer.innerHTML = attrsHtml;
-          attrsContainer.style.display = 'flex';
-        } else {
-          attrsContainer.innerHTML = '';
-          attrsContainer.style.display = 'none';
-        }
-
-        // Show badges in modal
-        const badge = item.getAttribute('data-item-badge');
-        if (badgesContainer) {
-          if (badge && badge.trim()) {
-            badgesContainer.innerHTML = `<span class="badge">${badge}</span>`;
-            badgesContainer.style.display = 'flex';
-          } else {
-            badgesContainer.innerHTML = '';
-            badgesContainer.style.display = 'none';
-          }
-        }
-
-        modal.classList.add('is-open');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeModal() {
-        modal.classList.remove('is-open');
-        document.body.style.overflow = '';
-      }
-
-      function registerMenuItemClicks() {
-        document.querySelectorAll('.menu-item').forEach(item => {
-          if (item.hasAttribute('data-item-name') && !item._modalBound) {
-            item._modalBound = true;
-            item.addEventListener('click', () => openModal(item));
-          }
-        });
-      }
-
-      registerMenuItemClicks();
-
-      // Re-registrar apÃ³s fetch dinÃ¢mico da API (menu-data.js)
-      document.addEventListener('menuRendered', () => {
-        registerMenuItemClicks();
-        // NÃ£o tentar usar o revealObserver aqui porque o initPage pode nÃ£o ter rodado.
-        // Apenas deixe os elementos prontos. 
-        document.querySelectorAll('.reveal:not(.is-observed)').forEach(el => {
-          // Fallback seguro: jÃ¡ torna os itens diretamente visÃ­veis
-          // Para evitar o bug do observer nunca inicializando neles
-          el.classList.add('is-visible');
-          el.style.opacity = '1';
-          el.style.transform = 'none';
-          el.style.clipPath = 'none';
-          el.style.webkitClipPath = 'none';
-        });
-      });
-
-      closeBtn.addEventListener('click', closeModal);
-      backdrop.addEventListener('click', closeModal);
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('is-open')) {
-          closeModal();
-        }
-      });
-    })();
-
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-       BASE SELECTOR LOGIC (TAPIOCA / CUSCUZ)
-       Aguarda menuRendered para garantir que o grid estÃ¡ populado pela API.
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-    function initBaseSelector() {
-      const toggleBtns = document.querySelectorAll('.base-toggle-btn');
-      if (toggleBtns.length === 0) return;
-
-      function updateTapiocaGrid(base) {
-        const tapiocaGrid = document.querySelector('#tapioca .menu-grid');
-        if (!tapiocaGrid) return;
-
-        const items = tapiocaGrid.querySelectorAll('.menu-item');
-        items.forEach(item => {
-          // Toggle image paths
-          const thumbImg = item.querySelector('.item-thumb img');
-          const currentDataImg = item.getAttribute('data-item-image');
-
-          if (thumbImg && currentDataImg) {
-            const newPath = base === 'cuscuz'
-              ? currentDataImg.replace('/tapioca-e-cuscuz/tapioca/', '/tapioca-e-cuscuz/cuzcuz/')
-              : currentDataImg.replace('/tapioca-e-cuscuz/cuzcuz/', '/tapioca-e-cuscuz/tapioca/');
-
-            thumbImg.src = newPath;
-            item.setAttribute('data-item-image', newPath);
-          }
-
-          item.classList.remove('thumb-hidden');
-
-          // Toggle prices
-          const priceEl = item.querySelector('.dynamic-price');
-          if (!priceEl) return;
-          
-          const targetAttr = base === 'cuscuz' ? 'data-price-cuscuz' : 'data-price-tapioca';
-          const newPrice = item.getAttribute(targetAttr);
-          
-          if (newPrice && priceEl.innerHTML !== newPrice) {
-            // Atualiza tambÃ©m o atributo consumido pelo modal
-            item.setAttribute('data-item-price', newPrice);
-
-            gsap.to(priceEl, { opacity: 0, y: -2, duration: 0.15, onComplete: () => {
-              priceEl.innerHTML = newPrice;
-              gsap.to(priceEl, { opacity: 1, y: 0, duration: 0.15 });
-            }});
-          }
-        });
-      }
-
-      toggleBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          toggleBtns.forEach(b => b.classList.remove('active'));
-          const currentBtn = e.currentTarget;
-          currentBtn.classList.add('active');
-
-          const base = currentBtn.getAttribute('data-base'); // 'cuscuz' or 'tapioca'
-          updateTapiocaGrid(base);
-        });
-      });
-
-      // Estado inicial
-      const initialActive = document.querySelector('.base-toggle-btn.active');
-      if (initialActive) {
-        updateTapiocaGrid(initialActive.getAttribute('data-base'));
+    if (price) {
+      if (priceCuscuz && priceTapioca) {
+        priceEl.innerHTML = `<span style="display:block; font-size: 0.55em; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2px;">Cuscuz &nbsp;<strong style="font-size: 1.6em; font-weight: 500; letter-spacing: normal; text-transform: none; padding-right: 1.5rem;">${priceCuscuz}</strong> Tapioca &nbsp;<strong style="font-size: 1.6em; font-weight: 500; letter-spacing: normal; text-transform: none;">${priceTapioca}</strong></span>`;
+      } else {
+        priceEl.innerHTML = price;
       }
     }
 
-    // Tentar inicializar imediatamente (dados hardcoded ou fetch jÃ¡ concluÃ­do)
-    initBaseSelector();
+    if (desc) {
+      descEl.innerHTML = desc;
+      descEl.style.display = 'block';
+    } else {
+      descEl.style.display = 'none';
+    }
 
-    // Re-inicializar apÃ³s o fetch dinÃ¢mico popular o grid de Tapioca & Cuscuz
-    document.addEventListener('menuRendered', initBaseSelector);
+    if (img) {
+      imageEl.src = img;
+      imgWrapper.style.display = 'block';
+    } else {
+      imageEl.src = '';
+      imgWrapper.style.display = 'none';
+    }
+
+    // Build semantic attribute sections
+    let attrsHtml = '';
+    if (profile) attrsHtml += buildAttrGroup('Perfil', profile.split(',').filter(Boolean));
+    if (allergens) attrsHtml += buildAttrGroup('ContÃƒÂ©m', allergens.split(',').filter(Boolean));
+
+    if (attrsHtml) {
+      attrsContainer.innerHTML = attrsHtml;
+      attrsContainer.style.display = 'flex';
+    } else {
+      attrsContainer.innerHTML = '';
+      attrsContainer.style.display = 'none';
+    }
+
+    // Show badges in modal
+    const badge = item.getAttribute('data-item-badge');
+    if (badgesContainer) {
+      if (badge && badge.trim()) {
+        badgesContainer.innerHTML = `<span class="badge">${badge}</span>`;
+        badgesContainer.style.display = 'flex';
+      } else {
+        badgesContainer.innerHTML = '';
+        badgesContainer.style.display = 'none';
+      }
+    }
+
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  function registerMenuItemClicks() {
+    document.querySelectorAll('.menu-item').forEach(item => {
+      if (item.hasAttribute('data-item-name') && !item._modalBound) {
+        item._modalBound = true;
+        item.addEventListener('click', () => openModal(item));
+      }
+    });
+  }
+
+  registerMenuItemClicks();
+
+  // Re-registrar apÃƒÂ³s fetch dinÃƒÂ¢mico da API (menu-data.js)
+  document.addEventListener('menuRendered', () => {
+    registerMenuItemClicks();
+    // NÃƒÂ£o tentar usar o revealObserver aqui porque o initPage pode nÃƒÂ£o ter rodado.
+    // Apenas deixe os elementos prontos. 
+    document.querySelectorAll('.reveal:not(.is-observed)').forEach(el => {
+      // Fallback seguro: jÃƒÂ¡ torna os itens diretamente visÃƒÂ­veis
+      // Para evitar o bug do observer nunca inicializando neles
+      el.classList.add('is-visible');
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+      el.style.clipPath = 'none';
+      el.style.webkitClipPath = 'none';
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+      closeModal();
+    }
+  });
+})();
+
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+   BASE SELECTOR LOGIC (TAPIOCA / CUSCUZ)
+   Aguarda menuRendered para garantir que o grid estÃƒÂ¡ populado pela API.
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
+function initBaseSelector() {
+  const toggleBtns = document.querySelectorAll('.base-toggle-btn');
+  if (toggleBtns.length === 0) return;
+
+  function updateTapiocaGrid(base) {
+    const tapiocaGrid = document.querySelector('#tapioca .menu-grid');
+    if (!tapiocaGrid) return;
+
+    const items = tapiocaGrid.querySelectorAll('.menu-item');
+    items.forEach(item => {
+      // Toggle image paths
+      const thumbImg = item.querySelector('.item-thumb img');
+      const currentDataImg = item.getAttribute('data-item-image');
+
+      if (thumbImg && currentDataImg) {
+        const newPath = base === 'cuscuz'
+          ? currentDataImg.replace('/tapioca-e-cuscuz/tapioca/', '/tapioca-e-cuscuz/cuzcuz/')
+          : currentDataImg.replace('/tapioca-e-cuscuz/cuzcuz/', '/tapioca-e-cuscuz/tapioca/');
+
+        thumbImg.src = newPath;
+        item.setAttribute('data-item-image', newPath);
+      }
+
+      item.classList.remove('thumb-hidden');
+
+      // Toggle prices
+      const priceEl = item.querySelector('.dynamic-price');
+      if (!priceEl) return;
+
+      const targetAttr = base === 'cuscuz' ? 'data-price-cuscuz' : 'data-price-tapioca';
+      const newPrice = item.getAttribute(targetAttr);
+
+      if (newPrice && priceEl.innerHTML !== newPrice) {
+        // Atualiza tambÃƒÂ©m o atributo consumido pelo modal
+        item.setAttribute('data-item-price', newPrice);
+
+        gsap.to(priceEl, {
+          opacity: 0, y: -2, duration: 0.15, onComplete: () => {
+            priceEl.innerHTML = newPrice;
+            gsap.to(priceEl, { opacity: 1, y: 0, duration: 0.15 });
+          }
+        });
+      }
+    });
+  }
+
+  toggleBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      toggleBtns.forEach(b => b.classList.remove('active'));
+      const currentBtn = e.currentTarget;
+      currentBtn.classList.add('active');
+
+      const base = currentBtn.getAttribute('data-base'); // 'cuscuz' or 'tapioca'
+      updateTapiocaGrid(base);
+    });
+  });
+
+  // Estado inicial
+  const initialActive = document.querySelector('.base-toggle-btn.active');
+  if (initialActive) {
+    updateTapiocaGrid(initialActive.getAttribute('data-base'));
+  }
+}
+
+// Tentar inicializar imediatamente (dados hardcoded ou fetch jÃƒÂ¡ concluÃƒÂ­do)
+initBaseSelector();
+
+// Re-inicializar apÃƒÂ³s o fetch dinÃƒÂ¢mico popular o grid de Tapioca & Cuscuz
+document.addEventListener('menuRendered', initBaseSelector);
 
 
 /* -------------------------------------------------------------------------
@@ -909,15 +913,15 @@
      1. CAROUSEL  -  slides in from right, exits to left
   ================================================================ */
   function initCarousel() {
-    var slides   = document.querySelectorAll('#mmh-slides .mmh-slide');
-    var dots     = document.querySelectorAll('#mmh-dots .mmh-dot');
-    var wrap     = document.getElementById('mmh-carousel');
+    var slides = document.querySelectorAll('#mmh-slides .mmh-slide');
+    var dots = document.querySelectorAll('#mmh-dots .mmh-dot');
+    var wrap = document.getElementById('mmh-carousel');
     if (!slides.length || !dots.length || !wrap) return;
 
-    var current  = 0;
-    var total    = slides.length;
+    var current = 0;
+    var total = slides.length;
     var DURATION = 3500;
-    var timer    = null;
+    var timer = null;
     var animating = false;
 
     /* Set initial positions: first slide centered, rest off-right */
@@ -927,20 +931,20 @@
     });
     slides[0].classList.add('mmh-slide--active');
 
-    /* ── goTo ──────────────────────────────────────────── */
+    /* â”€â”€ goTo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     function goTo(index, direction) {
       if (animating) return;
       var next = ((index % total) + total) % total;
       if (next === current) return;
       animating = true;
 
-      var dir  = (direction === 'prev') ? -1 : 1;  /* 1 = forward (right→left) */
+      var dir = (direction === 'prev') ? -1 : 1;  /* 1 = forward (rightâ†’left) */
       var incoming = slides[next];
       var outgoing = slides[current];
 
       /* Position incoming off-screen to the right (or left if going back) */
       incoming.style.transition = 'none';
-      incoming.style.transform  = dir > 0 ? 'translateX(100%)' : 'translateX(-100%)';
+      incoming.style.transform = dir > 0 ? 'translateX(100%)' : 'translateX(-100%)';
       incoming.classList.add('mmh-slide--active');
 
       /* Trigger layout */
@@ -948,18 +952,18 @@
 
       /* Slide both */
       var ease = 'cubic-bezier(0.4, 0, 0.2, 1)';
-      var dur  = '0.45s';
+      var dur = '0.45s';
       incoming.style.transition = 'transform ' + dur + ' ' + ease;
       outgoing.style.transition = 'transform ' + dur + ' ' + ease;
-      incoming.style.transform  = 'translateX(0%)';
-      outgoing.style.transform  = dir > 0 ? 'translateX(-100%)' : 'translateX(100%)';
+      incoming.style.transform = 'translateX(0%)';
+      outgoing.style.transform = dir > 0 ? 'translateX(-100%)' : 'translateX(100%)';
 
       /* After transition */
       setTimeout(function () {
         outgoing.classList.remove('mmh-slide--active');
         outgoing.style.transition = 'none';
-        outgoing.style.transform  = dir > 0 ? 'translateX(100%)' : 'translateX(-100%)';
-        current   = next;
+        outgoing.style.transform = dir > 0 ? 'translateX(100%)' : 'translateX(-100%)';
+        current = next;
         animating = false;
       }, 460);
 
@@ -968,7 +972,7 @@
       startTimer();
     }
 
-    /* ── Dot animation ─────────────────────────────────── */
+    /* â”€â”€ Dot animation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     function updateDots(active) {
       for (var i = 0; i < total; i++) {
         var fill = dots[i].querySelector('.mmh-dot-fill');
@@ -987,7 +991,7 @@
       }
     }
 
-    /* ── Auto-advance ──────────────────────────────────── */
+    /* â”€â”€ Auto-advance â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     function startTimer() {
       clearInterval(timer);
       timer = setInterval(function () { goTo(current + 1, 'next'); }, DURATION);
@@ -997,20 +1001,20 @@
     updateDots(0);
     startTimer();
 
-    /* ── Dot click ─────────────────────────────────────── */
+    /* â”€â”€ Dot click â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     dots.forEach(function (dot, idx) {
       dot.addEventListener('click', function () {
         if (idx !== current) goTo(idx, idx > current ? 'next' : 'prev');
       });
     });
 
-    /* ── TOUCH SWIPE ───────────────────────────────────── */
+    /* â”€â”€ TOUCH SWIPE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     var touchX = 0, touchY = 0, swiping = false;
 
     wrap.addEventListener('touchstart', function (e) {
-      touchX   = e.touches[0].clientX;
-      touchY   = e.touches[0].clientY;
-      swiping  = true;
+      touchX = e.touches[0].clientX;
+      touchY = e.touches[0].clientY;
+      swiping = true;
       clearInterval(timer);
     }, { passive: true });
 
@@ -1033,10 +1037,10 @@
       }
     }, { passive: true });
 
-    /* ── MOUSE DRAG ────────────────────────────────────── */
+    /* â”€â”€ MOUSE DRAG â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     var mouseX = 0, mouseDrag = false;
     wrap.addEventListener('mousedown', function (e) {
-      mouseX    = e.clientX;
+      mouseX = e.clientX;
       mouseDrag = true;
       clearInterval(timer);
       e.preventDefault();
@@ -1054,20 +1058,20 @@
   }
 
   /* ================================================================
-     2. SEARCH OVERLAY — full-screen with states
+     2. SEARCH OVERLAY â€” full-screen with states
   ================================================================ */
   function initSearch() {
-    var overlay    = document.getElementById('mmh-search-overlay');
-    var input      = document.getElementById('mmh-search-input');
-    var clearBtn   = document.getElementById('mmh-search-clear');
-    var cancelBtn  = document.getElementById('mmh-search-cancel');
+    var overlay = document.getElementById('mmh-search-overlay');
+    var input = document.getElementById('mmh-search-input');
+    var clearBtn = document.getElementById('mmh-search-clear');
+    var cancelBtn = document.getElementById('mmh-search-cancel');
     var stateEmpty = document.getElementById('mmh-state-empty');
-    var stateNone  = document.getElementById('mmh-state-noresults');
-    var resultsEl  = document.getElementById('mmh-search-results');
-    var searchBtn  = document.querySelector('.mmh-icon-btn[aria-label="Buscar"]');
+    var stateNone = document.getElementById('mmh-state-noresults');
+    var resultsEl = document.getElementById('mmh-search-results');
+    var searchBtn = document.querySelector('.mmh-icon-btn[aria-label="Buscar"]');
     if (!overlay || !input || !searchBtn) return;
 
-    /* ── Open ────────────────────────────── */
+    /* â”€â”€ Open â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     searchBtn.addEventListener('click', function () {
       overlay.classList.add('open');
       input.value = '';
@@ -1075,11 +1079,16 @@
       setTimeout(function () { input.focus(); }, 200);
     });
 
-    /* ── Close ───────────────────────────── */
+    /* â”€â”€ Close (slide out to right) ───── */
     function closeSearch() {
       overlay.classList.remove('open');
+      overlay.classList.add('closing');
       input.value = '';
-      if (clearBtn) clearBtn.style.display = 'none';
+      if (clearBtn) clearBtn.classList.remove('visible');
+      // Wait for slide-out transition to finish
+      setTimeout(function () {
+        overlay.classList.remove('closing');
+      }, 350);
     }
 
     cancelBtn && cancelBtn.addEventListener('click', closeSearch);
@@ -1087,46 +1096,59 @@
       if (e.key === 'Escape' && overlay.classList.contains('open')) closeSearch();
     });
 
-    /* ── Clear button ────────────────────── */
+    /* â”€â”€ Clear button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     clearBtn && clearBtn.addEventListener('click', function () {
       input.value = '';
-      clearBtn.style.display = 'none';
+      clearBtn.classList.remove('visible');
       showState('empty');
       input.focus();
     });
 
-    /* ── State management ────────────────── */
+    /* â”€â”€ State management â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     function showState(state) {
       stateEmpty && (stateEmpty.style.display = state === 'empty' ? 'flex' : 'none');
-      stateNone  && (stateNone.style.display  = state === 'noresults' ? 'flex' : 'none');
-      resultsEl  && (resultsEl.style.display   = state === 'results' ? 'block' : 'none');
+      stateNone && (stateNone.style.display = state === 'noresults' ? 'flex' : 'none');
+      resultsEl && (resultsEl.style.display = state === 'results' ? 'block' : 'none');
     }
 
-    /* ── Collect all products from DOM ───── */
+    /* â”€â”€ Collect all products from DOM â”€â”€â”€â”€â”€ */
     function getAllProducts() {
       var products = [];
       document.querySelectorAll('.menu-item[data-item-name]').forEach(function (card) {
         products.push({
-          name:  card.getAttribute('data-item-name') || '',
-          desc:  card.getAttribute('data-item-desc') || '',
+          name: card.getAttribute('data-item-name') || '',
+          desc: card.getAttribute('data-item-desc') || '',
           price: card.getAttribute('data-item-price') || '',
           image: card.getAttribute('data-item-image') || '',
+          badge: card.getAttribute('data-item-badge') || '',
+          el: card,  // reference to the actual menu-item DOM element
         });
       });
       return products;
     }
 
-    /* ── Render a result card ────────────── */
+    /* â”€â”€ Render a result card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     function renderResultCard(product) {
       var thumbHtml = product.image
         ? '<div class="search-result-thumb"><img src="' + product.image + '" alt="" loading="lazy"></div>'
-        : '<div class="search-result-thumb search-result-thumb--empty">🍽</div>';
+        : '<div class="search-result-thumb search-result-thumb--empty">ðŸ½</div>';
 
       var descHtml = product.desc
         ? '<p class="search-result-desc">' + product.desc + '</p>'
         : '';
 
-      return '<div class="search-result-card">'
+      var safeName = product.name.replace(/"/g, '&quot;');
+      var safeDesc = product.desc.replace(/"/g, '&quot;');
+      var safePrice = product.price.replace(/"/g, '&quot;');
+      var safeImage = product.image.replace(/"/g, '&quot;');
+      var safeBadge = product.badge.replace(/"/g, '&quot;');
+
+      return '<div class="search-result-card"'
+        + ' data-item-name="' + safeName + '"'
+        + ' data-item-desc="' + safeDesc + '"'
+        + ' data-item-price="' + safePrice + '"'
+        + ' data-item-image="' + safeImage + '"'
+        + ' data-item-badge="' + safeBadge + '">'
         + thumbHtml
         + '<div class="search-result-body">'
         + '<p class="search-result-name">' + product.name + '</p>'
@@ -1136,24 +1158,47 @@
         + '</div>';
     }
 
-    /* ── Search logic ────────────────────── */
+    /* â”€â”€ Bind click handlers to result cards â†’ open modal â”€â”€ */
+    function bindResultCardClicks() {
+      resultsEl.querySelectorAll('.search-result-card').forEach(function (card) {
+        card.addEventListener('click', function () {
+          // Find the matching .menu-item in the actual DOM by name
+          var name = card.getAttribute('data-item-name');
+          var menuItem = document.querySelector('.menu-item[data-item-name="' + name.replace(/"/g, '\\"') + '"]');
+          if (menuItem) {
+            menuItem.click(); // triggers the existing openModal handler
+          }
+        });
+      });
+    }
+
+    /* â”€â”€ Search logic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     function doSearch(query) {
       var q = (query || '').trim().toLowerCase();
 
       // Toggle clear button
-      if (clearBtn) clearBtn.style.display = q ? 'flex' : 'none';
+      if (clearBtn) q ? clearBtn.classList.add('visible') : clearBtn.classList.remove('visible');
 
-      // Empty query → show initial state
+      // Empty query â†’ show initial state
       if (!q) {
         showState('empty');
         return;
       }
 
-      // Search
+      // Fuzzy search: normalize accents, match any word
+      function normalize(str) {
+        return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      }
+
       var products = getAllProducts();
+      var words = normalize(q).split(/\s+/).filter(function(w) { return w.length > 0; });
+
       var matches = products.filter(function (p) {
-        var haystack = (p.name + ' ' + p.desc).toLowerCase();
-        return haystack.indexOf(q) !== -1;
+        var haystack = normalize(p.name + ' ' + p.desc);
+        // Match if ANY search word is found in the product
+        return words.some(function(word) {
+          return haystack.indexOf(word) !== -1;
+        });
       });
 
       if (matches.length === 0) {
@@ -1168,16 +1213,18 @@
         + ' encontrado' + (matches.length !== 1 ? 's' : '')
         + '</div>';
       resultsEl.innerHTML = html;
+      bindResultCardClicks();
       showState('results');
     }
 
     input.addEventListener('input', function () { doSearch(this.value); });
   }
 
-  /* ── Boot ─────────────────────────────────────────────────── */
+  /* â”€â”€ Boot â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   function boot() { initCarousel(); initSearch(); }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);
   } else { boot(); }
 
 })();
+
