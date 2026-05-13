@@ -356,16 +356,18 @@
         let sw = iw;
         let sh = ih;
 
-        // Use full image — no crop needed for mobile frames
+        // Mobile: skip top 20% of source image so the facade fills the hero, not sky
+        if (IS_MOBILE) {
+          sy = Math.round(ih * 0.20);
+          sh = ih - sy;
+        }
 
         // Cover: escala para preencher mantendo proporção com a área útil
         const scale = Math.max(cw / sw, ch / sh);
         const dw = sw * scale;
         const dh = sh * scale;
-        
+
         const dx = (cw - dw) / 2;
-        // Ao remover a trava "IS_MOBILE ? 0", nós centralizamos a imagem no novo eixo (sh),
-        // o que na prática "desce" todo o conteúdo do vídeo, aproximando do centro de atenção da imagem original.
         const dy = (ch - dh) / 2;
         
         ctx.clearRect(0, 0, cw, ch);
