@@ -3501,7 +3501,7 @@ footer {
   /* ── Carousel image box ──────────────────────── */
   .mmh-image-wrap {
     position: relative;
-    border-radius: 16px;
+    border-radius: 8px;
     overflow: hidden;
     height: 205px;
     touch-action: pan-y;
@@ -3627,7 +3627,7 @@ footer {
     align-items: center;
     justify-content: space-between;
     padding: 0 0.9rem;
-    margin-top: 58px;  /* logo 92px, overlap 42px => 50px + breathing */
+    margin-top: 6px;
   }
 
   .mmh-pill {
@@ -3660,7 +3660,7 @@ footer {
     font-weight: 400;
     color: #EAE4D9;
     letter-spacing: -0.01em;
-    margin: 0.65rem 1rem 0;
+    margin: 50px 1rem 0;
   }
 
   /* ── cat-nav sticky ──────────────────────────── */
@@ -3670,7 +3670,7 @@ footer {
     z-index: 100;
     background: #121C16 !important;
     backdrop-filter: none;
-    margin-top: 0.6rem;
+    margin-top: 0.25rem;
   }
 
   /* ══════════════════════════════════════════════
@@ -3749,6 +3749,7 @@ footer {
     font-weight: 500;
   }
 }
+
 
 
 
