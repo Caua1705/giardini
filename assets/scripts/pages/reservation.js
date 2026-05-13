@@ -951,6 +951,15 @@ function bindEvents() {
     DOM.mobileMenu.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => DOM.mobileMenu.classList.remove('open')));
   }
 
+  const mobHamburger = document.getElementById('res-mob-hamburger');
+  if (mobHamburger && DOM.mobileMenu) {
+    mobHamburger.addEventListener('click', () => DOM.mobileMenu.classList.add('open'));
+  }
+  const mobCalBtn = document.getElementById('res-mob-cal-btn');
+  if (mobCalBtn) {
+    mobCalBtn.addEventListener('click', () => safeScrollTo('#reservation-flow', { offset: -20, duration: 0.85 }));
+  }
+
   DOM.environment.addEventListener('change', handleEnvironmentChange);
 
   DOM.phoneInput.addEventListener('input', () => {
