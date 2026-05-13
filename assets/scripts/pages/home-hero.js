@@ -612,7 +612,7 @@
         /* Scroll-out exits — on mobile, skip filter:blur (paint op, not compositor-only).
            Using opacity + y only ensures compositor-layer-only animation on phones.     */
         const _f = (b) => IS_MOBILE ? {} : { filter: `blur(${b})` };
-        gsap.to('#el-kicker', {
+        if (!IS_MOBILE) gsap.to('#el-kicker', {
           opacity: 0, y: -40, ..._f('8px'), ease: 'power2.in', immediateRender: false,
           scrollTrigger: { trigger: wrapper, start: 'top top', end: () => `+=${scrollPx * 0.22}`, scrub: CONFIG.scrub }
         });

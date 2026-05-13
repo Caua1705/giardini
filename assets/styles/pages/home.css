@@ -2544,3 +2544,188 @@
     color: rgba(250, 247, 242, 0.60) !important;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE COMPREHENSIVE POLISH
+   Global spacing, typography, hierarchy, and section transitions
+   for the full dark-emerald mobile app experience.
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+
+  /* ── 1. KILL KICKER SCROLL ANIMATION ON MOBILE ──────────────── */
+  /* Element is visually hidden via Tailwind (.hidden) but GSAP
+     still sets opacity/y on it — hard-hide so it can't drift up. */
+  #el-kicker {
+    display: none !important;
+  }
+
+  /* ── 2. GLOBAL HORIZONTAL RHYTHM ────────────────────────────── */
+  /* Every section uses the same lateral inset so content columns align */
+  #featured > div[style*="max-width:1440px"] {
+    padding-left: clamp(1.25rem, 5vw, 1.5rem) !important;
+    padding-right: clamp(1.25rem, 5vw, 1.5rem) !important;
+  }
+
+  /* ── 3. HERO PANEL — kicker sizing bump ─────────────────────── */
+  .hmh-panel-kicker {
+    font-size: 0.52rem !important;
+    margin-bottom: 1rem !important;
+    color: rgba(183, 147, 90, 0.72) !important;
+  }
+
+  .hmh-panel-title {
+    font-size: clamp(1.55rem, 6.5vw, 1.95rem) !important;
+    line-height: 1.06 !important;
+  }
+
+  .hmh-cta-secondary {
+    font-size: 0.52rem !important;
+    color: rgba(250, 247, 242, 0.40) !important;
+    margin-top: 1.2rem !important;
+  }
+
+  /* ── 4. FEATURED — section title rhythm ─────────────────────── */
+  #featured .s3-section-label {
+    margin-bottom: 0.5rem !important;
+  }
+
+  #featured-title {
+    font-size: clamp(1.75rem, 7vw, 2.25rem) !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.02em !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Subtitle / tagline under featured title */
+  #featured .s3-title-sub {
+    font-size: clamp(0.7rem, 2.6vw, 0.82rem) !important;
+    color: rgba(250, 247, 242, 0.38) !important;
+    letter-spacing: 0.04em !important;
+  }
+
+  /* ── 5. FEATURED — inner container top/bottom padding ────────── */
+  #featured > div[style*="max-width:1440px"] {
+    padding-top: clamp(2rem, 6vw, 2.5rem) !important;
+    padding-bottom: clamp(1.5rem, 5vw, 2rem) !important;
+  }
+
+  /* ── 6. FEATURED — card carousel tightening ─────────────────── */
+  .feat-card {
+    flex: 0 0 76% !important;
+  }
+
+  /* Slightly taller card image for better food photography framing */
+  .feat-card-inner {
+    aspect-ratio: 3 / 3.8 !important;
+  }
+
+  /* Label hierarchy below card */
+  .s3-card-label-tag {
+    font-size: 0.52rem !important;
+    letter-spacing: 0.20em !important;
+  }
+
+  .s3-card-label-name {
+    font-size: 0.82rem !important;
+    line-height: 1.2 !important;
+  }
+
+  /* ── 7. FEATURED — CTA polish ───────────────────────────────── */
+  /* Elegant italic link — increase touch target and legibility */
+  #featured .loc-beam-container > div:last-child > span:first-child {
+    font-size: 1.05rem !important;
+    color: rgba(183, 147, 90, 0.80) !important;
+  }
+
+  /* ── 8. RESERVATION TEASER — section sizing + CTA ───────────── */
+  #experience-video {
+    min-height: 52svh !important;
+    max-height: 60svh !important;
+  }
+
+  /* Section label inside reservation teaser */
+  #experience-video .s3-section-label,
+  #experience-video .ev-label,
+  #experience-video [class*="label"] {
+    color: rgba(183, 147, 90, 0.72) !important;
+  }
+
+  /* Reserve CTA on video teaser — keep gold prominence */
+  #s5-cta,
+  #experience-video a[href*="reservation"],
+  #experience-video .loc-beam-container {
+    opacity: 1 !important;
+  }
+
+  /* ── 9. LOCATION — generous bottom clearance for nav bar ─────── */
+  #location {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 5.5rem) !important;
+  }
+
+  /* Location inner content vertical rhythm */
+  #location .loc-inner,
+  #location > div[style*="max-width"] {
+    padding-top: clamp(2rem, 6vw, 2.5rem) !important;
+  }
+
+  /* Location title */
+  #location h2,
+  #location .loc-title {
+    font-size: clamp(1.6rem, 6.5vw, 2rem) !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  /* Location address / meta text */
+  #location .loc-address,
+  #location address,
+  #location p {
+    font-size: clamp(0.72rem, 2.6vw, 0.82rem) !important;
+    color: rgba(250, 247, 242, 0.48) !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Location CTA button — slightly lighter than gold reservation CTA */
+  #location .loc-beam-container > div:last-child {
+    font-size: 0.58rem !important;
+    letter-spacing: 0.14em !important;
+  }
+
+  /* ── 10. SECTION TRANSITIONS — seamless dark-to-dark flow ─────── */
+
+  /* Hero → Featured: add micro-shadow to cover any white seam */
+  #hero-pin-wrapper {
+    box-shadow: 0 4px 0 0 #121C16 !important;
+  }
+
+  /* Featured → Reservation: overlap via negative margin */
+  #experience-video {
+    margin-top: -1px !important;
+    border-top: none !important;
+  }
+
+  /* Reservation → Location: seamless */
+  #location {
+    margin-top: -1px !important;
+    border-top: none !important;
+  }
+
+  /* ── 11. TYPOGRAPHY — global mobile size clamp ───────────────── */
+  /* Prevent orphan words on narrow screens */
+  #featured p,
+  #location p,
+  #experience-video p {
+    text-wrap: balance !important;
+  }
+
+  /* ── 12. INTERACTIVE FEEDBACK — tap states ───────────────────── */
+  .hmh-cta-primary:active,
+  .hmh-cta-secondary:active {
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  /* Bottom nav safe padding on last section */
+  #location:last-of-type {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 5.5rem) !important;
+  }
+}
