@@ -120,7 +120,7 @@
     overflow: hidden !important;
   }
 
-  /* Canvas: zoom + pull lower to crop VEO watermark & frame building intentionally */
+  /* Canvas: zoom + shift anchor lower — less sky, more facade visible */
   #seq-canvas {
     position: absolute !important;
     top: 0 !important;
@@ -128,11 +128,11 @@
     width: 100vw !important;
     height: 100svh !important;
     object-fit: cover !important;
-    transform: scale(1.45) !important;
-    transform-origin: center 70% !important;
+    transform: scale(1.35) !important;
+    transform-origin: center 58% !important;
   }
 
-  /* Cinematic overlay layers over the video — dark top + soft center + dark bottom */
+  /* Cinematic overlay — lighter on top to reveal facade, heavier toward bottom panel */
   #video-frame::before {
     content: '' !important;
     display: block !important;
@@ -142,11 +142,11 @@
     pointer-events: none !important;
     background:
       linear-gradient(to bottom,
-        rgba(0,0,0,0.62) 0%,
-        rgba(0,0,0,0.28) 32%,
-        rgba(0,0,0,0.08) 55%,
-        rgba(0,0,0,0.38) 80%,
-        rgba(0,0,0,0.72) 100%
+        rgba(0,0,0,0.42) 0%,
+        rgba(0,0,0,0.15) 28%,
+        rgba(0,0,0,0.06) 52%,
+        rgba(0,0,0,0.45) 75%,
+        rgba(0,0,0,0.78) 100%
       ) !important;
   }
 
@@ -2410,7 +2410,7 @@
     display: none !important;
   }
 
-  /* ── hero-left becomes the bottom panel ────────────────── */
+  /* ── hero-left becomes the compact bottom panel ────────── */
   #hero-left {
     position: absolute !important;
     bottom: 0 !important;
@@ -2420,59 +2420,61 @@
     height: auto !important;
     min-height: unset !important;
     justify-content: flex-start !important;
-    padding: 1.5rem clamp(1.25rem, 6vw, 1.75rem) 1.75rem !important;
+    /* Compact padding — space for bottom nav safe area */
+    padding: 1.1rem clamp(1.25rem, 6vw, 1.75rem) env(safe-area-inset-bottom, 5.5rem) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 5rem) !important;
 
     /* Glass panel */
-    background: rgba(8, 16, 11, 0.80) !important;
-    -webkit-backdrop-filter: blur(24px) saturate(1.4) !important;
-    backdrop-filter: blur(24px) saturate(1.4) !important;
-    border-top: 1px solid rgba(183, 147, 90, 0.20) !important;
-    border-radius: 20px 20px 0 0 !important;
+    background: rgba(8, 16, 11, 0.82) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(1.3) !important;
+    backdrop-filter: blur(20px) saturate(1.3) !important;
+    border-top: 1px solid rgba(183, 147, 90, 0.18) !important;
+    border-radius: 22px 22px 0 0 !important;
 
     z-index: 20 !important;
   }
 
-  /* ── Bottom gradient on facade so panel blends in ──────── */
+  /* ── Bottom gradient: shorter so facade stays visible longer ── */
   #video-frame::after {
     content: '';
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 55%;
+    height: 38%;
     background: linear-gradient(
       to bottom,
       transparent 0%,
-      rgba(5, 12, 8, 0.55) 60%,
-      rgba(8, 16, 11, 0.82) 100%
+      rgba(5, 12, 8, 0.48) 55%,
+      rgba(8, 16, 11, 0.88) 100%
     );
     pointer-events: none;
     z-index: 5;
   }
 
-  /* ── Panel header ───────────────────────────────────────── */
+  /* ── Panel header: compact to minimize panel height ─────── */
   .hmh-panel-header {
     display: flex !important;
     flex-direction: column;
-    gap: 0.3rem;
-    margin-bottom: 1.25rem;
+    gap: 0.2rem;
+    margin-bottom: 0.85rem;
   }
 
   .hmh-panel-kicker {
     font-family: 'Inter', sans-serif;
-    font-size: 0.55rem;
+    font-size: 0.50rem;
     font-weight: 600;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: rgba(183, 147, 90, 0.75);
+    color: rgba(183, 147, 90, 0.70);
     margin: 0;
   }
 
   .hmh-panel-title {
     font-family: 'Instrument Serif', Georgia, serif;
-    font-size: clamp(1.7rem, 7vw, 2.1rem);
+    font-size: clamp(1.5rem, 6.5vw, 1.9rem);
     font-weight: 400;
-    line-height: 1.1;
+    line-height: 1.08;
     color: rgba(250, 247, 242, 0.97);
     margin: 0;
     letter-spacing: -0.01em;
@@ -2483,14 +2485,9 @@
     color: rgba(183, 147, 90, 0.90);
   }
 
+  /* Subtitle hidden — reduces panel height, facade stays dominant */
   .hmh-panel-sub {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 400;
-    line-height: 1.45;
-    color: rgba(250, 247, 242, 0.48);
-    margin: 0.2rem 0 0;
-    letter-spacing: 0.005em;
+    display: none !important;
   }
 
   /* ── hero-cta-mobile: vertical stack ───────────────────── */
