@@ -3466,7 +3466,7 @@ footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 1.1rem 0.75rem;
+    padding: 0.75rem 1.1rem 0.5rem;
     background: #121C16;
   }
 
@@ -3627,7 +3627,7 @@ footer {
     align-items: center;
     justify-content: space-between;
     padding: 0 0.9rem;
-    margin-top: 6px;
+    margin-top: 12px;
   }
 
   .mmh-pill {
@@ -3656,11 +3656,11 @@ footer {
   .mmh-name {
     text-align: center;
     font-family: 'Instrument Serif', serif;
-    font-size: 1.32rem;
+    font-size: 1.15rem;
     font-weight: 400;
     color: #EAE4D9;
     letter-spacing: -0.01em;
-    margin: 50px 1rem 0;
+    margin: 4px 1rem 0;
   }
 
   /* ── cat-nav sticky ──────────────────────────── */
@@ -3670,7 +3670,7 @@ footer {
     z-index: 100;
     background: #121C16 !important;
     backdrop-filter: none;
-    margin-top: 0.25rem;
+    margin-top: 0.15rem;
   }
 
   /* ══════════════════════════════════════════════
@@ -3749,6 +3749,7 @@ footer {
     font-weight: 500;
   }
 }
+
 
 
 
