@@ -2090,21 +2090,23 @@
     margin-bottom: 0.9rem !important;
   }
 
-  /* CTA: emerald pill — slightly brighter, crisp against image */
+  /* CTA: premium emerald pill — dominant primary action */
   #s5-cta {
-    background: #355C49 !important;
-    border: 1px solid rgba(183, 147, 88, 0.38) !important;
-    border-radius: 9999px !important;
-    color: rgba(255, 255, 255, 0.95) !important;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
-    padding: 0.72rem 1.65rem !important;
+    background: linear-gradient(160deg, #2b5c43 0%, #1c3e2d 100%) !important;
+    border: 1px solid rgba(183, 147, 88, 0.28) !important;
+    border-radius: 14px !important;
+    color: rgba(250, 247, 242, 0.97) !important;
+    box-shadow:
+      0 4px 24px rgba(0, 0, 0, 0.35),
+      0 1px 0 rgba(255, 255, 255, 0.06) inset !important;
+    padding: 0.85rem 2rem !important;
     font-family: 'Inter', sans-serif !important;
-    font-size: 0.60rem !important;
+    font-size: 0.62rem !important;
     font-weight: 700 !important;
-    letter-spacing: 0.17em !important;
+    letter-spacing: 0.18em !important;
     text-transform: uppercase !important;
-    min-height: 44px !important;
-    gap: 0.55rem !important;
+    min-height: 48px !important;
+    gap: 0.6rem !important;
   }
 
   /* Benefits: one compact row, reduced prominence */
@@ -2330,35 +2332,67 @@
     background: rgba(255, 255, 255, 0.10) !important;
   }
 
-  /* Beam ring: muted gold glow */
+  /* ── CARDÁPIO CTA: transform into subtle secondary text link ── */
+  /* Hide the heavy beam button entirely on mobile */
   #featured .loc-beam-container {
-    background: rgba(183, 147, 88, 0.28) !important;
+    background: transparent !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
   }
 
-  /* Inner button: dark emerald — same system as reservation/location CTAs */
+  #featured .loc-beam-border {
+    display: none !important;
+  }
+
+  /* Inner div becomes a minimal text link style */
   #featured .loc-beam-container > div:last-child {
-    background: #1c3828 !important;
-    border: 1px solid rgba(183, 147, 88, 0.28) !important;
-    box-shadow:
-      0 4px 24px rgba(0, 0, 0, 0.38),
-      inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    gap: 0.55rem !important;
   }
 
-  /* CTA label text — override var(--c-dark) inline */
+  /* CTA label: elegant serif italic, low weight, gold tint */
   #featured .loc-beam-container > div:last-child > span:first-child {
-    color: rgba(250, 247, 242, 0.95) !important;
+    font-family: 'Instrument Serif', serif !important;
+    font-style: italic !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.01em !important;
+    color: rgba(183, 147, 88, 0.75) !important;
+    text-transform: none !important;
+    padding-right: 0 !important;
+    border-bottom: 1px solid rgba(183, 147, 88, 0.22) !important;
+    padding-bottom: 1px !important;
   }
 
-  /* CTA arrow — override var(--c-dark) + opacity:0.38 inline */
+  /* CTA arrow: gold, soft */
   #featured .loc-beam-container > div:last-child > span:last-child {
-    color: rgba(250, 247, 242, 0.95) !important;
-    opacity: 0.55 !important;
+    color: rgba(183, 147, 88, 0.65) !important;
+    opacity: 1 !important;
   }
 
-  /* ── BOTTOM FADE ─────────────────────────────────────────────── */
-  /* Fade to dark emerald instead of cream var(--c-bg) */
+  /* Entire s3-cta-wrap: center-align, less vertical breathing room */
+  .s3-cta-wrap {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  /* Hide the divider row — redundant with card labels */
+  .s3-cta-divider-row {
+    display: none !important;
+  }
+
+  /* ── SECTION BOTTOM FADE: smooth emerald fade into reservation ── */
   #featured .s3-fade-out {
-    background: linear-gradient(to bottom, transparent, #0b1610) !important;
+    background: linear-gradient(to bottom, transparent, #07100a) !important;
+    height: 80px !important;
   }
 }
 
