@@ -2183,3 +2183,159 @@
   }
 
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE — FEATURED / CARDÁPIO — Dark Emerald Transformation
+   Converts the cream editorial section into a dark cinematic
+   premium app panel consistent with the rest of the mobile flow:
+   dark hero → dark featured → dark reservation → dark location
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+
+  /* ── SECTION BACKGROUND ──────────────────────────────────────── */
+  #featured {
+    background: linear-gradient(160deg, #101d14 0%, #0b1610 60%, #07100a 100%) !important;
+    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.05) !important;
+    overflow: hidden !important;
+  }
+
+  /* Inner glow container: remove cream border-radius */
+  #featured > div:first-child {
+    border-radius: 0 !important;
+  }
+
+  /* Guide lines: invert for dark background */
+  #featured > div[style*="justify-content:space-between"] > div {
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(255, 255, 255, 0.025) 30%,
+      rgba(255, 255, 255, 0.025) 70%,
+      transparent
+    ) !important;
+  }
+
+  /* ── SECTION LABEL ──────────────────────────────────────────── */
+  #featured .s3-section-label {
+    color: rgba(183, 147, 88, 0.70) !important;
+  }
+
+  #featured .s3-label-dot {
+    background: #B7935A !important;
+    box-shadow: 0 0 10px rgba(183, 147, 88, 0.45) !important;
+  }
+
+  #featured .s3-label-line {
+    background: linear-gradient(to right, rgba(183, 147, 88, 0.40), transparent) !important;
+  }
+
+  /* ── TITLE ───────────────────────────────────────────────────── */
+  /* Override var(--c-dark) inline style on the h2 */
+  #featured-title {
+    color: rgba(250, 247, 242, 0.96) !important;
+  }
+  /* "momento" in gold via var(--c-primary) — works perfectly on dark, no override needed */
+
+  /* ── ANIMATED DIVIDER ─────────────────────────────────────────── */
+  #featured .s3-divider {
+    opacity: 0.80 !important;
+  }
+
+  /* ── CARDS ───────────────────────────────────────────────────── */
+  /* Remove cream placeholder backgrounds — override inline background */
+  #featured .feat-card-inner {
+    background: #0c1a0f !important;
+    border-radius: 16px !important;
+    box-shadow:
+      0 2px 24px rgba(0, 0, 0, 0.50),
+      0 0 0 1px rgba(255, 255, 255, 0.055),
+      inset 0 1px 0 rgba(183, 147, 88, 0.08) !important;
+  }
+
+  /* Food photography: maintain vibrancy against dark background */
+  #featured .feat-img {
+    filter: saturate(0.95) brightness(1.03) contrast(1.04) !important;
+  }
+
+  /* Touch-reveal veil: dark gradient replaces cream */
+  #featured .feat-veil {
+    background: linear-gradient(
+      to top,
+      rgba(4, 12, 6, 0.94) 0%,
+      rgba(4, 12, 6, 0.45) 52%,
+      transparent 100%
+    ) !important;
+  }
+
+  /* Panel text on dark veil — override var(--c-dark) inline */
+  #featured .feat-panel h3 {
+    color: rgba(250, 247, 242, 0.96) !important;
+  }
+  #featured .feat-panel p {
+    color: rgba(250, 247, 242, 0.50) !important;
+  }
+
+  /* Active (tapped) card: dark premium shadow + gold accent ring */
+  #featured .feat-card-inner.mobile-active {
+    box-shadow:
+      0 20px 56px rgba(0, 0, 0, 0.55),
+      0 4px 16px rgba(0, 0, 0, 0.30),
+      0 0 0 1px rgba(183, 147, 88, 0.14) !important;
+  }
+
+  /* Remove editorial desktop stagger from third card */
+  #featured .feat-card {
+    margin-top: 0 !important;
+  }
+
+  /* ── CARD LABELS (below image) ──────────────────────────────── */
+  #featured .s3-card-label-tag {
+    color: rgba(183, 147, 88, 0.65) !important;
+  }
+  #featured .s3-card-label-name {
+    color: rgba(250, 247, 242, 0.90) !important;
+  }
+  #featured .s3-card-label-line {
+    background: rgba(183, 147, 88, 0.22) !important;
+  }
+
+  /* ── CTA ─────────────────────────────────────────────────────── */
+  #featured .s3-cta-divider-label {
+    color: rgba(255, 255, 255, 0.28) !important;
+  }
+
+  #featured .s3-cta-divider-line {
+    background: rgba(255, 255, 255, 0.10) !important;
+  }
+
+  /* Beam ring: muted gold glow */
+  #featured .loc-beam-container {
+    background: rgba(183, 147, 88, 0.28) !important;
+  }
+
+  /* Inner button: dark emerald — same system as reservation/location CTAs */
+  #featured .loc-beam-container > div:last-child {
+    background: #1c3828 !important;
+    border: 1px solid rgba(183, 147, 88, 0.28) !important;
+    box-shadow:
+      0 4px 24px rgba(0, 0, 0, 0.38),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+  }
+
+  /* CTA label text — override var(--c-dark) inline */
+  #featured .loc-beam-container > div:last-child > span:first-child {
+    color: rgba(250, 247, 242, 0.95) !important;
+  }
+
+  /* CTA arrow — override var(--c-dark) + opacity:0.38 inline */
+  #featured .loc-beam-container > div:last-child > span:last-child {
+    color: rgba(250, 247, 242, 0.95) !important;
+    opacity: 0.55 !important;
+  }
+
+  /* ── BOTTOM FADE ─────────────────────────────────────────────── */
+  /* Fade to dark emerald instead of cream var(--c-bg) */
+  #featured .s3-fade-out {
+    background: linear-gradient(to bottom, transparent, #0b1610) !important;
+  }
+}
