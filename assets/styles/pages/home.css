@@ -2445,32 +2445,35 @@
     z-index: 5;
   }
 
-  /* ── Panel header: compact to minimize panel height ─────── */
-  .hmh-panel-header {
-    display: flex !important;
-    flex-direction: column;
-    gap: 0.2rem;
-    margin-bottom: 0.85rem;
-  }
-
+  /* ── Eyebrow: full-width label above the main row ──────── */
   .hmh-panel-kicker {
     font-family: 'Inter', sans-serif;
-    font-size: 0.50rem;
+    font-size: 0.48rem;
     font-weight: 600;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: rgba(183, 147, 90, 0.70);
-    margin: 0;
+    color: rgba(183, 147, 90, 0.65);
+    margin: 0 0 0.6rem;
+  }
+
+  /* ── Main row: title left · CTA right ──────────────────── */
+  .hmh-panel-main-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.85rem;
   }
 
   .hmh-panel-title {
     font-family: 'Instrument Serif', Georgia, serif;
-    font-size: clamp(1.5rem, 6.5vw, 1.9rem);
+    font-size: clamp(1.45rem, 6vw, 1.85rem);
     font-weight: 400;
     line-height: 1.08;
     color: rgba(250, 247, 242, 0.97);
     margin: 0;
     letter-spacing: -0.01em;
+    flex: 1;
+    min-width: 0;
   }
 
   .hmh-panel-title em {
@@ -2478,65 +2481,66 @@
     color: rgba(183, 147, 90, 0.90);
   }
 
-  /* Subtitle hidden — reduces panel height, facade stays dominant */
-  .hmh-panel-sub {
-    display: none !important;
-  }
-
-  /* ── hero-cta-mobile: vertical stack ───────────────────── */
-  .hero-cta-mobile {
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 0.55rem !important;
-    margin-top: 0 !important;
-  }
-
-  /* ── Primary CTA: full-width dark emerald with gold border ─ */
+  /* ── Primary CTA: compact pill on the right ─────────────── */
   .hmh-cta-primary {
-    display: flex !important;
+    display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    width: 100%;
+    flex-shrink: 0;
+    width: auto !important;
     background: #1a3325 !important;
     border: 1px solid rgba(183, 147, 90, 0.32) !important;
     color: rgba(250, 247, 242, 0.97) !important;
-    padding: 0.85rem 1.5rem !important;
-    border-radius: 12px !important;
-    font-size: 0.63rem !important;
+    padding: 0.72rem 1.05rem !important;
+    border-radius: 10px !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.58rem !important;
     font-weight: 700 !important;
-    letter-spacing: 0.16em !important;
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
     -webkit-tap-highlight-color: transparent;
     transition: background 0.2s ease, transform 0.15s ease !important;
   }
 
   .hmh-cta-primary:active {
     background: #122a1e !important;
-    transform: scale(0.98) !important;
+    transform: scale(0.97) !important;
   }
 
-  /* ── Secondary CTA: ghost/outline ──────────────────────── */
+  /* ── hero-cta-mobile: column, kicker → row → secondary ─── */
+  .hero-cta-mobile {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  /* ── Secondary: lightweight text link below the row ─────── */
   .hmh-cta-secondary {
-    display: flex !important;
+    display: inline-flex !important;
     align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 0.78rem 1.5rem !important;
-    border-radius: 12px !important;
-    border: 1px solid rgba(250, 247, 242, 0.12) !important;
-    border-bottom: 1px solid rgba(250, 247, 242, 0.12) !important;
-    color: rgba(250, 247, 242, 0.55) !important;
-    font-size: 0.60rem !important;
-    font-weight: 500 !important;
+    align-self: flex-start !important;
+    margin-top: 0.65rem !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: none !important;
+    color: rgba(250, 247, 242, 0.35) !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.55rem !important;
+    font-weight: 400 !important;
     letter-spacing: 0.14em !important;
-    background: rgba(255, 255, 255, 0.03) !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    width: auto !important;
     -webkit-tap-highlight-color: transparent;
-    transition: color 0.2s ease, border-color 0.2s ease !important;
+    transition: color 0.2s ease !important;
   }
 
   .hmh-cta-secondary:active {
-    color: rgba(250, 247, 242, 0.80) !important;
-    border-color: rgba(250, 247, 242, 0.25) !important;
+    color: rgba(250, 247, 242, 0.60) !important;
   }
 }
