@@ -48,6 +48,11 @@
    ══════════════════════════════════════════════════════════════════════ */
 @media (max-width: 767px) {
 
+  /* ── BODY: dark background to eliminate cream gaps between dark sections ── */
+  html, body {
+    background: #0a0a0a !important;
+  }
+
   /* ═════════════════════════════════════════════════════════════════
      A. PERFORMANCE — Eliminate GPU-costly layers
      ═════════════════════════════════════════════════════════════════ */
@@ -62,6 +67,12 @@
   }
 
   #hero-left::after {
+    display: none !important;
+  }
+
+  /* Kill the cream gradient at the bottom of the hero — var(--c-bg) is cream on desktop
+     but mobile sections are all dark, so the gradient creates a visible white band */
+  #hero-viewport::after {
     display: none !important;
   }
 
@@ -605,6 +616,13 @@
 
   #experience {
     display: none !important;
+    box-shadow: none !important;
+    background: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
   /* Grid gap tighter on mobile */
@@ -1809,6 +1827,9 @@
 
   #experience {
     display: none !important;
+    box-shadow: none !important;
+    background: none !important;
+    visibility: hidden !important;
   }
 
   /* ══════════════════════════════════════════════════════════════
@@ -2195,7 +2216,8 @@
   /* ── SECTION BACKGROUND ──────────────────────────────────────── */
   #featured {
     background: linear-gradient(160deg, #101d14 0%, #0b1610 60%, #07100a 100%) !important;
-    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.05) !important;
+    box-shadow: none !important;
+    border-top: none !important;
     overflow: hidden !important;
   }
 
