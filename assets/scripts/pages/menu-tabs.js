@@ -125,14 +125,17 @@ function preloadFrames() {
 
 preloadFrames().then(() => {
   // Ã¢â€â‚¬Ã¢â€â‚¬ Loader Lift Ã¢â€â‚¬Ã¢â€â‚¬
-  const loadTl = gsap.timeline({
-    onComplete: () => {
-      loader.style.display = 'none';
-      initPage();
-    }
-  });
-
-  loadTl.to(loader, { yPercent: -105, duration: 1.2, ease: 'power4.inOut' });
+  if (loader) {
+    const loadTl = gsap.timeline({
+      onComplete: () => {
+        loader.style.display = 'none';
+        initPage();
+      }
+    });
+    loadTl.to(loader, { yPercent: -105, duration: 1.2, ease: 'power4.inOut' });
+  } else {
+    initPage();
+  }
 
   // Ã¢â€â‚¬Ã¢â€â‚¬ Force scroll to top on mobile Ã¢â€â‚¬Ã¢â€â‚¬
   if (isMobileDevice) {
