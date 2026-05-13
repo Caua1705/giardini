@@ -1,0 +1,120 @@
+/* ============================================================
+   MOBILE BOTTOM NAVIGATION — Giardini Café
+   Only shown on mobile (max-width: 767px)
+   ============================================================ */
+
+/* ── Hidden by default on ALL screen sizes ─────────────── */
+#mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 767px) {
+
+  /* ── Hide full footer on mobile ───────────────────── */
+  footer,
+  #site-footer {
+    display: none !important;
+  }
+
+  /* ── Bottom padding so content isn't hidden behind nav */
+  body {
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* ══ THE BAR ═══════════════════════════════════════════ */
+  #mobile-bottom-nav {
+    display: flex !important;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-around;
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 8999;
+
+    /* Solid dark green background — no transparency gap */
+    background: #121C16;
+    border-top: none;
+
+    /* Safe area for notched iPhones */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    min-height: 64px;
+
+    /* Prevent scroll bleeding */
+    -webkit-overflow-scrolling: touch;
+    touch-action: manipulation;
+  }
+
+  /* ══ EACH ITEM ══════════════════════════════════════════ */
+  .mbn-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;    /* icon ON TOP, label BELOW */
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+
+    padding: 10px 4px 6px;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 0.15s ease;
+    min-width: 0;
+  }
+
+  .mbn-item:active {
+    opacity: 0.6;
+  }
+
+  /* ══ ICON ═══════════════════════════════════════════════ */
+  .mbn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    color: rgba(234, 228, 217, 0.38);
+    font-size: 0;               /* reset — icon sets its own size */
+    transition: color 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    flex-shrink: 0;
+  }
+
+  .mbn-icon iconify-icon {
+    font-size: 1.35rem !important;
+    display: block;
+  }
+
+  /* ══ LABEL ══════════════════════════════════════════════ */
+  .mbn-label {
+    font-family: "Inter", sans-serif;
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: rgba(234, 228, 217, 0.38);
+    white-space: nowrap;
+    line-height: 1;
+    transition: color 0.25s ease;
+  }
+
+  /* ══ ACTIVE STATE — Gold icon + label only ══════════════ */
+
+  #mobile-bottom-nav .mbn-item.is-active .mbn-icon {
+    color: #B7935A !important;
+    background: none !important;
+    width: 28px !important;
+    height: 28px !important;
+    transform: none !important;
+  }
+
+  #mobile-bottom-nav .mbn-item.is-active .mbn-icon iconify-icon {
+    color: #B7935A !important;
+  }
+
+  #mobile-bottom-nav .mbn-item.is-active .mbn-label {
+    color: #B7935A !important;
+    font-weight: 700 !important;
+  }
+}

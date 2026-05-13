@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
@@ -52,6 +52,7 @@
 
   <!-- Page Styles -->
   <link rel="stylesheet" href="assets/styles/pages/reservation.css">
+  <link rel="stylesheet" href="assets/styles/components/mobile-bottom-nav.css">
 </head>
 
 <body class="antialiased">
@@ -598,6 +599,35 @@
        SCRIPTS
        ══════════════════════════════════════════════════════════════ -->
   <script type="module" src="assets/scripts/pages/reservation.js"></script>
+
+  <!-- ── Mobile Bottom Navigation ─────────────── -->
+  <nav id="mobile-bottom-nav" aria-label="Navegação inferior">
+    <a href="./index.html" class="mbn-item" id="mbn-inicio">
+      <span class="mbn-icon">
+        <iconify-icon icon="lucide:home" style="font-size:1.3rem;"></iconify-icon>
+      </span>
+      <span class="mbn-label">Início</span>
+    </a>
+    <a href="./menu.html" class="mbn-item" id="mbn-cardapio">
+      <span class="mbn-icon">
+        <iconify-icon icon="lucide:book-open" style="font-size:1.3rem;"></iconify-icon>
+      </span>
+      <span class="mbn-label">Cardápio</span>
+    </a>
+    <a href="./reservation.html" class="mbn-item" id="mbn-reservar">
+      <span class="mbn-icon">
+        <iconify-icon icon="lucide:calendar" style="font-size:1.3rem;"></iconify-icon>
+      </span>
+      <span class="mbn-label">Reservar</span>
+    </a>
+    <a href="./index.html#location" class="mbn-item" id="mbn-visite">
+      <span class="mbn-icon">
+        <iconify-icon icon="lucide:map-pin" style="font-size:1.3rem;"></iconify-icon>
+      </span>
+      <span class="mbn-label">Visite-nos</span>
+    </a>
+  </nav>
+  <script src="assets/scripts/components/mobile-bottom-nav.js"></script>
 
 </body>
 
