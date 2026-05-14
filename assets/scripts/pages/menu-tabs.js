@@ -32,9 +32,10 @@ if (isMobileDevice) {
   if (loader) {
     gsap.to(loader, {
       yPercent: -105, duration: 0.8, ease: 'power4.inOut',
-      onComplete: () => { loader.style.display = 'none'; initPage(); }
+      onComplete: () => { loader.style.display = 'none'; document.body.style.opacity = '1'; initPage(); }
     });
   } else {
+    document.body.style.opacity = '1';
     initPage();
   }
 } else { // Desktop only — canvas frame sequence below
