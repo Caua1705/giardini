@@ -1852,7 +1852,7 @@
 
   /* Section: minimal vertical breathing room + same green as mobile nav bar */
   #location {
-    background: linear-gradient(160deg, #151f19 0%, #121C16 60%, #101914 100%) !important;
+    background: #121C16 !important;
     padding-top: clamp(1.75rem, 5vw, 2.25rem) !important;
     padding-bottom: clamp(1.75rem, 5vw, 2.25rem) !important;
   }
@@ -2211,7 +2211,7 @@
 
   /* ── SECTION BACKGROUND ──────────────────────────────────────── */
   #featured {
-    background: linear-gradient(160deg, #151f19 0%, #121C16 60%, #101914 100%) !important;
+    background: #121C16 !important;
     box-shadow: none !important;
     border-top: none !important;
     overflow: hidden !important;
@@ -2745,14 +2745,24 @@
     display: none !important;
   }
 
-  /* ── 2. LOCATION: kill amber orb + central warm glow ─────────── */
-  /* loc-dk-orb2 = rgba(183,147,88,0.14) — was only de-animated before */
-  .loc-dk-orb2 {
+  /* ── 2. LOCATION: kill ALL glows — solid #121C16 background only ── */
+  .loc-dk-orb1,
+  .loc-dk-orb2,
+  .loc-dk-orb,
+  [class*="loc-dk-orb"] {
     display: none !important;
   }
-  /* Central warm glow (direct child of #location, has radial-gradient) */
-  #location > div[style*="radial-gradient"] {
+  /* Kill all radial-gradient glow divs inside location */
+  #location > div[style*="radial-gradient"],
+  #location div[style*="radial-gradient(circle"],
+  #location div[style*="rgba(183"],
+  #location div[style*="rgba(43"] {
     display: none !important;
+    opacity: 0 !important;
+  }
+  /* Force solid background — override any lingering gradient */
+  #location {
+    background: #121C16 !important;
   }
 
   /* ── 3. RESERVATION VIDEO: lighten main overlay on mobile ─────── */
@@ -2957,10 +2967,10 @@
      More compact top/bottom padding. Section should feel dense and
      purposeful — not spacious like a landing page section.          */
   #featured {
+    background: #121C16 !important;
     padding-top: clamp(1.5rem, 5vw, 2rem) !important;
     padding-bottom: clamp(1.25rem, 4vw, 1.75rem) !important;
     border-radius: 0 !important;
-    /* Subtle top separator against the dark hero */
     border-top: 1px solid rgba(183, 147, 88, 0.10) !important;
   }
 
