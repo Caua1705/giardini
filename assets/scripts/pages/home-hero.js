@@ -356,9 +356,9 @@
         let sw = iw;
         let sh = ih;
 
-        // Mobile: skip top 20% of source image so the facade fills the hero, not sky
+        // Mobile: skip top 28% of source image so the facade sits higher in the hero
         if (IS_MOBILE) {
-          sy = Math.round(ih * 0.20);
+          sy = Math.round(ih * 0.28);
           sh = ih - sy;
         }
 

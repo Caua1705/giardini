@@ -2810,4 +2810,51 @@
     opacity: 1 !important;
     flex-shrink: 0 !important;
   }
+
+  /* ── 5. HERO INTRO PANEL: compact + content-based height ─────── */
+
+  /* Reduce top/bottom padding — panel was too tall relative to content.
+     Bottom must still clear the 64px fixed nav; 4.15rem = 66px gives
+     2px breathing room on non-notch, safe-area covers notched devices. */
+  #hero-left {
+    padding-top: 0.8rem !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4.15rem) !important;
+  }
+
+  /* Tighten internal rhythm — kicker → row → secondary */
+  .hmh-panel-kicker {
+    margin-bottom: 0.5rem !important;
+  }
+
+  .hmh-cta-secondary {
+    margin-top: 0.6rem !important;
+  }
+
+  /* ── 6. FEATURED HEADING: mobile refinements ──────────────────── */
+
+  /* "momento" was var(--c-primary) = #2B4A3B — near-invisible on dark emerald.
+     Warm muted gold reads clearly and stays premium against the dark background. */
+  #featured-title em {
+    color: rgba(196, 165, 108, 0.92) !important;
+    font-style: italic !important;
+  }
+
+  /* Dot: kill scale(1.4) from live-glow — keeps visual centering clean.
+     Replace with a simple opacity breath so it stays alive without wobbling. */
+  #featured .s3-label-dot {
+    animation: none !important;
+    opacity: 0.9;
+  }
+
+  /* Eyebrow row margin-bottom:2rem (inline) is too spacious on mobile.
+     Tighten the eyebrow → title gap for a connected, editorial rhythm. */
+  #featured div[style*="gap:1rem"][style*="margin-bottom:2rem"] {
+    margin-bottom: 0.9rem !important;
+    align-items: center !important;
+  }
+
+  /* Label line: explicit vertical centering as flex child */
+  #featured .s3-label-line {
+    align-self: center !important;
+  }
 }
