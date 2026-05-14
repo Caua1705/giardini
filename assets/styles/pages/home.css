@@ -2729,3 +2729,85 @@
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 5.5rem) !important;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE FINAL LAYER — Glows / CTA Anchor / Video Brightness
+   These rules cascade last and override all earlier blocks.
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+
+  /* ── 1. FEATURED: kill all warm-amber ambient glows ──────────── */
+  /* The four circular glow divs live inside the clip container.
+     They share border-radius:50% in their inline style, which the
+     grain overlay does NOT — making this selector safe. */
+  #featured > div[style*="border-radius:40px"] > div[style*="border-radius:50%"] {
+    display: none !important;
+  }
+
+  /* ── 2. LOCATION: kill amber orb + central warm glow ─────────── */
+  /* loc-dk-orb2 = rgba(183,147,88,0.14) — was only de-animated before */
+  .loc-dk-orb2 {
+    display: none !important;
+  }
+  /* Central warm glow (direct child of #location, has radial-gradient) */
+  #location > div[style*="radial-gradient"] {
+    display: none !important;
+  }
+
+  /* ── 3. RESERVATION VIDEO: lighten main overlay on mobile ─────── */
+  /* Original: 0.68/0.55 opacity — very dark. Reduced for video clarity. */
+  #experience-video > div[style*="linear-gradient(170deg"] {
+    background: linear-gradient(
+      170deg,
+      rgba(4, 3, 2, 0.38) 0%,
+      rgba(10, 7, 3, 0.18) 50%,
+      rgba(4, 3, 2, 0.38) 100%
+    ) !important;
+  }
+
+  /* ── 4. FEATURED CTA: anchor to section as footer row ──────────── */
+
+  /* Remove the centered floating column */
+  .s3-cta-wrap {
+    display: block !important;
+    padding: 0 !important;
+    margin-top: 1.5rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+
+  /* The anchor: full-width row, thin top separator connects it to cards */
+  #featured .loc-beam-container {
+    display: flex !important;
+    width: 100% !important;
+    align-items: center !important;
+    border-top: 1px solid rgba(183, 147, 88, 0.14) !important;
+    padding: 0.85rem 0 0.45rem !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+  }
+
+  /* Inner div: text left, arrow right */
+  #featured .loc-beam-container > div:last-child {
+    width: 100% !important;
+    justify-content: space-between !important;
+    gap: 0.5rem !important;
+    padding: 0 !important;
+  }
+
+  /* Text label: keep elegant serif italic but no underline —
+     the separator line above now provides the visual anchor */
+  #featured .loc-beam-container > div:last-child > span:first-child {
+    font-size: 0.95rem !important;
+    color: rgba(183, 147, 90, 0.72) !important;
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Arrow: right-anchored, softened */
+  #featured .loc-beam-container > div:last-child > span:last-child {
+    color: rgba(183, 147, 90, 0.48) !important;
+    opacity: 1 !important;
+    flex-shrink: 0 !important;
+  }
+}
