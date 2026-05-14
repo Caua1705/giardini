@@ -357,15 +357,22 @@
     let sw = iw;
     let sh = ih;
 
-    // Cover on all devices — always fills canvas fully (no black bars)
-    const scale = Math.max(cw / sw, ch / sh);
+    const coverScale = Math.max(cw / sw, ch / sh);
+    // Mobile: zoom out. Clamped at cw/sw so the image always fills the full width
+    // (no side bars). Any top/bottom gap blends with the #0a0a0a fill below.
+    const scale = IS_MOBILE ? Math.max(coverScale * 0.75, cw / sw) : coverScale;
     const dw = sw * scale;
     const dh = sh * scale;
 
     const dx = (cw - dw) / 2;
-    const dy = (ch - dh) / 2 - (IS_MOBILE ? ch * 0.08 : 0);
+    // Mobile: shift up 7% so the subject sits higher in the frame. Desktop: shift up 8%.
+    const dy = (ch - dh) / 2 - ch * (IS_MOBILE ? 0.07 : 0.08);
 
     ctx.clearRect(0, 0, cw, ch);
+    if (IS_MOBILE) {
+      ctx.fillStyle = '#0a0a0a';
+      ctx.fillRect(0, 0, cw, ch);
+    }
     ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
   }
   /* ══ PRELOAD DE FRAMES ═════════════════════════════════════════
