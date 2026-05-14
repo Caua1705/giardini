@@ -1047,25 +1047,24 @@
   }
 
   /* ═════════════════════════════════════════════════════════════════
-     F. SECTION VIDEO (Reserve sua mesa) — Mobile Professional Layout
+     F. SECTION VIDEO (Reserve sua mesa) — Mobile Premium App Card
      ═════════════════════════════════════════════════════════════════ */
 
-  /* Section: fills viewport but ends a bit earlier on mobile */
+  /* Section: compact app-card height — not a second full hero */
   #experience-video {
-    min-height: 85svh !important;
+    min-height: clamp(380px, 62svh, 480px) !important;
   }
 
   /* ── Content wrapper ─────────────────────────────────────────────
-     Single centered column. Top/bottom padding keep content away from
-     the navbar and the section edge while the centred flex fills the
-     viewport gracefully.
+     Centered column, tighter vertical rhythm.
+     App-card feel: grouped content, intentional spacing.
   ────────────────────────────────────────────────────────────────── */
   #experience-video > div[style*="z-index:10"] {
-    padding-top:    clamp(5rem, 14vw, 6rem)    !important;
-    padding-bottom: clamp(2rem, 6vw, 3rem)     !important;
-    padding-left:   clamp(1.5rem,  6vw, 2rem)  !important;
-    padding-right:  clamp(1.5rem,  6vw, 2rem)  !important;
-    min-height: 85svh !important;
+    padding-top:    clamp(3.5rem, 10vw, 5rem)  !important;
+    padding-bottom: clamp(2rem, 6vw, 2.75rem)  !important;
+    padding-left:   clamp(1.5rem, 6vw, 2rem)   !important;
+    padding-right:  clamp(1.5rem, 6vw, 2rem)   !important;
+    min-height: clamp(380px, 62svh, 480px)     !important;
     display: flex          !important;
     flex-direction: column !important;
     align-items: center    !important;
@@ -1074,16 +1073,16 @@
     box-sizing: border-box !important;
   }
 
-  /* ── 1. Section label  ───────────────────────────────────────── */
+  /* ── 1. Section label — compact, closer to title ─────────────── */
   #experience-video .s5-reveal-up:first-child {
-    margin-bottom: 1.75rem !important;
+    margin-bottom: 1.1rem !important;
   }
 
-  /* ── 2. Headline ────────────────────────────────────────────── */
+  /* ── 2. Headline — controlled, not oversized ─────────────────── */
   #experience-video h2 {
-    font-size: clamp(2.6rem, 10vw, 3.6rem) !important;
+    font-size: clamp(2.05rem, 8vw, 2.75rem) !important;
     line-height: 1.0 !important;
-    letter-spacing: -0.03em !important;
+    letter-spacing: -0.032em !important;
     text-align: center !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -1092,59 +1091,68 @@
   /* The two spans are display:block — pull them tight against each other */
   #experience-video h2 span {
     display: block !important;
-    line-height: 0.88 !important;
+    line-height: 0.92 !important;
     margin: 0 !important;
     padding: 0 !important;
   }
 
-  /* Second line: pull up to close the gap caused by font em-square metrics */
+  /* Second accent line: minimal negative margin for cinematic closeness */
   #experience-video h2 span:last-child {
-    margin-top: -0.22em !important;
+    margin-top: -0.10em !important;
   }
 
-  /* Headline wrapper bottom gap → leads into subline */
+  /* Headline wrapper bottom gap → leads cleanly into subtitle */
   #experience-video div[style*="text-align:center;margin-bottom:1.75rem"],
-  #experience-video div[style*="text-align:center;margin-bottom:2.5rem"] {
-    margin-bottom: 1.25rem !important;
+  #experience-video div[style*="text-align:center;margin-bottom:2.5rem"],
+  #experience-video div[style*="text-align:center;margin-bottom:1.5rem"] {
+    margin-bottom: 0.85rem !important;
     width: 100% !important;
   }
 
-  /* ── 3. Subline  ─────────────────────────────────────────────── */
+  /* ── 3. Subtitle — clear and direct, better contrast ─────────── */
   #experience-video p[style*="max-width:400px"] {
-    font-size: 0.85rem !important;
-    max-width: 82% !important;
-    line-height: 1.65 !important;
-    margin-bottom: 0 !important;
-    color: rgba(255,255,255,0.65) !important;
+    font-size: 0.80rem !important;
+    max-width: 78% !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;                  /* override inline margin:0 0 2rem */
+    color: rgba(255,255,255,0.72) !important;
     text-align: center !important;
+    letter-spacing: 0.01em !important;
   }
 
-  /* ── 4. Separator line  ──────────────────────────────────────── */
-  .s5-sep {
-    max-width: 160px !important;
-    margin-top:    1.5rem !important;
-    margin-bottom: 1.5rem !important;
+  /* ── 4. Separator line — hidden on mobile
+     Decorative on desktop; adds dead space on the compact app card.
+     The subtitle flows directly into the CTA without a visual gap divider.
+  ───────────────────────────────────────────────────────────────── */
+  #experience-video .s5-sep {
+    display: none !important;
   }
 
-  /* ── 5. CTA button  ──────────────────────────────────────────── */
+  /* ── CTA wrapper — tight intentional gap from subtitle ────────── */
+  #experience-video .s5-reveal-up:has(#s5-cta),
+  #experience-video div[style*="text-align:center"]:last-of-type {
+    margin-top: 1.25rem !important;
+  }
+
+  /* ── 5. CTA button — refined app action, not landing-page heavy ── */
   #s5-cta {
-    padding: 1rem 2.4rem !important;
-    font-size: 1rem !important;
-    border-radius: 12px !important;
-    min-height: 52px !important;
+    padding: 0.70rem 1.55rem !important;
+    font-size: 0.875rem !important;
+    border-radius: 11px !important;
+    min-height: 44px !important;
     width: auto !important;
+    letter-spacing: 0.025em !important;
   }
 
-  /* ── 6. Benefits line  ───────────────────────────────────────── */
-  #experience-video p[style*="margin-top:1.5rem"] {
-    margin-top:    1.25rem !important;
-    margin-bottom: 0       !important;
-    font-size: 0.52rem !important;
-    letter-spacing: 0.14em !important;
-    color: rgba(255,255,255,0.35) !important;
-    line-height: 2.0 !important;
-    text-align: center !important;
-    max-width: 88% !important;
+  /* ── 6. Benefits line — hidden on mobile (Option A)
+     CTA alone carries the conversion weight on small screens.
+     Pseudo-element badge tricks create clutter; clean removal wins.
+  ────────────────────────────────────────────────────────────────── */
+  #experience-video p[style*="margin-top:1.5rem"],
+  #experience-video p[style*="margin-top:1.5rem"]::before,
+  #experience-video p[style*="margin-top:1.5rem"]::after {
+    display: none !important;
+    content: none !important;
   }
 
 
