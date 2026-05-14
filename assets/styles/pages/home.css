@@ -2413,9 +2413,9 @@
     height: auto !important;
     min-height: unset !important;
     justify-content: flex-start !important;
-    /* Refined padding — breathing room without growing panel too much */
-    padding: 1.5rem clamp(1.4rem, 6vw, 1.9rem) env(safe-area-inset-bottom, 5.5rem) !important;
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 5.75rem) !important;
+    /* Compact padding — clears fixed nav (64px) with ~12px breathing room */
+    padding: 1.2rem clamp(1.4rem, 6vw, 1.9rem) env(safe-area-inset-bottom, 4.75rem) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4.75rem) !important;
 
     /* Glass panel */
     background: rgba(8, 16, 11, 0.82) !important;
@@ -2569,7 +2569,7 @@
   /* ── 3. HERO PANEL — kicker sizing bump ─────────────────────── */
   .hmh-panel-kicker {
     font-size: 0.52rem !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 0.7rem !important;
     color: rgba(183, 147, 90, 0.72) !important;
   }
 
@@ -2581,7 +2581,7 @@
   .hmh-cta-secondary {
     font-size: 0.52rem !important;
     color: rgba(250, 247, 242, 0.40) !important;
-    margin-top: 1.2rem !important;
+    margin-top: 0.85rem !important;
   }
 
   /* ── 4. FEATURED — section title rhythm ─────────────────────── */
