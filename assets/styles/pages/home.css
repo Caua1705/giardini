@@ -3212,3 +3212,232 @@
     background: linear-gradient(to bottom, transparent, #121C16) !important;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE RESERVATION TEASER — Premium Cinematic Card
+   Final cascade layer. Scoped strictly to max-width: 767px.
+   Converts the horizontal desktop video section into a compact,
+   visually strong reservation card designed for mobile.
+   Desktop is completely untouched.
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+
+  /* ── 1. SECTION HEIGHT — Fixed cinematic card height ──────────
+     Prevents the section from being dictated by the horizontal
+     video aspect ratio. A fixed min/max height defines the card.  */
+  #experience-video {
+    min-height: 420px !important;
+    max-height: 480px !important;
+    height: 56svh !important;
+    margin-top: -1px !important;
+    border-top: none !important;
+    overflow: hidden !important;
+    position: relative !important;
+  }
+
+  /* ── 2. VIDEO — Cover crop for mobile ─────────────────────────
+     Force the horizontal video to fill the card completely.
+     object-position centers on the people/café action area
+     (center 40% = slightly above vertical center, where subjects
+     usually sit in a café table scene).                           */
+  #experience-video video {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center 38% !important;
+  }
+
+  /* ── 3. AMBIENT GLOWS — Kill on mobile (GPU cost, not needed) ─ */
+  #experience-video > div[style*="border-radius:50%"],
+  #experience-video div[style*="animation:s5-float-orb"] {
+    display: none !important;
+  }
+
+  /* ── 4. OVERLAY — Cinematic dark, preserves video visibility ──
+     Stronger base overlay so text is always readable over the
+     horizontal video crop. Bottom darkened to ground the CTA.     */
+  #experience-video > div[style*="z-index:1"] {
+    background: linear-gradient(
+      180deg,
+      rgba(4, 3, 2, 0.55) 0%,
+      rgba(6, 5, 3, 0.42) 40%,
+      rgba(4, 3, 2, 0.72) 100%
+    ) !important;
+  }
+
+  /* Vignette layer: tighter on mobile */
+  #experience-video > div[style*="radial-gradient(ellipse"] {
+    opacity: 0.65 !important;
+  }
+
+  /* Bottom fade into location section */
+  #experience-video::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent 0%, rgba(4, 3, 2, 0.80) 100%);
+    z-index: 6;
+    pointer-events: none;
+  }
+
+  /* ── 5. PARTICLES — Hidden on mobile (GPU cost) ─────────────── */
+  #s5-particles {
+    display: none !important;
+  }
+
+  /* ── 6. CORNER FRAMES — Hidden on mobile ────────────────────── */
+  .s5-corner {
+    display: none !important;
+  }
+
+  /* ── 7. TOP ACCENT LINE — Visible, subtle ───────────────────── */
+  #s5-top-line {
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(183, 147, 88, 0.30) 30%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(183, 147, 88, 0.30) 70%,
+      transparent
+    ) !important;
+  }
+
+  /* ── 8. CONTENT WRAPPER — Compact centered column ───────────── */
+  #experience-video > div[style*="z-index:10"] {
+    position: absolute !important;
+    inset: 0 !important;
+    min-height: unset !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 1.75rem clamp(1.4rem, 6vw, 2rem) 1.5rem !important;
+    gap: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* ── 9. SECTION LABEL ────────────────────────────────────────── */
+  #experience-video .s5-reveal-up:first-child {
+    margin-bottom: 1rem !important;
+  }
+
+  /* Label text */
+  #experience-video span[style*="letter-spacing:0.3em"] {
+    font-size: 0.50rem !important;
+    letter-spacing: 0.26em !important;
+    color: rgba(255, 255, 255, 0.55) !important;
+  }
+
+  /* ── 10. HEADLINE — Strong, compact, centered ───────────────── */
+  #experience-video h2 {
+    font-size: clamp(2.2rem, 9vw, 3rem) !important;
+    line-height: 0.9 !important;
+    letter-spacing: -0.035em !important;
+    text-align: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #experience-video h2 span {
+    display: block !important;
+    line-height: 0.92 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #experience-video h2 span:last-child {
+    margin-top: -0.15em !important;
+  }
+
+  /* Headline wrapper: tight bottom */
+  #experience-video div[style*="text-align:center;margin-bottom:1.5rem"],
+  #experience-video div[style*="text-align:center;margin-bottom:1.75rem"],
+  #experience-video div[style*="text-align:center;margin-bottom:2.5rem"] {
+    margin-bottom: 0.85rem !important;
+    width: 100% !important;
+  }
+
+  /* ── 11. SUBLINE ─────────────────────────────────────────────── */
+  #experience-video p[style*="max-width:400px"] {
+    font-size: 0.78rem !important;
+    max-width: 75% !important;
+    line-height: 1.55 !important;
+    margin: 0 !important;
+    color: rgba(255, 255, 255, 0.62) !important;
+    text-align: center !important;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.60) !important;
+  }
+
+  /* ── 12. SEPARATOR ───────────────────────────────────────────── */
+  .s5-sep {
+    max-width: 80px !important;
+    margin-top: 0.85rem !important;
+    margin-bottom: 0.85rem !important;
+  }
+
+  /* ── 13. CTA BUTTON — Premium emerald, app-like ─────────────
+     Replace the gold button with a dark emerald pill that matches
+     the Giardini mobile identity. Gold is reserved for accents.
+     The button should feel authoritative, not decorative.         */
+  #s5-cta {
+    background: linear-gradient(145deg, #2b5c43 0%, #1e3f2e 100%) !important;
+    border: 1px solid rgba(183, 147, 88, 0.30) !important;
+    border-radius: 13px !important;
+    color: rgba(250, 247, 242, 0.97) !important;
+    box-shadow:
+      0 6px 28px rgba(0, 0, 0, 0.40),
+      0 1px 0 rgba(255, 255, 255, 0.06) inset !important;
+    padding: 0.85rem 2rem !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.62rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    min-height: 48px !important;
+    gap: 0.65rem !important;
+    transition: background 0.22s ease, transform 0.15s ease, box-shadow 0.22s ease !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  #s5-cta:active {
+    transform: scale(0.97) !important;
+    background: linear-gradient(145deg, #1e3f2e 0%, #172f22 100%) !important;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.40) !important;
+  }
+
+  /* CTA arrow: match button text color */
+  #s5-cta svg {
+    color: rgba(250, 247, 242, 0.80) !important;
+    stroke: currentColor !important;
+  }
+
+  /* ── 14. BADGES — Simplified 2-item row ─────────────────────
+     Three badges in a row gets cramped and noisy on mobile.
+     Reduce to 2 most important trust signals, increase size.      */
+  #experience-video p[style*="margin-top:1.5rem"] {
+    margin-top: 0.9rem !important;
+    font-size: 0.50rem !important;
+    letter-spacing: 0.13em !important;
+    color: rgba(255, 255, 255, 0.32) !important;
+    line-height: 1.8 !important;
+    text-align: center !important;
+    /* Wrap to 2 lines if needed — better than horizontal clutter */
+    max-width: 80% !important;
+    /* Let text wrap naturally but hide the 3rd badge via overflow if cramped */
+    white-space: normal !important;
+    text-wrap: balance !important;
+  }
+
+  /* ── 15. SECTION TRANSITIONS ─────────────────────────────────
+     Featured → Reservation: seamless dark-to-dark.
+     Reservation → Location: smooth cinematic bottom.             */
+  #experience-video {
+    border-top: 1px solid rgba(255, 255, 255, 0.04) !important;
+  }
+}
