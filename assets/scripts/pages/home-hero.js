@@ -356,8 +356,8 @@
     let sw = iw;
     let sh = ih;
 
-    // Cover on all devices; mobile gets a 25% dezoom so the house reads wider
-    const scale = Math.max(cw / sw, ch / sh) * (IS_MOBILE ? 0.71 : 1);
+    // Cover on all devices — always fills canvas fully (no black bars)
+    const scale = Math.max(cw / sw, ch / sh);
     const dw = sw * scale;
     const dh = sh * scale;
 

@@ -120,14 +120,13 @@
     overflow: hidden !important;
   }
 
-  /* Canvas: no zoom — JS drawFrame uses contain scaling on mobile */
+  /* Canvas: fill the CSS box — drawFrame already handles cover scaling in JS */
   #seq-canvas {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
     width: 100vw !important;
     height: 100svh !important;
-    object-fit: contain !important;
     transform: none !important;
   }
 
