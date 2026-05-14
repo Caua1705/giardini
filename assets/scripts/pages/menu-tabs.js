@@ -24,14 +24,27 @@ if (isMobileDevice) {
   }, 1000);
 }
 
+const loaderBar = document.getElementById('loader-bar');
+const loader = document.getElementById('loader');
+
+// Mobile: no frame sequence — #menu-mobile-hero (static carousel) is the mobile hero.
+if (isMobileDevice) {
+  if (loader) {
+    gsap.to(loader, {
+      yPercent: -105, duration: 0.8, ease: 'power4.inOut',
+      onComplete: () => { loader.style.display = 'none'; initPage(); }
+    });
+  } else {
+    initPage();
+  }
+} else { // Desktop only — canvas frame sequence below
+
 const CONFIG = {
-  TOTAL_FRAMES: isMobileDevice ? 25 : 150,
-  FRAME_STEP: isMobileDevice ? 6 : 1,
-  FRAMES_DIR: isMobileDevice
-    ? 'references/image-frames/menu/mobile'
-    : 'references/image-frames/menu/desktop',
-  scrollVH: isMobileDevice ? 60 : 85,
-  scrub: isMobileDevice ? 0.15 : 1.0,
+  TOTAL_FRAMES: 150,
+  FRAME_STEP: 1,
+  FRAMES_DIR: 'references/image-frames/menu/desktop',
+  scrollVH: 85,
+  scrub: 1.0,
 };
 const canvas = document.getElementById('seq-canvas');
 const ctx = canvas ? canvas.getContext('2d') : null;
@@ -96,9 +109,6 @@ function forceRedraw() {
 }
 
 /* Ã¢â€â‚¬Ã¢â€â‚¬ Preloader Ã¢â€â‚¬Ã¢â€â‚¬ */
-const loaderBar = document.getElementById('loader-bar');
-const loader = document.getElementById('loader');
-
 function preloadFrames() {
   return new Promise((resolve) => {
     let loaded = 0;
@@ -369,7 +379,7 @@ preloadFrames().then(() => {
   }
 });
 
-// Fallback: If loader doesn't clear in 6s, reveal anyway
+// Fallback: if loader doesn't clear in 6s, reveal anyway (desktop only)
 setTimeout(() => {
   if (loader && loader.style.display !== 'none') {
     gsap.to(loader, {
@@ -379,7 +389,9 @@ setTimeout(() => {
       }
     });
   }
-}, isMobileDevice ? 3500 : 6000);
+}, 6000);
+
+} // end desktop-only block
 
 function initPage() {
   const nav = document.getElementById('navbar');
