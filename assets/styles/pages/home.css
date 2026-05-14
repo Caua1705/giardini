@@ -2811,7 +2811,39 @@
     flex-shrink: 0 !important;
   }
 
-  /* ── 5. HERO INTRO PANEL: compact + content-based height ─────── */
+  /* ── 5. HOME MOBILE HEADER: match reservation page style ─────── */
+
+  /* Background: warm dark-green (was near-black), softer blur */
+  #home-mobile-header {
+    background: rgba(18, 28, 22, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    /* Let padding define height — remove fixed 54px */
+    height: auto !important;
+    padding: 0.75rem 1.1rem 0.5rem !important;
+  }
+
+  /* Icon buttons: circular ghost pill — same as reservation .res-mh-icon-btn */
+  .hmh-icon-btn {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #EAE4D9 !important;
+  }
+  .hmh-icon-btn:active {
+    background: rgba(255, 255, 255, 0.16) !important;
+    color: #EAE4D9 !important;
+  }
+
+  /* Title: match reservation color and size exactly */
+  .hmh-title {
+    font-size: 1.1rem !important;
+    color: #EAE4D9 !important;
+  }
+
+  /* ── 6. HERO INTRO PANEL: compact + content-based height ─────── */
 
   /* Reduce top/bottom padding — panel was too tall relative to content.
      Bottom must still clear the 64px fixed nav; 4.15rem = 66px gives
