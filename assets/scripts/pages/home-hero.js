@@ -297,9 +297,10 @@
   let _cW = 0, _cH = 0;
   function resizeCanvas() {
     const frame = document.getElementById('video-frame');
-    // Mobile: use viewport dimensions directly — frame may not have GSAP sizes yet
     const w = IS_MOBILE ? window.innerWidth : frame.offsetWidth;
-    const h = IS_MOBILE ? window.innerHeight : frame.offsetHeight;
+    // Mobile: use frame.offsetHeight (CSS 100svh) so canvas pixels match CSS display size.
+    // window.innerHeight changes as browser chrome shows/hides — that mismatch caused side bars.
+    const h = IS_MOBILE ? (frame.offsetHeight || window.innerHeight) : frame.offsetHeight;
     if (w <= 0 || h <= 0) return;
     // Cap DPR at 1 on mobile to halve GPU memory usage
     const dpr = IS_MOBILE ? 1 : Math.min(window.devicePixelRatio || 1, 2);
