@@ -854,9 +854,83 @@
         style="font-family:'Instrument Serif',serif;font-size:clamp(7rem,18vw,18rem);font-style:italic;font-weight:400;letter-spacing:-0.04em;color:rgba(255,255,255,0.022);white-space:nowrap;user-select:none;display:block;">Giardini</span>
     </div>
 
-    <!-- MAIN GRID -->
+    <!-- ══ MOBILE APP PANEL — location utility card (lg: hidden) ════════ -->
+    <div id="loc-app-panel" class="lg:hidden" style="position:relative;z-index:10;padding:0 clamp(1.25rem,5vw,1.75rem);">
+
+      <!-- Label row -->
+      <div class="loc-dr d1" style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.1rem;">
+        <div class="loc-dk-badge">
+          <span style="width:4px;height:4px;border-radius:50%;background:rgba(183,147,88,0.9);flex-shrink:0;animation:live-glow 2.2s ease-in-out infinite;"></span>
+          <span style="font-size:0.48rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(183,147,88,0.82);">03 / Localização</span>
+        </div>
+        <div style="flex:1;height:1px;background:linear-gradient(to right,rgba(183,147,88,0.22),transparent);"></div>
+      </div>
+
+      <!-- Title -->
+      <h2 class="loc-dr d2" style="font-family:'Instrument Serif',serif;font-size:clamp(2.1rem,8.5vw,2.6rem);line-height:0.88;letter-spacing:-0.04em;margin:0 0 1.4rem;color:rgba(255,255,255,0.92);">
+        Visite <span style="font-style:italic;color:rgba(183,147,88,0.9);">Nossa</span> Casa
+      </h2>
+
+      <!-- Info cards — 2 columns -->
+      <div class="loc-dr d3" style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:0.65rem;">
+
+        <!-- Address card -->
+        <div class="loc-mob-card">
+          <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.2rem;">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(183,147,88,0.8)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <span style="font-size:0.45rem;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;color:rgba(183,147,88,0.72);">Localização</span>
+          </div>
+          <p style="font-family:'Instrument Serif',serif;font-size:0.93rem;color:rgba(255,255,255,0.88);line-height:1.2;letter-spacing:-0.01em;margin:0 0 0.3rem;">Rua Tavares Coutinho, 580</p>
+          <p style="font-size:0.52rem;color:rgba(255,255,255,0.3);font-weight:500;letter-spacing:0.12em;text-transform:uppercase;margin:0;">Varjota · Fortaleza — CE</p>
+        </div>
+
+        <!-- Hours card -->
+        <div class="loc-mob-card">
+          <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.2rem;">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(183,147,88,0.8)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span style="font-size:0.45rem;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;color:rgba(183,147,88,0.72);">Horários</span>
+          </div>
+          <div style="margin-bottom:0.4rem;">
+            <p style="font-size:0.47rem;color:rgba(255,255,255,0.28);font-weight:700;letter-spacing:0.18em;text-transform:uppercase;margin:0 0 0.15rem;">Ter — Sáb</p>
+            <p style="font-family:'Instrument Serif',serif;font-size:1.1rem;color:rgba(255,255,255,0.88);letter-spacing:-0.03em;line-height:1;margin:0;">07:00 – 20:00</p>
+          </div>
+          <div style="padding-top:0.38rem;border-top:1px solid rgba(255,255,255,0.07);">
+            <p style="font-size:0.47rem;color:rgba(255,255,255,0.22);font-weight:700;letter-spacing:0.18em;text-transform:uppercase;margin:0 0 0.15rem;">Dom Especiais</p>
+            <p style="font-family:'Instrument Serif',serif;font-size:0.8rem;color:rgba(255,255,255,0.45);letter-spacing:-0.02em;line-height:1.3;margin:0;">07:00 – 11:00<br>15:00 – 19:00</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CTA -->
+      <a href="https://www.google.com/maps/place/R.+Tavares+Coutinho,+1580+-+Meireles,+Fortaleza+-+CE,+60160-130/@-3.732722,-38.4916182,17z/data=!3m1!4b1!4m6!3m5!1s0x7c7487eb7893ebf:0x73ea777538ebb86c!8m2!3d-3.732722!4d-38.4890433!16s%2Fg%2F11vspm60cn?entry=ttu&g_ep=EgoyMDI2MDMyMy4xIKXMDSoASAFQAw%3D%3D"
+        target="_blank"
+        class="loc-mob-cta loc-dr d4">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Como Chegar
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+      </a>
+
+      <!-- Compact map -->
+      <div class="loc-dr d5" style="border-radius:14px;overflow:hidden;height:215px;position:relative;background:#1a2420;">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.365314751761!2d-38.4870535!3d-3.7303038!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7c7487cbbacbb21%3A0x67ee1c8dcab0fc41!2sR.%20Tavares%20Coutinho%2C%20580%20-%20Varjota%2C%20Fortaleza%20-%20CE%2C%2060165-080!5e0!3m2!1spt-BR!2sbr!4v1710000000000!5m2!1spt-BR!2sbr"
+          style="position:absolute;top:-5%;left:-5%;width:110%;height:110%;border:0;filter:grayscale(78%) contrast(1.05) brightness(0.68);pointer-events:none;"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,18,13,0.12) 0%,transparent 45%,rgba(0,0,0,0.16) 100%);pointer-events:none;"></div>
+        <a href="https://www.google.com/maps/place/R.+Tavares+Coutinho,+1580+-+Meireles,+Fortaleza+-+CE,+60160-130/@-3.732722,-38.4916182,17z/data=!3m1!4b1!4m6!3m5!1s0x7c7487eb7893ebf:0x73ea777538ebb86c!8m2!3d-3.732722!4d-38.4890433!16s%2Fg%2F11vspm60cn?entry=ttu&g_ep=EgoyMDI2MDMyMy4xIKXMDSoASAFQAw%3D%3D"
+          target="_blank"
+          style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:flex-end;padding:0.7rem;text-decoration:none;z-index:10;">
+          <span style="font-size:0.46rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(183,147,88,0.9);background:rgba(10,18,13,0.78);padding:0.38rem 0.82rem;border-radius:9999px;border:1px solid rgba(183,147,88,0.22);">Ver no Maps →</span>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- MAIN GRID (desktop) -->
     <div
-      class="max-w-[1340px] px-8 md:px-12 mx-auto grid grid-cols-1 lg:grid-cols-12 gap-24 lg:gap-16 items-start relative z-10 w-full">
+      class="max-w-[1340px] px-8 md:px-12 mx-auto hidden lg:grid lg:grid-cols-12 gap-24 lg:gap-16 items-start relative z-10 w-full">
 
       <!-- LEFT: Dark Editorial Content -->
       <div class="lg:col-span-5 flex flex-col pt-4">

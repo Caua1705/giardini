@@ -120,16 +120,15 @@
     overflow: hidden !important;
   }
 
-  /* Canvas: subtle cinematic zoom — facade crop handled by JS drawFrame */
+  /* Canvas: no zoom — JS drawFrame uses contain scaling on mobile */
   #seq-canvas {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
     width: 100vw !important;
     height: 100svh !important;
-    object-fit: cover !important;
-    transform: scale(1.10) !important;
-    transform-origin: center 55% !important;
+    object-fit: contain !important;
+    transform: none !important;
   }
 
   /* Cinematic overlay — lighter on top to reveal facade, heavier toward bottom panel */
@@ -434,9 +433,11 @@
     animation: none !important;
   }
 
-  /* Section 5 video background: reduce quality for GPU savings */
+  /* Section 5 video: contain so full frame is visible on portrait mobile (no zoom) */
   #experience-video video {
     image-rendering: auto !important;
+    object-fit: contain !important;
+    background: #0a0a0a !important;
   }
 
   /* Hide scroll progress indicator — desktop-only UI, invisible on mobile */
@@ -2657,9 +2658,9 @@
     opacity: 1 !important;
   }
 
-  /* ── 9. LOCATION — generous bottom clearance for nav bar ─────── */
+  /* ── 9. LOCATION — tight bottom clearance for nav bar ──────────── */
   #location {
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 5.5rem) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4rem) !important;
   }
 
   /* Location inner content vertical rhythm */
@@ -2726,7 +2727,7 @@
 
   /* Bottom nav safe padding on last section */
   #location:last-of-type {
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 5.5rem) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4rem) !important;
   }
 }
 
@@ -2847,10 +2848,12 @@
 
   /* Reduce top/bottom padding — panel was too tall relative to content.
      Bottom must still clear the 64px fixed nav; 4.15rem = 66px gives
-     2px breathing room on non-notch, safe-area covers notched devices. */
+     2px breathing room on non-notch, safe-area covers notched devices.
+     bottom: 2.5rem lifts the glass panel up to cover the lower black bar. */
   #hero-left {
     padding-top: 0.8rem !important;
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4.15rem) !important;
+    bottom: 2.5rem !important;
   }
 
   /* Tighten internal rhythm — kicker → row → secondary */
@@ -2888,5 +2891,55 @@
   /* Label line: explicit vertical centering as flex child */
   #featured .s3-label-line {
     align-self: center !important;
+  }
+}
+
+/* ══ LOCATION MOBILE APP PANEL ══════════════════════════════════════════
+   Styles for #loc-app-panel — mobile-only utility information card.
+   Desktop uses the hidden lg:grid; this panel is lg:hidden.
+══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+
+  /* Card surface: subtle frosted lift over dark emerald background */
+  .loc-mob-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 13px;
+    padding: 0.85rem 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  /* CTA: full-width gold action */
+  .loc-mob-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    background: rgba(183,147,88,0.12);
+    border: 1px solid rgba(183,147,88,0.28);
+    border-radius: 12px;
+    color: rgba(183,147,88,0.92);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin-bottom: 0.65rem;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .loc-mob-cta:active {
+    background: rgba(183,147,88,0.22);
+    border-color: rgba(183,147,88,0.5);
+  }
+
+  /* Skip filter:blur on loc-dr reveals inside the mobile panel (no GPU hit) */
+  #loc-app-panel .loc-dr {
+    filter: none !important;
+    transition: opacity 0.8s ease, transform 0.8s ease !important;
   }
 }
