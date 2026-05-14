@@ -242,7 +242,7 @@
       const CONFIG = {
         TOTAL_FRAMES: IS_MOBILE ? 30 : 150,
         FRAME_STEP: IS_MOBILE ? 5 : 1,
-        FRAMES_DIR: IS_MOBILE ? 'references/image-frames/home-mobile' : 'references/image-frames/home',
+        FRAMES_DIR: 'references/image-frames/home',
         scrollVH: IS_MOBILE ? 120 : 380,
         scrub: IS_MOBILE ? 0.15 : 1.0,
       };
