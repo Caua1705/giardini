@@ -370,7 +370,7 @@
 
     ctx.clearRect(0, 0, cw, ch);
     if (IS_MOBILE) {
-      ctx.fillStyle = '#0a0a0a';
+      ctx.fillStyle = '#121C16';
       ctx.fillRect(0, 0, cw, ch);
     }
     ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
@@ -661,8 +661,6 @@
       start: 'top top',
       end: () => `+=${scrollPx}`,
       pin: viewport,
-      // pinSpacing:true on mobile pushes content below the pin zone —
-      // next section only appears after the full frame sequence ends
       pinSpacing: IS_MOBILE,
       anticipatePin: IS_MOBILE ? 0 : 1,
       onRefresh: () => {

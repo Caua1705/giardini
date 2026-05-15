@@ -94,7 +94,14 @@
   }
 
   #hero-pin-wrapper {
-    background: #0a0a0a !important;
+    background: #121C16 !important;
+  }
+
+  /* GSAP wraps the pinned viewport in a .pin-spacer div that sits between
+     the hero and #featured while scrolling. Match #featured background so
+     the spacer is invisible during the post-pin scroll transition. */
+  .pin-spacer {
+    background: #121C16 !important;
   }
 
   #hero-right {
@@ -114,7 +121,7 @@
     border: none !important;
     box-shadow: none !important;
     z-index: 1 !important;
-    background: #0a0a0a !important;
+    background: #121C16 !important;
     transform: none !important;
     margin: 0 !important;
     overflow: hidden !important;
@@ -144,8 +151,8 @@
         rgba(0,0,0,0.28) 0%,
         rgba(0,0,0,0.08) 25%,
         rgba(0,0,0,0.04) 50%,
-        rgba(0,0,0,0.40) 72%,
-        rgba(0,0,0,0.75) 100%
+        rgba(0,0,0,0.28) 72%,
+        rgba(0,0,0,0.42) 100%
       ) !important;
   }
 
@@ -2520,11 +2527,13 @@
   }
 
   /* ── hero-cta-mobile: column, kicker → row → secondary ─── */
+  /* margin-top: auto pushes the widget to the bottom of #hero-left
+     (flex column), anchoring it near the featured section below */
   .hero-cta-mobile {
     flex-direction: column !important;
     align-items: stretch !important;
     gap: 0 !important;
-    margin-top: 0 !important;
+    margin-top: auto !important;
   }
 
   /* ── Secondary: lightweight text link below the row ─────── */
