@@ -217,10 +217,6 @@ const DOM = {
   formEnvSummary:     document.getElementById('res-form-env-summary'),
   formEnvThumb:       document.getElementById('res-form-env-thumb'),
   formEnvName:        document.getElementById('res-form-env-name'),
-  formEnvChange:      document.getElementById('res-form-env-change'),
-  spillGuests:        document.getElementById('spill-guests'),
-  spillDate:          document.getElementById('spill-date'),
-  spillTime:          document.getElementById('spill-time'),
 
   // Steps
   guestsContainer:    document.getElementById('res-guests'),
@@ -302,7 +298,7 @@ function renderEnvCards(data) {
     card.dataset.envName = env.name;
 
     card.innerHTML = `
-      <img class="res-env-card-img" src="${imgSrc}" alt="${env.name}" loading="lazy" />
+      <img class="res-env-card-img" src="${imgSrc}" alt="${env.name}" loading="lazy" onerror="this.onerror=null;this.style.display='none'" />
       <div class="res-env-card-overlay"></div>
       <div class="res-env-card-hover-cue"><span>Clique para selecionar</span></div>
       <div class="res-env-card-content">
@@ -1198,17 +1194,15 @@ function initAnimations() {
   };
 
   scheduleSecondary(() => {
-    initHeroParallax();
     initHeroParticles();   // already no-op on mobile
     initGoldenDust();      // already no-op on mobile
     initEnvSectionParallax(); // no-op on mobile
-    initSectionDividerReveal();
     initEnvScrollWord();   // already no-op on mobile
     initFormScrollWord();  // already no-op on mobile
   });
 
   // Hero CTA
-  const heroCta = document.getElementById('res-hero-cta');
+  const heroCta = document.getElementById('el-cta');
   if (heroCta) {
     heroCta.addEventListener('click', e => {
       e.preventDefault();
@@ -1230,10 +1224,6 @@ function initAnimations() {
 
   // Env card parallax + fade-in
   initEnvCardsParallax();
-}
-
-function initHeroParallax() {
-  // Parallax removed in favor of scroll pinning sequence
 }
 
 function initHeroParticles() {
@@ -1427,26 +1417,6 @@ function initEnvCardsParallax() {
     observer.observe(grid, { childList: true });
   }
 }
-
-/* ── Section divider reveal — animate lines in from center ─────── */
-function initSectionDividerReveal() {
-  const divider = document.querySelector('.res-section-divider');
-  if (!divider) return;
-  const lines = divider.querySelectorAll('.res-section-divider-line');
-  const diamond = divider.querySelector('.res-section-divider-diamond');
-  
-  gsap.set(lines, { scaleX: 0 });
-  gsap.set(diamond, { scale: 0, rotation: 0 });
-  
-  ScrollTrigger.create({
-    trigger: divider, start: 'top 90%',
-    onEnter: () => {
-      gsap.to(lines, { scaleX: 1, duration: 1.2, ease: 'power3.out', stagger: 0.1 });
-      gsap.to(diamond, { scale: 1, rotation: 45, duration: .8, ease: 'back.out(1.7)', delay: .4 });
-    }
-  });
-}
-
 
 /* ── Init ──────────────────────────────────────────────────────── */
 

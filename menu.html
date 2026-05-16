@@ -33,10 +33,6 @@
   <!-- Icons (deferred — not critical for first paint) -->
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
 
-  <!-- GSAP (no Lenis — unused on menu page) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
   <!-- Styles — unified green-atmospheric theme -->
   <link rel="stylesheet" href="assets/styles/base.css">
   <link rel="stylesheet" href="assets/styles/layout.css">
@@ -115,16 +111,16 @@
         <!-- Slides -->
         <div class="mmh-slides" id="mmh-slides">
           <div class="mmh-slide mmh-slide--active">
-            <img src="assets/images/giardini-sala-01.webp" alt="Giardini Café — Ambiente" class="mmh-image">
+            <img src="assets/images/giardini-sala-01.webp" alt="Giardini Café — Ambiente" class="mmh-image" loading="eager" fetchpriority="high">
           </div>
           <div class="mmh-slide">
-            <img src="assets/images/giardini-sala-02.webp" alt="Giardini Café — Sala" class="mmh-image">
+            <img src="assets/images/giardini-sala-02.webp" alt="Giardini Café — Sala" class="mmh-image" loading="lazy">
           </div>
           <div class="mmh-slide">
-            <img src="assets/images/giardini-sala-03.webp" alt="Giardini Café — Livros" class="mmh-image">
+            <img src="assets/images/giardini-sala-03.webp" alt="Giardini Café — Livros" class="mmh-image" loading="lazy">
           </div>
           <div class="mmh-slide">
-            <img src="assets/images/giardini-sala-04.webp" alt="Giardini Café — Jardim" class="mmh-image">
+            <img src="assets/images/giardini-sala-04.webp" alt="Giardini Café — Jardim" class="mmh-image" loading="lazy">
           </div>
         </div>
 
@@ -143,7 +139,7 @@
       <!-- Logo: centered, overlapping image bottom -->
       <div class="mmh-logo-wrap">
         <div class="mmh-logo-circle">
-          <img src="assets/images/giardini-logo.webp" alt="Giardini Café" class="mmh-logo-img">
+          <img src="assets/images/giardini-logo.webp" alt="Giardini Café" class="mmh-logo-img" loading="eager">
         </div>
       </div>
 
@@ -608,6 +604,8 @@
   </div>
 
   <!-- ════ SCRIPTS ═════════════════════════════════════════════════════════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <!-- menu-tabs.js: hero, scroll, navegação, modal, base-selector -->
   <script src="assets/scripts/pages/menu-tabs.js"></script>
 

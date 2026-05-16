@@ -625,75 +625,6 @@
     margin: 0 !important;
   }
 
-  /* Grid gap tighter on mobile */
-  #experience .grid {
-    gap: clamp(1.25rem, 4vw, 2rem) !important;
-  }
-
-  /* Hide experience image on mobile */
-  #experience .exp-left {
-    display: none !important;
-  }
-
-  /* Section title: one step below hero headline (+10%) */
-  #experience h2 {
-    font-size: clamp(2.3rem, 8.5vw, 3.1rem) !important;
-    line-height: 1.08 !important;
-  }
-
-  /* Body copy: readable with breathing room (+6%) */
-  #experience p.mb-10,
-  #experience .text-\[1\.05rem\] {
-    font-size: clamp(0.93rem, 2.6vw, 1.04rem) !important;
-    line-height: 1.72 !important;
-    margin-bottom: 1.25rem !important;
-  }
-
-  /* Divider spacing: compact flow directly after title on mobile */
-  #experience .s2-divider-track {
-    margin-bottom: 1.75rem !important;
-  }
-
-  /* Section label: balanced gap below */
-  #experience .flex.items-center.gap-3 {
-    margin-bottom: 1rem !important;
-  }
-
-  /* Title wrapper: balanced gap to divider */
-  #experience .word-wrap.mb-8 {
-    margin-bottom: 1.25rem !important;
-  }
-
-  /* Pillars: generous padding for mobile (+12%) */
-  .exp-pillar {
-    padding: 1rem 1rem 1rem 1.15rem !important;
-  }
-
-  .exp-pillar h4 {
-    font-size: clamp(1.12rem, 3.4vw, 1.32rem) !important;
-    margin-bottom: 0.2rem !important;
-  }
-
-  .exp-pillar p {
-    font-size: clamp(0.85rem, 2.4vw, 0.94rem) !important;
-    line-height: 1.65 !important;
-  }
-
-  /* Pillar number compact */
-  .exp-pillar-num {
-    font-size: 0.55rem !important;
-  }
-
-  /* Vertical line shorter */
-  .exp-pillar-vline {
-    min-height: 28px !important;
-  }
-
-  /* Inner flex gap */
-  .exp-pillar .flex.items-start {
-    gap: clamp(0.75rem, 2.8vw, 1.1rem) !important;
-  }
-
   /* ═════════════════════════════════════════════════════════════════
      D. SECTION 3 — SABORES & OBRAS (Carousel + Polish)
      ═════════════════════════════════════════════════════════════════ */
@@ -1576,17 +1507,6 @@
       padding: 1.05rem 2.5rem !important;
     }
   }
-/* ══════════════════════════════════════════════════════════════════
-   MOBILE HERO REFINEMENT — merged into main block above.
-   This section kept only for video-frame border-radius override.
-   ══════════════════════════════════════════════════════════════════ */
-@media (max-width: 767px) {
-  #video-frame {
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    border: none !important;
-  }
-}
 }
 
 /* ══════════════════════════════════════════════════════════════════

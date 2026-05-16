@@ -10,6 +10,8 @@
 
 export const API_BASE_URL = 'https://api.giardini.cafe';
 
+const DEBUG = false;
+
 /** Rotas relativas disponíveis no backend. */
 export const API_ROUTES = {
   menu:               '/menu',
@@ -26,7 +28,7 @@ export const API_ROUTES = {
  */
 export function buildApiUrl(path) {
   const url = `${API_BASE_URL}${path}`;
-  console.log('[api] buildApiUrl → API_BASE_URL:', API_BASE_URL, '| path:', path, '| url final:', url);
+  if (DEBUG) console.log('[api] buildApiUrl → API_BASE_URL:', API_BASE_URL, '| path:', path, '| url final:', url);
   return url;
 }
 
@@ -40,15 +42,15 @@ export function buildApiUrl(path) {
  */
 export async function apiFetch(path, options = {}) {
   const url = buildApiUrl(path);
-  console.log('[api] apiFetch → iniciando fetch para:', url, '| options:', options);
+  if (DEBUG) console.log('[api] apiFetch → iniciando fetch para:', url, '| options:', options);
   let response;
   try {
     response = await fetch(url, options);
   } catch (networkErr) {
-    console.error('[api] apiFetch → ERRO DE REDE (fetch lançou exceção):', networkErr);
+    if (DEBUG) console.error('[api] apiFetch → ERRO DE REDE (fetch lançou exceção):', networkErr);
     throw networkErr;
   }
-  console.log('[api] apiFetch → response recebida | status:', response.status, '| ok:', response.ok, '| url:', response.url);
+  if (DEBUG) console.log('[api] apiFetch → response recebida | status:', response.status, '| ok:', response.ok, '| url:', response.url);
 
   if (!response.ok) {
     throw new Error(`API error ${response.status} em ${path}`);

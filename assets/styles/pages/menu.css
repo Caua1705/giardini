@@ -103,16 +103,6 @@ body::after {
   mix-blend-mode: multiply;
 }
 
-/* Disabled dark-theme ambient elements */
-#lateral-vignette,
-#particle-canvas,
-#menu-orb-1,
-#menu-orb-2,
-.product-glow,
-.product-shadow {
-  display: none;
-}
-
 
 /* â•â• 3. LOADER â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
@@ -2699,10 +2689,7 @@ footer {
   html::before,
   html::after,
   #global-grain,
-  .hero-grain,
-  #menu-orb-1,
-  #menu-orb-2,
-  #lateral-vignette {
+  .hero-grain {
     display: none !important;
     opacity: 0 !important;
     animation: none !important;
@@ -2717,17 +2704,6 @@ footer {
 
   /* Noise overlay â€” full-viewport, fixed-position SVG texture */
   .noise-overlay {
-    display: none !important;
-  }
-
-  /* Particle canvas â€” ambient JS canvas particles, hidden anyway */
-  #particle-canvas {
-    display: none !important;
-  }
-
-  /* Product glow/shadow â€” decorative radial gradients behind hero frame */
-  .product-glow,
-  .product-shadow {
     display: none !important;
   }
 
@@ -3522,6 +3498,35 @@ footer {
 .menu-grid.loaded .skeleton-card {
   opacity: 0;
   transition: opacity 0.3s ease;
+}
+
+/* API error state — shown when fetch fails and no cache exists */
+.menu-load-error {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.875rem;
+}
+
+.menu-load-error p {
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.menu-retry-btn {
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 100px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.menu-retry-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
 }
 
 /* ---------------------------------------------------------------------------

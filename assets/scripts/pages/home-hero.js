@@ -1,4 +1,4 @@
-
+﻿
 (function () {
   // Browser restores scroll BEFORE DOMContentLoaded.
   // If we are already scrolled, reveal body immediately.
@@ -279,7 +279,7 @@
       // Fix: if href is just #, target is top of page
       const target = (href === '#') ? 0 : document.querySelector(href);
 
-      if (target !== null) {
+      if (target !== null && lenis) {
         lenis.scrollTo(target, {
           offset: 0,
           duration: 1.2,
@@ -381,32 +381,42 @@
   ══════════════════════════════════════════════════════════════ */
   function preloadFrames() {
     return new Promise((resolve) => {
-      let loaded = 0;
       const total = CONFIG.TOTAL_FRAMES;
       const step = CONFIG.FRAME_STEP;
       frames = new Array(total);
-      // On mobile: load every Nth frame to slash bandwidth from 17.8MB to ~1MB
-      for (let i = 0; i < total; i++) {
-        const img = new Image();
-        const srcIndex = i * step;
-        img.src = `${CONFIG.FRAMES_DIR}/frame_${String(srcIndex).padStart(4, '0')}.webp`;
-        // Decode asynchronously to avoid blocking main thread
-        if (img.decode) img.decode().catch(() => { });
-        frames[i] = img;
-        img.onload = img.onerror = () => {
-          loaded++;
-          if (loaded === total) resolve();
+      let done = 0;
+      let inFlight = 0;
+      let nextIdx = 0;
+      // Throttle concurrent requests: prevents network starvation on mobile
+      const MAX_CONCURRENT = IS_MOBILE ? 6 : 12;
 
-          // FIX: Draw the first frame immediately upon load so it's not black before scrolling
-          if (i === 0 && currentFrameIndex === -1 && typeof drawFrame === 'function') {
-            requestAnimationFrame(() => {
-              drawFrame(0);
-              const cvs = document.getElementById('seq-canvas');
-              if (cvs) cvs.classList.add('ready');
-            });
-          }
-        };
+      function dispatch() {
+        while (nextIdx < total && inFlight < MAX_CONCURRENT) {
+          const i = nextIdx++;
+          inFlight++;
+          const img = new Image();
+          const srcIndex = i * step;
+          img.src = `${CONFIG.FRAMES_DIR}/frame_${String(srcIndex).padStart(4, '0')}.webp`;
+          if (img.decode) img.decode().catch(() => {});
+          frames[i] = img;
+          img.onload = img.onerror = function () {
+            inFlight--;
+            done++;
+            // Draw frame 0 immediately so canvas is not blank at first paint
+            if (i === 0 && currentFrameIndex === -1 && typeof drawFrame === 'function') {
+              requestAnimationFrame(() => {
+                drawFrame(0);
+                const cvs = document.getElementById('seq-canvas');
+                if (cvs) cvs.classList.add('ready');
+              });
+            }
+            if (done === total) resolve();
+            dispatch();
+          };
+        }
       }
+
+      dispatch();
     });
   }
   /* ══ LAYOUT: calcula o rect inicial do video-frame ════════════ */
@@ -703,13 +713,16 @@
     /* ── TEXT SCROLL-OUT: per-element parallax exits (see below) ── */
     // Handled by individual gsap.to() blocks in the CREATIVE ANIMATIONS section
     /* ── EXPLORE SCROLL-OUT ────────────────────────── */
-    gsap.to('#hero-explore-scroll', {
-      opacity: 0, y: -20, filter: 'blur(5px)', ease: 'power2.in', immediateRender: false,
-      scrollTrigger: {
-        trigger: wrapper, start: 'top top',
-        end: () => `+=${scrollPx * 0.25}`, scrub: CONFIG.scrub,
-      }
-    });
+    // #hero-explore-scroll is display:none on mobile — skip animation
+    if (!IS_MOBILE) {
+      gsap.to('#hero-explore-scroll', {
+        opacity: 0, y: -20, filter: 'blur(5px)', ease: 'power2.in', immediateRender: false,
+        scrollTrigger: {
+          trigger: wrapper, start: 'top top',
+          end: () => `+=${scrollPx * 0.25}`, scrub: CONFIG.scrub,
+        }
+      });
+    }
     /* ── VIDEO-FRAME EXPANSION (split → fullscreen) ──────────── */
     mm.add({
       isDesktop: '(min-width: 768px)',
@@ -774,22 +787,14 @@
       }, 120);
     });
     /* ── SECTION 2 ANIMATION (2-Col Layout Polished) ─────────── */
-    // Set initial states for word mask
-    gsap.set('.word-inner', { y: '110%' });
-    // Parallax background text and glows
-    // Parallax background text and glows — skip on mobile.
-    // These elements are display:none on mobile (home.css) but
-    // the ScrollTriggers would still run, burning CPU unnecessarily.
+    // #experience is display:none height:0 on mobile — skip all section-2 animation work.
+    // Parallax, entrance ScrollTrigger and gsap.set all skipped on mobile.
     if (!IS_MOBILE) {
+      gsap.set('.word-inner', { y: '110%' });
       gsap.to('#parallax-text span', {
         x: '-30%',
         ease: 'none',
-        scrollTrigger: {
-          trigger: '#experience',
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true
-        }
+        scrollTrigger: { trigger: '#experience', start: 'top bottom', end: 'bottom top', scrub: true }
       });
       gsap.to('.parallax-glow-1', {
         yPercent: -40,
@@ -801,45 +806,29 @@
         ease: 'none',
         scrollTrigger: { trigger: '#experience', start: 'top bottom', end: 'bottom top', scrub: true }
       });
+      ScrollTrigger.create({
+        trigger: '#experience',
+        start: 'top 80%',
+        once: true,
+        onEnter: () => {
+          const tExp = gsap.timeline();
+          tExp.add('start')
+            .to('.exp-left', {
+              opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
+              duration: 1.6, ease: 'power3.out'
+            }, 'start')
+            .to('.exp-left-img', {
+              scale: 1, duration: 2.0, ease: 'power3.out', clearProps: 'transform'
+            }, 'start')
+            .to('.sec2-title', {
+              opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out'
+            }, 'start+=0.3')
+            .to('.exp-pillar', {
+              opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out', stagger: 0.4
+            }, 'start+=0.5');
+        }
+      });
     }
-    ScrollTrigger.create({
-      trigger: '#experience',
-      start: 'top 80%',
-      once: true,
-      onEnter: () => {
-        const tExp = gsap.timeline();
-        tExp.add('start')
-          .to('.exp-left', {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            ...(IS_MOBILE ? {} : { filter: 'blur(0px)' }),
-            duration: IS_MOBILE ? 0.9 : 1.6,
-            ease: 'power3.out'
-          }, 'start')
-          .to('.exp-left-img', {
-            scale: 1,
-            duration: 2.0,
-            ease: 'power3.out',
-            clearProps: 'transform'
-          }, 'start')
-          .to('.sec2-title', {
-            opacity: 1,
-            y: 0,
-            ...(IS_MOBILE ? {} : { filter: 'blur(0px)' }),
-            duration: IS_MOBILE ? 0.6 : 1.0,
-            ease: 'power3.out'
-          }, 'start+=0.3')
-          .to('.exp-pillar', {
-            opacity: 1,
-            y: 0,
-            ...(IS_MOBILE ? {} : { filter: 'blur(0px)' }),
-            duration: IS_MOBILE ? 0.6 : 1.0,
-            ease: 'power3.out',
-            stagger: IS_MOBILE ? 0.2 : 0.4
-          }, 'start+=0.5');
-      }
-    });
     // ── SECTION 3 ANIMATION (Gemini-style) ─────────────────────
     gsap.set('.feat-card', { opacity: 0, y: 70, scale: 0.94, ..._bi(6) });
     gsap.set('.feat-reveal', { opacity: 0, y: 28, ..._bi(6) });
@@ -879,7 +868,7 @@
             ...(IS_MOBILE ? {} : { filter: 'blur(0px)' }),
             duration: IS_MOBILE ? 0.7 : 1.1,
             ease: 'power4.out',
-            stagger: 0.18,
+            stagger: IS_MOBILE ? 0.09 : 0.18,
             clearProps: 'filter'
           }, 'start+=0.35')
           // 4. Logo badge: premium reveal after everything else
@@ -893,36 +882,7 @@
           }, 'start+=0.6');
       }
     });
-    // ── CREATIVE ANIMATIONS (NEW) ──────────────────────────────
-    // 1. Text Split & Char Reveal Logic
-    function splitAndAnimate(selector, delayStart = 0) {
-      const el = document.querySelector(selector);
-      if (!el) return;
-      const text = el.innerText;
-      el.innerHTML = '';
-      text.split('').forEach((char, i) => {
-        const span = document.createElement('span');
-        span.innerText = char === ' ' ? '\u00A0' : char;
-        span.className = 'split-child opacity-0';
-        el.appendChild(span);
-        gsap.to(span, {
-          opacity: 1,
-          y: 0,
-          startAt: { y: 20 },
-          duration: 0.8,
-          delay: delayStart + (i * 0.03),
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 85%',
-            toggleActions: 'play none none none'
-          }
-        });
-      });
-    }
-    // Hero headline uses dedicated GSAP line animations (see tl above)
-    // splitAndAnimate removed here to preserve HTML color/style markup
-    // 2. Flashlight / Spotlight Mouse Follow — skip on mobile (no mouse)
+    // Flashlight / Spotlight Mouse Follow — skip on mobile (no mouse)
     if (!IS_MOBILE) {
       document.querySelectorAll('.flashlight-card').forEach(card => {
         card.addEventListener('mousemove', e => {
@@ -994,20 +954,6 @@
         if (wm) wm.style.opacity = '1';
       }
     });
-    // .clube-parallax-img: element does not exist in current markup.
-    // Guard added to prevent a silent no-op ScrollTrigger on mobile.
-    if (!IS_MOBILE) {
-      gsap.to('.clube-parallax-img', {
-        yPercent: 20,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '#clube-livro',
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true
-        }
-      });
-    }
     // 4. Section 4 Location Animation (Gemini Fade-In Style)
     const locElements = gsap.utils.toArray('.anim-fade-blur');
     ScrollTrigger.create({
@@ -1022,15 +968,8 @@
         });
       }
     });
-    // #giant-text does not exist in current HTML (confirmed) — skip entirely.
-    // .feat-img parallax: disabled on mobile. Running yPercent scrub on images
-    // inside the swipeable carousel causes visible jank during horizontal swipe.
+    // .feat-img parallax: disabled on mobile to prevent jank during horizontal swipe.
     if (!IS_MOBILE) {
-      gsap.to('#giant-text', {
-        y: -150,
-        ease: 'none',
-        scrollTrigger: { trigger: '#featured', start: 'top bottom', end: 'bottom top', scrub: true }
-      });
       document.querySelectorAll('.feat-img').forEach((img, i) => {
         const card = img.closest('.feat-card');
         const direction = i % 2 === 0 ? -8 : 8;
@@ -1042,35 +981,6 @@
       });
     }
   }
-  /* ══ LOCATION MODAL LOGIC ═════════════════════════════════════ */
-  window.openLocationModal = function () {
-    const modal = document.getElementById('location-modal');
-    const content = document.getElementById('location-modal-content');
-    modal.classList.remove('pointer-events-none');
-    modal.classList.replace('opacity-0', 'opacity-100');
-    setTimeout(() => {
-      content.classList.replace('scale-95', 'scale-100');
-      content.classList.replace('opacity-0', 'opacity-100');
-    }, 50);
-  };
-  window.closeLocationModal = function () {
-    const modal = document.getElementById('location-modal');
-    const content = document.getElementById('location-modal-content');
-    content.classList.replace('scale-100', 'scale-95');
-    content.classList.replace('opacity-100', 'opacity-0');
-    setTimeout(() => {
-      modal.classList.replace('opacity-100', 'opacity-0');
-      modal.classList.add('pointer-events-none');
-    }, 200);
-  };
-  /* ══ UTILIDADES DE MOUSE (PARALLAX/FLASHLIGHT) ═══════════════ */
-  window.updateMouse = function (element, e) {
-    const rect = element.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    element.style.setProperty('--mouse-x', `${x}px`);
-    element.style.setProperty('--mouse-y', `${y}px`);
-  };
   /* ══ HERO BG COLUMNS REVEAL ════════════════════════════════════ */
   (function () {
     const bgCols = document.getElementById('hero-bg-cols');
@@ -1148,7 +1058,7 @@
       const h = String(now.getHours()).padStart(2, '0');
       const m = String(now.getMinutes()).padStart(2, '0');
       const s = String(now.getSeconds()).padStart(2, '0');
-      clockEl.textContent = `São Paulo — ${h}:${m}:${s}`;
+      clockEl.textContent = `Fortaleza — ${h}:${m}:${s}`;
     }
     tick();
     setInterval(tick, 1000);

@@ -32,10 +32,8 @@
       }
     }
   </script>
-  <!-- GSAP + ScrollTrigger + Lenis -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+  <!-- Preload first hero frame for fast canvas paint (mobile + desktop) -->
+  <link rel="preload" as="image" href="references/image-frames/home/frame_0000.webp">
   <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js" defer></script>
   <!-- ══ HERO PREMIUM BACKGROUND & ANIMATION POLISH ══ -->
   <!-- ══ REFINAMENTO FINAL — POLISH & TEXTURE ══════════════════════ -->
@@ -437,6 +435,7 @@
           box-shadow:0 0 0 1px rgba(43,74,59,0.10),0 16px 48px rgba(43,74,59,0.20),0 6px 16px rgba(43,74,59,0.12),inset 0 1px 0 rgba(255,255,255,0.85);
           animation:logoBadgeBreathe 5s ease-in-out infinite;">
         <img src="assets/images/giardini-logo.webp" alt="Giardini Café"
+          loading="lazy" decoding="async"
           style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
     </div>
@@ -659,7 +658,7 @@
 
   <section id="experience-video" class="relative z-[60] overflow-hidden" style="min-height:100vh;">
     <!-- ── VIDEO BACKGROUND ──────────────────────────────────────────── -->
-    <video autoplay muted loop playsinline
+    <video autoplay muted loop playsinline preload="none"
       style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" aria-hidden="true">
       <source src="assets/videos/home/home-footer.mp4" type="video/mp4">
     </video>
@@ -1266,6 +1265,10 @@
 
 
 
+  <!-- GSAP + ScrollTrigger + Lenis — loaded here (end of body) to not block HTML rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
   <script src="assets/scripts/pages/home-hero.js"></script>
 
   <!-- ── Mobile Bottom Navigation ─────────────── -->

@@ -1,4 +1,4 @@
-
+﻿
 gsap.registerPlugin(ScrollTrigger);
 
 /* Ã¢â€â‚¬Ã¢â€â‚¬ Native smooth scroll behavior (desktop only) Ã¢â€â‚¬Ã¢â€â‚¬ */
@@ -394,7 +394,10 @@ setTimeout(() => {
 
 } // end desktop-only block
 
+let initPageDone = false;
 function initPage() {
+  if (initPageDone) return;
+  initPageDone = true;
   const nav = document.getElementById('navbar');
   const catNav = document.getElementById('cat-nav');
   const catNavInner = document.getElementById('cat-nav-inner');
@@ -541,15 +544,6 @@ function initPage() {
     window.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
   }
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ Click handlers for category buttons Ã¢â€â‚¬Ã¢â€â‚¬ */
-  catBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const targetId = btn.dataset.target;
-      setActiveCategory(targetId);
-      scrollToCategory(targetId);
-    });
-  });
-
   /* Ã¢â€â‚¬Ã¢â€â‚¬ IntersectionObserver: track which category is in view Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
      Updates active nav button as user scrolls through categories.
      On mobile, use a tighter rootMargin for better detection since
@@ -584,11 +578,13 @@ function initPage() {
 
   categoryGroups.forEach(group => categoryObserver.observe(group));
 
-  // Temporarily disable observer during click-to-scroll
+  // Category button click: navigate + temporarily disable scroll observer
   catBtns.forEach(btn => {
     btn.addEventListener('click', () => {
+      const targetId = btn.dataset.target;
+      setActiveCategory(targetId);
+      scrollToCategory(targetId);
       isUserScrolling = false;
-      // Re-enable after scrolling settles
       setTimeout(() => { isUserScrolling = true; }, 1200);
     });
   });
@@ -895,6 +891,8 @@ function initBaseSelector() {
   }
 
   toggleBtns.forEach(btn => {
+    if (btn._baseSelectorBound) return;
+    btn._baseSelectorBound = true;
     btn.addEventListener('click', (e) => {
       toggleBtns.forEach(b => b.classList.remove('active'));
       const currentBtn = e.currentTarget;

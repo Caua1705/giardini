@@ -8,6 +8,9 @@
   <meta name="description"
     content="Reserve sua experiência no Giardini Café. Escolha o ambiente, data e horário para uma pausa especial com café de especialidade e livros." />
 
+  <!-- Preload first hero frame for desktop (avoids blank canvas flash) -->
+  <link rel="preload" as="image" href="references/image-frames/reservation/desktop/frame_0000.webp" media="(min-width: 769px)">
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -37,12 +40,7 @@
   </script>
 
   <!-- Icons -->
-  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-
-  <!-- GSAP + Lenis -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
 
   <!-- Shared Styles -->
   <link rel="stylesheet" href="assets/styles/base.css">
@@ -231,7 +229,7 @@
       <!-- Selected environment summary strip — appears after selection -->
       <div class="res-env-selected-bar" id="res-env-selected-bar" aria-live="polite">
         <div class="res-env-selected-img-wrap">
-          <img id="res-env-selected-thumb" src="assets/images/space.webp" alt="" />
+          <img id="res-env-selected-thumb" src="" alt="" />
         </div>
         <div class="res-env-selected-info">
           <span class="res-env-selected-label">Ambiente escolhido</span>
@@ -290,7 +288,7 @@
         <!-- ── Selected environment bridge — contextual form header ── -->
         <div class="res-form-env-summary" id="res-form-env-summary">
           <div class="res-form-env-thumb-wrap">
-            <img id="res-form-env-thumb" src="assets/images/space.webp" alt="" />
+            <img id="res-form-env-thumb" src="" alt="" />
             <div class="res-form-env-thumb-glow"></div>
           </div>
           <div class="res-form-env-text">
@@ -609,6 +607,9 @@
   <!-- ══════════════════════════════════════════════════════════════
        SCRIPTS
        ══════════════════════════════════════════════════════════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
   <script type="module" src="assets/scripts/pages/reservation.js"></script>
 
   <!-- ── Mobile Bottom Navigation ─────────────── -->

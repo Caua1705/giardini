@@ -1,4 +1,4 @@
-/* ══════════════════════════════════════════════════════════════════
+﻿/* ══════════════════════════════════════════════════════════════════
    RESERVATION PAGE — Giardini Café
    Premium Editorial — Final Refinement
    ══════════════════════════════════════════════════════════════════ */
@@ -311,7 +311,7 @@
     box-shadow: none !important;
     aspect-ratio: auto !important;
     overflow: hidden !important;
-    background: #0a0a0a !important;
+    background: #0C1A10 !important;
     margin: 0 !important;
     padding: 0 !important;
     mask-image: none !important;
@@ -322,7 +322,6 @@
   }
 }
 
-.res-hero-bg{display: none;} /* Video replaced by canvas */
 .res-hero-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(115deg,rgba(4,8,6,.92) 0%,rgba(8,16,11,.7) 45%,rgba(4,8,6,.55) 100%);pointer-events:none}
 @media(max-width:768px){
   /* Brighter on mobile — reduce overlay darkness so the video is more visible */
@@ -482,12 +481,6 @@
 .res-hero-cta svg{transition:transform .3s ease}
 .res-hero-cta:hover svg{transform:translateX(4px)}
 
-/* ── Legacy strip — kept for compat ────────────────────────────── */
-.res-hero-strip{position:absolute;right:2.5rem;top:0;bottom:0;z-index:8;width:24px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-@media(max-width:1024px){.res-hero-strip{display:none}}
-.res-hero-strip-inner{display:flex;flex-direction:column;animation:resStripScroll 12s linear infinite;white-space:nowrap}
-.res-hero-strip-text{font-size:.45rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.1);writing-mode:vertical-rl;line-height:1}
-@keyframes resStripScroll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
 
 /* ── Scroll indicator — bottom center standalone ─────────────────── */
 .res-hero-scroll{
@@ -515,48 +508,6 @@
 }
 @keyframes resScrollDot{0%{top:-6px;opacity:0}20%{opacity:1}80%{opacity:.6}100%{top:36px;opacity:0}}
 
-/* ── Hero vertical center line with "Reservar" label ─────────────── */
-.res-hero-vline{
-  position:absolute;
-  right:clamp(4rem,12vw,16vw);
-  top:50%;transform:translateY(-50%);
-  z-index:9;pointer-events:none;
-  display:flex;flex-direction:column;align-items:center;gap:.85rem;
-}
-.res-hero-vline-label{
-  font-size:.48rem;font-weight:700;letter-spacing:.45em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.45);
-  writing-mode:vertical-rl;
-  text-orientation:mixed;
-  transform:rotate(180deg);
-  user-select:none;
-  order:-1;
-}
-.res-hero-vline-track{
-  width:1px;height:clamp(80px,12vh,130px);
-  background:linear-gradient(to bottom,rgba(183,147,88,.4) 0%,rgba(183,147,88,.28) 40%,transparent 100%);
-  position:relative;overflow:hidden;
-}
-.res-hero-vline-dot{
-  position:absolute;top:-8px;left:50%;transform:translateX(-50%);
-  width:4px;height:8px;border-radius:3px;
-  background:rgba(183,147,88,.6);
-  animation:resScrollDot 3s ease-in-out infinite;
-}
-@media(max-width:1024px){.res-hero-vline{display:none}}
-
-/* ── Hero bottom info bar (legacy, now display:none) ─────────────── */
-.res-hero-bar{display:none}
-.res-hero-year{display:none}
-
-/* ── Hero stats — kept for compat ──────────────────────────────── */
-.res-hero-stats{position:absolute;bottom:0;left:0;right:0;z-index:10;display:flex;align-items:center;border-top:1px solid rgba(255,255,255,.06);background:rgba(4,8,6,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:1.35rem 5vw}
-@media(max-width:768px){.res-hero-stats{display:none}}
-.res-hero-stat{display:flex;flex-direction:column;gap:.3rem;padding:0 2.5rem 0 0}
-.res-hero-stat-num{font-family:'Instrument Serif',serif;font-size:1.2rem;font-style:italic;color:rgba(255,255,255,.75);letter-spacing:-.02em;line-height:1}
-.res-hero-stat-label{font-size:.5rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.25)}
-.res-hero-stat-sep{width:1px;height:32px;background:rgba(255,255,255,.08);flex-shrink:0;margin-right:2.5rem}
 
 .res-hero-reveal{opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
 .res-hero-reveal.is-visible{opacity:1;transform:translateY(0)}
@@ -816,16 +767,6 @@
 @keyframes resAmbient1{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-16px)}}
 @keyframes resAmbient2{0%,100%{transform:translate(0,0)}50%{transform:translate(-16px,12px)}}
 
-/* Watermark — subtle serif brand text */
-.res-section-watermark{
-  position:absolute;bottom:-2%;right:-2%;z-index:0;pointer-events:none;
-  font-family:'Instrument Serif',serif;font-size:clamp(8rem,18vw,16rem);
-  font-style:italic;color:rgba(43,74,59,.04);
-  letter-spacing:-.04em;line-height:1;
-  white-space:nowrap;user-select:none;
-  animation:resWatermarkFloat 20s ease-in-out infinite;
-}
-@keyframes resWatermarkFloat{0%,100%{transform:translate(0,0) rotate(-2deg)}50%{transform:translate(-8px,6px) rotate(-1.5deg)}}
 
 /* Top separator — gold-green shimmer */
 .res-section-top-line{
@@ -983,10 +924,6 @@
 }
 .res-form-env-alter-btn svg{opacity:.6;transition:opacity .45s ease,transform .45s cubic-bezier(.22,1,.36,1)}
 .res-form-env-alter-btn:hover svg{opacity:1;transform:translateX(-2px)}
-
-/* Hide legacy elements */
-.res-form-env-change{display:none}
-.res-form-summary-pills{display:none}
 
 /* ── FORM COLUMN — steps ─────────────────────────────────────────── */
 .res-form-column{width:100%}
@@ -1441,88 +1378,11 @@ textarea.res-form-input{
 .res-reveal{opacity:0;transform:translateY(22px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
 .res-reveal.is-visible{opacity:1;transform:translateY(0)}
 
-/* ══════════════════════════════════════════════════════════════════
-   FOOTER TRANSITION
-   ══════════════════════════════════════════════════════════════════ */
-.res-to-footer{height:300px;background:linear-gradient(180deg,#f2ebe0 0%,#e0d5c2 15%,#c0b196 32%,#8a7a60 50%,#4a4030 68%,#1e1c14 85%,#0d1610 100%);position:relative;z-index:59;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.res-to-footer-line{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 5%,rgba(183,147,88,.2) 35%,rgba(183,147,88,.4) 50%,rgba(183,147,88,.2) 65%,transparent 95%)}
-.res-to-footer-ornament{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);z-index:2}
-.res-to-footer-diamond{width:10px;height:10px;border:1px solid rgba(183,147,88,.3);transform:rotate(45deg);background:rgba(183,147,88,.08);animation:resBridgePulse 3s ease-in-out infinite}
-@keyframes resBridgePulse{0%,100%{opacity:.5;transform:rotate(45deg) scale(1)}50%{opacity:1;transform:rotate(45deg) scale(1.2);box-shadow:0 0 16px rgba(183,147,88,.15)}}
 
 /* Particles */
 .res-hero-particle{position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(183,147,88,.5);pointer-events:none;z-index:4;animation:resParticleRise linear infinite;opacity:0}
 @keyframes resParticleRise{0%{opacity:0;transform:translateY(0) scale(.5)}15%{opacity:1}70%{opacity:.6}100%{opacity:0;transform:translateY(-140px) scale(0)}}
 
-/* Compat stubs */
-.res-interlude{display:none}
-.res-split-layout{display:block}
-.res-preview-column{display:none!important}
-
-/* ══════════════════════════════════════════════════════════════════
-   CINEMATIC SECTION DIVIDER — hero to environment transition
-   ══════════════════════════════════════════════════════════════════ */
-.res-section-divider{
-  position:relative;z-index:51;
-  display:flex;align-items:center;gap:0;
-  padding:0;margin:0;
-  background:#0c1510;
-  height:48px;
-  overflow:hidden;
-}
-.res-section-divider-line{
-  flex:1;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(183,147,88,.18) 40%,rgba(183,147,88,.18) 60%,transparent);
-}
-.res-section-divider-ornament{
-  display:flex;align-items:center;justify-content:center;
-  padding:0 1.5rem;flex-shrink:0;
-}
-.res-section-divider-diamond{
-  display:block;width:8px;height:8px;
-  border:1px solid rgba(183,147,88,.35);
-  transform:rotate(45deg);
-  background:rgba(183,147,88,.08);
-  animation:resDivDiamondPulse 3s ease-in-out infinite;
-}
-@keyframes resDivDiamondPulse{
-  0%,100%{opacity:.5;box-shadow:0 0 0 rgba(183,147,88,0)}
-  50%{opacity:1;box-shadow:0 0 12px rgba(183,147,88,.15)}
-}
-
-/* ══════════════════════════════════════════════════════════════════
-   BOTANICAL WATERMARK — env section — HIDDEN (replaced by scroll word)
-   ══════════════════════════════════════════════════════════════════ */
-.res-env-watermark{
-  display:none!important;
-}
-
-/* ══════════════════════════════════════════════════════════════════
-   SCROLL-DRIVEN HORIZONTAL WORD — env section (like TEMPO in index)
-   ══════════════════════════════════════════════════════════════════ */
-.res-env-scroll-word{
-  position:absolute;
-  top:42%;left:0;
-  z-index:0;pointer-events:none;
-  overflow:hidden;width:100%;
-  display:flex;align-items:center;
-  user-select:none;
-  will-change:transform;
-}
-.res-env-scroll-word-text{
-  font-family:'Instrument Serif',serif;
-  font-size:clamp(9rem,22vw,20rem);
-  font-style:italic;
-  font-weight:400;
-  line-height:1;
-  white-space:nowrap;
-  letter-spacing:-.04em;
-  color:rgba(255,255,255,.022);
-  display:block;
-  transform:translateX(30%);
-  will-change:transform;
-}
-@media(max-width:768px){.res-env-scroll-word{display:none}}
 
 /* ══════════════════════════════════════════════════════════════════
    FLOATING GOLDEN ACCENT LINES
@@ -1855,7 +1715,6 @@ textarea.res-form-input{
   .res-submit-btn{max-width:100%;padding:1.2rem 2rem}
   .rcd-calendar{width:calc(100vw - 3rem);max-width:310px;left:50%;transform:translateX(-50%) translateY(-8px) scale(.98)}
   .rcd-calendar.is-open{transform:translateX(-50%) translateY(0) scale(1)}
-  .res-to-footer{height:200px}
   .res-env-section{padding:4rem 0 2.5rem}
   .res-form-env-summary{flex-wrap:wrap;gap:.75rem 1rem}
   .res-form-env-thumb-wrap{width:52px;height:52px}
@@ -1905,7 +1764,6 @@ textarea.res-form-input{
   .res-cta-area{margin-top:2rem}
   .res-env-section-inner{padding:0 1.25rem}
   .res-form-env-summary{padding:1rem 1.25rem;gap:.75rem}
-  .res-form-env-change{display:none}
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -2093,13 +1951,11 @@ body{
 /* Reduced motion */
 @media(prefers-reduced-motion:reduce){
   .res-hero-particle,.res-hero-sep::after,.res-submit-btn::before,.res-hero-cta::after{animation:none!important;display:none}
-  .res-hero-bg video{filter:saturate(.5) brightness(.4)}
   .res-section-ambient-1,.res-section-ambient-2{animation:none!important}
   .res-env-card{transition:none!important}
   .res-env-card.is-selected{animation:none!important}
   .res-submit-btn{animation:none!important}
-  .res-section-divider-diamond{animation:none!important}
-  .res-env-watermark,.res-section-watermark,.res-float-line,.res-corner-accent{animation:none!important}
+  .res-section-watermark,.res-float-line,.res-corner-accent{animation:none!important}
   .res-dust-mote{animation:none!important;display:none}
   .res-section-label-dot::after{animation:none!important}
   .res-step-bar::after{animation:none!important}
@@ -2945,199 +2801,6 @@ body{
   }
 }
 
-/* ══════════════════════════════════════════════════════════════════
-   MOBILE APP HEADER
-   ══════════════════════════════════════════════════════════════════ */
-@media (max-width: 767px) {
-  .res-mobile-header {
-    display: flex !important;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 1.1rem 0.5rem;
-    background: rgba(18, 28, 22, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 9999;
-  }
-  .res-mh-title {
-    font-family: 'Instrument Serif', serif;
-    font-size: 1.1rem;
-    color: #EAE4D9;
-  }
-  .res-mh-icon-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #EAE4D9;
-    -webkit-tap-highlight-color: transparent;
-  /* ── 3. Clear will-change (prevents GPU layer promotion leaks) ── */
-  .res-scroll-word,
-  .res-scroll-word-text,
-  .res-env-scroll-word,
-  .res-env-scroll-word-text,
-  .res-submit-btn {
-    will-change: auto !important;
-  }
-  .res-env-card .res-env-card-img {
-    will-change: auto !important;
-  }
-
-  /* ── 4. Simplify transition durations (faster feel on touch) ── */
-  .res-env-card {
-    transition: border-color .25s ease, box-shadow .25s ease !important;
-  }
-  .res-env-card-img {
-    transition: filter .4s ease !important;
-    transform: none !important; /* disable parallax leftover */
-  }
-  .res-pill,
-  .res-time-pill {
-    transition: background .2s ease, border-color .2s ease, color .2s ease !important;
-  }
-  .res-form-input {
-    transition: background .25s ease, border-color .25s ease !important;
-  }
-
-  /* ── 5. Disable hover transforms on touch (no hover on mobile) ── */
-  .res-env-card:hover { transform: none !important; }
-  .res-pill:hover     { transform: none !important; }
-  .res-time-pill:hover { transform: none !important; }
-  .res-feedback-btn-primary:hover { transform: none !important; }
-  .res-feedback-btn-secondary:hover { transform: none !important; }
-
-  /* ── 6. Env section BG: static on mobile (no GSAP parallax) ── */
-  .res-env-section-bg {
-    transform: none !important;
-  }
-
-  /* ── 7. Canvas: remove expensive blur filter and transition on mobile ── */
-  #seq-canvas {
-    filter: none !important;
-    transform: none !important;
-    transition: none !important;
-    opacity: 1 !important;
-  }
-  #seq-canvas.ready {
-    filter: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-
-  /* ── 8. Paint containment on scrollable sections ────────────── */
-  .res-env-section,
-  .res-section {
-    contain: layout style;
-  }
-
-  /* ── 9. Kill skeleton shimmer animation ─────────────────────── */
-  .res-env-card-skeleton,
-  .res-skeleton-pill {
-    animation: none !important;
-    background: rgba(255,255,255,.06) !important;
-  }
-
-  /* ── 10. Orbs + ambient blobs: HIDE entirely on mobile ──────── */
-  /* Each radial-gradient orb is 600-700px and forces its own
-     compositing layer. Hiding them saves ~4 GPU layers. */
-  .res-hero-orb,
-  .res-hero-orb-1,
-  .res-hero-orb-2,
-  .res-section-ambient-1,
-  .res-section-ambient-2 {
-    display: none !important;
-  }
-
-  /* ── 11. Grain SVG textures: HIDE on mobile ─────────────────── */
-  /* SVG feTurbulence + mix-blend-mode:screen is one of the most
-     expensive rendering ops. On a 390px screen it's invisible. */
-  .res-hero-grain,
-  .res-env-section-grain,
-  .res-section-grain {
-    display: none !important;
-  }
-
-  /* ── 12. Decorative pseudo-elements: remove on mobile ───────── */
-  /* Section ::before (top gradient), ::after (vertical rule),
-     float-lines, corner accents, golden dust — all invisible
-     on small screens but force extra compositing layers. */
-  .res-section::before,
-  .res-section::after {
-    display: none !important;
-  }
-  .res-float-line,
-  .res-float-line-1,
-  .res-float-line-2 {
-    display: none !important;
-  }
-  .res-corner-accent {
-    display: none !important;
-  }
-  .res-golden-dust {
-    display: none !important;
-  }
-  .res-section-watermark {
-    display: none !important;
-  }
-  .res-section-top-line {
-    display: none !important;
-  }
-  .res-env-section-bg {
-    display: none !important;
-  }
-
-  /* ── 13. Env cards: remove ALL GPU filters on mobile ─────────── */
-  /* filter:saturate()+brightness() on each card image forces
-     GPU rasterization per-card. On mobile we show the natural
-     image colors (slightly dimmed via overlay gradient). */
-  .res-env-card-img {
-    filter: none !important;
-    transition: none !important;
-    will-change: auto !important;
-  }
-  .res-env-card:hover .res-env-card-img,
-  .res-env-card.is-selected .res-env-card-img {
-    filter: none !important;
-    transform: none !important;
-  }
-
-  /* Card container: instant state changes (no transition overhead) */
-  .res-env-card {
-    transition: none !important;
-  }
-  .res-env-card-overlay {
-    transition: none !important;
-  }
-  .res-env-card-hover-cue {
-    display: none !important;
-  }
-
-  /* ── 14. Form section: simplify backgrounds ─────────────────── */
-  .res-section {
-    background: #121C16 !important;
-  }
-  .res-env-section {
-    background: #121C16 !important;
-  }
-
-  /* ── 15. Scroll-driven word: already hidden by CSS, ensure it ── */
-  .res-scroll-word,
-  .res-env-scroll-word {
-    display: none !important;
-  }
-
-  /* ── 16. Footer Adjustments ── */
-  .ft-clube-link {
-    display: none !important;
-  }
-}
 
 /* ══════════════════════════════════════════════════════════════════
    MOBILE APP HEADER

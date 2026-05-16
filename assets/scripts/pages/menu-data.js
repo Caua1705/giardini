@@ -21,7 +21,7 @@
 
 import { apiFetch, API_ROUTES } from '../config/api.js';
 
-console.log('[menu-data] script loaded — API_ROUTES.menu:', API_ROUTES.menu);
+const DEBUG = false;
 
 /* ════════════════════════════════════════════════════════════════════════════
    CONSTANTS
@@ -139,7 +139,7 @@ function setCachedMenu(items) {
    Map<subcategory, Map<product_slug, { meta, variants[] }>>
 ════════════════════════════════════════════════════════════════════════════ */
 function groupMenuItems(items) {
-  console.log('[menu-data] groupMenuItems → total de rows recebidas:', items.length);
+  if (DEBUG) console.log('[menu-data] groupMenuItems → total de rows recebidas:', items.length);
   const grouped = new Map();
 
   for (const row of items) {
@@ -175,6 +175,24 @@ function groupMenuItems(items) {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
+   ERROR STATE
+════════════════════════════════════════════════════════════════════════════ */
+
+function showErrorState() {
+  for (const sectionId of VISIBLE_SECTIONS) {
+    const section = document.getElementById(sectionId);
+    if (!section) continue;
+    const grid = section.querySelector('.menu-grid');
+    if (!grid) continue;
+    grid.innerHTML = `<div class="menu-load-error">
+  <p>Não foi possível carregar o cardápio agora.</p>
+  <button class="menu-retry-btn" onclick="location.reload()">Tentar novamente</button>
+</div>`;
+    break;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
    RENDERIZAÇÃO
 ════════════════════════════════════════════════════════════════════════════ */
 
@@ -183,7 +201,7 @@ function formatPrice(val) {
   if (val === null || val === undefined || val === '') return '';
   const strVal = String(val).trim();
   if (strVal.startsWith('R$')) return strVal;
-  
+
   // Substitui vírgula por ponto para parse
   const num = parseFloat(strVal.replace(',', '.'));
   if (!isNaN(num)) {
@@ -222,7 +240,7 @@ function renderPriceHtml(product, sectionId = '') {
     .map(v => {
       const priceStr = formatPrice(v.price);
       const isGeneric = isGenericLabel(v.name);
-      
+
       // Se for genérico, não mostramos o label nem o separador
       if (isGeneric) {
         return `<div class="variant-item">
@@ -246,8 +264,8 @@ function renderPriceHtml(product, sectionId = '') {
   return `<div class="variant-list">${lines}</div>`;
 }
 
-/** 
- * Gera o HTML completo de um card .menu-item. 
+/**
+ * Gera o HTML completo de um card .menu-item.
  * @param {number} index — position in render order, used for image priority
  */
 function renderMenuItemHtml(product, sectionId = '', index = 999) {
@@ -255,9 +273,9 @@ function renderMenuItemHtml(product, sectionId = '', index = 999) {
   const isAboveFold = index < 6;
   const loadAttr = isAboveFold ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
 
-  // Thumb — oculto se não houver imagem
+  // Thumb — oculto se não houver imagem; onerror esconde a tag e marca o container
   const imgHtml = product.image_url
-    ? `<div class="item-thumb"><img src="${product.image_url}" alt="${product.name}" ${loadAttr}></div>`
+    ? `<div class="item-thumb"><img src="${product.image_url}" alt="${product.name}" ${loadAttr} onerror="this.onerror=null;this.style.display='none';this.parentElement.classList.add('item-thumb--no-image')"></div>`
     : `<div class="item-thumb item-thumb--no-image"></div>`;
 
   // Descrição (nullable)
@@ -284,10 +302,10 @@ function renderMenuItemHtml(product, sectionId = '', index = 999) {
   if (sectionId === 'tapioca') {
     const tapVar = product.variants.find(v => v.name.toLowerCase().includes('tapioca'));
     const cusVar = product.variants.find(v => v.name.toLowerCase().includes('cuscuz'));
-    
+
     const pTap = tapVar ? formatPrice(tapVar.price) : formatPrice(product.price);
     const pCus = cusVar ? formatPrice(cusVar.price) : formatPrice(product.price);
-    
+
     extraAttrs = `data-price-tapioca="${pTap}" data-price-cuscuz="${pCus}"`;
     // Inicialmente mostramos o da Tapioca por padrão no modal se estivermos nela
     finalSafePrice = pTap;
@@ -297,7 +315,7 @@ function renderMenuItemHtml(product, sectionId = '', index = 999) {
           .filter(v => !isGenericLabel(v.name)) // Remove labels feios do modal também
           .map(v => `${v.name}: ${formatPrice(v.price)}`).join(' / ')
       : formatPrice(product.price);
-    
+
     // Se ficou vazio por causa do filtro genérico, usa apenas os preços
     if (product.has_variants && (!finalSafePrice || finalSafePrice.trim() === '')) {
       finalSafePrice = product.variants.map(v => formatPrice(v.price)).join(' / ');
@@ -325,14 +343,14 @@ function renderMenuItemHtml(product, sectionId = '', index = 999) {
  * Também atualiza o contador de itens visível no section-header.
  */
 function renderMenuIntoDOM(grouped) {
-  console.log('[menu-data] renderMenuIntoDOM → subcategorias no grouped:', [...grouped.keys()]);
-  
+  if (DEBUG) console.log('[menu-data] renderMenuIntoDOM → subcategorias no grouped:', [...grouped.keys()]);
+
   let globalIndex = 0; // tracks render order for image priority
 
   for (const [subcategory, subMap] of grouped) {
     const sectionId = SUBCATEGORY_TO_SECTION_ID[subcategory];
-    console.log('[menu-data] rendering section → subcategory:', subcategory, '| sectionId:', sectionId, '| produtos:', subMap.size);
-    if (!sectionId) { console.warn('[menu-data] subcategory SEM mapeamento — ignorada:', subcategory); continue; }
+    if (DEBUG) console.log('[menu-data] rendering section → subcategory:', subcategory, '| sectionId:', sectionId, '| produtos:', subMap.size);
+    if (!sectionId) { if (DEBUG) console.warn('[menu-data] subcategory SEM mapeamento — ignorada:', subcategory); continue; }
 
     const section = document.getElementById(sectionId);
     if (!section) continue;
@@ -368,34 +386,34 @@ function renderMenuIntoDOM(grouped) {
  *   2. If no cache → show skeletons → fetch → render → remove skeletons
  */
 async function fetchAndRenderMenu() {
-  console.log('[menu-data] fetchAndRenderMenu → checking cache');
+  if (DEBUG) console.log('[menu-data] fetchAndRenderMenu → checking cache');
 
   const cached = getCachedMenu();
   let usedCache = false;
 
   // ── STEP 1: Render cached data instantly if available ──
   if (cached && cached.length > 0) {
-    console.log('[menu-data] cache HIT → rendering', cached.length, 'items instantly');
+    if (DEBUG) console.log('[menu-data] cache HIT → rendering', cached.length, 'items instantly');
     const grouped = groupMenuItems(cached);
     renderMenuIntoDOM(grouped);
     document.dispatchEvent(new CustomEvent('menuRendered'));
     usedCache = true;
   } else {
     // ── STEP 2: No cache → show skeletons ──
-    console.log('[menu-data] cache MISS → showing skeletons');
+    if (DEBUG) console.log('[menu-data] cache MISS → showing skeletons');
     showSkeletons();
   }
 
   // ── STEP 3: Always fetch fresh data from API ──
   try {
-    console.log('[menu-data] fetching fresh data from API');
+    if (DEBUG) console.log('[menu-data] fetching fresh data from API');
     const items = await apiFetch(API_ROUTES.menu);
 
     if (!items) {
       throw new Error('Nenhum dado recebido da API (fetch retornou null)');
     }
 
-    console.log('[menu-data] items received → total:', items.length);
+    if (DEBUG) console.log('[menu-data] items received → total:', items.length);
 
     // Cache the fresh response
     setCachedMenu(items);
@@ -411,19 +429,20 @@ async function fetchAndRenderMenu() {
       const cachedStr = JSON.stringify(cached);
       const freshStr  = JSON.stringify(items);
       if (cachedStr !== freshStr) {
-        console.log('[menu-data] fresh data differs from cache → updating DOM');
+        if (DEBUG) console.log('[menu-data] fresh data differs from cache → updating DOM');
         const grouped = groupMenuItems(items);
         renderMenuIntoDOM(grouped);
         document.dispatchEvent(new CustomEvent('menuRendered'));
       } else {
-        console.log('[menu-data] fresh data matches cache — no DOM update needed');
+        if (DEBUG) console.log('[menu-data] fresh data matches cache — no DOM update needed');
       }
     }
 
   } catch (err) {
-    console.error('[menu-data] ERRO em fetchAndRenderMenu:', err);
+    if (DEBUG) console.error('[menu-data] ERRO em fetchAndRenderMenu:', err);
     if (!usedCache) {
       removeSkeletons();
+      showErrorState();
     }
     document.dispatchEvent(new CustomEvent('menuRendered', { detail: { error: true } }));
   }
@@ -434,14 +453,14 @@ async function fetchAndRenderMenu() {
    Inicia o fetch assim que o DOM estiver pronto.
 ════════════════════════════════════════════════════════════════════════════ */
 if (document.readyState === 'loading') {
-  console.log('[menu-data] DOM ainda carregando — aguardando DOMContentLoaded');
+  if (DEBUG) console.log('[menu-data] DOM ainda carregando — aguardando DOMContentLoaded');
   document.addEventListener('DOMContentLoaded', () => {
-    console.log('[menu-data] DOMContentLoaded disparado — chamando fetchAndRenderMenu');
+    if (DEBUG) console.log('[menu-data] DOMContentLoaded disparado — chamando fetchAndRenderMenu');
     fetchAndRenderMenu();
   });
 } else {
   // DOM já carregado (script diferido, etc.)
-  console.log('[menu-data] DOM já pronto (readyState: "' + document.readyState + '") — chamando fetchAndRenderMenu imediatamente');
+  if (DEBUG) console.log('[menu-data] DOM já pronto (readyState: "' + document.readyState + '") — chamando fetchAndRenderMenu imediatamente');
   fetchAndRenderMenu();
 }
 
