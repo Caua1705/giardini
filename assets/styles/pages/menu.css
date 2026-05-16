@@ -362,84 +362,7 @@ body::after {
   padding: 0.25rem;
 }
 
-/* Mobile menu */
-#mobile-menu {
-  position: fixed;
-  inset: 0;
-  z-index: 490;
-  background: rgba(12, 22, 16, 0.98);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2.5rem;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.4s ease, visibility 0.4s ease;
-}
-
-#mobile-menu.open {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.mobile-link {
-  font-family: 'Instrument Serif', serif;
-  font-size: 2.2rem;
-  color: var(--c-dark);
-  text-decoration: none;
-  letter-spacing: -0.01em;
-  opacity: 0;
-  transform: translateY(20px) scale(0.98);
-  transition: opacity 0.4s var(--expo), transform 0.5s var(--expo), color 0.3s ease;
-}
-
-#mobile-menu.open .mobile-link {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-#mobile-menu.open .mobile-link:nth-child(2) {
-  transition-delay: 0.1s;
-}
-
-#mobile-menu.open .mobile-link:nth-child(3) {
-  transition-delay: 0.18s;
-}
-
-#mobile-menu.open .mobile-link:nth-child(4) {
-  transition-delay: 0.26s;
-}
-
-#mobile-menu.open .mobile-link:nth-child(5) {
-  transition-delay: 0.34s;
-}
-
-.mobile-link:hover {
-  color: var(--c-primary);
-}
-
-.mobile-close {
-  position: absolute;
-  top: 1.5rem;
-  right: 2rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.5rem;
-  color: var(--c-dark);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-#mobile-menu.open .mobile-close {
-  opacity: 1;
-  transition-delay: 0.4s;
-}
+/* Mobile menu overlay — handled by assets/styles/components/mobile-menu.css */
 
 
 /* â•â• 5. HERO â€” Cinematic Dark Green (slightly lighter) â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
@@ -1932,28 +1855,6 @@ footer {
     color: rgba(255, 255, 255, 0.95);
   }
 
-  /* â”€â”€ MOBILE MENU â”€â”€ */
-  #mobile-menu {
-    gap: 2rem;
-    padding: 2rem;
-  }
-
-  .mobile-link {
-    font-size: 2.6rem;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-  }
-
-  .mobile-close {
-    top: 1.25rem;
-    right: 1.25rem;
-    font-size: 1.4rem;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 
   /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
      HERO â€” Premium Mobile (Segunda versÃ£o lapidada)
@@ -3536,7 +3437,8 @@ footer {
 @media (min-width: 768px) {
 
   #menu-mobile-hero,
-  #mmh-search-overlay {
+  #mmh-search-overlay,
+  #mmh-info-overlay {
     display: none !important;
   }
 
@@ -4042,5 +3944,263 @@ footer {
     text-align: center;
     padding: 1.5rem 0 3rem;
     letter-spacing: 0.03em;
+  }
+
+  /* ═══════ INFO OVERLAY — Full-screen app-style info screen ═══════ */
+
+  #mmh-info-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9001;
+    background:
+      radial-gradient(ellipse 70% 55% at 12% 88%, rgba(43, 74, 59, 0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 45% 35% at 88% 12%, rgba(183, 147, 90, 0.05) 0%, transparent 50%),
+      #0E1A13;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    visibility: hidden;
+  }
+
+  #mmh-info-overlay.open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  #mmh-info-overlay.closing {
+    transform: translateX(100%);
+    visibility: visible;
+  }
+
+  /* ── Top bar ─────────────────────────────────────── */
+  .minfo-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: calc(env(safe-area-inset-top, 0px) + 0.7rem) 1rem 0.7rem;
+    background: rgba(14, 26, 19, 0.92);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .minfo-topbar-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.05rem;
+    color: rgba(234, 228, 217, 0.92);
+    letter-spacing: -0.01em;
+    flex: 1;
+    text-align: center;
+  }
+
+  .minfo-icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(234, 228, 217, 0.72);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .minfo-icon-btn:active {
+    background: rgba(183, 147, 90, 0.14);
+    border-color: rgba(183, 147, 90, 0.30);
+    color: rgba(183, 147, 90, 0.9);
+  }
+
+  /* ── Scrollable body ─────────────────────────────── */
+  .minfo-scroll {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding-top: 0.75rem;
+  }
+
+  /* ── Sections ────────────────────────────────────── */
+  .minfo-section {
+    margin: 0 0.875rem 0.5rem;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.065);
+    border-radius: 14px;
+    padding: 0.875rem 1rem;
+  }
+
+  .minfo-section--last {
+    margin-bottom: 0;
+  }
+
+  .minfo-section-head {
+    display: flex;
+    align-items: center;
+    gap: 0.42rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .minfo-section-icon {
+    color: rgba(183, 147, 90, 0.68);
+    flex-shrink: 0;
+  }
+
+  .minfo-section-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(183, 147, 90, 0.72);
+  }
+
+  .minfo-body-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: rgba(234, 228, 217, 0.65);
+  }
+
+  /* ── Hours ───────────────────────────────────────── */
+  .minfo-hours {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .minfo-hours-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.3rem 0;
+  }
+
+  .minfo-hours-day {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.83rem;
+    color: rgba(234, 228, 217, 0.6);
+    flex-shrink: 0;
+  }
+
+  .minfo-hours-time {
+    font-family: 'Instrument Serif', serif;
+    font-size: 0.9rem;
+    color: rgba(234, 228, 217, 0.88);
+    text-align: right;
+  }
+
+  .minfo-hours-time--wrap {
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+
+  .minfo-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.06);
+    margin: 0.1rem 0;
+  }
+
+  /* ── Payment chips ───────────────────────────────── */
+  .minfo-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.38rem;
+  }
+
+  .minfo-chip {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: rgba(234, 228, 217, 0.68);
+    background: rgba(255, 255, 255, 0.055);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 9999px;
+    padding: 0.28rem 0.7rem;
+  }
+
+  /* ── Address ─────────────────────────────────────── */
+  .minfo-addr-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: rgba(234, 228, 217, 0.82);
+    margin-bottom: 0.75rem;
+  }
+
+  .minfo-addr-sub {
+    font-size: 0.78rem;
+    color: rgba(234, 228, 217, 0.45);
+  }
+
+  /* ── Map ─────────────────────────────────────────── */
+  .minfo-map-wrap {
+    border-radius: 10px;
+    overflow: hidden;
+    height: 148px;
+    background: rgba(0, 0, 0, 0.25);
+    margin-bottom: 0.65rem;
+  }
+
+  .minfo-map-iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+    filter: grayscale(60%) contrast(1.05) brightness(0.68);
+  }
+
+  .minfo-map-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .minfo-map-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.38rem;
+    padding: 0.6rem 0.5rem;
+    border-radius: 9px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .minfo-map-btn--primary {
+    background: rgba(183, 147, 90, 0.10);
+    border: 1px solid rgba(183, 147, 90, 0.28);
+    color: rgba(210, 175, 110, 0.90);
+  }
+
+  .minfo-map-btn--primary:active {
+    background: rgba(183, 147, 90, 0.18);
+  }
+
+  .minfo-map-btn--ghost {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    color: rgba(234, 228, 217, 0.55);
+  }
+
+  .minfo-map-btn--ghost:active {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* ── Safe area bottom spacing ────────────────────── */
+  .minfo-bottom-space {
+    height: calc(env(safe-area-inset-bottom, 0px) + 2rem);
   }
 }

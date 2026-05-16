@@ -212,7 +212,7 @@
     transform: scale(1) !important;
   }
 
-  /* ── MOBILE MENU SYSTEM ────────────────────────────────────────── */
+  /* ── NAVBAR HAMBURGER ──────────────────────────────────────────── */
 
   #navbar.is-scrolled .nav-hamburger {
     color: var(--c-primary);
@@ -225,73 +225,7 @@
     .nav-actions { flex: 1; justify-content: flex-end; }
   }
 
-  #mobile-menu {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: var(--c-bg);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2.5rem;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
-  }
-
-  #mobile-menu.open {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-  }
-
-  .mobile-link {
-    font-family: 'Instrument Serif', serif;
-    font-size: 2.6rem;
-    color: var(--c-dark);
-    text-decoration: none;
-    letter-spacing: -0.01em;
-    opacity: 0;
-    transform: translateY(20px) scale(0.98);
-    transition: opacity 0.4s var(--expo), transform 0.5s var(--expo), color 0.3s ease;
-  }
-  
-  #mobile-menu.open .mobile-link {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  
-  /* Sequential stagger for menu links */
-  #mobile-menu.open .mobile-link:nth-child(2) { transition-delay: 0.1s; }
-  #mobile-menu.open .mobile-link:nth-child(3) { transition-delay: 0.18s; }
-  #mobile-menu.open .mobile-link:nth-child(4) { transition-delay: 0.26s; }
-  #mobile-menu.open .mobile-link:nth-child(5) { transition-delay: 0.34s; }
-  #mobile-menu.open .mobile-link:nth-child(6) { transition-delay: 0.42s; }
-  #mobile-menu.open .mobile-link:nth-child(7) { transition-delay: 0.50s; }
-
-  .mobile-link:hover {
-    color: var(--c-primary);
-  }
-
-  .mobile-close {
-    position: absolute;
-    top: 1.5rem;
-    right: 2rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.8rem;
-    color: var(--c-dark);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-  
-  #mobile-menu.open .mobile-close {
-    opacity: 1;
-    transition-delay: 0.4s;
-  }
+  /* Mobile menu overlay — handled by assets/styles/components/mobile-menu.css */
 
   /* ── CENTERING: kicker, cta, meta ───────────────────────────────── */
   .kicker {

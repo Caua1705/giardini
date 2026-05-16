@@ -1227,7 +1227,83 @@ document.addEventListener('menuRendered', initBaseSelector);
   }
 
   /* â”€â”€ Boot â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-  function boot() { initCarousel(); initSearch(); }
+  
+  /* ================================================================
+     3. INFO OVERLAY — full-screen app-style info screen
+  ================================================================ */
+  function initInfo() {
+    var overlay = document.getElementById('mmh-info-overlay');
+    if (!overlay) return;
+
+    var closeBtns = overlay.querySelectorAll('[data-info-close]');
+    var scrollEl  = overlay.querySelector('.minfo-scroll');
+    var shareBtn  = overlay.querySelector('.minfo-share-btn');
+    var _scrollY  = 0;
+    var _isOpen   = false;
+
+    function openInfo() {
+      if (_isOpen) return;
+      _isOpen = true;
+      _scrollY = window.scrollY;
+      // Add .open FIRST — before any layout-affecting style changes.
+      // Setting overflow:hidden before transform transition causes a WebKit/iOS
+      // bug where position:fixed + transform fails to render correctly.
+      overlay.classList.add('open');
+      if (scrollEl) scrollEl.scrollTop = 0;
+      // Defer scroll-lock by one frame so the class + transition are committed first.
+      requestAnimationFrame(function () {
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+      });
+    }
+
+    function closeInfo() {
+      if (!_isOpen) return;
+      _isOpen = false;
+      overlay.classList.remove('open');
+      overlay.classList.add('closing');
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      window.scrollTo(0, _scrollY);
+      setTimeout(function () {
+        overlay.classList.remove('closing');
+      }, 350);
+    }
+
+    // Primary: direct listener on the trigger button.
+    var infoBtn = document.querySelector('[data-info-open]');
+    if (infoBtn) infoBtn.addEventListener('click', openInfo);
+
+    // Fallback: event delegation — catches clicks on button children (SVG, span)
+    // and handles cases where the direct listener fails silently.
+    document.addEventListener('click', function (e) {
+      if (_isOpen) return;
+      var trigger = e.target.closest('[data-info-open]');
+      if (trigger) openInfo();
+    });
+
+    closeBtns.forEach(function (btn) {
+      btn.addEventListener('click', closeInfo);
+    });
+
+    shareBtn && shareBtn.addEventListener('click', function () {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Giardini Café',
+          text: 'Um café pensado para encontros, leitura e bons momentos.',
+          url: window.location.href
+        }).catch(function () {});
+      } else {
+        window.open('https://wa.me/5585994452724', '_blank');
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && _isOpen) closeInfo();
+    });
+  }
+
+  function boot() { initCarousel(); initSearch(); initInfo(); }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);
   } else { boot(); }

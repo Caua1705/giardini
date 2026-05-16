@@ -48,9 +48,9 @@
    ══════════════════════════════════════════════════════════════════════ */
 @media (max-width: 767px) {
 
-  /* ── BODY: dark background to eliminate cream gaps between dark sections ── */
+  /* ── BODY: dark background matching the bottom nav so the gap area is seamless ── */
   html, body {
-    background: #0a0a0a !important;
+    background: #121C16 !important;
   }
 
   /* ═════════════════════════════════════════════════════════════════

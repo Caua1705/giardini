@@ -34,17 +34,32 @@
     }
   });
 
+  // ── Scroll lock helpers ────────────────────────────────────────
+  var _scrollY = 0;
+
+  function lockScroll() {
+    _scrollY = window.scrollY;
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function unlockScroll() {
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    window.scrollTo(0, _scrollY);
+  }
+
   // ── Open ───────────────────────────────────────────────────────
   function openMenu() {
+    lockScroll();
     menu.classList.add('open');
-    document.body.style.overflow = 'hidden';
     document.dispatchEvent(new CustomEvent('mmenu:open'));
   }
 
   // ── Close ──────────────────────────────────────────────────────
   function closeMenu() {
     menu.classList.remove('open');
-    document.body.style.overflow = '';
+    unlockScroll();
     document.dispatchEvent(new CustomEvent('mmenu:close'));
   }
 

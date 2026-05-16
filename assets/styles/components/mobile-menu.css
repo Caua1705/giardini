@@ -9,16 +9,21 @@
 
 /* ── Overlay ──────────────────────────────────────────────────── */
 #mobile-menu {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  z-index: 10000 !important;
   overflow: hidden;
-  /* Layout — override any inherited flex-centering from old CSS */
+  padding: 0 !important;
+  margin: 0 !important;
+  /* Layout */
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
-  gap: 0;
+  gap: 0 !important;
   /* Visibility */
   opacity: 0;
   visibility: hidden;
@@ -261,10 +266,8 @@
 /* ── Footer: CTA + meta ───────────────────────────────────────── */
 .mmenu-footer {
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
-  gap: 0.8rem;
-  padding: 1.35rem 1.75rem 0;
+  padding: 1.5rem 1.75rem 0;
   border-top: 1px solid rgba(240, 235, 225, 0.06);
   opacity: 0;
   transform: translateY(10px);
@@ -301,10 +304,3 @@
   color: rgba(225, 192, 125, 0.95);
 }
 
-.mmenu-footer-meta {
-  font-size: 0.54rem;
-  font-weight: 500;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: rgba(240, 235, 225, 0.16);
-}

@@ -36,7 +36,7 @@
 
     /* Solid dark green background — no transparency gap */
     background: #121C16;
-    border-top: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
 
     /* Safe area for notched iPhones */
     padding-bottom: env(safe-area-inset-bottom, 0px);

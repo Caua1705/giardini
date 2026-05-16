@@ -2817,7 +2817,7 @@ body{
     border-bottom: 1px solid rgba(255,255,255,0.05);
     position: fixed;
     top: 0; left: 0; right: 0;
-    z-index: 9999;
+    z-index: 800;
   }
   .res-mh-title {
     font-family: 'Instrument Serif', serif;
@@ -2867,7 +2867,7 @@ body{
   /* 2. Form Panel Wrapper */
   #res-booking-section {
     margin-top: 0 !important;
-    background: #17241A !important; /* Slightly lighter dark green */
+    background: #121C16 !important; /* Match body/nav background for seamless bottom transition */
     border-top-left-radius: 32px !important;
     border-top-right-radius: 32px !important;
     border-top: 1px solid rgba(183,147,88,0.12) !important;
