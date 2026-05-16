@@ -610,7 +610,7 @@ function initPage() {
   const navSabores = document.querySelector('.nav-link[href="#menu-start"]');
   if (navSabores) navSabores.addEventListener('click', scrollToMenu);
 
-  const mobileCardapio = document.querySelector('.mobile-link[href="#menu-start"]');
+  const mobileCardapio = document.querySelector('.mmenu-item[href="#menu-start"]');
   if (mobileCardapio) mobileCardapio.addEventListener('click', scrollToMenu);
 
   const scrollIndicator = document.getElementById('el-scroll');
@@ -628,15 +628,7 @@ function initPage() {
 }
 
 /* Ã¢â€â‚¬Ã¢â€â‚¬ Mobile menu Ã¢â€â‚¬Ã¢â€â‚¬ */
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobile-menu');
-const mobileClose = document.getElementById('mobile-close');
-hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
-mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
-
-document.querySelectorAll('.mobile-link').forEach(link => {
-  link.addEventListener('click', () => mobileMenu.classList.remove('open'));
-});
+/* Mobile menu handled by assets/scripts/components/mobile-menu.js */
 
 
 /* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â

@@ -200,10 +200,6 @@ function scrollToStep(target, offset = -80, delay = 350) {
 const DOM = {
   loader:             document.getElementById('loader'),
   loaderBar:          document.getElementById('loader-bar'),
-  hamburger:          document.getElementById('hamburger'),
-  mobileMenu:         document.getElementById('mobile-menu'),
-  mobileClose:        document.getElementById('mobile-close'),
-
   // Environment
   environment:        document.getElementById('res-environment'),
   environmentMsg:     document.getElementById('res-environment-msg'),
@@ -941,16 +937,7 @@ function handleNewReservation() {
 /* ── Events ────────────────────────────────────────────────────── */
 
 function bindEvents() {
-  if (DOM.hamburger && DOM.mobileMenu) {
-    DOM.hamburger.addEventListener('click', () => DOM.mobileMenu.classList.add('open'));
-    DOM.mobileClose.addEventListener('click', () => DOM.mobileMenu.classList.remove('open'));
-    DOM.mobileMenu.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => DOM.mobileMenu.classList.remove('open')));
-  }
-
-  const mobHamburger = document.getElementById('res-mob-hamburger');
-  if (mobHamburger && DOM.mobileMenu) {
-    mobHamburger.addEventListener('click', () => DOM.mobileMenu.classList.add('open'));
-  }
+  /* Mobile menu handled by assets/scripts/components/mobile-menu.js */
   const mobCalBtn = document.getElementById('res-mob-cal-btn');
   if (mobCalBtn) {
     mobCalBtn.addEventListener('click', () => safeScrollTo('#reservation-flow', { offset: -20, duration: 0.85 }));

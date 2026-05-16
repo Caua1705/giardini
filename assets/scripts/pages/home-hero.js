@@ -1068,51 +1068,20 @@
      2. Remove preloader com animação
      3. Calcula layout e inicia GSAP
   ══════════════════════════════════════════════════════════════ */
-  /* ── MOBILE MENU CONTROL ───────────────────────────────────── */
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const mobileClose = document.getElementById('mobile-close');
-  const mobileLinks = document.querySelectorAll('.mobile-link');
-
-  if (hamburger && mobileMenu) {
-    hamburger.addEventListener('click', () => {
-      mobileMenu.classList.add('open');
-      if (lenis) lenis.stop();
-    });
-
-    const closeMenu = () => {
-      mobileMenu.classList.remove('open');
-      if (lenis) lenis.start();
-    };
-
-    if (mobileClose) mobileClose.addEventListener('click', closeMenu);
-
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        const href = link.getAttribute('href');
-
-        // If it's an external link (like Instagram/WhatsApp), don't preventDefault
-        if (href.startsWith('http') || href.includes('menu.html')) {
-          closeMenu();
-          return;
-        }
-
-        e.preventDefault();
-        closeMenu();
-
-        const target = (href === '#' || href === '') ? 0 : document.querySelector(href);
-        if (target !== null && lenis) {
-          setTimeout(() => {
-            lenis.scrollTo(target, {
-              offset: 0,
-              duration: 1.5,
-              easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
-            });
-          }, 100);
-        }
+  /* ── Lenis integration for shared mobile menu ─────────────── */
+  document.addEventListener('mmenu:open',  () => { if (lenis) lenis.stop(); });
+  document.addEventListener('mmenu:close', () => { if (lenis) lenis.start(); });
+  document.addEventListener('mmenu:scrollTo', e => {
+    if (!lenis) return;
+    const { target } = e.detail;
+    setTimeout(() => {
+      lenis.scrollTo(target, {
+        offset: 0,
+        duration: 1.5,
+        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t))
       });
-    });
-  }
+    }, 100);
+  });
 
   document.fonts.ready.then(() => {
     // Revela a página imediatamente após as fontes estarem prontas
