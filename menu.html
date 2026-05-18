@@ -796,4 +796,79 @@
   <script src="assets/scripts/components/mobile-menu.js"></script>
   <script src="assets/scripts/components/mobile-bottom-nav.js"></script>
 
+  <!-- ── Info Overlay — standalone init (independent of IIFE chain) ── -->
+  <script>
+  (function () {
+    'use strict';
+
+    function initInfoOverlay() {
+      var overlay = document.getElementById('mmh-info-overlay');
+      if (!overlay) { console.warn('[info-overlay] overlay element not found'); return; }
+
+      var openBtns  = document.querySelectorAll('[data-info-open]');
+      var closeBtns = overlay.querySelectorAll('[data-info-close]');
+      var scrollEl  = overlay.querySelector('.minfo-scroll');
+
+      if (!openBtns.length) { console.warn('[info-overlay] no [data-info-open] button found'); return; }
+
+      var isOpen = false;
+      var savedY = 0;
+
+      function openOverlay(e) {
+        if (e) { e.preventDefault(); e.stopPropagation(); }
+        if (isOpen) return;
+        isOpen = true;
+        savedY = window.scrollY;
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+        if (scrollEl) scrollEl.scrollTop = 0;
+        requestAnimationFrame(function () {
+          document.documentElement.style.overflow = 'hidden';
+          document.body.style.overflow = 'hidden';
+        });
+      }
+
+      function closeOverlay() {
+        if (!isOpen) return;
+        isOpen = false;
+        overlay.classList.remove('open');
+        overlay.classList.add('closing');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+        window.scrollTo(0, savedY);
+        setTimeout(function () { overlay.classList.remove('closing'); }, 380);
+      }
+
+      // Direct listener on every open button
+      openBtns.forEach(function (btn) {
+        btn.addEventListener('click', openOverlay);
+      });
+
+      // Delegated listener: catches clicks on SVG/span children of the button
+      document.addEventListener('click', function (e) {
+        if (isOpen) return;
+        var trigger = e.target.closest('[data-info-open]');
+        if (trigger) openOverlay(e);
+      });
+
+      // Close buttons inside the overlay
+      closeBtns.forEach(function (btn) {
+        btn.addEventListener('click', closeOverlay);
+      });
+
+      // Escape key
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && isOpen) closeOverlay();
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initInfoOverlay);
+    } else {
+      initInfoOverlay();
+    }
+  }());
+  </script>
+
 </body></html>

@@ -2475,6 +2475,8 @@ footer {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    background: #121C16 !important;
+    border-bottom: none !important;
   }
 
   .pdf-label {
@@ -3960,19 +3962,32 @@ footer {
     flex-direction: column;
     overflow: hidden;
     transform: translateX(100%);
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transition:
+      transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 0s linear 0.35s;
     will-change: transform;
     visibility: hidden;
+    pointer-events: none;
   }
 
   #mmh-info-overlay.open {
     transform: translateX(0);
+    opacity: 1;
     visibility: visible;
+    pointer-events: auto;
+    transition:
+      transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 0s linear 0s;
   }
 
   #mmh-info-overlay.closing {
     transform: translateX(100%);
+    opacity: 0;
     visibility: visible;
+    pointer-events: none;
   }
 
   /* ── Top bar ─────────────────────────────────────── */

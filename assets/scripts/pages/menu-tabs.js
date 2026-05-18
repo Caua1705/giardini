@@ -1303,7 +1303,11 @@ document.addEventListener('menuRendered', initBaseSelector);
     });
   }
 
-  function boot() { initCarousel(); initSearch(); initInfo(); }
+  function boot() {
+    try { initCarousel(); } catch (e) { console.warn('[menu] carousel init failed:', e); }
+    try { initSearch(); }   catch (e) { console.warn('[menu] search init failed:', e); }
+    try { initInfo(); }     catch (e) { console.warn('[menu] info init failed:', e); }
+  }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);
   } else { boot(); }
