@@ -2997,3 +2997,575 @@ body{
     transform: translateX(3px) !important;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE RESERVATION FLOW — final premium app refinement
+   Scope: reservation page only, mobile only. Desktop and other pages untouched.
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+  :root {
+    --res-mobile-bg: #121C16;
+    --res-mobile-panel: rgba(234, 228, 217, 0.045);
+    --res-mobile-panel-strong: rgba(234, 228, 217, 0.072);
+    --res-mobile-border: rgba(234, 228, 217, 0.105);
+    --res-mobile-border-soft: rgba(234, 228, 217, 0.065);
+    --res-mobile-gold: #B7935A;
+    --res-mobile-text: #EEE8DD;
+    --res-mobile-muted: rgba(238, 232, 221, 0.62);
+  }
+
+  html,
+  body {
+    overflow-x: hidden !important;
+    background: var(--res-mobile-bg) !important;
+  }
+
+  body {
+    padding-bottom: calc(74px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .res-mobile-header {
+    min-height: 54px;
+    padding: calc(env(safe-area-inset-top, 0px) + 0.55rem) 1rem 0.55rem !important;
+    background: rgba(18, 28, 22, 0.92) !important;
+    border-bottom-color: rgba(234, 228, 217, 0.07) !important;
+  }
+
+  .res-mh-icon-btn {
+    width: 40px !important;
+    height: 40px !important;
+    background: rgba(234, 228, 217, 0.075) !important;
+    border: 1px solid rgba(234, 228, 217, 0.06) !important;
+  }
+
+  .res-hero {
+    min-height: 540px !important;
+  }
+
+  .res-hero-container {
+    padding-top: clamp(5.4rem, 14svh, 7.5rem) !important;
+  }
+
+  .res-hero-title {
+    font-size: clamp(2.45rem, 10vw, 3.45rem) !important;
+  }
+
+  .res-hero-body {
+    max-width: 286px !important;
+    margin-bottom: 1.45rem !important;
+    color: rgba(255, 255, 255, 0.52) !important;
+  }
+
+  .res-hero-cta {
+    min-height: 46px !important;
+    padding: 0.78rem 1.55rem !important;
+    border-color: rgba(183, 147, 88, 0.34) !important;
+  }
+
+  .res-env-section {
+    padding: 3.1rem 0 1.55rem !important;
+    background:
+      linear-gradient(180deg, #0C1A10 0%, #121C16 34%, #121C16 100%) !important;
+  }
+
+  .res-env-section-inner,
+  .res-container {
+    padding-left: clamp(1rem, 4.8vw, 1.35rem) !important;
+    padding-right: clamp(1rem, 4.8vw, 1.35rem) !important;
+  }
+
+  .res-env-section-header {
+    margin-bottom: 1.35rem !important;
+  }
+
+  .res-section-label {
+    gap: 0.55rem !important;
+    margin-bottom: 0.85rem !important;
+  }
+
+  .res-section-label-dot {
+    width: 5px !important;
+    height: 5px !important;
+  }
+
+  .res-section-label-text {
+    font-size: 0.49rem !important;
+    letter-spacing: 0.18em !important;
+    color: rgba(183, 147, 88, 0.86) !important;
+  }
+
+  .res-section-label-line {
+    opacity: 0.72 !important;
+  }
+
+  .res-env-section-title {
+    font-size: clamp(1.85rem, 7.4vw, 2.3rem) !important;
+    line-height: 1.04 !important;
+    max-width: 12ch;
+  }
+
+  .res-env-section::after {
+    width: calc(100% - 2.5rem) !important;
+    margin-top: 1.3rem !important;
+    background: linear-gradient(90deg, transparent, rgba(183, 147, 88, 0.18), transparent) !important;
+  }
+
+  .res-env-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.65rem !important;
+    margin-bottom: 0.95rem !important;
+  }
+
+  .res-env-card {
+    aspect-ratio: 1.02 / 1 !important;
+    border-radius: 15px !important;
+    background: #0E1812 !important;
+    border-color: rgba(234, 228, 217, 0.085) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035) !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .res-env-card-overlay {
+    background:
+      linear-gradient(180deg, rgba(3, 7, 5, 0.04) 0%, rgba(3, 7, 5, 0.18) 42%, rgba(3, 7, 5, 0.82) 100%) !important;
+  }
+
+  .res-env-card-content {
+    padding: 0.78rem 0.82rem 0.84rem !important;
+  }
+
+  .res-env-card-name {
+    font-size: clamp(0.88rem, 3.8vw, 1rem) !important;
+    line-height: 1.08 !important;
+    color: rgba(255, 255, 255, 0.96) !important;
+  }
+
+  .res-env-card-cap {
+    font-size: 0.44rem !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0.15em !important;
+    margin-top: 0.34rem !important;
+    color: rgba(255, 255, 255, 0.58) !important;
+  }
+
+  .res-env-card-check {
+    width: 22px !important;
+    height: 22px !important;
+    top: 0.55rem !important;
+    right: 0.55rem !important;
+    background: rgba(183, 147, 88, 0.96) !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35) !important;
+  }
+
+  .res-env-card.is-selected {
+    border-color: rgba(183, 147, 88, 0.72) !important;
+    box-shadow:
+      0 0 0 1px rgba(183, 147, 88, 0.28),
+      0 12px 30px -14px rgba(0, 0, 0, 0.95),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .res-env-card.is-selected .res-env-card-overlay {
+    background:
+      linear-gradient(180deg, rgba(3, 7, 5, 0.02) 0%, rgba(12, 18, 12, 0.2) 40%, rgba(23, 35, 25, 0.88) 100%) !important;
+  }
+
+  .res-env-card.is-selected .res-env-card-name {
+    color: #F1DFC0 !important;
+  }
+
+  .res-env-card.is-selected .res-env-card-cap {
+    color: rgba(241, 223, 192, 0.68) !important;
+  }
+
+  .res-env-selected-bar {
+    padding: 0.82rem 0.9rem !important;
+    gap: 0.72rem !important;
+    background: rgba(183, 147, 88, 0.065) !important;
+    border-color: rgba(183, 147, 88, 0.18) !important;
+    border-radius: 14px !important;
+  }
+
+  .res-env-selected-info {
+    gap: 0.12rem !important;
+  }
+
+  .res-env-selected-label {
+    font-size: 0.42rem !important;
+    letter-spacing: 0.17em !important;
+    color: rgba(183, 147, 88, 0.68) !important;
+  }
+
+  .res-env-selected-name {
+    font-size: 0.98rem !important;
+    color: var(--res-mobile-text) !important;
+  }
+
+  .res-env-selected-change,
+  .res-form-env-alter-btn {
+    min-height: 36px !important;
+    color: rgba(238, 232, 221, 0.68) !important;
+    border-color: rgba(238, 232, 221, 0.12) !important;
+  }
+
+  #res-booking-section {
+    padding-top: 1.7rem !important;
+    padding-bottom: calc(1.45rem + env(safe-area-inset-bottom, 0px)) !important;
+    border-top-left-radius: 26px !important;
+    border-top-right-radius: 26px !important;
+    background:
+      linear-gradient(180deg, #152219 0%, #121C16 38%, #121C16 100%) !important;
+    border-top-color: rgba(183, 147, 88, 0.14) !important;
+    box-shadow: inset 0 16px 28px -20px rgba(0, 0, 0, 0.9) !important;
+  }
+
+  #res-booking-section .res-section-header {
+    text-align: left !important;
+    margin-bottom: 1.25rem !important;
+    padding: 0 !important;
+  }
+
+  #res-booking-section .res-section-title {
+    font-size: clamp(1.7rem, 7.6vw, 2.08rem) !important;
+    line-height: 1.04 !important;
+    margin-bottom: 0.55rem !important;
+  }
+
+  #res-booking-section .res-section-subtitle {
+    max-width: 30ch;
+    font-size: 0.86rem !important;
+    line-height: 1.5 !important;
+    color: rgba(238, 232, 221, 0.58) !important;
+  }
+
+  .res-form-env-summary {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    margin-bottom: 0.9rem !important;
+    padding: 0.78rem !important;
+    background: var(--res-mobile-panel-strong) !important;
+    border: 1px solid rgba(183, 147, 88, 0.16) !important;
+    border-left: 0 !important;
+    border-radius: 16px !important;
+  }
+
+  .res-form-env-summary:not(.is-visible) {
+    display: none !important;
+  }
+
+  .res-form-env-thumb-wrap {
+    width: 46px !important;
+    height: 46px !important;
+    border-radius: 11px !important;
+  }
+
+  .res-form-env-kicker {
+    font-size: 0.39rem !important;
+    letter-spacing: 0.17em !important;
+    color: rgba(183, 147, 88, 0.76) !important;
+  }
+
+  .res-form-env-name {
+    font-size: 1.02rem !important;
+    color: var(--res-mobile-text) !important;
+  }
+
+  .res-form-env-cap {
+    font-size: 0.68rem !important;
+    color: rgba(238, 232, 221, 0.56) !important;
+  }
+
+  .res-form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.78rem;
+  }
+
+  .res-step {
+    margin: 0 !important;
+    padding: 1.05rem !important;
+    background: var(--res-mobile-panel) !important;
+    border: 1px solid var(--res-mobile-border-soft) !important;
+    border-radius: 18px !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035) !important;
+  }
+
+  .res-step:focus-within {
+    border-color: rgba(183, 147, 88, 0.24) !important;
+    background: rgba(234, 228, 217, 0.06) !important;
+  }
+
+  .res-step-label {
+    font-size: 0.66rem !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0.1em !important;
+    text-transform: none !important;
+    color: var(--res-mobile-text) !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .res-step-sublabel {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.76rem !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    line-height: 1.45 !important;
+    margin-bottom: 0.95rem !important;
+    color: var(--res-mobile-muted) !important;
+  }
+
+  .res-pills {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 0.5rem !important;
+  }
+
+  .res-pill,
+  .res-time-pill,
+  .rcd-trigger,
+  .res-form-input {
+    min-height: 48px !important;
+    border-radius: 13px !important;
+    background: rgba(238, 232, 221, 0.08) !important;
+    border: 1px solid rgba(238, 232, 221, 0.13) !important;
+    color: rgba(238, 232, 221, 0.9) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035) !important;
+  }
+
+  .res-pill {
+    height: 48px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .res-pill.active,
+  .res-time-pill.active,
+  .rcd-day.is-selected {
+    background: linear-gradient(180deg, #2B4A3B 0%, #21392D 100%) !important;
+    border-color: rgba(183, 147, 88, 0.55) !important;
+    color: #fff !important;
+    box-shadow:
+      0 0 0 1px rgba(183, 147, 88, 0.16),
+      0 8px 20px -12px rgba(0, 0, 0, 0.85),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .rcd-trigger {
+    padding: 0 0.95rem !important;
+    gap: 0.7rem !important;
+  }
+
+  .rcd-trigger[disabled],
+  .res-form-input:disabled {
+    opacity: 1 !important;
+    color: rgba(238, 232, 221, 0.32) !important;
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.018) 0 5px, transparent 5px 10px),
+      rgba(238, 232, 221, 0.035) !important;
+    border-color: rgba(238, 232, 221, 0.075) !important;
+    box-shadow: none !important;
+  }
+
+  .rcd-trigger[disabled] .rcd-icon,
+  .rcd-trigger[disabled] .rcd-value {
+    color: rgba(238, 232, 221, 0.34) !important;
+  }
+
+  .rcd-value {
+    font-size: 0.86rem !important;
+  }
+
+  .rcd-calendar {
+    width: calc(100vw - 2rem) !important;
+    max-width: 398px !important;
+    padding: 1rem !important;
+    border-radius: 18px !important;
+    border-color: rgba(238, 232, 221, 0.12) !important;
+    background: #101913 !important;
+  }
+
+  .rcd-nav {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .rcd-day {
+    min-height: 38px;
+    border-radius: 10px !important;
+  }
+
+  .res-times-area {
+    min-height: 48px !important;
+  }
+
+  .res-times-empty {
+    margin: 0 !important;
+    padding: 0.82rem 0.9rem !important;
+    border: 1px dashed rgba(238, 232, 221, 0.11);
+    border-radius: 14px;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.78rem !important;
+    font-style: normal !important;
+    line-height: 1.45 !important;
+    color: rgba(238, 232, 221, 0.54) !important;
+  }
+
+  .res-time-group {
+    margin-bottom: 0.85rem !important;
+  }
+
+  .res-time-group:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  .res-time-group-label {
+    margin-bottom: 0.62rem !important;
+    font-size: 0.48rem !important;
+    letter-spacing: 0.16em !important;
+    color: rgba(183, 147, 88, 0.74) !important;
+  }
+
+  .res-time-group-pills {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0.5rem !important;
+  }
+
+  .res-time-pill {
+    min-width: 0 !important;
+    width: 100% !important;
+    height: 48px !important;
+    padding: 0 0.35rem !important;
+    font-size: 0.84rem !important;
+  }
+
+  .res-form-grid {
+    gap: 0.82rem !important;
+  }
+
+  .res-form-label {
+    margin-bottom: 0.38rem !important;
+    font-size: 0.52rem !important;
+    letter-spacing: 0.12em !important;
+    color: rgba(238, 232, 221, 0.72) !important;
+  }
+
+  .res-form-input {
+    height: 50px !important;
+    padding: 0.9rem 0.95rem !important;
+    font-size: 0.9rem !important;
+  }
+
+  .res-form-input::placeholder {
+    color: rgba(238, 232, 221, 0.38) !important;
+  }
+
+  .res-form-input:focus,
+  .rcd-trigger:focus:not([disabled]) {
+    border-color: rgba(183, 147, 88, 0.48) !important;
+    background: rgba(238, 232, 221, 0.105) !important;
+    box-shadow: 0 0 0 3px rgba(183, 147, 88, 0.1) !important;
+  }
+
+  textarea.res-form-input {
+    min-height: 92px !important;
+    line-height: 1.5 !important;
+  }
+
+  .res-step--info {
+    padding-bottom: 1.05rem !important;
+  }
+
+  .res-cta-area {
+    margin-top: 0.05rem !important;
+    padding-top: 0 !important;
+  }
+
+  .res-cta-center {
+    padding: 0 !important;
+  }
+
+  .res-submit-btn {
+    height: 54px !important;
+    min-height: 54px !important;
+    border-radius: 16px !important;
+    background: linear-gradient(180deg, #2D4E3D 0%, #1B3326 100%) !important;
+    border-color: rgba(183, 147, 88, 0.28) !important;
+    color: #FFF9EE !important;
+    box-shadow:
+      0 12px 30px -18px rgba(0, 0, 0, 0.95),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+    font-size: 0.93rem !important;
+    font-weight: 600 !important;
+  }
+
+  .res-submit-btn.loading {
+    opacity: 0.78 !important;
+  }
+
+  .res-submit-btn.error {
+    background: linear-gradient(180deg, #7D3636 0%, #5D2828 100%) !important;
+    border-color: rgba(255, 210, 210, 0.2) !important;
+  }
+
+  .res-submit-btn.success {
+    background: linear-gradient(180deg, #386C4D 0%, #254A35 100%) !important;
+    border-color: rgba(198, 231, 204, 0.2) !important;
+  }
+
+  #res-validation-msg,
+  #res-date-msg {
+    padding: 0.78rem 0.9rem !important;
+    border-radius: 12px !important;
+    background: rgba(183, 147, 88, 0.09) !important;
+    border: 1px solid rgba(183, 147, 88, 0.16) !important;
+    color: #E0C58F !important;
+    text-align: left !important;
+    line-height: 1.45 !important;
+  }
+
+  .res-feedback {
+    margin-top: 1rem !important;
+    padding: 1.25rem !important;
+    border-radius: 18px !important;
+  }
+
+  .res-feedback-title {
+    font-size: 1.35rem !important;
+  }
+
+  .res-feedback-text {
+    font-size: 0.82rem !important;
+    line-height: 1.55 !important;
+    color: rgba(238, 232, 221, 0.62) !important;
+  }
+
+  .res-feedback-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.65rem !important;
+  }
+
+  .res-feedback-btn {
+    width: 100% !important;
+    min-height: 46px !important;
+    border-radius: 13px !important;
+  }
+
+  #mobile-bottom-nav {
+    background: var(--res-mobile-bg) !important;
+    border-top-color: rgba(234, 228, 217, 0.075) !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .res-env-card-name {
+    font-size: 0.84rem !important;
+  }
+
+  .res-env-card-content {
+    padding: 0.7rem !important;
+  }
+
+  .res-time-group-pills {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
