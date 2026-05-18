@@ -1080,17 +1080,8 @@
     min-height: 44px !important;
     width: auto !important;
     letter-spacing: 0.025em !important;
-  }
-
-  /* ── 6. Benefits line — hidden on mobile (Option A)
-     CTA alone carries the conversion weight on small screens.
-     Pseudo-element badge tricks create clutter; clean removal wins.
-  ────────────────────────────────────────────────────────────────── */
-  #experience-video p[style*="margin-top:1.5rem"],
-  #experience-video p[style*="margin-top:1.5rem"]::before,
-  #experience-video p[style*="margin-top:1.5rem"]::after {
-    display: none !important;
-    content: none !important;
+    box-shadow: 0 4px 18px rgba(183,147,88,0.15), 0 1px 5px rgba(0,0,0,0.18) !important;
+    border-color: rgba(183,147,88,0.20) !important;
   }
 
 
@@ -3383,5 +3374,95 @@
      Reservation → Location: smooth cinematic bottom.             */
   #experience-video {
     border-top: 1px solid rgba(255, 255, 255, 0.04) !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE PREMIUM POLISH — Final Refinement Layer
+   Strictly scoped to max-width: 767px. Desktop completely untouched.
+   Supersedes all prior mobile blocks in this file where overlapping.
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+
+  /* ── 1. HORIZONTAL OVERFLOW GUARD ──────────────────────────────
+     Belt-and-suspenders: ensures no section causes a horizontal
+     scroll bar regardless of carousel negative-margin arithmetic.   */
+  html {
+    overflow-x: hidden;
+  }
+
+  /* ── 2. FEATURED CARDS — remove max-width cap ──────────────────
+     At 430px, max-width: 280px clips cards to ~65% instead of 70%.
+     Removing the cap restores a consistent 70% flex-basis across
+     all mobile widths, giving uniform peek of the next card.        */
+  .feat-card {
+    max-width: none !important;
+  }
+
+  /* ── 3. HERO PANEL SECONDARY LINK — minimum readable size ──────
+     0.52rem = ~8.3px — below WCAG minimum for body text on mobile.
+     Raise to 0.60rem so it's clearly legible without dominating.   */
+  .hmh-cta-secondary {
+    font-size: 0.60rem !important;
+  }
+
+  /* ── 4. RESERVATION CTA — more delicate gold border ────────────
+     User requested opacity 0.22 (vs 0.30 in earlier cascade layer).
+     Thinner border reads as premium; the emerald background provides
+     enough visual definition without needing a heavy outline.       */
+  #s5-cta {
+    border: 1px solid rgba(183, 147, 88, 0.22) !important;
+  }
+
+  /* ── 5. SECTION LABEL CONSISTENCY — gold across all sections ───
+     Featured section label is warm gold (rgba(183,147,88,0.72)).
+     Experience-video label was dim white — visually inconsistent.
+     Align to the same gold language for a unified eyebrow system.  */
+  #experience-video span[style*="letter-spacing:0.3em"] {
+    color: rgba(183, 147, 88, 0.68) !important;
+    font-size: 0.52rem !important;
+    letter-spacing: 0.26em !important;
+  }
+
+  /* ── 6. RESERVATION LABEL DOT — kill infinite animation ────────
+     The live-glow keyframe on the section label dot burns CPU.
+     The featured section dot is already killed; match here.         */
+  #experience-video span[style*="animation:live-glow"] {
+    animation: none !important;
+    opacity: 0.85;
+  }
+
+  /* ── 7. LOCATION SECTION — slightly more top breathing room ────
+     App panel content starts immediately at section top padding.
+     Bumping from 1.75rem to 2.25rem min gives a cleaner entry
+     after the reservation teaser's dark bottom fade.               */
+  #location {
+    padding-top: clamp(2.25rem, 6.5vw, 2.75rem) !important;
+  }
+
+  /* ── 8. LOCATION PANEL LABEL — tighter spacing to title ────────
+     1.1rem gap between label row and title is slightly spacious
+     given the compact app-panel feel of this section.              */
+  #loc-app-panel .loc-dr.d1 {
+    margin-bottom: 0.75rem !important;
+  }
+
+  /* ── 9. HERO PANEL KICKER — warmer gold ────────────────────────
+     Slightly increase gold opacity for contrast on the dark glass.
+     Current 0.72 reads dim on some OLED screens. 0.80 keeps it
+     premium without making it shout.                               */
+  .hmh-panel-kicker {
+    color: rgba(183, 147, 90, 0.80) !important;
+  }
+
+  /* ── 10. FEATURED FADE — ensure smooth dark-to-dark exit ───────
+     Re-enable the fade-out gradient so #featured flows cleanly
+     into #experience-video without any hard edge.                  */
+  #featured .s3-fade-out {
+    display: block !important;
+    height: 56px !important;
+    background: linear-gradient(to bottom, transparent, #121C16) !important;
+    position: relative !important;
+    z-index: 10 !important;
   }
 }

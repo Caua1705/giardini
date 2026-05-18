@@ -3507,6 +3507,7 @@ footer {
     justify-content: center;
     color: #EAE4D9;
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
     transition: background 0.2s;
   }
 
@@ -3730,20 +3731,20 @@ footer {
     flex-direction: column;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    transform: translateX(100%);
+    transform: translateX(110%);
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
-    visibility: hidden;
+    pointer-events: none;
   }
 
   #mmh-search-overlay.open {
     transform: translateX(0);
-    visibility: visible;
+    pointer-events: auto;
   }
 
   #mmh-search-overlay.closing {
-    transform: translateX(100%);
-    visibility: visible;
+    transform: translateX(110%);
+    pointer-events: none;
   }
 
   /* ── Top bar ──────────────────────── */
@@ -4217,5 +4218,98 @@ footer {
   /* ── Safe area bottom spacing ────────────────────── */
   .minfo-bottom-space {
     height: calc(env(safe-area-inset-bottom, 0px) + 2rem);
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE PREMIUM POLISH — Cardápio Final Refinement
+   Strictly scoped to max-width: 767px. Desktop completely untouched.
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+
+  /* 1. Horizontal overflow guard */
+  html { overflow-x: hidden; }
+
+  /* 2. Topbar: respect notch safe-area on iPhone X+ */
+  .mmh-topbar {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.75rem) !important;
+  }
+
+  /* 3. Carousel: slightly taller for more visual presence */
+  .mmh-image-wrap {
+    height: clamp(205px, 57vw, 235px) !important;
+  }
+
+  /* 4. Carousel outer + info row: consistent 1rem horizontal alignment */
+  .mmh-carousel-outer {
+    margin: 0 1rem !important;
+  }
+
+  .mmh-info-row {
+    margin-top: 14px !important;
+    padding: 0 1rem !important;
+  }
+
+  /* 5. Logo circle: deeper shadow for premium layering effect */
+  .mmh-logo-circle {
+    box-shadow:
+      0 6px 24px rgba(0, 0, 0, 0.65),
+      0 2px 8px rgba(0, 0, 0, 0.40) !important;
+  }
+
+  /* 6. Restaurant name: more breathing room and slightly larger */
+  .mmh-name {
+    font-size: 1.22rem !important;
+    margin: 10px 1rem 0 !important;
+  }
+
+  /* 7. Content wrapper: tighter gap so tabs feel connected to profile */
+  .menu-main-wrapper {
+    padding-top: 1.25rem !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* 8. Product cards: cleaner flush-edge alignment (no side micro-padding) */
+  .menu-item {
+    padding: 18px 0 !important;
+  }
+
+  /* 9. Thumbnails: softer, more modern corners */
+  .item-thumb {
+    border-radius: 10px !important;
+  }
+
+  /* 10. Description text: slightly higher contrast for legibility */
+  .item-desc {
+    color: rgba(234, 228, 217, 0.55) !important;
+  }
+
+  /* 11. Section count: more legible (was 0.52rem = 8.3px, too small) */
+  .section-count {
+    font-size: 0.58rem !important;
+    color: rgba(183, 147, 88, 0.52) !important;
+  }
+
+  /* 12. Category dividers: tighter rhythm between major sections */
+  .category-divider {
+    margin-bottom: 1.5rem !important;
+    padding: 0.25rem 0 0 !important;
+  }
+
+  /* 13. PDF section: more compact vertical on mobile */
+  #pdf-section {
+    padding: 3.5rem 1.5rem 5.5rem !important;
+  }
+}
+
+/* Scoped to mid-range mobile (431–767px) to preserve 430px compact overrides */
+@media (min-width: 431px) and (max-width: 767px) {
+
+  /* Category tabs: refined font size — more elegant than the 0.82rem default */
+  .cat-btn {
+    font-size: 0.75rem !important;
+    padding: 0.9rem 1.25rem !important;
   }
 }

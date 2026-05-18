@@ -26,6 +26,7 @@ if (isMobileDevice) {
 
 const loaderBar = document.getElementById('loader-bar');
 const loader = document.getElementById('loader');
+let initPageDone = false;
 
 // Mobile: no frame sequence — #menu-mobile-hero (static carousel) is the mobile hero.
 if (isMobileDevice) {
@@ -394,7 +395,6 @@ setTimeout(() => {
 
 } // end desktop-only block
 
-let initPageDone = false;
 function initPage() {
   if (initPageDone) return;
   initPageDone = true;
@@ -956,13 +956,15 @@ document.addEventListener('menuRendered', initBaseSelector);
       /* Trigger layout */
       incoming.getBoundingClientRect();
 
-      /* Slide both */
+      /* Slide both — use rAF to guarantee transition fires on Safari iOS */
       var ease = 'cubic-bezier(0.4, 0, 0.2, 1)';
       var dur = '0.45s';
-      incoming.style.transition = 'transform ' + dur + ' ' + ease;
-      outgoing.style.transition = 'transform ' + dur + ' ' + ease;
-      incoming.style.transform = 'translateX(0%)';
-      outgoing.style.transform = dir > 0 ? 'translateX(-100%)' : 'translateX(100%)';
+      requestAnimationFrame(function () {
+        incoming.style.transition = 'transform ' + dur + ' ' + ease;
+        outgoing.style.transition = 'transform ' + dur + ' ' + ease;
+        incoming.style.transform = 'translateX(0%)';
+        outgoing.style.transform = dir > 0 ? 'translateX(-100%)' : 'translateX(100%)';
+      });
 
       /* After transition */
       setTimeout(function () {
@@ -971,7 +973,7 @@ document.addEventListener('menuRendered', initBaseSelector);
         outgoing.style.transform = dir > 0 ? 'translateX(100%)' : 'translateX(-100%)';
         current = next;
         animating = false;
-      }, 460);
+      }, 500);
 
       /* Update dots */
       updateDots(next);
