@@ -4443,7 +4443,7 @@ footer {
   .mmh-pill--info {
     position: absolute !important;
     top: 1px !important;
-    right: max(calc((100% - 350px) + 1rem), 1rem) !important;
+    right: 1rem !important;
     color: rgba(183, 147, 90, 0.98) !important;
     background: rgba(183, 147, 90, 0.095) !important;
     border-color: rgba(183, 147, 90, 0.28) !important;
