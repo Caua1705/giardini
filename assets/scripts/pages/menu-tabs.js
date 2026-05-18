@@ -537,7 +537,7 @@ function initPage() {
 
     const navH = nav ? nav.getBoundingClientRect().height : 72;
     const catH = catNav ? catNav.offsetHeight : 50;
-    const offset = (isMobileDevice ? 0 : navH) + catH + 24;
+    const offset = (isMobileDevice ? 0 : navH) + catH + (isMobileDevice ? 10 : 24);
     const groupTop = group.getBoundingClientRect().top + window.scrollY;
     const target = groupTop - offset;
 

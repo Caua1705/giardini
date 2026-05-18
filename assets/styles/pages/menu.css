@@ -4313,3 +4313,494 @@ footer {
     padding: 0.9rem 1.25rem !important;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   MOBILE CARDAPIO FINAL UX PASS
+   Visual refinements only, scoped to the mobile menu page.
+   --------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  :root {
+    --mobile-menu-bg: #121C16;
+    --mobile-menu-panel: rgba(234, 228, 217, 0.035);
+    --mobile-menu-line: rgba(234, 228, 217, 0.075);
+    --mobile-menu-text: rgba(244, 240, 232, 0.94);
+    --mobile-menu-muted: rgba(234, 228, 217, 0.58);
+    --mobile-menu-gold: #B7935A;
+  }
+
+  html,
+  body {
+    max-width: 100%;
+    overscroll-behavior-x: none;
+  }
+
+  body {
+    padding-bottom: calc(86px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  #menu-mobile-hero {
+    padding-bottom: 0.15rem;
+    box-shadow: inset 0 -1px 0 rgba(234, 228, 217, 0.04);
+  }
+
+  .mmh-topbar {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    padding-bottom: 0.65rem !important;
+  }
+
+  .mmh-topbar-title {
+    font-size: 1.08rem !important;
+    color: rgba(234, 228, 217, 0.92) !important;
+  }
+
+  .mmh-icon-btn {
+    width: 40px !important;
+    height: 40px !important;
+    border: 1px solid rgba(234, 228, 217, 0.10) !important;
+    background: rgba(234, 228, 217, 0.055) !important;
+    color: rgba(234, 228, 217, 0.86) !important;
+  }
+
+  .mmh-icon-btn:active,
+  .mmh-pill:active,
+  .cat-btn:active,
+  .menu-item:active {
+    transform: scale(0.985) !important;
+  }
+
+  .mmh-carousel-outer {
+    margin: 0 0.875rem !important;
+  }
+
+  .mmh-image-wrap {
+    height: clamp(196px, 54vw, 228px) !important;
+    border-radius: 12px !important;
+    background: rgba(234, 228, 217, 0.06) !important;
+    box-shadow:
+      0 14px 34px rgba(0, 0, 0, 0.24),
+      inset 0 0 0 1px rgba(234, 228, 217, 0.08) !important;
+  }
+
+  .mmh-image {
+    object-position: center 44% !important;
+  }
+
+  .mmh-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.04) 0%,
+      rgba(0, 0, 0, 0.00) 46%,
+      rgba(0, 0, 0, 0.50) 100%
+    ) !important;
+  }
+
+  .mmh-dots {
+    top: 10px !important;
+  }
+
+  .mmh-dot {
+    width: 24px !important;
+    height: 2px !important;
+    background: rgba(255, 255, 255, 0.30) !important;
+  }
+
+  .mmh-logo-wrap {
+    bottom: -39px !important;
+  }
+
+  .mmh-logo-circle {
+    width: 86px !important;
+    height: 86px !important;
+    border-width: 3px !important;
+    border-color: var(--mobile-menu-bg) !important;
+    background: #1A2A20 !important;
+  }
+
+  .mmh-info-row {
+    margin-top: 13px !important;
+    padding: 0 1rem !important;
+    min-height: 36px;
+    width: 100dvw !important;
+    max-width: 430px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    position: relative !important;
+  }
+
+  .mmh-pill {
+    min-height: 34px !important;
+    padding: 0.42rem 0.78rem !important;
+    gap: 0.35rem !important;
+    border-radius: 999px !important;
+    background: rgba(234, 228, 217, 0.06) !important;
+    border: 1px solid rgba(234, 228, 217, 0.12) !important;
+    color: rgba(234, 228, 217, 0.88) !important;
+    font-size: 0.7rem !important;
+    line-height: 1 !important;
+  }
+
+  .mmh-pill--info {
+    position: absolute !important;
+    top: 1px !important;
+    right: max(calc((100% - 350px) + 1rem), 1rem) !important;
+    color: rgba(183, 147, 90, 0.98) !important;
+    background: rgba(183, 147, 90, 0.095) !important;
+    border-color: rgba(183, 147, 90, 0.28) !important;
+    margin-left: auto !important;
+  }
+
+  .mmh-name {
+    margin-top: 0.35rem !important;
+    margin-bottom: 0.15rem !important;
+    font-size: 1.24rem !important;
+    color: rgba(244, 240, 232, 0.96) !important;
+  }
+
+  .menu-main-wrapper {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0.95rem 0 0 !important;
+  }
+
+  #cat-nav {
+    margin: 0 0 1.15rem !important;
+    border-top: 1px solid var(--mobile-menu-line) !important;
+    border-bottom: 1px solid var(--mobile-menu-line) !important;
+    background: rgba(18, 28, 22, 0.98) !important;
+  }
+
+  #cat-nav.is-pinned {
+    box-shadow:
+      0 1px 0 rgba(183, 147, 90, 0.16),
+      0 10px 24px rgba(0, 0, 0, 0.22) !important;
+  }
+
+  .cat-nav-inner {
+    height: 50px !important;
+    padding: 0 12px !important;
+    gap: 4px !important;
+    align-items: stretch !important;
+    mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%) !important;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%) !important;
+  }
+
+  .cat-btn {
+    min-height: 50px !important;
+    padding: 0 1rem !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.08em !important;
+    font-weight: 600 !important;
+    color: rgba(234, 228, 217, 0.46) !important;
+    border-bottom-width: 2px !important;
+  }
+
+  .cat-btn.active {
+    color: rgba(244, 240, 232, 0.98) !important;
+    border-bottom-color: rgba(183, 147, 90, 0.95) !important;
+  }
+
+  #menu-body {
+    padding: 0 16px calc(1.2rem + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .category-group {
+    margin-bottom: 2.1rem !important;
+    scroll-margin-top: 72px !important;
+  }
+
+  .category-divider {
+    margin: 1.4rem 0 1.15rem !important;
+    padding: 0 !important;
+    opacity: 0.55 !important;
+  }
+
+  .menu-section {
+    padding: 0 0 1.45rem !important;
+  }
+
+  .menu-section + .menu-section {
+    padding-top: 0.3rem !important;
+  }
+
+  .section-header {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: end !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1.05rem !important;
+    padding: 1.15rem 0 0.8rem !important;
+    border-bottom: 1px solid var(--mobile-menu-line) !important;
+  }
+
+  .section-header > div {
+    min-width: 0 !important;
+  }
+
+  .section-kicker {
+    margin-bottom: 0.34rem !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.18em !important;
+    color: rgba(183, 147, 90, 0.92) !important;
+  }
+
+  .section-title {
+    font-size: clamp(1.78rem, 7.3vw, 2.34rem) !important;
+    line-height: 1.04 !important;
+    letter-spacing: 0 !important;
+    color: var(--mobile-menu-text) !important;
+  }
+
+  .section-title em {
+    color: rgba(194, 180, 154, 0.9) !important;
+    -webkit-text-fill-color: rgba(194, 180, 154, 0.9) !important;
+  }
+
+  .section-count {
+    align-self: end !important;
+    margin: 0 0 0.12rem !important;
+    padding: 0.24rem 0.48rem !important;
+    border: 1px solid rgba(183, 147, 90, 0.18) !important;
+    border-radius: 999px !important;
+    color: rgba(183, 147, 90, 0.70) !important;
+    font-size: 0.55rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+    white-space: nowrap !important;
+    line-height: 1 !important;
+  }
+
+  .menu-grid {
+    gap: 0 !important;
+  }
+
+  .menu-item {
+    grid-template-columns: 116px minmax(0, 1fr) !important;
+    column-gap: 14px !important;
+    min-height: 116px !important;
+    padding: 14px 0 !important;
+    border-bottom: 1px solid rgba(234, 228, 217, 0.07) !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .menu-item:not(:has(.item-thumb)),
+  .menu-item.thumb-hidden {
+    min-height: 0 !important;
+    padding: 15px 0 !important;
+  }
+
+  .item-thumb {
+    width: 116px !important;
+    height: 116px !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 12px !important;
+    background:
+      linear-gradient(135deg, rgba(234, 228, 217, 0.09), rgba(183, 147, 90, 0.08)),
+      #182A1E !important;
+    box-shadow: inset 0 0 0 1px rgba(234, 228, 217, 0.08) !important;
+    font-size: 0 !important;
+    color: transparent !important;
+  }
+
+  .item-thumb img {
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: inherit !important;
+    background: transparent !important;
+  }
+
+  .item-thumb--no-image {
+    position: relative !important;
+  }
+
+  .item-thumb--no-image::before {
+    content: "G" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    display: grid !important;
+    place-items: center !important;
+    color: rgba(183, 147, 90, 0.48) !important;
+    font-family: "Instrument Serif", serif !important;
+    font-size: 2.2rem !important;
+  }
+
+  .item-name {
+    font-size: 1.04rem !important;
+    line-height: 1.18 !important;
+    margin-bottom: 0.32rem !important;
+    color: var(--mobile-menu-text) !important;
+  }
+
+  .menu-item > div:last-child {
+    margin-bottom: 0.28rem !important;
+  }
+
+  .item-price {
+    color: var(--mobile-menu-gold) !important;
+    font-size: 0.98rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0 !important;
+    line-height: 1.1 !important;
+  }
+
+  .variant-list {
+    gap: 0.22rem !important;
+  }
+
+  .variant-item,
+  .variant-item--compact {
+    gap: 0.22rem !important;
+    line-height: 1.14 !important;
+  }
+
+  .variant-label {
+    max-width: 100% !important;
+    color: rgba(234, 228, 217, 0.62) !important;
+    font-size: 0.74rem !important;
+    white-space: normal !important;
+  }
+
+  .variant-price {
+    color: var(--mobile-menu-gold) !important;
+    font-size: 0.9rem !important;
+    font-weight: 800 !important;
+  }
+
+  .item-desc {
+    margin-top: 0.1rem !important;
+    color: var(--mobile-menu-muted) !important;
+    font-size: 0.77rem !important;
+    line-height: 1.42 !important;
+    -webkit-line-clamp: 2 !important;
+  }
+
+  .item-badges {
+    margin-top: 0.38rem !important;
+  }
+
+  .badge {
+    color: rgba(234, 228, 217, 0.58) !important;
+    font-size: 0.48rem !important;
+    letter-spacing: 0.12em !important;
+  }
+
+  .base-selector-wrapper {
+    margin: -0.15rem 0 1rem !important;
+    padding: 0.9rem !important;
+    border-radius: 12px !important;
+    background: var(--mobile-menu-panel) !important;
+    border: 1px solid var(--mobile-menu-line) !important;
+  }
+
+  .base-selector-label {
+    margin-bottom: 0.6rem !important;
+  }
+
+  .base-selector {
+    border-radius: 999px !important;
+    padding: 3px !important;
+  }
+
+  .base-toggle-btn {
+    min-height: 36px !important;
+    border-radius: 999px !important;
+  }
+
+  .skeleton-card {
+    padding: 14px 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .skeleton-card.has-thumb {
+    grid-template-columns: 116px 1fr auto !important;
+  }
+
+  .skeleton-thumb {
+    width: 116px !important;
+    height: 116px !important;
+    border-radius: 12px !important;
+  }
+
+  #pdf-section {
+    margin-top: 0 !important;
+    padding: 2.2rem 1.25rem calc(6.2rem + env(safe-area-inset-bottom, 0px)) !important;
+    background:
+      linear-gradient(180deg, rgba(18, 28, 22, 0) 0%, rgba(234, 228, 217, 0.025) 100%),
+      var(--mobile-menu-bg) !important;
+    border-top: 1px solid rgba(234, 228, 217, 0.06) !important;
+  }
+
+  .pdf-label {
+    margin-bottom: 0.8rem !important;
+    font-size: 0.48rem !important;
+    letter-spacing: 0.28em !important;
+  }
+
+  .pdf-heading {
+    margin-bottom: 0.75rem !important;
+    font-size: clamp(1.42rem, 6.2vw, 1.8rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  .pdf-sub {
+    max-width: 270px !important;
+    margin-bottom: 1.25rem !important;
+    color: rgba(234, 228, 217, 0.52) !important;
+    font-size: 0.76rem !important;
+    line-height: 1.48 !important;
+  }
+
+  .pdf-btn {
+    min-height: 42px !important;
+    padding: 0.82rem 1.4rem !important;
+    border-radius: 999px !important;
+  }
+
+  #mobile-bottom-nav {
+    width: 100dvw !important;
+    max-width: 100dvw !important;
+  }
+}
+
+@media (max-width: 389px) {
+  .menu-item {
+    grid-template-columns: 104px minmax(0, 1fr) !important;
+    column-gap: 12px !important;
+    min-height: 104px !important;
+  }
+
+  .item-thumb,
+  .skeleton-thumb {
+    width: 104px !important;
+    height: 104px !important;
+  }
+
+  .skeleton-card.has-thumb {
+    grid-template-columns: 104px 1fr auto !important;
+  }
+
+  .item-name {
+    font-size: 1rem !important;
+  }
+
+  .cat-btn {
+    padding: 0 0.9rem !important;
+  }
+}
+
+@media (min-width: 410px) and (max-width: 767px) {
+  .menu-item {
+    grid-template-columns: 124px minmax(0, 1fr) !important;
+    min-height: 124px !important;
+  }
+
+  .item-thumb,
+  .skeleton-thumb {
+    width: 124px !important;
+    height: 124px !important;
+  }
+
+  .skeleton-card.has-thumb {
+    grid-template-columns: 124px 1fr auto !important;
+  }
+}
