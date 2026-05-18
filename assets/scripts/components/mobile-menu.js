@@ -21,18 +21,34 @@
   const closeTriggers = document.querySelectorAll('[data-close-mobile-menu], #mobile-close, .mmenu-close');
 
   // ── Active page link detection ─────────────────────────────────
-  const filename = location.pathname.split('/').pop() || 'index.html';
-  menu.querySelectorAll('.mmenu-item').forEach(function (link) {
-    var href     = link.getAttribute('href') || '';
-    var linkFile = href.replace(/^\.\//, '').split('#')[0] || 'index.html';
-    var isHome   = filename === 'index.html' || filename === '';
-    if (
-      linkFile === filename ||
-      (isHome && (href === '#' || linkFile === 'index.html'))
-    ) {
-      link.classList.add('is-active');
-    }
-  });
+  function updateActiveLink() {
+    const filename = location.pathname.split('/').pop() || 'index.html';
+    const currentHash = location.hash || '';
+    const isHome = filename === 'index.html' || filename === '';
+
+    menu.querySelectorAll('.mmenu-item').forEach(function (link) {
+      var href = link.getAttribute('href') || '';
+      var hrefParts = href.replace(/^\.\//, '').split('#');
+      var linkFile = hrefParts[0] || 'index.html';
+      var linkHash = href.indexOf('#') !== -1 ? '#' + (hrefParts[1] || '') : '';
+      var isHomeLink = href === '#' || (linkFile === 'index.html' && !linkHash);
+      var isLocationLink = linkHash === '#location' || linkHash === '#visit';
+      var isCurrent = false;
+
+      if (isHome) {
+        isCurrent = currentHash
+          ? isLocationLink && linkHash === currentHash
+          : isHomeLink;
+      } else {
+        isCurrent = linkFile === filename && !linkHash;
+      }
+
+      link.classList.toggle('is-active', isCurrent);
+    });
+  }
+
+  updateActiveLink();
+  window.addEventListener('hashchange', updateActiveLink);
 
   // ── Scroll lock helpers ────────────────────────────────────────
   var _scrollY = 0;
