@@ -3556,6 +3556,254 @@ body{
   }
 }
 
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE CONFIRMATION CARD — #mob-success-card
+   Shown on mobile after a successful reservation submission.
+   Replaces the form area so there is exactly ONE success state.
+   Desktop: card is hidden (display:none in the element itself,
+   JS never shows it on desktop).
+   ══════════════════════════════════════════════════════════════════ */
+
+#mob-success-card {
+  display: none; /* JS sets display:block on mobile success */
+}
+
+@media (max-width: 768px) {
+
+  /* ── Container ── */
+  #mob-success-card {
+    width: 100%;
+    padding: 0 0 5rem; /* bottom padding clears mobile bottom nav */
+  }
+
+  .mob-sc-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1.5rem 2.5rem;
+    border-radius: 22px;
+    background: linear-gradient(160deg, rgba(26,40,30,0.97) 0%, rgba(18,28,22,0.99) 100%);
+    border: 1px solid rgba(183,147,88,0.18);
+    box-shadow:
+      0 24px 60px -16px rgba(0,0,0,0.6),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle gold glow at top of card */
+  .mob-sc-inner::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 80px;
+    background: radial-gradient(ellipse, rgba(183,147,88,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ── Check icon ── */
+  .mob-sc-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(43,74,59,0.35);
+    border: 1.5px solid rgba(183,147,88,0.28);
+    color: rgba(183,147,88,0.9);
+    margin-bottom: 1.25rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 16px -4px rgba(0,0,0,0.35), 0 0 0 4px rgba(183,147,88,0.06);
+  }
+
+  /* ── Kicker ── */
+  .mob-sc-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .mob-sc-kicker-line {
+    display: block;
+    width: 22px;
+    height: 1px;
+    background: rgba(183,147,88,0.35);
+  }
+
+  .mob-sc-kicker-text {
+    font-size: 0.52rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(183,147,88,0.65);
+  }
+
+  /* ── Title ── */
+  .mob-sc-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.85rem;
+    font-weight: 400;
+    line-height: 1.15;
+    color: rgba(255,255,255,0.92);
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── Subtitle ── */
+  .mob-sc-subtitle {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: rgba(238,232,221,0.6);
+    line-height: 1.5;
+    margin: 0 0 0.75rem;
+  }
+
+  /* ── WhatsApp notice ── */
+  .mob-sc-whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: rgba(183,147,88,0.7);
+    line-height: 1.45;
+    margin: 0 0 1.75rem;
+  }
+
+  .mob-sc-whatsapp svg {
+    flex-shrink: 0;
+    opacity: 0.8;
+  }
+
+  /* ── Summary card ── */
+  .mob-sc-summary {
+    width: 100%;
+    border: 1px solid rgba(183,147,88,0.14);
+    border-radius: 14px;
+    background: rgba(255,255,255,0.035);
+    overflow: hidden;
+    margin-bottom: 1.75rem;
+  }
+
+  .mob-sc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.82rem 1.1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .mob-sc-row:last-child {
+    border-bottom: none;
+  }
+
+  .mob-sc-row-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(183,147,88,0.55);
+  }
+
+  .mob-sc-row-value {
+    font-family: 'Instrument Serif', serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    font-weight: 400;
+    color: rgba(238,232,221,0.85);
+    text-align: right;
+  }
+
+  /* ── Actions ── */
+  .mob-sc-actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  /* Primary button */
+  .mob-sc-btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    width: 100%;
+    height: 52px;
+    padding: 0 1.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #FFF9EE;
+    background: linear-gradient(180deg, #2D4E3D 0%, #1B3326 100%);
+    border: 1px solid rgba(183,147,88,0.28);
+    border-radius: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.25s ease, transform 0.18s ease;
+    box-shadow: 0 8px 22px -8px rgba(0,0,0,0.45);
+  }
+
+  .mob-sc-btn-primary:active {
+    transform: scale(0.985);
+    background: linear-gradient(180deg, #223c29 0%, #16291b 100%);
+  }
+
+  /* Secondary button */
+  .mob-sc-btn-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    width: 100%;
+    height: 48px;
+    padding: 0 1.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(238,232,221,0.55);
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .mob-sc-btn-secondary:active {
+    color: rgba(238,232,221,0.8);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  /* Text link */
+  .mob-sc-link {
+    display: block;
+    text-align: center;
+    padding: 0.5rem 0;
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.22);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.25s ease;
+  }
+
+  .mob-sc-link:active {
+    color: rgba(183,147,88,0.65);
+  }
+}
+
 @media (max-width: 380px) {
   .res-env-card-name {
     font-size: 0.84rem !important;

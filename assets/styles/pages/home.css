@@ -2932,16 +2932,18 @@
     margin-bottom: 0.75rem !important;
   }
 
-  /* Dot+text span: tight internal gap */
+  /* Dot+text span: block flex avoids the inline-flex baseline drift that
+     causes the dot to float above the label text on mobile WebKit. */
   #featured div[style*="gap:1rem"][style*="margin-bottom:2rem"] > span:first-child {
-    display: inline-flex !important;
+    display: flex !important;
     align-items: center !important;
     gap: 0.5rem !important;
     line-height: 1 !important;
   }
 
-  /* Dot: fixed size, no animation jitter */
+  /* Dot: fixed 5×5, no animation, margin reset */
   #featured .s3-label-dot {
+    display: block !important;
     width: 5px !important;
     height: 5px !important;
     border-radius: 50% !important;
@@ -2950,8 +2952,7 @@
     opacity: 1 !important;
     background: rgba(183, 147, 88, 0.85) !important;
     box-shadow: 0 0 6px rgba(183, 147, 88, 0.35) !important;
-    align-self: center !important;
-    margin-top: 0 !important;
+    margin: 0 !important;
   }
 
   /* Section label text: tight, clear */

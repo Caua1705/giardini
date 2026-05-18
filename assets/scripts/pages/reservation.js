@@ -236,6 +236,9 @@ const DOM = {
   successPanel:       document.getElementById('res-success'),
   errorPanel:         document.getElementById('res-error'),
 
+  // Mobile-only confirmation card (desktop never uses this)
+  mobSuccessCard:     document.getElementById('mob-success-card'),
+
   // Datepicker
   rcdTrigger:         document.getElementById('rcd-trigger'),
   rcdValue:           document.getElementById('rcd-value'),
@@ -255,9 +258,11 @@ let dpViewYear       = new Date().getFullYear();
 let dpViewMonth      = new Date().getMonth();
 /**
  * lastFetchedGuests — the party_size used in the last successful
- * availability fetch. If the user selects a LOWER or EQUAL count,
- * the existing slots are still valid and we skip the re-fetch.
- * Only re-fetch when the new count is STRICTLY HIGHER.
+ * availability fetch. Desktop only: skip re-fetch when the new count is
+ * lower or equal (slots fetched for a higher count are still valid).
+ * On mobile this optimization is intentionally disabled — every party
+ * size change always triggers a fresh fetch so the UI never shows stale
+ * availability (e.g. going 23 → 24 → 23 must restore slots correctly).
  */
 let lastFetchedGuests = null;
 
@@ -339,7 +344,7 @@ function resetEnvCardSelection() {
   DOM.envCards.querySelectorAll('.res-env-card').forEach(c => c.classList.remove('is-selected'));
   hideFormSummary();
   DOM.envSelectedBar.classList.remove('is-visible');
-  safeScrollTo('#reservation-flow', { offset: -60, duration: 1.2 });
+  safeScrollTo('#reservation-flow', { offset: -60, duration: 0.55 });
 }
 
 
@@ -593,7 +598,7 @@ async function loadEnvironments() {
 }
 
 function getEnvironmentById(id) {
-  return environmentsData.find(e => e.id === id) || null;
+  return environmentsData.find(e => String(e.id) === String(id)) || null;
 }
 
 function renderGuestPills(max) {
@@ -609,14 +614,16 @@ function renderGuestPills(max) {
       selectedGuests = p.dataset.guests;
       tryEnableDateInput();
 
-      // Only re-fetch availability when the new party size is STRICTLY
-      // HIGHER than the count used for the last fetch. If it's lower or
-      // equal, every slot that fit before still fits now — no new request.
-      const needsRefetch = lastFetchedGuests === null || newCount > lastFetchedGuests;
+      // Mobile: always refetch on every party size change — the "skip when
+      // lower" optimization causes stale slots (e.g. 23→24→23 loses slots).
+      // Desktop: skip refetch when the new count is lower or equal; slots
+      // fetched for a higher count are still valid and avoid a redundant call.
+      const needsRefetch = isMobileDevice
+        ? true
+        : (lastFetchedGuests === null || newCount > lastFetchedGuests);
       if (needsRefetch) {
         tryLoadAvailability();
       } else {
-        // Slots remain valid; just keep them and update summary/form state
         tryEnablePersonalFields();
         updateSummaryPills();
       }
@@ -800,6 +807,62 @@ function createPeriodGroup(label, times) {
 }
 
 
+/* ── Mobile confirmation card ──────────────────────────────────── */
+
+function toCardDate(iso) {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+function showMobileConfirmation() {
+  const card = DOM.mobSuccessCard;
+  if (!card) return;
+
+  // Build summary rows from current state
+  const summaryEl = document.getElementById('mob-sc-summary');
+  if (summaryEl) {
+    summaryEl.innerHTML = '';
+    const env  = getEnvironmentById(DOM.environment.value);
+    const rows = [
+      ['Ambiente', env?.name || null],
+      ['Data',     toCardDate(DOM.dateInput.value)],
+      ['Horário',  selectedTime],
+      ['Pessoas',  selectedGuests ? `${selectedGuests} pessoa${Number(selectedGuests) > 1 ? 's' : ''}` : null],
+    ];
+    rows.forEach(([label, value]) => {
+      if (!value) return;
+      const row = document.createElement('div');
+      row.className = 'mob-sc-row';
+      row.innerHTML = `<span class="mob-sc-row-label">${label}</span><span class="mob-sc-row-value">${value}</span>`;
+      summaryEl.appendChild(row);
+    });
+  }
+
+  // Elements to collapse so the page becomes a clean confirmation screen
+  const envSection    = document.getElementById('reservation-flow');
+  const bookingHeader = document.querySelector('#res-booking-section .res-section-header');
+  const formWrap      = document.querySelector('.res-form-wrap');
+
+  [envSection, bookingHeader, formWrap].forEach(el => {
+    if (!el) return;
+    gsap.to(el, {
+      opacity: 0, duration: 0.22, ease: 'power2.in',
+      onComplete: () => { el.style.display = 'none'; },
+    });
+  });
+
+  // Reveal the confirmation card after the sections fade out
+  card.style.display = 'block';
+  gsap.fromTo(card,
+    { opacity: 0, y: 28 },
+    { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out', delay: 0.3 }
+  );
+
+  // Scroll card into view with room above bottom nav
+  setTimeout(() => safeScrollTo(card, { offset: -80, duration: 1.0 }), 480);
+}
+
 /* ── Submit ────────────────────────────────────────────────────── */
 
 async function handleSubmit() {
@@ -845,10 +908,17 @@ async function handleSubmit() {
     });
 
     btn.classList.remove('loading');
-    btn.classList.add('success'); textEl.textContent = 'Reserva Confirmada ✓';
-    DOM.successPanel.style.display = 'block';
-    requestAnimationFrame(() => DOM.successPanel.classList.add('visible'));
-    setTimeout(() => safeScrollTo(DOM.successPanel, {offset:-100,duration:1.2}), 300);
+
+    if (isMobileDevice) {
+      // Mobile: replace form with one premium confirmation card — no duplicated states
+      showMobileConfirmation();
+    } else {
+      // Desktop: keep existing button success state + success panel below
+      btn.classList.add('success'); textEl.textContent = 'Reserva Confirmada ✓';
+      DOM.successPanel.style.display = 'block';
+      requestAnimationFrame(() => DOM.successPanel.classList.add('visible'));
+      setTimeout(() => safeScrollTo(DOM.successPanel, {offset:-100,duration:1.2}), 300);
+    }
   } catch (e) {
     btn.classList.remove('loading');
     // Tenta extrair mensagem de validação do backend (HTTPException do FastAPI)
@@ -927,8 +997,24 @@ function resetForm() {
 }
 
 function handleNewReservation() {
-  DOM.successPanel.classList.remove('visible'); DOM.successPanel.style.display = 'none';
-  DOM.errorPanel.classList.remove('visible');   DOM.errorPanel.style.display = 'none';
+  if (isMobileDevice) {
+    // Hide confirmation card
+    if (DOM.mobSuccessCard) DOM.mobSuccessCard.style.display = 'none';
+
+    // Restore all sections hidden by showMobileConfirmation
+    const envSection    = document.getElementById('reservation-flow');
+    const bookingHeader = document.querySelector('#res-booking-section .res-section-header');
+    const formWrap      = document.querySelector('.res-form-wrap');
+
+    [envSection, bookingHeader, formWrap].forEach(el => {
+      if (!el) return;
+      el.style.display = '';
+      gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power3.out' });
+    });
+  } else {
+    DOM.successPanel.classList.remove('visible'); DOM.successPanel.style.display = 'none';
+    DOM.errorPanel.classList.remove('visible');   DOM.errorPanel.style.display = 'none';
+  }
   resetForm();
   setTimeout(() => { safeScrollTo('#reservation-flow', {offset:-60,duration:1.4}); }, 150);
 }
@@ -957,6 +1043,10 @@ function bindEvents() {
   const nb = document.getElementById('res-new-reservation');
   if (nb) nb.addEventListener('click', handleNewReservation);
 
+  // Mobile confirmation card — "Fazer outra reserva"
+  const mobNewBtn = document.getElementById('mob-sc-new-btn');
+  if (mobNewBtn) mobNewBtn.addEventListener('click', handleNewReservation);
+
   // "Alterar" button below cards
   if (DOM.envChangeBtn) DOM.envChangeBtn.addEventListener('click', resetEnvCardSelection);
 
@@ -964,7 +1054,7 @@ function bindEvents() {
   const alterBtn = document.getElementById('res-form-env-alter-btn');
   if (alterBtn) {
     alterBtn.addEventListener('click', () => {
-      safeScrollTo('#reservation-flow', { offset: -80, duration: 1.4 });
+      safeScrollTo('#reservation-flow', { offset: -80, duration: 0.55 });
     });
   }
 }
