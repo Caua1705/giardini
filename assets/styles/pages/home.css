@@ -3586,7 +3586,7 @@
     width: 100% !important;
     max-width: none !important;
     margin: 0 !important;
-    padding: 1rem var(--home-mobile-x) 0.98rem !important;
+    padding: 1rem var(--home-mobile-x) 0.92rem !important;
     border-radius: 18px 18px 0 0 !important;
     background:
       linear-gradient(180deg, rgba(20, 34, 25, 0.92), rgba(13, 24, 17, 0.92)),
@@ -3598,24 +3598,26 @@
   }
 
   .hmh-panel-kicker {
-    margin-bottom: 0.52rem !important;
+    margin-bottom: 0.62rem !important;
     font-size: 0.54rem !important;
-    letter-spacing: 0.20em !important;
+    letter-spacing: 0.18em !important;
     line-height: 1.1 !important;
     color: rgba(183, 147, 90, 0.82) !important;
   }
 
   .hmh-panel-main-row {
     align-items: center !important;
-    gap: 0 !important;
-    display: block !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 0.8rem !important;
   }
 
   .hmh-panel-title {
-    font-size: clamp(1.35rem, 6.1vw, 1.78rem) !important;
-    line-height: 0.98 !important;
+    font-size: clamp(1.36rem, 5.75vw, 1.62rem) !important;
+    line-height: 1 !important;
     color: var(--home-mobile-text) !important;
     min-width: 0 !important;
+    margin: 0 !important;
   }
 
   .hmh-panel-title em {
@@ -3624,12 +3626,14 @@
 
   .hmh-cta-primary {
     display: inline-flex !important;
-    margin-top: 0.72rem !important;
-    min-height: 38px !important;
-    padding: 0 0.92rem !important;
+    justify-self: end !important;
+    align-self: center !important;
+    margin-top: 0 !important;
+    min-height: 36px !important;
+    padding: 0 0.82rem !important;
     border-radius: 999px !important;
-    font-size: 0.52rem !important;
-    letter-spacing: 0.06em !important;
+    font-size: 0.50rem !important;
+    letter-spacing: 0.055em !important;
     background: linear-gradient(145deg, #2d5a42, #1e3d2d) !important;
     border: 1px solid rgba(183, 147, 90, 0.24) !important;
     color: rgba(250, 247, 242, 0.96) !important;
@@ -3641,12 +3645,12 @@
 
   .hmh-cta-secondary {
     display: inline-flex !important;
-    margin-top: 0.55rem !important;
-    min-height: 34px !important;
+    margin-top: 0.72rem !important;
+    min-height: 28px !important;
     align-items: center !important;
     color: rgba(183, 147, 90, 0.78) !important;
-    font-size: 0.62rem !important;
-    letter-spacing: 0.05em !important;
+    font-size: 0.60rem !important;
+    letter-spacing: 0.045em !important;
   }
 
   #hero-explore-scroll {
@@ -3849,16 +3853,18 @@
 
 @media (max-width: 389px) {
   .hmh-panel-main-row {
-    gap: 0.6rem !important;
+    gap: 0.64rem !important;
   }
 
   .hmh-panel-title {
-    font-size: 1.42rem !important;
+    font-size: 1.34rem !important;
   }
 
   .hmh-cta-primary {
-    padding: 0 0.78rem !important;
-    font-size: 0.54rem !important;
+    min-height: 35px !important;
+    padding: 0 0.72rem !important;
+    font-size: 0.48rem !important;
+    letter-spacing: 0.045em !important;
   }
 
   .feat-card {
