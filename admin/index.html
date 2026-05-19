@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Giardini Café</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Admin styles -->
+  <link rel="stylesheet" href="../assets/styles/pages/admin.css" />
+</head>
+<body>
+
+<!-- ══ LOGIN SCREEN ══════════════════════════════════════════════════ -->
+<div id="adm-view-login" class="adm-login-wrap">
+  <div class="adm-login-card">
+
+    <div class="adm-login-brand">
+      <div class="adm-login-logo">
+        <img src="../assets/images/giardini-logo.webp" alt="Giardini Café" />
+      </div>
+      <div class="adm-login-name">Painel interno</div>
+      <div class="adm-login-sub">Acesse a gestão de reservas e financeiro.</div>
+    </div>
+
+    <div class="adm-login-divider" role="separator"></div>
+
+    <form class="adm-login-form" id="adm-login-form" novalidate>
+      <div class="adm-field">
+        <label class="adm-field-label" for="adm-email">E-mail</label>
+        <input class="adm-field-input" id="adm-email" type="email"
+               placeholder="seu@email.com" autocomplete="email" required />
+      </div>
+      <div class="adm-field">
+        <label class="adm-field-label" for="adm-password">Senha</label>
+        <input class="adm-field-input" id="adm-password" type="password"
+               placeholder="••••••••" autocomplete="current-password" required />
+      </div>
+      <div class="adm-login-error" id="adm-login-error" role="alert" aria-live="polite"></div>
+      <button class="adm-login-btn" id="adm-login-btn" type="submit">Entrar</button>
+    </form>
+
+    <div class="adm-login-hint">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      Acesso restrito à equipe autorizada.
+    </div>
+
+  </div>
+</div><!-- /adm-view-login -->
+
+
+<!-- ══ APP SHELL — Dashboard ══════════════════════════════════════════ -->
+<div id="adm-view-app" style="display:none">
+
+  <div class="adm-overlay" id="adm-overlay"></div>
+
+  <div class="adm-shell">
+
+    <!-- ── SIDEBAR ──────────────────────────────────────────────── -->
+    <aside class="adm-sidebar" id="adm-sidebar">
+
+      <div class="adm-sidebar-brand">
+        <div class="adm-sidebar-logo">
+          <img src="../assets/images/giardini-logo.webp" alt="Giardini Café" />
+        </div>
+        <span class="adm-sidebar-name">Giardini</span>
+        <span class="adm-sidebar-pill">Admin</span>
+      </div>
+
+      <nav class="adm-nav" aria-label="Navegação admin">
+        <span class="adm-nav-section-label">Módulos</span>
+
+        <a class="adm-nav-item is-active" href="index.html" aria-current="page">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+          </svg>
+          Dashboard
+        </a>
+
+        <a class="adm-nav-item" href="reservations.html">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          Reservas
+        </a>
+
+        <a class="adm-nav-item" href="finance.html">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+          Financeiro
+        </a>
+      </nav>
+
+      <div class="adm-sidebar-footer">
+        <div class="adm-sidebar-user">
+          <div class="adm-sidebar-avatar">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.48)" stroke-width="1.7">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <span class="adm-sidebar-user-name" id="adm-user-name">Admin</span>
+        </div>
+        <button class="adm-logout-btn" id="adm-logout" type="button">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Sair
+        </button>
+      </div>
+
+    </aside><!-- /adm-sidebar -->
+
+    <!-- ── BODY ─────────────────────────────────────────────────── -->
+    <div class="adm-body">
+
+      <header class="adm-header">
+        <div class="adm-header-left">
+          <button class="adm-hamburger" id="adm-hamburger" type="button" aria-label="Abrir menu">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <span class="adm-header-page">Giardini Café · Painel interno</span>
+        </div>
+        <div class="adm-header-right">
+          <span class="adm-header-time" id="adm-clock"></span>
+        </div>
+      </header>
+
+      <main class="adm-main">
+
+        <!-- Page header -->
+        <div class="adm-page-header adm-page-header--row">
+          <div>
+            <div class="adm-page-kicker">
+              <span class="adm-page-kicker-dot"></span>
+              Painel interno
+            </div>
+            <h1 class="adm-page-title">Visão geral</h1>
+            <p class="adm-page-subtitle">Resumo operacional do Giardini Café.</p>
+          </div>
+          <div class="adm-page-date" id="adm-page-date" aria-hidden="true">
+            <div class="adm-page-date-weekday" id="adm-date-weekday"></div>
+            <div class="adm-page-date-full" id="adm-date-full"></div>
+          </div>
+        </div>
+
+        <!-- ── Metric cards ────────────────────────────────────── -->
+        <div class="adm-metrics adm-metrics--5">
+
+          <div class="adm-metric-card">
+            <div class="adm-metric-label">Reservas hoje</div>
+            <div class="adm-metric-value" id="dash-m-res-hoje">—</div>
+            <div class="adm-metric-sub">Agendadas para hoje</div>
+            <div class="adm-metric-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(183,147,88,0.5)" stroke-width="1">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="adm-metric-card">
+            <div class="adm-metric-label">Convidados previstos</div>
+            <div class="adm-metric-value" id="dash-m-guests">—</div>
+            <div class="adm-metric-sub">Pessoas esperadas hoje</div>
+            <div class="adm-metric-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(43,74,59,0.65)" stroke-width="1">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="adm-metric-card">
+            <div class="adm-metric-label">Receita do dia</div>
+            <div class="adm-metric-value adm-metric-value--md adm-metric-value--green" id="dash-m-receita">—</div>
+            <div class="adm-metric-sub">Entradas registradas</div>
+            <div class="adm-metric-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(109,191,138,0.4)" stroke-width="1">
+                <line x1="12" y1="1" x2="12" y2="23"/>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="adm-metric-card">
+            <div class="adm-metric-label">Despesas do dia</div>
+            <div class="adm-metric-value adm-metric-value--md adm-metric-value--red" id="dash-m-despesas">—</div>
+            <div class="adm-metric-sub">Saídas registradas</div>
+            <div class="adm-metric-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(220,80,80,0.35)" stroke-width="1">
+                <polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/>
+                <polyline points="16 17 22 17 22 11"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="adm-metric-card">
+            <div class="adm-metric-label">Resultado líquido</div>
+            <div class="adm-metric-value adm-metric-value--md adm-metric-value--gold" id="dash-m-resultado">—</div>
+            <div class="adm-metric-sub">Receita menos despesas</div>
+            <div class="adm-metric-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(183,147,88,0.4)" stroke-width="1">
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+                <polyline points="16 7 22 7 22 13"/>
+              </svg>
+            </div>
+          </div>
+
+        </div><!-- /metrics -->
+
+        <div class="adm-section-divider"></div>
+
+        <!-- ── Module cards ────────────────────────────────────── -->
+        <div class="adm-section-header">
+          <div>
+            <div class="adm-section-title">Módulos</div>
+            <div class="adm-section-sub">Acesse as seções do painel administrativo.</div>
+          </div>
+        </div>
+
+        <div class="adm-modules">
+
+          <a class="adm-module-card" href="reservations.html">
+            <div class="adm-module-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+            </div>
+            <div class="adm-module-title">Reservas</div>
+            <div class="adm-module-desc">Acompanhe reservas, horários, ambientes e detalhes dos convidados.</div>
+            <div class="adm-module-cta">
+              Abrir reservas
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </div>
+          </a>
+
+          <a class="adm-module-card" href="finance.html">
+            <div class="adm-module-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"/>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+            </div>
+            <div class="adm-module-title">Financeiro</div>
+            <div class="adm-module-desc">Visualize receitas, despesas e relatórios gerados pelas automações n8n.</div>
+            <div class="adm-module-cta">
+              Abrir financeiro
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </div>
+          </a>
+
+        </div><!-- /modules -->
+
+        <div class="adm-section-divider"></div>
+
+        <!-- ── Atalhos rápidos ────────────────────────────────── -->
+        <div class="adm-section-header">
+          <div>
+            <div class="adm-section-title">Atalhos rápidos</div>
+            <div class="adm-section-sub">Acesso direto às seções mais usadas.</div>
+          </div>
+        </div>
+
+        <div class="adm-shortcuts">
+
+          <a class="adm-shortcut" href="reservations.html">
+            <div class="adm-shortcut-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+            </div>
+            <span class="adm-shortcut-label">Reservas</span>
+            <svg class="adm-shortcut-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+
+          <a class="adm-shortcut" href="finance.html">
+            <div class="adm-shortcut-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"/>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+            </div>
+            <span class="adm-shortcut-label">Financeiro</span>
+            <svg class="adm-shortcut-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+
+          <a class="adm-shortcut" href="/menu.html" target="_blank" rel="noopener">
+            <div class="adm-shortcut-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+            </div>
+            <span class="adm-shortcut-label">Menu público</span>
+            <svg class="adm-shortcut-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+
+          <a class="adm-shortcut" href="/index.html" target="_blank" rel="noopener">
+            <div class="adm-shortcut-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </div>
+            <span class="adm-shortcut-label">Site público</span>
+            <svg class="adm-shortcut-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+
+        </div><!-- /shortcuts -->
+
+      </main>
+    </div><!-- /adm-body -->
+  </div><!-- /adm-shell -->
+</div><!-- /adm-view-app -->
+
+<script type="module" src="../assets/scripts/pages/admin-dashboard.js"></script>
+</body>
+</html>

@@ -1,58 +1,50 @@
 /**
  * admin-reservations.js
  * ─────────────────────────────────────────────────────────────────
- * Giardini Café — Admin Reservations Dashboard
+ * Giardini Café — Admin Reservations (/admin/reservations.html)
  *
- * TODO: protect this admin page with authentication/token before
- *       real production use. Currently no auth is enforced.
+ * TODO: backend must protect GET /admin/reservations with real auth
+ *       before production use.
  * ─────────────────────────────────────────────────────────────────
  */
 
+import { requireAuth, initShell } from './admin-auth.js';
 import { apiFetch, API_ROUTES } from '../config/api.js';
+
+/* ── Auth guard ──────────────────────────────────────────────────── */
+requireAuth();
 
 /* ── State ───────────────────────────────────────────────────────── */
 let allReservations = [];
-let filtered = [];
+let filtered        = [];
+let activeChip      = 'all';
 
 /* ── DOM refs ────────────────────────────────────────────────────── */
 const DOM = {
-  tbody:         document.getElementById('adm-tbody'),
-  cards:         document.getElementById('adm-cards'),
-  tableWrap:     document.getElementById('adm-table-wrap'),
-  count:         document.getElementById('adm-count'),
-  searchInput:   document.getElementById('adm-search'),
-  dateFilter:    document.getElementById('adm-filter-date'),
-  statusFilter:  document.getElementById('adm-filter-status'),
-  envFilter:     document.getElementById('adm-filter-env'),
-  clearBtn:      document.getElementById('adm-clear'),
-  refreshBtn:    document.getElementById('adm-refresh'),
-  metricTotal:   document.getElementById('adm-m-total'),
-  metricToday:   document.getElementById('adm-m-today'),
-  metricGuests:  document.getElementById('adm-m-guests'),
-  metricUpcoming:document.getElementById('adm-m-upcoming'),
-  headerClock:   document.getElementById('adm-clock'),
+  tbody:          document.getElementById('adm-tbody'),
+  cards:          document.getElementById('adm-cards'),
+  tableWrap:      document.getElementById('adm-table-wrap'),
+  count:          document.getElementById('adm-count'),
+  searchInput:    document.getElementById('adm-search'),
+  dateFilter:     document.getElementById('adm-filter-date'),
+  statusFilter:   document.getElementById('adm-filter-status'),
+  envFilter:      document.getElementById('adm-filter-env'),
+  clearBtn:       document.getElementById('adm-clear'),
+  refreshBtn:     document.getElementById('adm-refresh'),
+  metricTotal:    document.getElementById('adm-m-total'),
+  metricToday:    document.getElementById('adm-m-today'),
+  metricGuests:   document.getElementById('adm-m-guests'),
+  metricUpcoming: document.getElementById('adm-m-upcoming'),
 };
 
 /* ── Bootstrap ───────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-  startClock();
+  initShell();
   fetchReservations();
   bindEvents();
 });
 
-/* ── Clock ───────────────────────────────────────────────────────── */
-function startClock() {
-  function tick() {
-    if (!DOM.headerClock) return;
-    const now = new Date();
-    DOM.headerClock.textContent = now.toLocaleString('pt-BR', {
-      weekday: 'short', day: '2-digit', month: 'short',
-      hour: '2-digit', minute: '2-digit'
-    });
-  }
-  tick();
-  setInterval(tick, 30_000);
-}
+/* ── Clock is handled by initShell ──────────────────────────────── */
 
 /* ── Fetch ───────────────────────────────────────────────────────── */
 async function fetchReservations() {
@@ -63,7 +55,7 @@ async function fetchReservations() {
     populateEnvFilter();
     applyFilters();
   } catch (err) {
-    console.error('[admin] fetchReservations error:', err);
+    console.error('[admin-reservations] fetch error:', err);
     renderErrorState();
   } finally {
     setLoading(false);
@@ -73,23 +65,23 @@ async function fetchReservations() {
 /* ── Normalize ───────────────────────────────────────────────────── */
 function normalizeReservation(raw) {
   return {
-    id:       raw.id ?? '',
-    name:     raw.client?.name  ?? raw.name  ?? '—',
-    email:    raw.client?.email ?? raw.email ?? '—',
-    phone:    raw.client?.phone ?? raw.phone ?? '—',
-    env:      raw.environment?.name ?? raw.environment_name ?? '—',
-    date:     raw.reservation_date ?? '',
-    time:     raw.reservation_time ?? '',
-    guests:   raw.party_size ?? 0,
-    notes:    raw.notes ?? '',
-    status:   raw.status ?? 'unknown',
-    created:  raw.created_at ?? '',
+    id:      raw.id ?? '',
+    name:    raw.client?.name  ?? raw.name  ?? '—',
+    email:   raw.client?.email ?? raw.email ?? '—',
+    phone:   raw.client?.phone ?? raw.phone ?? '—',
+    env:     raw.environment?.name ?? raw.environment_name ?? '—',
+    date:    raw.reservation_date ?? '',
+    time:    raw.reservation_time ?? '',
+    guests:  raw.party_size ?? 0,
+    notes:   raw.notes ?? '',
+    status:  raw.status ?? 'unknown',
+    created: raw.created_at ?? '',
   };
 }
 
 /* ── Metrics ─────────────────────────────────────────────────────── */
-function renderMetrics(list) {
-  const today = todayISO();
+function renderMetrics() {
+  const today    = todayISO();
   const total    = allReservations.length;
   const todayCnt = allReservations.filter(r => r.date === today).length;
   const guests   = allReservations.reduce((s, r) => s + (r.guests || 0), 0);
@@ -103,23 +95,21 @@ function renderMetrics(list) {
 
 function animateNumber(el, target) {
   if (!el) return;
-  const start = parseInt(el.textContent) || 0;
   const dur = 600;
-  const t0 = performance.now();
-  function step(now) {
+  const t0  = performance.now();
+  const step = now => {
     const p = Math.min((now - t0) / dur, 1);
-    el.textContent = Math.round(start + (target - start) * easeOut(p));
+    el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
     if (p < 1) requestAnimationFrame(step);
     else el.textContent = target;
-  }
+  };
   requestAnimationFrame(step);
 }
-function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
 
-/* ── Env filter options ──────────────────────────────────────────── */
+/* ── Env filter ──────────────────────────────────────────────────── */
 function populateEnvFilter() {
   if (!DOM.envFilter) return;
-  const envs = [...new Set(allReservations.map(r => r.env).filter(Boolean))].sort();
+  const envs = [...new Set(allReservations.map(r => r.env).filter(e => e && e !== '—'))].sort();
   DOM.envFilter.innerHTML = '<option value="">Todos os ambientes</option>';
   envs.forEach(env => {
     const o = document.createElement('option');
@@ -128,17 +118,23 @@ function populateEnvFilter() {
   });
 }
 
-/* ── Filter ──────────────────────────────────────────────────────── */
+/* ── Filters ─────────────────────────────────────────────────────── */
 function applyFilters() {
   const q      = (DOM.searchInput?.value  ?? '').toLowerCase().trim();
   const date   =  DOM.dateFilter?.value   ?? '';
   const status =  DOM.statusFilter?.value ?? '';
   const env    =  DOM.envFilter?.value    ?? '';
+  const today  = todayISO();
+  const tmrw   = tomorrowISO();
+  const hasFilters = !!(q || (activeChip === 'all' && date) || status || env || activeChip !== 'all');
 
   filtered = allReservations.filter(r => {
-    if (date   && r.date !== date) return false;
+    if (activeChip === 'today'    && r.date !== today) return false;
+    if (activeChip === 'tomorrow' && r.date !== tmrw)  return false;
+    if (activeChip === 'upcoming' && (r.date < today || r.status === 'cancelled')) return false;
+    if (activeChip === 'all' && date && r.date !== date) return false;
     if (status && r.status !== status) return false;
-    if (env    && r.env !== env) return false;
+    if (env    && r.env    !== env)    return false;
     if (q) {
       const hay = `${r.name} ${r.email} ${r.phone}`.toLowerCase();
       if (!hay.includes(q)) return false;
@@ -146,8 +142,8 @@ function applyFilters() {
     return true;
   });
 
-  renderMetrics(filtered);
-  renderReservations(filtered);
+  renderMetrics();
+  renderReservations(filtered, hasFilters);
 
   if (DOM.count) {
     DOM.count.textContent = `${filtered.length} reserva${filtered.length !== 1 ? 's' : ''}`;
@@ -155,15 +151,15 @@ function applyFilters() {
 }
 
 /* ── Render ──────────────────────────────────────────────────────── */
-function renderReservations(list) {
-  renderTable(list);
-  renderCards(list);
+function renderReservations(list, hasFilters = false) {
+  renderTable(list, hasFilters);
+  renderCards(list, hasFilters);
 }
 
-function renderTable(list) {
+function renderTable(list, hasFilters = false) {
   if (!DOM.tbody) return;
   if (!list.length) {
-    DOM.tbody.innerHTML = `<tr><td colspan="8" style="padding:0">${emptyStateHTML()}</td></tr>`;
+    DOM.tbody.innerHTML = `<tr><td colspan="8" style="padding:0">${emptyStateHTML(hasFilters)}</td></tr>`;
     return;
   }
   DOM.tbody.innerHTML = list.map(r => `
@@ -185,23 +181,21 @@ function renderTable(list) {
           ? `<span>${esc(r.notes)}</span>`
           : `<span class="adm-cell-notes-empty">—</span>`}
       </td>
-      <td class="adm-cell-notes" style="font-size:0.70rem;color:var(--adm-text-dim);">
-        ${formatCreated(r.created)}
-      </td>
+      <td class="adm-cell-dim">${formatCreated(r.created)}</td>
     </tr>
   `).join('');
 }
 
-function renderCards(list) {
+function renderCards(list, hasFilters = false) {
   if (!DOM.cards) return;
   if (!list.length) {
-    DOM.cards.innerHTML = emptyStateHTML();
+    DOM.cards.innerHTML = emptyStateHTML(hasFilters);
     return;
   }
   DOM.cards.innerHTML = list.map(r => `
     <div class="adm-card">
       <div class="adm-card-top">
-        <div class="adm-card-datetime">
+        <div>
           <div class="adm-card-date">${formatDate(r.date)}</div>
           <div class="adm-card-time">${formatTime(r.time)}</div>
         </div>
@@ -231,16 +225,25 @@ function renderCards(list) {
 }
 
 /* ── States ──────────────────────────────────────────────────────── */
-function emptyStateHTML() {
+function emptyStateHTML(hasFilters = false) {
+  const sub = hasFilters
+    ? 'Nenhuma reserva corresponde aos filtros aplicados.'
+    : 'Ainda não há reservas cadastradas.';
+  const clearBtn = hasFilters
+    ? `<button class="adm-state-clear-btn" type="button">Limpar filtros</button>`
+    : '';
   return `
     <div class="adm-state">
       <div class="adm-state-icon adm-state-icon--empty">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
         </svg>
       </div>
       <div class="adm-state-title">Nenhuma reserva encontrada</div>
-      <div class="adm-state-sub">Tente ajustar os filtros ou aguarde novas reservas.</div>
+      <div class="adm-state-sub">${sub}</div>
+      ${clearBtn}
     </div>`;
 }
 
@@ -249,7 +252,9 @@ function renderErrorState() {
     <div class="adm-state">
       <div class="adm-state-icon adm-state-icon--error">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
         </svg>
       </div>
       <div class="adm-state-title">Não foi possível carregar as reservas</div>
@@ -259,14 +264,15 @@ function renderErrorState() {
   if (DOM.cards) DOM.cards.innerHTML = html;
 }
 
-/* ── Loading ─────────────────────────────────────────────────────── */
+/* ── Loading skeletons ───────────────────────────────────────────── */
 function setLoading(on) {
-  if (!DOM.tbody) return;
-  if (!on) return;
-  const rows = Array.from({ length: 6 }, () => `
-    <tr class="adm-skeleton-row">
+  if (DOM.refreshBtn) DOM.refreshBtn.classList.toggle('is-loading', on);
+  if (!on || !DOM.tbody) return;
+
+  DOM.tbody.innerHTML = Array.from({ length: 6 }, () => `
+    <tr>
       <td colspan="8" style="padding:0">
-        <div class="adm-skeleton-row">
+        <div style="display:flex;align-items:center;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid rgba(255,255,255,0.04)">
           <div class="adm-skel adm-skel--sm"></div>
           <div class="adm-skel adm-skel--lg"></div>
           <div class="adm-skel adm-skel--md"></div>
@@ -276,46 +282,80 @@ function setLoading(on) {
         </div>
       </td>
     </tr>`).join('');
-  DOM.tbody.innerHTML = rows;
-  if (DOM.cards) DOM.cards.innerHTML = Array.from({length:4}, () => `
-    <div class="adm-card" style="padding:1.25rem">
-      <div style="display:flex;gap:1rem;margin-bottom:1rem">
-        <div class="adm-skel adm-skel--md"></div>
-        <div class="adm-skel adm-skel--sm" style="margin-left:auto"></div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:0.6rem">
-        <div class="adm-skel adm-skel--xl"></div>
-        <div class="adm-skel adm-skel--lg"></div>
-        <div class="adm-skel adm-skel--md"></div>
-      </div>
-    </div>`).join('');
-  if (DOM.refreshBtn) DOM.refreshBtn.classList.toggle('is-loading', on);
+
+  if (DOM.cards) {
+    DOM.cards.innerHTML = Array.from({ length: 4 }, () => `
+      <div class="adm-card" style="padding:1.25rem">
+        <div style="display:flex;gap:1rem;margin-bottom:1rem">
+          <div class="adm-skel adm-skel--md"></div>
+          <div class="adm-skel adm-skel--sm" style="margin-left:auto"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.6rem">
+          <div class="adm-skel adm-skel--xl"></div>
+          <div class="adm-skel adm-skel--lg"></div>
+          <div class="adm-skel adm-skel--md"></div>
+        </div>
+      </div>`).join('');
+  }
 }
 
 /* ── Events ──────────────────────────────────────────────────────── */
 function bindEvents() {
   DOM.searchInput?.addEventListener('input',  applyFilters);
-  DOM.dateFilter?.addEventListener('change',  applyFilters);
-  DOM.statusFilter?.addEventListener('change',applyFilters);
+  DOM.statusFilter?.addEventListener('change', applyFilters);
   DOM.envFilter?.addEventListener('change',   applyFilters);
 
-  DOM.clearBtn?.addEventListener('click', () => {
-    if (DOM.searchInput)  DOM.searchInput.value  = '';
-    if (DOM.dateFilter)   DOM.dateFilter.value   = '';
-    if (DOM.statusFilter) DOM.statusFilter.value = '';
-    if (DOM.envFilter)    DOM.envFilter.value    = '';
+  DOM.dateFilter?.addEventListener('change', () => {
+    resetChip();
     applyFilters();
   });
 
+  DOM.clearBtn?.addEventListener('click', clearAllFilters);
+
   DOM.refreshBtn?.addEventListener('click', () => {
-    DOM.refreshBtn.classList.add('is-loading');
     fetchReservations().finally(() => {
-      setTimeout(() => DOM.refreshBtn?.classList.remove('is-loading'), 500);
+      setTimeout(() => DOM.refreshBtn?.classList.remove('is-loading'), 400);
+    });
+  });
+
+  /* Event delegation for dynamically rendered clear button inside empty state */
+  document.addEventListener('click', e => {
+    if (e.target.matches('.adm-state-clear-btn')) clearAllFilters();
+  });
+
+  bindChips();
+}
+
+function bindChips() {
+  document.querySelectorAll('.adm-filter-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeChip = btn.dataset.chip ?? 'all';
+      document.querySelectorAll('.adm-filter-chip').forEach(b =>
+        b.classList.toggle('is-active', b === btn)
+      );
+      if (activeChip !== 'all' && DOM.dateFilter) DOM.dateFilter.value = '';
+      applyFilters();
     });
   });
 }
 
-/* ── Helpers ─────────────────────────────────────────────────────── */
+function resetChip() {
+  activeChip = 'all';
+  document.querySelectorAll('.adm-filter-chip').forEach(b =>
+    b.classList.toggle('is-active', b.dataset.chip === 'all')
+  );
+}
+
+function clearAllFilters() {
+  if (DOM.searchInput)  DOM.searchInput.value  = '';
+  if (DOM.dateFilter)   DOM.dateFilter.value   = '';
+  if (DOM.statusFilter) DOM.statusFilter.value = '';
+  if (DOM.envFilter)    DOM.envFilter.value    = '';
+  resetChip();
+  applyFilters();
+}
+
+/* ── Formatting helpers ──────────────────────────────────────────── */
 const MONTHS = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
 
 function formatDate(dateStr) {
@@ -326,24 +366,27 @@ function formatDate(dateStr) {
 }
 
 function formatTime(timeStr) {
-  if (!timeStr) return '—';
-  return timeStr.slice(0, 5);
+  return timeStr ? timeStr.slice(0, 5) : '—';
 }
 
 function formatCreated(iso) {
   if (!iso) return '—';
   try {
-    const d = new Date(iso);
-    return d.toLocaleString('pt-BR', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+    return new Date(iso).toLocaleString('pt-BR', {
+      day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit',
+    });
   } catch { return iso; }
 }
 
 function todayISO() {
-  const t = new Date();
-  const y = t.getFullYear();
-  const m = String(t.getMonth() + 1).padStart(2,'0');
-  const d = String(t.getDate()).padStart(2,'0');
-  return `${y}-${m}-${d}`;
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function tomorrowISO() {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
 function statusBadge(status) {
