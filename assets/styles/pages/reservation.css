@@ -1,7 +1,19 @@
-﻿/* ══════════════════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════════
    RESERVATION PAGE — Giardini Café
    Premium Editorial — Final Refinement
    ══════════════════════════════════════════════════════════════════ */
+
+/* ── Mobile app header: hidden on desktop, visible only on mobile ── */
+.res-mobile-header {
+  display: none;
+}
+@media (max-width: 767px) {
+  .res-mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
 
 /* ── NAVBAR — Sync with Index.html (Transparent top, Cream Scrolled) ─ */
 
