@@ -14,7 +14,7 @@
 import { requireAuth, initShell } from './admin-auth.js';
 
 /* ── Auth guard ──────────────────────────────────────────────────── */
-requireAuth();
+const currentUser = await requireAuth();
 
 /* ── Mock data ───────────────────────────────────────────────────── */
 // Replace these with real API calls when backend is ready.
@@ -79,12 +79,14 @@ const MOCK_AUTOMATIONS = [
 ];
 
 /* ── Bootstrap ───────────────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  initShell();
-  bindRefresh();
-  bindPeriod();
-  loadFinance();
-});
+if (currentUser) {
+  document.addEventListener('DOMContentLoaded', () => {
+    initShell();
+    bindRefresh();
+    bindPeriod();
+    loadFinance();
+  });
+}
 
 /* ── Load ────────────────────────────────────────────────────────── */
 async function loadFinance() {

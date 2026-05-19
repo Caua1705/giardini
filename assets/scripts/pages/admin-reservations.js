@@ -3,16 +3,15 @@
  * ─────────────────────────────────────────────────────────────────
  * Giardini Café — Admin Reservations (/admin/reservations.html)
  *
- * TODO: backend must protect GET /admin/reservations with real auth
- *       before production use.
+ * Protected by /admin/me before rendering reservation data.
  * ─────────────────────────────────────────────────────────────────
  */
 
-import { requireAuth, initShell } from './admin-auth.js';
-import { apiFetch, API_ROUTES } from '../config/api.js';
+import { requireAuth, initShell, adminFetch } from './admin-auth.js';
+import { API_ROUTES } from '../config/api.js';
 
 /* ── Auth guard ──────────────────────────────────────────────────── */
-requireAuth();
+const currentUser = await requireAuth();
 
 /* ── State ───────────────────────────────────────────────────────── */
 let allReservations = [];
@@ -38,11 +37,13 @@ const DOM = {
 };
 
 /* ── Bootstrap ───────────────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  initShell();
-  fetchReservations();
-  bindEvents();
-});
+if (currentUser) {
+  document.addEventListener('DOMContentLoaded', () => {
+    initShell();
+    fetchReservations();
+    bindEvents();
+  });
+}
 
 /* ── Clock is handled by initShell ──────────────────────────────── */
 
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchReservations() {
   setLoading(true);
   try {
-    const data = await apiFetch(API_ROUTES.adminReservations);
+    const data = await adminFetch(API_ROUTES.adminReservations);
     allReservations = Array.isArray(data) ? data.map(normalizeReservation) : [];
     populateEnvFilter();
     applyFilters();

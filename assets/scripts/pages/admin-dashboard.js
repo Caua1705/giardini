@@ -11,27 +11,31 @@
  * ─────────────────────────────────────────────────────────────────
  */
 
-import { isAuthenticated, loginAdmin, initShell } from './admin-auth.js';
-import { apiFetch, API_ROUTES } from '../config/api.js';
+import { isAuthenticated, loginAdmin, validateAdminSession, initShell, adminFetch } from './admin-auth.js';
+import { API_ROUTES } from '../config/api.js';
 
 const $ = id => document.getElementById(id);
 
 /* ── Bootstrap ───────────────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  bindLoginForm();
+
   if (isAuthenticated()) {
-    showApp();
+    const user = await validateAdminSession();
+    if (user) showApp();
+    else showLogin(getAuthMessage());
   } else {
-    showLogin();
+    showLogin(getAuthMessage());
   }
 });
 
 /* ── View switching ──────────────────────────────────────────────── */
-function showLogin() {
+function showLogin(message = '') {
   const login = $('adm-view-login');
   const app   = $('adm-view-app');
   if (login) login.style.display = '';
   if (app)   app.style.display   = 'none';
-  bindLoginForm();
+  showLoginError(message);
 }
 
 function showApp() {
@@ -48,29 +52,53 @@ function showApp() {
 function bindLoginForm() {
   const form  = $('adm-login-form');
   const btn   = $('adm-login-btn');
-  const errEl = $('adm-login-error');
-  if (!form) return;
+  if (!form || form.dataset.bound === 'true') return;
+  form.dataset.bound = 'true';
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
     const email = $('adm-email')?.value.trim()  ?? '';
     const pass  = $('adm-password')?.value       ?? '';
+    const validationError = validateLoginFields(email, pass);
+
+    if (validationError) {
+      showLoginError(validationError);
+      return;
+    }
 
     setLoginState(btn, true);
-    if (errEl) errEl.classList.remove('is-visible');
+    showLoginError('');
 
     try {
       await loginAdmin(email, pass);
       showApp();
     } catch (err) {
-      if (errEl) {
-        errEl.textContent = err.message || 'Erro ao autenticar. Tente novamente.';
-        errEl.classList.add('is-visible');
-      }
+      showLoginError(err.message || 'E-mail ou senha inválidos.');
     } finally {
       setLoginState(btn, false);
     }
   });
+}
+
+function validateLoginFields(email, pass) {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!email || !email.includes('@') || !emailPattern.test(email)) {
+    return 'Informe um e-mail válido.';
+  }
+
+  if (!pass.trim()) {
+    return 'Informe sua senha.';
+  }
+
+  return '';
+}
+
+function showLoginError(message) {
+  const errEl = $('adm-login-error');
+  if (!errEl) return;
+  errEl.textContent = message;
+  errEl.classList.toggle('is-visible', Boolean(message));
 }
 
 function setLoginState(btn, loading) {
@@ -88,7 +116,7 @@ function setLoginState(btn, loading) {
 async function loadDashboard() {
   let reservations = [];
   try {
-    const data = await apiFetch(API_ROUTES.adminReservations);
+    const data = await adminFetch(API_ROUTES.adminReservations);
     reservations = Array.isArray(data) ? data : [];
   } catch {
     // non-critical: metrics stay at "—"
@@ -141,4 +169,11 @@ function animateNum(el, target) {
 
 function setText(el, v) {
   if (el) el.textContent = v;
+}
+
+function getAuthMessage() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('auth') === 'expired'
+    ? 'Sua sessão expirou. Faça login novamente.'
+    : '';
 }

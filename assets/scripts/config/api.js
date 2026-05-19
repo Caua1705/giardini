@@ -18,6 +18,8 @@ export const API_ROUTES = {
   environments:       '/environments',
   availability:       '/availability',
   reservations:       '/reservations',
+  adminLogin:         '/admin/login',
+  adminMe:            '/admin/me',
   adminReservations:  '/admin/reservations',
 };
 

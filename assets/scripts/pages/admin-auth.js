@@ -1,30 +1,29 @@
 /**
  * admin-auth.js
- * ─────────────────────────────────────────────────────────────────
- * Giardini Café — Admin authentication utilities.
- *
- * Token storage: sessionStorage (cleared when tab is closed).
- * To connect to real backend: replace the body of loginAdmin()
- * with a real POST /admin/login request.
- * ─────────────────────────────────────────────────────────────────
+ * Giardini Cafe - Admin authentication utilities.
  */
 
-const TOKEN_KEY = 'adm_token';
-const USER_KEY  = 'adm_user';
+import { API_ROUTES, buildApiUrl } from '../config/api.js';
 
-/* ── Token helpers ───────────────────────────────────────────────── */
+const TOKEN_KEY = 'giardini_admin_token';
+const USER_KEY = 'giardini_admin_user';
+
+const LEGACY_TOKEN_KEY = 'adm_token';
+const LEGACY_USER_KEY = 'adm_user';
 
 export function getToken() {
-  return sessionStorage.getItem(TOKEN_KEY);
+  return localStorage.getItem(TOKEN_KEY);
 }
 
 export function setToken(token) {
-  sessionStorage.setItem(TOKEN_KEY, token);
+  localStorage.setItem(TOKEN_KEY, token);
 }
 
 export function clearToken() {
-  sessionStorage.removeItem(TOKEN_KEY);
-  sessionStorage.removeItem(USER_KEY);
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(USER_KEY);
+  sessionStorage.removeItem(LEGACY_TOKEN_KEY);
+  sessionStorage.removeItem(LEGACY_USER_KEY);
 }
 
 export function isAuthenticated() {
@@ -32,79 +31,139 @@ export function isAuthenticated() {
 }
 
 export function getUser() {
-  try { return JSON.parse(sessionStorage.getItem(USER_KEY) || '{}'); }
+  try { return JSON.parse(localStorage.getItem(USER_KEY) || '{}'); }
   catch { return {}; }
 }
 
 export function setUser(userObj) {
-  sessionStorage.setItem(USER_KEY, JSON.stringify(userObj));
+  localStorage.setItem(USER_KEY, JSON.stringify(userObj || {}));
 }
 
-/* ── Login ───────────────────────────────────────────────────────── */
-
-/**
- * Authenticate an admin user.
- * Replace this body with a real POST /admin/login call when the
- * backend endpoint is ready.
- *
- * @param {string} email
- * @param {string} password
- * @returns {Promise<void>}
- * @throws {Error} if credentials are missing or auth fails
- */
 export async function loginAdmin(email, password) {
-  if (!email || !password) {
-    throw new Error('Preencha e-mail e senha.');
+  let response;
+
+  try {
+    response = await fetch(buildApiUrl(API_ROUTES.adminLogin), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+  } catch {
+    throw authError('network');
   }
 
-  // TODO: replace stub with real call
-  // const res = await fetch('/admin/login', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify({ email, password }),
-  // });
-  // if (!res.ok) throw new Error('Credenciais inválidas.');
-  // const { token, user } = await res.json();
-  // setToken(token);
-  // setUser(user);
+  if (!response.ok) {
+    throw authError([400, 401, 403, 422].includes(response.status) ? 'invalid' : 'network');
+  }
 
-  // Stub: simulates network delay and accepts any non-empty credentials
-  await new Promise(r => setTimeout(r, 650));
-  const mockToken = 'mock_adm_' + Date.now();
-  setToken(mockToken);
-  setUser({ name: 'Admin', email });
+  let data;
+  try {
+    data = await response.json();
+  } catch {
+    throw authError('network');
+  }
+
+  if (!data?.access_token) {
+    throw authError('network');
+  }
+
+  setToken(data.access_token);
+  setUser(data.user || {});
+  return data.user || {};
 }
-
-/* ── Logout ──────────────────────────────────────────────────────── */
 
 export function logout() {
   clearToken();
   window.location.href = '/admin/index.html';
 }
 
-/* ── Auth guard ──────────────────────────────────────────────────── */
+export async function validateAdminSession({ redirectOnFail = false } = {}) {
+  const token = getToken();
 
-/**
- * Call at the top of each protected page.
- * Redirects to the login screen if no valid token is present.
- */
-export function requireAuth() {
-  if (!isAuthenticated()) {
-    window.location.href = '/admin/index.html';
+  if (!token) {
+    clearToken();
+    if (redirectOnFail) redirectToLogin();
+    return null;
   }
+
+  let response;
+  try {
+    response = await fetch(buildApiUrl(API_ROUTES.adminMe), {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  } catch {
+    if (redirectOnFail) redirectToLogin();
+    return null;
+  }
+
+  if (!response.ok) {
+    clearToken();
+    if (redirectOnFail) redirectToLogin('expired');
+    return null;
+  }
+
+  const user = await response.json();
+  setUser(user);
+  return user;
 }
 
-/* ── Shell init (shared across all admin pages) ──────────────────── */
+export async function requireAuth() {
+  document.documentElement.style.visibility = 'hidden';
 
-/**
- * Wire up the shared admin shell: clock, hamburger toggle, logout.
- * Call this once the shell DOM is present and the user is authenticated.
- */
+  const user = await validateAdminSession({ redirectOnFail: true });
+  if (!user) return null;
+
+  document.documentElement.style.visibility = '';
+  return user;
+}
+
+export async function adminFetch(path, options = {}) {
+  const token = getToken();
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(options.headers || {}),
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+
+  let response;
+  try {
+    response = await fetch(buildApiUrl(path), { ...options, headers });
+  } catch {
+    throw new Error('network');
+  }
+
+  if (response.status === 401 || response.status === 403) {
+    clearToken();
+    redirectToLogin('expired');
+    return null;
+  }
+
+  if (!response.ok) {
+    throw new Error(`API error ${response.status}`);
+  }
+
+  if (response.status === 204) return null;
+  return response.json();
+}
+
 export function initShell() {
   _startClock();
   _bindHamburger();
   _bindLogout();
   _updateUserDisplay();
+}
+
+function redirectToLogin(reason = '') {
+  const suffix = reason ? `?auth=${encodeURIComponent(reason)}` : '';
+  window.location.href = `/admin/index.html${suffix}`;
+}
+
+function authError(type) {
+  const err = new Error(type === 'invalid'
+    ? 'E-mail ou senha inválidos.'
+    : 'Não foi possível conectar ao servidor. Tente novamente.');
+  err.type = type;
+  return err;
 }
 
 function _startClock() {
@@ -121,7 +180,7 @@ function _startClock() {
 }
 
 function _bindHamburger() {
-  const btn     = document.getElementById('adm-hamburger');
+  const btn = document.getElementById('adm-hamburger');
   const sidebar = document.getElementById('adm-sidebar');
   const overlay = document.getElementById('adm-overlay');
   if (!btn || !sidebar) return;
@@ -146,6 +205,6 @@ function _bindLogout() {
 
 function _updateUserDisplay() {
   const user = getUser();
-  const el   = document.getElementById('adm-user-name');
+  const el = document.getElementById('adm-user-name');
   if (el && user.name) el.textContent = user.name;
 }
