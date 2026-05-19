@@ -256,6 +256,7 @@ let selectedGuests   = null;
 let selectedTime     = null;
 let dpViewYear       = new Date().getFullYear();
 let dpViewMonth      = new Date().getMonth();
+let createdReservation = null;
 /**
  * lastFetchedGuests — the party_size used in the last successful
  * availability fetch. Desktop only: skip re-fetch when the new count is
@@ -809,27 +810,48 @@ function createPeriodGroup(label, times) {
 
 /* ── Mobile confirmation card ──────────────────────────────────── */
 
-function toCardDate(iso) {
-  if (!iso) return '';
-  const [y, m, d] = iso.split('-');
+function formatReservationDate(date) {
+  if (!date || typeof date !== 'string') return '';
+  const [y, m, d] = date.split('-');
+  if (!y || !m || !d) return date;
   return `${d}/${m}/${y}`;
 }
 
-function showMobileConfirmation() {
+function formatReservationTime(time) {
+  if (!time || typeof time !== 'string') return '';
+  return time.slice(0, 5);
+}
+
+function formatReservationPartySize(size) {
+  const n = Number(size);
+  if (!Number.isFinite(n) || n <= 0) return '';
+  return `${n} pessoa${n === 1 ? '' : 's'}`;
+}
+
+function getReservationSummaryRows(reservation) {
+  if (!reservation) return [];
+  const env = getEnvironmentById(reservation.environment_id || DOM.environment.value);
+  return [
+    ['Ambiente', reservation.environment_name || env?.name || null],
+    ['Data', formatReservationDate(reservation.reservation_date)],
+    ['Hor\u00e1rio', formatReservationTime(reservation.reservation_time)],
+    ['Pessoas', formatReservationPartySize(reservation.party_size)],
+  ];
+}
+
+function isValidCreatedReservation(reservation) {
+  return Boolean(reservation && reservation.id && reservation.status);
+}
+
+function showMobileConfirmation(reservation) {
   const card = DOM.mobSuccessCard;
   if (!card) return;
 
-  // Build summary rows from current state
+  // Build summary rows from the reservation returned by the backend
   const summaryEl = document.getElementById('mob-sc-summary');
   if (summaryEl) {
     summaryEl.innerHTML = '';
-    const env  = getEnvironmentById(DOM.environment.value);
-    const rows = [
-      ['Ambiente', env?.name || null],
-      ['Data',     toCardDate(DOM.dateInput.value)],
-      ['Horário',  selectedTime],
-      ['Pessoas',  selectedGuests ? `${selectedGuests} pessoa${Number(selectedGuests) > 1 ? 's' : ''}` : null],
-    ];
+    const rows = getReservationSummaryRows(reservation);
     rows.forEach(([label, value]) => {
       if (!value) return;
       const row = document.createElement('div');
@@ -873,6 +895,7 @@ async function handleSubmit() {
   valMsg.style.display = 'none';
   DOM.successPanel.classList.remove('visible');
   DOM.errorPanel.classList.remove('visible');
+  createdReservation = null;
 
   const environment = DOM.environment.value, date = DOM.dateInput.value;
   const name  = DOM.nameInput.value.trim();
@@ -894,7 +917,7 @@ async function handleSubmit() {
   textEl.textContent = 'Confirmando...'; arrowEl.style.display = 'none';
 
   try {
-    await apiFetch(API_ROUTES.reservations, {
+    const reservationResponse = await apiFetch(API_ROUTES.reservations, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -907,11 +930,16 @@ async function handleSubmit() {
       }),
     });
 
+    if (!isValidCreatedReservation(reservationResponse)) {
+      throw new Error('Invalid reservation response');
+    }
+
+    createdReservation = reservationResponse;
     btn.classList.remove('loading');
 
     if (isMobileDevice) {
       // Mobile: replace form with one premium confirmation card — no duplicated states
-      showMobileConfirmation();
+      showMobileConfirmation(createdReservation);
     } else {
       // Desktop: keep existing button success state + success panel below
       btn.classList.add('success'); textEl.textContent = 'Reserva Confirmada ✓';
@@ -920,13 +948,14 @@ async function handleSubmit() {
       setTimeout(() => safeScrollTo(DOM.successPanel, {offset:-100,duration:1.2}), 300);
     }
   } catch (e) {
+    createdReservation = null;
     btn.classList.remove('loading');
     // Tenta extrair mensagem de validação do backend (HTTPException do FastAPI)
-    let msg = 'Não foi possível processar sua reserva.';
+    let msg = 'N\u00e3o foi poss\u00edvel concluir sua reserva. Tente novamente.';
     try {
       if (e.message) {
         const match = e.message.match(/API error \d+/);
-        if (!match) msg = e.message;
+        if (!match && e.message !== 'Invalid reservation response') msg = e.message;
       }
     } catch (_) {}
 
@@ -968,6 +997,7 @@ function formatPhoneBR(v) {
 }
 
 function resetForm() {
+  createdReservation = null;
   selectedGuests = null; selectedTime = null;
 
   DOM.environment.selectedIndex = 0;
