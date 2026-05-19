@@ -465,7 +465,14 @@
 .res-hero-sep{
   width:56px;height:1px;
   background:linear-gradient(90deg,rgba(183,147,88,.5),transparent);
+  margin-top: 0.5rem;
   margin-bottom:1.5rem;position:relative;overflow:hidden;
+}
+@media (min-width: 768px) {
+  .res-hero-sep {
+    margin-top: 2rem;
+    margin-bottom: 2.5rem;
+  }
 }
 .res-hero-sep::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(183,147,88,.9),transparent);animation:resSepSweep 5s ease-in-out infinite 2s}
 @keyframes resSepSweep{0%{left:-100%;opacity:0}20%{opacity:1}80%{opacity:1}100%{left:200%;opacity:0}}
