@@ -99,10 +99,10 @@
     padding-top: 0.75rem !important;
   }
 
-  /* Reduce hero-right top padding so the video frame stays centred */
+  /* Compact hero-right on short notebooks — video block balanced, less dominant */
   #hero-right {
-    padding-top: clamp(3.5rem, 7vh, 5rem);
-    padding-bottom: clamp(1.5rem, 3vh, 2.5rem);
+    padding-top: clamp(5rem, 10vh, 7rem);
+    padding-bottom: clamp(2.5rem, 5vh, 3.5rem);
   }
 
   /* Separator: shorter */
