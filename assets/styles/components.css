@@ -60,16 +60,54 @@
   }
 }
 
-/* ── Desktop short-screen: notebook 768–800px height ── */
+/* ── Desktop short-screen: notebook viewport height ── */
 /* Fires on all desktop/notebook widths (≥1025px) with short viewport height.
-   Reduces the hero-right top padding so the video frame isn't pushed too low
-   on common notebook resolutions like 1366×768, 1280×800, 1536×864. */
-@media (min-width: 1025px) and (max-height: 800px) {
-  #hero-right {
-    padding-top: clamp(3.5rem, 6vh, 5rem);
+   Covers common notebook resolutions: 1366×768, 1280×800, 1440×900, 1536×864.
+   Reduces hero content size and spacing so the hero text block
+   does NOT crowd or overlap the Giardini logo / fixed navbar. */
+@media (min-width: 1025px) and (max-height: 864px) {
+  /* ── Homepage hero: tighten left column ── */
+  #hero-left {
+    padding-top: clamp(4rem, 8vh, 6rem);
+    padding-bottom: clamp(1rem, 3vh, 2.5rem);
+    justify-content: center;
   }
+
+  /* Shrink headline so it fits without hitting the navbar */
+  #hero-headline {
+    font-size: clamp(2.4rem, 5vw, 5.5rem);
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Reduce kicker gap above the headline */
   .kicker {
+    margin-bottom: 1.25rem;
     margin-top: 0;
+  }
+
+  /* Tighter body copy margins */
+  .hero-body {
+    margin-top: 0.75rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.925rem;
+  }
+
+  /* Compress meta row so it doesn't push content down */
+  .hero-meta {
+    margin-top: 1.25rem !important;
+    padding-top: 0.75rem !important;
+  }
+
+  /* Reduce hero-right top padding so the video frame stays centred */
+  #hero-right {
+    padding-top: clamp(3.5rem, 7vh, 5rem);
+    padding-bottom: clamp(1.5rem, 3vh, 2.5rem);
+  }
+
+  /* Separator: shorter */
+  #hero-sep {
+    margin: 0.75rem 0 1.25rem;
   }
 }
 

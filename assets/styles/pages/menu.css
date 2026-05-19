@@ -736,8 +736,40 @@ body::after {
   background: linear-gradient(to bottom, rgba(234, 228, 217, 0.4), transparent);
 }
 
+/* ── Notebook / short-desktop: cardapio hero fix ─────────────────────────
+   Fires on desktop/notebook (>=1025px wide) with short viewport height.
+   Covers: 1366x768, 1280x800, 1440x900, 1536x864.
+   Pushes .hero-content below the fixed navbar and scales down
+   the title/spacing so content never overlaps the navbar area.    */
+@media (min-width: 1025px) and (max-height: 864px) {
+  .hero-content {
+    padding-top: clamp(5rem, 10vh, 7rem);
+    padding-bottom: clamp(2rem, 4vh, 3rem);
+    justify-content: center;
+  }
 
-/* â•â• 6. CATEGORY NAV â€” Green glass pill â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  .hero-title {
+    font-size: clamp(2.8rem, 7vw, 6rem);
+  }
+
+  .hero-kicker {
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-sub {
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+  }
+
+  .hero-scroll {
+    bottom: 1.5rem;
+  }
+}
+
+
+
+/* â• â•  6. CATEGORY NAV â€” Green glass pill â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â•  */
 
 @keyframes cat-nav-inner-reveal {
   from {
