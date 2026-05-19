@@ -1,4 +1,4 @@
-﻿
+
 (function () {
   // Browser restores scroll BEFORE DOMContentLoaded.
   // If we are already scrolled, reveal body immediately.
@@ -366,7 +366,9 @@
 
     const dx = (cw - dw) / 2;
     // Mobile: shift up 7% so the subject sits higher in the frame. Desktop: shift up 8%.
-    const dy = (ch - dh) / 2 - ch * (IS_MOBILE ? 0.07 : 0.08);
+    // Mobile: shift up 7% so the subject sits higher in the frame.
+    // Desktop: no vertical shift — centered naturally to avoid bottom gap.
+    const dy = (ch - dh) / 2 - ch * (IS_MOBILE ? 0.07 : 0);
 
     ctx.clearRect(0, 0, cw, ch);
     if (IS_MOBILE) {
