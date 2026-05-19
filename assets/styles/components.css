@@ -204,7 +204,9 @@
     display: flex;
     flex-direction: column;
     height: auto;
-    min-height: 100vh;
+    /* svh = small viewport height (excludes dynamic browser toolbar).
+       Prevents layout jumps when Chrome/Safari shows/hides the address bar. */
+    min-height: 100svh;
     width: 100vw;
     max-width: 100%;
     overflow-x: hidden; 
@@ -465,13 +467,13 @@
     #hero-viewport {
       flex-direction: row !important;
       justify-content: flex-start !important;
-      height: 100vh !important; /* Obrigatório para a coluna interna saber calcular sua altura (%) */
-      min-height: 100vh !important;
+      height: 100svh !important;
+      min-height: 100svh !important;
     }
     #hero-left {
       width: 45% !important; /* Cede um pouco de espaço para a direita esticar */
       padding: 0 1rem 0 3.5rem !important;
-      height: 100vh !important; /* Ocupa 100vh firme */
+      height: 100svh !important;
       justify-content: center !important;
       align-items: flex-start !important; /* Retorna o alinhamento desktop */
       text-align: left !important; /* Tira do centro (padrão mobile) */
@@ -497,7 +499,7 @@
       position: relative !important;
       display: flex !important;
       width: 55% !important; /* Fica BEM largo agora */
-      height: 100vh !important; /* Trava totalmente na base do monitor */
+      height: 100svh !important;
       margin: 0 !important; /* Sobrecrescreve o margin auto do mobile */
       max-width: none !important; /* Derruba os 340px nativos da regra tablet */
       aspect-ratio: auto !important; /* Libera pra ele preencher a coluna */
@@ -538,13 +540,13 @@
     #hero-viewport {
       flex-direction: row !important; /* TEXTO ESQUERDA IMAGE DIREITA */
       justify-content: flex-start !important;
-      height: 100vh !important;
-      min-height: 100vh !important;
+      height: 100svh !important;
+      min-height: 100svh !important;
     }
     #hero-left {
       width: 45% !important;
       padding: 0 1rem 0 3.5rem !important;
-      height: 100vh !important;
+      height: 100svh !important;
       justify-content: center !important;
       align-items: flex-start !important; /* FORÇA BOTOES/LETRAS ESQUERDA */
       text-align: left !important;
@@ -570,7 +572,7 @@
       position: relative !important;
       display: flex !important; /* IMAGEM DIREITA */
       width: 55% !important;
-      height: 100vh !important;
+      height: 100svh !important;
       margin: 0 !important;
       max-width: none !important;
       aspect-ratio: auto !important;
