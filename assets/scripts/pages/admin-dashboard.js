@@ -21,9 +21,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   bindLoginForm();
 
   if (isAuthenticated()) {
-    const user = await validateAdminSession();
-    if (user) showApp();
-    else showLogin(getAuthMessage());
+    showApp();
+    validateSessionSilently();
   } else {
     showLogin(getAuthMessage());
   }
@@ -33,7 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 function showLogin(message = '') {
   const login = $('adm-view-login');
   const app   = $('adm-view-app');
-  document.body.classList.remove('admin-auth-checking');
+  document.documentElement.classList.remove('admin-session-present');
   if (login) login.style.display = '';
   if (app)   app.style.display   = 'none';
   showLoginError(message);
@@ -42,7 +41,7 @@ function showLogin(message = '') {
 function showApp() {
   const login = $('adm-view-login');
   const app   = $('adm-view-app');
-  document.body.classList.remove('admin-auth-checking');
+  document.documentElement.classList.add('admin-session-present');
   if (login) login.style.display = 'none';
   if (app)   app.style.display   = '';
   initShell();
@@ -167,6 +166,13 @@ function animateNum(el, target) {
     else el.textContent = target;
   };
   requestAnimationFrame(step);
+}
+
+async function validateSessionSilently() {
+  const user = await validateAdminSession();
+  if (!user && !isAuthenticated()) {
+    showLogin('Sua sessão expirou. Faça login novamente.');
+  }
 }
 
 function setText(el, v) {

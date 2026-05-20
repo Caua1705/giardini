@@ -107,12 +107,15 @@ export async function validateAdminSession({ redirectOnFail = false } = {}) {
   return user;
 }
 
-export async function requireAuth() {
-  const user = await validateAdminSession({ redirectOnFail: true });
-  if (!user) return null;
+export function requireAuth() {
+  if (!getToken()) {
+    clearToken();
+    redirectToLogin();
+    return null;
+  }
 
-  document.body?.classList.remove('admin-auth-checking');
-  return user;
+  validateAdminSession({ redirectOnFail: true });
+  return getUser();
 }
 
 export async function adminFetch(path, options = {}) {
