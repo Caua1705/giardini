@@ -17,6 +17,11 @@ const currentUser = await requireAuth();
 let allReservations = [];
 let filtered        = [];
 let activeChip      = 'all';
+let searchTimer     = null;
+let envOptionsReady = false;
+
+const PAGE_LIMIT = 200;
+const SEARCH_DEBOUNCE_MS = 300;
 
 /* ── DOM refs ────────────────────────────────────────────────────── */
 const DOM = {
@@ -51,10 +56,13 @@ if (currentUser) {
 async function fetchReservations() {
   setLoading(true);
   try {
-    const data = await adminFetch(API_ROUTES.adminReservations);
-    allReservations = Array.isArray(data) ? data.map(normalizeReservation) : [];
+    const data = await adminFetch(buildReservationsPath());
+    allReservations = extractReservations(data).map(normalizeReservation);
+    filtered = allReservations;
     populateEnvFilter();
-    applyFilters();
+    renderMetrics();
+    renderReservations(filtered, hasActiveFilters());
+    updateCount(getResultTotal(data));
   } catch (err) {
     console.error('[admin-reservations] fetch error:', err);
     renderErrorState();
@@ -64,13 +72,63 @@ async function fetchReservations() {
 }
 
 /* ── Normalize ───────────────────────────────────────────────────── */
+function buildReservationsPath() {
+  const params = new URLSearchParams();
+  const search = DOM.searchInput?.value.trim() ?? '';
+  const date = DOM.dateFilter?.value ?? '';
+  const status = DOM.statusFilter?.value ?? '';
+  const environmentId = DOM.envFilter?.value ?? '';
+
+  if (search) params.set('search', search);
+  if (activeChip !== 'all') params.set('period', activeChip);
+  if (activeChip === 'all' && date) params.set('date', date);
+  if (status) params.set('status', status);
+  if (environmentId) params.set('environment_id', environmentId);
+  params.set('limit', String(PAGE_LIMIT));
+  params.set('offset', '0');
+
+  const query = params.toString();
+  return query ? `${API_ROUTES.adminReservations}?${query}` : API_ROUTES.adminReservations;
+}
+
+function extractReservations(data) {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.items)) return data.items;
+  if (Array.isArray(data?.reservations)) return data.reservations;
+  if (Array.isArray(data?.results)) return data.results;
+  if (Array.isArray(data?.rows)) return data.rows;
+  if (Array.isArray(data?.data)) return data.data;
+  return [];
+}
+
+function getResultTotal(data) {
+  const total = Number(data?.total ?? data?.count);
+  return Number.isFinite(total) ? total : filtered.length;
+}
+
+function hasActiveFilters() {
+  return Boolean(
+    DOM.searchInput?.value.trim() ||
+    (activeChip === 'all' && DOM.dateFilter?.value) ||
+    DOM.statusFilter?.value ||
+    DOM.envFilter?.value ||
+    activeChip !== 'all'
+  );
+}
+
+function updateCount(total = filtered.length) {
+  if (!DOM.count) return;
+  DOM.count.textContent = `${total} reserva${total !== 1 ? 's' : ''}`;
+}
+
 function normalizeReservation(raw) {
   return {
     id:      raw.id ?? '',
     name:    raw.client?.name  ?? raw.name  ?? '—',
     email:   raw.client?.email ?? raw.email ?? '—',
     phone:   raw.client?.phone ?? raw.phone ?? '—',
-    env:     raw.environment?.name ?? raw.environment_name ?? '—',
+    env:     raw.environment?.name ?? raw.environment_name ?? raw.environmentName ?? '—',
+    envId:   raw.environment?.id ?? raw.environment_id ?? raw.environmentId ?? '',
     date:    raw.reservation_date ?? '',
     time:    raw.reservation_time ?? '',
     guests:  raw.party_size ?? 0,
@@ -109,46 +167,28 @@ function animateNumber(el, target) {
 
 /* ── Env filter ──────────────────────────────────────────────────── */
 function populateEnvFilter() {
-  if (!DOM.envFilter) return;
-  const envs = [...new Set(allReservations.map(r => r.env).filter(e => e && e !== '—'))].sort();
+  if (!DOM.envFilter || envOptionsReady) return;
+  const selected = DOM.envFilter.value;
+  const envMap = new Map();
+  allReservations.forEach(r => {
+    if (!r.env || r.env === '—') return;
+    envMap.set(r.envId || r.env, r.env);
+  });
+  const envs = [...envMap.entries()].sort((a, b) => a[1].localeCompare(b[1], 'pt-BR'));
   DOM.envFilter.innerHTML = '<option value="">Todos os ambientes</option>';
-  envs.forEach(env => {
+  envs.forEach(([value, label]) => {
     const o = document.createElement('option');
-    o.value = env; o.textContent = env;
+    o.value = value;
+    o.textContent = label;
     DOM.envFilter.appendChild(o);
   });
+  DOM.envFilter.value = selected;
+  envOptionsReady = envs.length > 0;
 }
 
 /* ── Filters ─────────────────────────────────────────────────────── */
 function applyFilters() {
-  const q      = (DOM.searchInput?.value  ?? '').toLowerCase().trim();
-  const date   =  DOM.dateFilter?.value   ?? '';
-  const status =  DOM.statusFilter?.value ?? '';
-  const env    =  DOM.envFilter?.value    ?? '';
-  const today  = todayISO();
-  const tmrw   = tomorrowISO();
-  const hasFilters = !!(q || (activeChip === 'all' && date) || status || env || activeChip !== 'all');
-
-  filtered = allReservations.filter(r => {
-    if (activeChip === 'today'    && r.date !== today) return false;
-    if (activeChip === 'tomorrow' && r.date !== tmrw)  return false;
-    if (activeChip === 'upcoming' && (r.date < today || r.status === 'cancelled')) return false;
-    if (activeChip === 'all' && date && r.date !== date) return false;
-    if (status && r.status !== status) return false;
-    if (env    && r.env    !== env)    return false;
-    if (q) {
-      const hay = `${r.name} ${r.email} ${r.phone}`.toLowerCase();
-      if (!hay.includes(q)) return false;
-    }
-    return true;
-  });
-
-  renderMetrics();
-  renderReservations(filtered, hasFilters);
-
-  if (DOM.count) {
-    DOM.count.textContent = `${filtered.length} reserva${filtered.length !== 1 ? 's' : ''}`;
-  }
+  fetchReservations();
 }
 
 /* ── Render ──────────────────────────────────────────────────────── */
@@ -302,7 +342,7 @@ function setLoading(on) {
 
 /* ── Events ──────────────────────────────────────────────────────── */
 function bindEvents() {
-  DOM.searchInput?.addEventListener('input',  applyFilters);
+  DOM.searchInput?.addEventListener('input',  queueSearch);
   DOM.statusFilter?.addEventListener('change', applyFilters);
   DOM.envFilter?.addEventListener('change',   applyFilters);
 
@@ -325,6 +365,11 @@ function bindEvents() {
   });
 
   bindChips();
+}
+
+function queueSearch() {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(applyFilters, SEARCH_DEBOUNCE_MS);
 }
 
 function bindChips() {
@@ -381,12 +426,6 @@ function formatCreated(iso) {
 
 function todayISO() {
   const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
-
-function tomorrowISO() {
-  const d = new Date();
-  d.setDate(d.getDate() + 1);
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
