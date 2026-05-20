@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 function showLogin(message = '') {
   const login = $('adm-view-login');
   const app   = $('adm-view-app');
+  document.body.classList.remove('admin-auth-checking');
   if (login) login.style.display = '';
   if (app)   app.style.display   = 'none';
   showLoginError(message);
@@ -41,6 +42,7 @@ function showLogin(message = '') {
 function showApp() {
   const login = $('adm-view-login');
   const app   = $('adm-view-app');
+  document.body.classList.remove('admin-auth-checking');
   if (login) login.style.display = 'none';
   if (app)   app.style.display   = '';
   initShell();

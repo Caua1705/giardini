@@ -108,12 +108,10 @@ export async function validateAdminSession({ redirectOnFail = false } = {}) {
 }
 
 export async function requireAuth() {
-  document.documentElement.style.visibility = 'hidden';
-
   const user = await validateAdminSession({ redirectOnFail: true });
   if (!user) return null;
 
-  document.documentElement.style.visibility = '';
+  document.body?.classList.remove('admin-auth-checking');
   return user;
 }
 
