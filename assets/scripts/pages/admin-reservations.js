@@ -8,7 +8,7 @@
  */
 
 import { requireAuth, initShell, adminFetch } from './admin-auth.js';
-import { API_ROUTES } from '../config/api.js';
+import { API_ROUTES, apiFetch } from '../config/api.js';
 
 /* ── Auth guard ──────────────────────────────────────────────────── */
 const currentUser = await requireAuth();
@@ -22,6 +22,7 @@ let envOptionsReady = false;
 
 const PAGE_LIMIT = 200;
 const SEARCH_DEBOUNCE_MS = 300;
+const SUPPORTED_STATUS_FILTERS = new Set(['confirmed', 'cancelled', 'completed', 'no_show']);
 
 /* ── DOM refs ────────────────────────────────────────────────────── */
 const DOM = {
@@ -45,6 +46,7 @@ const DOM = {
 if (currentUser) {
   document.addEventListener('DOMContentLoaded', () => {
     initShell();
+    loadEnvironmentFilterOptions();
     fetchReservations();
     bindEvents();
   });
@@ -59,7 +61,6 @@ async function fetchReservations() {
     const data = await adminFetch(buildReservationsPath());
     allReservations = extractReservations(data).map(normalizeReservation);
     filtered = allReservations;
-    populateEnvFilter();
     renderMetrics();
     renderReservations(filtered, hasActiveFilters());
     updateCount(getResultTotal(data));
@@ -82,7 +83,7 @@ function buildReservationsPath() {
   if (search) params.set('search', search);
   if (activeChip !== 'all') params.set('period', activeChip);
   if (activeChip === 'all' && date) params.set('date', date);
-  if (status) params.set('status', status);
+  if (SUPPORTED_STATUS_FILTERS.has(status)) params.set('status', status);
   if (environmentId) params.set('environment_id', environmentId);
   params.set('limit', String(PAGE_LIMIT));
   params.set('offset', '0');
@@ -166,24 +167,46 @@ function animateNumber(el, target) {
 }
 
 /* ── Env filter ──────────────────────────────────────────────────── */
-function populateEnvFilter() {
+async function loadEnvironmentFilterOptions() {
   if (!DOM.envFilter || envOptionsReady) return;
-  const selected = DOM.envFilter.value;
-  const envMap = new Map();
-  allReservations.forEach(r => {
-    if (!r.env || r.env === '—') return;
-    envMap.set(r.envId || r.env, r.env);
-  });
-  const envs = [...envMap.entries()].sort((a, b) => a[1].localeCompare(b[1], 'pt-BR'));
-  DOM.envFilter.innerHTML = '<option value="">Todos os ambientes</option>';
-  envs.forEach(([value, label]) => {
-    const o = document.createElement('option');
-    o.value = value;
-    o.textContent = label;
-    DOM.envFilter.appendChild(o);
-  });
-  DOM.envFilter.value = selected;
-  envOptionsReady = envs.length > 0;
+
+  try {
+    const data = await apiFetch(API_ROUTES.environments);
+    const envs = extractEnvironments(data)
+      .filter(env => env?.id != null && env?.name)
+      .slice()
+      .sort((a, b) => {
+        if (a.display_order != null && b.display_order != null) return a.display_order - b.display_order;
+        return String(a.name).localeCompare(String(b.name), 'pt-BR');
+      });
+
+    const selected = DOM.envFilter.value;
+    DOM.envFilter.innerHTML = '<option value="">Todos os ambientes</option>';
+
+    envs.forEach(env => {
+      const o = document.createElement('option');
+      o.value = env.id;
+      o.textContent = env.name;
+      DOM.envFilter.appendChild(o);
+    });
+
+    DOM.envFilter.value = [...DOM.envFilter.options].some(option => option.value === selected)
+      ? selected
+      : '';
+    envOptionsReady = true;
+  } catch (err) {
+    console.error('[admin-reservations] environments fetch error:', err);
+  }
+}
+
+function extractEnvironments(data) {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.items)) return data.items;
+  if (Array.isArray(data?.environments)) return data.environments;
+  if (Array.isArray(data?.results)) return data.results;
+  if (Array.isArray(data?.rows)) return data.rows;
+  if (Array.isArray(data?.data)) return data.data;
+  return [];
 }
 
 /* ── Filters ─────────────────────────────────────────────────────── */
