@@ -22,7 +22,7 @@ let envOptionsReady = false;
 
 const PAGE_LIMIT = 200;
 const SEARCH_DEBOUNCE_MS = 300;
-const SUPPORTED_STATUS_FILTERS = new Set(['confirmed', 'cancelled', 'completed', 'no_show']);
+const SUPPORTED_STATUS_FILTERS = ['confirmed', 'cancelled', 'completed', 'no_show'];
 
 /* ── DOM refs ────────────────────────────────────────────────────── */
 const DOM = {
@@ -77,13 +77,13 @@ function buildReservationsPath() {
   const params = new URLSearchParams();
   const search = DOM.searchInput?.value.trim() ?? '';
   const date = DOM.dateFilter?.value ?? '';
-  const status = DOM.statusFilter?.value ?? '';
+  const status = normalizeStatusFilter(DOM.statusFilter?.value ?? '');
   const environmentId = DOM.envFilter?.value ?? '';
 
   if (search) params.set('search', search);
   if (activeChip !== 'all') params.set('period', activeChip);
   if (activeChip === 'all' && date) params.set('date', date);
-  if (SUPPORTED_STATUS_FILTERS.has(status)) params.set('status', status);
+  if (status) params.set('status', status);
   if (environmentId) params.set('environment_id', environmentId);
   params.set('limit', String(PAGE_LIMIT));
   params.set('offset', '0');
@@ -105,6 +105,11 @@ function extractReservations(data) {
 function getResultTotal(data) {
   const total = Number(data?.total ?? data?.count);
   return Number.isFinite(total) ? total : filtered.length;
+}
+
+function normalizeStatusFilter(status) {
+  if (!status) return '';
+  return SUPPORTED_STATUS_FILTERS.includes(status) ? status : '';
 }
 
 function hasActiveFilters() {
@@ -455,8 +460,8 @@ function todayISO() {
 function statusBadge(status) {
   const map = {
     confirmed: ['confirmed', 'Confirmada'],
-    pending:   ['pending',   'Pendente'],
     cancelled: ['cancelled', 'Cancelada'],
+    completed: ['completed', 'Concluída'],
     no_show:   ['no_show',   'No-show'],
   };
   const [cls, label] = map[status] ?? ['unknown', status || 'Desconhecido'];
