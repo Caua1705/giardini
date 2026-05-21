@@ -21,6 +21,8 @@ export const API_ROUTES = {
   adminLogin:         '/admin/login',
   adminMe:            '/admin/me',
   adminReservations:  '/admin/reservations',
+  adminFinanceRevenue:  '/admin/finance/revenue',
+  adminFinanceExpenses: '/admin/finance/expenses',
 };
 
 /**
