@@ -128,11 +128,27 @@ function updateCount(total = filtered.length) {
 }
 
 function normalizeReservation(raw) {
+  const clientName =
+    raw.client_name ||
+    raw.client?.name ||
+    raw.name ||
+    '';
+  const clientPhone =
+    raw.client_phone ||
+    raw.client?.phone ||
+    raw.phone ||
+    '';
+  const clientEmail =
+    raw.client_email ||
+    raw.client?.email ||
+    raw.email ||
+    '';
+
   return {
     id:      raw.id ?? '',
-    name:    raw.client?.name  ?? raw.name  ?? '—',
-    email:   raw.client?.email ?? raw.email ?? '—',
-    phone:   raw.client?.phone ?? raw.phone ?? '—',
+    name:    clientName || '—',
+    email:   clientEmail || '—',
+    phone:   clientPhone || '—',
     env:     raw.environment?.name ?? raw.environment_name ?? raw.environmentName ?? '—',
     envId:   raw.environment?.id ?? raw.environment_id ?? raw.environmentId ?? '',
     date:    raw.reservation_date ?? '',
