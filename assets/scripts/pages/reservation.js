@@ -233,11 +233,10 @@ const DOM = {
 
   // CTA / Feedback
   submitBtn:          document.getElementById('res-submit'),
-  successPanel:       document.getElementById('res-success'),
   errorPanel:         document.getElementById('res-error'),
 
-  // Mobile-only confirmation card (desktop never uses this)
-  mobSuccessCard:     document.getElementById('mob-success-card'),
+  // Unified confirmation screen (covers entire page on success)
+  confirmScreen:      document.getElementById('res-confirm-screen'),
 
   // Datepicker
   rcdTrigger:         document.getElementById('rcd-trigger'),
@@ -808,7 +807,7 @@ function createPeriodGroup(label, times) {
 }
 
 
-/* ── Mobile confirmation card ──────────────────────────────────── */
+/* ── Confirmation screen (unified — mobile + desktop) ──────────── */
 
 function formatReservationDate(date) {
   if (!date || typeof date !== 'string') return '';
@@ -843,46 +842,31 @@ function isValidCreatedReservation(reservation) {
   return Boolean(reservation && reservation.id && reservation.status);
 }
 
-function showMobileConfirmation(reservation) {
-  const card = DOM.mobSuccessCard;
-  if (!card) return;
-
-  // Build summary rows from the reservation returned by the backend
-  const summaryEl = document.getElementById('mob-sc-summary');
-  if (summaryEl) {
-    summaryEl.innerHTML = '';
-    const rows = getReservationSummaryRows(reservation);
-    rows.forEach(([label, value]) => {
-      if (!value) return;
-      const row = document.createElement('div');
-      row.className = 'mob-sc-row';
-      row.innerHTML = `<span class="mob-sc-row-label">${label}</span><span class="mob-sc-row-value">${value}</span>`;
-      summaryEl.appendChild(row);
-    });
-  }
-
-  // Elements to collapse so the page becomes a clean confirmation screen
-  const envSection    = document.getElementById('reservation-flow');
-  const bookingHeader = document.querySelector('#res-booking-section .res-section-header');
-  const formWrap      = document.querySelector('.res-form-wrap');
-
-  [envSection, bookingHeader, formWrap].forEach(el => {
-    if (!el) return;
-    gsap.to(el, {
-      opacity: 0, duration: 0.22, ease: 'power2.in',
-      onComplete: () => { el.style.display = 'none'; },
-    });
+function populateConfirmSummary(reservation) {
+  const el = document.getElementById('res-cs-summary');
+  if (!el) return;
+  el.innerHTML = '';
+  const rows = getReservationSummaryRows(reservation);
+  const name = reservation.name || DOM.nameInput.value.trim();
+  if (name) rows.unshift(['Nome', name]);
+  rows.forEach(([label, value]) => {
+    if (!value) return;
+    const row = document.createElement('div');
+    row.className = 'res-cs-row';
+    row.innerHTML = `<span class="res-cs-row-label">${label}</span><span class="res-cs-row-value">${value}</span>`;
+    el.appendChild(row);
   });
+}
 
-  // Reveal the confirmation card after the sections fade out
-  card.style.display = 'block';
-  gsap.fromTo(card,
-    { opacity: 0, y: 28 },
-    { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out', delay: 0.3 }
+function showConfirmation(reservation) {
+  if (!DOM.confirmScreen) return;
+  populateConfirmSummary(reservation);
+  DOM.confirmScreen.classList.add('is-active');
+  DOM.confirmScreen.scrollTop = 0;
+  gsap.fromTo(DOM.confirmScreen,
+    { opacity: 0 },
+    { opacity: 1, duration: 0.55, ease: 'power3.out' }
   );
-
-  // Scroll card into view with room above bottom nav
-  setTimeout(() => safeScrollTo(card, { offset: -80, duration: 1.0 }), 480);
 }
 
 /* ── Submit ────────────────────────────────────────────────────── */
@@ -893,7 +877,6 @@ async function handleSubmit() {
   const arrowEl = btn.querySelector('.res-submit-arrow');
   const valMsg  = document.getElementById('res-validation-msg');
   valMsg.style.display = 'none';
-  DOM.successPanel.classList.remove('visible');
   DOM.errorPanel.classList.remove('visible');
   createdReservation = null;
 
@@ -936,17 +919,9 @@ async function handleSubmit() {
 
     createdReservation = reservationResponse;
     btn.classList.remove('loading');
-
-    if (isMobileDevice) {
-      // Mobile: replace form with one premium confirmation card — no duplicated states
-      showMobileConfirmation(createdReservation);
-    } else {
-      // Desktop: keep existing button success state + success panel below
-      btn.classList.add('success'); textEl.textContent = 'Reserva Confirmada ✓';
-      DOM.successPanel.style.display = 'block';
-      requestAnimationFrame(() => DOM.successPanel.classList.add('visible'));
-      setTimeout(() => safeScrollTo(DOM.successPanel, {offset:-100,duration:1.2}), 300);
-    }
+    btn.classList.add('success');
+    textEl.textContent = 'Reserva Confirmada ✓';
+    showConfirmation(createdReservation);
   } catch (e) {
     createdReservation = null;
     btn.classList.remove('loading');
@@ -1027,26 +1002,14 @@ function resetForm() {
 }
 
 function handleNewReservation() {
-  if (isMobileDevice) {
-    // Hide confirmation card
-    if (DOM.mobSuccessCard) DOM.mobSuccessCard.style.display = 'none';
-
-    // Restore all sections hidden by showMobileConfirmation
-    const envSection    = document.getElementById('reservation-flow');
-    const bookingHeader = document.querySelector('#res-booking-section .res-section-header');
-    const formWrap      = document.querySelector('.res-form-wrap');
-
-    [envSection, bookingHeader, formWrap].forEach(el => {
-      if (!el) return;
-      el.style.display = '';
-      gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power3.out' });
+  if (DOM.confirmScreen) {
+    gsap.to(DOM.confirmScreen, {
+      opacity: 0, duration: 0.3, ease: 'power2.in',
+      onComplete: () => { DOM.confirmScreen.classList.remove('is-active'); },
     });
-  } else {
-    DOM.successPanel.classList.remove('visible'); DOM.successPanel.style.display = 'none';
-    DOM.errorPanel.classList.remove('visible');   DOM.errorPanel.style.display = 'none';
   }
   resetForm();
-  setTimeout(() => { safeScrollTo('#reservation-flow', {offset:-60,duration:1.4}); }, 150);
+  setTimeout(() => safeScrollTo('#reservation-flow', { offset: -60, duration: 1.4 }), 350);
 }
 
 
@@ -1070,12 +1033,9 @@ function bindEvents() {
 
   DOM.submitBtn.addEventListener('click', handleSubmit);
 
-  const nb = document.getElementById('res-new-reservation');
-  if (nb) nb.addEventListener('click', handleNewReservation);
-
-  // Mobile confirmation card — "Fazer outra reserva"
-  const mobNewBtn = document.getElementById('mob-sc-new-btn');
-  if (mobNewBtn) mobNewBtn.addEventListener('click', handleNewReservation);
+  // Confirmation screen — "Fazer outra reserva"
+  const csNewBtn = document.getElementById('res-cs-new-btn');
+  if (csNewBtn) csNewBtn.addEventListener('click', handleNewReservation);
 
   // "Alterar" button below cards
   if (DOM.envChangeBtn) DOM.envChangeBtn.addEventListener('click', resetEnvCardSelection);

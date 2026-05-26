@@ -486,32 +486,6 @@
             <!-- Validation message -->
             <p id="res-validation-msg" style="display:none; font-size:0.78rem; font-weight:500; color:#b45309; text-align:center; margin-top:1.25rem; opacity:0.9; line-height:1.6;"></p>
 
-            <!-- Success feedback -->
-            <div class="res-feedback res-feedback-success" id="res-success">
-              <div class="res-feedback-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M20 6L9 17l-5-5" />
-                </svg>
-              </div>
-              <h3 class="res-feedback-title">Reserva confirmada</h3>
-              <p class="res-feedback-text">
-                Sua mesa está reservada. Enviamos os detalhes para o seu e-mail.<br>
-                <span style="font-size:0.75rem;opacity:0.65;margin-top:0.5rem;display:inline-block;">Até breve no Giardini Café ☕</span>
-              </p>
-              <div class="res-feedback-actions">
-                <button type="button" class="res-feedback-btn res-feedback-btn-primary" id="res-new-reservation">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14" /></svg>
-                  Fazer outra reserva
-                </button>
-                <a href="index.html" class="res-feedback-btn res-feedback-btn-secondary">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
-                  Voltar ao início
-                </a>
-              </div>
-              <a href="menu.html" class="res-feedback-link">Ver cardápio →</a>
-            </div>
-
             <!-- Error feedback -->
             <div class="res-feedback res-feedback-error" id="res-error">
               <div class="res-feedback-icon">
@@ -529,57 +503,62 @@
 
       </div><!-- /res-form-wrap -->
 
-      <!-- ══ MOBILE SUCCESS CARD ══════════════════════════════════════
-           Shown on mobile in place of the form after a successful submit.
-           Desktop never sees this element (JS + CSS both gate on mobile).
-           ══════════════════════════════════════════════════════════════ -->
-      <div id="mob-success-card" aria-live="polite" aria-label="Reserva confirmada" style="display:none;">
-        <div class="mob-sc-inner">
-
-          <!-- Icon -->
-          <div class="mob-sc-icon-wrap" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 6L9 17l-5-5"/>
-            </svg>
-          </div>
-
-          <!-- Kicker -->
-          <div class="mob-sc-kicker" aria-hidden="true">
-            <span class="mob-sc-kicker-line"></span>
-            <span class="mob-sc-kicker-text">Giardini Café</span>
-            <span class="mob-sc-kicker-line"></span>
-          </div>
-
-          <!-- Title & message -->
-          <h2 class="mob-sc-title">Reserva confirmada</h2>
-          <p class="mob-sc-subtitle">Sua mesa está reservada.</p>
-          <p class="mob-sc-whatsapp">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-            Você receberá os detalhes pelo WhatsApp informado.
-          </p>
-
-          <!-- Reservation summary — rows populated by JS -->
-          <div class="mob-sc-summary" id="mob-sc-summary"></div>
-
-          <!-- Actions -->
-          <div class="mob-sc-actions">
-            <button type="button" id="mob-sc-new-btn" class="mob-sc-btn-primary">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-              Fazer outra reserva
-            </button>
-            <a href="index.html" class="mob-sc-btn-secondary">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-              Voltar ao início
-            </a>
-            <a href="menu.html" class="mob-sc-link">Ver cardápio →</a>
-          </div>
-
-        </div>
-      </div><!-- /mob-success-card -->
-
     </div><!-- /res-container -->
   </section>
 
+
+  <!-- ══════════════════════════════════════════════════════════════════
+       CONFIRMATION SCREEN — full-screen overlay após reserva confirmada.
+       Cobre toda a página (hero, formulário, footer) em ambos mobile e PC.
+       JS adiciona .is-active para exibir, remove para fechar.
+       ══════════════════════════════════════════════════════════════════ -->
+  <section id="res-confirm-screen" aria-live="polite" aria-label="Reserva confirmada">
+    <div class="res-cs-inner">
+
+      <!-- Icon -->
+      <div class="res-cs-icon-wrap" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6L9 17l-5-5"/>
+        </svg>
+      </div>
+
+      <!-- Kicker -->
+      <div class="res-cs-kicker" aria-hidden="true">
+        <span class="res-cs-kicker-line"></span>
+        <span class="res-cs-kicker-text">Giardini Café</span>
+        <span class="res-cs-kicker-line"></span>
+      </div>
+
+      <!-- Title & subtitle -->
+      <h2 class="res-cs-title">Reserva confirmada.</h2>
+      <p class="res-cs-subtitle">Sua experiência no Giardini já está reservada.</p>
+
+      <!-- WhatsApp notice -->
+      <p class="res-cs-email-notice">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+        </svg>
+        Os detalhes também foram enviados pelo WhatsApp informado.
+      </p>
+
+      <!-- Reservation summary — rows populated by JS -->
+      <div class="res-cs-summary" id="res-cs-summary"></div>
+
+      <!-- Actions -->
+      <div class="res-cs-actions">
+        <button type="button" id="res-cs-new-btn" class="res-cs-btn-primary">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          Fazer outra reserva
+        </button>
+        <a href="index.html" class="res-cs-btn-secondary">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Voltar ao início
+        </a>
+        <a href="menu.html" class="res-cs-link">Ver cardápio →</a>
+      </div>
+
+    </div>
+  </section>
 
   <!-- Cinematic gradient bleed into footer — same as index.html -->
   <div id="footer-bleed" aria-hidden="true" style="position:relative;z-index:58;height:160px;margin-top:-160px;pointer-events:none;background:linear-gradient(to bottom,transparent 0%,rgba(10,16,13,0.4) 40%,rgba(10,16,13,0.85) 80%,#0a100d 100%);"></div>
