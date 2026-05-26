@@ -3855,6 +3855,11 @@ body{
 }
 .res-cs-link:hover { color: rgba(183,147,88,.65); }
 
+/* ── Compact mobile summary (hidden on desktop) ── */
+.res-cs-compact {
+  display: none;
+}
+
 /* ── Desktop refinements (≥ 769px) ── */
 @media (min-width: 769px) {
   .res-cs-inner {
@@ -3868,17 +3873,53 @@ body{
 /* ── Mobile (≤ 768px) ── */
 @media (max-width: 768px) {
   #res-confirm-screen {
-    /* Bottom nav is hidden when this screen is active — padding normal */
-    padding: 2rem 1.25rem 3rem;
+    padding: 1.5rem 1.25rem 2rem;
     align-items: flex-start;
   }
   .res-cs-inner {
     max-width: 100%;
-    padding: 2rem 1.5rem 2.5rem;
+    padding: 1.75rem 1.5rem 2rem;
     border-radius: 20px;
   }
   .res-cs-title { font-size: 1.95rem; }
-  .res-cs-icon-wrap { width: 52px; height: 52px; }
+  .res-cs-icon-wrap {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+  }
+  .res-cs-subtitle { margin-bottom: .55rem; }
+  .res-cs-email-notice { margin-bottom: 1.4rem; }
+
+  /* Hide desktop table, show compact block */
+  .res-cs-summary { display: none; }
+  .res-cs-compact {
+    display: block;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.25rem 1.1rem;
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(183,147,88,.15);
+    border-radius: 14px;
+    text-align: center;
+  }
+  .res-cs-compact-env {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: 400;
+    color: rgba(238,232,221,.9);
+    line-height: 1.2;
+    margin-bottom: .4rem;
+  }
+  .res-cs-compact-dt {
+    font-family: 'Inter', sans-serif;
+    font-size: .8rem;
+    font-weight: 400;
+    color: rgba(183,147,88,.72);
+    letter-spacing: .03em;
+  }
 }
 
 @media (max-width: 380px) {

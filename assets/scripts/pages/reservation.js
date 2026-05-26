@@ -816,29 +816,48 @@ function isValidCreatedReservation(reservation) {
 function showConfirmation() {
   if (!DOM.confirmScreen) return;
 
-  const el = document.getElementById('res-cs-summary');
-  if (el) {
-    el.innerHTML = '';
-    const env    = getEnvironmentById(DOM.environment.value);
-    const name   = DOM.nameInput.value.trim();
-    const date   = DOM.dateInput.value;
-    const guests = Number(selectedGuests);
+  const env     = getEnvironmentById(DOM.environment.value);
+  const name    = DOM.nameInput.value.trim();
+  const date    = DOM.dateInput.value;
+  const envName = env ? env.name : null;
+  const dateFmt = date ? formatDateDisplay(date) : null;
+  const timeFmt = selectedTime ? selectedTime.slice(0, 5) : null;
 
-    const rows = [
-      ['Nome',     name || null],
-      ['Ambiente', env ? env.name : null],
-      ['Data',     date ? formatDateDisplay(date) : null],
-      ['Horário',  selectedTime ? selectedTime.slice(0, 5) : null],
-      ['Pessoas',  guests > 0 ? guests + ' pessoa' + (guests === 1 ? '' : 's') : null],
-    ];
-
-    rows.forEach(function([label, value]) {
+  // Desktop table — Nome, Ambiente, Data, Horário
+  const tableEl = document.getElementById('res-cs-summary');
+  if (tableEl) {
+    tableEl.innerHTML = '';
+    [
+      ['Nome',    name    || null],
+      ['Ambiente', envName || null],
+      ['Data',    dateFmt],
+      ['Horário', timeFmt],
+    ].forEach(function([label, value]) {
       if (!value) return;
       const row = document.createElement('div');
       row.className = 'res-cs-row';
       row.innerHTML = '<span class="res-cs-row-label">' + label + '</span><span class="res-cs-row-value">' + value + '</span>';
-      el.appendChild(row);
+      tableEl.appendChild(row);
     });
+  }
+
+  // Mobile compact — Ambiente then Data • Horário
+  const compactEl = document.getElementById('res-cs-compact');
+  if (compactEl) {
+    compactEl.innerHTML = '';
+    if (envName) {
+      const envEl = document.createElement('div');
+      envEl.className = 'res-cs-compact-env';
+      envEl.textContent = envName;
+      compactEl.appendChild(envEl);
+    }
+    const dtParts = [dateFmt, timeFmt].filter(Boolean);
+    if (dtParts.length) {
+      const dtEl = document.createElement('div');
+      dtEl.className = 'res-cs-compact-dt';
+      dtEl.textContent = dtParts.join(' • ');
+      compactEl.appendChild(dtEl);
+    }
   }
 
   document.body.style.overflow = 'hidden';
