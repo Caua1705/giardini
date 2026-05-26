@@ -847,18 +847,14 @@ function populateConfirmSummary(reservation) {
   if (!el) return;
   el.innerHTML = '';
 
-  // Use form DOM state as primary source — API response may only return {id, status}
-  const env = getEnvironmentById(
-    (reservation && reservation.environment_id) || DOM.environment.value
-  );
+  // reservation is always a merged object {formSnapshot + apiResponse}
+  // so all fields are guaranteed to be present
   const rows = [
-    ['Nome',     (reservation && reservation.name) || DOM.nameInput.value.trim() || null],
-    ['Ambiente', (reservation && reservation.environment_name) || env?.name || null],
-    ['Data',     formatReservationDate((reservation && reservation.reservation_date) || DOM.dateInput.value)],
-    ['Horário',  formatReservationTime((reservation && reservation.reservation_time) || selectedTime)],
-    ['Pessoas',  formatReservationPartySize(
-      (reservation && reservation.party_size != null) ? reservation.party_size : selectedGuests
-    )],
+    ['Nome',     reservation.name || null],
+    ['Ambiente', reservation.environment_name || null],
+    ['Data',     formatReservationDate(reservation.reservation_date)],
+    ['Horário',  formatReservationTime(reservation.reservation_time)],
+    ['Pessoas',  formatReservationPartySize(reservation.party_size)],
   ];
 
   rows.forEach(([label, value]) => {
@@ -919,6 +915,17 @@ async function handleSubmit() {
   btn.classList.add('loading'); btn.disabled = true;
   textEl.textContent = 'Confirmando...'; arrowEl.style.display = 'none';
 
+  // Snapshot captured before API call — guarantees all display fields are available
+  // regardless of what the API response includes.
+  const formSnapshot = {
+    name,
+    environment_id:   environment,
+    environment_name: getEnvironmentById(environment)?.name || null,
+    reservation_date: date,
+    reservation_time: selectedTime,
+    party_size:       Number(selectedGuests),
+  };
+
   try {
     const reservationResponse = await apiFetch(API_ROUTES.reservations, {
       method: 'POST',
@@ -941,7 +948,8 @@ async function handleSubmit() {
     btn.classList.remove('loading');
     btn.classList.add('success');
     textEl.textContent = 'Reserva Confirmada ✓';
-    showConfirmation(createdReservation);
+    // Merge snapshot (form state) with API response — snapshot fills any missing fields
+    showConfirmation({ ...formSnapshot, ...createdReservation });
   } catch (e) {
     createdReservation = null;
     btn.classList.remove('loading');
