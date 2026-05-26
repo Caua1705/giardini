@@ -26,7 +26,6 @@ const state = {
 };
 
 const DOM = {
-  pageNow: document.getElementById('adm-page-now'),
   tbody: document.getElementById('adm-tbody'),
   cards: document.getElementById('adm-cards'),
   count: document.getElementById('adm-count'),
@@ -64,8 +63,6 @@ if (currentUser) {
 
 function initReservationsPage() {
   initShell();
-  updatePageNow();
-  window.setInterval(updatePageNow, 30000);
   bindEvents();
   loadCreateEnvironments();
   fetchReservations();
@@ -797,17 +794,6 @@ function startOfToday() {
 function todayISO() {
   const date = new Date();
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-}
-
-function updatePageNow() {
-  if (!DOM.pageNow) return;
-  DOM.pageNow.textContent = new Date().toLocaleString('pt-BR', {
-    weekday: 'short',
-    day: '2-digit',
-    month: 'short',
-    hour: '2-digit',
-    minute: '2-digit',
-  }).replace('.', '');
 }
 
 const MONTHS = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
