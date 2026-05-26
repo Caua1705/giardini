@@ -18,6 +18,7 @@
 
   <!-- Admin styles -->
   <link rel="stylesheet" href="../assets/styles/pages/admin.css" />
+  <link rel="stylesheet" href="../assets/styles/pages/admin-reservations.css" />
 </head>
 <body>
 
@@ -103,6 +104,10 @@
       </div>
       <div class="adm-header-right">
         <span class="adm-header-time" id="adm-clock"></span>
+        <button class="adm-new-reservation-btn" id="adm-create-reservation" type="button">
+          <span aria-hidden="true">+</span>
+          Nova reserva
+        </button>
         <button class="adm-refresh-btn" id="adm-refresh" type="button" aria-label="Atualizar">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
@@ -117,12 +122,20 @@
 
       <!-- Page header -->
       <div class="adm-page-header">
-        <div class="adm-page-kicker">
-          <span class="adm-page-kicker-dot"></span>
-          Painel interno
+        <div class="adm-page-header-main">
+          <div>
+            <div class="adm-page-kicker">
+              <span class="adm-page-kicker-dot"></span>
+              Painel interno
+            </div>
+            <h1 class="adm-page-title">Reservas</h1>
+            <p class="adm-page-subtitle">Controle operacional interno para acompanhar reservas, convidados, ambientes e contatos do dia.</p>
+          </div>
+          <div class="adm-page-status">
+            <span class="adm-page-status-label">Agora</span>
+            <span class="adm-page-status-value" id="adm-page-now">--</span>
+          </div>
         </div>
-        <h1 class="adm-page-title">Reservas</h1>
-        <p class="adm-page-subtitle">Gerencie as reservas e visualize os detalhes dos convidados.</p>
       </div>
 
       <!-- ── Metric cards ──────────────────────────────────────── -->
@@ -144,7 +157,7 @@
         <div class="adm-metric-card">
           <div class="adm-metric-label">Reservas hoje</div>
           <div class="adm-metric-value" id="adm-m-today">—</div>
-          <div class="adm-metric-sub">Apenas o dia de hoje</div>
+          <div class="adm-metric-sub">Apenas reservas de hoje</div>
           <div class="adm-metric-icon">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(43,74,59,0.65)" stroke-width="1">
               <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
@@ -155,7 +168,7 @@
         <div class="adm-metric-card">
           <div class="adm-metric-label">Total de convidados</div>
           <div class="adm-metric-value" id="adm-m-guests">—</div>
-          <div class="adm-metric-sub">Soma de todas as reservas</div>
+          <div class="adm-metric-sub">Soma de convidados no período</div>
           <div class="adm-metric-icon">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(183,147,88,0.4)" stroke-width="1">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
@@ -176,6 +189,12 @@
         </div>
 
       </div><!-- /metrics -->
+
+      <div class="adm-insights-strip" id="adm-insights" aria-live="polite">
+        <span>Próxima reserva: --</span>
+        <span>Ambiente mais reservado: --</span>
+        <span>Maior grupo: --</span>
+      </div>
 
       <!-- ── Toolbar / Filters ─────────────────────────────────── -->
       <div class="adm-toolbar">
@@ -250,6 +269,70 @@
     </main>
   </div><!-- /adm-body -->
 </div><!-- /adm-shell -->
+
+<div class="adm-drawer-backdrop" id="adm-drawer-backdrop" hidden></div>
+<aside class="adm-reservation-drawer" id="adm-reservation-drawer" aria-hidden="true" aria-label="Detalhes da reserva">
+  <div id="adm-drawer-content"></div>
+</aside>
+
+<div class="adm-modal-backdrop" id="adm-create-backdrop" hidden></div>
+<section class="adm-create-modal" id="adm-create-modal" aria-hidden="true" aria-labelledby="adm-create-title">
+  <form class="adm-create-form" id="adm-create-form">
+    <div class="adm-create-head">
+      <div>
+        <p class="adm-drawer-kicker">Operação interna</p>
+        <h2 id="adm-create-title">Nova reserva</h2>
+      </div>
+      <button class="adm-drawer-close" type="button" id="adm-create-close" aria-label="Fechar nova reserva">×</button>
+    </div>
+
+    <div class="adm-create-grid">
+      <label class="adm-create-field">
+        <span>Nome</span>
+        <input name="name" type="text" autocomplete="name" required />
+      </label>
+      <label class="adm-create-field">
+        <span>E-mail</span>
+        <input name="email" type="email" autocomplete="email" required />
+      </label>
+      <label class="adm-create-field">
+        <span>Telefone</span>
+        <input name="phone" type="tel" autocomplete="tel" required />
+      </label>
+      <label class="adm-create-field">
+        <span>Ambiente</span>
+        <select name="environment_id" id="adm-create-environment" required>
+          <option value="">Carregando ambientes...</option>
+        </select>
+      </label>
+      <label class="adm-create-field">
+        <span>Data</span>
+        <input name="reservation_date" type="date" required />
+      </label>
+      <label class="adm-create-field">
+        <span>Horário</span>
+        <input name="reservation_time" type="time" required />
+      </label>
+      <label class="adm-create-field">
+        <span>Pessoas</span>
+        <input name="party_size" type="number" min="1" step="1" required />
+      </label>
+      <label class="adm-create-field adm-create-field--wide">
+        <span>Observações</span>
+        <textarea name="notes" rows="3"></textarea>
+      </label>
+    </div>
+
+    <p class="adm-create-feedback" id="adm-create-feedback" role="status"></p>
+
+    <div class="adm-create-actions">
+      <button class="adm-create-secondary" type="button" id="adm-create-cancel">Cancelar</button>
+      <button class="adm-create-submit" type="submit">
+        <span>Criar reserva</span>
+      </button>
+    </div>
+  </form>
+</section>
 
 <script type="module" src="../assets/scripts/pages/admin-reservations.js"></script>
 </body>
