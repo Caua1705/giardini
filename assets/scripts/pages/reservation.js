@@ -846,9 +846,21 @@ function populateConfirmSummary(reservation) {
   const el = document.getElementById('res-cs-summary');
   if (!el) return;
   el.innerHTML = '';
-  const rows = getReservationSummaryRows(reservation);
-  const name = reservation.name || DOM.nameInput.value.trim();
-  if (name) rows.unshift(['Nome', name]);
+
+  // Use form DOM state as primary source — API response may only return {id, status}
+  const env = getEnvironmentById(
+    (reservation && reservation.environment_id) || DOM.environment.value
+  );
+  const rows = [
+    ['Nome',     (reservation && reservation.name) || DOM.nameInput.value.trim() || null],
+    ['Ambiente', (reservation && reservation.environment_name) || env?.name || null],
+    ['Data',     formatReservationDate((reservation && reservation.reservation_date) || DOM.dateInput.value)],
+    ['Horário',  formatReservationTime((reservation && reservation.reservation_time) || selectedTime)],
+    ['Pessoas',  formatReservationPartySize(
+      (reservation && reservation.party_size != null) ? reservation.party_size : selectedGuests
+    )],
+  ];
+
   rows.forEach(([label, value]) => {
     if (!value) return;
     const row = document.createElement('div');
@@ -861,6 +873,14 @@ function populateConfirmSummary(reservation) {
 function showConfirmation(reservation) {
   if (!DOM.confirmScreen) return;
   populateConfirmSummary(reservation);
+
+  // Lock body scroll so the page behind the overlay cannot scroll
+  document.body.style.overflow = 'hidden';
+
+  // Hide mobile bottom nav — prevents it from painting over the overlay during scroll
+  const bottomNav = document.getElementById('mobile-bottom-nav');
+  if (bottomNav) bottomNav.style.display = 'none';
+
   DOM.confirmScreen.classList.add('is-active');
   DOM.confirmScreen.scrollTop = 0;
   gsap.fromTo(DOM.confirmScreen,
@@ -1002,6 +1022,11 @@ function resetForm() {
 }
 
 function handleNewReservation() {
+  // Restore body scroll and mobile bottom nav
+  document.body.style.overflow = '';
+  const bottomNav = document.getElementById('mobile-bottom-nav');
+  if (bottomNav) bottomNav.style.display = '';
+
   if (DOM.confirmScreen) {
     gsap.to(DOM.confirmScreen, {
       opacity: 0, duration: 0.3, ease: 'power2.in',

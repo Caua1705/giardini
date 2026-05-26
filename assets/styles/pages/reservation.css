@@ -3592,6 +3592,7 @@ body{
     linear-gradient(180deg, #141d15 0%, #1a2e24 50%, #0d1a12 100%);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   align-items: center;
   justify-content: center;
   padding: 5rem 1.5rem 5rem;
@@ -3867,7 +3868,8 @@ body{
 /* ── Mobile (≤ 768px) ── */
 @media (max-width: 768px) {
   #res-confirm-screen {
-    padding: 2rem 1.25rem 7.5rem; /* extra bottom clears mobile bottom nav */
+    /* Bottom nav is hidden when this screen is active — padding normal */
+    padding: 2rem 1.25rem 3rem;
     align-items: flex-start;
   }
   .res-cs-inner {
