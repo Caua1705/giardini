@@ -847,14 +847,16 @@ function populateConfirmSummary(reservation) {
   if (!el) return;
   el.innerHTML = '';
 
-  // reservation is always a merged object {formSnapshot + apiResponse}
-  // so all fields are guaranteed to be present
+  const dateVal  = formatReservationDate(reservation.reservation_date)  || reservation.reservation_date  || null;
+  const timeVal  = formatReservationTime(reservation.reservation_time)  || reservation.reservation_time  || null;
+  const sizeVal  = formatReservationPartySize(reservation.party_size)   || (reservation.party_size != null ? String(reservation.party_size) : null);
+
   const rows = [
-    ['Nome',     reservation.name || null],
+    ['Nome',     reservation.name            || null],
     ['Ambiente', reservation.environment_name || null],
-    ['Data',     formatReservationDate(reservation.reservation_date)],
-    ['Horário',  formatReservationTime(reservation.reservation_time)],
-    ['Pessoas',  formatReservationPartySize(reservation.party_size)],
+    ['Data',     dateVal],
+    ['Horário',  timeVal],
+    ['Pessoas',  sizeVal],
   ];
 
   rows.forEach(([label, value]) => {
@@ -948,8 +950,15 @@ async function handleSubmit() {
     btn.classList.remove('loading');
     btn.classList.add('success');
     textEl.textContent = 'Reserva Confirmada ✓';
-    // Merge snapshot (form state) with API response — snapshot fills any missing fields
-    showConfirmation({ ...formSnapshot, ...createdReservation });
+    showConfirmation({
+      ...createdReservation,
+      name:             formSnapshot.name,
+      environment_id:   formSnapshot.environment_id,
+      environment_name: formSnapshot.environment_name,
+      reservation_date: formSnapshot.reservation_date,
+      reservation_time: formSnapshot.reservation_time,
+      party_size:       formSnapshot.party_size,
+    });
   } catch (e) {
     createdReservation = null;
     btn.classList.remove('loading');
