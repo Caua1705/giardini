@@ -809,73 +809,40 @@ function createPeriodGroup(label, times) {
 
 /* ── Confirmation screen (unified — mobile + desktop) ──────────── */
 
-function formatReservationDate(date) {
-  if (!date || typeof date !== 'string') return '';
-  const [y, m, d] = date.split('-');
-  if (!y || !m || !d) return date;
-  return `${d}/${m}/${y}`;
-}
-
-function formatReservationTime(time) {
-  if (!time || typeof time !== 'string') return '';
-  return time.slice(0, 5);
-}
-
-function formatReservationPartySize(size) {
-  const n = Number(size);
-  if (!Number.isFinite(n) || n <= 0) return '';
-  return `${n} pessoa${n === 1 ? '' : 's'}`;
-}
-
-function getReservationSummaryRows(reservation) {
-  if (!reservation) return [];
-  const env = getEnvironmentById(reservation.environment_id || DOM.environment.value);
-  return [
-    ['Ambiente', reservation.environment_name || env?.name || null],
-    ['Data', formatReservationDate(reservation.reservation_date)],
-    ['Hor\u00e1rio', formatReservationTime(reservation.reservation_time)],
-    ['Pessoas', formatReservationPartySize(reservation.party_size)],
-  ];
-}
-
 function isValidCreatedReservation(reservation) {
   return Boolean(reservation && reservation.id && reservation.status);
 }
 
-function populateConfirmSummary(reservation) {
-  const el = document.getElementById('res-cs-summary');
-  if (!el) return;
-  el.innerHTML = '';
-
-  const dateVal  = formatReservationDate(reservation.reservation_date)  || reservation.reservation_date  || null;
-  const timeVal  = formatReservationTime(reservation.reservation_time)  || reservation.reservation_time  || null;
-  const sizeVal  = formatReservationPartySize(reservation.party_size)   || (reservation.party_size != null ? String(reservation.party_size) : null);
-
-  const rows = [
-    ['Nome',     reservation.name            || null],
-    ['Ambiente', reservation.environment_name || null],
-    ['Data',     dateVal],
-    ['Horário',  timeVal],
-    ['Pessoas',  sizeVal],
-  ];
-
-  rows.forEach(([label, value]) => {
-    if (!value) return;
-    const row = document.createElement('div');
-    row.className = 'res-cs-row';
-    row.innerHTML = `<span class="res-cs-row-label">${label}</span><span class="res-cs-row-value">${value}</span>`;
-    el.appendChild(row);
-  });
-}
-
-function showConfirmation(reservation) {
+function showConfirmation() {
   if (!DOM.confirmScreen) return;
-  populateConfirmSummary(reservation);
 
-  // Lock body scroll so the page behind the overlay cannot scroll
+  const el = document.getElementById('res-cs-summary');
+  if (el) {
+    el.innerHTML = '';
+    const env    = getEnvironmentById(DOM.environment.value);
+    const name   = DOM.nameInput.value.trim();
+    const date   = DOM.dateInput.value;
+    const guests = Number(selectedGuests);
+
+    const rows = [
+      ['Nome',     name || null],
+      ['Ambiente', env ? env.name : null],
+      ['Data',     date ? formatDateDisplay(date) : null],
+      ['Horário',  selectedTime ? selectedTime.slice(0, 5) : null],
+      ['Pessoas',  guests > 0 ? guests + ' pessoa' + (guests === 1 ? '' : 's') : null],
+    ];
+
+    rows.forEach(function([label, value]) {
+      if (!value) return;
+      const row = document.createElement('div');
+      row.className = 'res-cs-row';
+      row.innerHTML = '<span class="res-cs-row-label">' + label + '</span><span class="res-cs-row-value">' + value + '</span>';
+      el.appendChild(row);
+    });
+  }
+
   document.body.style.overflow = 'hidden';
 
-  // Hide mobile bottom nav — prevents it from painting over the overlay during scroll
   const bottomNav = document.getElementById('mobile-bottom-nav');
   if (bottomNav) bottomNav.style.display = 'none';
 
@@ -917,17 +884,6 @@ async function handleSubmit() {
   btn.classList.add('loading'); btn.disabled = true;
   textEl.textContent = 'Confirmando...'; arrowEl.style.display = 'none';
 
-  // Snapshot captured before API call — guarantees all display fields are available
-  // regardless of what the API response includes.
-  const formSnapshot = {
-    name,
-    environment_id:   environment,
-    environment_name: getEnvironmentById(environment)?.name || null,
-    reservation_date: date,
-    reservation_time: selectedTime,
-    party_size:       Number(selectedGuests),
-  };
-
   try {
     const reservationResponse = await apiFetch(API_ROUTES.reservations, {
       method: 'POST',
@@ -950,15 +906,7 @@ async function handleSubmit() {
     btn.classList.remove('loading');
     btn.classList.add('success');
     textEl.textContent = 'Reserva Confirmada ✓';
-    showConfirmation({
-      ...createdReservation,
-      name:             formSnapshot.name,
-      environment_id:   formSnapshot.environment_id,
-      environment_name: formSnapshot.environment_name,
-      reservation_date: formSnapshot.reservation_date,
-      reservation_time: formSnapshot.reservation_time,
-      party_size:       formSnapshot.party_size,
-    });
+    showConfirmation();
   } catch (e) {
     createdReservation = null;
     btn.classList.remove('loading');
