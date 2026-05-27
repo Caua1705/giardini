@@ -1219,6 +1219,14 @@
 }
 .res-time-group-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(255,255,255,.09),transparent)}
 .res-time-group-pills{display:flex;flex-wrap:wrap;gap:.6rem}
+.res-duration-note{
+  margin:.85rem 0 0;
+  font-size:.72rem;
+  font-weight:400;
+  line-height:1.6;
+  letter-spacing:.02em;
+  color:rgba(238,232,221,.34);
+}
 
 /* ══════════════════════════════════════════════════════════════════
    FORM INPUTS — Glass, floating on green background
@@ -3749,6 +3757,17 @@ body{
   overflow: hidden;
   margin-bottom: 1.85rem;
 }
+.res-cs-duration-note {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: -1rem 0 1.55rem;
+  font-size: .72rem;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: .02em;
+  color: rgba(238,232,221,.38);
+}
 .res-cs-row {
   display: flex;
   justify-content: space-between;
@@ -3903,6 +3922,10 @@ body{
     border: 1px solid rgba(183,147,88,.15);
     border-radius: 14px;
     text-align: center;
+  }
+  .res-cs-duration-note {
+    margin: -.75rem 0 1.2rem;
+    font-size: .68rem;
   }
   .res-cs-compact-env {
     font-family: 'Instrument Serif', serif;
