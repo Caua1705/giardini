@@ -3887,6 +3887,38 @@ body{
   .res-cs-title { font-size: 2.7rem; }
   .res-cs-icon-wrap { width: 66px; height: 66px; }
   .res-cs-icon-wrap svg { width: 26px; height: 26px; }
+  .res-cs-summary { display: none; }
+  .res-cs-compact {
+    display: block;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.25rem 1.1rem;
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(183,147,88,.15);
+    border-radius: 14px;
+    text-align: center;
+  }
+  .res-cs-duration-note {
+    margin: -.75rem 0 1.2rem;
+  }
+  .res-cs-compact-env {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: 400;
+    color: rgba(238,232,221,.9);
+    line-height: 1.2;
+    margin-bottom: .4rem;
+  }
+  .res-cs-compact-dt {
+    font-family: 'Inter', sans-serif;
+    font-size: .8rem;
+    font-weight: 400;
+    color: rgba(183,147,88,.72);
+    letter-spacing: .03em;
+  }
 }
 
 /* ── Mobile (≤ 768px) ── */
