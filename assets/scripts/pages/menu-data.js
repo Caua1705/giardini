@@ -34,22 +34,19 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 const SUBCATEGORY_TO_SECTION_ID = {
   'Croissants':      'croissants',
   'Pães & Chapa':    'paes',
-  'Combos':          'combos',
   'Tapioca & Cuscuz':'tapioca',
   'Bruschettas':     'bruschettas',
   'Sanduíches':      'sanduiches',
   'Salgados':        'salgados',
-  'Drinks':          'drinks',
   'Sucos':           'sucos',
   'Soft Drinks':     'softdrinks',
   'Barista':         'barista',
-  'Mundo Fit':       'fit',
   'Confeitaria':     'confeitaria',
   'Adicionais':      'adicionais',
 };
 
 /* Sections that appear first on screen — get skeleton priority */
-const VISIBLE_SECTIONS = ['croissants', 'paes', 'combos'];
+const VISIBLE_SECTIONS = ['croissants', 'paes'];
 
 /* ════════════════════════════════════════════════════════════════════════════
    SKELETON LOADING
