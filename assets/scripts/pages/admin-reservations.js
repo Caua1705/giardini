@@ -1,6 +1,6 @@
 /**
  * Giardini Café - Admin Reservations
- * Frontend-only operational panel backed by GET /admin/reservations.
+ * Operational dashboard for managing reservations.
  */
 
 import { requireAuth, initShell, adminFetch } from './admin-auth.js';
@@ -9,15 +9,16 @@ import { API_ROUTES, apiFetch } from '../config/api.js';
 const currentUser = await requireAuth();
 
 const PAGE_LIMIT = 200;
-const SEARCH_DEBOUNCE_MS = 300;
-const STATUS_FILTERS = new Set(['confirmed', 'cancelled', 'completed', 'no_show', 'pending']);
+const SEARCH_DEBOUNCE_MS = 220;
+const PERIODS = new Set(['today', 'tomorrow', 'week', 'all']);
+const STATUS_CHIPS = new Set(['all', 'confirmed', 'pending', 'cancelled', 'upcoming']);
 
 const state = {
   reservations: [],
-  visibleReservations: [],
   environments: [],
-  totalFromBackend: 0,
   activePeriod: 'all',
+  activeStatusChip: 'all',
+  viewMode: 'cards',
   loading: false,
   error: null,
   selectedReservationId: null,
@@ -27,7 +28,11 @@ const state = {
 
 const DOM = {
   tbody: document.getElementById('adm-tbody'),
+  tableWrap: document.getElementById('adm-table-wrap'),
   cards: document.getElementById('adm-cards'),
+  agenda: document.getElementById('adm-agenda'),
+  agendaTitle: document.getElementById('adm-agenda-title'),
+  agendaMeta: document.getElementById('adm-agenda-meta'),
   count: document.getElementById('adm-count'),
   search: document.getElementById('adm-search'),
   date: document.getElementById('adm-filter-date'),
@@ -36,11 +41,15 @@ const DOM = {
   clear: document.getElementById('adm-clear'),
   refresh: document.getElementById('adm-refresh'),
   createButton: document.getElementById('adm-create-reservation'),
-  insights: document.getElementById('adm-insights'),
-  metricTotal: document.getElementById('adm-m-total'),
+  periodTabs: document.getElementById('adm-period-tabs'),
+  statusChips: document.getElementById('adm-status-chips'),
+  viewToggle: document.getElementById('adm-view-toggle'),
   metricToday: document.getElementById('adm-m-today'),
   metricGuests: document.getElementById('adm-m-guests'),
-  metricUpcoming: document.getElementById('adm-m-upcoming'),
+  metricNextTime: document.getElementById('adm-m-next-time'),
+  metricNextSub: document.getElementById('adm-m-next-sub'),
+  metricEnv: document.getElementById('adm-m-env'),
+  metricEnvSub: document.getElementById('adm-m-env-sub'),
   drawer: document.getElementById('adm-reservation-drawer'),
   drawerContent: document.getElementById('adm-drawer-content'),
   drawerBackdrop: document.getElementById('adm-drawer-backdrop'),
@@ -68,16 +77,22 @@ function initReservationsPage() {
   fetchReservations();
 }
 
+// ─────────────────────────────────────────────────────────────────
+// Data fetching
+// ─────────────────────────────────────────────────────────────────
+
 async function fetchReservations() {
   state.loading = true;
   state.error = null;
   renderLoading();
 
   try {
-    const data = await adminFetch(buildReservationsPath());
-    state.reservations = extractReservations(data).map(normalizeReservation);
-    state.totalFromBackend = getResultTotal(data, state.reservations.length);
-    state.visibleReservations = applyClientOnlyFilters(state.reservations);
+    const params = new URLSearchParams();
+    params.set('limit', String(PAGE_LIMIT));
+    params.set('offset', '0');
+    const data = await adminFetch(`${API_ROUTES.adminReservations}?${params.toString()}`);
+    const list = extractReservations(data).map(normalizeReservation);
+    state.reservations = sortReservations(list);
     renderEnvironmentFilter();
     renderAll();
   } catch (error) {
@@ -88,26 +103,6 @@ async function fetchReservations() {
     state.loading = false;
     DOM.refresh?.classList.remove('is-loading');
   }
-}
-
-function buildReservationsPath() {
-  const params = new URLSearchParams();
-  const search = DOM.search?.value.trim() ?? '';
-  const date = DOM.date?.value ?? '';
-  const status = normalizeStatus(DOM.status?.value ?? '');
-  const environmentValue = DOM.environment?.value ?? '';
-  const envFilter = parseEnvironmentFilter(environmentValue);
-
-  if (search) params.set('search', search);
-  if (state.activePeriod !== 'all') params.set('period', state.activePeriod);
-  if (state.activePeriod === 'all' && date) params.set('date', date);
-  if (status) params.set('status', status);
-  if (envFilter.type === 'id') params.set('environment_id', envFilter.value);
-  params.set('limit', String(PAGE_LIMIT));
-  params.set('offset', '0');
-
-  const query = params.toString();
-  return query ? `${API_ROUTES.adminReservations}?${query}` : API_ROUTES.adminReservations;
 }
 
 function extractReservations(data) {
@@ -146,157 +141,340 @@ function normalizeReservation(raw) {
   };
 }
 
-function getResultTotal(data, fallback) {
-  const total = Number(data?.total ?? data?.count);
-  return Number.isFinite(total) ? total : fallback;
+// ─────────────────────────────────────────────────────────────────
+// Sorting & filtering
+// ─────────────────────────────────────────────────────────────────
+
+function sortReservations(list) {
+  return [...list].sort((a, b) => {
+    const cancelA = a.status === 'cancelled' ? 1 : 0;
+    const cancelB = b.status === 'cancelled' ? 1 : 0;
+    if (cancelA !== cancelB) return cancelA - cancelB;
+    return reservationSortKey(a) - reservationSortKey(b);
+  });
 }
 
-function applyClientOnlyFilters(list) {
-  const envFilter = parseEnvironmentFilter(DOM.environment?.value ?? '');
-  if (envFilter.type !== 'name') return list;
-  return list.filter(reservation => reservation.environmentName === envFilter.value);
+function reservationSortKey(reservation) {
+  if (!reservation.date) return Number.POSITIVE_INFINITY;
+  const time = reservation.time ? String(reservation.time).slice(0, 5) : '00:00';
+  const date = new Date(`${reservation.date}T${time}:00`);
+  return Number.isNaN(date.getTime()) ? Number.POSITIVE_INFINITY : date.getTime();
 }
+
+function getFilteredReservations() {
+  let list = state.reservations;
+
+  list = filterByPeriod(list, state.activePeriod);
+  list = filterByStatusChip(list, state.activeStatusChip);
+
+  const search = (DOM.search?.value || '').trim().toLowerCase();
+  if (search) {
+    const digits = search.replace(/\D/g, '');
+    list = list.filter(reservation => {
+      const phone = cleanPhone(reservation.clientPhone);
+      return reservation.clientName.toLowerCase().includes(search) ||
+        reservation.clientEmail.toLowerCase().includes(search) ||
+        (digits && phone.includes(digits));
+    });
+  }
+
+  if (DOM.date?.value) {
+    list = list.filter(reservation => reservation.date === DOM.date.value);
+  }
+
+  const statusValue = DOM.status?.value;
+  if (statusValue) {
+    list = list.filter(reservation => reservation.status === statusValue);
+  }
+
+  const envValue = DOM.environment?.value;
+  if (envValue) {
+    const envFilter = parseEnvironmentFilter(envValue);
+    if (envFilter.type === 'id') {
+      list = list.filter(reservation => reservation.environmentId === envFilter.value);
+    } else if (envFilter.type === 'name') {
+      list = list.filter(reservation => reservation.environmentName === envFilter.value);
+    }
+  }
+
+  return list;
+}
+
+function filterByPeriod(list, period) {
+  if (period === 'all') return list;
+  const today = todayISO();
+  if (period === 'today') return list.filter(reservation => reservation.date === today);
+  if (period === 'tomorrow') {
+    const tomorrow = isoDaysFromToday(1);
+    return list.filter(reservation => reservation.date === tomorrow);
+  }
+  if (period === 'week') {
+    const start = today;
+    const end = isoDaysFromToday(7);
+    return list.filter(reservation => reservation.date >= start && reservation.date <= end);
+  }
+  return list;
+}
+
+function filterByStatusChip(list, chip) {
+  if (chip === 'all') return list;
+  if (chip === 'upcoming') {
+    return list.filter(reservation => reservation.status !== 'cancelled' && isUpcoming(reservation));
+  }
+  return list.filter(reservation => reservation.status === chip);
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Rendering — top-level
+// ─────────────────────────────────────────────────────────────────
 
 function renderAll() {
-  renderSummary();
-  renderInsights();
-  renderReservationsTable();
-  renderMobileCards();
-  updateCount();
+  const filtered = getFilteredReservations();
+  renderMetrics(filtered);
+  renderAgenda(filtered);
+  renderReservationCards(filtered);
+  renderReservationsTable(filtered);
+  updateAgendaTitle();
+  updateCount(filtered.length);
 }
 
-function renderSummary() {
+function renderMetrics(filteredList) {
   const today = todayISO();
-  const source = state.visibleReservations;
-  const envFilter = parseEnvironmentFilter(DOM.environment?.value ?? '');
-  const total = envFilter.type === 'name'
-    ? source.length
-    : (state.totalFromBackend || state.reservations.length);
-  const upcoming = source.filter(r => isUpcoming(r) && r.status !== 'cancelled').length;
-  const guests = source.reduce((sum, r) => sum + r.guests, 0);
-  const todayReservations = source.filter(r => r.date === today);
+  const todayReservations = state.reservations.filter(reservation =>
+    reservation.date === today && reservation.status !== 'cancelled'
+  );
+  const guestsToday = todayReservations.reduce((sum, reservation) => sum + reservation.guests, 0);
+  const next = getNextReservation(state.reservations);
+  const popularEnv = getMostRequestedEnvironment(filteredList.length ? filteredList : state.reservations);
 
-  setMetric(DOM.metricTotal, total);
   setMetric(DOM.metricToday, todayReservations.length);
-  setMetric(DOM.metricGuests, guests);
-  setMetric(DOM.metricUpcoming, upcoming);
+  setMetric(DOM.metricGuests, guestsToday);
+
+  if (DOM.metricNextTime && DOM.metricNextSub) {
+    if (next) {
+      DOM.metricNextTime.textContent = formatTime(next.time);
+      const parts = [];
+      const datePart = formatNextDate(next.date);
+      if (datePart) parts.push(`<strong class="adm-metric-strong">${esc(datePart)}</strong>`);
+      parts.push(esc(next.environmentName));
+      parts.push(`${next.guests} ${next.guests === 1 ? 'convidado' : 'convidados'}`);
+      DOM.metricNextSub.innerHTML = parts.join(' <span class="adm-metric-sep">·</span> ');
+    } else {
+      DOM.metricNextTime.textContent = '—';
+      DOM.metricNextSub.textContent = 'Nenhuma próxima reserva';
+    }
+  }
+
+  if (DOM.metricEnv && DOM.metricEnvSub) {
+    if (popularEnv) {
+      DOM.metricEnv.textContent = popularEnv.name;
+      DOM.metricEnvSub.textContent = `${popularEnv.count} ${popularEnv.count === 1 ? 'reserva' : 'reservas'} no período selecionado`;
+    } else {
+      DOM.metricEnv.textContent = '—';
+      DOM.metricEnvSub.textContent = 'Sem dados para o período';
+    }
+  }
 }
 
-function renderInsights() {
-  if (!DOM.insights) return;
-  const source = state.visibleReservations;
-  const next = getNextReservation(source);
-  const popularEnvironment = getMostRequestedEnvironment(source);
-  const largest = source.slice().sort((a, b) => b.guests - a.guests)[0];
-  DOM.insights.innerHTML = `
-    <span><strong>Próxima reserva:</strong> ${next ? `${formatTime(next.time)} · ${esc(next.environmentName)}` : 'Nenhuma próxima'}</span>
-    <span><strong>Ambiente mais reservado:</strong> ${popularEnvironment ? esc(popularEnvironment.name) : '--'}</span>
-    <span><strong>Maior grupo:</strong> ${largest ? `${largest.guests} pessoas` : '--'}</span>
-  `;
+function updateAgendaTitle() {
+  if (!DOM.agendaTitle) return;
+  const labels = {
+    today: 'Hoje',
+    tomorrow: 'Amanhã',
+    week: 'Próximos 7 dias',
+    all: 'Agenda',
+  };
+  DOM.agendaTitle.textContent = labels[state.activePeriod] || 'Agenda';
 }
 
-function renderEnvironmentFilter() {
-  if (!DOM.environment) return;
-  const selected = DOM.environment.value;
-  const environments = new Map();
+// ─────────────────────────────────────────────────────────────────
+// Agenda (left column)
+// ─────────────────────────────────────────────────────────────────
 
-  state.reservations.forEach(reservation => {
-    const name = reservation.environmentName;
-    if (!name) return;
-    const value = reservation.environmentId ? `id:${reservation.environmentId}` : `name:${name}`;
-    environments.set(value, name);
-  });
+function renderAgenda(list) {
+  if (!DOM.agenda) return;
 
-  DOM.environment.innerHTML = '<option value="">Todos os ambientes</option>';
-  [...environments.entries()]
-    .sort((a, b) => a[1].localeCompare(b[1], 'pt-BR'))
-    .forEach(([value, name]) => {
-      const option = document.createElement('option');
-      option.value = value;
-      option.textContent = name;
-      DOM.environment.appendChild(option);
-    });
+  const active = list.filter(reservation => reservation.status !== 'cancelled');
 
-  DOM.environment.value = [...DOM.environment.options].some(option => option.value === selected)
-    ? selected
-    : '';
-}
-
-function renderReservationsTable() {
-  if (!DOM.tbody) return;
-  const list = state.visibleReservations;
-  if (!list.length) {
-    DOM.tbody.innerHTML = `<tr><td colspan="8" class="adm-state-cell">${emptyStateHTML()}</td></tr>`;
+  if (!active.length) {
+    DOM.agenda.innerHTML = `<div class="adm-agenda-empty">${calendarIcon()}<span>Nenhuma reserva no período.</span></div>`;
+    if (DOM.agendaMeta) DOM.agendaMeta.textContent = '0 reservas';
     return;
   }
 
+  if (DOM.agendaMeta) {
+    DOM.agendaMeta.textContent = `${active.length} ${active.length === 1 ? 'reserva' : 'reservas'}`;
+  }
+
+  const next = getNextReservation(active);
+  const flat = state.activePeriod === 'today' || state.activePeriod === 'tomorrow';
+
+  if (flat) {
+    DOM.agenda.innerHTML = active
+      .map(reservation => agendaItemHTML(reservation, reservation.id === next?.id))
+      .join('');
+    return;
+  }
+
+  const groups = groupByDate(active);
+  DOM.agenda.innerHTML = groups
+    .map(([date, items]) => `
+      <div class="adm-agenda-group">
+        <div class="adm-agenda-group-date">
+          <span class="adm-agenda-group-day">${formatGroupDate(date)}</span>
+          <span class="adm-agenda-group-count">${items.length}</span>
+        </div>
+        <div class="adm-agenda-group-items">
+          ${items.map(reservation => agendaItemHTML(reservation, reservation.id === next?.id)).join('')}
+        </div>
+      </div>
+    `).join('');
+}
+
+function agendaItemHTML(reservation, isNext) {
+  return `
+    <button class="adm-agenda-item${isNext ? ' is-next' : ''}" data-reservation-id="${esc(reservation.id)}" type="button">
+      <div class="adm-agenda-time">
+        ${formatTime(reservation.time)}
+        ${isNext ? '<span class="adm-agenda-next-flag">Próxima</span>' : ''}
+      </div>
+      <div class="adm-agenda-info">
+        <div class="adm-agenda-client">${esc(reservation.clientName)}</div>
+        <div class="adm-agenda-sub">${esc(reservation.environmentName)} · ${reservation.guests} ${reservation.guests === 1 ? 'convidado' : 'convidados'}</div>
+      </div>
+      <div class="adm-agenda-status">${statusBadge(reservation.status)}</div>
+    </button>
+  `;
+}
+
+function groupByDate(list) {
+  const map = new Map();
+  list.forEach(reservation => {
+    const key = reservation.date || '';
+    if (!map.has(key)) map.set(key, []);
+    map.get(key).push(reservation);
+  });
+  return [...map.entries()].sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Reservation cards (right column)
+// ─────────────────────────────────────────────────────────────────
+
+function renderReservationCards(list) {
+  if (!DOM.cards) return;
+  if (!list.length) {
+    DOM.cards.innerHTML = emptyStateHTML();
+    return;
+  }
+  const today = todayISO();
+  const next = getNextReservation(list);
+  DOM.cards.innerHTML = list
+    .map(reservation => reservationCardHTML(reservation, reservation.id === next?.id, reservation.date === today))
+    .join('');
+}
+
+function reservationCardHTML(reservation, isNext, isToday) {
+  const cancelled = reservation.status === 'cancelled';
+  const classes = [
+    'adm-reservation-card',
+    isNext ? 'is-next' : '',
+    isToday && !cancelled ? 'is-today' : '',
+    cancelled ? 'is-cancelled' : '',
+  ].filter(Boolean).join(' ');
+
+  const notesPreview = reservation.notes ? truncate(reservation.notes, 110) : '';
+
+  return `
+    <article class="${classes}" data-reservation-id="${esc(reservation.id)}" tabindex="0">
+      ${isNext ? '<div class="adm-rc-flag">Próxima reserva</div>' : isToday && !cancelled ? '<div class="adm-rc-flag adm-rc-flag--today">Hoje</div>' : ''}
+      <div class="adm-rc-head">
+        <div class="adm-rc-head-main">
+          <div class="adm-rc-client">${esc(reservation.clientName)}</div>
+          <div class="adm-rc-when">${formatDate(reservation.date)} <span class="adm-rc-when-sep">·</span> <span class="adm-rc-when-time">${formatTime(reservation.time)}</span></div>
+        </div>
+        ${statusBadge(reservation.status)}
+      </div>
+      <div class="adm-rc-meta">
+        <span class="adm-rc-pill">${envIcon()}<span>${esc(reservation.environmentName)}</span></span>
+        <span class="adm-rc-pill">${peopleIcon()}<span>${reservation.guests} ${reservation.guests === 1 ? 'convidado' : 'convidados'}</span></span>
+      </div>
+      ${notesPreview ? `<div class="adm-rc-notes">${noteIcon()}<span>${esc(notesPreview)}</span></div>` : ''}
+      <div class="adm-rc-actions">
+        <button class="adm-rc-action adm-rc-action--primary" type="button" data-action="view-details" data-id="${esc(reservation.id)}">Ver detalhes</button>
+        ${!cancelled
+          ? `<button class="adm-rc-action adm-rc-action--ghost" type="button" data-action="cancel-reservation" data-id="${esc(reservation.id)}">Cancelar</button>`
+          : ''}
+      </div>
+    </article>
+  `;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Compact table (toggle view)
+// ─────────────────────────────────────────────────────────────────
+
+function renderReservationsTable(list) {
+  if (!DOM.tbody) return;
+  if (!list.length) {
+    DOM.tbody.innerHTML = `<tr><td colspan="7" class="adm-state-cell">${emptyStateHTML()}</td></tr>`;
+    return;
+  }
   DOM.tbody.innerHTML = list.map(reservation => `
-    <tr class="adm-reservation-row" data-reservation-id="${esc(reservation.id)}" tabindex="0" aria-label="Abrir detalhes da reserva de ${esc(reservation.clientName)}">
+    <tr class="adm-reservation-row${reservation.status === 'cancelled' ? ' is-cancelled' : ''}" data-reservation-id="${esc(reservation.id)}" tabindex="0">
       <td class="adm-cell-date">
         <div class="adm-cell-date-d">${formatDate(reservation.date)}</div>
         <div class="adm-cell-date-t">${formatTime(reservation.time)}</div>
       </td>
       <td>
         <div class="adm-cell-client-name">${esc(reservation.clientName)}</div>
-        <div class="adm-cell-client-email">${esc(reservation.clientEmail || 'E-mail não informado')}</div>
       </td>
-      <td class="adm-cell-phone">${esc(formatPhone(reservation.clientPhone) || 'Não informado')}</td>
+      <td class="adm-cell-phone">${esc(formatPhone(reservation.clientPhone) || '--')}</td>
       <td class="adm-cell-env">${esc(reservation.environmentName)}</td>
       <td class="adm-cell-guests"><span>${peopleIcon()}${reservation.guests}</span></td>
       <td>${statusBadge(reservation.status)}</td>
-      <td class="adm-cell-notes">${reservation.notes ? `<span title="${esc(reservation.notes)}">${noteIcon()}${esc(reservation.notes)}</span>` : '<span class="adm-cell-notes-empty">--</span>'}</td>
-      <td class="adm-cell-dim">${formatCreated(reservation.createdAt)}</td>
+      <td class="adm-cell-actions">
+        <button class="adm-table-action" type="button" data-action="view-details" data-id="${esc(reservation.id)}">Detalhes</button>
+      </td>
     </tr>
   `).join('');
 }
 
-function renderMobileCards() {
-  if (!DOM.cards) return;
-  const list = state.visibleReservations;
-  if (!list.length) {
-    DOM.cards.innerHTML = emptyStateHTML();
-    return;
-  }
-
-  DOM.cards.innerHTML = list.map(reservation => `
-    <button class="adm-card adm-reservation-card" type="button" data-reservation-id="${esc(reservation.id)}">
-      <div class="adm-card-top">
-        <div>
-          <div class="adm-card-date">${formatDate(reservation.date)}</div>
-          <div class="adm-card-time">${formatTime(reservation.time)} · ${esc(reservation.environmentName)}</div>
-        </div>
-        ${statusBadge(reservation.status)}
-      </div>
-      <div class="adm-card-body">
-        <div class="adm-card-primary">${esc(reservation.clientName)}</div>
-        <div class="adm-card-row">
-          <span class="adm-card-key">Contato</span>
-          <span class="adm-card-val">${esc(formatPhone(reservation.clientPhone) || 'Não informado')}</span>
-        </div>
-        <div class="adm-card-row">
-          <span class="adm-card-key">Pessoas</span>
-          <span class="adm-card-val adm-card-guests">${peopleIcon()}${reservation.guests}</span>
-        </div>
-        ${reservation.notes ? `<div class="adm-card-notes">${esc(reservation.notes)}</div>` : ''}
-      </div>
-    </button>
-  `).join('');
-}
+// ─────────────────────────────────────────────────────────────────
+// Loading / error / empty
+// ─────────────────────────────────────────────────────────────────
 
 function renderLoading() {
   DOM.refresh?.classList.add('is-loading');
-  [DOM.metricTotal, DOM.metricToday, DOM.metricGuests, DOM.metricUpcoming].forEach(el => {
-    if (el) el.textContent = '--';
+  [DOM.metricToday, DOM.metricGuests, DOM.metricNextTime, DOM.metricEnv].forEach(el => {
+    if (el) el.textContent = '—';
   });
+  if (DOM.metricNextSub) DOM.metricNextSub.textContent = 'Carregando...';
+  if (DOM.metricEnvSub) DOM.metricEnvSub.textContent = 'Carregando...';
 
-  if (DOM.insights) {
-    DOM.insights.innerHTML = '<span>Carregando leitura operacional...</span>';
+  if (DOM.agenda) {
+    DOM.agenda.innerHTML = Array.from({ length: 4 }, () => `
+      <div class="adm-agenda-skeleton">
+        <span class="adm-skel adm-skel--sm"></span>
+        <span class="adm-skel adm-skel--xl"></span>
+      </div>
+    `).join('');
+  }
+
+  if (DOM.cards) {
+    DOM.cards.innerHTML = Array.from({ length: 4 }, () => `
+      <div class="adm-reservation-card adm-rc-skeleton">
+        <span class="adm-skel adm-skel--lg"></span>
+        <span class="adm-skel adm-skel--md"></span>
+        <span class="adm-skel adm-skel--xl"></span>
+      </div>
+    `).join('');
   }
 
   if (DOM.tbody) {
-    DOM.tbody.innerHTML = Array.from({ length: 6 }, () => `
+    DOM.tbody.innerHTML = Array.from({ length: 4 }, () => `
       <tr class="adm-skeleton-table-row">
-        <td colspan="8">
+        <td colspan="7">
           <div class="adm-skeleton-line">
             <span class="adm-skel adm-skel--md"></span>
             <span class="adm-skel adm-skel--lg"></span>
@@ -305,16 +483,8 @@ function renderLoading() {
             <span class="adm-skel adm-skel--xl"></span>
           </div>
         </td>
-      </tr>`).join('');
-  }
-
-  if (DOM.cards) {
-    DOM.cards.innerHTML = Array.from({ length: 4 }, () => `
-      <div class="adm-card adm-card-skeleton">
-        <span class="adm-skel adm-skel--lg"></span>
-        <span class="adm-skel adm-skel--xl"></span>
-        <span class="adm-skel adm-skel--md"></span>
-      </div>`).join('');
+      </tr>
+    `).join('');
   }
 }
 
@@ -326,9 +496,9 @@ function renderError() {
       <div class="adm-state-sub">Verifique a conexão com o servidor e tente novamente.</div>
       <button class="adm-state-clear-btn" type="button" data-action="retry">Tentar novamente</button>
     </div>`;
-  if (DOM.tbody) DOM.tbody.innerHTML = `<tr><td colspan="8" class="adm-state-cell">${html}</td></tr>`;
   if (DOM.cards) DOM.cards.innerHTML = html;
-  if (DOM.insights) DOM.insights.innerHTML = '';
+  if (DOM.agenda) DOM.agenda.innerHTML = html;
+  if (DOM.tbody) DOM.tbody.innerHTML = `<tr><td colspan="7" class="adm-state-cell">${html}</td></tr>`;
   updateCount(0);
 }
 
@@ -338,10 +508,17 @@ function emptyStateHTML() {
     <div class="adm-state">
       <div class="adm-state-icon adm-state-icon--empty">${calendarIcon()}</div>
       <div class="adm-state-title">Nenhuma reserva encontrada</div>
-      <div class="adm-state-sub">${hasFilters ? 'Os filtros atuais podem estar restringindo demais a busca.' : 'Ainda não há reservas cadastradas no período carregado.'}</div>
-      ${hasFilters ? '<button class="adm-state-clear-btn" type="button" data-action="clear-filters">Limpar filtros</button>' : ''}
+      <div class="adm-state-sub">${hasFilters ? 'Ajuste os filtros ou crie uma nova reserva.' : 'Ainda não há reservas cadastradas.'}</div>
+      <div class="adm-state-actions">
+        ${hasFilters ? '<button class="adm-state-clear-btn" type="button" data-action="clear-filters">Limpar filtros</button>' : ''}
+        <button class="adm-state-clear-btn adm-state-clear-btn--primary" type="button" data-action="open-create">+ Nova reserva</button>
+      </div>
     </div>`;
 }
+
+// ─────────────────────────────────────────────────────────────────
+// Drawer
+// ─────────────────────────────────────────────────────────────────
 
 function openReservationDrawer(reservation) {
   if (!reservation || !DOM.drawer || !DOM.drawerContent || !DOM.drawerBackdrop) return;
@@ -380,6 +557,7 @@ function drawerHTML(reservation) {
   const email = reservation.clientEmail || 'Não informado';
   const whatsappUrl = buildWhatsAppUrl(reservation.clientPhone);
   const isCancelled = reservation.status === 'cancelled';
+
   return `
     <div class="adm-drawer-head">
       <div>
@@ -443,17 +621,21 @@ function drawerSection(title, rows) {
     </section>`;
 }
 
+// ─────────────────────────────────────────────────────────────────
+// Events
+// ─────────────────────────────────────────────────────────────────
+
 function bindEvents() {
   DOM.search?.addEventListener('input', () => {
     window.clearTimeout(state.searchTimer);
-    state.searchTimer = window.setTimeout(fetchReservations, SEARCH_DEBOUNCE_MS);
+    state.searchTimer = window.setTimeout(renderAll, SEARCH_DEBOUNCE_MS);
   });
   DOM.date?.addEventListener('change', () => {
     setActivePeriod('all');
-    fetchReservations();
+    renderAll();
   });
-  DOM.status?.addEventListener('change', fetchReservations);
-  DOM.environment?.addEventListener('change', fetchReservations);
+  DOM.status?.addEventListener('change', renderAll);
+  DOM.environment?.addEventListener('change', renderAll);
   DOM.clear?.addEventListener('click', clearFilters);
   DOM.refresh?.addEventListener('click', fetchReservations);
   DOM.createButton?.addEventListener('click', openCreateReservationModal);
@@ -462,13 +644,21 @@ function bindEvents() {
   DOM.createBackdrop?.addEventListener('click', closeCreateReservationModal);
   DOM.createForm?.addEventListener('submit', submitManualReservation);
   DOM.drawerBackdrop?.addEventListener('click', closeReservationDrawer);
+  DOM.viewToggle?.addEventListener('click', toggleViewMode);
 
-  document.querySelectorAll('.adm-filter-chip').forEach(button => {
-    button.addEventListener('click', () => {
-      setActivePeriod(button.dataset.chip || 'all');
-      if (state.activePeriod !== 'all' && DOM.date) DOM.date.value = '';
-      fetchReservations();
-    });
+  DOM.periodTabs?.addEventListener('click', event => {
+    const tab = event.target.closest('.adm-period-tab');
+    if (!tab) return;
+    setActivePeriod(tab.dataset.period || 'all');
+    if (state.activePeriod !== 'all' && DOM.date) DOM.date.value = '';
+    renderAll();
+  });
+
+  DOM.statusChips?.addEventListener('click', event => {
+    const chip = event.target.closest('.adm-filter-chip');
+    if (!chip) return;
+    setActiveStatusChip(chip.dataset.status || 'all');
+    renderAll();
   });
 
   document.addEventListener('click', handleDocumentClick);
@@ -476,29 +666,44 @@ function bindEvents() {
 }
 
 function handleDocumentClick(event) {
-  const row = event.target.closest('[data-reservation-id]');
-  if (row) {
-    const reservation = findReservation(row.dataset.reservationId);
-    openReservationDrawer(reservation);
-    return;
+  const actionEl = event.target.closest('[data-action]');
+  if (actionEl) {
+    const action = actionEl.dataset.action;
+    if (action === 'view-details') {
+      event.stopPropagation();
+      const id = actionEl.dataset.id || actionEl.closest('[data-reservation-id]')?.dataset.reservationId;
+      openReservationDrawer(findReservation(id));
+      return;
+    }
+    if (action === 'cancel-reservation') {
+      event.stopPropagation();
+      handleCancelReservation(actionEl);
+      return;
+    }
+    if (action === 'clear-filters') return clearFilters();
+    if (action === 'retry') return fetchReservations();
+    if (action === 'close-drawer') return closeReservationDrawer();
+    if (action === 'open-create') return openCreateReservationModal();
   }
 
-  const action = event.target.closest('[data-action]')?.dataset.action;
-  if (!action) return;
-  if (action === 'clear-filters') clearFilters();
-  if (action === 'retry') fetchReservations();
-  if (action === 'close-drawer') closeReservationDrawer();
-  if (action === 'cancel-reservation') handleCancelReservation(event.target.closest('[data-action]'));
+  const interactive = event.target.closest('[data-reservation-id]');
+  if (interactive) {
+    openReservationDrawer(findReservation(interactive.dataset.reservationId));
+  }
 }
 
 function handleKeydown(event) {
-  if (event.key === 'Escape') closeReservationDrawer();
-  if (event.key === 'Escape') closeCreateReservationModal();
+  if (event.key === 'Escape') {
+    closeReservationDrawer();
+    closeCreateReservationModal();
+    return;
+  }
   if (event.key !== 'Enter' && event.key !== ' ') return;
-  const row = event.target.closest('.adm-reservation-row');
-  if (!row) return;
+  if (event.target.tagName === 'BUTTON') return;
+  const target = event.target.closest('[data-reservation-id]');
+  if (!target) return;
   event.preventDefault();
-  openReservationDrawer(findReservation(row.dataset.reservationId));
+  openReservationDrawer(findReservation(target.dataset.reservationId));
 }
 
 function clearFilters() {
@@ -507,26 +712,48 @@ function clearFilters() {
   if (DOM.status) DOM.status.value = '';
   if (DOM.environment) DOM.environment.value = '';
   setActivePeriod('all');
-  fetchReservations();
+  setActiveStatusChip('all');
+  renderAll();
 }
 
 function setActivePeriod(period) {
-  state.activePeriod = period;
-  document.querySelectorAll('.adm-filter-chip').forEach(button => {
-    button.classList.toggle('is-active', button.dataset.chip === period);
+  state.activePeriod = PERIODS.has(period) ? period : 'all';
+  DOM.periodTabs?.querySelectorAll('.adm-period-tab').forEach(tab => {
+    const isActive = tab.dataset.period === state.activePeriod;
+    tab.classList.toggle('is-active', isActive);
+    tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
   });
 }
 
-function findReservation(id) {
-  return state.reservations.find(reservation => reservation.id === String(id));
+function setActiveStatusChip(status) {
+  state.activeStatusChip = STATUS_CHIPS.has(status) ? status : 'all';
+  DOM.statusChips?.querySelectorAll('.adm-filter-chip').forEach(chip => {
+    chip.classList.toggle('is-active', chip.dataset.status === state.activeStatusChip);
+  });
 }
+
+function toggleViewMode() {
+  state.viewMode = state.viewMode === 'cards' ? 'table' : 'cards';
+  const isTable = state.viewMode === 'table';
+  if (DOM.cards) DOM.cards.hidden = isTable;
+  if (DOM.tableWrap) DOM.tableWrap.hidden = !isTable;
+  if (DOM.viewToggle) {
+    DOM.viewToggle.querySelector('span').textContent = isTable ? 'Ver como cards' : 'Ver como tabela';
+    DOM.viewToggle.setAttribute('aria-pressed', isTable ? 'true' : 'false');
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Cancel reservation
+// ─────────────────────────────────────────────────────────────────
 
 async function handleCancelReservation(button) {
   if (!button) return;
-  const reservation = findReservation(state.selectedReservationId || button.dataset.id);
+  const reservationId = button.dataset.id || state.selectedReservationId;
+  const reservation = findReservation(reservationId);
   if (!reservation || reservation.status === 'cancelled') return;
 
-  const confirmed = window.confirm('Tem certeza que deseja cancelar esta reserva?');
+  const confirmed = window.confirm(`Cancelar a reserva de ${reservation.clientName} para ${formatDate(reservation.date)} às ${formatTime(reservation.time)}?`);
   if (!confirmed) return;
 
   setCancelButtonLoading(button, true);
@@ -537,11 +764,13 @@ async function handleCancelReservation(button) {
     updateReservationStatus(reservation.id, 'cancelled');
     state.drawerNotice = { type: 'success', message: 'Reserva cancelada com sucesso.' };
     renderAll();
-    renderDrawer(findReservation(reservation.id));
+    if (state.selectedReservationId) {
+      renderDrawer(findReservation(reservation.id));
+    }
   } catch (error) {
     console.error('[admin-reservations] cancel reservation error:', error);
     state.drawerNotice = { type: 'error', message: 'Não foi possível cancelar a reserva. Tente novamente.' };
-    renderDrawer(reservation);
+    if (state.selectedReservationId) renderDrawer(reservation);
   } finally {
     const currentButton = DOM.drawerContent?.querySelector('[data-action="cancel-reservation"]');
     setCancelButtonLoading(currentButton, false);
@@ -551,27 +780,15 @@ async function handleCancelReservation(button) {
 async function cancelReservation(reservationId) {
   return adminFetch(`/admin/reservations/${encodeURIComponent(reservationId)}/status`, {
     method: 'PATCH',
-    body: JSON.stringify({
-      status: 'cancelled',
-    }),
+    body: JSON.stringify({ status: 'cancelled' }),
   });
 }
 
 function updateReservationStatus(reservationId, status) {
-  const update = reservation => {
+  state.reservations.forEach(reservation => {
     if (reservation.id === String(reservationId)) reservation.status = status;
-  };
-  state.reservations.forEach(update);
-  state.visibleReservations.forEach(update);
-  state.visibleReservations = getVisibleReservationsAfterMutation();
-}
-
-function getVisibleReservationsAfterMutation() {
-  const status = normalizeStatus(DOM.status?.value ?? '');
-  return applyClientOnlyFilters(state.reservations).filter(reservation => {
-    if (!status) return true;
-    return reservation.status === status;
   });
+  state.reservations = sortReservations(state.reservations);
 }
 
 function setCancelButtonLoading(button, isLoading) {
@@ -581,6 +798,37 @@ function setCancelButtonLoading(button, isLoading) {
   button.innerHTML = isLoading
     ? `${spinnerIcon()}Cancelando...`
     : `${cancelIcon()}Cancelar reserva`;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Environments (for filters + create modal)
+// ─────────────────────────────────────────────────────────────────
+
+function renderEnvironmentFilter() {
+  if (!DOM.environment) return;
+  const selected = DOM.environment.value;
+  const environments = new Map();
+
+  state.reservations.forEach(reservation => {
+    const name = reservation.environmentName;
+    if (!name) return;
+    const value = reservation.environmentId ? `id:${reservation.environmentId}` : `name:${name}`;
+    environments.set(value, name);
+  });
+
+  DOM.environment.innerHTML = '<option value="">Todos os ambientes</option>';
+  [...environments.entries()]
+    .sort((a, b) => a[1].localeCompare(b[1], 'pt-BR'))
+    .forEach(([value, name]) => {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = name;
+      DOM.environment.appendChild(option);
+    });
+
+  DOM.environment.value = [...DOM.environment.options].some(option => option.value === selected)
+    ? selected
+    : '';
 }
 
 async function loadCreateEnvironments() {
@@ -621,6 +869,10 @@ function renderCreateEnvironmentOptions() {
   });
 }
 
+// ─────────────────────────────────────────────────────────────────
+// Create modal
+// ─────────────────────────────────────────────────────────────────
+
 function openCreateReservationModal() {
   if (!DOM.createModal || !DOM.createBackdrop) return;
   resetCreateForm();
@@ -640,7 +892,7 @@ function closeCreateReservationModal() {
   DOM.createModal.classList.remove('is-open');
   DOM.createBackdrop.classList.remove('is-open');
   DOM.createModal.setAttribute('aria-hidden', 'true');
-  document.body.classList.remove('adm-drawer-open');
+  if (!DOM.drawer?.classList.contains('is-open')) document.body.classList.remove('adm-drawer-open');
   window.setTimeout(() => {
     if (!DOM.createModal?.classList.contains('is-open')) DOM.createBackdrop.hidden = true;
   }, 220);
@@ -718,10 +970,14 @@ function setCreateSubmitting(isSubmitting) {
   });
 }
 
-function updateCount(explicitTotal) {
+// ─────────────────────────────────────────────────────────────────
+// Helpers
+// ─────────────────────────────────────────────────────────────────
+
+function updateCount(count) {
   if (!DOM.count) return;
-  const count = explicitTotal ?? state.visibleReservations.length;
-  DOM.count.textContent = `${count} reserva${count === 1 ? '' : 's'}`;
+  const value = count ?? 0;
+  DOM.count.textContent = `${value} ${value === 1 ? 'reserva' : 'reservas'}`;
 }
 
 function setMetric(element, value) {
@@ -735,8 +991,13 @@ function hasActiveFilters() {
     DOM.date?.value ||
     DOM.status?.value ||
     DOM.environment?.value ||
-    state.activePeriod !== 'all'
+    state.activePeriod !== 'all' ||
+    state.activeStatusChip !== 'all'
   );
+}
+
+function findReservation(id) {
+  return state.reservations.find(reservation => reservation.id === String(id));
 }
 
 function parseEnvironmentFilter(value) {
@@ -745,31 +1006,25 @@ function parseEnvironmentFilter(value) {
   return { type, value: rest.join(':') };
 }
 
-function normalizeStatus(status) {
-  return STATUS_FILTERS.has(status) ? status : '';
-}
-
 function getNextReservation(list) {
   const now = new Date();
   return list
-    .filter(r => r.status !== 'cancelled')
-    .map(r => ({ reservation: r, date: reservationDateTime(r) }))
+    .filter(reservation => reservation.status !== 'cancelled')
+    .map(reservation => ({ reservation, date: reservationDateTime(reservation) }))
     .filter(item => item.date && item.date >= now)
     .sort((a, b) => a.date - b.date)[0]?.reservation ?? null;
 }
 
 function getMostRequestedEnvironment(list) {
-  const counts = countBy(list, r => r.environmentName);
+  const counts = list
+    .filter(reservation => reservation.status !== 'cancelled')
+    .reduce((acc, reservation) => {
+      const key = reservation.environmentName || 'Sem dados';
+      acc[key] = (acc[key] || 0) + 1;
+      return acc;
+    }, {});
   const [name, count] = Object.entries(counts).sort((a, b) => b[1] - a[1])[0] ?? [];
   return name ? { name, count } : null;
-}
-
-function countBy(list, getter) {
-  return list.reduce((acc, item) => {
-    const key = getter(item) || 'Sem dados';
-    acc[key] = (acc[key] || 0) + 1;
-    return acc;
-  }, {});
 }
 
 function isUpcoming(reservation) {
@@ -779,9 +1034,8 @@ function isUpcoming(reservation) {
 
 function reservationDateTime(reservation) {
   if (!reservation.date) return null;
-  const time = formatTime(reservation.time);
-  const iso = `${reservation.date}T${time === '--' ? '00:00' : time}:00`;
-  const date = new Date(iso);
+  const time = reservation.time ? String(reservation.time).slice(0, 5) : '00:00';
+  const date = new Date(`${reservation.date}T${time}:00`);
   return Number.isNaN(date.getTime()) ? null : date;
 }
 
@@ -792,11 +1046,21 @@ function startOfToday() {
 }
 
 function todayISO() {
+  return isoDaysFromToday(0);
+}
+
+function isoDaysFromToday(offset) {
   const date = new Date();
+  date.setDate(date.getDate() + offset);
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
 
+// ─────────────────────────────────────────────────────────────────
+// Formatting
+// ─────────────────────────────────────────────────────────────────
+
 const MONTHS = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+const WEEKDAYS = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 
 function formatDate(value) {
   if (!value) return '--';
@@ -805,20 +1069,37 @@ function formatDate(value) {
   return `${String(day).padStart(2, '0')} ${MONTHS[month - 1]} ${year}`;
 }
 
+function formatGroupDate(value) {
+  if (!value) return 'Sem data';
+  const [year, month, day] = value.split('-').map(Number);
+  if (!year || !month || !day) return value;
+  const date = new Date(year, month - 1, day);
+  const today = todayISO();
+  const tomorrow = isoDaysFromToday(1);
+  if (value === today) return `Hoje · ${String(day).padStart(2, '0')} ${MONTHS[month - 1]}`;
+  if (value === tomorrow) return `Amanhã · ${String(day).padStart(2, '0')} ${MONTHS[month - 1]}`;
+  return `${WEEKDAYS[date.getDay()]} · ${String(day).padStart(2, '0')} ${MONTHS[month - 1]} ${year}`;
+}
+
 function formatTime(value) {
   return value ? String(value).slice(0, 5) : '--';
+}
+
+function formatNextDate(value) {
+  if (!value) return '';
+  const today = todayISO();
+  const tomorrow = isoDaysFromToday(1);
+  if (value === today) return 'Hoje';
+  if (value === tomorrow) return 'Amanhã';
+  const [year, month, day] = value.split('-').map(Number);
+  if (!year || !month || !day) return '';
+  return `${String(day).padStart(2, '0')} ${MONTHS[month - 1]}`;
 }
 
 function formatCreated(value) {
   if (!value) return '--';
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
-  return formatDateTime(date);
-}
-
-function formatDateTime(value) {
-  const date = value instanceof Date ? value : new Date(value);
-  if (Number.isNaN(date.getTime())) return '--';
   return date.toLocaleString('pt-BR', {
     day: '2-digit',
     month: 'short',
@@ -844,6 +1125,12 @@ function buildWhatsAppUrl(value) {
   if (!digits) return '';
   if (!digits.startsWith('55')) digits = `55${digits}`;
   return `https://wa.me/${digits}`;
+}
+
+function truncate(value, max) {
+  const str = String(value ?? '');
+  if (str.length <= max) return str;
+  return `${str.slice(0, max - 1).trim()}…`;
 }
 
 function statusBadge(status) {
@@ -872,8 +1159,16 @@ function esc(value) {
     .replace(/'/g, '&#039;');
 }
 
+// ─────────────────────────────────────────────────────────────────
+// Icons
+// ─────────────────────────────────────────────────────────────────
+
 function peopleIcon() {
   return '<svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>';
+}
+
+function envIcon() {
+  return '<svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg>';
 }
 
 function calendarIcon() {
