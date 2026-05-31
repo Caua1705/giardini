@@ -137,80 +137,220 @@
         </div>
       </div>
 
-      <!-- ── Metric cards ──────────────────────────────────────── -->
-      <div class="adm-metrics">
+      <!-- ── View tabs ─────────────────────────────────────────── -->
+      <nav class="adm-rsv-tabs" id="adm-rsv-tabs" role="tablist" aria-label="Seções de reservas">
+        <button class="adm-rsv-tab is-active" data-view="operacao" role="tab" aria-selected="true" type="button">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/>
+          </svg>
+          Operação
+        </button>
+        <button class="adm-rsv-tab" data-view="calendario" role="tab" aria-selected="false" type="button">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          Calendário
+        </button>
+        <button class="adm-rsv-tab" data-view="lista" role="tab" aria-selected="false" type="button">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="8" y1="6" x2="21" y2="6"/>
+            <line x1="8" y1="12" x2="21" y2="12"/>
+            <line x1="8" y1="18" x2="21" y2="18"/>
+            <line x1="3" y1="6" x2="3.01" y2="6"/>
+            <line x1="3" y1="12" x2="3.01" y2="12"/>
+            <line x1="3" y1="18" x2="3.01" y2="18"/>
+          </svg>
+          Lista
+        </button>
+        <button class="adm-rsv-tab" data-view="ambientes" role="tab" aria-selected="false" type="button">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/>
+          </svg>
+          Ambientes
+        </button>
+      </nav>
 
-        <div class="adm-metric-card">
-          <div class="adm-metric-label">Reservas hoje</div>
-          <div class="adm-metric-value" id="adm-m-today">—</div>
-          <div class="adm-metric-sub">Reservas confirmadas para hoje</div>
-          <div class="adm-metric-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(43,74,59,0.65)" stroke-width="1">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-              <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
-              <line x1="3" y1="10" x2="21" y2="10"/>
-            </svg>
+      <!-- ══════════════════════════════════════════════════════════
+           VIEW: OPERAÇÃO
+           ══════════════════════════════════════════════════════════ -->
+      <section class="adm-rsv-view is-active" data-view="operacao" role="tabpanel" aria-label="Operação">
+
+        <!-- Metric cards -->
+        <div class="adm-metrics">
+
+          <div class="adm-metric-card">
+            <div class="adm-metric-label">Reservas hoje</div>
+            <div class="adm-metric-value" id="adm-m-today">—</div>
+            <div class="adm-metric-sub">Reservas confirmadas para hoje</div>
+            <div class="adm-metric-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(43,74,59,0.65)" stroke-width="1">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+            </div>
           </div>
+
+          <div class="adm-metric-card adm-metric-card--next">
+            <div class="adm-metric-label">Próxima reserva</div>
+            <div class="adm-metric-value adm-metric-value--md" id="adm-m-next-time">—</div>
+            <div class="adm-metric-sub" id="adm-m-next-sub">Nenhuma próxima reserva</div>
+            <div class="adm-metric-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(183,147,88,0.45)" stroke-width="1">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="adm-metric-card">
+            <div class="adm-metric-label">Convidados hoje</div>
+            <div class="adm-metric-value" id="adm-m-guests">—</div>
+            <div class="adm-metric-sub">Total de convidados previstos hoje</div>
+            <div class="adm-metric-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(183,147,88,0.4)" stroke-width="1">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="adm-metric-card">
+            <div class="adm-metric-label">Ambiente em destaque</div>
+            <div class="adm-metric-value adm-metric-value--md" id="adm-m-env">—</div>
+            <div class="adm-metric-sub" id="adm-m-env-sub">Mais reservado no período</div>
+            <div class="adm-metric-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(43,74,59,0.55)" stroke-width="1">
+                <path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/>
+              </svg>
+            </div>
+          </div>
+
+        </div><!-- /metrics -->
+
+        <!-- Toolbar / Filters -->
+        <div class="adm-toolbar adm-toolbar--ops">
+
+          <div class="adm-toolbar-row adm-toolbar-row--primary">
+            <div class="adm-period-tabs" id="adm-period-tabs" role="tablist" aria-label="Período">
+              <button class="adm-period-tab" data-period="today" role="tab" type="button">Hoje</button>
+              <button class="adm-period-tab" data-period="tomorrow" role="tab" type="button">Amanhã</button>
+              <button class="adm-period-tab" data-period="week" role="tab" type="button">Semana</button>
+              <button class="adm-period-tab is-active" data-period="all" role="tab" type="button" aria-selected="true">Todas</button>
+            </div>
+
+            <div class="adm-search-wrap">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <input class="adm-search-input" id="adm-search" type="text"
+                     placeholder="Buscar por nome, telefone ou e-mail..." autocomplete="off" />
+            </div>
+
+            <input class="adm-filter-date" id="adm-filter-date" type="date" title="Filtrar por data" />
+
+            <select class="adm-filter-select" id="adm-filter-status" aria-label="Filtrar por status">
+              <option value="">Todos os status</option>
+              <option value="confirmed">Confirmada</option>
+              <option value="pending">Pendente</option>
+              <option value="cancelled">Cancelada</option>
+              <option value="completed">Concluída</option>
+              <option value="no_show">No-show</option>
+            </select>
+
+            <select class="adm-filter-select" id="adm-filter-env" aria-label="Filtrar por ambiente">
+              <option value="">Todos os ambientes</option>
+            </select>
+
+            <button class="adm-clear-btn" id="adm-clear" type="button">Limpar</button>
+          </div>
+
+          <div class="adm-toolbar-row adm-toolbar-row--chips">
+            <div class="adm-filter-chips" id="adm-status-chips">
+              <button class="adm-filter-chip is-active" data-status="all" type="button">Todas</button>
+              <button class="adm-filter-chip" data-status="confirmed" type="button">Confirmadas</button>
+              <button class="adm-filter-chip" data-status="pending" type="button">Pendentes</button>
+              <button class="adm-filter-chip" data-status="cancelled" type="button">Canceladas</button>
+              <button class="adm-filter-chip" data-status="upcoming" type="button">Próximas</button>
+            </div>
+            <div class="adm-toolbar-meta">
+              <span class="adm-toolbar-count" id="adm-count"></span>
+            </div>
+          </div>
+
+        </div><!-- /toolbar -->
+
+        <!-- Operations grid -->
+        <div class="adm-ops-grid" id="adm-ops-grid">
+
+          <!-- Left: Agenda -->
+          <aside class="adm-agenda-col">
+            <div class="adm-agenda-card">
+              <header class="adm-agenda-head">
+                <h2 class="adm-agenda-title" id="adm-agenda-title">Agenda</h2>
+                <span class="adm-agenda-meta" id="adm-agenda-meta"></span>
+              </header>
+              <div class="adm-agenda-body" id="adm-agenda" aria-live="polite"></div>
+            </div>
+          </aside>
+
+          <!-- Right: Reservation cards -->
+          <section class="adm-reservations-col">
+            <div class="adm-reservations-cards" id="adm-cards" aria-live="polite"></div>
+          </section>
+
+        </div><!-- /ops-grid -->
+
+      </section><!-- /view: operacao -->
+
+      <!-- ══════════════════════════════════════════════════════════
+           VIEW: CALENDÁRIO
+           ══════════════════════════════════════════════════════════ -->
+      <section class="adm-rsv-view" data-view="calendario" role="tabpanel" aria-label="Calendário" hidden>
+
+        <header class="adm-cal-head">
+          <div class="adm-cal-nav-group">
+            <button class="adm-cal-nav-btn" id="adm-cal-prev" type="button" aria-label="Mês anterior">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+            </button>
+            <h2 class="adm-cal-heading" id="adm-cal-heading">—</h2>
+            <button class="adm-cal-nav-btn" id="adm-cal-next" type="button" aria-label="Próximo mês">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </button>
+          </div>
+          <button class="adm-cal-today-btn" id="adm-cal-today" type="button">Ir para hoje</button>
+        </header>
+
+        <div class="adm-cal-card">
+          <div class="adm-cal-weekdays" aria-hidden="true">
+            <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+          </div>
+          <div class="adm-cal-grid" id="adm-cal-grid" role="grid"></div>
         </div>
 
-        <div class="adm-metric-card adm-metric-card--next">
-          <div class="adm-metric-label">Próxima reserva</div>
-          <div class="adm-metric-value adm-metric-value--md" id="adm-m-next-time">—</div>
-          <div class="adm-metric-sub" id="adm-m-next-sub">Nenhuma próxima reserva</div>
-          <div class="adm-metric-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(183,147,88,0.45)" stroke-width="1">
-              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-            </svg>
-          </div>
-        </div>
+        <div class="adm-cal-day-panel" id="adm-cal-day-panel"></div>
 
-        <div class="adm-metric-card">
-          <div class="adm-metric-label">Convidados hoje</div>
-          <div class="adm-metric-value" id="adm-m-guests">—</div>
-          <div class="adm-metric-sub">Total de convidados previstos hoje</div>
-          <div class="adm-metric-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(183,147,88,0.4)" stroke-width="1">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
-          </div>
-        </div>
+      </section><!-- /view: calendario -->
 
-        <div class="adm-metric-card">
-          <div class="adm-metric-label">Ambiente em destaque</div>
-          <div class="adm-metric-value adm-metric-value--md" id="adm-m-env">—</div>
-          <div class="adm-metric-sub" id="adm-m-env-sub">Mais reservado no período</div>
-          <div class="adm-metric-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(43,74,59,0.55)" stroke-width="1">
-              <path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/>
-            </svg>
-          </div>
-        </div>
+      <!-- ══════════════════════════════════════════════════════════
+           VIEW: LISTA
+           ══════════════════════════════════════════════════════════ -->
+      <section class="adm-rsv-view" data-view="lista" role="tabpanel" aria-label="Lista" hidden>
 
-      </div><!-- /metrics -->
-
-      <!-- ── Toolbar / Filters ─────────────────────────────────── -->
-      <div class="adm-toolbar adm-toolbar--ops">
-
-        <div class="adm-toolbar-row adm-toolbar-row--primary">
-          <div class="adm-period-tabs" id="adm-period-tabs" role="tablist" aria-label="Período">
-            <button class="adm-period-tab" data-period="today" role="tab" type="button">Hoje</button>
-            <button class="adm-period-tab" data-period="tomorrow" role="tab" type="button">Amanhã</button>
-            <button class="adm-period-tab" data-period="week" role="tab" type="button">Semana</button>
-            <button class="adm-period-tab is-active" data-period="all" role="tab" type="button" aria-selected="true">Todas</button>
-          </div>
-
+        <div class="adm-list-toolbar">
           <div class="adm-search-wrap">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
-            <input class="adm-search-input" id="adm-search" type="text"
+            <input class="adm-search-input" id="adm-lista-search" type="text"
                    placeholder="Buscar por nome, telefone ou e-mail..." autocomplete="off" />
           </div>
-
-          <input class="adm-filter-date" id="adm-filter-date" type="date" title="Filtrar por data" />
-
-          <select class="adm-filter-select" id="adm-filter-status" aria-label="Filtrar por status">
+          <select class="adm-filter-select" id="adm-lista-status" aria-label="Filtrar por status">
             <option value="">Todos os status</option>
             <option value="confirmed">Confirmada</option>
             <option value="pending">Pendente</option>
@@ -218,74 +358,49 @@
             <option value="completed">Concluída</option>
             <option value="no_show">No-show</option>
           </select>
-
-          <select class="adm-filter-select" id="adm-filter-env" aria-label="Filtrar por ambiente">
-            <option value="">Todos os ambientes</option>
-          </select>
-
-          <button class="adm-clear-btn" id="adm-clear" type="button">Limpar</button>
+          <span class="adm-list-count" id="adm-lista-count"></span>
         </div>
 
-        <div class="adm-toolbar-row adm-toolbar-row--chips">
-          <div class="adm-filter-chips" id="adm-status-chips">
-            <button class="adm-filter-chip is-active" data-status="all" type="button">Todas</button>
-            <button class="adm-filter-chip" data-status="confirmed" type="button">Confirmadas</button>
-            <button class="adm-filter-chip" data-status="pending" type="button">Pendentes</button>
-            <button class="adm-filter-chip" data-status="cancelled" type="button">Canceladas</button>
-            <button class="adm-filter-chip" data-status="upcoming" type="button">Próximas</button>
-          </div>
-          <div class="adm-toolbar-meta">
-            <span class="adm-toolbar-count" id="adm-count"></span>
-            <button class="adm-view-toggle" id="adm-view-toggle" type="button" aria-pressed="false">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="3" y1="6" x2="21" y2="6"/>
-                <line x1="3" y1="12" x2="21" y2="12"/>
-                <line x1="3" y1="18" x2="21" y2="18"/>
-              </svg>
-              <span>Tabela</span>
-            </button>
-          </div>
+        <div class="adm-list-table-wrap">
+          <table class="adm-table adm-list-table" role="table" aria-label="Lista administrativa de reservas">
+            <thead>
+              <tr>
+                <th scope="col">Data / Hora</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Telefone</th>
+                <th scope="col">Ambiente</th>
+                <th scope="col" style="text-align:center">Pessoas</th>
+                <th scope="col">Status</th>
+                <th scope="col" style="text-align:right">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="adm-lista-tbody"></tbody>
+          </table>
         </div>
 
-      </div><!-- /toolbar -->
+      </section><!-- /view: lista -->
 
-      <!-- ── Operations grid ───────────────────────────────────── -->
-      <div class="adm-ops-grid" id="adm-ops-grid">
+      <!-- ══════════════════════════════════════════════════════════
+           VIEW: AMBIENTES
+           ══════════════════════════════════════════════════════════ -->
+      <section class="adm-rsv-view" data-view="ambientes" role="tabpanel" aria-label="Ambientes" hidden>
 
-        <!-- Left: Agenda -->
-        <aside class="adm-agenda-col">
-          <div class="adm-agenda-card">
-            <header class="adm-agenda-head">
-              <h2 class="adm-agenda-title" id="adm-agenda-title">Agenda</h2>
-              <span class="adm-agenda-meta" id="adm-agenda-meta"></span>
-            </header>
-            <div class="adm-agenda-body" id="adm-agenda" aria-live="polite"></div>
+        <header class="adm-env-head">
+          <div>
+            <span class="adm-env-kicker">Distribuição por espaço</span>
+            <h2 class="adm-env-heading">Ambientes</h2>
           </div>
-        </aside>
-
-        <!-- Right: Reservation cards / table -->
-        <section class="adm-reservations-col">
-          <div class="adm-reservations-cards" id="adm-cards" aria-live="polite"></div>
-
-          <div class="adm-table-wrap" id="adm-table-wrap" hidden>
-            <table class="adm-table adm-table--compact" role="table" aria-label="Lista compacta de reservas">
-              <thead>
-                <tr>
-                  <th scope="col">Data / Hora</th>
-                  <th scope="col">Cliente</th>
-                  <th scope="col">Telefone</th>
-                  <th scope="col">Ambiente</th>
-                  <th scope="col" style="text-align:center">Pessoas</th>
-                  <th scope="col">Status</th>
-                  <th scope="col" style="text-align:right">Ações</th>
-                </tr>
-              </thead>
-              <tbody id="adm-tbody"></tbody>
-            </table>
+          <div class="adm-env-period" id="adm-env-period" role="tablist" aria-label="Período">
+            <button class="adm-env-period-btn is-active" data-env-period="today" type="button">Hoje</button>
+            <button class="adm-env-period-btn" data-env-period="tomorrow" type="button">Amanhã</button>
+            <button class="adm-env-period-btn" data-env-period="week" type="button">Semana</button>
+            <button class="adm-env-period-btn" data-env-period="all" type="button">Todas</button>
           </div>
-        </section>
+        </header>
 
-      </div><!-- /ops-grid -->
+        <div class="adm-env-grid" id="adm-env-grid" aria-live="polite"></div>
+
+      </section><!-- /view: ambientes -->
 
     </main>
   </div><!-- /adm-body -->

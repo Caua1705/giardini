@@ -1,6 +1,7 @@
 /**
  * Giardini Café - Admin Reservations
- * Operational dashboard for managing reservations.
+ * Reservations module with 4 internal views:
+ *   Operação · Calendário · Lista · Ambientes
  */
 
 import { requireAuth, initShell, adminFetch } from './admin-auth.js';
@@ -12,23 +13,32 @@ const PAGE_LIMIT = 200;
 const SEARCH_DEBOUNCE_MS = 220;
 const PERIODS = new Set(['today', 'tomorrow', 'week', 'all']);
 const STATUS_CHIPS = new Set(['all', 'confirmed', 'pending', 'cancelled', 'upcoming']);
+const VIEWS = new Set(['operacao', 'calendario', 'lista', 'ambientes']);
 
 const state = {
   reservations: [],
   environments: [],
+  activeView: 'operacao',
   activePeriod: 'all',
   activeStatusChip: 'all',
-  viewMode: 'cards',
+  calendarYear: new Date().getFullYear(),
+  calendarMonth: new Date().getMonth(),
+  calendarSelectedDate: null,
+  ambientesPeriod: 'today',
   loading: false,
   error: null,
   selectedReservationId: null,
   drawerNotice: null,
   searchTimer: null,
+  listaSearchTimer: null,
 };
 
 const DOM = {
-  tbody: document.getElementById('adm-tbody'),
-  tableWrap: document.getElementById('adm-table-wrap'),
+  // Tabs / views
+  tabs: document.getElementById('adm-rsv-tabs'),
+  views: document.querySelectorAll('.adm-rsv-view'),
+
+  // Operação
   cards: document.getElementById('adm-cards'),
   agenda: document.getElementById('adm-agenda'),
   agendaTitle: document.getElementById('adm-agenda-title'),
@@ -39,17 +49,38 @@ const DOM = {
   status: document.getElementById('adm-filter-status'),
   environment: document.getElementById('adm-filter-env'),
   clear: document.getElementById('adm-clear'),
-  refresh: document.getElementById('adm-refresh'),
-  createButton: document.getElementById('adm-create-reservation'),
   periodTabs: document.getElementById('adm-period-tabs'),
   statusChips: document.getElementById('adm-status-chips'),
-  viewToggle: document.getElementById('adm-view-toggle'),
   metricToday: document.getElementById('adm-m-today'),
   metricGuests: document.getElementById('adm-m-guests'),
   metricNextTime: document.getElementById('adm-m-next-time'),
   metricNextSub: document.getElementById('adm-m-next-sub'),
   metricEnv: document.getElementById('adm-m-env'),
   metricEnvSub: document.getElementById('adm-m-env-sub'),
+
+  // Calendário
+  calHeading: document.getElementById('adm-cal-heading'),
+  calGrid: document.getElementById('adm-cal-grid'),
+  calDayPanel: document.getElementById('adm-cal-day-panel'),
+  calPrev: document.getElementById('adm-cal-prev'),
+  calNext: document.getElementById('adm-cal-next'),
+  calToday: document.getElementById('adm-cal-today'),
+
+  // Lista
+  listaSearch: document.getElementById('adm-lista-search'),
+  listaStatus: document.getElementById('adm-lista-status'),
+  listaTbody: document.getElementById('adm-lista-tbody'),
+  listaCount: document.getElementById('adm-lista-count'),
+
+  // Ambientes
+  envPeriod: document.getElementById('adm-env-period'),
+  envGrid: document.getElementById('adm-env-grid'),
+
+  // Page-level actions
+  refresh: document.getElementById('adm-refresh'),
+  createButton: document.getElementById('adm-create-reservation'),
+
+  // Drawer & create modal
   drawer: document.getElementById('adm-reservation-drawer'),
   drawerContent: document.getElementById('adm-drawer-content'),
   drawerBackdrop: document.getElementById('adm-drawer-backdrop'),
@@ -94,7 +125,7 @@ async function fetchReservations() {
     const list = extractReservations(data).map(normalizeReservation);
     state.reservations = sortReservations(list);
     renderEnvironmentFilter();
-    renderAll();
+    renderActiveView();
   } catch (error) {
     console.error('[admin-reservations] fetch error:', error);
     state.error = error;
@@ -142,7 +173,7 @@ function normalizeReservation(raw) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-// Sorting & filtering
+// Sorting & filtering helpers (shared)
 // ─────────────────────────────────────────────────────────────────
 
 function sortReservations(list) {
@@ -159,6 +190,87 @@ function reservationSortKey(reservation) {
   const time = reservation.time ? String(reservation.time).slice(0, 5) : '00:00';
   const date = new Date(`${reservation.date}T${time}:00`);
   return Number.isNaN(date.getTime()) ? Number.POSITIVE_INFINITY : date.getTime();
+}
+
+function filterByPeriod(list, period) {
+  if (period === 'all') return list;
+  const today = todayISO();
+  if (period === 'today') return list.filter(r => r.date === today);
+  if (period === 'tomorrow') {
+    const tomorrow = isoDaysFromToday(1);
+    return list.filter(r => r.date === tomorrow);
+  }
+  if (period === 'week') {
+    const start = today;
+    const end = isoDaysFromToday(7);
+    return list.filter(r => r.date >= start && r.date <= end);
+  }
+  return list;
+}
+
+function filterByStatusChip(list, chip) {
+  if (chip === 'all') return list;
+  if (chip === 'upcoming') {
+    return list.filter(r => r.status !== 'cancelled' && isUpcoming(r));
+  }
+  return list.filter(r => r.status === chip);
+}
+
+function groupByDate(list) {
+  const map = new Map();
+  list.forEach(reservation => {
+    const key = reservation.date || '';
+    if (!map.has(key)) map.set(key, []);
+    map.get(key).push(reservation);
+  });
+  return [...map.entries()].sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
+}
+
+// ─────────────────────────────────────────────────────────────────
+// View switching
+// ─────────────────────────────────────────────────────────────────
+
+function setActiveView(view) {
+  if (!VIEWS.has(view)) view = 'operacao';
+  state.activeView = view;
+
+  if (view === 'calendario' && !state.calendarSelectedDate) {
+    state.calendarSelectedDate = todayISO();
+  }
+
+  DOM.tabs?.querySelectorAll('.adm-rsv-tab').forEach(tab => {
+    const isActive = tab.dataset.view === view;
+    tab.classList.toggle('is-active', isActive);
+    tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+
+  document.querySelectorAll('.adm-rsv-view').forEach(section => {
+    const isActive = section.dataset.view === view;
+    section.hidden = !isActive;
+    section.classList.toggle('is-active', isActive);
+  });
+
+  renderActiveView();
+}
+
+function renderActiveView() {
+  if (state.activeView === 'operacao') renderOperacaoView();
+  else if (state.activeView === 'calendario') renderCalendarioView();
+  else if (state.activeView === 'lista') renderListaView();
+  else if (state.activeView === 'ambientes') renderAmbientesView();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// VIEW: OPERAÇÃO
+// ═══════════════════════════════════════════════════════════════════
+
+function renderOperacaoView() {
+  const filtered = getFilteredReservations();
+  renderMetrics(filtered);
+  renderAgenda(filtered);
+  renderReservationCards(filtered);
+  updateAgendaTitle();
+  updateCount(filtered.length);
 }
 
 function getFilteredReservations() {
@@ -200,50 +312,12 @@ function getFilteredReservations() {
   return list;
 }
 
-function filterByPeriod(list, period) {
-  if (period === 'all') return list;
-  const today = todayISO();
-  if (period === 'today') return list.filter(reservation => reservation.date === today);
-  if (period === 'tomorrow') {
-    const tomorrow = isoDaysFromToday(1);
-    return list.filter(reservation => reservation.date === tomorrow);
-  }
-  if (period === 'week') {
-    const start = today;
-    const end = isoDaysFromToday(7);
-    return list.filter(reservation => reservation.date >= start && reservation.date <= end);
-  }
-  return list;
-}
-
-function filterByStatusChip(list, chip) {
-  if (chip === 'all') return list;
-  if (chip === 'upcoming') {
-    return list.filter(reservation => reservation.status !== 'cancelled' && isUpcoming(reservation));
-  }
-  return list.filter(reservation => reservation.status === chip);
-}
-
-// ─────────────────────────────────────────────────────────────────
-// Rendering — top-level
-// ─────────────────────────────────────────────────────────────────
-
-function renderAll() {
-  const filtered = getFilteredReservations();
-  renderMetrics(filtered);
-  renderAgenda(filtered);
-  renderReservationCards(filtered);
-  renderReservationsTable(filtered);
-  updateAgendaTitle();
-  updateCount(filtered.length);
-}
-
 function renderMetrics(filteredList) {
   const today = todayISO();
-  const todayReservations = state.reservations.filter(reservation =>
-    reservation.date === today && reservation.status !== 'cancelled'
+  const todayReservations = state.reservations.filter(r =>
+    r.date === today && r.status !== 'cancelled'
   );
-  const guestsToday = todayReservations.reduce((sum, reservation) => sum + reservation.guests, 0);
+  const guestsToday = todayReservations.reduce((sum, r) => sum + r.guests, 0);
   const next = getNextReservation(state.reservations);
   const popularEnv = getMostRequestedEnvironment(filteredList.length ? filteredList : state.reservations);
 
@@ -287,14 +361,9 @@ function updateAgendaTitle() {
   DOM.agendaTitle.textContent = labels[state.activePeriod] || 'Agenda';
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Agenda (left column)
-// ─────────────────────────────────────────────────────────────────
-
 function renderAgenda(list) {
   if (!DOM.agenda) return;
-
-  const active = list.filter(reservation => reservation.status !== 'cancelled');
+  const active = list.filter(r => r.status !== 'cancelled');
 
   if (!active.length) {
     DOM.agenda.innerHTML = `<div class="adm-agenda-empty">${calendarIcon()}<span>Nenhuma reserva no período.</span></div>`;
@@ -311,7 +380,7 @@ function renderAgenda(list) {
 
   if (flat) {
     DOM.agenda.innerHTML = active
-      .map(reservation => agendaItemHTML(reservation, reservation.id === next?.id))
+      .map(r => agendaItemHTML(r, r.id === next?.id))
       .join('');
     return;
   }
@@ -325,7 +394,7 @@ function renderAgenda(list) {
           <span class="adm-agenda-group-count">${items.length}</span>
         </div>
         <div class="adm-agenda-group-items">
-          ${items.map(reservation => agendaItemHTML(reservation, reservation.id === next?.id)).join('')}
+          ${items.map(r => agendaItemHTML(r, r.id === next?.id)).join('')}
         </div>
       </div>
     `).join('');
@@ -347,20 +416,6 @@ function agendaItemHTML(reservation, isNext) {
   `;
 }
 
-function groupByDate(list) {
-  const map = new Map();
-  list.forEach(reservation => {
-    const key = reservation.date || '';
-    if (!map.has(key)) map.set(key, []);
-    map.get(key).push(reservation);
-  });
-  return [...map.entries()].sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
-}
-
-// ─────────────────────────────────────────────────────────────────
-// Reservation cards (right column)
-// ─────────────────────────────────────────────────────────────────
-
 function renderReservationCards(list) {
   if (!DOM.cards) return;
   if (!list.length) {
@@ -370,7 +425,7 @@ function renderReservationCards(list) {
   const today = todayISO();
   const next = getNextReservation(list);
   DOM.cards.innerHTML = list
-    .map(reservation => reservationCardHTML(reservation, reservation.id === next?.id, reservation.date === today))
+    .map(r => reservationCardHTML(r, r.id === next?.id, r.date === today))
     .join('');
 }
 
@@ -410,39 +465,330 @@ function reservationCardHTML(reservation, isNext, isToday) {
   `;
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Compact table (toggle view)
-// ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// VIEW: CALENDÁRIO
+// ═══════════════════════════════════════════════════════════════════
 
-function renderReservationsTable(list) {
-  if (!DOM.tbody) return;
-  if (!list.length) {
-    DOM.tbody.innerHTML = `<tr><td colspan="7" class="adm-state-cell">${emptyStateHTML()}</td></tr>`;
+const MONTH_NAMES = [
+  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
+];
+
+function renderCalendarioView() {
+  renderCalendar();
+}
+
+function renderCalendar() {
+  if (!DOM.calGrid || !DOM.calHeading) return;
+
+  const year = state.calendarYear;
+  const month = state.calendarMonth;
+  DOM.calHeading.textContent = `${MONTH_NAMES[month]} ${year}`;
+
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const firstWeekday = firstDay.getDay();
+  const daysInMonth = lastDay.getDate();
+
+  const byDate = new Map();
+  state.reservations
+    .filter(r => r.status !== 'cancelled')
+    .forEach(r => {
+      if (!r.date) return;
+      if (!byDate.has(r.date)) byDate.set(r.date, { count: 0, guests: 0 });
+      const entry = byDate.get(r.date);
+      entry.count++;
+      entry.guests += r.guests;
+    });
+
+  const today = todayISO();
+  const cells = [];
+
+  for (let i = 0; i < firstWeekday; i++) {
+    cells.push('<div class="adm-cal-cell adm-cal-cell--blank" aria-hidden="true"></div>');
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const iso = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const stats = byDate.get(iso);
+    const isToday = iso === today;
+    const isSelected = iso === state.calendarSelectedDate;
+    const classes = [
+      'adm-cal-cell',
+      isToday ? 'is-today' : '',
+      isSelected ? 'is-selected' : '',
+      stats ? 'has-data' : '',
+    ].filter(Boolean).join(' ');
+    cells.push(`
+      <button type="button" class="${classes}" data-cal-date="${iso}" role="gridcell" aria-label="${day} ${MONTH_NAMES[month]}${stats ? `, ${stats.count} reservas` : ''}">
+        <span class="adm-cal-day">${day}</span>
+        ${stats ? `
+          <span class="adm-cal-count">${stats.count} ${stats.count === 1 ? 'reserva' : 'reservas'}</span>
+          <span class="adm-cal-guests">${stats.guests} ${stats.guests === 1 ? 'convidado' : 'convidados'}</span>
+        ` : ''}
+      </button>
+    `);
+  }
+
+  DOM.calGrid.innerHTML = cells.join('');
+  renderCalendarDayPanel();
+}
+
+function renderCalendarDayPanel() {
+  if (!DOM.calDayPanel) return;
+  const selected = state.calendarSelectedDate;
+
+  if (!selected) {
+    DOM.calDayPanel.innerHTML = `
+      <div class="adm-cal-empty-pick">
+        ${calendarIcon()}
+        <span>Selecione um dia no calendário para ver as reservas.</span>
+      </div>`;
     return;
   }
-  DOM.tbody.innerHTML = list.map(reservation => `
-    <tr class="adm-reservation-row${reservation.status === 'cancelled' ? ' is-cancelled' : ''}" data-reservation-id="${esc(reservation.id)}" tabindex="0">
+
+  const list = state.reservations
+    .filter(r => r.date === selected)
+    .sort((a, b) => {
+      const cA = a.status === 'cancelled' ? 1 : 0;
+      const cB = b.status === 'cancelled' ? 1 : 0;
+      if (cA !== cB) return cA - cB;
+      return reservationSortKey(a) - reservationSortKey(b);
+    });
+
+  const formatted = formatDate(selected);
+  const activeCount = list.filter(r => r.status !== 'cancelled').length;
+
+  if (!list.length) {
+    DOM.calDayPanel.innerHTML = `
+      <header class="adm-cal-day-head">
+        <div>
+          <span class="adm-cal-day-kicker">Detalhes do dia</span>
+          <h3 class="adm-cal-day-title">${esc(formatted)}</h3>
+        </div>
+      </header>
+      <div class="adm-cal-empty-pick">${calendarIcon()}<span>Nenhuma reserva neste dia.</span></div>
+    `;
+    return;
+  }
+
+  DOM.calDayPanel.innerHTML = `
+    <header class="adm-cal-day-head">
+      <div>
+        <span class="adm-cal-day-kicker">Reservas de</span>
+        <h3 class="adm-cal-day-title">${esc(formatted)}</h3>
+      </div>
+      <span class="adm-cal-day-meta">${activeCount} ${activeCount === 1 ? 'reserva ativa' : 'reservas ativas'}</span>
+    </header>
+    <div class="adm-cal-day-list">
+      ${list.map(calendarDayRowHTML).join('')}
+    </div>
+  `;
+}
+
+function calendarDayRowHTML(reservation) {
+  const cancelled = reservation.status === 'cancelled';
+  return `
+    <button type="button" class="adm-cal-day-row${cancelled ? ' is-cancelled' : ''}" data-reservation-id="${esc(reservation.id)}">
+      <span class="adm-cal-day-time">${formatTime(reservation.time)}</span>
+      <span class="adm-cal-day-info">
+        <span class="adm-cal-day-client">${esc(reservation.clientName)}</span>
+        <span class="adm-cal-day-sub">${esc(reservation.environmentName)} · ${reservation.guests} ${reservation.guests === 1 ? 'convidado' : 'convidados'}</span>
+      </span>
+      ${statusBadge(reservation.status)}
+    </button>
+  `;
+}
+
+function navigateCalendar(delta) {
+  let month = state.calendarMonth + delta;
+  let year = state.calendarYear;
+  while (month < 0) { month += 12; year--; }
+  while (month > 11) { month -= 12; year++; }
+  state.calendarMonth = month;
+  state.calendarYear = year;
+  renderCalendar();
+}
+
+function goToCalendarToday() {
+  const now = new Date();
+  state.calendarYear = now.getFullYear();
+  state.calendarMonth = now.getMonth();
+  state.calendarSelectedDate = todayISO();
+  renderCalendar();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// VIEW: LISTA
+// ═══════════════════════════════════════════════════════════════════
+
+function renderListaView() {
+  if (!DOM.listaTbody) return;
+
+  const search = (DOM.listaSearch?.value || '').trim().toLowerCase();
+  const status = DOM.listaStatus?.value || '';
+
+  let list = state.reservations.slice();
+  if (search) {
+    const digits = search.replace(/\D/g, '');
+    list = list.filter(r => {
+      const phone = cleanPhone(r.clientPhone);
+      return r.clientName.toLowerCase().includes(search) ||
+        r.clientEmail.toLowerCase().includes(search) ||
+        (digits && phone.includes(digits));
+    });
+  }
+  if (status) list = list.filter(r => r.status === status);
+
+  if (DOM.listaCount) {
+    DOM.listaCount.textContent = `${list.length} ${list.length === 1 ? 'reserva' : 'reservas'}`;
+  }
+
+  if (!list.length) {
+    DOM.listaTbody.innerHTML = `<tr><td colspan="7" class="adm-state-cell">${emptyStateHTML()}</td></tr>`;
+    return;
+  }
+
+  DOM.listaTbody.innerHTML = list.map(r => `
+    <tr class="adm-reservation-row${r.status === 'cancelled' ? ' is-cancelled' : ''}" data-reservation-id="${esc(r.id)}" tabindex="0">
       <td class="adm-cell-date">
-        <div class="adm-cell-date-d">${formatDate(reservation.date)}</div>
-        <div class="adm-cell-date-t">${formatTime(reservation.time)}</div>
+        <div class="adm-cell-date-d">${formatDate(r.date)}</div>
+        <div class="adm-cell-date-t">${formatTime(r.time)}</div>
       </td>
-      <td>
-        <div class="adm-cell-client-name">${esc(reservation.clientName)}</div>
-      </td>
-      <td class="adm-cell-phone">${esc(formatPhone(reservation.clientPhone) || '--')}</td>
-      <td class="adm-cell-env">${esc(reservation.environmentName)}</td>
-      <td class="adm-cell-guests"><span>${peopleIcon()}${reservation.guests}</span></td>
-      <td>${statusBadge(reservation.status)}</td>
+      <td><div class="adm-cell-client-name">${esc(r.clientName)}</div></td>
+      <td class="adm-cell-phone">${esc(formatPhone(r.clientPhone) || '--')}</td>
+      <td class="adm-cell-env">${esc(r.environmentName)}</td>
+      <td class="adm-cell-guests"><span>${peopleIcon()}${r.guests}</span></td>
+      <td>${statusBadge(r.status)}</td>
       <td class="adm-cell-actions">
-        <button class="adm-table-action" type="button" data-action="view-details" data-id="${esc(reservation.id)}">Detalhes</button>
+        <button class="adm-table-action" type="button" data-action="view-details" data-id="${esc(r.id)}">Detalhes</button>
+        ${r.status !== 'cancelled'
+          ? `<button class="adm-table-action adm-table-action--danger" type="button" data-action="cancel-reservation" data-id="${esc(r.id)}">Cancelar</button>`
+          : ''}
       </td>
     </tr>
   `).join('');
 }
 
-// ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// VIEW: AMBIENTES
+// ═══════════════════════════════════════════════════════════════════
+
+function renderAmbientesView() {
+  if (!DOM.envGrid) return;
+
+  const period = state.ambientesPeriod;
+  const filtered = filterByPeriod(state.reservations, period)
+    .filter(r => r.status !== 'cancelled');
+
+  const map = new Map();
+
+  // Seed with all known environments (so empty ones still show up).
+  state.environments.forEach(env => {
+    const key = String(env.id);
+    map.set(key, {
+      key,
+      id: String(env.id),
+      name: env.name,
+      reservations: [],
+      guests: 0,
+    });
+  });
+
+  // Add environments that only appear via reservations (fallback).
+  filtered.forEach(r => {
+    const key = r.environmentId || `name:${r.environmentName}`;
+    if (!map.has(key)) {
+      map.set(key, {
+        key,
+        id: r.environmentId,
+        name: r.environmentName,
+        reservations: [],
+        guests: 0,
+      });
+    }
+    const entry = map.get(key);
+    entry.reservations.push(r);
+    entry.guests += r.guests;
+  });
+
+  const envs = [...map.values()].sort((a, b) => {
+    if (b.reservations.length !== a.reservations.length) {
+      return b.reservations.length - a.reservations.length;
+    }
+    return a.name.localeCompare(b.name, 'pt-BR');
+  });
+
+  if (!envs.length) {
+    DOM.envGrid.innerHTML = `
+      <div class="adm-env-empty">${calendarIcon()}<span>Nenhum ambiente disponível.</span></div>`;
+    return;
+  }
+
+  DOM.envGrid.innerHTML = envs.map(environmentCardHTML).join('');
+}
+
+function environmentCardHTML(env) {
+  const sorted = env.reservations
+    .slice()
+    .sort((a, b) => reservationSortKey(a) - reservationSortKey(b));
+  const next = getNextReservation(sorted);
+  const visible = sorted.slice(0, 5);
+  const remaining = sorted.length - visible.length;
+
+  const periodLabels = {
+    today: 'hoje',
+    tomorrow: 'amanhã',
+    week: 'na semana',
+    all: 'no total',
+  };
+  const periodLabel = periodLabels[state.ambientesPeriod] || '';
+
+  const isBusy = sorted.length > 0;
+
+  return `
+    <article class="adm-env-card${isBusy ? '' : ' is-empty'}">
+      <header class="adm-env-card-head">
+        <div class="adm-env-card-head-main">
+          <h3 class="adm-env-name">${esc(env.name)}</h3>
+          <p class="adm-env-period-label">${sorted.length} ${sorted.length === 1 ? 'reserva' : 'reservas'} ${periodLabel}</p>
+        </div>
+        <span class="adm-env-availability${isBusy ? ' is-busy' : ''}" title="${isBusy ? 'Com reservas' : 'Sem reservas'}">
+          <span class="adm-env-availability-dot"></span>
+          ${isBusy ? 'Ocupado' : 'Livre'}
+        </span>
+      </header>
+      <div class="adm-env-stats">
+        <div class="adm-env-stat">
+          <span class="adm-env-stat-key">Convidados</span>
+          <span class="adm-env-stat-val">${env.guests}</span>
+        </div>
+        <div class="adm-env-stat">
+          <span class="adm-env-stat-key">Próxima</span>
+          <span class="adm-env-stat-val${next ? '' : ' is-empty'}">${next ? formatTime(next.time) : '—'}</span>
+        </div>
+      </div>
+      ${sorted.length ? `
+        <div class="adm-env-list">
+          ${visible.map(r => `
+            <button type="button" class="adm-env-list-row" data-reservation-id="${esc(r.id)}">
+              <span class="adm-env-list-time">${formatTime(r.time)}</span>
+              <span class="adm-env-list-info">
+                <span class="adm-env-list-client">${esc(r.clientName)}</span>
+                <span class="adm-env-list-sub">${r.guests} ${r.guests === 1 ? 'convidado' : 'convidados'}</span>
+              </span>
+            </button>
+          `).join('')}
+          ${remaining > 0 ? `<span class="adm-env-list-more">+${remaining} ${remaining === 1 ? 'reserva' : 'reservas'}</span>` : ''}
+        </div>
+      ` : '<div class="adm-env-list-empty">Sem reservas neste período</div>'}
+    </article>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════════════
 // Loading / error / empty
-// ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
 
 function renderLoading() {
   DOM.refresh?.classList.add('is-loading');
@@ -470,22 +816,6 @@ function renderLoading() {
       </div>
     `).join('');
   }
-
-  if (DOM.tbody) {
-    DOM.tbody.innerHTML = Array.from({ length: 4 }, () => `
-      <tr class="adm-skeleton-table-row">
-        <td colspan="7">
-          <div class="adm-skeleton-line">
-            <span class="adm-skel adm-skel--md"></span>
-            <span class="adm-skel adm-skel--lg"></span>
-            <span class="adm-skel adm-skel--md"></span>
-            <span class="adm-skel adm-skel--sm"></span>
-            <span class="adm-skel adm-skel--xl"></span>
-          </div>
-        </td>
-      </tr>
-    `).join('');
-  }
 }
 
 function renderError() {
@@ -498,7 +828,10 @@ function renderError() {
     </div>`;
   if (DOM.cards) DOM.cards.innerHTML = html;
   if (DOM.agenda) DOM.agenda.innerHTML = html;
-  if (DOM.tbody) DOM.tbody.innerHTML = `<tr><td colspan="7" class="adm-state-cell">${html}</td></tr>`;
+  if (DOM.listaTbody) DOM.listaTbody.innerHTML = `<tr><td colspan="7" class="adm-state-cell">${html}</td></tr>`;
+  if (DOM.calGrid) DOM.calGrid.innerHTML = '';
+  if (DOM.calDayPanel) DOM.calDayPanel.innerHTML = html;
+  if (DOM.envGrid) DOM.envGrid.innerHTML = html;
   updateCount(0);
 }
 
@@ -516,9 +849,9 @@ function emptyStateHTML() {
     </div>`;
 }
 
-// ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
 // Drawer
-// ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
 
 function openReservationDrawer(reservation) {
   if (!reservation || !DOM.drawer || !DOM.drawerContent || !DOM.drawerBackdrop) return;
@@ -621,22 +954,77 @@ function drawerSection(title, rows) {
     </section>`;
 }
 
-// ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
 // Events
-// ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
 
 function bindEvents() {
+  // Operação filters
   DOM.search?.addEventListener('input', () => {
     window.clearTimeout(state.searchTimer);
-    state.searchTimer = window.setTimeout(renderAll, SEARCH_DEBOUNCE_MS);
+    state.searchTimer = window.setTimeout(renderOperacaoView, SEARCH_DEBOUNCE_MS);
   });
   DOM.date?.addEventListener('change', () => {
     setActivePeriod('all');
-    renderAll();
+    renderOperacaoView();
   });
-  DOM.status?.addEventListener('change', renderAll);
-  DOM.environment?.addEventListener('change', renderAll);
+  DOM.status?.addEventListener('change', renderOperacaoView);
+  DOM.environment?.addEventListener('change', renderOperacaoView);
   DOM.clear?.addEventListener('click', clearFilters);
+
+  DOM.periodTabs?.addEventListener('click', event => {
+    const tab = event.target.closest('.adm-period-tab');
+    if (!tab) return;
+    setActivePeriod(tab.dataset.period || 'all');
+    if (state.activePeriod !== 'all' && DOM.date) DOM.date.value = '';
+    renderOperacaoView();
+  });
+
+  DOM.statusChips?.addEventListener('click', event => {
+    const chip = event.target.closest('.adm-filter-chip');
+    if (!chip) return;
+    setActiveStatusChip(chip.dataset.status || 'all');
+    renderOperacaoView();
+  });
+
+  // Tabs
+  DOM.tabs?.addEventListener('click', event => {
+    const tab = event.target.closest('.adm-rsv-tab');
+    if (!tab) return;
+    setActiveView(tab.dataset.view || 'operacao');
+  });
+
+  // Calendar
+  DOM.calPrev?.addEventListener('click', () => navigateCalendar(-1));
+  DOM.calNext?.addEventListener('click', () => navigateCalendar(1));
+  DOM.calToday?.addEventListener('click', goToCalendarToday);
+  DOM.calGrid?.addEventListener('click', event => {
+    const cell = event.target.closest('[data-cal-date]');
+    if (!cell) return;
+    const iso = cell.dataset.calDate;
+    state.calendarSelectedDate = state.calendarSelectedDate === iso ? null : iso;
+    renderCalendar();
+  });
+
+  // Lista
+  DOM.listaSearch?.addEventListener('input', () => {
+    window.clearTimeout(state.listaSearchTimer);
+    state.listaSearchTimer = window.setTimeout(renderListaView, SEARCH_DEBOUNCE_MS);
+  });
+  DOM.listaStatus?.addEventListener('change', renderListaView);
+
+  // Ambientes
+  DOM.envPeriod?.addEventListener('click', event => {
+    const btn = event.target.closest('.adm-env-period-btn');
+    if (!btn) return;
+    state.ambientesPeriod = btn.dataset.envPeriod || 'today';
+    DOM.envPeriod.querySelectorAll('.adm-env-period-btn').forEach(b => {
+      b.classList.toggle('is-active', b.dataset.envPeriod === state.ambientesPeriod);
+    });
+    renderAmbientesView();
+  });
+
+  // Page-level
   DOM.refresh?.addEventListener('click', fetchReservations);
   DOM.createButton?.addEventListener('click', openCreateReservationModal);
   DOM.createClose?.addEventListener('click', closeCreateReservationModal);
@@ -644,23 +1032,8 @@ function bindEvents() {
   DOM.createBackdrop?.addEventListener('click', closeCreateReservationModal);
   DOM.createForm?.addEventListener('submit', submitManualReservation);
   DOM.drawerBackdrop?.addEventListener('click', closeReservationDrawer);
-  DOM.viewToggle?.addEventListener('click', toggleViewMode);
 
-  DOM.periodTabs?.addEventListener('click', event => {
-    const tab = event.target.closest('.adm-period-tab');
-    if (!tab) return;
-    setActivePeriod(tab.dataset.period || 'all');
-    if (state.activePeriod !== 'all' && DOM.date) DOM.date.value = '';
-    renderAll();
-  });
-
-  DOM.statusChips?.addEventListener('click', event => {
-    const chip = event.target.closest('.adm-filter-chip');
-    if (!chip) return;
-    setActiveStatusChip(chip.dataset.status || 'all');
-    renderAll();
-  });
-
+  // Global delegated handlers
   document.addEventListener('click', handleDocumentClick);
   document.addEventListener('keydown', handleKeydown);
 }
@@ -713,7 +1086,7 @@ function clearFilters() {
   if (DOM.environment) DOM.environment.value = '';
   setActivePeriod('all');
   setActiveStatusChip('all');
-  renderAll();
+  renderOperacaoView();
 }
 
 function setActivePeriod(period) {
@@ -732,20 +1105,9 @@ function setActiveStatusChip(status) {
   });
 }
 
-function toggleViewMode() {
-  state.viewMode = state.viewMode === 'cards' ? 'table' : 'cards';
-  const isTable = state.viewMode === 'table';
-  if (DOM.cards) DOM.cards.hidden = isTable;
-  if (DOM.tableWrap) DOM.tableWrap.hidden = !isTable;
-  if (DOM.viewToggle) {
-    DOM.viewToggle.querySelector('span').textContent = isTable ? 'Ver como cards' : 'Ver como tabela';
-    DOM.viewToggle.setAttribute('aria-pressed', isTable ? 'true' : 'false');
-  }
-}
-
-// ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
 // Cancel reservation
-// ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
 
 async function handleCancelReservation(button) {
   if (!button) return;
@@ -763,7 +1125,7 @@ async function handleCancelReservation(button) {
     await cancelReservation(reservation.id);
     updateReservationStatus(reservation.id, 'cancelled');
     state.drawerNotice = { type: 'success', message: 'Reserva cancelada com sucesso.' };
-    renderAll();
+    renderActiveView();
     if (state.selectedReservationId) {
       renderDrawer(findReservation(reservation.id));
     }
@@ -800,9 +1162,9 @@ function setCancelButtonLoading(button, isLoading) {
     : `${cancelIcon()}Cancelar reserva`;
 }
 
-// ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
 // Environments (for filters + create modal)
-// ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
 
 function renderEnvironmentFilter() {
   if (!DOM.environment) return;
@@ -842,6 +1204,8 @@ async function loadCreateEnvironments() {
         return String(a.name).localeCompare(String(b.name), 'pt-BR');
       });
     renderCreateEnvironmentOptions();
+    // Re-render Ambientes if it's the active view (since we now have full env list).
+    if (state.activeView === 'ambientes') renderAmbientesView();
   } catch (error) {
     console.error('[admin-reservations] environments fetch error:', error);
     DOM.createEnvironment.innerHTML = '<option value="">Não foi possível carregar ambientes</option>';
@@ -869,9 +1233,9 @@ function renderCreateEnvironmentOptions() {
   });
 }
 
-// ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
 // Create modal
-// ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
 
 function openCreateReservationModal() {
   if (!DOM.createModal || !DOM.createBackdrop) return;
@@ -970,9 +1334,9 @@ function setCreateSubmitting(isSubmitting) {
   });
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Helpers
-// ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// Helpers (shared across views)
+// ═══════════════════════════════════════════════════════════════════
 
 function updateCount(count) {
   if (!DOM.count) return;
