@@ -288,7 +288,7 @@ function renderEnvCards(data) {
     if (imgSrc && !imgSrc.startsWith('http') && !imgSrc.startsWith('assets/')) {
       imgSrc = `${API_BASE_URL}/${imgSrc.startsWith('/') ? imgSrc.slice(1) : imgSrc}`;
     }
-    const hint   = env.short_description || (env.max_capacity ? `Até ${env.max_capacity} pessoas` : '');
+    const hint   = env.short_description || formatCapacityHint(env);
 
     const card   = document.createElement('div');
     card.className = 'res-env-card';
@@ -356,10 +356,10 @@ function showFormSummary(env, imgSrc) {
   DOM.formEnvThumb.alt = env.name;
   DOM.formEnvName.textContent = env.name;
 
-  // Populate hint — short_description if available, else derive from max_capacity
+  // Populate hint — short_description if available, else derive from capacity range
   const capEl = document.getElementById('res-form-env-cap');
   if (capEl) {
-    capEl.textContent = env.short_description || (env.max_capacity ? `Até ${env.max_capacity} pessoas` : '');
+    capEl.textContent = env.short_description || formatCapacityHint(env);
   }
 
   DOM.formEnvSummary.classList.add('is-visible');
@@ -601,10 +601,21 @@ function getEnvironmentById(id) {
   return environmentsData.find(e => String(e.id) === String(id)) || null;
 }
 
-function renderGuestPills(max) {
+/**
+ * formatCapacityHint — "X a Y pessoas", ou "Até Y pessoas" quando o
+ * mínimo é 1 (nada a comunicar). env.min_capacity ainda não existe no
+ * backend; até existir, o fallback `|| 1` mantém o comportamento atual.
+ */
+function formatCapacityHint(env) {
+  if (!env || !env.max_capacity) return '';
+  const min = env.min_capacity || 1;
+  return min > 1 ? `${min} a ${env.max_capacity} pessoas` : `Até ${env.max_capacity} pessoas`;
+}
+
+function renderGuestPills(min, max) {
   DOM.guestsContainer.innerHTML = '';
   selectedGuests = null;
-  for (let i = 1; i <= max; i++) {
+  for (let i = min; i <= max; i++) {
     const p = document.createElement('button');
     p.className = 'res-pill'; p.textContent = i; p.dataset.guests = String(i);
     p.addEventListener('click', () => {
@@ -661,8 +672,11 @@ function handleEnvironmentChange() {
   }
   showFormSummary(env, currentImgSrc);
 
-  DOM.guestsSublabel.textContent = `Este ambiente comporta até ${env.max_capacity} pessoas por reserva.`;
-  renderGuestPills(env.max_capacity);
+  const minGuests = env.min_capacity || 1;
+  DOM.guestsSublabel.textContent = minGuests > 1
+    ? `Este ambiente aceita de ${minGuests} a ${env.max_capacity} pessoas por reserva.`
+    : `Este ambiente comporta até ${env.max_capacity} pessoas por reserva.`;
+  renderGuestPills(minGuests, env.max_capacity);
   tryEnableDateInput();
   tryLoadAvailability();
 
@@ -890,7 +904,8 @@ async function handleSubmit() {
   const phone = DOM.phoneInput.value.trim();
   const notes = DOM.notesInput.value.trim();
 
-  const err = getValidationError({environment, date, name, email, phone});
+  const env = getEnvironmentById(environment);
+  const err = getValidationError({environment, date, name, email, phone, env});
   if (err) {
     valMsg.textContent = err; valMsg.style.display = 'block';
     btn.classList.remove('is-shaking'); // reset so re-trigger works
@@ -954,9 +969,16 @@ async function handleSubmit() {
   }
 }
 
-function getValidationError({environment, date, name, email, phone}) {
+function getValidationError({environment, date, name, email, phone, env}) {
   if (!environment)  return 'Selecione um ambiente para sua reserva.';
   if (!selectedGuests) return 'Selecione a quantidade de pessoas.';
+  if (env && env.max_capacity) {
+    const guests = Number(selectedGuests);
+    const min = env.min_capacity || 1;
+    if (guests < min || guests > env.max_capacity) {
+      return `Este ambiente aceita de ${min} a ${env.max_capacity} pessoas.`;
+    }
+  }
   if (!date)         return 'Escolha a data da sua reserva.';
   if (!selectedTime) return 'Selecione um horário para sua reserva.';
   if (!name)         return 'Por favor, informe seu nome.';
